@@ -1,0 +1,154 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import NewsCard from '@components/news/NewsCard.astro';
+import NewsFilter from '@components/news/NewsFilter.astro';
+import { getCollection } from 'astro:content';
+
+// Get all news entries, sorted by date descending
+const allNews = await getCollection('news');
+const sortedNews = allNews.sort((a, b) =>
+  b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+// Filter types
+const types = ['all', 'official', 'milestone', 'community', 'global', 'opinion'];
+
+// Type labels for display
+const typeLabels: Record<string, string> = {
+  official: 'Regulatory',
+  milestone: 'Ecosystem',
+  community: 'Community',
+  global: 'International',
+  opinion: 'Opinion',
+};
+---
+
+<PageLayout
+  title="News"
+  description="Community-curated news and updates from the UAE Open Finance ecosystem."
+>
+  <div class="news-page">
+    <header class="page-header">
+      <div class="header-bg" aria-hidden="true">
+        <div class="grid-overlay"></div>
+      </div>
+      <div class="header-content">
+        <h1>News & Updates</h1>
+        <p class="header-description">
+          Community-curated news about the UAE Open Finance ecosystem
+        </p>
+      </div>
+    </header>
+
+    <section class="news-section">
+      <div class="container">
+        <NewsFilter types={types} typeLabels={typeLabels} />
+
+        <div class="news-grid" id="news-grid">
+          {sortedNews.map((article) => (
+            <NewsCard
+              title={article.data.title}
+              date={article.data.date}
+              type={article.data.type}
+              author={article.data.author}
+              description={article.data.description}
+              slug={article.slug}
+            />
+          ))}
+        </div>
+
+        {sortedNews.length === 0 && (
+          <div class="empty-state">
+            <p>No news articles yet. Check back soon!</p>
+          </div>
+        )}
+      </div>
+    </section>
+  </div>
+</PageLayout>
+
+<style>
+  .news-page {
+    min-height: 100vh;
+  }
+
+  .page-header {
+    position: relative;
+    padding: var(--space-16) var(--space-4) var(--space-12);
+    background: linear-gradient(
+      to bottom,
+      var(--color-gray-900) 0%,
+      var(--color-gray-800) 100%
+    );
+    color: white;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .header-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image: var(--grid-pattern);
+    opacity: 0.3;
+  }
+
+  .header-content {
+    position: relative;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .header-content h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    margin-bottom: var(--space-4);
+    letter-spacing: -0.02em;
+  }
+
+  .header-description {
+    font-size: 1.125rem;
+    color: var(--color-gray-300);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .news-section {
+    padding: var(--space-12) var(--space-4);
+    background: var(--color-gray-50);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .news-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 640px) {
+    .news-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .news-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: var(--space-16) var(--space-4);
+    color: var(--color-gray-500);
+  }
+</style>

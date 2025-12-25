@@ -1,0 +1,187 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+---
+
+<PageLayout title="About" description="About OpenFinance-OS - a community initiative for UAE Open Finance ecosystem visibility.">
+  <div class="about-page">
+    <div class="container">
+      <header class="page-header">
+        <h1>About OpenFinance-OS</h1>
+      </header>
+
+      <section class="content-section">
+        <h2>Our Mission</h2>
+        <p class="mission-statement">
+          OpenFinance-OS exists to make the UAE Open Finance ecosystem visible, accessible, and welcoming.
+        </p>
+        <p>
+          We are a community of developers, fintechs, bankers, and enthusiasts who believe open ecosystems thrive on transparency.
+        </p>
+        <p>
+          <strong>We are not official. We are not affiliated. We are contributors.</strong>
+        </p>
+      </section>
+
+      <section class="content-section">
+        <h2>What This Is</h2>
+        <ul>
+          <li>Visibility into ecosystem activity through the Observatory dashboard</li>
+          <li>Community-curated news and updates</li>
+          <li>Resources for developers, fintechs, and banks</li>
+          <li>A gathering point for community collaboration</li>
+          <li>International context to benchmark UAE progress</li>
+        </ul>
+      </section>
+
+      <section class="content-section">
+        <h2>What This Is Not</h2>
+        <ul class="not-list">
+          <li>Not an official regulator or scheme operator site</li>
+          <li>Not affiliated with any single bank or TPP</li>
+          <li>Not a commercial platform or vendor showcase</li>
+          <li>Not a replacement for Al Tareq or CBUAE official channels</li>
+        </ul>
+        <p class="note">We link to official sources. We don't replace them.</p>
+      </section>
+
+      <section class="content-section">
+        <h2>Governance</h2>
+        <p>
+          OpenFinance-OS is community-owned and open source. The codebase is maintained on GitHub under the
+          <a href="https://github.com/organizations/openfinance-os/" target="_blank" rel="noopener noreferrer">openfinance-os</a> organization.
+        </p>
+        <p>
+          We accept no corporate sponsorship, have no paid placement, and maintain editorial independence.
+        </p>
+      </section>
+
+      <section class="content-section">
+        <h2>Get Involved</h2>
+        <div class="cta-group">
+          <a href="https://github.com/organizations/openfinance-os/" class="cta-button" target="_blank" rel="noopener noreferrer">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            View on GitHub
+          </a>
+          <a href="https://github.com/openfinance-os/community/discussions" class="cta-button secondary" target="_blank" rel="noopener noreferrer">
+            Join the Discussion
+          </a>
+        </div>
+      </section>
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .about-page {
+    padding: var(--space-12) var(--space-4);
+  }
+
+  .container {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .page-header {
+    margin-bottom: var(--space-10);
+  }
+
+  .page-header h1 {
+    font-size: 2.25rem;
+  }
+
+  .content-section {
+    margin-bottom: var(--space-10);
+  }
+
+  .content-section h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-4);
+  }
+
+  .mission-statement {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--color-primary-700);
+    margin-bottom: var(--space-4);
+  }
+
+  .content-section p {
+    color: var(--color-gray-700);
+    margin-bottom: var(--space-3);
+    line-height: 1.7;
+  }
+
+  .content-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .content-section li {
+    position: relative;
+    padding-left: var(--space-6);
+    margin-bottom: var(--space-2);
+    color: var(--color-gray-700);
+  }
+
+  .content-section li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 6px;
+    height: 6px;
+    background: var(--color-primary-500);
+    border-radius: 50%;
+  }
+
+  .not-list li::before {
+    background: var(--color-gray-400);
+  }
+
+  .note {
+    font-style: italic;
+    color: var(--color-gray-500);
+    margin-top: var(--space-4);
+  }
+
+  .cta-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-4);
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-5);
+    background: var(--color-gray-900);
+    color: white;
+    font-weight: 500;
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: background-color var(--transition-fast);
+  }
+
+  .cta-button:hover {
+    background: var(--color-gray-800);
+    text-decoration: none;
+  }
+
+  .cta-button.secondary {
+    background: transparent;
+    color: var(--color-gray-700);
+    border: 1px solid var(--color-gray-300);
+  }
+
+  .cta-button.secondary:hover {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-400);
+  }
+</style>

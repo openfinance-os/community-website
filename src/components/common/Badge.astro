@@ -1,0 +1,59 @@
+---
+interface Props {
+  variant?: 'active' | 'inactive' | 'official' | 'milestone' | 'community' | 'global' | 'opinion' | 'LFI' | 'BDSP' | 'BSIP' | 'ISP' | 'TPP';
+  size?: 'sm' | 'md';
+}
+
+const { variant = 'active', size = 'sm' } = Astro.props;
+
+const variantConfig: Record<string, { bg: string; text: string; border?: string }> = {
+  active: { bg: 'var(--color-success)', text: 'white' },
+  inactive: { bg: 'var(--color-gray-400)', text: 'white' },
+  official: { bg: 'var(--color-primary-600)', text: 'white' },
+  milestone: { bg: 'var(--color-accent-500)', text: 'var(--color-gray-900)' },
+  community: { bg: 'var(--color-primary-100)', text: 'var(--color-primary-800)', border: 'var(--color-primary-200)' },
+  global: { bg: 'var(--color-gray-700)', text: 'white' },
+  opinion: { bg: 'var(--color-gray-200)', text: 'var(--color-gray-700)' },
+  LFI: { bg: 'var(--color-primary-100)', text: 'var(--color-primary-800)' },
+  BDSP: { bg: 'var(--color-accent-100, #fef3c7)', text: 'var(--color-accent-700, #b45309)' },
+  BSIP: { bg: '#dbeafe', text: '#1e40af' },
+  ISP: { bg: '#f3e8ff', text: '#6b21a8' },
+  TPP: { bg: '#fee2e2', text: '#991b1b' },
+};
+
+const config = variantConfig[variant] || variantConfig.active;
+---
+
+<span
+  class:list={['badge', `badge-${size}`]}
+  style={`--badge-bg: ${config.bg}; --badge-text: ${config.text}; ${config.border ? `--badge-border: ${config.border}` : ''}`}
+>
+  <slot />
+</span>
+
+<style>
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    background-color: var(--badge-bg);
+    color: var(--badge-text);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--badge-border, transparent);
+  }
+
+  .badge-sm {
+    padding: 0.125rem 0.375rem;
+    font-size: 0.625rem;
+  }
+
+  .badge-md {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+  }
+</style>

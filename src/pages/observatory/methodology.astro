@@ -1,0 +1,204 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+---
+
+<PageLayout title="Methodology" description="How we calculate Observatory metrics and derive ecosystem status.">
+  <div class="methodology-page">
+    <div class="container">
+      <header class="page-header">
+        <a href="/observatory" class="back-link">← Observatory</a>
+        <h1>Methodology</h1>
+        <p>How we calculate Observatory metrics and derive ecosystem status</p>
+      </header>
+
+      <section class="content-section">
+        <h2>Data Source</h2>
+        <p>
+          All data displayed in the Observatory is derived from the public
+          <a href="https://data.directory.openfinance.ae" target="_blank" rel="noopener noreferrer">UAE Open Finance Trust Framework Directory</a>,
+          operated by Raidiam on behalf of Nebras Open Finance LLC.
+        </p>
+        <p>
+          The directory provides a JSON API that lists all registered participants, their roles, authorization servers, and supported API families.
+        </p>
+      </section>
+
+      <section class="content-section">
+        <h2>Update Frequency</h2>
+        <p>
+          Data is collected automatically once per day at <strong>06:00 UTC</strong> via a GitHub Actions workflow.
+          Each collection creates a timestamped snapshot that is committed to the repository.
+        </p>
+        <p>
+          Historical snapshots are preserved, allowing future analysis of ecosystem growth over time.
+        </p>
+      </section>
+
+      <section class="content-section">
+        <h2>Metric Definitions</h2>
+
+        <div class="metric-definition">
+          <h3>Total Participants</h3>
+          <p>Count of all organizations registered in the directory, regardless of status.</p>
+        </div>
+
+        <div class="metric-definition">
+          <h3>Active</h3>
+          <p>Participants with a status of "Active" in the directory.</p>
+        </div>
+
+        <div class="metric-definition">
+          <h3>Live in Production</h3>
+          <p>
+            Participants that have at least one active Authorization Server with a valid issuer URL.
+            This indicates they have completed technical integration and can process API requests.
+          </p>
+        </div>
+
+        <div class="metric-definition">
+          <h3>Roles</h3>
+          <ul>
+            <li><strong>LFI</strong> — Licensed Financial Institution (banks authorized by CBUAE)</li>
+            <li><strong>BDSP</strong> — Bank Data Service Provider</li>
+            <li><strong>BSIP</strong> — Bank Service Infrastructure Provider</li>
+            <li><strong>ISP</strong> — Information Service Provider</li>
+            <li><strong>TPP</strong> — Third Party Provider (fintechs)</li>
+          </ul>
+          <p>Note: A single participant may hold multiple roles.</p>
+        </div>
+
+        <div class="metric-definition">
+          <h3>API Families</h3>
+          <p>Derived from the API resources registered under each participant's authorization servers:</p>
+          <ul>
+            <li><strong>Accounts</strong> — Account Information APIs (balances, transactions)</li>
+            <li><strong>Payments</strong> — Payment Initiation APIs</li>
+            <li><strong>CoP</strong> — Confirmation of Payee APIs</li>
+            <li><strong>Products</strong> — Product Information APIs</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <h2>Known Limitations</h2>
+        <ul>
+          <li>We only display publicly available metadata; we cannot verify actual API functionality</li>
+          <li>Participant counts may differ from official CBUAE statistics due to registration timing</li>
+          <li>TPP count may be low as many fintechs are still in the onboarding process</li>
+          <li>Historical data before the launch of this site is not available</li>
+        </ul>
+      </section>
+
+      <section class="content-section">
+        <h2>Open Source</h2>
+        <p>
+          The collector script and all data transformations are open source. You can review the code at:
+        </p>
+        <p>
+          <a href="https://github.com/organizations/openfinance-os/" target="_blank" rel="noopener noreferrer">
+            github.com/openfinance-os
+          </a>
+        </p>
+        <p>
+          If you find an error or have suggestions, please
+          <a href="https://github.com/openfinance-os/community/issues" target="_blank" rel="noopener noreferrer">open an issue</a>.
+        </p>
+      </section>
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .methodology-page {
+    padding: var(--space-8) var(--space-4) var(--space-16);
+  }
+
+  .container {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.875rem;
+    color: var(--color-primary-600);
+    margin-bottom: var(--space-4);
+  }
+
+  .page-header {
+    margin-bottom: var(--space-10);
+  }
+
+  .page-header h1 {
+    font-size: 2rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .page-header p {
+    color: var(--color-gray-600);
+    font-size: 1.125rem;
+  }
+
+  .content-section {
+    margin-bottom: var(--space-10);
+  }
+
+  .content-section h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .content-section p {
+    color: var(--color-gray-700);
+    line-height: 1.7;
+    margin-bottom: var(--space-3);
+  }
+
+  .content-section ul {
+    padding-left: var(--space-6);
+    margin-bottom: var(--space-3);
+  }
+
+  .content-section li {
+    color: var(--color-gray-700);
+    line-height: 1.7;
+    margin-bottom: var(--space-2);
+  }
+
+  .content-section a {
+    color: var(--color-primary-600);
+  }
+
+  .metric-definition {
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+
+  .metric-definition h3 {
+    font-family: var(--font-mono);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-2);
+  }
+
+  .metric-definition p {
+    margin-bottom: var(--space-2);
+  }
+
+  .metric-definition p:last-child,
+  .metric-definition ul:last-child {
+    margin-bottom: 0;
+  }
+
+  .metric-definition ul {
+    margin-top: var(--space-2);
+  }
+</style>

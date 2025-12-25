@@ -1,0 +1,94 @@
+---
+interface Props {
+  title?: string;
+  href?: string;
+  variant?: 'default' | 'outlined' | 'elevated';
+  padding?: 'sm' | 'md' | 'lg';
+  class?: string;
+}
+
+const { title, href, variant = 'default', padding = 'md', class: className } = Astro.props;
+
+const Tag = href ? 'a' : 'div';
+---
+
+<Tag
+  href={href}
+  class:list={[
+    'card',
+    `card-${variant}`,
+    `card-padding-${padding}`,
+    href && 'card-interactive',
+    className,
+  ]}
+>
+  {title && <h3 class="card-title">{title}</h3>}
+  <slot />
+</Tag>
+
+<style>
+  .card {
+    display: block;
+    background: white;
+    border-radius: var(--radius-xl);
+    text-decoration: none;
+    color: inherit;
+    transition:
+      transform var(--transition-fast),
+      box-shadow var(--transition-fast),
+      border-color var(--transition-fast);
+  }
+
+  .card-default {
+    border: 1px solid var(--color-gray-200);
+  }
+
+  .card-outlined {
+    border: 1px solid var(--color-gray-300);
+    background: transparent;
+  }
+
+  .card-elevated {
+    border: 1px solid var(--color-gray-100);
+    box-shadow: var(--shadow-md);
+  }
+
+  .card-padding-sm {
+    padding: var(--space-3);
+  }
+
+  .card-padding-md {
+    padding: var(--space-4);
+  }
+
+  .card-padding-lg {
+    padding: var(--space-6);
+  }
+
+  .card-interactive {
+    cursor: pointer;
+  }
+
+  .card-interactive:hover {
+    text-decoration: none;
+    border-color: var(--color-primary-300);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .card-interactive:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+  }
+
+  .card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-2);
+  }
+
+  .card-interactive:hover .card-title {
+    color: var(--color-primary-700);
+  }
+</style>

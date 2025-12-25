@@ -1,0 +1,91 @@
+---
+interface Props {
+  types: string[];
+  typeLabels: Record<string, string>;
+}
+
+const { types, typeLabels } = Astro.props;
+---
+
+<div class="news-filter">
+  <div class="filter-buttons" role="tablist" aria-label="Filter by type">
+    {types.map((type) => (
+      <button
+        class:list={['filter-btn', { active: type === 'all' }]}
+        data-filter={type}
+        role="tab"
+        aria-selected={type === 'all' ? 'true' : 'false'}
+      >
+        {type === 'all' ? 'All' : typeLabels[type] || type}
+      </button>
+    ))}
+  </div>
+</div>
+
+<script>
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const newsGrid = document.getElementById('news-grid');
+  const newsCards = newsGrid?.querySelectorAll('.news-card');
+
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const filter = button.getAttribute('data-filter');
+
+      // Update active state
+      filterButtons.forEach(btn => {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-selected', 'false');
+      });
+      button.classList.add('active');
+      button.setAttribute('aria-selected', 'true');
+
+      // Filter cards
+      newsCards?.forEach(card => {
+        const cardType = card.getAttribute('data-type');
+        if (filter === 'all' || cardType === filter) {
+          (card as HTMLElement).style.display = 'flex';
+        } else {
+          (card as HTMLElement).style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .news-filter {
+    margin-bottom: var(--space-8);
+  }
+
+  .filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .filter-btn {
+    padding: var(--space-2) var(--space-4);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-gray-600);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition:
+      color var(--transition-fast),
+      background-color var(--transition-fast),
+      border-color var(--transition-fast);
+  }
+
+  .filter-btn:hover {
+    color: var(--color-gray-900);
+    border-color: var(--color-gray-300);
+  }
+
+  .filter-btn.active {
+    color: var(--color-primary-700);
+    background: var(--color-primary-50);
+    border-color: var(--color-primary-200);
+  }
+</style>

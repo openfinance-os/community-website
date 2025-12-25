@@ -1,0 +1,105 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+---
+
+<PageLayout title="Community" description="Join the UAE Open Finance community. Contributors, working groups, and how to get involved.">
+  <div class="placeholder-page">
+    <div class="container">
+      <span class="coming-soon-badge">Coming Soon</span>
+      <h1>Community</h1>
+      <p>Contributors, working groups, and how to join.</p>
+      <p class="subtitle">This section will showcase community members and provide guidance on contributing.</p>
+      <div class="cta-group">
+        <a href="https://github.com/organizations/openfinance-os/" class="cta-link" target="_blank" rel="noopener noreferrer">
+          Visit GitHub →
+        </a>
+        <a href="https://github.com/openfinance-os/community/discussions" class="cta-link secondary" target="_blank" rel="noopener noreferrer">
+          Join Discussions →
+        </a>
+      </div>
+      <a href="/" class="back-link">← Back to Home</a>
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .placeholder-page {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--space-8) var(--space-4);
+  }
+
+  .container {
+    max-width: 500px;
+  }
+
+  .coming-soon-badge {
+    display: inline-block;
+    padding: var(--space-1) var(--space-3);
+    background: var(--color-accent-100, #fef3c7);
+    color: var(--color-accent-700, #b45309);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: var(--radius-full);
+    margin-bottom: var(--space-4);
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: var(--space-3);
+  }
+
+  p {
+    color: var(--color-gray-600);
+    margin-bottom: var(--space-2);
+  }
+
+  .subtitle {
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+  }
+
+  .cta-group {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    margin-top: var(--space-6);
+  }
+
+  .cta-link {
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-primary-600);
+    color: white;
+    font-weight: 500;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+  }
+
+  .cta-link:hover {
+    background: var(--color-primary-700);
+    text-decoration: none;
+  }
+
+  .cta-link.secondary {
+    background: transparent;
+    color: var(--color-primary-600);
+    border: 1px solid var(--color-primary-600);
+  }
+
+  .cta-link.secondary:hover {
+    background: var(--color-primary-50);
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-top: var(--space-6);
+    color: var(--color-primary-600);
+    font-weight: 500;
+  }
+</style>

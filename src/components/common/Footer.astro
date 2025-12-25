@@ -1,0 +1,275 @@
+---
+interface Props {
+  lastUpdated?: string;
+}
+
+const { lastUpdated } = Astro.props;
+
+const quickLinks = [
+  { label: 'Observatory', href: '/observatory' },
+  { label: 'Learn', href: '/learn' },
+  { label: 'Community', href: '/community' },
+  { label: 'About', href: '/about' },
+];
+
+const resources = [
+  { label: 'Al Tareq Portal', href: 'https://altareq.openfinance.ae', external: true },
+  { label: 'CBUAE', href: 'https://www.centralbank.ae', external: true },
+  { label: 'GitHub', href: 'https://github.com/organizations/openfinance-os/', external: true },
+];
+
+const formatDate = (dateStr: string) => {
+  return new Date(dateStr).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: 'UTC',
+  });
+};
+---
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="/" class="footer-logo">
+        <img src="/brand/logo-icon.svg" alt="" width="28" height="28" aria-hidden="true" class="footer-logo-img" />
+        <span>OpenFinance-OS</span>
+      </a>
+      <p class="footer-tagline">
+        Built by the community, for the community.
+      </p>
+      <p class="footer-description">
+        A grassroots initiative to make the UAE Open Finance ecosystem visible, accessible, and welcoming.
+      </p>
+    </div>
+
+    <div class="footer-links">
+      <h3 class="footer-heading">Quick Links</h3>
+      <ul class="footer-list">
+        {quickLinks.map((link) => (
+          <li>
+            <a href={link.href} class="footer-link">{link.label}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="footer-links">
+      <h3 class="footer-heading">Resources</h3>
+      <ul class="footer-list">
+        {resources.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="footer-link"
+              target={link.external ? '_blank' : undefined}
+              rel={link.external ? 'noopener noreferrer' : undefined}
+            >
+              {link.label}
+              {link.external && (
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M7 17L17 7M17 7H7M17 7v10"/>
+                </svg>
+              )}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="footer-links">
+      <h3 class="footer-heading">Connect</h3>
+      <ul class="footer-list">
+        <li>
+          <a href="https://github.com/organizations/openfinance-os/" class="footer-link" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            GitHub
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/openfinance-os/community/discussions" class="footer-link" target="_blank" rel="noopener noreferrer">
+            Discussions
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M7 17L17 7M17 7H7M17 7v10"/>
+            </svg>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-bottom-inner">
+      <p class="footer-meta">
+        <span class="meta-label">Open source under MIT License</span>
+        {lastUpdated && (
+          <>
+            <span class="meta-separator" aria-hidden="true">·</span>
+            <span class="meta-timestamp">
+              Data updated: <time datetime={lastUpdated}>{formatDate(lastUpdated)}</time> UTC
+            </span>
+          </>
+        )}
+      </p>
+      <p class="footer-disclaimer">
+        Not affiliated with any bank, regulator, or official body.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--color-gray-900);
+    color: var(--color-gray-300);
+    margin-top: auto;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-12) var(--space-4);
+  }
+
+  @media (min-width: 640px) {
+    .footer-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 900px) {
+    .footer-grid {
+      grid-template-columns: 2fr repeat(3, 1fr);
+      gap: var(--space-12);
+    }
+  }
+
+  .footer-brand {
+    max-width: 280px;
+  }
+
+  .footer-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-gray-100);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .footer-logo:hover {
+    color: var(--color-primary-400);
+    text-decoration: none;
+  }
+
+  .footer-logo-img {
+    border-radius: var(--radius-md);
+  }
+
+  .footer-tagline {
+    margin-top: var(--space-4);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-gray-100);
+  }
+
+  .footer-description {
+    margin-top: var(--space-2);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--color-gray-400);
+  }
+
+  .footer-heading {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gray-500);
+    margin-bottom: var(--space-4);
+  }
+
+  .footer-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .footer-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.875rem;
+    color: var(--color-gray-300);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .footer-link:hover {
+    color: var(--color-gray-100);
+    text-decoration: none;
+  }
+
+  .footer-link svg {
+    opacity: 0.6;
+  }
+
+  .footer-bottom {
+    border-top: 1px solid var(--color-gray-800);
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .footer-bottom-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  @media (min-width: 640px) {
+    .footer-bottom-inner {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  .footer-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-gray-500);
+  }
+
+  .meta-separator {
+    color: var(--color-gray-700);
+  }
+
+  .meta-timestamp time {
+    color: var(--color-gray-400);
+  }
+
+  .footer-disclaimer {
+    font-size: 0.75rem;
+    color: var(--color-gray-600);
+  }
+</style>

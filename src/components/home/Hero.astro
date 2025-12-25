@@ -1,0 +1,336 @@
+---
+interface Props {
+  participantCount: number;
+  activeCount: number;
+}
+
+const { participantCount, activeCount } = Astro.props;
+---
+
+<section class="hero">
+  <div class="hero-bg" aria-hidden="true">
+    <div class="grid-overlay"></div>
+    <div class="gradient-orb gradient-orb-1"></div>
+    <div class="gradient-orb gradient-orb-2"></div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      <span class="badge-text">Community-driven ecosystem visibility</span>
+    </div>
+
+    <h1 class="hero-title">
+      <span class="title-line title-line-1">Open</span>
+      <span class="title-line title-line-2">Finance</span>
+      <span class="title-accent">-OS</span>
+    </h1>
+
+    <p class="hero-tagline">
+      The community home for <span class="highlight">UAE Open Finance</span>
+    </p>
+
+    <div class="hero-stat">
+      <div class="stat-number">{participantCount}</div>
+      <div class="stat-details">
+        <span class="stat-label">financial institutions connected</span>
+        <span class="stat-sublabel">All {activeCount} active · Live data from registry</span>
+      </div>
+    </div>
+
+    <div class="hero-actions">
+      <a href="/observatory" class="btn btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <circle cx="12" cy="12" r="6"/>
+          <circle cx="12" cy="12" r="2"/>
+        </svg>
+        Explore the Observatory
+      </a>
+      <a href="https://github.com/organizations/openfinance-os/" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+        </svg>
+        View on GitHub
+      </a>
+    </div>
+
+    <p class="hero-footer">
+      Open source · Community-built · Linking to what matters
+    </p>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-8) var(--space-4);
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image: var(--grid-pattern);
+    opacity: 0.8;
+  }
+
+  .gradient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+  }
+
+  .gradient-orb-1 {
+    width: 600px;
+    height: 600px;
+    background: var(--color-primary-200);
+    top: -200px;
+    right: -100px;
+    animation: float 20s ease-in-out infinite;
+  }
+
+  .gradient-orb-2 {
+    width: 400px;
+    height: 400px;
+    background: var(--color-accent-300);
+    bottom: -100px;
+    left: -100px;
+    animation: float 25s ease-in-out infinite reverse;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(20px, -30px); }
+    50% { transform: translate(-10px, 20px); }
+    75% { transform: translate(15px, 10px); }
+  }
+
+  .hero-content {
+    position: relative;
+    max-width: 720px;
+    text-align: center;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-full);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-gray-600);
+    margin-bottom: var(--space-6);
+    animation: fadeInUp 0.6s ease-out;
+  }
+
+  .badge-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--color-success);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  .hero-title {
+    font-size: clamp(3rem, 10vw, 5rem);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-4);
+  }
+
+  .title-line {
+    display: block;
+    animation: fadeInUp 0.6s ease-out backwards;
+  }
+
+  .title-line-1 {
+    animation-delay: 0.1s;
+  }
+
+  .title-line-2 {
+    animation-delay: 0.2s;
+    color: var(--color-primary-700);
+  }
+
+  .title-accent {
+    font-family: var(--font-mono);
+    font-size: 0.4em;
+    font-weight: 500;
+    color: var(--color-gray-400);
+    vertical-align: super;
+    margin-left: 0.1em;
+    animation: fadeInUp 0.6s ease-out backwards;
+    animation-delay: 0.3s;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero-tagline {
+    font-size: clamp(1.125rem, 3vw, 1.375rem);
+    color: var(--color-gray-600);
+    margin-bottom: var(--space-8);
+    animation: fadeInUp 0.6s ease-out backwards;
+    animation-delay: 0.4s;
+  }
+
+  .highlight {
+    color: var(--color-gray-900);
+    font-weight: 500;
+  }
+
+  .hero-stat {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-6);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    margin-bottom: var(--space-8);
+    animation: fadeInUp 0.6s ease-out backwards;
+    animation-delay: 0.5s;
+  }
+
+  .stat-number {
+    font-family: var(--font-mono);
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--color-primary-600);
+    letter-spacing: -0.02em;
+  }
+
+  .stat-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .stat-label {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-gray-900);
+  }
+
+  .stat-sublabel {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-gray-500);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    justify-content: center;
+    margin-bottom: var(--space-8);
+    animation: fadeInUp 0.6s ease-out backwards;
+    animation-delay: 0.6s;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-6);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: var(--radius-lg);
+    transition:
+      transform var(--transition-fast),
+      box-shadow var(--transition-fast),
+      background-color var(--transition-fast);
+  }
+
+  .btn:hover {
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+
+  .btn-primary {
+    background: var(--color-primary-600);
+    color: white;
+    box-shadow: 0 4px 14px 0 rgba(15, 118, 110, 0.3);
+  }
+
+  .btn-primary:hover {
+    background: var(--color-primary-700);
+    box-shadow: 0 6px 20px 0 rgba(15, 118, 110, 0.4);
+  }
+
+  .btn-secondary {
+    background: white;
+    color: var(--color-gray-700);
+    border: 1px solid var(--color-gray-300);
+  }
+
+  .btn-secondary:hover {
+    background: var(--color-gray-50);
+    border-color: var(--color-gray-400);
+    color: var(--color-gray-900);
+  }
+
+  .hero-footer {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-gray-400);
+    animation: fadeInUp 0.6s ease-out backwards;
+    animation-delay: 0.7s;
+  }
+
+  @media (max-width: 640px) {
+    .hero-stat {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .stat-details {
+      align-items: center;
+      text-align: center;
+    }
+
+    .hero-actions {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>

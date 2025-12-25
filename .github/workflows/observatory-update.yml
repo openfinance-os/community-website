@@ -1,0 +1,65 @@
+name: Observatory Data Update
+
+on:
+  schedule:
+    # Run daily at 06:00 UTC
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (no commit)'
+        required: false
+        default: 'false'
+        type: boolean
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run collector script
+        run: |
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            npm run collect:dry
+          else
+            npm run collect
+          fi
+
+      - name: Check for changes
+        id: git-check
+        run: |
+          git diff --quiet data/ || echo "changes=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and push changes
+        if: steps.git-check.outputs.changes == 'true' && inputs.dry_run != 'true'
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/observatory/snapshots/
+          git commit -m "chore(observatory): update snapshot $(date -u +%Y-%m-%d)"
+          git push
+
+      - name: Log result
+        run: |
+          if [ "${{ steps.git-check.outputs.changes }}" = "true" ]; then
+            echo "Observatory data updated successfully"
+          else
+            echo "No changes detected in observatory data"
+          fi

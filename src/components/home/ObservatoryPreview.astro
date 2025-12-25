@@ -1,0 +1,304 @@
+---
+import DonutChart from '@components/observatory/DonutChart.astro';
+
+interface Props {
+  byRole: Record<string, number>;
+  byCity: Record<string, number>;
+  totalParticipants: number;
+}
+
+const { byRole, byCity, totalParticipants } = Astro.props;
+
+const roleColors: Record<string, string> = {
+  LFI: 'var(--color-primary-500)',
+  BDSP: 'var(--color-accent-500)',
+  BSIP: '#3b82f6',
+  ISP: '#8b5cf6',
+  TPP: '#ef4444',
+};
+
+const cityColors: Record<string, string> = {
+  'Abu Dhabi': 'var(--color-primary-600)',
+  Dubai: 'var(--color-accent-500)',
+};
+
+const roleData = Object.entries(byRole).map(([label, value]) => ({
+  label,
+  value,
+  color: roleColors[label] || 'var(--color-gray-400)',
+}));
+
+const cityData = Object.entries(byCity).map(([label, value]) => ({
+  label,
+  value,
+  color: cityColors[label] || 'var(--color-gray-400)',
+}));
+---
+
+<section class="observatory-preview">
+  <div class="section-header">
+    <div class="header-content">
+      <h2 class="section-title">Ecosystem Observatory</h2>
+      <p class="section-description">
+        Real-time visibility into UAE Open Finance ecosystem health, derived from public registry data.
+      </p>
+    </div>
+    <a href="/observatory" class="view-all-link">
+      See the full dashboard
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    </a>
+  </div>
+
+  <div class="preview-grid">
+    <div class="preview-card">
+      <h3 class="card-title">
+        <span class="title-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </span>
+        Participant Roles
+      </h3>
+      <div class="chart-wrapper">
+        <DonutChart
+          data={roleData}
+          size={140}
+          strokeWidth={18}
+          centerValue={totalParticipants}
+          centerLabel="Total"
+        />
+      </div>
+    </div>
+
+    <div class="preview-card">
+      <h3 class="card-title">
+        <span class="title-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 21h18"/>
+            <path d="M5 21V7l8-4v18"/>
+            <path d="M19 21V11l-6-4"/>
+          </svg>
+        </span>
+        Geographic Distribution
+      </h3>
+      <div class="chart-wrapper">
+        <DonutChart
+          data={cityData}
+          size={140}
+          strokeWidth={18}
+          showLegend={true}
+        />
+      </div>
+    </div>
+
+    <div class="preview-card preview-card-cta">
+      <div class="cta-content">
+        <h3 class="cta-title">Explore More</h3>
+        <p class="cta-description">
+          View detailed participant profiles, API coverage matrix, and historical trends.
+        </p>
+        <a href="/observatory" class="cta-button">
+          Open Observatory
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+      <div class="cta-decoration" aria-hidden="true">
+        <svg viewBox="0 0 100 100" fill="none">
+          <circle cx="50" cy="50" r="40" stroke="var(--color-primary-300)" stroke-width="1" stroke-dasharray="4 4"/>
+          <circle cx="50" cy="50" r="25" stroke="var(--color-primary-400)" stroke-width="1"/>
+          <circle cx="50" cy="50" r="10" fill="var(--color-primary-500)"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <p class="data-disclaimer">
+    Data derived from public registry metadata. Not official statistics.
+    <a href="/observatory/methodology">Learn how we calculate this →</a>
+  </p>
+</section>
+
+<style>
+  .observatory-preview {
+    padding: var(--space-16) var(--space-4);
+    background: white;
+    border-top: 1px solid var(--color-gray-200);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .section-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    max-width: 1200px;
+    margin: 0 auto var(--space-8);
+  }
+
+  @media (min-width: 768px) {
+    .section-header {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+  }
+
+  .header-content {
+    max-width: 500px;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-2);
+  }
+
+  .section-description {
+    color: var(--color-gray-600);
+    font-size: 1rem;
+  }
+
+  .view-all-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: 500;
+    color: var(--color-primary-600);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: gap var(--transition-fast);
+  }
+
+  .view-all-link:hover {
+    gap: var(--space-3);
+    text-decoration: none;
+  }
+
+  .preview-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 768px) {
+    .preview-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .preview-card {
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+  }
+
+  .card-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-gray-700);
+    margin-bottom: var(--space-4);
+  }
+
+  .title-icon {
+    display: flex;
+    color: var(--color-primary-500);
+  }
+
+  .chart-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  .preview-card-cta {
+    position: relative;
+    background: linear-gradient(135deg, var(--color-primary-900) 0%, var(--color-primary-800) 100%);
+    border-color: transparent;
+    overflow: hidden;
+  }
+
+  .cta-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: var(--space-2);
+  }
+
+  .cta-description {
+    font-size: 0.875rem;
+    color: var(--color-primary-200);
+    margin-bottom: var(--space-4);
+    line-height: 1.5;
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    background: white;
+    color: var(--color-primary-700);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    transition:
+      background-color var(--transition-fast),
+      gap var(--transition-fast);
+  }
+
+  .cta-button:hover {
+    background: var(--color-gray-100);
+    gap: var(--space-3);
+    text-decoration: none;
+  }
+
+  .cta-decoration {
+    position: absolute;
+    right: -20px;
+    bottom: -20px;
+    width: 140px;
+    height: 140px;
+    opacity: 0.3;
+  }
+
+  .cta-decoration svg {
+    width: 100%;
+    height: 100%;
+    animation: spin 30s linear infinite;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .data-disclaimer {
+    max-width: 1200px;
+    margin: var(--space-6) auto 0;
+    font-size: 0.8125rem;
+    color: var(--color-gray-500);
+    text-align: center;
+  }
+
+  .data-disclaimer a {
+    color: var(--color-primary-600);
+  }
+</style>

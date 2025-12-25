@@ -1,0 +1,131 @@
+---
+interface Props {
+  value: string | number;
+  label: string;
+  sublabel?: string;
+  trend?: 'up' | 'down' | 'neutral';
+  icon?: 'participants' | 'active' | 'api' | 'city';
+}
+
+const { value, label, sublabel, trend, icon } = Astro.props;
+
+const icons = {
+  participants: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+  active: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`,
+  api: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`,
+  city: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/><path d="M9 9v.01"/><path d="M9 12v.01"/><path d="M9 15v.01"/><path d="M9 18v.01"/></svg>`,
+};
+---
+
+<div class="stat-card">
+  <div class="stat-header">
+    {icon && (
+      <div class="stat-icon" set:html={icons[icon]} />
+    )}
+    <span class="stat-label">{label}</span>
+  </div>
+  <div class="stat-value">
+    <span class="value-number">{value}</span>
+    {trend && (
+      <span class:list={['trend', `trend-${trend}`]}>
+        {trend === 'up' && '↑'}
+        {trend === 'down' && '↓'}
+        {trend === 'neutral' && '→'}
+      </span>
+    )}
+  </div>
+  {sublabel && <p class="stat-sublabel">{sublabel}</p>}
+  <div class="stat-decoration" aria-hidden="true"></div>
+</div>
+
+<style>
+  .stat-card {
+    position: relative;
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    padding: var(--space-4);
+    overflow: hidden;
+    transition: border-color var(--transition-fast);
+  }
+
+  .stat-card:hover {
+    border-color: var(--color-primary-200);
+  }
+
+  .stat-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+  }
+
+  .stat-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-primary-500);
+  }
+
+  .stat-icon :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gray-500);
+  }
+
+  .stat-value {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+  }
+
+  .value-number {
+    font-family: var(--font-mono);
+    font-size: 2.25rem;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--color-gray-900);
+    letter-spacing: -0.02em;
+  }
+
+  .trend {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .trend-up {
+    color: var(--color-success);
+  }
+
+  .trend-down {
+    color: var(--color-error);
+  }
+
+  .trend-neutral {
+    color: var(--color-gray-400);
+  }
+
+  .stat-sublabel {
+    margin-top: var(--space-1);
+    font-size: 0.8125rem;
+    color: var(--color-gray-500);
+  }
+
+  .stat-decoration {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle at top right, var(--color-primary-50) 0%, transparent 70%);
+    pointer-events: none;
+  }
+</style>

@@ -1,0 +1,219 @@
+---
+interface DataItem {
+  label: string;
+  value: number;
+  color: string;
+}
+
+interface Props {
+  data: DataItem[];
+  size?: number;
+  strokeWidth?: number;
+  showLegend?: boolean;
+  centerLabel?: string;
+  centerValue?: string | number;
+}
+
+const {
+  data,
+  size = 160,
+  strokeWidth = 20,
+  showLegend = true,
+  centerLabel,
+  centerValue,
+} = Astro.props;
+
+const total = data.reduce((sum, item) => sum + item.value, 0);
+const radius = (size - strokeWidth) / 2;
+const circumference = 2 * Math.PI * radius;
+const center = size / 2;
+
+// Calculate stroke-dasharray and stroke-dashoffset for each segment
+let cumulativeOffset = 0;
+const segments = data.map((item) => {
+  const percentage = item.value / total;
+  const dashArray = percentage * circumference;
+  const offset = cumulativeOffset;
+  cumulativeOffset += dashArray;
+  return {
+    ...item,
+    percentage,
+    dashArray,
+    offset,
+  };
+});
+---
+
+<div class="donut-chart">
+  <div class="chart-container" style={`width: ${size}px; height: ${size}px;`}>
+    <svg
+      viewBox={`0 0 ${size} ${size}`}
+      class="chart-svg"
+      role="img"
+      aria-label="Donut chart showing distribution"
+    >
+      <!-- Background circle -->
+      <circle
+        cx={center}
+        cy={center}
+        r={radius}
+        fill="none"
+        stroke="var(--color-gray-100)"
+        stroke-width={strokeWidth}
+      />
+
+      <!-- Data segments -->
+      {segments.map((segment, index) => (
+        <circle
+          cx={center}
+          cy={center}
+          r={radius}
+          fill="none"
+          stroke={segment.color}
+          stroke-width={strokeWidth}
+          stroke-dasharray={`${segment.dashArray} ${circumference - segment.dashArray}`}
+          stroke-dashoffset={-segment.offset}
+          stroke-linecap="butt"
+          class="chart-segment"
+          style={`--delay: ${index * 0.1}s`}
+          transform={`rotate(-90 ${center} ${center})`}
+        />
+      ))}
+    </svg>
+
+    {(centerLabel || centerValue) && (
+      <div class="chart-center">
+        {centerValue !== undefined && (
+          <span class="center-value">{centerValue}</span>
+        )}
+        {centerLabel && (
+          <span class="center-label">{centerLabel}</span>
+        )}
+      </div>
+    )}
+  </div>
+
+  {showLegend && (
+    <ul class="chart-legend">
+      {segments.map((segment) => (
+        <li class="legend-item">
+          <span class="legend-dot" style={`background-color: ${segment.color}`}></span>
+          <span class="legend-label">{segment.label}</span>
+          <span class="legend-value">{segment.value}</span>
+          <span class="legend-percent">
+            {Math.round(segment.percentage * 100)}%
+          </span>
+        </li>
+      ))}
+    </ul>
+  )}
+</div>
+
+<style>
+  .donut-chart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .chart-container {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .chart-svg {
+    display: block;
+    transform: rotate(0deg);
+  }
+
+  .chart-segment {
+    opacity: 0;
+    animation: segmentAppear 0.6s ease-out forwards;
+    animation-delay: var(--delay, 0s);
+  }
+
+  @keyframes segmentAppear {
+    from {
+      opacity: 0;
+      stroke-dashoffset: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .chart-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .center-value {
+    font-family: var(--font-mono);
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--color-gray-900);
+  }
+
+  .center-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-gray-500);
+    margin-top: var(--space-1);
+  }
+
+  .chart-legend {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    width: 100%;
+    max-width: 200px;
+  }
+
+  .legend-item {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.875rem;
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+  }
+
+  .legend-label {
+    color: var(--color-gray-700);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .legend-value {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    color: var(--color-gray-900);
+    text-align: right;
+  }
+
+  .legend-percent {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-gray-400);
+    text-align: right;
+    min-width: 32px;
+  }
+</style>
