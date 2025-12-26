@@ -319,6 +319,7 @@ import PageLayout from '@layouts/PageLayout.astro';
   .contribute-card:hover {
     border-color: var(--color-primary-300);
     box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
   }
 
   .card-icon {
@@ -425,6 +426,7 @@ import PageLayout from '@layouts/PageLayout.astro';
   .connect-card:hover {
     border-color: var(--color-primary-300);
     box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
     text-decoration: none;
   }
 
@@ -502,5 +504,119 @@ import PageLayout from '@layouts/PageLayout.astro';
     .cta-card {
       padding: var(--space-8) var(--space-4);
     }
+  }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .hero {
+    background: linear-gradient(180deg, rgba(20, 184, 166, 0.1) 0%, var(--color-surface) 100%);
+  }
+
+  :global([data-theme='dark']) .hero h1 {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .hero-subtitle {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .btn-secondary {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-300);
+    color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .btn-secondary:hover {
+    background: var(--color-gray-200);
+    border-color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .section h2 {
+    color: var(--color-gray-50);
+  }
+
+  :global([data-theme='dark']) .section-intro {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .contribute-card {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .contribute-card:hover {
+    border-color: var(--color-primary-400);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  :global([data-theme='dark']) .card-icon {
+    background: rgba(20, 184, 166, 0.15);
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .contribute-card h3 {
+    color: var(--color-gray-50);
+  }
+
+  :global([data-theme='dark']) .contribute-card > p {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .card-list li {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .card-link {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .card-link:hover {
+    color: var(--color-primary-300);
+  }
+
+  :global([data-theme='dark']) .guidelines-section {
+    background: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .guideline-item h4 {
+    color: var(--color-gray-50);
+  }
+
+  :global([data-theme='dark']) .guideline-item p {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .connect-card {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .connect-card:hover {
+    border-color: var(--color-primary-400);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  :global([data-theme='dark']) .connect-card svg {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .connect-card h4 {
+    color: var(--color-gray-50);
+  }
+
+  :global([data-theme='dark']) .connect-card p {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .connect-card.hackathon {
+    border-color: var(--color-accent-500);
+    background: linear-gradient(135deg, var(--color-gray-100) 0%, rgba(232, 168, 92, 0.1) 100%);
+  }
+
+  :global([data-theme='dark']) .connect-card.hackathon:hover {
+    border-color: var(--color-accent-400);
+  }
+
+  :global([data-theme='dark']) .connect-card.hackathon svg {
+    color: var(--color-accent-400);
   }
 </style>

@@ -225,4 +225,52 @@ const typeLabels: Record<string, string> = {
     color: var(--color-primary-500);
     flex-shrink: 0;
   }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .page-header {
+    /* Use fixed dark colors - don't use CSS variables that invert */
+    background: linear-gradient(to bottom, #111827 0%, #1f2937 100%);
+  }
+
+  :global([data-theme='dark']) .header-description {
+    color: #9ca3af;
+  }
+
+  :global([data-theme='dark']) .news-section {
+    background: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .external-news {
+    border-top-color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .external-news h2 {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .external-link {
+    background: var(--color-gray-200);
+    border-color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .external-link:hover {
+    border-color: var(--color-primary-400);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  :global([data-theme='dark']) .external-title {
+    color: var(--color-gray-50);
+  }
+
+  :global([data-theme='dark']) .external-description {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .external-link svg {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .empty-state {
+    color: var(--color-gray-400);
+  }
 </style>

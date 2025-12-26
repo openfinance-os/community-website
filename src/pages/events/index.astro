@@ -271,16 +271,65 @@ const types = ['all', 'meetup', 'hackathon', 'webinar', 'conference', 'workshop'
   }
 
   /* Dark mode */
+  :global([data-theme='dark']) .page-header h1 {
+    color: var(--color-gray-50);
+  }
+
+  :global([data-theme='dark']) .subtitle {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .section-label {
+    color: var(--color-gray-500);
+  }
+
   :global([data-theme='dark']) .empty-state {
     background: var(--color-gray-100);
   }
 
+  :global([data-theme='dark']) .empty-state p {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .propose-link {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .section-toggle {
+    border-bottom-color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .section-toggle:hover .section-label {
+    color: var(--color-gray-300);
+  }
+
   :global([data-theme='dark']) .toggle-count {
     background: var(--color-gray-200);
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .toggle-icon {
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .host-section {
     background: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .host-section h3 {
+    color: var(--color-gray-50);
+  }
+
+  :global([data-theme='dark']) .host-section p {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .host-link {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .host-link:hover {
+    color: var(--color-primary-300);
   }
 </style>
 

@@ -362,4 +362,71 @@ const { participantCount, activeCount } = Astro.props;
       justify-content: center;
     }
   }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .hero-badge {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+    color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .hero-title {
+    color: var(--color-gray-50);
+  }
+
+  :global([data-theme='dark']) .title-line-2 {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .title-accent {
+    color: var(--color-gray-500);
+  }
+
+  :global([data-theme='dark']) .hero-tagline {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .highlight {
+    color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .hero-stat {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+
+  :global([data-theme='dark']) .stat-label {
+    color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .stat-sublabel {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .btn-secondary {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-300);
+    color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .btn-secondary:hover {
+    background: var(--color-gray-200);
+    border-color: var(--color-gray-400);
+    color: var(--color-gray-50);
+  }
+
+  :global([data-theme='dark']) .hero-footer {
+    color: var(--color-gray-500);
+  }
+
+  :global([data-theme='dark']) .gradient-orb-1 {
+    background: var(--color-primary-600);
+    opacity: 0.2;
+  }
+
+  :global([data-theme='dark']) .gradient-orb-2 {
+    background: var(--color-accent-500);
+    opacity: 0.15;
+  }
 </style>

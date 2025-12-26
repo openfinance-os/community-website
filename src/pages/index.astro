@@ -224,4 +224,48 @@ const icons: Record<string, string> = {
       display: none;
     }
   }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .quick-links-section {
+    background: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .section-title {
+    color: var(--color-gray-50);
+  }
+
+  :global([data-theme='dark']) .quick-link-card {
+    background: var(--color-gray-200);
+    border-color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .quick-link-card:hover {
+    border-color: var(--color-primary-400);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  :global([data-theme='dark']) .quick-link-icon {
+    background: rgba(20, 184, 166, 0.15);
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .quick-link-title {
+    color: var(--color-gray-50);
+  }
+
+  :global([data-theme='dark']) .quick-link-card:hover .quick-link-title {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .quick-link-description {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .quick-link-arrow {
+    color: var(--color-gray-500);
+  }
+
+  :global([data-theme='dark']) .quick-link-card:hover .quick-link-arrow {
+    color: var(--color-primary-400);
+  }
 </style>

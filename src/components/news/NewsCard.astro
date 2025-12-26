@@ -148,4 +148,47 @@ const formatDate = (d: Date) => {
   .read-more svg {
     transition: transform var(--transition-fast);
   }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .news-card {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .news-card:hover {
+    border-color: var(--color-primary-400);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  :global([data-theme='dark']) .card-header time {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .card-title {
+    color: var(--color-gray-50);
+  }
+
+  :global([data-theme='dark']) .news-card:hover .card-title {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .card-description {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .card-footer {
+    border-top-color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .author {
+    color: var(--color-gray-500);
+  }
+
+  :global([data-theme='dark']) .read-more {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .news-card:hover .read-more {
+    color: var(--color-primary-300);
+  }
 </style>
