@@ -1,66 +1,509 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allEvents = await getCollection('events');
+const now = new Date();
+
+// Separate upcoming and past events
+const upcomingEvents = allEvents
+  .filter((event) => new Date(event.data.date) >= now)
+  .sort((a, b) => new Date(a.data.date).getTime() - new Date(b.data.date).getTime());
+
+const pastEvents = allEvents
+  .filter((event) => new Date(event.data.date) < now)
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+const typeLabels: Record<string, string> = {
+  meetup: 'Meetup',
+  hackathon: 'Hackathon',
+  webinar: 'Webinar',
+  conference: 'Conference',
+  workshop: 'Workshop',
+};
+
+const typeColors: Record<string, string> = {
+  meetup: 'meetup',
+  hackathon: 'hackathon',
+  webinar: 'webinar',
+  conference: 'conference',
+  workshop: 'workshop',
+};
+
+function formatDate(date: Date, endDate?: Date): string {
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric'
+  };
+  const formatted = date.toLocaleDateString('en-US', options);
+  if (endDate && endDate.getTime() !== date.getTime()) {
+    return `${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${endDate.toLocaleDateString('en-US', options)}`;
+  }
+  return formatted;
+}
 ---
 
-<PageLayout title="Events" description="Upcoming events, meetups, and hackathons in the UAE Open Finance community.">
-  <div class="placeholder-page">
+<PageLayout title="Events" description="Upcoming and past events in the UAE Open Finance community.">
+  <div class="events-page">
     <div class="container">
-      <span class="coming-soon-badge">Coming Soon</span>
-      <h1>Events</h1>
-      <p>Meetups, hackathons, and community gatherings.</p>
-      <p class="subtitle">This section will feature upcoming events, official webinars, and international conferences.</p>
-      <a href="/" class="back-link">← Back to Home</a>
+      <header class="page-header">
+        <h1>Events</h1>
+        <p class="subtitle">
+          Meetups, workshops, hackathons, and webinars for the UAE Open Finance community.
+        </p>
+      </header>
+
+      {upcomingEvents.length > 0 && (
+        <section class="events-section">
+          <h2 class="section-title">
+            <span class="pulse"></span>
+            Upcoming Events
+          </h2>
+          <div class="events-list">
+            {upcomingEvents.map((event) => (
+              <a href={`/events/${event.slug}`} class="event-card upcoming">
+                <div class="event-date-badge">
+                  <span class="month">{new Date(event.data.date).toLocaleDateString('en-US', { month: 'short' })}</span>
+                  <span class="day">{new Date(event.data.date).getDate()}</span>
+                </div>
+                <div class="event-content">
+                  <div class="event-meta">
+                    <span class={`event-type ${typeColors[event.data.type]}`}>
+                      {typeLabels[event.data.type]}
+                    </span>
+                    {event.data.featured && <span class="featured-badge">Featured</span>}
+                  </div>
+                  <h3>{event.data.title}</h3>
+                  <p class="event-description">{event.data.description}</p>
+                  <div class="event-details">
+                    <span class="event-location">
+                      {event.data.isOnline ? (
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <rect x="2" y="3" width="20" height="14" rx="2"/>
+                          <path d="M8 21h8"/><path d="M12 17v4"/>
+                        </svg>
+                      ) : (
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                          <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                      )}
+                      {event.data.location}
+                    </span>
+                    <span class="event-time">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 6v6l4 2"/>
+                      </svg>
+                      {formatDate(new Date(event.data.date), event.data.endDate ? new Date(event.data.endDate) : undefined)}
+                    </span>
+                  </div>
+                </div>
+                <span class="event-arrow">→</span>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {upcomingEvents.length === 0 && (
+        <section class="no-events">
+          <div class="no-events-content">
+            <span class="no-events-icon">📅</span>
+            <h3>No upcoming events</h3>
+            <p>Check back soon for new events, or host your own!</p>
+            <a href="https://github.com/openfinance-os/community/discussions" class="host-event-link" target="_blank" rel="noopener noreferrer">
+              Propose an event →
+            </a>
+          </div>
+        </section>
+      )}
+
+      {pastEvents.length > 0 && (
+        <section class="events-section past-section">
+          <h2 class="section-title">Past Events</h2>
+          <div class="events-list past">
+            {pastEvents.map((event) => (
+              <a href={`/events/${event.slug}`} class="event-card past">
+                <div class="event-date-badge past">
+                  <span class="month">{new Date(event.data.date).toLocaleDateString('en-US', { month: 'short' })}</span>
+                  <span class="day">{new Date(event.data.date).getDate()}</span>
+                </div>
+                <div class="event-content">
+                  <div class="event-meta">
+                    <span class={`event-type ${typeColors[event.data.type]}`}>
+                      {typeLabels[event.data.type]}
+                    </span>
+                  </div>
+                  <h3>{event.data.title}</h3>
+                  <div class="event-details">
+                    <span class="event-location">
+                      {event.data.isOnline ? (
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <rect x="2" y="3" width="20" height="14" rx="2"/>
+                          <path d="M8 21h8"/><path d="M12 17v4"/>
+                        </svg>
+                      ) : (
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                          <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                      )}
+                      {event.data.location}
+                    </span>
+                    <span class="event-time">
+                      {formatDate(new Date(event.data.date), event.data.endDate ? new Date(event.data.endDate) : undefined)}
+                    </span>
+                  </div>
+                </div>
+                <span class="event-arrow">→</span>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section class="host-section">
+        <div class="host-content">
+          <h2>Host an Event</h2>
+          <p>Want to organize a meetup, workshop, or webinar for the community? We'd love to help promote it.</p>
+          <a href="https://github.com/openfinance-os/community/discussions" class="host-button" target="_blank" rel="noopener noreferrer">
+            Propose Your Event →
+          </a>
+        </div>
+      </section>
     </div>
   </div>
 </PageLayout>
 
 <style>
-  .placeholder-page {
-    min-height: 60vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: var(--space-8) var(--space-4);
+  .events-page {
+    padding: var(--space-12) var(--space-4);
   }
 
   .container {
-    max-width: 500px;
+    max-width: 900px;
+    margin: 0 auto;
   }
 
-  .coming-soon-badge {
-    display: inline-block;
-    padding: var(--space-1) var(--space-3);
-    background: var(--color-accent-100, #fef3c7);
-    color: var(--color-accent-700, #b45309);
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border-radius: var(--radius-full);
-    margin-bottom: var(--space-4);
+  .page-header {
+    margin-bottom: var(--space-12);
   }
 
-  h1 {
-    font-size: 2rem;
+  .page-header h1 {
+    font-size: 2.5rem;
     margin-bottom: var(--space-3);
   }
 
-  p {
+  .subtitle {
+    font-size: 1.25rem;
     color: var(--color-gray-600);
+  }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: 1rem;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gray-500);
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .pulse {
+    width: 10px;
+    height: 10px;
+    background: var(--color-success);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    }
+  }
+
+  .events-section {
+    margin-bottom: var(--space-12);
+  }
+
+  .past-section {
+    opacity: 0.8;
+  }
+
+  .events-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .event-card {
+    display: flex;
+    gap: var(--space-5);
+    padding: var(--space-6);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    text-decoration: none;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .event-card:hover {
+    border-color: var(--color-primary-300);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+
+  .event-card.past {
+    background: var(--color-gray-50);
+  }
+
+  .event-card.past:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: var(--color-gray-300);
+  }
+
+  .event-date-badge {
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-primary-600);
+    color: white;
+    border-radius: var(--radius-lg);
+  }
+
+  .event-date-badge.past {
+    background: var(--color-gray-400);
+  }
+
+  .event-date-badge .month {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .event-date-badge .day {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .event-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .event-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
     margin-bottom: var(--space-2);
   }
 
-  .subtitle {
-    font-size: 0.875rem;
+  .event-type {
+    padding: var(--space-1) var(--space-2);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: var(--radius-sm);
+  }
+
+  .event-type.meetup {
+    background: #dbeafe;
+    color: #1e40af;
+  }
+
+  .event-type.hackathon {
+    background: #fce7f3;
+    color: #9d174d;
+  }
+
+  .event-type.webinar {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .event-type.conference {
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  .event-type.workshop {
+    background: #ede9fe;
+    color: #5b21b6;
+  }
+
+  .featured-badge {
+    padding: var(--space-1) var(--space-2);
+    background: var(--color-accent-500);
+    color: white;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: var(--radius-sm);
+  }
+
+  .event-card h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-2);
+  }
+
+  .event-card:hover h3 {
+    color: var(--color-primary-700);
+  }
+
+  .event-description {
+    font-size: 0.9375rem;
+    color: var(--color-gray-600);
+    margin-bottom: var(--space-3);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .event-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  .event-location,
+  .event-time {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.8125rem;
     color: var(--color-gray-500);
   }
 
-  .back-link {
-    display: inline-block;
-    margin-top: var(--space-6);
+  .event-location svg,
+  .event-time svg {
+    flex-shrink: 0;
+  }
+
+  .event-arrow {
+    flex-shrink: 0;
+    align-self: center;
+    color: var(--color-gray-400);
+    font-size: 1.25rem;
+    transition: transform var(--transition-fast), color var(--transition-fast);
+  }
+
+  .event-card:hover .event-arrow {
+    transform: translateX(4px);
+    color: var(--color-primary-600);
+  }
+
+  /* No Events */
+  .no-events {
+    padding: var(--space-12) var(--space-4);
+    text-align: center;
+  }
+
+  .no-events-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: var(--space-4);
+  }
+
+  .no-events h3 {
+    font-size: 1.25rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .no-events p {
+    color: var(--color-gray-500);
+    margin-bottom: var(--space-4);
+  }
+
+  .host-event-link {
     color: var(--color-primary-600);
     font-weight: 500;
+  }
+
+  /* Host Section */
+  .host-section {
+    margin-top: var(--space-12);
+    padding: var(--space-8);
+    background: var(--color-primary-50);
+    border-radius: var(--radius-xl);
+    text-align: center;
+  }
+
+  .host-content h2 {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-3);
+  }
+
+  .host-content p {
+    color: var(--color-gray-600);
+    margin-bottom: var(--space-6);
+    max-width: 500px;
+    margin-inline: auto;
+  }
+
+  .host-button {
+    display: inline-block;
+    padding: var(--space-3) var(--space-6);
+    background: var(--color-primary-600);
+    color: white;
+    font-weight: 600;
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: background-color var(--transition-fast);
+  }
+
+  .host-button:hover {
+    background: var(--color-primary-700);
+    text-decoration: none;
+  }
+
+  @media (max-width: 640px) {
+    .event-card {
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .event-date-badge {
+      width: auto;
+      height: auto;
+      flex-direction: row;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-3);
+      align-self: flex-start;
+    }
+
+    .event-arrow {
+      display: none;
+    }
   }
 </style>

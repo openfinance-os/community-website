@@ -1,0 +1,366 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const events = await getCollection('events');
+  return events.map((event) => ({
+    params: { slug: event.slug },
+    props: { event },
+  }));
+}
+
+const { event } = Astro.props;
+const { Content } = await event.render();
+
+const typeLabels: Record<string, string> = {
+  meetup: 'Meetup',
+  hackathon: 'Hackathon',
+  webinar: 'Webinar',
+  conference: 'Conference',
+  workshop: 'Workshop',
+};
+
+const typeColors: Record<string, string> = {
+  meetup: 'meetup',
+  hackathon: 'hackathon',
+  webinar: 'webinar',
+  conference: 'conference',
+  workshop: 'workshop',
+};
+
+const now = new Date();
+const isPast = new Date(event.data.date) < now;
+
+function formatDate(date: Date, endDate?: Date): string {
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric'
+  };
+  const formatted = date.toLocaleDateString('en-US', options);
+  if (endDate && endDate.getTime() !== date.getTime()) {
+    return `${date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} - ${endDate.toLocaleDateString('en-US', options)}`;
+  }
+  return formatted;
+}
+---
+
+<PageLayout title={event.data.title} description={event.data.description}>
+  <article class="event-page">
+    <div class="container">
+      <nav class="breadcrumb">
+        <a href="/events">Events</a>
+        <span>/</span>
+        <span>{event.data.title}</span>
+      </nav>
+
+      <header class="event-header">
+        <div class="event-meta">
+          <span class={`event-type ${typeColors[event.data.type]}`}>
+            {typeLabels[event.data.type]}
+          </span>
+          {isPast && <span class="past-badge">Past Event</span>}
+        </div>
+        <h1>{event.data.title}</h1>
+        <p class="event-description">{event.data.description}</p>
+      </header>
+
+      <div class="event-details-bar">
+        <div class="detail-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/>
+          </svg>
+          <div>
+            <span class="detail-label">Date</span>
+            <span class="detail-value">{formatDate(new Date(event.data.date), event.data.endDate ? new Date(event.data.endDate) : undefined)}</span>
+          </div>
+        </div>
+        <div class="detail-item">
+          {event.data.isOnline ? (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="3" width="20" height="14" rx="2"/>
+              <path d="M8 21h8"/><path d="M12 17v4"/>
+            </svg>
+          ) : (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+          )}
+          <div>
+            <span class="detail-label">Location</span>
+            <span class="detail-value">{event.data.location}</span>
+          </div>
+        </div>
+        <div class="detail-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+          <div>
+            <span class="detail-label">Organizer</span>
+            <span class="detail-value">{event.data.organizer}</span>
+          </div>
+        </div>
+      </div>
+
+      {event.data.url && !isPast && (
+        <div class="register-cta">
+          <a href={event.data.url} class="register-button" target="_blank" rel="noopener noreferrer">
+            Register for this Event →
+          </a>
+        </div>
+      )}
+
+      <div class="event-content prose">
+        <Content />
+      </div>
+
+      <footer class="event-footer">
+        <a href="/events" class="back-link">← Back to all events</a>
+      </footer>
+    </div>
+  </article>
+</PageLayout>
+
+<style>
+  .event-page {
+    padding: var(--space-8) var(--space-4) var(--space-16);
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+    margin-bottom: var(--space-6);
+  }
+
+  .breadcrumb a {
+    color: var(--color-primary-600);
+  }
+
+  .breadcrumb span:last-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 300px;
+  }
+
+  .event-header {
+    margin-bottom: var(--space-8);
+  }
+
+  .event-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .event-type {
+    padding: var(--space-1) var(--space-3);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: var(--radius-sm);
+  }
+
+  .event-type.meetup {
+    background: #dbeafe;
+    color: #1e40af;
+  }
+
+  .event-type.hackathon {
+    background: #fce7f3;
+    color: #9d174d;
+  }
+
+  .event-type.webinar {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .event-type.conference {
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  .event-type.workshop {
+    background: #ede9fe;
+    color: #5b21b6;
+  }
+
+  .past-badge {
+    padding: var(--space-1) var(--space-3);
+    background: var(--color-gray-200);
+    color: var(--color-gray-600);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: var(--radius-sm);
+  }
+
+  .event-header h1 {
+    font-size: 2.25rem;
+    margin-bottom: var(--space-4);
+    line-height: 1.2;
+  }
+
+  .event-description {
+    font-size: 1.125rem;
+    color: var(--color-gray-600);
+    line-height: 1.6;
+  }
+
+  .event-details-bar {
+    display: grid;
+    gap: var(--space-4);
+    padding: var(--space-6);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-xl);
+    margin-bottom: var(--space-8);
+  }
+
+  @media (min-width: 640px) {
+    .event-details-bar {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .detail-item {
+    display: flex;
+    gap: var(--space-3);
+  }
+
+  .detail-item svg {
+    flex-shrink: 0;
+    color: var(--color-primary-600);
+  }
+
+  .detail-label {
+    display: block;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gray-500);
+    margin-bottom: 2px;
+  }
+
+  .detail-value {
+    display: block;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-gray-900);
+  }
+
+  .register-cta {
+    margin-bottom: var(--space-8);
+  }
+
+  .register-button {
+    display: inline-block;
+    padding: var(--space-4) var(--space-8);
+    background: var(--color-primary-600);
+    color: white;
+    font-weight: 600;
+    font-size: 1.125rem;
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: background-color var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .register-button:hover {
+    background: var(--color-primary-700);
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+
+  /* Prose styles for content */
+  .prose {
+    line-height: 1.7;
+    color: var(--color-gray-700);
+  }
+
+  .prose :global(h2) {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-4);
+  }
+
+  .prose :global(h3) {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-3);
+  }
+
+  .prose :global(h4) {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin-top: var(--space-4);
+    margin-bottom: var(--space-2);
+  }
+
+  .prose :global(p) {
+    margin-bottom: var(--space-4);
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin-bottom: var(--space-4);
+    padding-left: var(--space-6);
+  }
+
+  .prose :global(li) {
+    margin-bottom: var(--space-2);
+  }
+
+  .prose :global(strong) {
+    color: var(--color-gray-900);
+    font-weight: 600;
+  }
+
+  .prose :global(a) {
+    color: var(--color-primary-600);
+  }
+
+  .prose :global(a:hover) {
+    color: var(--color-primary-700);
+  }
+
+  .event-footer {
+    margin-top: var(--space-12);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-gray-200);
+  }
+
+  .back-link {
+    font-weight: 500;
+    color: var(--color-primary-600);
+  }
+
+  .back-link:hover {
+    color: var(--color-primary-700);
+  }
+</style>

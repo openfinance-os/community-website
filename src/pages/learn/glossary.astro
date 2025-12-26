@@ -1,0 +1,301 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+
+const glossaryData = [
+  {
+    letter: 'A',
+    terms: [
+      { term: 'AIS', full: 'Account Information Service', definition: 'A service that provides consolidated information on payment accounts held by a user at other payment service providers.' },
+      { term: 'ASPSP', full: 'Account Servicing Payment Service Provider', definition: 'A payment service provider (typically a bank) that holds customer payment accounts and provides access to account data through APIs.' },
+      { term: 'Al Tareq', full: null, definition: 'The official UAE Open Finance platform operated by Nebras, providing the technical infrastructure for secure data sharing between financial institutions and TPPs.' },
+      { term: 'API', full: 'Application Programming Interface', definition: 'A set of protocols and tools that allow different software applications to communicate with each other.' },
+    ],
+  },
+  {
+    letter: 'B',
+    terms: [
+      { term: 'BDSP', full: 'Banking Data Service Provider', definition: 'A TPP authorized to access account information on behalf of customers. Can aggregate data from multiple banks.' },
+      { term: 'BSIP', full: 'Banking Service Initiation Provider', definition: 'A TPP authorized to initiate payments on behalf of customers from their bank accounts.' },
+    ],
+  },
+  {
+    letter: 'C',
+    terms: [
+      { term: 'CBUAE', full: 'Central Bank of the United Arab Emirates', definition: 'The regulatory authority overseeing the UAE Open Finance framework and licensing of financial institutions.' },
+      { term: 'Consent', full: null, definition: 'Explicit authorization given by a customer to a TPP to access their financial data or initiate payments on their behalf.' },
+      { term: 'CoP', full: 'Confirmation of Payee', definition: 'A name-checking service that verifies the recipient\'s name before a payment is made, helping prevent misdirected payments.' },
+    ],
+  },
+  {
+    letter: 'D',
+    terms: [
+      { term: 'Directory', full: 'Trust Framework Directory', definition: 'A registry of all approved participants in the Open Finance ecosystem, including banks, TPPs, and their roles.' },
+    ],
+  },
+  {
+    letter: 'F',
+    terms: [
+      { term: 'FAPI', full: 'Financial-grade API', definition: 'A security standard specifically designed for high-risk financial APIs, providing enhanced protection against attacks.' },
+    ],
+  },
+  {
+    letter: 'I',
+    terms: [
+      { term: 'ISP', full: 'Information Service Provider', definition: 'A type of TPP that provides account aggregation and information services to customers.' },
+    ],
+  },
+  {
+    letter: 'L',
+    terms: [
+      { term: 'LFI', full: 'Licensed Financial Institution', definition: 'A bank or financial institution licensed by CBUAE to operate in the UAE.' },
+    ],
+  },
+  {
+    letter: 'M',
+    terms: [
+      { term: 'mTLS', full: 'Mutual Transport Layer Security', definition: 'A security protocol where both client and server authenticate each other using digital certificates.' },
+    ],
+  },
+  {
+    letter: 'N',
+    terms: [
+      { term: 'Nebras', full: null, definition: 'The operator of the Al Tareq platform, responsible for the technical and operational aspects of UAE Open Finance infrastructure.' },
+    ],
+  },
+  {
+    letter: 'O',
+    terms: [
+      { term: 'OAuth', full: 'Open Authorization', definition: 'An open standard for access delegation, commonly used to grant websites or applications access to information without sharing passwords.' },
+      { term: 'Open Banking', full: null, definition: 'A system where banks and other financial institutions share customer data with third parties via APIs, with customer consent.' },
+      { term: 'Open Finance', full: null, definition: 'An extension of Open Banking that includes sharing of data beyond payment accounts, such as insurance, investments, and pensions.' },
+    ],
+  },
+  {
+    letter: 'P',
+    terms: [
+      { term: 'PIS', full: 'Payment Initiation Service', definition: 'A service that initiates a payment from a customer\'s bank account at their request.' },
+      { term: 'PKCE', full: 'Proof Key for Code Exchange', definition: 'An extension to OAuth 2.0 that prevents authorization code interception attacks.' },
+      { term: 'PSP', full: 'Payment Service Provider', definition: 'An organization that provides payment services such as processing transactions or enabling payments.' },
+    ],
+  },
+  {
+    letter: 'R',
+    terms: [
+      { term: 'Raidiam', full: null, definition: 'The technology provider powering the UAE Open Finance trust framework and directory services.' },
+    ],
+  },
+  {
+    letter: 'S',
+    terms: [
+      { term: 'Sandbox', full: null, definition: 'A testing environment that allows TPPs to develop and test their applications without affecting real customer data.' },
+      { term: 'SCA', full: 'Strong Customer Authentication', definition: 'Multi-factor authentication required for accessing payment accounts or initiating transactions.' },
+    ],
+  },
+  {
+    letter: 'T',
+    terms: [
+      { term: 'TPP', full: 'Third Party Provider', definition: 'An organization authorized to access customer banking data or initiate payments on their behalf, typically fintechs and payment providers.' },
+      { term: 'Trust Framework', full: null, definition: 'The legal, regulatory, and technical rules governing how participants interact within the Open Finance ecosystem.' },
+    ],
+  },
+];
+---
+
+<PageLayout title="Open Finance Glossary" description="Complete glossary of terms used in UAE Open Finance.">
+  <div class="glossary-page">
+    <div class="container">
+      <nav class="breadcrumb">
+        <a href="/learn">Learn</a>
+        <span>/</span>
+        <span>Glossary</span>
+      </nav>
+
+      <header class="page-header">
+        <h1>Open Finance Glossary</h1>
+        <p class="subtitle">
+          A comprehensive reference of terms and acronyms used in the UAE Open Finance ecosystem.
+        </p>
+      </header>
+
+      <nav class="letter-nav">
+        {glossaryData.map((section) => (
+          <a href={`#letter-${section.letter}`}>{section.letter}</a>
+        ))}
+      </nav>
+
+      <div class="glossary-content">
+        {glossaryData.map((section) => (
+          <section id={`letter-${section.letter}`} class="letter-section">
+            <h2>{section.letter}</h2>
+            <dl class="terms-list">
+              {section.terms.map((item) => (
+                <div class="term-item">
+                  <dt>
+                    <span class="term">{item.term}</span>
+                    {item.full && <span class="full-name">{item.full}</span>}
+                  </dt>
+                  <dd>{item.definition}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        ))}
+      </div>
+
+      <footer class="glossary-footer">
+        <p>
+          Missing a term? <a href="https://github.com/openfinance-os/community/issues" target="_blank" rel="noopener noreferrer">Suggest additions on GitHub</a>
+        </p>
+      </footer>
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .glossary-page {
+    padding: var(--space-8) var(--space-4) var(--space-16);
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+    margin-bottom: var(--space-6);
+  }
+
+  .breadcrumb a {
+    color: var(--color-primary-600);
+  }
+
+  .page-header {
+    margin-bottom: var(--space-8);
+  }
+
+  .page-header h1 {
+    font-size: 2.25rem;
+    margin-bottom: var(--space-3);
+  }
+
+  .subtitle {
+    font-size: 1.125rem;
+    color: var(--color-gray-600);
+  }
+
+  /* Letter Navigation */
+  .letter-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-8);
+    position: sticky;
+    top: 64px;
+    z-index: 10;
+  }
+
+  .letter-nav a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--color-gray-600);
+    background: white;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+  }
+
+  .letter-nav a:hover {
+    background: var(--color-primary-100);
+    color: var(--color-primary-700);
+    text-decoration: none;
+  }
+
+  /* Letter Sections */
+  .letter-section {
+    margin-bottom: var(--space-10);
+    scroll-margin-top: 120px;
+  }
+
+  .letter-section h2 {
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    color: var(--color-primary-600);
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-2);
+    border-bottom: 2px solid var(--color-primary-100);
+  }
+
+  .terms-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .term-item {
+    padding: var(--space-4);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+  }
+
+  .term-item dt {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+  }
+
+  .term {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-primary-700);
+  }
+
+  .full-name {
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+  }
+
+  .full-name::before {
+    content: '— ';
+  }
+
+  .term-item dd {
+    font-size: 0.9375rem;
+    color: var(--color-gray-600);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Footer */
+  .glossary-footer {
+    margin-top: var(--space-12);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-gray-200);
+    text-align: center;
+  }
+
+  .glossary-footer p {
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+  }
+
+  .glossary-footer a {
+    color: var(--color-primary-600);
+  }
+</style>
