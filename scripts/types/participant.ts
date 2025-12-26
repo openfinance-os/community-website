@@ -33,6 +33,27 @@ export interface RawRoleClaim {
   Role: string;
 }
 
+// Raw response from /roles endpoint (simpler structure, no auth servers)
+export interface RawRolesDomainClaim {
+  AuthorisationDomainName: string;
+  Status: string;
+}
+
+export interface RawRolesRoleClaim {
+  AuthorisationDomainName: string;
+  AuthorisationDomainRoleName: string;
+  Status: string;
+}
+
+export interface RawRole {
+  OrganisationId: string;
+  Status: string;
+  RegistrationNumber: string;
+  RegisteredName: string;
+  OrgDomainClaims: RawRolesDomainClaim[];
+  OrgDomainRoleClaims: RawRolesRoleClaim[];
+}
+
 export interface RawParticipant {
   OrganisationId: string;
   Status: string;
@@ -77,6 +98,8 @@ export interface TransformedParticipant {
   authCapabilities: AuthCapabilities;
   apiResources: ApiResourceInfo[];
   authServerCount: number;
+  // Registration status - distinguishes between Live (has APIs) vs Registered only
+  isLive: boolean;
 }
 
 export interface AuthCapabilitiesSummary {

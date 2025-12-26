@@ -1,0 +1,1128 @@
+{
+  "ADIB": {
+    "shortName": "ADIB",
+    "fullName": "Abu Dhabi Islamic Bank P.J.S.C",
+    "description": "One of the world's largest Islamic banks, offering Shariah-compliant banking solutions.",
+    "founded": 1997,
+    "headquarters": {
+      "city": "Abu Dhabi",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "islamic-bank",
+    "typeLabel": "Islamic Bank",
+    "ownership": "Government",
+    "ownershipDetail": "Abu Dhabi Investment Authority (ADIA)",
+    "marketPosition": "3rd largest Islamic bank globally",
+    "website": "https://www.adib.ae",
+    "specializations": [
+      "Islamic Banking",
+      "Retail Banking",
+      "Corporate Banking",
+      "Wealth Management"
+    ]
+  },
+  "ADCB": {
+    "shortName": "ADCB",
+    "fullName": "Abu Dhabi Commercial Bank PJSC",
+    "description": "Leading UAE bank offering comprehensive banking services to retail and corporate clients.",
+    "founded": 1985,
+    "headquarters": {
+      "city": "Abu Dhabi",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "commercial-bank",
+    "typeLabel": "Commercial Bank",
+    "ownership": "Government",
+    "ownershipDetail": "Abu Dhabi Government (60%)",
+    "marketPosition": "3rd largest bank in UAE by assets",
+    "website": "https://www.adcb.com",
+    "specializations": ["Retail Banking", "Corporate Banking", "Treasury", "Islamic Banking Window"]
+  },
+  "CBD": {
+    "shortName": "CBD",
+    "fullName": "Commercial Bank of Dubai P.S.C",
+    "description": "One of UAE's oldest banks, providing innovative banking solutions since 1969.",
+    "founded": 1969,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "commercial-bank",
+    "typeLabel": "Commercial Bank",
+    "ownership": "Government",
+    "ownershipDetail": "Investment Corporation of Dubai (20%)",
+    "marketPosition": "Mid-tier UAE bank",
+    "website": "https://www.cbd.ae",
+    "specializations": ["SME Banking", "Retail Banking", "Corporate Banking", "Digital Banking"]
+  },
+  "DIB": {
+    "shortName": "DIB",
+    "fullName": "Dubai Islamic Bank P.J.S.C",
+    "description": "The world's first full-service Islamic bank, pioneering Shariah-compliant banking since 1975.",
+    "founded": 1975,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "islamic-bank",
+    "typeLabel": "Islamic Bank",
+    "ownership": "Government",
+    "ownershipDetail": "Investment Corporation of Dubai (28%)",
+    "marketPosition": "World's first Islamic bank, largest Islamic bank in UAE",
+    "website": "https://www.dib.ae",
+    "specializations": [
+      "Islamic Banking",
+      "Retail Banking",
+      "Corporate Banking",
+      "Real Estate Finance"
+    ]
+  },
+  "Emirates NBD": {
+    "shortName": "Emirates NBD",
+    "fullName": "Emirates NBD Bank PJSC",
+    "description": "UAE's largest banking group by assets, formed from the merger of Emirates Bank and National Bank of Dubai.",
+    "founded": 2007,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "commercial-bank",
+    "typeLabel": "Commercial Bank",
+    "ownership": "Government",
+    "ownershipDetail": "Investment Corporation of Dubai (55.8%)",
+    "marketPosition": "Largest bank in UAE by assets, presence in 13 countries",
+    "website": "https://www.emiratesnbd.com",
+    "specializations": [
+      "Retail Banking",
+      "Wealth Management",
+      "Corporate Banking",
+      "Global Markets"
+    ]
+  },
+  "FAB": {
+    "shortName": "FAB",
+    "fullName": "First Abu Dhabi Bank PJSC",
+    "description": "UAE's largest bank by total assets, created through the merger of NBAD and FGB in 2017.",
+    "founded": 2017,
+    "headquarters": {
+      "city": "Abu Dhabi",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "commercial-bank",
+    "typeLabel": "Commercial Bank",
+    "ownership": "Government",
+    "ownershipDetail": "Mubadala Investment Company",
+    "marketPosition": "Largest bank in UAE and Middle East by total assets",
+    "website": "https://www.bankfab.com",
+    "specializations": [
+      "Corporate Banking",
+      "Investment Banking",
+      "Wealth Management",
+      "Global Markets"
+    ]
+  },
+  "HSBC": {
+    "shortName": "HSBC",
+    "fullName": "HSBC Bank Middle East Limited",
+    "description": "Regional subsidiary of HSBC Holdings, one of the world's largest banking groups, serving the Middle East since 1946.",
+    "founded": 1946,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "parentCompany": {
+      "name": "HSBC Holdings plc",
+      "headquarters": "London, UK",
+      "countryCode": "GB"
+    },
+    "type": "international-bank",
+    "typeLabel": "International Bank",
+    "ownership": "Private",
+    "ownershipDetail": "HSBC Holdings plc (UK)",
+    "marketPosition": "Leading international bank in the Middle East",
+    "website": "https://www.hsbc.ae",
+    "specializations": ["Corporate Banking", "Trade Finance", "Wealth Management", "Global Banking"]
+  },
+  "Mashreq": {
+    "shortName": "Mashreq",
+    "fullName": "Mashreq Bank PSC",
+    "description": "UAE's oldest privately-owned bank, known for innovation and digital banking leadership.",
+    "founded": 1967,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "commercial-bank",
+    "typeLabel": "Commercial Bank",
+    "ownership": "Private",
+    "ownershipDetail": "Al Ghurair family",
+    "marketPosition": "Oldest private bank in UAE, digital banking pioneer",
+    "website": "https://www.mashreqbank.com",
+    "specializations": ["Digital Banking", "Retail Banking", "Corporate Banking", "Neo Banking"]
+  },
+  "WIO Bank": {
+    "shortName": "WIO Bank",
+    "fullName": "WIO Bank PJSC",
+    "description": "UAE's first platform bank, offering digital-first banking and embedded finance solutions.",
+    "founded": 2022,
+    "headquarters": {
+      "city": "Abu Dhabi",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "digital-bank",
+    "typeLabel": "Digital Bank",
+    "ownership": "Private",
+    "ownershipDetail": "ADQ, Alpha Dhabi, Etisalat, First Abu Dhabi Bank",
+    "marketPosition": "UAE's first platform bank, BaaS provider",
+    "website": "https://www.wio.io",
+    "specializations": [
+      "Digital Banking",
+      "Banking-as-a-Service",
+      "Embedded Finance",
+      "API Banking"
+    ]
+  },
+  "Citibank": {
+    "shortName": "Citibank",
+    "fullName": "Citibank N.A., UAE Branch",
+    "description": "UAE branch of Citigroup, one of the world's largest financial institutions.",
+    "founded": 1958,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "parentCompany": {
+      "name": "Citigroup Inc.",
+      "headquarters": "New York, USA",
+      "countryCode": "US"
+    },
+    "type": "international-bank",
+    "typeLabel": "International Bank",
+    "ownership": "Private",
+    "ownershipDetail": "Citigroup Inc. (USA)",
+    "marketPosition": "Major international bank in UAE",
+    "website": "https://www.citibank.ae",
+    "specializations": ["Corporate Banking", "Treasury", "Trade Finance", "Wealth Management"]
+  },
+  "Standard Chartered": {
+    "shortName": "Standard Chartered",
+    "fullName": "Standard Chartered Bank",
+    "description": "Leading international bank with strong presence in Asia, Africa and the Middle East.",
+    "founded": 1958,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "parentCompany": {
+      "name": "Standard Chartered PLC",
+      "headquarters": "London, UK",
+      "countryCode": "GB"
+    },
+    "type": "international-bank",
+    "typeLabel": "International Bank",
+    "ownership": "Private",
+    "ownershipDetail": "Standard Chartered PLC (UK)",
+    "marketPosition": "Top international bank in emerging markets",
+    "website": "https://www.sc.com/ae",
+    "specializations": [
+      "Trade Finance",
+      "Corporate Banking",
+      "Transaction Banking",
+      "Wealth Management"
+    ]
+  },
+  "Ozone API": {
+    "shortName": "Ozone API",
+    "fullName": "Ozone Financial Technology Limited",
+    "description": "UK fintech providing open banking infrastructure and API solutions to financial institutions worldwide.",
+    "founded": 2017,
+    "headquarters": {
+      "city": "London",
+      "country": "UK",
+      "countryCode": "GB"
+    },
+    "type": "fintech",
+    "typeLabel": "Open Banking Tech",
+    "ownership": "Private",
+    "ownershipDetail": "Venture-backed",
+    "marketPosition": "Leading open banking platform provider",
+    "website": "https://www.ozoneapi.com",
+    "specializations": [
+      "Open Banking APIs",
+      "PSD2 Compliance",
+      "Financial Infrastructure",
+      "API Management"
+    ]
+  },
+  "Raidiam": {
+    "shortName": "Raidiam",
+    "fullName": "Raidiam Services Limited",
+    "description": "Trust framework operator providing identity and directory services for open finance ecosystems globally.",
+    "founded": 2019,
+    "headquarters": {
+      "city": "London",
+      "country": "UK",
+      "countryCode": "GB"
+    },
+    "type": "infrastructure",
+    "typeLabel": "Trust Framework",
+    "ownership": "Private",
+    "ownershipDetail": "Venture-backed",
+    "marketPosition": "Operates UAE Open Finance Trust Framework Directory",
+    "website": "https://www.raidiam.com",
+    "specializations": [
+      "Trust Framework",
+      "Directory Services",
+      "Identity Management",
+      "Open Finance Infrastructure"
+    ]
+  },
+  "Mercury": {
+    "shortName": "Mercury",
+    "fullName": "Mercury Payments Services LLC",
+    "description": "UAE-based payments technology company providing payment processing solutions.",
+    "founded": 2024,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "payments",
+    "typeLabel": "Payment Services",
+    "ownership": "Private",
+    "ownershipDetail": "Private",
+    "marketPosition": "Emerging payment service provider",
+    "website": null,
+    "specializations": ["Payment Processing", "Payment Infrastructure"]
+  },
+  "Sharjah Islamic Bank": {
+    "shortName": "SIB",
+    "fullName": "Sharjah Islamic Bank PJSC",
+    "description": "Leading Islamic bank in Sharjah emirate, offering Shariah-compliant financial services.",
+    "founded": 1975,
+    "headquarters": {
+      "city": "Sharjah",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "islamic-bank",
+    "typeLabel": "Islamic Bank",
+    "ownership": "Government",
+    "ownershipDetail": "Sharjah Government",
+    "marketPosition": "Leading bank in Sharjah emirate",
+    "website": "https://www.sib.ae",
+    "specializations": ["Islamic Banking", "Retail Banking", "Corporate Banking"]
+  },
+  "ADNIC": {
+    "shortName": "ADNIC",
+    "fullName": "Abu Dhabi National Insurance Company PJSC",
+    "description": "Leading insurance company in the UAE providing comprehensive insurance solutions.",
+    "founded": 1972,
+    "headquarters": {
+      "city": "Abu Dhabi",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "insurance",
+    "typeLabel": "Insurance",
+    "ownership": "Public",
+    "ownershipDetail": "Listed on ADX",
+    "marketPosition": "Leading insurance company in UAE",
+    "website": "https://www.adnic.ae",
+    "specializations": ["General Insurance", "Life Insurance", "Health Insurance"]
+  },
+  "EIC": {
+    "shortName": "EIC",
+    "fullName": "Emirates Insurance Company PSC",
+    "description": "One of UAE's oldest insurance companies providing comprehensive insurance services.",
+    "founded": 1982,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "insurance",
+    "typeLabel": "Insurance",
+    "ownership": "Public",
+    "ownershipDetail": "Listed on DFM",
+    "marketPosition": "Established insurance provider",
+    "website": "https://www.tameen.ae",
+    "specializations": ["General Insurance", "Motor Insurance", "Health Insurance"]
+  },
+  "ALAIN AHLIA INSURANCE COMPANY": {
+    "shortName": "ALAIN AHLIA",
+    "fullName": "Al Ain Ahlia Insurance Company PJSC",
+    "description": "UAE insurance company providing diverse insurance products and services.",
+    "founded": 1975,
+    "headquarters": {
+      "city": "Abu Dhabi",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "insurance",
+    "typeLabel": "Insurance",
+    "ownership": "Public",
+    "ownershipDetail": "Listed on ADX",
+    "marketPosition": "Regional insurance provider",
+    "website": "https://www.aaaic.ae",
+    "specializations": ["General Insurance", "Life Insurance", "Property Insurance"]
+  },
+  "AFS": {
+    "shortName": "AFS",
+    "fullName": "Arab Financial Services LLC",
+    "description": "Leading payment solutions provider in the Middle East and Africa region.",
+    "founded": 1984,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "payments",
+    "typeLabel": "Payment Services",
+    "ownership": "Private",
+    "ownershipDetail": "Bank ABC subsidiary",
+    "marketPosition": "Major payment processor in MENA",
+    "website": "https://www.aaboraj.com",
+    "specializations": [
+      "Payment Processing",
+      "Card Services",
+      "Merchant Services",
+      "Digital Payments"
+    ]
+  },
+  "Ajman Bank": {
+    "shortName": "Ajman Bank",
+    "fullName": "Ajman Bank P.J.S.C",
+    "description": "Islamic bank headquartered in Ajman, providing Shariah-compliant banking services.",
+    "founded": 2008,
+    "headquarters": {
+      "city": "Ajman",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "islamic-bank",
+    "typeLabel": "Islamic Bank",
+    "ownership": "Government",
+    "ownershipDetail": "Ajman Government",
+    "marketPosition": "Leading bank in Ajman emirate",
+    "website": "https://www.ajmanbank.ae",
+    "specializations": ["Islamic Banking", "Retail Banking", "Corporate Banking"]
+  },
+  "Al Hilal Bank": {
+    "shortName": "Al Hilal Bank",
+    "fullName": "Al Hilal Bank P.J.S.C",
+    "description": "Abu Dhabi-based Islamic bank offering innovative Shariah-compliant financial solutions.",
+    "founded": 2008,
+    "headquarters": {
+      "city": "Abu Dhabi",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "islamic-bank",
+    "typeLabel": "Islamic Bank",
+    "ownership": "Government",
+    "ownershipDetail": "ADQ (Abu Dhabi)",
+    "marketPosition": "Major Islamic bank in Abu Dhabi",
+    "website": "https://www.alhilalbank.ae",
+    "specializations": ["Islamic Banking", "Retail Banking", "Digital Banking"]
+  },
+  "Al Maryah Bank": {
+    "shortName": "Al Maryah Bank",
+    "fullName": "Al Maryah Community Bank L.L.C.",
+    "description": "Digital-first community bank focused on serving the UAE's underbanked population.",
+    "founded": 2021,
+    "headquarters": {
+      "city": "Abu Dhabi",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "digital-bank",
+    "typeLabel": "Digital Bank",
+    "ownership": "Private",
+    "ownershipDetail": "Private investors",
+    "marketPosition": "Community-focused digital bank",
+    "website": "https://www.almaryahbank.ae",
+    "specializations": ["Digital Banking", "Community Banking", "Financial Inclusion"]
+  },
+  "AAIB": {
+    "shortName": "AAIB",
+    "fullName": "Arab African International Bank",
+    "description": "Egyptian bank with regional presence across Middle East and Africa.",
+    "founded": 1964,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "parentCompany": {
+      "name": "Arab African International Bank (Egypt)",
+      "headquarters": "Cairo, Egypt",
+      "countryCode": "EG"
+    },
+    "type": "international-bank",
+    "typeLabel": "International Bank",
+    "ownership": "Private",
+    "ownershipDetail": "Egyptian-Kuwaiti ownership",
+    "marketPosition": "Regional bank serving MENA",
+    "website": "https://www.aaib.com",
+    "specializations": ["Corporate Banking", "Trade Finance", "Treasury"]
+  },
+  "Al Masraf": {
+    "shortName": "Al Masraf",
+    "fullName": "Arab Bank for Investment & Foreign Trade",
+    "description": "UAE bank focused on trade finance and corporate banking services.",
+    "founded": 1976,
+    "headquarters": {
+      "city": "Abu Dhabi",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "commercial-bank",
+    "typeLabel": "Commercial Bank",
+    "ownership": "Government",
+    "ownershipDetail": "Abu Dhabi Government",
+    "marketPosition": "Trade finance specialist",
+    "website": "https://www.almasraf.ae",
+    "specializations": ["Trade Finance", "Corporate Banking", "Investment Banking"]
+  },
+  "Bank of China": {
+    "shortName": "Bank of China",
+    "fullName": "Bank of China Limited",
+    "description": "One of China's Big Four banks with international presence including UAE operations.",
+    "founded": 1912,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "parentCompany": {
+      "name": "Bank of China Limited",
+      "headquarters": "Beijing, China",
+      "countryCode": "CN"
+    },
+    "type": "international-bank",
+    "typeLabel": "International Bank",
+    "ownership": "State-owned",
+    "ownershipDetail": "People's Republic of China",
+    "marketPosition": "Major Chinese bank with global footprint",
+    "website": "https://www.boc.cn",
+    "specializations": [
+      "Trade Finance",
+      "Corporate Banking",
+      "RMB Services",
+      "Cross-border Payments"
+    ]
+  },
+  "CBI": {
+    "shortName": "CBI",
+    "fullName": "Commercial Bank International PJSC",
+    "description": "Dubai-based bank providing retail and corporate banking services.",
+    "founded": 1991,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "commercial-bank",
+    "typeLabel": "Commercial Bank",
+    "ownership": "Private",
+    "ownershipDetail": "Private shareholders",
+    "marketPosition": "Mid-tier commercial bank",
+    "website": "https://www.cbi.ae",
+    "specializations": ["Retail Banking", "Corporate Banking", "SME Banking"]
+  },
+  "NBF": {
+    "shortName": "NBF",
+    "fullName": "National Bank of Fujairah PJSC",
+    "description": "Leading bank in Fujairah emirate providing comprehensive banking services.",
+    "founded": 1982,
+    "headquarters": {
+      "city": "Fujairah",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "commercial-bank",
+    "typeLabel": "Commercial Bank",
+    "ownership": "Government",
+    "ownershipDetail": "Fujairah Government",
+    "marketPosition": "Leading bank in Fujairah",
+    "website": "https://www.nbf.ae",
+    "specializations": ["Retail Banking", "Corporate Banking", "Trade Finance"]
+  },
+  "NBQ": {
+    "shortName": "NBQ",
+    "fullName": "National Bank of Umm Al-Qaiwain",
+    "description": "Regional bank serving Umm Al Qaiwain and northern emirates.",
+    "founded": 1982,
+    "headquarters": {
+      "city": "Umm Al Qaiwain",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "commercial-bank",
+    "typeLabel": "Commercial Bank",
+    "ownership": "Government",
+    "ownershipDetail": "Umm Al Qaiwain Government",
+    "marketPosition": "Regional bank in northern emirates",
+    "website": "https://www.nbq.ae",
+    "specializations": ["Retail Banking", "SME Banking"]
+  },
+  "RAKBank": {
+    "shortName": "RAKBank",
+    "fullName": "The National Bank of Ras Al Khaimah P.S.C.",
+    "description": "Leading bank in RAK emirate known for retail banking and SME focus.",
+    "founded": 1976,
+    "headquarters": {
+      "city": "Ras Al Khaimah",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "commercial-bank",
+    "typeLabel": "Commercial Bank",
+    "ownership": "Government",
+    "ownershipDetail": "RAK Government",
+    "marketPosition": "Leading retail bank, strong SME focus",
+    "website": "https://www.rakbank.ae",
+    "specializations": ["Retail Banking", "SME Banking", "Digital Banking"]
+  },
+  "United Arab Bank": {
+    "shortName": "United Arab Bank",
+    "fullName": "United Arab Bank P.J.S.C.",
+    "description": "Sharjah-based commercial bank serving retail and corporate clients.",
+    "founded": 1975,
+    "headquarters": {
+      "city": "Sharjah",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "commercial-bank",
+    "typeLabel": "Commercial Bank",
+    "ownership": "Private",
+    "ownershipDetail": "Commercial Bank of Qatar (40%)",
+    "marketPosition": "Mid-tier bank in northern emirates",
+    "website": "https://www.uab.ae",
+    "specializations": ["Retail Banking", "Corporate Banking"]
+  },
+  "Al Ansari Exchange": {
+    "shortName": "Al Ansari Exchange",
+    "fullName": "Al Ansari Exchange L.L.C",
+    "description": "UAE's largest exchange house providing remittance and foreign exchange services.",
+    "founded": 1966,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "exchange",
+    "typeLabel": "Exchange House",
+    "ownership": "Private",
+    "ownershipDetail": "Al Ansari family",
+    "marketPosition": "Largest exchange house in UAE",
+    "website": "https://www.alansariexchange.com",
+    "specializations": ["Foreign Exchange", "Remittances", "Bill Payments", "Wage Protection"]
+  },
+  "Bancify": {
+    "shortName": "Bancify",
+    "fullName": "Bancify Technologies FZ-LLC",
+    "description": "Fintech company providing digital banking infrastructure and solutions.",
+    "founded": 2020,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "fintech",
+    "typeLabel": "Fintech",
+    "ownership": "Private",
+    "ownershipDetail": "Venture-backed",
+    "marketPosition": "Digital banking infrastructure provider",
+    "website": "https://www.bancify.io",
+    "specializations": ["Banking Infrastructure", "Digital Banking", "API Services"]
+  },
+  "Tarabut Gateway": {
+    "shortName": "Tarabut Gateway",
+    "fullName": "Bawabat Altarabut United Arab Emirates L.L.C",
+    "description": "MENA's first and largest regulated open banking platform.",
+    "founded": 2019,
+    "headquarters": {
+      "city": "Abu Dhabi",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "fintech",
+    "typeLabel": "Open Banking",
+    "ownership": "Private",
+    "ownershipDetail": "Venture-backed (Tiger Global, Visa)",
+    "marketPosition": "Leading open banking platform in MENA",
+    "website": "https://www.tarabut.com",
+    "specializations": ["Open Banking", "Account Aggregation", "Payment Initiation", "Data Sharing"]
+  },
+  "Fintech Galaxy": {
+    "shortName": "Fintech Galaxy",
+    "fullName": "Fintech Galaxy FZE",
+    "description": "Open finance infrastructure provider enabling secure data sharing.",
+    "founded": 2020,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "fintech",
+    "typeLabel": "Fintech",
+    "ownership": "Private",
+    "ownershipDetail": "Venture-backed",
+    "marketPosition": "Open finance infrastructure provider",
+    "website": "https://www.fintechgalaxy.com",
+    "specializations": ["Open Finance", "Data Infrastructure", "API Platform"]
+  },
+  "GrowX.Global": {
+    "shortName": "GrowX.Global",
+    "fullName": "Grow High Technology (GrowX.Global) LLC",
+    "description": "Technology company providing growth solutions for financial services.",
+    "founded": 2021,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "fintech",
+    "typeLabel": "Fintech",
+    "ownership": "Private",
+    "ownershipDetail": "Private",
+    "marketPosition": "Growth technology provider",
+    "website": "https://www.growx.global",
+    "specializations": ["Financial Technology", "Growth Solutions"]
+  },
+  "Lean Technologies": {
+    "shortName": "Lean Technologies",
+    "fullName": "Lean Technologies Ltd",
+    "description": "Open banking infrastructure provider enabling account connectivity across MENA.",
+    "founded": 2019,
+    "headquarters": {
+      "city": "Riyadh",
+      "country": "Saudi Arabia",
+      "countryCode": "SA"
+    },
+    "type": "fintech",
+    "typeLabel": "Open Banking",
+    "ownership": "Private",
+    "ownershipDetail": "Venture-backed (Sequoia, General Catalyst)",
+    "marketPosition": "Leading open banking provider in Saudi Arabia",
+    "website": "https://www.leantech.me",
+    "specializations": [
+      "Open Banking",
+      "Account Connectivity",
+      "Payment Initiation",
+      "Identity Verification"
+    ]
+  },
+  "Credit One": {
+    "shortName": "Credit One",
+    "fullName": "Lending Advisor (Credit One) WLL",
+    "description": "Financial technology company providing lending and credit solutions.",
+    "founded": 2018,
+    "headquarters": {
+      "city": "Manama",
+      "country": "Bahrain",
+      "countryCode": "BH"
+    },
+    "type": "fintech",
+    "typeLabel": "Lending Tech",
+    "ownership": "Private",
+    "ownershipDetail": "Private",
+    "marketPosition": "Regional lending platform",
+    "website": "https://www.creditone.me",
+    "specializations": ["Lending", "Credit Scoring", "Loan Origination"]
+  },
+  "Madfooat": {
+    "shortName": "Madfooat",
+    "fullName": "MadfooatCom for E Payments L.L.C",
+    "description": "Electronic bill payment and presentment platform serving consumers and businesses.",
+    "founded": 2011,
+    "headquarters": {
+      "city": "Amman",
+      "country": "Jordan",
+      "countryCode": "JO"
+    },
+    "type": "payments",
+    "typeLabel": "Bill Payments",
+    "ownership": "Private",
+    "ownershipDetail": "Private",
+    "marketPosition": "Leading bill payment platform in Jordan",
+    "website": "https://www.madfooat.com",
+    "specializations": ["Bill Payments", "Electronic Payments", "Biller Services"]
+  },
+  "myAlfred": {
+    "shortName": "myAlfred",
+    "fullName": "myAlfred LLC",
+    "description": "Financial management app helping users track spending and manage finances.",
+    "founded": 2021,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "fintech",
+    "typeLabel": "PFM",
+    "ownership": "Private",
+    "ownershipDetail": "Venture-backed",
+    "marketPosition": "Personal finance management app",
+    "website": "https://www.myalfred.io",
+    "specializations": ["Personal Finance", "Expense Tracking", "Budgeting"]
+  },
+  "NearGo": {
+    "shortName": "NearGo",
+    "fullName": "NearGo L.L.C-FZ",
+    "description": "Fintech company providing proximity-based payment and loyalty solutions.",
+    "founded": 2020,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "fintech",
+    "typeLabel": "Payments",
+    "ownership": "Private",
+    "ownershipDetail": "Private",
+    "marketPosition": "Proximity payment solutions",
+    "website": null,
+    "specializations": ["Proximity Payments", "Loyalty", "Mobile Payments"]
+  },
+  "Nomod": {
+    "shortName": "Nomod",
+    "fullName": "Nomod Billing LLC",
+    "description": "Billing and invoicing platform for businesses in the UAE.",
+    "founded": 2021,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "fintech",
+    "typeLabel": "Billing",
+    "ownership": "Private",
+    "ownershipDetail": "Private",
+    "marketPosition": "Business billing platform",
+    "website": "https://www.nomod.com",
+    "specializations": ["Billing", "Invoicing", "Payment Collection"]
+  },
+  "NymCard": {
+    "shortName": "NymCard",
+    "fullName": "NymCard Payment Services Provider L.L.C.",
+    "description": "Card issuing and payment processing platform for fintechs and businesses.",
+    "founded": 2018,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "payments",
+    "typeLabel": "Card Issuing",
+    "ownership": "Private",
+    "ownershipDetail": "Venture-backed",
+    "marketPosition": "Leading card-as-a-service provider in MENA",
+    "website": "https://www.nymcard.com",
+    "specializations": ["Card Issuing", "Payment Processing", "BaaS", "Virtual Cards"]
+  },
+  "PayTen": {
+    "shortName": "PayTen",
+    "fullName": "PAY TEN Company for Electronic Payments",
+    "description": "Electronic payment solutions provider serving businesses across the region.",
+    "founded": 2019,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "payments",
+    "typeLabel": "Payment Services",
+    "ownership": "Private",
+    "ownershipDetail": "Private",
+    "marketPosition": "Electronic payment provider",
+    "website": null,
+    "specializations": ["Electronic Payments", "Payment Processing"]
+  },
+  "Paymob": {
+    "shortName": "Paymob",
+    "fullName": "Paymob Technologies LLC",
+    "description": "Leading payment infrastructure company enabling digital payments across MENA.",
+    "founded": 2015,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "parentCompany": {
+      "name": "Paymob Egypt",
+      "headquarters": "Cairo, Egypt",
+      "countryCode": "EG"
+    },
+    "type": "payments",
+    "typeLabel": "Payment Gateway",
+    "ownership": "Private",
+    "ownershipDetail": "Venture-backed (PayPal Ventures)",
+    "marketPosition": "Leading payment gateway in MENA",
+    "website": "https://www.paymob.com",
+    "specializations": ["Payment Gateway", "Merchant Services", "Digital Payments", "POS Solutions"]
+  },
+  "Sav": {
+    "shortName": "Sav",
+    "fullName": "Sav Technologies Limited",
+    "description": "Savings and investment app helping users build wealth through micro-investing.",
+    "founded": 2020,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "fintech",
+    "typeLabel": "Wealth Tech",
+    "ownership": "Private",
+    "ownershipDetail": "Venture-backed",
+    "marketPosition": "Micro-savings and investment platform",
+    "website": "https://www.sav.finance",
+    "specializations": ["Savings", "Micro-investing", "Wealth Management"]
+  },
+  "Spare": {
+    "shortName": "Spare",
+    "fullName": "Spare Digital Technologies LLC",
+    "description": "Digital savings platform helping users save and manage their money.",
+    "founded": 2021,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "fintech",
+    "typeLabel": "Savings",
+    "ownership": "Private",
+    "ownershipDetail": "Private",
+    "marketPosition": "Digital savings platform",
+    "website": "https://www.spare.ae",
+    "specializations": ["Digital Savings", "Financial Planning"]
+  },
+  "Spire": {
+    "shortName": "Spire",
+    "fullName": "Spire Technologies WLL",
+    "description": "Financial technology company providing banking and payment solutions.",
+    "founded": 2019,
+    "headquarters": {
+      "city": "Manama",
+      "country": "Bahrain",
+      "countryCode": "BH"
+    },
+    "type": "fintech",
+    "typeLabel": "Fintech",
+    "ownership": "Private",
+    "ownershipDetail": "Private",
+    "marketPosition": "Banking technology provider",
+    "website": "https://www.spiretech.com",
+    "specializations": ["Banking Technology", "Payment Solutions"]
+  },
+  "Al Buhaira Insurance": {
+    "shortName": "Al Buhaira Insurance",
+    "fullName": "Al Buharia National Insurance Co (PSC)",
+    "description": "Sharjah-based insurance company providing comprehensive insurance solutions.",
+    "founded": 1978,
+    "headquarters": {
+      "city": "Sharjah",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "insurance",
+    "typeLabel": "Insurance",
+    "ownership": "Public",
+    "ownershipDetail": "Listed on DFM",
+    "marketPosition": "Regional insurance provider",
+    "website": "https://www.albuhairanational.ae",
+    "specializations": ["General Insurance", "Motor Insurance", "Property Insurance"]
+  },
+  "Al Ittihad Insurance": {
+    "shortName": "Al Ittihad Insurance",
+    "fullName": "Al Ittihad Al Watani Insurance Co. P.S.C",
+    "description": "National insurance company providing diverse insurance products.",
+    "founded": 1976,
+    "headquarters": {
+      "city": "Abu Dhabi",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "insurance",
+    "typeLabel": "Insurance",
+    "ownership": "Public",
+    "ownershipDetail": "Listed on ADX",
+    "marketPosition": "Established insurance provider",
+    "website": "https://www.alittihadinsurance.ae",
+    "specializations": ["General Insurance", "Life Insurance", "Health Insurance"]
+  },
+  "Al Wathba Insurance": {
+    "shortName": "Al Wathba Insurance",
+    "fullName": "Al Wathba National Insurance Co. PJSC",
+    "description": "Abu Dhabi-based insurance company offering comprehensive coverage.",
+    "founded": 1996,
+    "headquarters": {
+      "city": "Abu Dhabi",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "insurance",
+    "typeLabel": "Insurance",
+    "ownership": "Public",
+    "ownershipDetail": "Listed on ADX",
+    "marketPosition": "Growing insurance provider",
+    "website": "https://www.awnic.ae",
+    "specializations": ["Motor Insurance", "Health Insurance", "Property Insurance"]
+  },
+  "MetLife": {
+    "shortName": "MetLife",
+    "fullName": "American Life Insurance Company - MetLife",
+    "description": "Global life insurance company with presence in UAE and Middle East.",
+    "founded": 1868,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "parentCompany": {
+      "name": "MetLife, Inc.",
+      "headquarters": "New York, USA",
+      "countryCode": "US"
+    },
+    "type": "insurance",
+    "typeLabel": "Life Insurance",
+    "ownership": "Private",
+    "ownershipDetail": "MetLife, Inc. (USA)",
+    "marketPosition": "Leading life insurer globally",
+    "website": "https://www.metlife.ae",
+    "specializations": ["Life Insurance", "Employee Benefits", "Retirement Planning"]
+  },
+  "Dubai Insurance": {
+    "shortName": "Dubai Insurance",
+    "fullName": "Dubai Insurance Company (P.S.C)",
+    "description": "One of UAE's pioneering insurance companies providing comprehensive coverage.",
+    "founded": 1970,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "insurance",
+    "typeLabel": "Insurance",
+    "ownership": "Public",
+    "ownershipDetail": "Listed on DFM",
+    "marketPosition": "Established insurance provider in UAE",
+    "website": "https://www.dubaiinsurance.ae",
+    "specializations": ["General Insurance", "Motor Insurance", "Marine Insurance"]
+  },
+  "Gulf Insurance Group": {
+    "shortName": "Gulf Insurance Group",
+    "fullName": "Gulf Insurance Group B.S.C.(C)",
+    "description": "Leading regional insurance group with operations across MENA.",
+    "founded": 1962,
+    "headquarters": {
+      "city": "Kuwait City",
+      "country": "Kuwait",
+      "countryCode": "KW"
+    },
+    "type": "insurance",
+    "typeLabel": "Insurance Group",
+    "ownership": "Private",
+    "ownershipDetail": "KIPCO Group",
+    "marketPosition": "Largest insurance group in MENA",
+    "website": "https://www.gulfinsgroup.com",
+    "specializations": ["General Insurance", "Life Insurance", "Reinsurance"]
+  },
+  "Daman": {
+    "shortName": "Daman",
+    "fullName": "National Health Insurance Company - Daman (P.J.S.C)",
+    "description": "Abu Dhabi's health insurance provider administering the Thiqa program.",
+    "founded": 2005,
+    "headquarters": {
+      "city": "Abu Dhabi",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "insurance",
+    "typeLabel": "Health Insurance",
+    "ownership": "Government",
+    "ownershipDetail": "Pure Health (ADQ subsidiary)",
+    "marketPosition": "Largest health insurer in Abu Dhabi",
+    "website": "https://www.damanhealth.ae",
+    "specializations": ["Health Insurance", "Thiqa Administration", "Healthcare Management"]
+  },
+  "Sukoon Insurance": {
+    "shortName": "Sukoon Insurance",
+    "fullName": "Sukoon Insurance PJSC",
+    "description": "UAE insurance company (formerly Oman Insurance) offering diverse coverage.",
+    "founded": 1975,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "insurance",
+    "typeLabel": "Insurance",
+    "ownership": "Private",
+    "ownershipDetail": "Mashreq Bank",
+    "marketPosition": "Major insurance provider in UAE",
+    "website": "https://www.sukoon.com",
+    "specializations": ["Health Insurance", "Motor Insurance", "Life Insurance"]
+  },
+  "Union Insurance": {
+    "shortName": "Union Insurance",
+    "fullName": "Union Insurance Company P.S.C",
+    "description": "UAE insurance company providing comprehensive insurance solutions.",
+    "founded": 1998,
+    "headquarters": {
+      "city": "Abu Dhabi",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "type": "insurance",
+    "typeLabel": "Insurance",
+    "ownership": "Public",
+    "ownershipDetail": "Listed on ADX",
+    "marketPosition": "Growing insurance provider",
+    "website": "https://www.unioninsurance.ae",
+    "specializations": ["General Insurance", "Motor Insurance", "Health Insurance"]
+  },
+  "Zurich": {
+    "shortName": "Zurich",
+    "fullName": "Zurich International Life Limited",
+    "description": "Global insurance company providing life insurance and savings products.",
+    "founded": 1872,
+    "headquarters": {
+      "city": "Dubai",
+      "country": "UAE",
+      "countryCode": "AE"
+    },
+    "parentCompany": {
+      "name": "Zurich Insurance Group",
+      "headquarters": "Zurich, Switzerland",
+      "countryCode": "CH"
+    },
+    "type": "insurance",
+    "typeLabel": "Life Insurance",
+    "ownership": "Private",
+    "ownershipDetail": "Zurich Insurance Group (Switzerland)",
+    "marketPosition": "Leading international life insurer",
+    "website": "https://www.zurichinternational.com",
+    "specializations": [
+      "Life Insurance",
+      "Savings Plans",
+      "Retirement Planning",
+      "Wealth Protection"
+    ]
+  }
+}

@@ -197,7 +197,10 @@ const faqCategories: FAQCategory[] = [
               </h2>
               <div class="faq-list">
                 {category.items.map((item, index) => (
-                  <details class="faq-item" id={`faq-${category.title.toLowerCase().replace(/\s+/g, '-')}-${index}`}>
+                  <details
+                    class="faq-item"
+                    id={`faq-${category.title.toLowerCase().replace(/\s+/g, '-')}-${index}`}
+                  >
                     <summary class="faq-question">
                       <span class="question-text">{item.question}</span>
                       <span class="expand-icon" aria-hidden="true">
@@ -230,7 +233,12 @@ const faqCategories: FAQCategory[] = [
             >
               Ask the Community
             </a>
-            <a href="https://altareq.openfinance.ae" class="action-button secondary" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://altareq.openfinance.ae"
+              class="action-button secondary"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Official Al Tareq Support
               <svg
                 width="14"

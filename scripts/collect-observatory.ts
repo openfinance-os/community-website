@@ -3,11 +3,13 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   fetchParticipants,
+  fetchRoles,
   fetchFromBothEnvironments,
   getDirectoryUrl,
 } from './utils/directory-client.js';
 import type {
   RawParticipant,
+  RawRole,
   TransformedParticipant,
   ObservatorySnapshot,
   ObservatorySummary,
@@ -24,8 +26,35 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const DATA_DIR = join(__dirname, '..', 'data', 'observatory', 'snapshots');
 const HISTORY_FILE = join(__dirname, '..', 'data', 'observatory', 'history.json');
+const NAME_MAPPINGS_FILE = join(__dirname, '..', 'data', 'participants', 'name-mappings.json');
 
 const SNAPSHOT_VERSION = '2.0.0';
+
+// Test/support organizations to exclude from data
+const EXCLUDED_ORGANIZATIONS = new Set([
+  'TEST ORG',
+  'Ozone API Test 2',
+  'Nebras Support',
+  'OpenID Foundation',
+  'Test Organization',
+  'Demo Organization',
+]);
+
+// Load name mappings for cleaner display names
+let nameMappings: Record<string, string> = {};
+try {
+  if (existsSync(NAME_MAPPINGS_FILE)) {
+    nameMappings = JSON.parse(readFileSync(NAME_MAPPINGS_FILE, 'utf-8'));
+    console.log(`Loaded ${Object.keys(nameMappings).length} name mappings`);
+  }
+} catch (error) {
+  console.warn('Failed to load name mappings:', error);
+}
+
+// Apply name mapping to get display name
+function getDisplayName(originalName: string): string {
+  return nameMappings[originalName] || originalName;
+}
 
 // API family type mapping (from raw API to display names)
 const API_FAMILY_MAP: Record<string, string> = {
@@ -89,11 +118,13 @@ function transformParticipant(raw: RawParticipant): TransformedParticipant {
     supportsRedirect,
   };
 
+  const displayName = getDisplayName(raw.OrganisationName);
+
   return {
     id: raw.OrganisationId,
-    name: raw.OrganisationName,
+    name: displayName,
     legalName: raw.LegalEntityName,
-    shortName: raw.OrganisationName,
+    shortName: displayName,
     status: raw.Status,
     roles: roles.sort(),
     city: raw.City,
@@ -104,7 +135,108 @@ function transformParticipant(raw: RawParticipant): TransformedParticipant {
     authCapabilities,
     apiResources,
     authServerCount,
+    isLive: hasAuthServer, // Live if has active auth server
   };
+}
+
+// Transform a role (registered-only org without full participant data)
+function transformRole(raw: RawRole): TransformedParticipant {
+  // Extract active roles
+  const roles = raw.OrgDomainRoleClaims.filter((claim) => claim.Status === 'Active')
+    .map((claim) => claim.AuthorisationDomainRoleName)
+    .filter((role, index, arr) => arr.indexOf(role) === index);
+
+  const displayName = getDisplayName(raw.RegisteredName);
+
+  return {
+    id: raw.OrganisationId,
+    name: displayName,
+    legalName: raw.RegisteredName,
+    shortName: displayName,
+    status: raw.Status,
+    roles: roles.sort(),
+    city: 'Unknown', // /roles endpoint doesn't include city
+    registrationNumber: raw.RegistrationNumber,
+    apiFamilies: [],
+    hasAuthServer: false,
+    isShariahCompliant: false, // Would need to look up from profiles
+    authCapabilities: {
+      supportsCiba: false,
+      supportsDCR: false,
+      supportsRedirect: false,
+    },
+    apiResources: [],
+    authServerCount: 0,
+    isLive: false, // Registered only, not live
+  };
+}
+
+// Check if organization should be excluded (test/support orgs)
+function shouldExclude(name: string): boolean {
+  if (!name) return true;
+  // Check exact match first
+  if (EXCLUDED_ORGANIZATIONS.has(name)) return true;
+  // Check case-insensitive match
+  const nameLower = name.toLowerCase();
+  for (const excluded of EXCLUDED_ORGANIZATIONS) {
+    if (nameLower === excluded.toLowerCase()) return true;
+  }
+  // Check for common test patterns
+  if (nameLower.includes('test org') || nameLower.includes('demo org')) return true;
+  return false;
+}
+
+// Merge participants (live) with roles (all registered)
+function mergeParticipantsAndRoles(
+  participants: TransformedParticipant[],
+  roles: RawRole[]
+): TransformedParticipant[] {
+  const seenIds = new Set<string>();
+  const merged: TransformedParticipant[] = [];
+  let excludedCount = 0;
+  let duplicateCount = 0;
+
+  // Process participants first (live orgs)
+  for (const p of participants) {
+    // Skip excluded test orgs
+    if (shouldExclude(p.legalName) || shouldExclude(p.name)) {
+      excludedCount++;
+      continue;
+    }
+    // Skip duplicates
+    if (seenIds.has(p.id)) {
+      duplicateCount++;
+      continue;
+    }
+    seenIds.add(p.id);
+    merged.push(p);
+  }
+
+  // Add roles that aren't already in participants
+  for (const role of roles) {
+    // Skip if already seen, not active, or missing required fields
+    if (seenIds.has(role.OrganisationId) || role.Status !== 'Active' || !role.RegisteredName) {
+      if (seenIds.has(role.OrganisationId)) duplicateCount++;
+      continue;
+    }
+    // Skip excluded test orgs
+    if (shouldExclude(role.RegisteredName)) {
+      excludedCount++;
+      continue;
+    }
+    seenIds.add(role.OrganisationId);
+    merged.push(transformRole(role));
+  }
+
+  if (excludedCount > 0) {
+    console.log(`  Filtered out ${excludedCount} test/support organizations`);
+  }
+  if (duplicateCount > 0) {
+    console.log(`  Removed ${duplicateCount} duplicate entries`);
+  }
+
+  // Sort by name (with null safety)
+  return merged.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
 }
 
 function calculateSummary(participants: TransformedParticipant[]): ObservatorySummary {
@@ -486,14 +618,23 @@ async function main() {
       // Fetch and process production data
       console.log('\nFetching production data...');
       try {
-        const rawProduction = await fetchParticipants({ environment: 'production' });
-        const productionParticipants = rawProduction.map(transformParticipant);
-        const previousProduction = loadPreviousSnapshot('production');
-        productionSnapshot = createSnapshot(
-          productionParticipants,
-          'production',
-          previousProduction
+        // Fetch from both /participants and /roles endpoints
+        const [rawParticipants, rawRoles] = await Promise.all([
+          fetchParticipants({ environment: 'production' }),
+          fetchRoles({ environment: 'production' }),
+        ]);
+
+        // Transform participants (live with APIs)
+        const liveParticipants = rawParticipants.map(transformParticipant);
+
+        // Merge with roles (adds registered-only orgs)
+        const allParticipants = mergeParticipantsAndRoles(liveParticipants, rawRoles);
+        console.log(
+          `Merged: ${liveParticipants.length} live + ${allParticipants.length - liveParticipants.length} registered = ${allParticipants.length} total`
         );
+
+        const previousProduction = loadPreviousSnapshot('production');
+        productionSnapshot = createSnapshot(allParticipants, 'production', previousProduction);
         printSummary(productionSnapshot, 'production');
         writeSnapshot(productionSnapshot, 'production', isDryRun);
       } catch (error) {
@@ -508,10 +649,23 @@ async function main() {
       // Fetch and process sandbox data
       console.log('\nFetching sandbox data...');
       try {
-        const rawSandbox = await fetchParticipants({ environment: 'sandbox' });
-        const sandboxParticipants = rawSandbox.map(transformParticipant);
+        // Fetch from both /participants and /roles endpoints
+        const [rawParticipants, rawRoles] = await Promise.all([
+          fetchParticipants({ environment: 'sandbox' }),
+          fetchRoles({ environment: 'sandbox' }),
+        ]);
+
+        // Transform participants (live with APIs)
+        const liveParticipants = rawParticipants.map(transformParticipant);
+
+        // Merge with roles (adds registered-only orgs)
+        const allParticipants = mergeParticipantsAndRoles(liveParticipants, rawRoles);
+        console.log(
+          `Merged: ${liveParticipants.length} live + ${allParticipants.length - liveParticipants.length} registered = ${allParticipants.length} total`
+        );
+
         const previousSandbox = loadPreviousSnapshot('sandbox');
-        sandboxSnapshot = createSnapshot(sandboxParticipants, 'sandbox', previousSandbox);
+        sandboxSnapshot = createSnapshot(allParticipants, 'sandbox', previousSandbox);
         printSummary(sandboxSnapshot, 'sandbox');
         writeSnapshot(sandboxSnapshot, 'sandbox', isDryRun);
       } catch (error) {

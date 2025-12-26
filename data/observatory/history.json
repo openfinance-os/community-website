@@ -1,19 +1,23 @@
 {
-  "lastUpdated": "2025-12-26T10:43:47.966Z",
+  "lastUpdated": "2025-12-26T18:22:34.366Z",
   "dataPoints": [
     {
       "date": "2025-12-26",
-      "totalParticipants": 9,
+      "totalParticipants": 17,
       "liveInProduction": 9,
       "byRole": {
-        "BDSP": 6,
-        "BSIP": 6,
+        "BDSP": 12,
+        "BSIP": 11,
         "LFI": 9,
-        "ISP": 2
+        "ISP": 2,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
       },
       "byCity": {
         "Abu Dhabi": 4,
-        "Dubai": 5
+        "Dubai": 5,
+        "Unknown": 8
       },
       "apiFamilyCoverage": {
         "accounts": 9,
@@ -28,17 +32,21 @@
   "productionHistory": [
     {
       "date": "2025-12-26",
-      "totalParticipants": 9,
+      "totalParticipants": 17,
       "liveInProduction": 9,
       "byRole": {
-        "BDSP": 6,
-        "BSIP": 6,
+        "BDSP": 12,
+        "BSIP": 11,
         "LFI": 9,
-        "ISP": 2
+        "ISP": 2,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
       },
       "byCity": {
         "Abu Dhabi": 4,
-        "Dubai": 5
+        "Dubai": 5,
+        "Unknown": 8
       },
       "apiFamilyCoverage": {
         "accounts": 9,
@@ -53,18 +61,19 @@
   "sandboxHistory": [
     {
       "date": "2025-12-26",
-      "totalParticipants": 16,
+      "totalParticipants": 55,
       "liveInProduction": 16,
       "byRole": {
-        "BDSP": 16,
-        "BSIP": 16,
-        "ISP": 14,
-        "LFI": 14,
+        "BDSP": 54,
+        "BSIP": 54,
+        "LFI": 37,
+        "ISP": 39,
         "API Read_Write": 2,
         "TSP": 2,
         "pki-test-harness": 1
       },
       "byCity": {
+        "Unknown": 39,
         "Abu Dhabi": 4,
         "Dubai": 9,
         "London": 2,
@@ -230,6 +239,312 @@
       "event": "Arab Financial Services LLC joined sandbox",
       "participantId": "d6f549cc-ff6f-4e21-844e-f26a2ee932cb",
       "participantName": "Arab Financial Services LLC"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Lean Technologies Ltd joined production",
+      "participantId": "bc3e7f48-da31-4e7a-b622-dc893e7f2847",
+      "participantName": "Lean Technologies Ltd"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Mercury Payments Services LLC joined production",
+      "participantId": "80dbdeff-47fd-48cf-9451-7fc63b25ff43",
+      "participantName": "Mercury Payments Services LLC"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Mercury Payments Services LLC joined production",
+      "participantId": "94884086-b7c2-43a0-b4e7-a928b9fed0ac",
+      "participantName": "Mercury Payments Services LLC"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "NymCard Payment Services L.L.C. joined production",
+      "participantId": "7336c529-f6ad-4d98-b9f6-183316fd0a68",
+      "participantName": "NymCard Payment Services L.L.C."
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Ozone API joined production",
+      "participantId": "233bcd1d-4216-4b3c-a362-9e4a9282bba7",
+      "participantName": "Ozone API"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "PAY TEN PAYMENT SERVICES PROVIDER LLC joined production",
+      "participantId": "0016920f-c806-47fd-91d6-ce81b3fa7a1e",
+      "participantName": "PAY TEN PAYMENT SERVICES PROVIDER LLC"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Raidiam Services Limited joined production",
+      "participantId": "fd2d5f3f-7347-489a-904b-9af728386b9a",
+      "participantName": "Raidiam Services Limited"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Spare Digital Technologies LLC S.O.C joined production",
+      "participantId": "daa9716b-d6c3-4211-9f87-53a630bdb9f6",
+      "participantName": "Spare Digital Technologies LLC S.O.C"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Abu Dhabi Commercial Bank PBJC joined sandbox",
+      "participantId": "36b067c3-8017-4144-bb7e-49cf794089c9",
+      "participantName": "Abu Dhabi Commercial Bank PBJC"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Ajman Bank P.J.S.C joined sandbox",
+      "participantId": "efc97cf6-2d7b-4b37-8a9a-ac9c1958b17a",
+      "participantName": "Ajman Bank P.J.S.C"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Al Ansari Exchange joined sandbox",
+      "participantId": "176874d6-e4db-48cb-935c-e9bc11193a8f",
+      "participantName": "Al Ansari Exchange"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Al Buharia National Insurance Co joined sandbox",
+      "participantId": "f8655450-519d-48ce-ba63-29a3547929f5",
+      "participantName": "Al Buharia National Insurance Co"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Al Hilal Bank P.J.S.C joined sandbox",
+      "participantId": "9b16b09b-fde8-4a15-89d0-b376e8a55ef7",
+      "participantName": "Al Hilal Bank P.J.S.C"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "AL ITTIHAD AL WATANI (GENERAL INSURANCE SOCIETY FOR NEAR EAST) joined sandbox",
+      "participantId": "30303fd5-70a9-4cfc-a08e-d927572e9a8d",
+      "participantName": "AL ITTIHAD AL WATANI (GENERAL INSURANCE SOCIETY FOR NEAR EAST)"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Al Maryah Community Bank L.L.C. joined sandbox",
+      "participantId": "edee04f4-7dc6-4274-815d-c18262b344c4",
+      "participantName": "Al Maryah Community Bank L.L.C."
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Al Wathba National Insurance Co joined sandbox",
+      "participantId": "473cbc09-d58d-4656-8e70-11e467f37cfe",
+      "participantName": "Al Wathba National Insurance Co"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "American Life Insurance Company (MetLife) joined sandbox",
+      "participantId": "a632a8ef-44d8-4331-856f-a0b9dc66241e",
+      "participantName": "American Life Insurance Company (MetLife)"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Arab African International Bank joined sandbox",
+      "participantId": "d8b3852e-502e-432f-9c40-ffdf0055b879",
+      "participantName": "Arab African International Bank"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Arab Bank for Investment & Foreign Trade joined sandbox",
+      "participantId": "8e4400b9-2250-4788-9871-13b123921199",
+      "participantName": "Arab Bank for Investment & Foreign Trade"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Bancify Technologies FZ-LLC joined sandbox",
+      "participantId": "9803b615-62f0-4d8f-813f-ec20fd1cc46f",
+      "participantName": "Bancify Technologies FZ-LLC"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Bank of China Limited joined sandbox",
+      "participantId": "d786af7f-4f7c-48cb-87ed-97bdb9c036ad",
+      "participantName": "Bank of China Limited"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Bawabat Altarabut For Information Technology L.L.C joined sandbox",
+      "participantId": "d5ee7389-e521-4469-9387-f80ef15edc6f",
+      "participantName": "Bawabat Altarabut For Information Technology L.L.C"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Commercial Bank International PJSC joined sandbox",
+      "participantId": "5459391f-964f-4dba-a891-2ff95b9123be",
+      "participantName": "Commercial Bank International PJSC"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Dubai Insurance Company joined sandbox",
+      "participantId": "7c618e0b-0acc-4642-bdbb-180eb419be95",
+      "participantName": "Dubai Insurance Company"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Dubai Islamic Bank P.J.S.C joined sandbox",
+      "participantId": "1b045d74-e76e-4dda-b302-e2c24ff1f718",
+      "participantName": "Dubai Islamic Bank P.J.S.C"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Fintech Galaxy FZE joined sandbox",
+      "participantId": "a2df4c56-b0d5-43e8-9e7d-685f722e8830",
+      "participantName": "Fintech Galaxy FZE"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Grow High Technology Serices LLC (GrowX.Global) joined sandbox",
+      "participantId": "768b9d9c-648e-4cc7-89d6-4b0dd0528be3",
+      "participantName": "Grow High Technology Serices LLC (GrowX.Global)"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Gulf Insurance Group (Gulf) B.S.C Closed joined sandbox",
+      "participantId": "25d5678a-99c6-4473-9911-b6a0b205cea7",
+      "participantName": "Gulf Insurance Group (Gulf) B.S.C Closed"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Lean Technologies Ltd joined sandbox",
+      "participantId": "bc3e7f48-da31-4e7a-b622-dc893e7f2847",
+      "participantName": "Lean Technologies Ltd"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Lending Advisor joined sandbox",
+      "participantId": "cb607aa6-4d84-4b50-bae9-0e6f0dc76a88",
+      "participantName": "Lending Advisor"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "MadfooatCom for E Payments DMCC joined sandbox",
+      "participantId": "205f38cc-1c37-4eb9-9d3b-f5ad7f4d2029",
+      "participantName": "MadfooatCom for E Payments DMCC"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "myAlfred LLC joined sandbox",
+      "participantId": "c4d75ae0-6601-43ba-a2ac-33c666c4466d",
+      "participantName": "myAlfred LLC"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "National Bank of Fujairah PJSC joined sandbox",
+      "participantId": "8c21e663-1d34-45cd-91fa-86d7c2d240f4",
+      "participantName": "National Bank of Fujairah PJSC"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "NATIONAL BANK OF UMM AL-QAIWAIN joined sandbox",
+      "participantId": "f004039c-1827-4851-800a-19b7a5e9f329",
+      "participantName": "NATIONAL BANK OF UMM AL-QAIWAIN"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "National Health Insurance Company - Daman PJSC joined sandbox",
+      "participantId": "8804ffec-cec7-4067-add0-00ed5efe1ef4",
+      "participantName": "National Health Insurance Company - Daman PJSC"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "NearGo L.L.C-FZ joined sandbox",
+      "participantId": "8c9881e0-f32e-49e9-984b-8b42708dec88",
+      "participantName": "NearGo L.L.C-FZ"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Nebras Support joined sandbox",
+      "participantId": "Mercury",
+      "participantName": "Nebras Support"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Nomod Billing LLC joined sandbox",
+      "participantId": "d0b8c17e-c503-412d-bf95-b4969dc71088",
+      "participantName": "Nomod Billing LLC"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "NymCard Payment Services L.L.C. joined sandbox",
+      "participantId": "7336c529-f6ad-4d98-b9f6-183316fd0a68",
+      "participantName": "NymCard Payment Services L.L.C."
+    },
+    {
+      "date": "2025-12-26",
+      "event": "OpenID Foundation joined sandbox",
+      "participantId": "9bfa48bf-647e-4082-a6c2-25291e15c98c",
+      "participantName": "OpenID Foundation"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Ozone API Test 2 joined sandbox",
+      "participantId": "73423662-b345-453e-a54b-2f9115a6a45d",
+      "participantName": "Ozone API Test 2"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "PAY TEN PAYMENT SERVICES PROVIDER LLC joined sandbox",
+      "participantId": "0016920f-c806-47fd-91d6-ce81b3fa7a1e",
+      "participantName": "PAY TEN PAYMENT SERVICES PROVIDER LLC"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Paymob Technologies LLC joined sandbox",
+      "participantId": "1108d6f4-d50d-4bd6-9ab2-68b956b3cd26",
+      "participantName": "Paymob Technologies LLC"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Sav Technologies Limited joined sandbox",
+      "participantId": "18c1db8f-a463-4158-84ca-cd0d2bf1682e",
+      "participantName": "Sav Technologies Limited"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Spare Digital Technologies LLC S.O.C joined sandbox",
+      "participantId": "daa9716b-d6c3-4211-9f87-53a630bdb9f6",
+      "participantName": "Spare Digital Technologies LLC S.O.C"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Spire Technologies WLL joined sandbox",
+      "participantId": "dc0b18f1-924d-4fb8-8606-facca336f5d8",
+      "participantName": "Spire Technologies WLL"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Sukoon Insurance PJSC joined sandbox",
+      "participantId": "a41e437b-306a-4763-a42b-c4de302eee0b",
+      "participantName": "Sukoon Insurance PJSC"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "TEST ORG joined sandbox",
+      "participantId": "a084403e-b182-4369-8ec2-2e22b125b78c",
+      "participantName": "TEST ORG"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Union Insurance joined sandbox",
+      "participantId": "c8e1896a-9c6c-4d1d-8f98-1a771a1ccd85",
+      "participantName": "Union Insurance"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "WIO Bank joined sandbox",
+      "participantId": "d86e6704-e92b-4368-a425-5a7ba230e986",
+      "participantName": "WIO Bank"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Zurich International Life Limited joined sandbox",
+      "participantId": "a90b2761-560d-45a9-9b32-67465c603059",
+      "participantName": "Zurich International Life Limited"
     }
   ]
 }

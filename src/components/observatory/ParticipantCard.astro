@@ -36,8 +36,18 @@ interface Props {
   profile?: Profile;
 }
 
-const { name, legalName, status, roles, city, apiFamilies, hasAuthServer, isShariahCompliant, isLive = true, profile } =
-  Astro.props;
+const {
+  name,
+  legalName,
+  status,
+  roles,
+  city,
+  apiFamilies,
+  hasAuthServer,
+  isShariahCompliant,
+  isLive = true,
+  profile,
+} = Astro.props;
 
 // API families configuration
 const allApiFamilies = [
@@ -49,9 +59,9 @@ const allApiFamilies = [
 
 // Country flags
 const countryFlags: Record<string, string> = {
-  'AE': '🇦🇪',
-  'GB': '🇬🇧',
-  'US': '🇺🇸',
+  AE: '🇦🇪',
+  GB: '🇬🇧',
+  US: '🇺🇸',
 };
 
 // Type badge colors
@@ -60,20 +70,25 @@ const typeColors: Record<string, string> = {
   'islamic-bank': 'type-teal',
   'digital-bank': 'type-purple',
   'international-bank': 'type-amber',
-  'fintech': 'type-pink',
-  'infrastructure': 'type-gray',
-  'payments': 'type-green',
-  'insurance': 'type-indigo',
+  fintech: 'type-pink',
+  infrastructure: 'type-gray',
+  payments: 'type-green',
+  insurance: 'type-indigo',
 };
 
-const isInternational = profile?.parentCompany || (profile?.headquarters?.countryCode && profile.headquarters.countryCode !== 'AE');
-const hqFlag = profile?.headquarters?.countryCode ? countryFlags[profile.headquarters.countryCode] || '🌍' : '🇦🇪';
-const parentFlag = profile?.parentCompany?.countryCode ? countryFlags[profile.parentCompany.countryCode] : null;
+const isInternational =
+  profile?.parentCompany ||
+  (profile?.headquarters?.countryCode && profile.headquarters.countryCode !== 'AE');
+const hqFlag = profile?.headquarters?.countryCode
+  ? countryFlags[profile.headquarters.countryCode] || '🌍'
+  : '🇦🇪';
+const parentFlag = profile?.parentCompany?.countryCode
+  ? countryFlags[profile.parentCompany.countryCode]
+  : null;
 
 // Use profile city as fallback when API returns "Unknown"
-const displayCity = city === 'Unknown' && profile?.headquarters?.city
-  ? profile.headquarters.city
-  : city;
+const displayCity =
+  city === 'Unknown' && profile?.headquarters?.city ? profile.headquarters.city : city;
 ---
 
 <article class="participant-card">
@@ -83,21 +98,23 @@ const displayCity = city === 'Unknown' && profile?.headquarters?.city
   <!-- Header: Type Badge + Location -->
   <header class="card-header">
     <div class="header-left">
-      {profile?.typeLabel ? (
-        <div class:list={['type-badge', typeColors[profile.type || ''] || 'type-default']}>
-          {isInternational && parentFlag && <span class="type-flag">{parentFlag}</span>}
-          {profile.typeLabel}
-        </div>
-      ) : isLive ? (
-        <div class="status-badge live">
-          <span class="status-dot" />
-          <span class="status-text">Live</span>
-        </div>
-      ) : (
-        <div class="status-badge registered">
-          <span class="status-text">Registered</span>
-        </div>
-      )}
+      {
+        profile?.typeLabel ? (
+          <div class:list={['type-badge', typeColors[profile.type || ''] || 'type-default']}>
+            {isInternational && parentFlag && <span class="type-flag">{parentFlag}</span>}
+            {profile.typeLabel}
+          </div>
+        ) : isLive ? (
+          <div class="status-badge live">
+            <span class="status-dot" />
+            <span class="status-text">Live</span>
+          </div>
+        ) : (
+          <div class="status-badge registered">
+            <span class="status-text">Registered</span>
+          </div>
+        )
+      }
     </div>
     <div class="location">
       <svg
@@ -125,24 +142,20 @@ const displayCity = city === 'Unknown' && profile?.headquarters?.city
   </div>
 
   <!-- Description (if profile available) -->
-  {profile?.description && (
-    <p class="description">{profile.description}</p>
-  )}
+  {profile?.description && <p class="description">{profile.description}</p>}
 
   <!-- Parent Company (for international banks) -->
-  {profile?.parentCompany && (
-    <div class="parent-company">
-      <span class="parent-label">HQ:</span>
-      <span class="parent-value">{profile.parentCompany.headquarters}</span>
-    </div>
-  )}
+  {
+    profile?.parentCompany && (
+      <div class="parent-company">
+        <span class="parent-label">HQ:</span>
+        <span class="parent-value">{profile.parentCompany.headquarters}</span>
+      </div>
+    )
+  }
 
   <!-- Market Position (if notable) -->
-  {profile?.marketPosition && (
-    <div class="market-position">
-      {profile.marketPosition}
-    </div>
-  )}
+  {profile?.marketPosition && <div class="market-position">{profile.marketPosition}</div>}
 
   <!-- Roles -->
   <div class="roles-section">
@@ -179,17 +192,24 @@ const displayCity = city === 'Unknown' && profile?.headquarters?.city
 
   <!-- Footer -->
   <footer class="card-footer">
-    {isShariahCompliant && (
-      <span class="shariah-badge">Islamic Banking</span>
-    )}
-    {profile?.website && (
-      <a href={profile.website} class="website-link" target="_blank" rel="noopener noreferrer">
-        Visit website
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M7 17L17 7M17 7H7M17 7v10"></path>
-        </svg>
-      </a>
-    )}
+    {isShariahCompliant && <span class="shariah-badge">Islamic Banking</span>}
+    {
+      profile?.website && (
+        <a href={profile.website} class="website-link" target="_blank" rel="noopener noreferrer">
+          Visit website
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M7 17L17 7M17 7H7M17 7v10" />
+          </svg>
+        </a>
+      )
+    }
   </footer>
 </article>
 

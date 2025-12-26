@@ -12,7 +12,8 @@ interface Props {
   isPast?: boolean;
 }
 
-const { title, date, endDate, type, location, isOnline, description, slug, featured, isPast } = Astro.props;
+const { title, date, endDate, type, location, isOnline, description, slug, featured, isPast } =
+  Astro.props;
 
 // Format date
 const formatDate = (d: Date) => {
@@ -32,9 +33,7 @@ const formatTime = (d: Date) => {
 };
 
 // Format date range for multi-day events
-const dateDisplay = endDate
-  ? `${formatDate(date)} - ${formatDate(endDate)}`
-  : formatDate(date);
+const dateDisplay = endDate ? `${formatDate(date)} - ${formatDate(endDate)}` : formatDate(date);
 
 const timeDisplay = formatTime(date);
 
@@ -63,18 +62,34 @@ const typeColors: Record<string, string> = {
 
   <div class="event-footer">
     <span class="event-location">
-      {isOnline ? (
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-          <line x1="8" y1="21" x2="16" y2="21"></line>
-          <line x1="12" y1="17" x2="12" y2="21"></line>
-        </svg>
-      ) : (
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-          <circle cx="12" cy="10" r="3"></circle>
-        </svg>
-      )}
+      {
+        isOnline ? (
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+            <line x1="8" y1="21" x2="16" y2="21" />
+            <line x1="12" y1="17" x2="12" y2="21" />
+          </svg>
+        ) : (
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+            <circle cx="12" cy="10" r="3" />
+          </svg>
+        )
+      }
       {location}
     </span>
     <span class:list={['event-type', typeColors[type] || 'type-default']}>{type}</span>

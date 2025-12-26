@@ -121,7 +121,9 @@ const labels = { ...defaultLabels, ...typeLabels };
 
         [upcomingSection, pastSection].forEach((section) => {
           if (section) {
-            const visibleCards = section.querySelectorAll('.event-card:not([style*="display: none"])');
+            const visibleCards = section.querySelectorAll(
+              '.event-card:not([style*="display: none"])'
+            );
             const emptyState = section.querySelector('.empty-state');
             if (emptyState) {
               (emptyState as HTMLElement).style.display = visibleCards.length === 0 ? '' : 'none';

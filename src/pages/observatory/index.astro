@@ -371,13 +371,27 @@ const displayParticipants = participants;
         <div class="section-header-top">
           <div>
             <h2>Production Participants</h2>
-            <p><span id="filtered-count">{displayParticipants.length}</span> of {displayParticipants.length} registered institutions</p>
+            <p>
+              <span id="filtered-count">{displayParticipants.length}</span> of {
+                displayParticipants.length
+              } registered institutions
+            </p>
           </div>
         </div>
         <div class="filter-bar">
           <div class="filter-bar-inner">
             <div class="search-field">
-              <svg class="search-field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <svg
+                class="search-field-icon"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
                 <circle cx="11" cy="11" r="8"></circle>
                 <path d="m21 21-4.35-4.35"></path>
               </svg>
@@ -436,9 +450,10 @@ const displayParticipants = participants;
         {
           displayParticipants.map((participant: any) => {
             const profile = (participantProfiles as any)[participant.name];
-            const displayCity = participant.city === 'Unknown' && profile?.headquarters?.city
-              ? profile.headquarters.city
-              : participant.city;
+            const displayCity =
+              participant.city === 'Unknown' && profile?.headquarters?.city
+                ? profile.headquarters.city
+                : participant.city;
             return (
               <div
                 class="participant-card-wrapper"
@@ -769,7 +784,9 @@ const displayParticipants = participants;
     height: 100%;
     background: linear-gradient(90deg, var(--color-primary-500), var(--color-primary-400));
     border-radius: var(--radius-full);
-    transition: width 0.6s ease-out, transform 0.2s ease;
+    transition:
+      width 0.6s ease-out,
+      transform 0.2s ease;
   }
 
   .api-row:hover .api-bar {
@@ -795,7 +812,10 @@ const displayParticipants = participants;
 
   /* Chart card hover effect */
   .chart-card {
-    transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast),
+      transform var(--transition-fast);
   }
 
   .chart-card:hover {
@@ -949,7 +969,9 @@ const displayParticipants = participants;
     border: 1px solid var(--color-gray-200);
     border-radius: var(--radius-lg);
     outline: none;
-    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast);
   }
 
   .search-field-input::placeholder {
@@ -1007,7 +1029,9 @@ const displayParticipants = participants;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 8px center;
-    transition: border-color var(--transition-fast), background-color var(--transition-fast);
+    transition:
+      border-color var(--transition-fast),
+      background-color var(--transition-fast);
   }
 
   .filter-dropdown:hover {
@@ -1193,9 +1217,8 @@ const displayParticipants = participants;
       const isLive = el.dataset.isLive === 'true';
 
       // Check search match
-      const matchesSearch = !searchTerm ||
-        name.includes(searchTerm) ||
-        legalName.includes(searchTerm);
+      const matchesSearch =
+        !searchTerm || name.includes(searchTerm) || legalName.includes(searchTerm);
 
       // Check type filter
       const matchesType = !selectedType || type === selectedType;
@@ -1204,7 +1227,8 @@ const displayParticipants = participants;
       const matchesCity = !selectedCity || city === selectedCity;
 
       // Check status filter
-      const matchesStatus = !selectedStatus ||
+      const matchesStatus =
+        !selectedStatus ||
         (selectedStatus === 'live' && isLive) ||
         (selectedStatus === 'registered' && !isLive);
 
