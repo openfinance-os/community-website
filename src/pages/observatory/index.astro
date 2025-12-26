@@ -3,15 +3,88 @@ import PageLayout from '@layouts/PageLayout.astro';
 import StatCard from '@components/observatory/StatCard.astro';
 import DonutChart from '@components/observatory/DonutChart.astro';
 import ParticipantCard from '@components/observatory/ParticipantCard.astro';
+import EnvironmentToggle from '@components/observatory/EnvironmentToggle.astro';
+import CrossEnvironmentStats from '@components/observatory/CrossEnvironmentStats.astro';
+import AuthCapabilitiesChart from '@components/observatory/AuthCapabilitiesChart.astro';
+import HistoricalTrendsChart from '@components/observatory/HistoricalTrendsChart.astro';
 import Badge from '@components/common/Badge.astro';
 
-import snapshot from '../../../data/observatory/snapshots/latest.json';
+// Import dual environment snapshot
+import dualSnapshot from '../../../data/observatory/snapshots/latest.json';
 
-const { summary, participants, timestamp } = snapshot;
-const { totalParticipants, byStatus, byRole, byCity, apiFamilies } = summary;
+// Import historical data
+import historyDataRaw from '../../../data/observatory/history.json';
+const historyData = historyDataRaw || { dataPoints: [], milestones: [] };
+
+// Get environment from URL params (default to 'production')
+const url = new URL(Astro.request.url);
+const envParam = url.searchParams.get('env') || 'production';
+const currentEnv = envParam === 'sandbox' ? 'sandbox' : envParam === 'both' ? 'both' : 'production';
+
+// Handle both old single-environment format and new dual-environment format
+const isDualFormat = 'production' in dualSnapshot && 'crossEnvironment' in dualSnapshot;
+
+let snapshot: any;
+let crossEnvironment: any = null;
+let productionSnapshot: any = null;
+let sandboxSnapshot: any = null;
+
+if (isDualFormat) {
+  productionSnapshot = dualSnapshot.production;
+  sandboxSnapshot = dualSnapshot.sandbox;
+  crossEnvironment = dualSnapshot.crossEnvironment;
+
+  // Select which snapshot to display based on environment
+  if (currentEnv === 'sandbox' && sandboxSnapshot) {
+    snapshot = sandboxSnapshot;
+  } else if (currentEnv === 'both') {
+    // For 'both', we'll show production data but with cross-environment context
+    snapshot = productionSnapshot || sandboxSnapshot;
+  } else {
+    snapshot = productionSnapshot;
+  }
+} else {
+  // Old format - single environment
+  snapshot = dualSnapshot;
+}
+
+// Fallback if no snapshot available
+if (!snapshot) {
+  snapshot = {
+    timestamp: new Date().toISOString(),
+    summary: {
+      totalParticipants: 0,
+      byStatus: {},
+      byRole: {},
+      byCity: {},
+      apiFamilies: [],
+      liveInProduction: 0,
+      shariahCompliantCount: 0,
+      multiRoleCount: 0,
+      tppCount: 0,
+      byAuthCapabilities: { ciba: 0, dcr: 0, redirect: 0 },
+    },
+    participants: [],
+  };
+}
+
+const { summary, participants, timestamp, trends } = snapshot;
+
+// Handle both old and new summary format
+const totalParticipants = summary.totalParticipants || 0;
+const byStatus = summary.byStatus || {};
+const byRole = summary.byRole || {};
+const byCity = summary.byCity || {};
+const apiFamilies = summary.apiFamilies || [];
+
+// New enhanced metrics (with fallbacks for old format)
+const liveInProduction = summary.liveInProduction ?? participants.filter((p: any) => p.hasAuthServer).length;
+const shariahCompliantCount = summary.shariahCompliantCount ?? participants.filter((p: any) => p.isShariahCompliant).length;
+const multiRoleCount = summary.multiRoleCount ?? participants.filter((p: any) => p.roles?.length > 1).length;
+const tppCount = summary.tppCount ?? (byRole.TPP || 0);
+const byAuthCapabilities = summary.byAuthCapabilities || { ciba: 0, dcr: 0, redirect: 0 };
 
 const activeCount = byStatus.Active || 0;
-const liveCount = participants.filter((p: any) => p.hasAuthServer).length;
 
 // Role chart data
 const roleColors = {
@@ -59,11 +132,36 @@ const formatDate = (dateStr: string) => {
     timeZone: 'UTC',
   });
 };
+
+// Determine participants to show based on environment
+let displayParticipants = participants;
+if (currentEnv === 'both' && crossEnvironment) {
+  // Combine participants from both environments, marking their presence
+  const allParticipants = new Map();
+
+  if (productionSnapshot?.participants) {
+    productionSnapshot.participants.forEach((p: any) => {
+      allParticipants.set(p.id, { ...p, inProduction: true, inSandbox: false });
+    });
+  }
+
+  if (sandboxSnapshot?.participants) {
+    sandboxSnapshot.participants.forEach((p: any) => {
+      if (allParticipants.has(p.id)) {
+        allParticipants.get(p.id).inSandbox = true;
+      } else {
+        allParticipants.set(p.id, { ...p, inProduction: false, inSandbox: true });
+      }
+    });
+  }
+
+  displayParticipants = Array.from(allParticipants.values());
+}
 ---
 
 <PageLayout
   title="Observatory"
-  description="Real-time visibility into UAE Open Finance ecosystem health. Track participants, API coverage, and ecosystem growth."
+  description="Real-time visibility into UAE Open Finance ecosystem health. Track participants, API coverage, and ecosystem growth across production and sandbox environments."
   lastUpdated={timestamp}
 >
   <div class="observatory-page">
@@ -79,15 +177,42 @@ const formatDate = (dateStr: string) => {
         </p>
       </div>
       <div class="header-meta">
-        <p class="last-updated">
-          Last updated: <time datetime={timestamp}>{formatDate(timestamp)}</time> UTC
-        </p>
-        <div class="header-links">
-          <a href="/observatory/methodology" class="header-link">How we calculate this</a>
-          <a href="https://github.com/openfinance-os/community/issues" class="header-link" target="_blank" rel="noopener noreferrer">See an error?</a>
+        <div class="header-controls">
+          {isDualFormat && (
+            <EnvironmentToggle
+              currentEnvironment={currentEnv}
+              productionCount={productionSnapshot?.summary?.totalParticipants || 0}
+              sandboxCount={sandboxSnapshot?.summary?.totalParticipants || 0}
+            />
+          )}
+        </div>
+        <div class="header-info">
+          <p class="last-updated">
+            Last updated: <time datetime={timestamp}>{formatDate(timestamp)}</time> UTC
+          </p>
+          <div class="header-links">
+            <a href="/observatory/methodology" class="header-link">How we calculate this</a>
+            <a href="https://github.com/openfinance-os/community/issues" class="header-link" target="_blank" rel="noopener noreferrer">See an error?</a>
+          </div>
         </div>
       </div>
     </header>
+
+    <!-- Cross-Environment Stats (only show when both environments available) -->
+    {isDualFormat && currentEnv === 'both' && crossEnvironment && (
+      <section class="cross-env-section">
+        <div class="section-container">
+          <CrossEnvironmentStats
+            productionCount={productionSnapshot?.summary?.totalParticipants || 0}
+            sandboxCount={sandboxSnapshot?.summary?.totalParticipants || 0}
+            inBothCount={crossEnvironment.inBothEnvironments?.length || 0}
+            productionOnlyCount={crossEnvironment.productionOnly?.length || 0}
+            sandboxOnlyCount={crossEnvironment.sandboxOnly?.length || 0}
+            totalUnique={crossEnvironment.totalUniqueParticipants || 0}
+          />
+        </div>
+      </section>
+    )}
 
     <section class="stats-section">
       <div class="stats-grid">
@@ -96,24 +221,55 @@ const formatDate = (dateStr: string) => {
           label="Total Participants"
           sublabel="Registered in the ecosystem"
           icon="participants"
+          trendValue={trends?.participantChange}
         />
         <StatCard
-          value={activeCount}
-          label="Active"
-          sublabel="Currently operational"
-          icon="active"
-        />
-        <StatCard
-          value={liveCount}
+          value={liveInProduction}
           label="Live in Production"
           sublabel="With authorization servers"
           icon="active"
+        />
+        <StatCard
+          value={shariahCompliantCount}
+          label="Shariah Compliant"
+          sublabel="Islamic finance institutions"
+          icon="shariah"
         />
         <StatCard
           value={apiFamilies.length}
           label="API Families"
           sublabel="Accounts, Payments, CoP, Products"
           icon="api"
+        />
+      </div>
+    </section>
+
+    <!-- Additional Stats Row -->
+    <section class="stats-section secondary-stats">
+      <div class="stats-grid-secondary">
+        <StatCard
+          value={multiRoleCount}
+          label="Multi-Role"
+          sublabel="Participants with 2+ roles"
+          icon="participants"
+        />
+        <StatCard
+          value={tppCount}
+          label="TPPs"
+          sublabel="Third Party Providers"
+          icon="tpp"
+        />
+        <StatCard
+          value={byAuthCapabilities.dcr}
+          label="DCR Support"
+          sublabel="Dynamic Client Registration"
+          icon="auth"
+        />
+        <StatCard
+          value={byAuthCapabilities.ciba}
+          label="CIBA Support"
+          sublabel="Backchannel Authentication"
+          icon="auth"
         />
       </div>
     </section>
@@ -190,8 +346,8 @@ const formatDate = (dateStr: string) => {
           <p class="chart-description">API families supported by participants</p>
           <div class="api-matrix">
             {apiFamilies.map((api: string) => {
-              const count = participants.filter((p: any) => p.apiFamilies.includes(api)).length;
-              const percentage = Math.round((count / totalParticipants) * 100);
+              const count = participants.filter((p: any) => p.apiFamilies?.includes(api)).length;
+              const percentage = totalParticipants > 0 ? Math.round((count / totalParticipants) * 100) : 0;
               return (
                 <div class="api-row">
                   <span class="api-name">{(apiFamilyLabels as any)[api] || api}</span>
@@ -207,13 +363,32 @@ const formatDate = (dateStr: string) => {
       </div>
     </section>
 
+    <!-- Authorization Capabilities Section -->
+    <section class="capabilities-section">
+      <div class="capabilities-grid">
+        <AuthCapabilitiesChart
+          cibaCount={byAuthCapabilities.ciba}
+          dcrCount={byAuthCapabilities.dcr}
+          redirectCount={byAuthCapabilities.redirect}
+          totalParticipants={totalParticipants}
+        />
+
+        <HistoricalTrendsChart
+          dataPoints={historyData.dataPoints || []}
+          milestones={historyData.milestones || []}
+        />
+      </div>
+    </section>
+
     <section class="participants-section">
       <header class="section-header">
-        <h2>All Participants</h2>
-        <p>{totalParticipants} registered institutions</p>
+        <h2>
+          {currentEnv === 'both' ? 'All Participants' : currentEnv === 'sandbox' ? 'Sandbox Participants' : 'Production Participants'}
+        </h2>
+        <p>{displayParticipants.length} {currentEnv === 'both' ? 'unique' : 'registered'} institutions</p>
       </header>
       <div class="participants-grid">
-        {participants.map((participant: any) => (
+        {displayParticipants.map((participant: any) => (
           <ParticipantCard
             name={participant.name}
             legalName={participant.legalName}
@@ -234,7 +409,7 @@ const formatDate = (dateStr: string) => {
         <p>
           This dashboard displays data derived from the public
           <a href="https://data.directory.openfinance.ae" target="_blank" rel="noopener noreferrer">UAE Open Finance Trust Framework Directory</a>.
-          Data is collected daily at 06:00 UTC via automated scripts.
+          Data is collected daily at 06:00 UTC via automated scripts from both production and sandbox environments.
         </p>
         <p>
           <strong>This is not official statistics.</strong> For authoritative information, please refer to the
@@ -321,11 +496,22 @@ const formatDate = (dateStr: string) => {
     margin: var(--space-6) auto 0;
     display: flex;
     flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .header-controls {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .header-info {
+    display: flex;
+    flex-direction: column;
     gap: var(--space-3);
   }
 
   @media (min-width: 640px) {
-    .header-meta {
+    .header-info {
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
@@ -359,6 +545,18 @@ const formatDate = (dateStr: string) => {
     text-decoration: underline;
   }
 
+  .cross-env-section {
+    max-width: 1200px;
+    margin: calc(-1 * var(--space-8)) auto var(--space-8);
+    padding: 0 var(--space-4);
+    position: relative;
+    z-index: 10;
+  }
+
+  .section-container {
+    max-width: 800px;
+  }
+
   .stats-section {
     max-width: 1200px;
     margin: calc(-1 * var(--space-8)) auto 0;
@@ -367,7 +565,17 @@ const formatDate = (dateStr: string) => {
     z-index: 10;
   }
 
+  .stats-section.secondary-stats {
+    margin-top: var(--space-6);
+  }
+
   .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+
+  .stats-grid-secondary {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: var(--space-4);
@@ -375,6 +583,10 @@ const formatDate = (dateStr: string) => {
 
   @media (min-width: 768px) {
     .stats-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .stats-grid-secondary {
       grid-template-columns: repeat(4, 1fr);
     }
   }
@@ -491,6 +703,24 @@ const formatDate = (dateStr: string) => {
     font-weight: 500;
     color: var(--color-gray-600);
     text-align: right;
+  }
+
+  .capabilities-section {
+    max-width: 1200px;
+    margin: var(--space-8) auto 0;
+    padding: 0 var(--space-4);
+  }
+
+  .capabilities-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 768px) {
+    .capabilities-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 
   .participants-section {

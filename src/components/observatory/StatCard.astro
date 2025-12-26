@@ -4,20 +4,40 @@ interface Props {
   label: string;
   sublabel?: string;
   trend?: 'up' | 'down' | 'neutral';
-  icon?: 'participants' | 'active' | 'api' | 'city';
+  trendValue?: number;
+  icon?: 'participants' | 'active' | 'api' | 'city' | 'shariah' | 'tpp' | 'auth';
+  environment?: 'production' | 'sandbox';
 }
 
-const { value, label, sublabel, trend, icon } = Astro.props;
+const { value, label, sublabel, trend, trendValue, icon, environment } = Astro.props;
+
+// Calculate trend from trendValue if provided
+const calculatedTrend = trendValue !== undefined
+  ? trendValue > 0 ? 'up' : trendValue < 0 ? 'down' : 'neutral'
+  : trend;
+
+const displayTrendValue = trendValue !== undefined
+  ? (trendValue > 0 ? `+${trendValue}` : trendValue.toString())
+  : null;
 
 const icons = {
   participants: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
   active: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`,
   api: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`,
   city: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/><path d="M9 9v.01"/><path d="M9 12v.01"/><path d="M9 15v.01"/><path d="M9 18v.01"/></svg>`,
+  shariah: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>`,
+  tpp: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>`,
+  auth: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`,
 };
 ---
 
-<div class="stat-card">
+<div class:list={['stat-card', { 'has-env': environment }]} data-env={environment}>
+  {environment && (
+    <div class:list={['env-badge', environment]}>
+      <span class="env-dot"></span>
+      {environment === 'production' ? 'Prod' : 'Sandbox'}
+    </div>
+  )}
   <div class="stat-header">
     {icon && (
       <div class="stat-icon" set:html={icons[icon]} />
@@ -26,11 +46,12 @@ const icons = {
   </div>
   <div class="stat-value">
     <span class="value-number">{value}</span>
-    {trend && (
-      <span class:list={['trend', `trend-${trend}`]}>
-        {trend === 'up' && '↑'}
-        {trend === 'down' && '↓'}
-        {trend === 'neutral' && '→'}
+    {calculatedTrend && (
+      <span class:list={['trend', `trend-${calculatedTrend}`]}>
+        {calculatedTrend === 'up' && '↑'}
+        {calculatedTrend === 'down' && '↓'}
+        {calculatedTrend === 'neutral' && '→'}
+        {displayTrendValue && <span class="trend-value">{displayTrendValue}</span>}
       </span>
     )}
   </div>
@@ -51,6 +72,43 @@ const icons = {
 
   .stat-card:hover {
     border-color: var(--color-primary-200);
+  }
+
+  .stat-card.has-env {
+    padding-top: var(--space-6);
+  }
+
+  .env-badge {
+    position: absolute;
+    top: var(--space-2);
+    right: var(--space-2);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
+  }
+
+  .env-badge.production {
+    color: var(--color-success);
+    background: rgba(16, 185, 129, 0.1);
+  }
+
+  .env-badge.sandbox {
+    color: var(--color-warning);
+    background: rgba(245, 158, 11, 0.1);
+  }
+
+  .env-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
   }
 
   .stat-header {
@@ -96,9 +154,16 @@ const icons = {
   }
 
   .trend {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
     font-family: var(--font-mono);
     font-size: 0.875rem;
     font-weight: 500;
+  }
+
+  .trend-value {
+    font-size: 0.75rem;
   }
 
   .trend-up {

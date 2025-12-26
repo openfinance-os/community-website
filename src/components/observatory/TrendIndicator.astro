@@ -1,0 +1,107 @@
+---
+interface Props {
+  value: number;
+  label?: string;
+  showValue?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+}
+
+const { value, label, showValue = true, size = 'md' } = Astro.props;
+
+const isPositive = value > 0;
+const isNegative = value < 0;
+const isNeutral = value === 0;
+
+const displayValue = isPositive ? `+${value}` : value.toString();
+---
+
+<span
+  class:list={[
+    'trend-indicator',
+    `trend-${size}`,
+    {
+      'trend-positive': isPositive,
+      'trend-negative': isNegative,
+      'trend-neutral': isNeutral,
+    },
+  ]}
+  title={label}
+>
+  {isPositive && (
+    <svg class="trend-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M8 12V4M4 8l4-4 4 4" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  )}
+  {isNegative && (
+    <svg class="trend-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M8 4v8M4 8l4 4 4-4" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  )}
+  {isNeutral && (
+    <svg class="trend-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M3 8h10" stroke-linecap="round" />
+    </svg>
+  )}
+  {showValue && <span class="trend-value">{displayValue}</span>}
+</span>
+
+<style>
+  .trend-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+  }
+
+  .trend-sm {
+    font-size: 0.6875rem;
+    padding: 1px 4px;
+  }
+
+  .trend-md {
+    font-size: 0.75rem;
+    padding: 2px 6px;
+  }
+
+  .trend-lg {
+    font-size: 0.875rem;
+    padding: 4px 8px;
+  }
+
+  .trend-icon {
+    flex-shrink: 0;
+  }
+
+  .trend-sm .trend-icon {
+    width: 10px;
+    height: 10px;
+  }
+
+  .trend-md .trend-icon {
+    width: 12px;
+    height: 12px;
+  }
+
+  .trend-lg .trend-icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  .trend-positive {
+    color: var(--color-success);
+    background: rgba(16, 185, 129, 0.1);
+  }
+
+  .trend-negative {
+    color: var(--color-error);
+    background: rgba(239, 68, 68, 0.1);
+  }
+
+  .trend-neutral {
+    color: var(--color-gray-500);
+    background: var(--color-gray-100);
+  }
+</style>
