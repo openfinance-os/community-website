@@ -35,14 +35,17 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <!-- Fonts - Brand: DM Sans + Fraunces (see PRD Section 14) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- Analytics (Plausible) - privacy-friendly, no cookies -->
     <script defer data-domain="openfinance-os.org" src="https://plausible.io/js/script.js"></script>
 
     <!-- Theme initialization - prevent flash of wrong theme -->
     <script is:inline>
-      (function() {
+      (function () {
         const theme = localStorage.getItem('theme');
         if (theme === 'dark' || theme === 'light') {
           document.documentElement.setAttribute('data-theme', theme);

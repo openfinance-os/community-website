@@ -31,7 +31,10 @@ const tppTypes = [
 ];
 ---
 
-<PageLayout title="TPP Guide" description="Complete guide for Third Party Providers building on UAE Open Finance.">
+<PageLayout
+  title="TPP Guide"
+  description="Complete guide for Third Party Providers building on UAE Open Finance."
+>
   <div class="guide-page">
     <div class="container">
       <nav class="breadcrumb">
@@ -50,8 +53,8 @@ const tppTypes = [
       <section>
         <h2>What is a TPP?</h2>
         <p>
-          A Third Party Provider (TPP) is an organization authorized to access customer banking data or
-          initiate payments on their behalf. TPPs include fintechs, payment providers, and other
+          A Third Party Provider (TPP) is an organization authorized to access customer banking data
+          or initiate payments on their behalf. TPPs include fintechs, payment providers, and other
           technology companies building innovative financial services.
         </p>
         <p>
@@ -63,23 +66,25 @@ const tppTypes = [
       <section>
         <h2>TPP Categories</h2>
         <div class="tpp-types">
-          {tppTypes.map((type) => (
-            <div class="tpp-card">
-              <div class="tpp-header">
-                <span class="tpp-code">{type.code}</span>
-                <h3>{type.name}</h3>
+          {
+            tppTypes.map((type) => (
+              <div class="tpp-card">
+                <div class="tpp-header">
+                  <span class="tpp-code">{type.code}</span>
+                  <h3>{type.name}</h3>
+                </div>
+                <p>{type.description}</p>
+                <div class="use-cases">
+                  <span class="use-cases-label">Common use cases:</span>
+                  <ul>
+                    {type.useCases.map((useCase) => (
+                      <li>{useCase}</li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-              <p>{type.description}</p>
-              <div class="use-cases">
-                <span class="use-cases-label">Common use cases:</span>
-                <ul>
-                  {type.useCases.map((useCase) => (
-                    <li>{useCase}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          ))}
+            ))
+          }
         </div>
       </section>
 
@@ -87,9 +92,7 @@ const tppTypes = [
         <h2>Registration Requirements</h2>
         <p>To register as a TPP on the Al Tareq platform, you'll need:</p>
         <ul class="requirements-list">
-          {requirements.map((req) => (
-            <li>{req}</li>
-          ))}
+          {requirements.map((req) => <li>{req}</li>)}
         </ul>
       </section>
 
@@ -167,12 +170,15 @@ const tppTypes = [
         <h2>Ready to Get Started?</h2>
         <p>Visit the Al Tareq portal to begin your TPP registration.</p>
         <div class="cta-buttons">
-          <a href="https://altareq.openfinance.ae" class="cta-primary" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://altareq.openfinance.ae"
+            class="cta-primary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Start Registration →
           </a>
-          <a href="/learn/api-guide" class="cta-secondary">
-            View API Guide →
-          </a>
+          <a href="/learn/api-guide" class="cta-secondary"> View API Guide → </a>
         </div>
       </section>
     </div>

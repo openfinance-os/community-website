@@ -43,8 +43,16 @@ const formatDate = (date: Date) => {
     <div class="container">
       <header class="article-header">
         <a href="/news" class="back-link">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <path d="M19 12H5M12 19l-7-7 7-7"></path>
           </svg>
           Back to News
         </a>
@@ -67,21 +75,44 @@ const formatDate = (date: Date) => {
         <Content />
       </div>
 
-      {entry.data.source && (
-        <footer class="article-footer">
-          <a href={entry.data.source} target="_blank" rel="noopener noreferrer" class="source-link">
-            View original source
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <path d="M7 17L17 7M17 7H7M17 7v10"/>
-            </svg>
-          </a>
-        </footer>
-      )}
+      {
+        entry.data.source && (
+          <footer class="article-footer">
+            <a
+              href={entry.data.source}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="source-link"
+            >
+              View original source
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
+                <path d="M7 17L17 7M17 7H7M17 7v10" />
+              </svg>
+            </a>
+          </footer>
+        )
+      }
 
       <div class="article-nav">
         <a href="/news" class="nav-link">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <path d="M19 12H5M12 19l-7-7 7-7"></path>
           </svg>
           All News
         </a>

@@ -59,54 +59,53 @@ const segments = data.map((item) => {
         r={radius}
         fill="none"
         stroke="var(--color-gray-100)"
-        stroke-width={strokeWidth}
-      />
+        stroke-width={strokeWidth}></circle>
 
       <!-- Data segments -->
-      {segments.map((segment, index) => (
-        <circle
-          cx={center}
-          cy={center}
-          r={radius}
-          fill="none"
-          stroke={segment.color}
-          stroke-width={strokeWidth}
-          stroke-dasharray={`${segment.dashArray} ${circumference - segment.dashArray}`}
-          stroke-dashoffset={-segment.offset}
-          stroke-linecap="butt"
-          class="chart-segment"
-          style={`--delay: ${index * 0.1}s`}
-          transform={`rotate(-90 ${center} ${center})`}
-        />
-      ))}
+      {
+        segments.map((segment, index) => (
+          <circle
+            cx={center}
+            cy={center}
+            r={radius}
+            fill="none"
+            stroke={segment.color}
+            stroke-width={strokeWidth}
+            stroke-dasharray={`${segment.dashArray} ${circumference - segment.dashArray}`}
+            stroke-dashoffset={-segment.offset}
+            stroke-linecap="butt"
+            class="chart-segment"
+            style={`--delay: ${index * 0.1}s`}
+            transform={`rotate(-90 ${center} ${center})`}
+          />
+        ))
+      }
     </svg>
 
-    {(centerLabel || centerValue) && (
-      <div class="chart-center">
-        {centerValue !== undefined && (
-          <span class="center-value">{centerValue}</span>
-        )}
-        {centerLabel && (
-          <span class="center-label">{centerLabel}</span>
-        )}
-      </div>
-    )}
+    {
+      (centerLabel || centerValue) && (
+        <div class="chart-center">
+          {centerValue !== undefined && <span class="center-value">{centerValue}</span>}
+          {centerLabel && <span class="center-label">{centerLabel}</span>}
+        </div>
+      )
+    }
   </div>
 
-  {showLegend && (
-    <ul class="chart-legend">
-      {segments.map((segment) => (
-        <li class="legend-item">
-          <span class="legend-dot" style={`background-color: ${segment.color}`}></span>
-          <span class="legend-label">{segment.label}</span>
-          <span class="legend-value">{segment.value}</span>
-          <span class="legend-percent">
-            {Math.round(segment.percentage * 100)}%
-          </span>
-        </li>
-      ))}
-    </ul>
-  )}
+  {
+    showLegend && (
+      <ul class="chart-legend">
+        {segments.map((segment) => (
+          <li class="legend-item">
+            <span class="legend-dot" style={`background-color: ${segment.color}`} />
+            <span class="legend-label">{segment.label}</span>
+            <span class="legend-value">{segment.value}</span>
+            <span class="legend-percent">{Math.round(segment.percentage * 100)}%</span>
+          </li>
+        ))}
+      </ul>
+    )
+  }
 </div>
 
 <style>

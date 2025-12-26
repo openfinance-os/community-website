@@ -2,7 +2,10 @@
 import PageLayout from '@layouts/PageLayout.astro';
 ---
 
-<PageLayout title="API Integration Guide" description="Technical guide for integrating with UAE Open Finance APIs.">
+<PageLayout
+  title="API Integration Guide"
+  description="Technical guide for integrating with UAE Open Finance APIs."
+>
   <div class="guide-page">
     <div class="container">
       <nav class="breadcrumb">
@@ -14,15 +17,16 @@ import PageLayout from '@layouts/PageLayout.astro';
       <header class="page-header">
         <h1>API Integration Guide</h1>
         <p class="subtitle">
-          Technical deep-dive into authentication, consent flows, and API usage for UAE Open Finance.
+          Technical deep-dive into authentication, consent flows, and API usage for UAE Open
+          Finance.
         </p>
       </header>
 
       <section>
         <h2>Authentication Flow</h2>
         <p>
-          UAE Open Finance uses OAuth 2.0 with PKCE (Proof Key for Code Exchange) and Financial-grade API (FAPI)
-          security profiles. Here's the typical authentication flow:
+          UAE Open Finance uses OAuth 2.0 with PKCE (Proof Key for Code Exchange) and
+          Financial-grade API (FAPI) security profiles. Here's the typical authentication flow:
         </p>
         <div class="flow-diagram">
           <div class="flow-step">
@@ -269,12 +273,25 @@ Accept: application/json</code></pre>
 
       <section class="cta-section">
         <h2>Full API Documentation</h2>
-        <p>For complete API specifications, request/response schemas, and testing tools, visit the official documentation.</p>
+        <p>
+          For complete API specifications, request/response schemas, and testing tools, visit the
+          official documentation.
+        </p>
         <div class="cta-buttons">
-          <a href="https://openfinanceuae.atlassian.net/wiki/spaces/tfdocsv7/pages/362840092" class="cta-primary" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://openfinanceuae.atlassian.net/wiki/spaces/tfdocsv7/pages/362840092"
+            class="cta-primary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             View Full Documentation →
           </a>
-          <a href="https://data.directory.openfinance.ae" class="cta-secondary" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://data.directory.openfinance.ae"
+            class="cta-secondary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Trust Framework Directory →
           </a>
         </div>

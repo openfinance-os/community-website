@@ -2,50 +2,51 @@
 /* Brand colors from /brand/logo-preview.html */
 :root {
   /* Primary palette - Brand Deep Teal */
-  --color-primary: #0D4F4F;
-  --color-primary-light: #1A6B6B;
+  --color-primary: #0d4f4f;
+  --color-primary-light: #1a6b6b;
   --color-primary-50: #f0f7f7;
   --color-primary-100: #d1e5e5;
   --color-primary-200: #a3cccc;
   --color-primary-300: #75b3b3;
   --color-primary-400: #479999;
-  --color-primary-500: #1A6B6B;
-  --color-primary-600: #0D4F4F;
-  --color-primary-700: #0A3D3D;
-  --color-primary-800: #072B2B;
+  --color-primary-500: #1a6b6b;
+  --color-primary-600: #0d4f4f;
+  --color-primary-700: #0a3d3d;
+  --color-primary-800: #072b2b;
   --color-primary-900: #041919;
 
   /* Accent - Brand Warm Amber */
-  --color-accent: #E8A85C;
-  --color-accent-light: #F5C989;
-  --color-accent-300: #F5C989;
-  --color-accent-400: #EEBB72;
-  --color-accent-500: #E8A85C;
-  --color-accent-600: #D4944A;
+  --color-accent: #e8a85c;
+  --color-accent-light: #f5c989;
+  --color-accent-300: #f5c989;
+  --color-accent-400: #eebb72;
+  --color-accent-500: #e8a85c;
+  --color-accent-600: #d4944a;
 
   /* Neutral - Brand values */
-  --color-surface: #FAFBFC;
-  --color-dark: #0F1419;
-  --color-text: #1A1D21;
-  --color-text-secondary: #5A6169;
-  --color-gray-50: #FAFBFC;
+  --color-surface: #fafbfc;
+  --color-dark: #0f1419;
+  --color-text: #1a1d21;
+  --color-text-secondary: #5a6169;
+  --color-gray-50: #fafbfc;
   --color-gray-100: #f3f4f6;
   --color-gray-200: #e5e7eb;
   --color-gray-300: #d1d5db;
   --color-gray-400: #9ca3af;
-  --color-gray-500: #5A6169;
+  --color-gray-500: #5a6169;
   --color-gray-600: #4b5563;
   --color-gray-700: #374151;
   --color-gray-800: #1f2937;
-  --color-gray-900: #1A1D21;
+  --color-gray-900: #1a1d21;
 
   /* Semantic */
   --color-success: #10b981;
-  --color-warning: #E8A85C;
+  --color-warning: #e8a85c;
   --color-error: #ef4444;
 
   /* Typography - Brand fonts */
-  --font-sans: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans:
+    'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-display: 'Fraunces', Georgia, serif;
   --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', ui-monospace, monospace;
 
@@ -89,12 +90,12 @@
 }
 
 /* Dark mode variables */
-[data-theme="dark"] {
+[data-theme='dark'] {
   /* Primary - adjusted for dark backgrounds */
   --color-primary-50: #0a2e2e;
   --color-primary-100: #0d3d3d;
   --color-primary-200: #115252;
-  --color-primary-300: #1A6B6B;
+  --color-primary-300: #1a6b6b;
   --color-primary-400: #2d8a8a;
   --color-primary-500: #3da8a8;
   --color-primary-600: #4fc4c4;
@@ -103,8 +104,8 @@
   --color-primary-900: #d9f2f2;
 
   /* Surface and backgrounds */
-  --color-surface: #0F1419;
-  --color-dark: #FAFBFC;
+  --color-surface: #0f1419;
+  --color-dark: #fafbfc;
 
   /* Text colors - inverted */
   --color-text: #e4e7eb;
@@ -139,19 +140,19 @@
 
 /* System preference dark mode (when no explicit theme set) */
 @media (prefers-color-scheme: dark) {
-  html:not([data-theme="light"]) {
+  html:not([data-theme='light']) {
     --color-primary-50: #0a2e2e;
     --color-primary-100: #0d3d3d;
     --color-primary-200: #115252;
-    --color-primary-300: #1A6B6B;
+    --color-primary-300: #1a6b6b;
     --color-primary-400: #2d8a8a;
     --color-primary-500: #3da8a8;
     --color-primary-600: #4fc4c4;
     --color-primary-700: #7dd4d4;
     --color-primary-800: #abe4e4;
     --color-primary-900: #d9f2f2;
-    --color-surface: #0F1419;
-    --color-dark: #FAFBFC;
+    --color-surface: #0f1419;
+    --color-dark: #fafbfc;
     --color-text: #e4e7eb;
     --color-text-secondary: #9ca3af;
     --color-gray-50: #1a1f26;
@@ -196,7 +197,9 @@ body {
   line-height: 1.6;
   color: var(--color-text);
   background-color: var(--color-surface);
-  transition: background-color var(--transition-slow), color var(--transition-slow);
+  transition:
+    background-color var(--transition-slow),
+    color var(--transition-slow);
 }
 
 img,
@@ -226,21 +229,35 @@ h6 {
 }
 
 /* Typography */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   line-height: 1.2;
   font-weight: 600;
   color: var(--color-text);
 }
 
-h1, h2 {
+h1,
+h2 {
   font-family: var(--font-display);
   font-weight: 700;
 }
 
-h1 { font-size: 2.5rem; }
-h2 { font-size: 2rem; }
-h3 { font-size: 1.5rem; }
-h4 { font-size: 1.25rem; }
+h1 {
+  font-size: 2.5rem;
+}
+h2 {
+  font-size: 2rem;
+}
+h3 {
+  font-size: 1.5rem;
+}
+h4 {
+  font-size: 1.25rem;
+}
 
 a {
   color: var(--color-primary-600);

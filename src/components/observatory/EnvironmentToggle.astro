@@ -1,0 +1,157 @@
+---
+interface Props {
+  currentEnvironment: 'production' | 'sandbox' | 'both';
+  productionCount?: number;
+  sandboxCount?: number;
+}
+
+const { currentEnvironment, productionCount = 0, sandboxCount = 0 } = Astro.props;
+---
+
+<div class="environment-toggle" data-current={currentEnvironment}>
+  <div class="toggle-label">Environment</div>
+  <div class="toggle-buttons">
+    <button
+      class:list={['toggle-btn', { active: currentEnvironment === 'production' }]}
+      data-env="production"
+      aria-pressed={currentEnvironment === 'production'}
+    >
+      <span class="env-indicator production"></span>
+      <span class="env-name">Production</span>
+      {productionCount > 0 && <span class="env-count">{productionCount}</span>}
+    </button>
+    <button
+      class:list={['toggle-btn', { active: currentEnvironment === 'sandbox' }]}
+      data-env="sandbox"
+      aria-pressed={currentEnvironment === 'sandbox'}
+    >
+      <span class="env-indicator sandbox"></span>
+      <span class="env-name">Sandbox</span>
+      {sandboxCount > 0 && <span class="env-count">{sandboxCount}</span>}
+    </button>
+    <button
+      class:list={['toggle-btn', { active: currentEnvironment === 'both' }]}
+      data-env="both"
+      aria-pressed={currentEnvironment === 'both'}
+    >
+      <span class="env-name">Both</span>
+    </button>
+  </div>
+</div>
+
+<style>
+  .environment-toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .toggle-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-primary-200);
+  }
+
+  .toggle-buttons {
+    display: flex;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    padding: 2px;
+    gap: 2px;
+  }
+
+  .toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-primary-200);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+
+  .toggle-btn.active {
+    background: white;
+    color: var(--color-primary-900);
+  }
+
+  .env-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .env-indicator.production {
+    background: var(--color-success);
+  }
+
+  .env-indicator.sandbox {
+    background: var(--color-warning);
+  }
+
+  .toggle-btn.active .env-indicator.production {
+    background: var(--color-success);
+  }
+
+  .toggle-btn.active .env-indicator.sandbox {
+    background: var(--color-warning);
+  }
+
+  .env-count {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    padding: 0 var(--space-1);
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: var(--radius-sm);
+  }
+
+  .toggle-btn.active .env-count {
+    background: var(--color-primary-100);
+  }
+
+  @media (max-width: 640px) {
+    .environment-toggle {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .toggle-buttons {
+      width: 100%;
+    }
+
+    .toggle-btn {
+      flex: 1;
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  // Client-side interactivity for environment toggle
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.querySelector('.environment-toggle');
+    const buttons = toggle?.querySelectorAll('.toggle-btn');
+
+    buttons?.forEach((button) => {
+      button.addEventListener('click', () => {
+        const env = button.getAttribute('data-env');
+        if (env) {
+          // Update URL with environment parameter
+          const url = new URL(window.location.href);
+          url.searchParams.set('env', env);
+          window.location.href = url.toString();
+        }
+      });
+    });
+  });
+</script>

@@ -40,13 +40,24 @@ const cityData = Object.entries(byCity).map(([label, value]) => ({
     <div class="header-content">
       <h2 class="section-title">Ecosystem Observatory</h2>
       <p class="section-description">
-        Real-time visibility into UAE Open Finance ecosystem health, derived from public registry data.
+        Real-time visibility into UAE Open Finance ecosystem health, derived from public registry
+        data.
       </p>
     </div>
     <a href="/observatory" class="view-all-link">
       See the full dashboard
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M5 12h14M12 5l7 7-7 7"/>
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M5 12h14M12 5l7 7-7 7"></path>
       </svg>
     </a>
   </div>
@@ -55,11 +66,20 @@ const cityData = Object.entries(byCity).map(([label, value]) => ({
     <div class="preview-card">
       <h3 class="card-title">
         <span class="title-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-            <circle cx="9" cy="7" r="4"/>
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
           </svg>
         </span>
         Participant Roles
@@ -78,21 +98,25 @@ const cityData = Object.entries(byCity).map(([label, value]) => ({
     <div class="preview-card">
       <h3 class="card-title">
         <span class="title-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 21h18"/>
-            <path d="M5 21V7l8-4v18"/>
-            <path d="M19 21V11l-6-4"/>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M3 21h18"></path>
+            <path d="M5 21V7l8-4v18"></path>
+            <path d="M19 21V11l-6-4"></path>
           </svg>
         </span>
         Geographic Distribution
       </h3>
       <div class="chart-wrapper">
-        <DonutChart
-          data={cityData}
-          size={140}
-          strokeWidth={18}
-          showLegend={true}
-        />
+        <DonutChart data={cityData} size={140} strokeWidth={18} showLegend={true} />
       </div>
     </div>
 
@@ -104,16 +128,33 @@ const cityData = Object.entries(byCity).map(([label, value]) => ({
         </p>
         <a href="/observatory" class="cta-button">
           Open Observatory
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14M12 5l7 7-7 7"></path>
           </svg>
         </a>
       </div>
       <div class="cta-decoration" aria-hidden="true">
         <svg viewBox="0 0 100 100" fill="none">
-          <circle cx="50" cy="50" r="40" stroke="var(--color-primary-300)" stroke-width="1" stroke-dasharray="4 4"/>
-          <circle cx="50" cy="50" r="25" stroke="var(--color-primary-400)" stroke-width="1"/>
-          <circle cx="50" cy="50" r="10" fill="var(--color-primary-500)"/>
+          <circle
+            cx="50"
+            cy="50"
+            r="40"
+            stroke="var(--color-primary-300)"
+            stroke-width="1"
+            stroke-dasharray="4 4"></circle>
+          <circle cx="50" cy="50" r="25" stroke="var(--color-primary-400)" stroke-width="1"
+          ></circle>
+          <circle cx="50" cy="50" r="10" fill="var(--color-primary-500)"></circle>
         </svg>
       </div>
     </div>
@@ -286,8 +327,12 @@ const cityData = Object.entries(byCity).map(([label, value]) => ({
   }
 
   @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
 
   .data-disclaimer {

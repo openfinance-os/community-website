@@ -1,0 +1,327 @@
+---
+interface Props {
+  productionCount: number;
+  sandboxCount: number;
+  inBothCount: number;
+  productionOnlyCount: number;
+  sandboxOnlyCount: number;
+  totalUnique: number;
+}
+
+const {
+  productionCount,
+  sandboxCount,
+  inBothCount,
+  productionOnlyCount,
+  sandboxOnlyCount,
+  totalUnique,
+} = Astro.props;
+
+const graduationRate = sandboxCount > 0 ? Math.round((inBothCount / sandboxCount) * 100) : 0;
+---
+
+<div class="cross-env-stats">
+  <h3 class="section-title">
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M16 3h5v5"></path>
+      <path d="M8 3H3v5"></path>
+      <path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3"></path>
+      <path d="m15 9 6-6"></path>
+    </svg>
+    Cross-Environment Analysis
+  </h3>
+
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-value">{totalUnique}</div>
+      <div class="stat-label">Total Unique Participants</div>
+    </div>
+
+    <div class="stat-item highlight-production">
+      <div class="stat-value">
+        <span class="env-dot production"></span>
+        {productionCount}
+      </div>
+      <div class="stat-label">Live in Production</div>
+    </div>
+
+    <div class="stat-item highlight-sandbox">
+      <div class="stat-value">
+        <span class="env-dot sandbox"></span>
+        {sandboxCount}
+      </div>
+      <div class="stat-label">In Sandbox</div>
+    </div>
+  </div>
+
+  <div class="environment-breakdown">
+    <div class="breakdown-title">Environment Distribution</div>
+
+    <div class="breakdown-bar">
+      {
+        inBothCount > 0 && (
+          <div
+            class="bar-segment both"
+            style={`width: ${(inBothCount / totalUnique) * 100}%`}
+            title={`In both environments: ${inBothCount}`}
+          >
+            {inBothCount}
+          </div>
+        )
+      }
+      {
+        productionOnlyCount > 0 && (
+          <div
+            class="bar-segment production-only"
+            style={`width: ${(productionOnlyCount / totalUnique) * 100}%`}
+            title={`Production only: ${productionOnlyCount}`}
+          >
+            {productionOnlyCount}
+          </div>
+        )
+      }
+      {
+        sandboxOnlyCount > 0 && (
+          <div
+            class="bar-segment sandbox-only"
+            style={`width: ${(sandboxOnlyCount / totalUnique) * 100}%`}
+            title={`Sandbox only (testing): ${sandboxOnlyCount}`}
+          >
+            {sandboxOnlyCount}
+          </div>
+        )
+      }
+    </div>
+
+    <div class="breakdown-legend">
+      <div class="legend-item">
+        <span class="legend-dot both"></span>
+        <span class="legend-label">In Both ({inBothCount})</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot production-only"></span>
+        <span class="legend-label">Production Only ({productionOnlyCount})</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot sandbox-only"></span>
+        <span class="legend-label">Sandbox Only ({sandboxOnlyCount})</span>
+      </div>
+    </div>
+  </div>
+
+  {
+    sandboxOnlyCount > 0 && (
+      <div class="pipeline-indicator">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 6v6l4 2" />
+        </svg>
+        <span>
+          <strong>{sandboxOnlyCount}</strong> institution{sandboxOnlyCount !== 1 ? 's' : ''}{' '}
+          currently in testing/certification phase
+        </span>
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .cross-env-stats {
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+  }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-6);
+  }
+
+  .section-title svg {
+    color: var(--color-primary-500);
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+
+  .stat-item {
+    text-align: center;
+    padding: var(--space-4);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-lg);
+  }
+
+  .stat-value {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-1);
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--color-gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .env-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .env-dot.production {
+    background: var(--color-success);
+  }
+
+  .env-dot.sandbox {
+    background: var(--color-warning);
+  }
+
+  .highlight-production {
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    background: rgba(16, 185, 129, 0.05);
+  }
+
+  .highlight-sandbox {
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    background: rgba(245, 158, 11, 0.05);
+  }
+
+  .environment-breakdown {
+    margin-bottom: var(--space-4);
+  }
+
+  .breakdown-title {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-gray-700);
+    margin-bottom: var(--space-3);
+  }
+
+  .breakdown-bar {
+    display: flex;
+    height: 32px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin-bottom: var(--space-3);
+  }
+
+  .bar-segment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: white;
+    min-width: 30px;
+    transition: all var(--transition-base);
+  }
+
+  .bar-segment:hover {
+    filter: brightness(1.1);
+  }
+
+  .bar-segment.both {
+    background: var(--color-primary-500);
+  }
+
+  .bar-segment.production-only {
+    background: var(--color-success);
+  }
+
+  .bar-segment.sandbox-only {
+    background: var(--color-warning);
+  }
+
+  .breakdown-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: var(--radius-sm);
+  }
+
+  .legend-dot.both {
+    background: var(--color-primary-500);
+  }
+
+  .legend-dot.production-only {
+    background: var(--color-success);
+  }
+
+  .legend-dot.sandbox-only {
+    background: var(--color-warning);
+  }
+
+  .legend-label {
+    font-size: 0.8125rem;
+    color: var(--color-gray-600);
+  }
+
+  .pipeline-indicator {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    border-radius: var(--radius-md);
+    font-size: 0.8125rem;
+    color: var(--color-gray-700);
+  }
+
+  .pipeline-indicator svg {
+    color: var(--color-warning);
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 640px) {
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

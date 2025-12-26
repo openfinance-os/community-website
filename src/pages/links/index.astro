@@ -46,50 +46,65 @@ const internationalLinks = [
     <div class="container">
       <header class="page-header">
         <h1>Official Resources</h1>
-        <p>Curated links to official documentation, regulatory resources, and international references.</p>
+        <p>
+          Curated links to official documentation, regulatory resources, and international
+          references.
+        </p>
       </header>
 
       <section class="link-section">
         <h2>UAE Official</h2>
         <div class="link-grid">
-          {officialLinks.map((link) => (
-            <a href={link.url} class="link-card" target="_blank" rel="noopener noreferrer">
-              <h3>{link.title}</h3>
-              <p>{link.description}</p>
-              <span class="link-url">{new URL(link.url).hostname} →</span>
-            </a>
-          ))}
+          {
+            officialLinks.map((link) => (
+              <a href={link.url} class="link-card" target="_blank" rel="noopener noreferrer">
+                <h3>{link.title}</h3>
+                <p>{link.description}</p>
+                <span class="link-url">{new URL(link.url).hostname} →</span>
+              </a>
+            ))
+          }
         </div>
       </section>
 
       <section class="link-section">
         <h2>Developer Resources</h2>
         <div class="link-grid">
-          {developerLinks.map((link) => (
-            <a href={link.url} class="link-card" target="_blank" rel="noopener noreferrer">
-              <h3>{link.title}</h3>
-              <p>{link.description}</p>
-              <span class="link-url">{new URL(link.url).hostname} →</span>
-            </a>
-          ))}
+          {
+            developerLinks.map((link) => (
+              <a href={link.url} class="link-card" target="_blank" rel="noopener noreferrer">
+                <h3>{link.title}</h3>
+                <p>{link.description}</p>
+                <span class="link-url">{new URL(link.url).hostname} →</span>
+              </a>
+            ))
+          }
         </div>
       </section>
 
       <section class="link-section">
         <h2>International References</h2>
         <div class="link-grid">
-          {internationalLinks.map((link) => (
-            <a href={link.url} class="link-card" target="_blank" rel="noopener noreferrer">
-              <h3>{link.title}</h3>
-              <p>{link.description}</p>
-              <span class="link-url">{new URL(link.url).hostname} →</span>
-            </a>
-          ))}
+          {
+            internationalLinks.map((link) => (
+              <a href={link.url} class="link-card" target="_blank" rel="noopener noreferrer">
+                <h3>{link.title}</h3>
+                <p>{link.description}</p>
+                <span class="link-url">{new URL(link.url).hostname} →</span>
+              </a>
+            ))
+          }
         </div>
       </section>
 
       <footer class="page-footer">
-        <p>See an outdated link? <a href="https://github.com/openfinance-os/community/issues" target="_blank" rel="noopener noreferrer">Open an issue on GitHub</a></p>
+        <p>
+          See an outdated link? <a
+            href="https://github.com/openfinance-os/community/issues"
+            target="_blank"
+            rel="noopener noreferrer">Open an issue on GitHub</a
+          >
+        </p>
       </footer>
     </div>
   </div>
@@ -147,7 +162,10 @@ const internationalLinks = [
     border: 1px solid var(--color-gray-200);
     border-radius: var(--radius-xl);
     text-decoration: none;
-    transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast),
+      transform var(--transition-fast);
   }
 
   .link-card:hover {

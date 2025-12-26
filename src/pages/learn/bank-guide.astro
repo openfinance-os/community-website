@@ -64,7 +64,10 @@ const implementationPhases = [
 ];
 ---
 
-<PageLayout title="Bank Guide" description="Implementation guide for banks joining UAE Open Finance.">
+<PageLayout
+  title="Bank Guide"
+  description="Implementation guide for banks joining UAE Open Finance."
+>
   <div class="guide-page">
     <div class="container">
       <nav class="breadcrumb">
@@ -76,16 +79,18 @@ const implementationPhases = [
       <header class="page-header">
         <h1>Guide for Banks & Financial Institutions</h1>
         <p class="subtitle">
-          Implementation guide for Account Servicing Payment Service Providers (ASPSPs) joining the UAE Open Finance ecosystem.
+          Implementation guide for Account Servicing Payment Service Providers (ASPSPs) joining the
+          UAE Open Finance ecosystem.
         </p>
       </header>
 
       <section>
         <h2>Your Role as an ASPSP</h2>
         <p>
-          As a bank or Licensed Financial Institution (LFI), you are an Account Servicing Payment Service Provider (ASPSP)
-          in the Open Finance ecosystem. Your role is to provide secure, standardized APIs that allow authorized
-          Third Party Providers (TPPs) to access customer data and initiate payments on their behalf.
+          As a bank or Licensed Financial Institution (LFI), you are an Account Servicing Payment
+          Service Provider (ASPSP) in the Open Finance ecosystem. Your role is to provide secure,
+          standardized APIs that allow authorized Third Party Providers (TPPs) to access customer
+          data and initiate payments on their behalf.
         </p>
         <div class="role-highlights">
           <div class="role-item">
@@ -121,15 +126,17 @@ const implementationPhases = [
             <span>Status</span>
             <span>Description</span>
           </div>
-          {apiRequirements.map((api) => (
-            <div class="api-row">
-              <span class="api-name">{api.api}</span>
-              <span class={`api-status ${api.required ? 'required' : 'optional'}`}>
-                {api.required ? 'Required' : 'Optional'}
-              </span>
-              <span class="api-desc">{api.description}</span>
-            </div>
-          ))}
+          {
+            apiRequirements.map((api) => (
+              <div class="api-row">
+                <span class="api-name">{api.api}</span>
+                <span class={`api-status ${api.required ? 'required' : 'optional'}`}>
+                  {api.required ? 'Required' : 'Optional'}
+                </span>
+                <span class="api-desc">{api.description}</span>
+              </div>
+            ))
+          }
         </div>
       </section>
 
@@ -165,19 +172,21 @@ const implementationPhases = [
       <section>
         <h2>Implementation Roadmap</h2>
         <div class="phases">
-          {implementationPhases.map((phase, index) => (
-            <div class="phase-card">
-              <div class="phase-header">
-                <span class="phase-number">{index + 1}</span>
-                <h3>{phase.phase}</h3>
+          {
+            implementationPhases.map((phase, index) => (
+              <div class="phase-card">
+                <div class="phase-header">
+                  <span class="phase-number">{index + 1}</span>
+                  <h3>{phase.phase}</h3>
+                </div>
+                <ul>
+                  {phase.items.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
               </div>
-              <ul>
-                {phase.items.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
+            ))
+          }
         </div>
       </section>
 
@@ -220,10 +229,20 @@ const implementationPhases = [
         <h2>Implementation Support</h2>
         <p>Access technical documentation and sandbox environments to begin your implementation.</p>
         <div class="cta-buttons">
-          <a href="https://openfinanceuae.atlassian.net/wiki/spaces/tfdocsv7/pages/362840092" class="cta-primary" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://openfinanceuae.atlassian.net/wiki/spaces/tfdocsv7/pages/362840092"
+            class="cta-primary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             API Documentation →
           </a>
-          <a href="https://altareq.openfinance.ae" class="cta-secondary" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://altareq.openfinance.ae"
+            class="cta-secondary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Al Tareq Portal →
           </a>
         </div>

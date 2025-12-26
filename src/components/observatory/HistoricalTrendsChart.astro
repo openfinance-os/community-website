@@ -1,0 +1,381 @@
+---
+// Define inline type to avoid import issues
+interface DataPoint {
+  date: string;
+  totalParticipants: number;
+  liveInProduction: number;
+  byRole: Record<string, number>;
+  byCity: Record<string, number>;
+  apiFamilyCoverage: Record<string, number>;
+  tppCount: number;
+  shariahCompliantCount: number;
+}
+
+interface Props {
+  dataPoints: DataPoint[];
+  milestones?: Array<{
+    date: string;
+    event: string;
+    participantName?: string;
+  }>;
+}
+
+const { dataPoints, milestones = [] } = Astro.props;
+
+// Get last 30 data points for display
+const displayData = dataPoints.slice(-30);
+
+// Calculate min/max for scaling
+const maxParticipants = Math.max(...displayData.map((d) => d.totalParticipants), 1);
+const minParticipants = Math.min(...displayData.map((d) => d.totalParticipants), 0);
+
+// SVG dimensions
+const width = 600;
+const height = 200;
+const padding = { top: 20, right: 20, bottom: 40, left: 50 };
+const chartWidth = width - padding.left - padding.right;
+const chartHeight = height - padding.top - padding.bottom;
+
+// Generate path data
+function getPathData(points: DataPoint[]): string {
+  if (points.length === 0) return '';
+
+  const xStep = chartWidth / Math.max(points.length - 1, 1);
+  const yScale = (val: number) =>
+    chartHeight -
+    ((val - minParticipants) / (maxParticipants - minParticipants || 1)) * chartHeight;
+
+  return points
+    .map((point, i) => {
+      const x = padding.left + i * xStep;
+      const y = padding.top + yScale(point.totalParticipants);
+      return `${i === 0 ? 'M' : 'L'} ${x} ${y}`;
+    })
+    .join(' ');
+}
+
+// Generate area path
+function getAreaPath(points: DataPoint[]): string {
+  if (points.length === 0) return '';
+
+  const xStep = chartWidth / Math.max(points.length - 1, 1);
+  const yScale = (val: number) =>
+    chartHeight -
+    ((val - minParticipants) / (maxParticipants - minParticipants || 1)) * chartHeight;
+
+  const linePath = points.map((point, i) => {
+    const x = padding.left + i * xStep;
+    const y = padding.top + yScale(point.totalParticipants);
+    return `${i === 0 ? 'M' : 'L'} ${x} ${y}`;
+  });
+
+  const lastX = padding.left + (points.length - 1) * xStep;
+  const baseline = padding.top + chartHeight;
+
+  return `${linePath.join(' ')} L ${lastX} ${baseline} L ${padding.left} ${baseline} Z`;
+}
+
+// Get Y-axis labels
+const yLabels = [];
+const step = Math.ceil((maxParticipants - minParticipants) / 4) || 1;
+for (let i = 0; i <= 4; i++) {
+  yLabels.push(Math.round(minParticipants + i * step));
+}
+
+// Get X-axis labels (first, middle, last)
+const xLabels =
+  displayData.length > 0
+    ? [
+        { x: padding.left, label: displayData[0]?.date.slice(5) || '' },
+        {
+          x: padding.left + chartWidth / 2,
+          label: displayData[Math.floor(displayData.length / 2)]?.date.slice(5) || '',
+        },
+        {
+          x: padding.left + chartWidth,
+          label: displayData[displayData.length - 1]?.date.slice(5) || '',
+        },
+      ]
+    : [];
+
+// Recent milestones
+const recentMilestones = milestones.slice(-5);
+
+// Calculate growth
+const growth =
+  displayData.length >= 2
+    ? displayData[displayData.length - 1].totalParticipants - displayData[0].totalParticipants
+    : 0;
+---
+
+<div class="historical-trends">
+  <div class="header">
+    <h3 class="section-title">
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+      </svg>
+      Ecosystem Growth
+    </h3>
+    {
+      growth !== 0 && (
+        <div class:list={['growth-badge', { positive: growth > 0, negative: growth < 0 }]}>
+          {growth > 0 ? '+' : ''}
+          {growth} participants
+        </div>
+      )
+    }
+  </div>
+
+  {
+    displayData.length > 1 ? (
+      <div class="chart-container">
+        <svg viewBox={`0 0 ${width} ${height}`} class="trend-chart">
+          {/* Grid lines */}
+          {yLabels.map((_, i) => (
+            <line
+              x1={padding.left}
+              y1={padding.top + (i * chartHeight) / 4}
+              x2={padding.left + chartWidth}
+              y2={padding.top + (i * chartHeight) / 4}
+              class="grid-line"
+            />
+          ))}
+
+          {/* Area fill */}
+          <path d={getAreaPath(displayData)} class="area-fill" />
+
+          {/* Line */}
+          <path d={getPathData(displayData)} class="trend-line" />
+
+          {/* Data points */}
+          {displayData.map((point, i) => {
+            const xStep = chartWidth / Math.max(displayData.length - 1, 1);
+            const yScale = (val: number) =>
+              chartHeight -
+              ((val - minParticipants) / (maxParticipants - minParticipants || 1)) * chartHeight;
+            const x = padding.left + i * xStep;
+            const y = padding.top + yScale(point.totalParticipants);
+
+            return (
+              <circle
+                cx={x}
+                cy={y}
+                r="3"
+                class="data-point"
+                data-date={point.date}
+                data-value={point.totalParticipants}
+              />
+            );
+          })}
+
+          {/* Y-axis labels */}
+          {yLabels.map((label, i) => (
+            <text
+              x={padding.left - 10}
+              y={padding.top + chartHeight - (i * chartHeight) / 4 + 4}
+              class="axis-label y-label"
+            >
+              {label}
+            </text>
+          ))}
+
+          {/* X-axis labels */}
+          {xLabels.map(({ x, label }) => (
+            <text x={x} y={height - 10} class="axis-label x-label">
+              {label}
+            </text>
+          ))}
+        </svg>
+      </div>
+    ) : (
+      <div class="no-data">
+        <p>Historical data will appear as snapshots are collected over time.</p>
+      </div>
+    )
+  }
+
+  {
+    recentMilestones.length > 0 && (
+      <div class="milestones">
+        <h4 class="milestones-title">Recent Milestones</h4>
+        <div class="milestones-list">
+          {recentMilestones.map((milestone) => (
+            <div class="milestone-item">
+              <span class="milestone-date">{milestone.date}</span>
+              <span class="milestone-event">{milestone.event}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .historical-trends {
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-4);
+  }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin: 0;
+  }
+
+  .section-title svg {
+    color: var(--color-primary-500);
+  }
+
+  .growth-badge {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-md);
+  }
+
+  .growth-badge.positive {
+    color: var(--color-success);
+    background: rgba(16, 185, 129, 0.1);
+  }
+
+  .growth-badge.negative {
+    color: var(--color-error);
+    background: rgba(239, 68, 68, 0.1);
+  }
+
+  .chart-container {
+    margin-bottom: var(--space-4);
+  }
+
+  .trend-chart {
+    width: 100%;
+    height: auto;
+  }
+
+  .grid-line {
+    stroke: var(--color-gray-100);
+    stroke-width: 1;
+  }
+
+  .area-fill {
+    fill: url(#areaGradient);
+    opacity: 0.3;
+  }
+
+  .trend-line {
+    fill: none;
+    stroke: var(--color-primary-500);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .data-point {
+    fill: var(--color-primary-500);
+    stroke: white;
+    stroke-width: 2;
+    cursor: pointer;
+    transition: r var(--transition-fast);
+  }
+
+  .data-point:hover {
+    r: 5;
+  }
+
+  .axis-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    fill: var(--color-gray-500);
+  }
+
+  .y-label {
+    text-anchor: end;
+  }
+
+  .x-label {
+    text-anchor: middle;
+  }
+
+  .no-data {
+    padding: var(--space-8);
+    text-align: center;
+    color: var(--color-gray-500);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-lg);
+  }
+
+  .milestones {
+    border-top: 1px solid var(--color-gray-100);
+    padding-top: var(--space-4);
+    margin-top: var(--space-4);
+  }
+
+  .milestones-title {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-gray-700);
+    margin-bottom: var(--space-3);
+  }
+
+  .milestones-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .milestone-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: 0.8125rem;
+  }
+
+  .milestone-date {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-gray-500);
+    min-width: 80px;
+  }
+
+  .milestone-event {
+    color: var(--color-gray-700);
+  }
+
+  /* Add gradient definition */
+  .trend-chart {
+    overflow: visible;
+  }
+</style>
+
+<svg width="0" height="0" style="position: absolute;">
+  <defs>
+    <linearGradient id="areaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color: var(--color-primary-500); stop-opacity: 0.4"></stop>
+      <stop offset="100%" style="stop-color: var(--color-primary-500); stop-opacity: 0"></stop>
+    </linearGradient>
+  </defs>
+</svg>

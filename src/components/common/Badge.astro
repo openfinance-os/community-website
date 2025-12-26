@@ -1,6 +1,18 @@
 ---
 interface Props {
-  variant?: 'active' | 'inactive' | 'official' | 'milestone' | 'community' | 'global' | 'opinion' | 'LFI' | 'BDSP' | 'BSIP' | 'ISP' | 'TPP';
+  variant?:
+    | 'active'
+    | 'inactive'
+    | 'official'
+    | 'milestone'
+    | 'community'
+    | 'global'
+    | 'opinion'
+    | 'LFI'
+    | 'BDSP'
+    | 'BSIP'
+    | 'ISP'
+    | 'TPP';
   size?: 'sm' | 'md';
 }
 
@@ -11,7 +23,11 @@ const variantConfig: Record<string, { bg: string; text: string; border?: string 
   inactive: { bg: 'var(--color-gray-400)', text: 'white' },
   official: { bg: 'var(--color-primary-600)', text: 'white' },
   milestone: { bg: 'var(--color-accent-500)', text: 'var(--color-gray-900)' },
-  community: { bg: 'var(--color-primary-100)', text: 'var(--color-primary-800)', border: 'var(--color-primary-200)' },
+  community: {
+    bg: 'var(--color-primary-100)',
+    text: 'var(--color-primary-800)',
+    border: 'var(--color-primary-200)',
+  },
   global: { bg: 'var(--color-gray-700)', text: 'white' },
   opinion: { bg: 'var(--color-gray-200)', text: 'var(--color-gray-700)' },
   LFI: { bg: 'var(--color-primary-100)', text: 'var(--color-primary-800)' },

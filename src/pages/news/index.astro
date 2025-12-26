@@ -6,9 +6,7 @@ import { getCollection } from 'astro:content';
 
 // Get all news entries, sorted by date descending
 const allNews = await getCollection('news');
-const sortedNews = allNews.sort((a, b) =>
-  b.data.date.valueOf() - a.data.date.valueOf()
-);
+const sortedNews = allNews.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 // Filter types
 const types = ['all', 'official', 'milestone', 'community', 'global', 'opinion'];
@@ -45,23 +43,27 @@ const typeLabels: Record<string, string> = {
         <NewsFilter types={types} typeLabels={typeLabels} />
 
         <div class="news-grid" id="news-grid">
-          {sortedNews.map((article) => (
-            <NewsCard
-              title={article.data.title}
-              date={article.data.date}
-              type={article.data.type}
-              author={article.data.author}
-              description={article.data.description}
-              slug={article.slug}
-            />
-          ))}
+          {
+            sortedNews.map((article) => (
+              <NewsCard
+                title={article.data.title}
+                date={article.data.date}
+                type={article.data.type}
+                author={article.data.author}
+                description={article.data.description}
+                slug={article.slug}
+              />
+            ))
+          }
         </div>
 
-        {sortedNews.length === 0 && (
-          <div class="empty-state">
-            <p>No news articles yet. Check back soon!</p>
-          </div>
-        )}
+        {
+          sortedNews.length === 0 && (
+            <div class="empty-state">
+              <p>No news articles yet. Check back soon!</p>
+            </div>
+          )
+        }
       </div>
     </section>
   </div>
@@ -75,11 +77,7 @@ const typeLabels: Record<string, string> = {
   .page-header {
     position: relative;
     padding: var(--space-16) var(--space-4) var(--space-12);
-    background: linear-gradient(
-      to bottom,
-      var(--color-gray-900) 0%,
-      var(--color-gray-800) 100%
-    );
+    background: linear-gradient(to bottom, var(--color-gray-900) 0%, var(--color-gray-800) 100%);
     color: white;
     text-align: center;
     overflow: hidden;
