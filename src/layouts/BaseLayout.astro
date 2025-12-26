@@ -37,8 +37,18 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
-    <!-- Analytics (Plausible) - uncomment when ready -->
-    <!-- <script defer data-domain="openfinance-os.org" src="https://plausible.io/js/script.js"></script> -->
+    <!-- Analytics (Plausible) - privacy-friendly, no cookies -->
+    <script defer data-domain="openfinance-os.org" src="https://plausible.io/js/script.js"></script>
+
+    <!-- Theme initialization - prevent flash of wrong theme -->
+    <script is:inline>
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme === 'dark' || theme === 'light') {
+          document.documentElement.setAttribute('data-theme', theme);
+        }
+      })();
+    </script>
   </head>
   <body>
     <slot />

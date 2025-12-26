@@ -83,6 +83,96 @@
   /* Grid pattern for observatory aesthetic - using brand primary */
   --grid-pattern: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%230D4F4F' fill-opacity='0.03'%3E%3Ccircle cx='20' cy='20' r='1'/%3E%3C/g%3E%3C/svg%3E");
   --grid-pattern-dark: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%231A6B6B' fill-opacity='0.08'%3E%3Ccircle cx='20' cy='20' r='1'/%3E%3C/g%3E%3C/svg%3E");
+
+  /* Color scheme for system preference detection */
+  color-scheme: light dark;
+}
+
+/* Dark mode variables */
+[data-theme="dark"] {
+  /* Primary - adjusted for dark backgrounds */
+  --color-primary-50: #0a2e2e;
+  --color-primary-100: #0d3d3d;
+  --color-primary-200: #115252;
+  --color-primary-300: #1A6B6B;
+  --color-primary-400: #2d8a8a;
+  --color-primary-500: #3da8a8;
+  --color-primary-600: #4fc4c4;
+  --color-primary-700: #7dd4d4;
+  --color-primary-800: #abe4e4;
+  --color-primary-900: #d9f2f2;
+
+  /* Surface and backgrounds */
+  --color-surface: #0F1419;
+  --color-dark: #FAFBFC;
+
+  /* Text colors - inverted */
+  --color-text: #e4e7eb;
+  --color-text-secondary: #9ca3af;
+
+  /* Gray scale - inverted for dark mode */
+  --color-gray-50: #1a1f26;
+  --color-gray-100: #1f2937;
+  --color-gray-200: #2d3748;
+  --color-gray-300: #3d4a5c;
+  --color-gray-400: #5a6777;
+  --color-gray-500: #8b95a5;
+  --color-gray-600: #a8b2c1;
+  --color-gray-700: #c5ccd6;
+  --color-gray-800: #e2e6ec;
+  --color-gray-900: #f3f5f7;
+
+  /* Keep semantic colors but adjust for visibility */
+  --color-success: #34d399;
+  --color-warning: #fbbf24;
+  --color-error: #f87171;
+
+  /* Shadows - more subtle in dark mode */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.3);
+
+  /* Use dark grid pattern */
+  --grid-pattern: var(--grid-pattern-dark);
+}
+
+/* System preference dark mode (when no explicit theme set) */
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) {
+    --color-primary-50: #0a2e2e;
+    --color-primary-100: #0d3d3d;
+    --color-primary-200: #115252;
+    --color-primary-300: #1A6B6B;
+    --color-primary-400: #2d8a8a;
+    --color-primary-500: #3da8a8;
+    --color-primary-600: #4fc4c4;
+    --color-primary-700: #7dd4d4;
+    --color-primary-800: #abe4e4;
+    --color-primary-900: #d9f2f2;
+    --color-surface: #0F1419;
+    --color-dark: #FAFBFC;
+    --color-text: #e4e7eb;
+    --color-text-secondary: #9ca3af;
+    --color-gray-50: #1a1f26;
+    --color-gray-100: #1f2937;
+    --color-gray-200: #2d3748;
+    --color-gray-300: #3d4a5c;
+    --color-gray-400: #5a6777;
+    --color-gray-500: #8b95a5;
+    --color-gray-600: #a8b2c1;
+    --color-gray-700: #c5ccd6;
+    --color-gray-800: #e2e6ec;
+    --color-gray-900: #f3f5f7;
+    --color-success: #34d399;
+    --color-warning: #fbbf24;
+    --color-error: #f87171;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.3);
+    --grid-pattern: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%231A6B6B' fill-opacity='0.08'%3E%3Ccircle cx='20' cy='20' r='1'/%3E%3C/g%3E%3C/svg%3E");
+  }
 }
 
 /* Reset */
@@ -106,6 +196,7 @@ body {
   line-height: 1.6;
   color: var(--color-text);
   background-color: var(--color-surface);
+  transition: background-color var(--transition-slow), color var(--transition-slow);
 }
 
 img,

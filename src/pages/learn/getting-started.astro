@@ -1,0 +1,445 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+
+const steps = [
+  {
+    number: 1,
+    title: 'Understand the Framework',
+    description: 'Learn about the UAE Open Finance regulatory framework and key participants.',
+    items: [
+      'Review the CBUAE Open Finance guidelines',
+      'Understand the difference between TPPs and ASPSPs',
+      'Familiarize yourself with participant roles (LFI, BDSP, BSIP, ISP)',
+    ],
+  },
+  {
+    number: 2,
+    title: 'Choose Your Role',
+    description: 'Determine which participant type applies to your organization.',
+    items: [
+      'TPP: Building apps that access bank data or initiate payments',
+      'ASPSP: Banks providing APIs to TPPs',
+      'Technology Provider: Supporting infrastructure providers',
+    ],
+  },
+  {
+    number: 3,
+    title: 'Register on Al Tareq',
+    description: 'Create an account on the official platform.',
+    items: [
+      'Visit altareq.openfinance.ae',
+      'Complete the registration form',
+      'Submit required documentation',
+      'Await approval from Nebras',
+    ],
+  },
+  {
+    number: 4,
+    title: 'Access the Sandbox',
+    description: 'Start testing in the sandbox environment.',
+    items: [
+      'Obtain sandbox credentials',
+      'Review API documentation',
+      'Test authentication flows',
+      'Implement consent management',
+    ],
+  },
+  {
+    number: 5,
+    title: 'Go Live',
+    description: 'Complete certification and launch in production.',
+    items: [
+      'Pass conformance testing',
+      'Complete security assessment',
+      'Obtain production credentials',
+      'Start processing real transactions',
+    ],
+  },
+];
+---
+
+<PageLayout title="Getting Started" description="Everything you need to start building on UAE Open Finance.">
+  <div class="guide-page">
+    <div class="container">
+      <nav class="breadcrumb">
+        <a href="/learn">Learn</a>
+        <span>/</span>
+        <span>Getting Started</span>
+      </nav>
+
+      <header class="page-header">
+        <span class="badge">Start Here</span>
+        <h1>Getting Started with UAE Open Finance</h1>
+        <p class="subtitle">
+          A step-by-step guide to understanding and participating in the UAE Open Finance ecosystem.
+        </p>
+      </header>
+
+      <section class="intro-section">
+        <h2>What is UAE Open Finance?</h2>
+        <p>
+          UAE Open Finance is a regulatory framework that enables secure, standardized sharing of financial data
+          between banks and authorized third-party providers. Operated under CBUAE oversight and powered by the
+          Al Tareq platform, it allows consumers to share their financial data with apps and services they trust.
+        </p>
+        <div class="key-points">
+          <div class="key-point">
+            <span class="point-icon">🔐</span>
+            <div>
+              <h4>Secure by Design</h4>
+              <p>FAPI-compliant security with explicit customer consent</p>
+            </div>
+          </div>
+          <div class="key-point">
+            <span class="point-icon">📋</span>
+            <div>
+              <h4>Regulated</h4>
+              <p>Supervised by CBUAE with clear compliance requirements</p>
+            </div>
+          </div>
+          <div class="key-point">
+            <span class="point-icon">🌐</span>
+            <div>
+              <h4>Standardized</h4>
+              <p>Common APIs across all participating institutions</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="steps-section">
+        <h2>Your Journey to Going Live</h2>
+        <div class="steps-timeline">
+          {steps.map((step) => (
+            <div class="step">
+              <div class="step-number">{step.number}</div>
+              <div class="step-content">
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
+                <ul>
+                  {step.items.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="apis-section">
+        <h2>Available API Families</h2>
+        <p>The UAE Open Finance framework currently supports the following API categories:</p>
+        <div class="api-grid">
+          <div class="api-card">
+            <h4>Account Information</h4>
+            <p>Access account balances, transactions, and standing orders with customer consent.</p>
+          </div>
+          <div class="api-card">
+            <h4>Payment Initiation</h4>
+            <p>Initiate domestic payments directly from customer accounts.</p>
+          </div>
+          <div class="api-card">
+            <h4>Confirmation of Payee</h4>
+            <p>Verify recipient details before initiating payments.</p>
+          </div>
+          <div class="api-card">
+            <h4>Product Information</h4>
+            <p>Access publicly available product and branch information.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="next-steps">
+        <h2>Next Steps</h2>
+        <div class="next-grid">
+          <a href="/learn/tpp-guide" class="next-card">
+            <h4>TPP Guide</h4>
+            <p>For fintechs and third-party providers</p>
+            <span>→</span>
+          </a>
+          <a href="/learn/bank-guide" class="next-card">
+            <h4>Bank Guide</h4>
+            <p>For banks and financial institutions</p>
+            <span>→</span>
+          </a>
+          <a href="/learn/api-guide" class="next-card">
+            <h4>API Integration</h4>
+            <p>Technical implementation details</p>
+            <span>→</span>
+          </a>
+        </div>
+      </section>
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .guide-page {
+    padding: var(--space-8) var(--space-4) var(--space-16);
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+    margin-bottom: var(--space-6);
+  }
+
+  .breadcrumb a {
+    color: var(--color-primary-600);
+  }
+
+  .page-header {
+    margin-bottom: var(--space-10);
+  }
+
+  .badge {
+    display: inline-block;
+    padding: var(--space-1) var(--space-3);
+    background: var(--color-accent-500);
+    color: white;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: var(--radius-full);
+    margin-bottom: var(--space-4);
+  }
+
+  .page-header h1 {
+    font-size: 2.25rem;
+    margin-bottom: var(--space-3);
+  }
+
+  .subtitle {
+    font-size: 1.125rem;
+    color: var(--color-gray-600);
+    line-height: 1.6;
+  }
+
+  /* Sections */
+  section {
+    margin-bottom: var(--space-12);
+  }
+
+  section h2 {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-4);
+  }
+
+  section > p {
+    color: var(--color-gray-600);
+    line-height: 1.7;
+    margin-bottom: var(--space-6);
+  }
+
+  /* Key Points */
+  .key-points {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+
+  @media (min-width: 640px) {
+    .key-points {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .key-point {
+    display: flex;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-lg);
+  }
+
+  .point-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .key-point h4 {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    margin-bottom: var(--space-1);
+  }
+
+  .key-point p {
+    font-size: 0.8125rem;
+    color: var(--color-gray-600);
+    margin: 0;
+  }
+
+  /* Steps Timeline */
+  .steps-timeline {
+    position: relative;
+    padding-left: var(--space-8);
+  }
+
+  .steps-timeline::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--color-gray-200);
+  }
+
+  .step {
+    position: relative;
+    display: flex;
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+  }
+
+  .step:last-child {
+    margin-bottom: 0;
+  }
+
+  .step-number {
+    position: absolute;
+    left: calc(-1 * var(--space-8));
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-primary-600);
+    color: white;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 50%;
+  }
+
+  .step-content {
+    flex: 1;
+    padding-top: var(--space-1);
+  }
+
+  .step-content h3 {
+    font-size: 1.125rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .step-content > p {
+    color: var(--color-gray-600);
+    margin-bottom: var(--space-3);
+  }
+
+  .step-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .step-content li {
+    position: relative;
+    padding-left: var(--space-5);
+    color: var(--color-gray-600);
+    font-size: 0.9375rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .step-content li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--color-primary-500);
+  }
+
+  /* API Grid */
+  .api-grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 640px) {
+    .api-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .api-card {
+    padding: var(--space-5);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+  }
+
+  .api-card h4 {
+    font-size: 1rem;
+    margin-bottom: var(--space-2);
+    color: var(--color-primary-700);
+  }
+
+  .api-card p {
+    font-size: 0.875rem;
+    color: var(--color-gray-600);
+    margin: 0;
+  }
+
+  /* Next Steps */
+  .next-grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 640px) {
+    .next-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .next-card {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-5);
+    background: var(--color-primary-50);
+    border: 1px solid var(--color-primary-100);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: border-color var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .next-card:hover {
+    border-color: var(--color-primary-300);
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+
+  .next-card h4 {
+    font-size: 1rem;
+    color: var(--color-primary-700);
+    margin-bottom: var(--space-1);
+  }
+
+  .next-card p {
+    font-size: 0.8125rem;
+    color: var(--color-gray-600);
+    margin: 0;
+    flex: 1;
+  }
+
+  .next-card span {
+    color: var(--color-primary-600);
+    font-size: 1.25rem;
+    margin-top: var(--space-2);
+    transition: transform var(--transition-fast);
+  }
+
+  .next-card:hover span {
+    transform: translateX(4px);
+  }
+</style>

@@ -1,66 +1,410 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
+
+const guides = [
+  {
+    title: 'Getting Started with UAE Open Finance',
+    description: 'Everything you need to know to start building on the Al Tareq platform.',
+    href: '/learn/getting-started',
+    icon: 'rocket',
+    badge: 'Start Here',
+  },
+  {
+    title: 'For Third Party Providers (TPPs)',
+    description: 'Registration, sandbox access, and going live as a TPP in the UAE.',
+    href: '/learn/tpp-guide',
+    icon: 'building',
+  },
+  {
+    title: 'For Banks & Financial Institutions',
+    description: 'Implementation guide for Account Servicing Payment Service Providers (ASPSPs).',
+    href: '/learn/bank-guide',
+    icon: 'bank',
+  },
+  {
+    title: 'API Integration Guide',
+    description: 'Technical deep-dive into authentication, consent flows, and API usage.',
+    href: '/learn/api-guide',
+    icon: 'code',
+  },
+];
+
+const glossaryTerms = [
+  { term: 'ASPSP', definition: 'Account Servicing Payment Service Provider - typically a bank' },
+  { term: 'TPP', definition: 'Third Party Provider - fintechs accessing bank data/payments' },
+  { term: 'LFI', definition: 'Licensed Financial Institution' },
+  { term: 'BDSP', definition: 'Banking Data Service Provider' },
+  { term: 'BSIP', definition: 'Banking Service Initiation Provider' },
+  { term: 'ISP', definition: 'Information Service Provider' },
+  { term: 'CBUAE', definition: 'Central Bank of the United Arab Emirates' },
+  { term: 'Al Tareq', definition: 'The official UAE Open Finance platform operated by Nebras' },
+  { term: 'FAPI', definition: 'Financial-grade API - security standard for Open Finance APIs' },
+  { term: 'Consent', definition: 'Customer authorization for TPPs to access their data' },
+];
 ---
 
-<PageLayout title="Learn" description="Resources and guides for getting started with UAE Open Finance.">
-  <div class="placeholder-page">
+<PageLayout title="Learn" description="Guides, glossary, and resources for getting started with UAE Open Finance.">
+  <div class="learn-page">
     <div class="container">
-      <span class="coming-soon-badge">Coming Soon</span>
-      <h1>Learn</h1>
-      <p>Guides, glossary, and getting started resources.</p>
-      <p class="subtitle">This section will include tutorials for TPPs, banks, and developers entering the ecosystem.</p>
-      <a href="/" class="back-link">← Back to Home</a>
+      <header class="page-header">
+        <h1>Learn Open Finance</h1>
+        <p class="subtitle">
+          Everything you need to understand and build on the UAE Open Finance ecosystem.
+        </p>
+      </header>
+
+      <section class="guides-section">
+        <h2 class="section-title">Guides & Tutorials</h2>
+        <div class="guides-grid">
+          {guides.map((guide) => (
+            <a href={guide.href} class="guide-card">
+              <div class="guide-icon">
+                {guide.icon === 'rocket' && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+                    <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+                    <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+                    <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+                  </svg>
+                )}
+                {guide.icon === 'building' && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="4" y="2" width="16" height="20" rx="2"/>
+                    <path d="M9 22v-4h6v4"/>
+                    <path d="M8 6h.01"/><path d="M16 6h.01"/>
+                    <path d="M8 10h.01"/><path d="M16 10h.01"/>
+                    <path d="M8 14h.01"/><path d="M16 14h.01"/>
+                  </svg>
+                )}
+                {guide.icon === 'bank' && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 21h18"/>
+                    <path d="M3 7v1a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7"/>
+                    <path d="M21 7L12 2 3 7"/>
+                    <path d="M6 10v9"/><path d="M10 10v9"/>
+                    <path d="M14 10v9"/><path d="M18 10v9"/>
+                  </svg>
+                )}
+                {guide.icon === 'code' && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m16 18 6-6-6-6"/>
+                    <path d="m8 6-6 6 6 6"/>
+                  </svg>
+                )}
+              </div>
+              <div class="guide-content">
+                {guide.badge && <span class="guide-badge">{guide.badge}</span>}
+                <h3>{guide.title}</h3>
+                <p>{guide.description}</p>
+              </div>
+              <span class="guide-arrow">→</span>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section class="glossary-section">
+        <h2 class="section-title">Quick Glossary</h2>
+        <p class="glossary-intro">Key terms you'll encounter in the UAE Open Finance ecosystem.</p>
+        <div class="glossary-grid">
+          {glossaryTerms.map((item) => (
+            <div class="glossary-item">
+              <dt class="glossary-term">{item.term}</dt>
+              <dd class="glossary-definition">{item.definition}</dd>
+            </div>
+          ))}
+        </div>
+        <a href="/learn/glossary" class="view-all-link">View full glossary →</a>
+      </section>
+
+      <section class="resources-section">
+        <h2 class="section-title">External Resources</h2>
+        <div class="resources-grid">
+          <a href="https://openfinanceuae.atlassian.net/wiki/spaces/tfdocsv7/pages/362840092" class="resource-card" target="_blank" rel="noopener noreferrer">
+            <span class="resource-icon">📚</span>
+            <div>
+              <h4>Official API Documentation</h4>
+              <p>Technical specs from Al Tareq</p>
+            </div>
+            <svg class="external-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M7 17L17 7M17 7H7M17 7v10"/>
+            </svg>
+          </a>
+          <a href="https://altareq.openfinance.ae" class="resource-card" target="_blank" rel="noopener noreferrer">
+            <span class="resource-icon">🌐</span>
+            <div>
+              <h4>Al Tareq Portal</h4>
+              <p>Official registration & sandbox</p>
+            </div>
+            <svg class="external-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M7 17L17 7M17 7H7M17 7v10"/>
+            </svg>
+          </a>
+          <a href="https://www.centralbank.ae" class="resource-card" target="_blank" rel="noopener noreferrer">
+            <span class="resource-icon">🏛️</span>
+            <div>
+              <h4>CBUAE Framework</h4>
+              <p>Regulatory guidelines</p>
+            </div>
+            <svg class="external-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M7 17L17 7M17 7H7M17 7v10"/>
+            </svg>
+          </a>
+        </div>
+      </section>
     </div>
   </div>
 </PageLayout>
 
 <style>
-  .placeholder-page {
-    min-height: 60vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: var(--space-8) var(--space-4);
+  .learn-page {
+    padding: var(--space-12) var(--space-4);
   }
 
   .container {
-    max-width: 500px;
+    max-width: 1000px;
+    margin: 0 auto;
   }
 
-  .coming-soon-badge {
-    display: inline-block;
-    padding: var(--space-1) var(--space-3);
-    background: var(--color-accent-100, #fef3c7);
-    color: var(--color-accent-700, #b45309);
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border-radius: var(--radius-full);
-    margin-bottom: var(--space-4);
+  .page-header {
+    margin-bottom: var(--space-12);
   }
 
-  h1 {
-    font-size: 2rem;
+  .page-header h1 {
+    font-size: 2.5rem;
     margin-bottom: var(--space-3);
   }
 
-  p {
+  .subtitle {
+    font-size: 1.25rem;
     color: var(--color-gray-600);
+    max-width: 600px;
+  }
+
+  .section-title {
+    font-size: 1rem;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gray-500);
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  /* Guides Section */
+  .guides-section {
+    margin-bottom: var(--space-16);
+  }
+
+  .guides-grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 640px) {
+    .guides-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .guide-card {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+    padding: var(--space-6);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    text-decoration: none;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .guide-card:hover {
+    border-color: var(--color-primary-300);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+
+  .guide-icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-primary-50);
+    border-radius: var(--radius-lg);
+    color: var(--color-primary-600);
+  }
+
+  .guide-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .guide-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .guide-badge {
+    display: inline-block;
+    padding: var(--space-1) var(--space-2);
+    background: var(--color-accent-500);
+    color: white;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: var(--radius-sm);
     margin-bottom: var(--space-2);
   }
 
-  .subtitle {
-    font-size: 0.875rem;
-    color: var(--color-gray-500);
+  .guide-card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-1);
   }
 
-  .back-link {
-    display: inline-block;
-    margin-top: var(--space-6);
+  .guide-card:hover h3 {
+    color: var(--color-primary-700);
+  }
+
+  .guide-card p {
+    font-size: 0.875rem;
+    color: var(--color-gray-600);
+    line-height: 1.5;
+  }
+
+  .guide-arrow {
+    flex-shrink: 0;
+    color: var(--color-gray-400);
+    font-size: 1.25rem;
+    transition: transform var(--transition-fast), color var(--transition-fast);
+  }
+
+  .guide-card:hover .guide-arrow {
+    transform: translateX(4px);
     color: var(--color-primary-600);
+  }
+
+  /* Glossary Section */
+  .glossary-section {
+    margin-bottom: var(--space-16);
+  }
+
+  .glossary-intro {
+    color: var(--color-gray-600);
+    margin-bottom: var(--space-6);
+    margin-top: calc(-1 * var(--space-4));
+  }
+
+  .glossary-grid {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 640px) {
+    .glossary-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .glossary-item {
+    padding: var(--space-4);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-lg);
+  }
+
+  .glossary-term {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-primary-700);
+    margin-bottom: var(--space-1);
+  }
+
+  .glossary-definition {
+    font-size: 0.875rem;
+    color: var(--color-gray-600);
+    margin: 0;
+  }
+
+  .view-all-link {
+    display: inline-block;
+    margin-top: var(--space-4);
     font-weight: 500;
+    color: var(--color-primary-600);
+  }
+
+  .view-all-link:hover {
+    color: var(--color-primary-700);
+  }
+
+  /* Resources Section */
+  .resources-section {
+    margin-bottom: var(--space-8);
+  }
+
+  .resources-grid {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 768px) {
+    .resources-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .resource-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: border-color var(--transition-fast), background-color var(--transition-fast);
+  }
+
+  .resource-card:hover {
+    border-color: var(--color-primary-300);
+    background: var(--color-gray-50);
+    text-decoration: none;
+  }
+
+  .resource-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .resource-card div {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .resource-card h4 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin-bottom: 2px;
+  }
+
+  .resource-card p {
+    font-size: 0.75rem;
+    color: var(--color-gray-500);
+    margin: 0;
+  }
+
+  .external-icon {
+    flex-shrink: 0;
+    color: var(--color-gray-400);
   }
 </style>
