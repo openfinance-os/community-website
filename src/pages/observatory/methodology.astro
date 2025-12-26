@@ -2,7 +2,10 @@
 import PageLayout from '@layouts/PageLayout.astro';
 ---
 
-<PageLayout title="Methodology" description="How we calculate Observatory metrics and derive ecosystem status.">
+<PageLayout
+  title="Methodology"
+  description="How we calculate Observatory metrics and derive ecosystem status."
+>
   <div class="methodology-page">
     <div class="container">
       <header class="page-header">
@@ -15,8 +18,9 @@ import PageLayout from '@layouts/PageLayout.astro';
         <h2>Data Sources</h2>
         <p>
           All data displayed in the Observatory is derived from the public
-          <a href="https://data.directory.openfinance.ae" target="_blank" rel="noopener noreferrer">UAE Open Finance Trust Framework Directory</a>,
-          operated by Raidiam on behalf of Nebras Open Finance LLC (a CBUAE subsidiary).
+          <a href="https://data.directory.openfinance.ae" target="_blank" rel="noopener noreferrer"
+            >UAE Open Finance Trust Framework Directory</a
+          >, operated by Raidiam on behalf of Nebras Open Finance LLC (a CBUAE subsidiary).
         </p>
 
         <div class="environment-info">
@@ -28,7 +32,9 @@ import PageLayout from '@layouts/PageLayout.astro';
                 <span class="env-dot"></span>
                 <strong>Production</strong>
               </div>
-              <p>Live ecosystem with licensed participants actively providing Open Finance services.</p>
+              <p>
+                Live ecosystem with licensed participants actively providing Open Finance services.
+              </p>
               <code>data.directory.openfinance.ae</code>
             </div>
             <div class="env-card sandbox">
@@ -36,7 +42,9 @@ import PageLayout from '@layouts/PageLayout.astro';
                 <span class="env-dot"></span>
                 <strong>Sandbox</strong>
               </div>
-              <p>Testing environment where institutions complete certification before going live.</p>
+              <p>
+                Testing environment where institutions complete certification before going live.
+              </p>
               <code>data.sandbox.directory.openfinance.ae</code>
             </div>
           </div>
@@ -46,12 +54,13 @@ import PageLayout from '@layouts/PageLayout.astro';
       <section class="content-section">
         <h2>Update Frequency</h2>
         <p>
-          Data is collected automatically once per day at <strong>06:00 UTC</strong> via a GitHub Actions workflow.
-          Each collection creates timestamped snapshots for both production and sandbox environments.
+          Data is collected automatically once per day at <strong>06:00 UTC</strong> via a GitHub Actions
+          workflow. Each collection creates timestamped snapshots for both production and sandbox environments.
         </p>
         <p>
-          Historical snapshots are preserved, enabling trend analysis and visualization of ecosystem growth over time.
-          Milestones (such as new participant registrations) are automatically tracked.
+          Historical snapshots are preserved, enabling trend analysis and visualization of ecosystem
+          growth over time. Milestones (such as new participant registrations) are automatically
+          tracked.
         </p>
       </section>
 
@@ -63,30 +72,34 @@ import PageLayout from '@layouts/PageLayout.astro';
 
           <div class="metric-definition">
             <h4>Total Participants</h4>
-            <p>Count of all organizations registered in the directory, regardless of status. Changes are tracked over time to show ecosystem growth.</p>
+            <p>
+              Count of all organizations registered in the directory, regardless of status. Changes
+              are tracked over time to show ecosystem growth.
+            </p>
           </div>
 
           <div class="metric-definition">
             <h4>Live in Production</h4>
             <p>
-              Participants that have at least one active Authorization Server with a valid issuer URL.
-              This indicates they have completed technical integration and can process API requests.
+              Participants that have at least one active Authorization Server with a valid issuer
+              URL. This indicates they have completed technical integration and can process API
+              requests.
             </p>
           </div>
 
           <div class="metric-definition">
             <h4>Shariah Compliant</h4>
             <p>
-              Institutions flagged as Shariah-compliant in the directory, offering Islamic finance products
-              that comply with Islamic law principles.
+              Institutions flagged as Shariah-compliant in the directory, offering Islamic finance
+              products that comply with Islamic law principles.
             </p>
           </div>
 
           <div class="metric-definition">
             <h4>Multi-Role Participants</h4>
             <p>
-              Institutions registered with two or more roles (e.g., LFI + BDSP + BSIP).
-              This indicates deeper integration with the Open Finance ecosystem.
+              Institutions registered with two or more roles (e.g., LFI + BDSP + BSIP). This
+              indicates deeper integration with the Open Finance ecosystem.
             </p>
           </div>
         </div>
@@ -97,27 +110,42 @@ import PageLayout from '@layouts/PageLayout.astro';
 
           <div class="metric-definition">
             <h4>LFI — Licensed Financial Institution</h4>
-            <p>Banks and financial institutions licensed by CBUAE that hold customer accounts and provide core banking services.</p>
+            <p>
+              Banks and financial institutions licensed by CBUAE that hold customer accounts and
+              provide core banking services.
+            </p>
           </div>
 
           <div class="metric-definition">
             <h4>BDSP — Bank Data Service Provider</h4>
-            <p>Entities that provide data sharing services, enabling secure access to customer financial data.</p>
+            <p>
+              Entities that provide data sharing services, enabling secure access to customer
+              financial data.
+            </p>
           </div>
 
           <div class="metric-definition">
             <h4>BSIP — Bank Service Infrastructure Provider</h4>
-            <p>Technical infrastructure providers that support Open Finance connectivity and API operations.</p>
+            <p>
+              Technical infrastructure providers that support Open Finance connectivity and API
+              operations.
+            </p>
           </div>
 
           <div class="metric-definition">
             <h4>ISP — Information Service Provider</h4>
-            <p>Entities that aggregate and provide financial information services using customer data.</p>
+            <p>
+              Entities that aggregate and provide financial information services using customer
+              data.
+            </p>
           </div>
 
           <div class="metric-definition">
             <h4>TPP — Third Party Provider</h4>
-            <p>Fintech companies and other third parties that access Open Finance APIs to provide innovative financial services.</p>
+            <p>
+              Fintech companies and other third parties that access Open Finance APIs to provide
+              innovative financial services.
+            </p>
           </div>
 
           <p class="note">Note: A single participant may hold multiple roles simultaneously.</p>
@@ -125,26 +153,40 @@ import PageLayout from '@layouts/PageLayout.astro';
 
         <div class="metric-category">
           <h3>API Families</h3>
-          <p>Derived from the API resources registered under each participant's authorization servers:</p>
+          <p>
+            Derived from the API resources registered under each participant's authorization
+            servers:
+          </p>
 
           <div class="metric-definition">
             <h4>Account Information</h4>
-            <p>APIs for accessing account balances, transactions, and account holder information.</p>
+            <p>
+              APIs for accessing account balances, transactions, and account holder information.
+            </p>
           </div>
 
           <div class="metric-definition">
             <h4>Payments</h4>
-            <p>Payment Initiation APIs enabling authorized third parties to initiate payments on behalf of customers.</p>
+            <p>
+              Payment Initiation APIs enabling authorized third parties to initiate payments on
+              behalf of customers.
+            </p>
           </div>
 
           <div class="metric-definition">
             <h4>Confirmation of Payee (CoP)</h4>
-            <p>APIs for verifying payee details before payment execution, reducing fraud and misdirected payments.</p>
+            <p>
+              APIs for verifying payee details before payment execution, reducing fraud and
+              misdirected payments.
+            </p>
           </div>
 
           <div class="metric-definition">
             <h4>Products</h4>
-            <p>Product Information APIs providing details about financial products offered by institutions.</p>
+            <p>
+              Product Information APIs providing details about financial products offered by
+              institutions.
+            </p>
           </div>
         </div>
 
@@ -155,17 +197,17 @@ import PageLayout from '@layouts/PageLayout.astro';
           <div class="metric-definition">
             <h4>CIBA — Client Initiated Backchannel Authentication</h4>
             <p>
-              Decoupled authentication flow where the authorization is initiated from a consumption device
-              but authentication happens on a different device (e.g., mobile phone). Enhances security for
-              headless and IoT scenarios.
+              Decoupled authentication flow where the authorization is initiated from a consumption
+              device but authentication happens on a different device (e.g., mobile phone). Enhances
+              security for headless and IoT scenarios.
             </p>
           </div>
 
           <div class="metric-definition">
             <h4>DCR — Dynamic Client Registration</h4>
             <p>
-              Capability allowing Third Party Providers to register their applications dynamically via API,
-              streamlining the onboarding process for TPPs.
+              Capability allowing Third Party Providers to register their applications dynamically
+              via API, streamlining the onboarding process for TPPs.
             </p>
           </div>
 
@@ -184,20 +226,26 @@ import PageLayout from '@layouts/PageLayout.astro';
 
           <div class="metric-definition">
             <h4>In Both Environments</h4>
-            <p>Participants registered in both production and sandbox, indicating full ecosystem integration.</p>
+            <p>
+              Participants registered in both production and sandbox, indicating full ecosystem
+              integration.
+            </p>
           </div>
 
           <div class="metric-definition">
             <h4>Sandbox Only</h4>
             <p>
-              Participants currently in the testing/certification phase. These represent the pipeline
-              of institutions preparing for production launch.
+              Participants currently in the testing/certification phase. These represent the
+              pipeline of institutions preparing for production launch.
             </p>
           </div>
 
           <div class="metric-definition">
             <h4>Production Only</h4>
-            <p>Participants that have graduated from sandbox to production and may have removed their sandbox registration.</p>
+            <p>
+              Participants that have graduated from sandbox to production and may have removed their
+              sandbox registration.
+            </p>
           </div>
         </div>
       </section>
@@ -205,8 +253,8 @@ import PageLayout from '@layouts/PageLayout.astro';
       <section class="content-section">
         <h2>Historical Trends</h2>
         <p>
-          The Observatory tracks ecosystem growth over time by preserving daily snapshots.
-          The Ecosystem Growth chart displays:
+          The Observatory tracks ecosystem growth over time by preserving daily snapshots. The
+          Ecosystem Growth chart displays:
         </p>
         <ul>
           <li>Total participant count over time</li>
@@ -214,49 +262,67 @@ import PageLayout from '@layouts/PageLayout.astro';
           <li>Milestones marking when new participants joined</li>
         </ul>
         <p>
-          Historical data is automatically aggregated from daily snapshots to provide trend visualization
-          without requiring manual data entry.
+          Historical data is automatically aggregated from daily snapshots to provide trend
+          visualization without requiring manual data entry.
         </p>
       </section>
 
       <section class="content-section">
         <h2>Known Limitations</h2>
         <ul>
-          <li>We only display publicly available metadata; we cannot verify actual API functionality or performance</li>
-          <li>Participant counts may differ from official CBUAE statistics due to registration timing differences</li>
-          <li>TPP count may appear low as many fintechs are still in the onboarding/certification process</li>
+          <li>
+            We only display publicly available metadata; we cannot verify actual API functionality
+            or performance
+          </li>
+          <li>
+            Participant counts may differ from official CBUAE statistics due to registration timing
+            differences
+          </li>
+          <li>
+            TPP count may appear low as many fintechs are still in the onboarding/certification
+            process
+          </li>
           <li>Historical data before the launch of this Observatory is not available</li>
-          <li>Sandbox data availability depends on the public API being accessible (may require authentication in future)</li>
-          <li>Authorization capability flags (CIBA, DCR, Redirect) reflect declared support, not verified functionality</li>
+          <li>
+            Sandbox data availability depends on the public API being accessible (may require
+            authentication in future)
+          </li>
+          <li>
+            Authorization capability flags (CIBA, DCR, Redirect) reflect declared support, not
+            verified functionality
+          </li>
         </ul>
       </section>
 
       <section class="content-section">
         <h2>Data Freshness</h2>
         <p>
-          The "Last updated" timestamp shown on the Observatory indicates when the data was last collected.
-          If collection fails (e.g., API unavailable), the previous snapshot is retained and the timestamp
-          reflects the last successful collection.
+          The "Last updated" timestamp shown on the Observatory indicates when the data was last
+          collected. If collection fails (e.g., API unavailable), the previous snapshot is retained
+          and the timestamp reflects the last successful collection.
         </p>
         <p>
-          Each environment (production and sandbox) is collected independently. If one environment fails,
-          the other may still be updated successfully.
+          Each environment (production and sandbox) is collected independently. If one environment
+          fails, the other may still be updated successfully.
         </p>
       </section>
 
       <section class="content-section">
         <h2>Open Source</h2>
         <p>
-          The collector script and all data transformations are open source. You can review the code at:
+          The collector script and all data transformations are open source. You can review the code
+          at:
         </p>
         <p>
-          <a href="https://github.com/organizations/openfinance-os/" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://github.com/organizations/openfinance-os/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             github.com/openfinance-os
           </a>
         </p>
-        <p>
-          Key files:
-        </p>
+        <p>Key files:</p>
         <ul>
           <li><code>scripts/collect-observatory.ts</code> — Data collection and transformation</li>
           <li><code>scripts/utils/directory-client.ts</code> — API client for both environments</li>
@@ -265,7 +331,11 @@ import PageLayout from '@layouts/PageLayout.astro';
         </ul>
         <p>
           If you find an error or have suggestions, please
-          <a href="https://github.com/openfinance-os/community/issues" target="_blank" rel="noopener noreferrer">open an issue</a>.
+          <a
+            href="https://github.com/openfinance-os/community/issues"
+            target="_blank"
+            rel="noopener noreferrer">open an issue</a
+          >.
         </p>
       </section>
     </div>

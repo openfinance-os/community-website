@@ -35,33 +35,46 @@ const capabilities = [
 
 <div class="auth-capabilities">
   <h3 class="section-title">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+      <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
     </svg>
     Authorization Capabilities
   </h3>
   <p class="section-description">Technical capabilities supported by participants</p>
 
   <div class="capabilities-list">
-    {capabilities.map((cap) => (
-      <div class="capability-item">
-        <div class="capability-header">
-          <div class="capability-name">
-            <span class="name-abbr">{cap.name}</span>
-            <span class="name-full">{cap.fullName}</span>
+    {
+      capabilities.map((cap) => (
+        <div class="capability-item">
+          <div class="capability-header">
+            <div class="capability-name">
+              <span class="name-abbr">{cap.name}</span>
+              <span class="name-full">{cap.fullName}</span>
+            </div>
+            <div class="capability-stats">
+              <span class="stat-count">
+                {cap.count}/{totalParticipants}
+              </span>
+              <span class="stat-percentage">{cap.percentage}%</span>
+            </div>
           </div>
-          <div class="capability-stats">
-            <span class="stat-count">{cap.count}/{totalParticipants}</span>
-            <span class="stat-percentage">{cap.percentage}%</span>
+          <div class="capability-bar-container">
+            <div class="capability-bar" style={`width: ${cap.percentage}%`} />
           </div>
+          <div class="capability-description">{cap.description}</div>
         </div>
-        <div class="capability-bar-container">
-          <div class="capability-bar" style={`width: ${cap.percentage}%`}></div>
-        </div>
-        <div class="capability-description">{cap.description}</div>
-      </div>
-    ))}
+      ))
+    }
   </div>
 </div>
 

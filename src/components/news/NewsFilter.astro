@@ -9,16 +9,18 @@ const { types, typeLabels } = Astro.props;
 
 <div class="news-filter">
   <div class="filter-buttons" role="tablist" aria-label="Filter by type">
-    {types.map((type) => (
-      <button
-        class:list={['filter-btn', { active: type === 'all' }]}
-        data-filter={type}
-        role="tab"
-        aria-selected={type === 'all' ? 'true' : 'false'}
-      >
-        {type === 'all' ? 'All' : typeLabels[type] || type}
-      </button>
-    ))}
+    {
+      types.map((type) => (
+        <button
+          class:list={['filter-btn', { active: type === 'all' }]}
+          data-filter={type}
+          role="tab"
+          aria-selected={type === 'all' ? 'true' : 'false'}
+        >
+          {type === 'all' ? 'All' : typeLabels[type] || type}
+        </button>
+      ))
+    }
   </div>
 </div>
 
@@ -27,12 +29,12 @@ const { types, typeLabels } = Astro.props;
   const newsGrid = document.getElementById('news-grid');
   const newsCards = newsGrid?.querySelectorAll('.news-card');
 
-  filterButtons.forEach(button => {
+  filterButtons.forEach((button) => {
     button.addEventListener('click', () => {
       const filter = button.getAttribute('data-filter');
 
       // Update active state
-      filterButtons.forEach(btn => {
+      filterButtons.forEach((btn) => {
         btn.classList.remove('active');
         btn.setAttribute('aria-selected', 'false');
       });
@@ -40,7 +42,7 @@ const { types, typeLabels } = Astro.props;
       button.setAttribute('aria-selected', 'true');
 
       // Filter cards
-      newsCards?.forEach(card => {
+      newsCards?.forEach((card) => {
         const cardType = card.getAttribute('data-type');
         if (filter === 'all' || cardType === filter) {
           (card as HTMLElement).style.display = 'flex';

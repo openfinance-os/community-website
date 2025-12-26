@@ -58,7 +58,10 @@ const steps = [
 ];
 ---
 
-<PageLayout title="Getting Started" description="Everything you need to start building on UAE Open Finance.">
+<PageLayout
+  title="Getting Started"
+  description="Everything you need to start building on UAE Open Finance."
+>
   <div class="guide-page">
     <div class="container">
       <nav class="breadcrumb">
@@ -78,9 +81,10 @@ const steps = [
       <section class="intro-section">
         <h2>What is UAE Open Finance?</h2>
         <p>
-          UAE Open Finance is a regulatory framework that enables secure, standardized sharing of financial data
-          between banks and authorized third-party providers. Operated under CBUAE oversight and powered by the
-          Al Tareq platform, it allows consumers to share their financial data with apps and services they trust.
+          UAE Open Finance is a regulatory framework that enables secure, standardized sharing of
+          financial data between banks and authorized third-party providers. Operated under CBUAE
+          oversight and powered by the Al Tareq platform, it allows consumers to share their
+          financial data with apps and services they trust.
         </p>
         <div class="key-points">
           <div class="key-point">
@@ -110,20 +114,22 @@ const steps = [
       <section class="steps-section">
         <h2>Your Journey to Going Live</h2>
         <div class="steps-timeline">
-          {steps.map((step) => (
-            <div class="step">
-              <div class="step-number">{step.number}</div>
-              <div class="step-content">
-                <h3>{step.title}</h3>
-                <p>{step.description}</p>
-                <ul>
-                  {step.items.map((item) => (
-                    <li>{item}</li>
-                  ))}
-                </ul>
+          {
+            steps.map((step) => (
+              <div class="step">
+                <div class="step-number">{step.number}</div>
+                <div class="step-content">
+                  <h3>{step.title}</h3>
+                  <p>{step.description}</p>
+                  <ul>
+                    {step.items.map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          }
         </div>
       </section>
 
@@ -410,7 +416,9 @@ const steps = [
     border: 1px solid var(--color-primary-100);
     border-radius: var(--radius-lg);
     text-decoration: none;
-    transition: border-color var(--transition-fast), transform var(--transition-fast);
+    transition:
+      border-color var(--transition-fast),
+      transform var(--transition-fast);
   }
 
   .next-card:hover {

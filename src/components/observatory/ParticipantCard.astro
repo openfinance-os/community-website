@@ -10,7 +10,8 @@ interface Props {
   isShariahCompliant: boolean;
 }
 
-const { name, legalName, status, roles, city, apiFamilies, hasAuthServer, isShariahCompliant } = Astro.props;
+const { name, legalName, status, roles, city, apiFamilies, hasAuthServer, isShariahCompliant } =
+  Astro.props;
 
 // API families configuration
 const allApiFamilies = [
@@ -27,20 +28,32 @@ const allApiFamilies = [
 
   <!-- Header: Status + Location -->
   <header class="card-header">
-    {hasAuthServer ? (
-      <div class="status-badge live">
-        <span class="status-dot"></span>
-        <span class="status-text">Live</span>
-      </div>
-    ) : (
-      <div class="status-badge">
-        <span class="status-text">{status}</span>
-      </div>
-    )}
+    {
+      hasAuthServer ? (
+        <div class="status-badge live">
+          <span class="status-dot" />
+          <span class="status-text">Live</span>
+        </div>
+      ) : (
+        <div class="status-badge">
+          <span class="status-text">{status}</span>
+        </div>
+      )
+    }
     <div class="location">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-        <circle cx="12" cy="10" r="3"/>
+      <svg
+        width="12"
+        height="12"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+        <circle cx="12" cy="10" r="3"></circle>
       </svg>
       <span>{city}</span>
     </div>
@@ -56,12 +69,14 @@ const allApiFamilies = [
   <div class="roles-section">
     <span class="roles-label">Roles</span>
     <p class="roles-list">
-      {roles.map((role, index) => (
-        <>
-          <span class="role">{role}</span>
-          {index < roles.length - 1 && <span class="role-separator">·</span>}
-        </>
-      ))}
+      {
+        roles.map((role, index) => (
+          <>
+            <span class="role">{role}</span>
+            {index < roles.length - 1 && <span class="role-separator">·</span>}
+          </>
+        ))
+      }
     </p>
   </div>
 
@@ -69,24 +84,28 @@ const allApiFamilies = [
   <div class="api-section">
     <span class="api-label">API Coverage</span>
     <div class="api-indicators">
-      {allApiFamilies.map((api) => {
-        const isActive = apiFamilies.includes(api.key);
-        return (
-          <div class="api-item" class:list={[{ active: isActive }]}>
-            <span class="api-dot"></span>
-            <span class="api-name">{api.label}</span>
-          </div>
-        );
-      })}
+      {
+        allApiFamilies.map((api) => {
+          const isActive = apiFamilies.includes(api.key);
+          return (
+            <div class="api-item" class:list={[{ active: isActive }]}>
+              <span class="api-dot" />
+              <span class="api-name">{api.label}</span>
+            </div>
+          );
+        })
+      }
     </div>
   </div>
 
   <!-- Footer (Islamic Banking badge) -->
-  {isShariahCompliant && (
-    <footer class="card-footer">
-      <span class="shariah-badge">Islamic Banking</span>
-    </footer>
-  )}
+  {
+    isShariahCompliant && (
+      <footer class="card-footer">
+        <span class="shariah-badge">Islamic Banking</span>
+      </footer>
+    )
+  }
 </article>
 
 <style>
@@ -157,8 +176,15 @@ const allApiFamilies = [
   }
 
   @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.6; transform: scale(0.9); }
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.6;
+      transform: scale(0.9);
+    }
   }
 
   .location {

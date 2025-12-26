@@ -78,9 +78,12 @@ const byCity = summary.byCity || {};
 const apiFamilies = summary.apiFamilies || [];
 
 // New enhanced metrics (with fallbacks for old format)
-const liveInProduction = summary.liveInProduction ?? participants.filter((p: any) => p.hasAuthServer).length;
-const shariahCompliantCount = summary.shariahCompliantCount ?? participants.filter((p: any) => p.isShariahCompliant).length;
-const multiRoleCount = summary.multiRoleCount ?? participants.filter((p: any) => p.roles?.length > 1).length;
+const liveInProduction =
+  summary.liveInProduction ?? participants.filter((p: any) => p.hasAuthServer).length;
+const shariahCompliantCount =
+  summary.shariahCompliantCount ?? participants.filter((p: any) => p.isShariahCompliant).length;
+const multiRoleCount =
+  summary.multiRoleCount ?? participants.filter((p: any) => p.roles?.length > 1).length;
 const tppCount = summary.tppCount ?? (byRole.TPP || 0);
 const byAuthCapabilities = summary.byAuthCapabilities || { ciba: 0, dcr: 0, redirect: 0 };
 
@@ -178,13 +181,15 @@ if (currentEnv === 'both' && crossEnvironment) {
       </div>
       <div class="header-meta">
         <div class="header-controls">
-          {isDualFormat && (
-            <EnvironmentToggle
-              currentEnvironment={currentEnv}
-              productionCount={productionSnapshot?.summary?.totalParticipants || 0}
-              sandboxCount={sandboxSnapshot?.summary?.totalParticipants || 0}
-            />
-          )}
+          {
+            isDualFormat && (
+              <EnvironmentToggle
+                currentEnvironment={currentEnv}
+                productionCount={productionSnapshot?.summary?.totalParticipants || 0}
+                sandboxCount={sandboxSnapshot?.summary?.totalParticipants || 0}
+              />
+            )
+          }
         </div>
         <div class="header-info">
           <p class="last-updated">
@@ -192,27 +197,34 @@ if (currentEnv === 'both' && crossEnvironment) {
           </p>
           <div class="header-links">
             <a href="/observatory/methodology" class="header-link">How we calculate this</a>
-            <a href="https://github.com/openfinance-os/community/issues" class="header-link" target="_blank" rel="noopener noreferrer">See an error?</a>
+            <a
+              href="https://github.com/openfinance-os/community/issues"
+              class="header-link"
+              target="_blank"
+              rel="noopener noreferrer">See an error?</a
+            >
           </div>
         </div>
       </div>
     </header>
 
     <!-- Cross-Environment Stats (only show when both environments available) -->
-    {isDualFormat && currentEnv === 'both' && crossEnvironment && (
-      <section class="cross-env-section">
-        <div class="section-container">
-          <CrossEnvironmentStats
-            productionCount={productionSnapshot?.summary?.totalParticipants || 0}
-            sandboxCount={sandboxSnapshot?.summary?.totalParticipants || 0}
-            inBothCount={crossEnvironment.inBothEnvironments?.length || 0}
-            productionOnlyCount={crossEnvironment.productionOnly?.length || 0}
-            sandboxOnlyCount={crossEnvironment.sandboxOnly?.length || 0}
-            totalUnique={crossEnvironment.totalUniqueParticipants || 0}
-          />
-        </div>
-      </section>
-    )}
+    {
+      isDualFormat && currentEnv === 'both' && crossEnvironment && (
+        <section class="cross-env-section">
+          <div class="section-container">
+            <CrossEnvironmentStats
+              productionCount={productionSnapshot?.summary?.totalParticipants || 0}
+              sandboxCount={sandboxSnapshot?.summary?.totalParticipants || 0}
+              inBothCount={crossEnvironment.inBothEnvironments?.length || 0}
+              productionOnlyCount={crossEnvironment.productionOnly?.length || 0}
+              sandboxOnlyCount={crossEnvironment.sandboxOnly?.length || 0}
+              totalUnique={crossEnvironment.totalUniqueParticipants || 0}
+            />
+          </div>
+        </section>
+      )
+    }
 
     <section class="stats-section">
       <div class="stats-grid">
@@ -253,12 +265,7 @@ if (currentEnv === 'both' && crossEnvironment) {
           sublabel="Participants with 2+ roles"
           icon="participants"
         />
-        <StatCard
-          value={tppCount}
-          label="TPPs"
-          sublabel="Third Party Providers"
-          icon="tpp"
-        />
+        <StatCard value={tppCount} label="TPPs" sublabel="Third Party Providers" icon="tpp" />
         <StatCard
           value={byAuthCapabilities.dcr}
           label="DCR Support"
@@ -278,11 +285,20 @@ if (currentEnv === 'both' && crossEnvironment) {
       <div class="charts-grid">
         <div class="chart-card">
           <h2 class="chart-title">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-              <circle cx="9" cy="7" r="4"/>
-              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
             </svg>
             Participant Roles
           </h2>
@@ -317,47 +333,65 @@ if (currentEnv === 'both' && crossEnvironment) {
 
         <div class="chart-card">
           <h2 class="chart-title">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 21h18"/>
-              <path d="M5 21V7l8-4v18"/>
-              <path d="M19 21V11l-6-4"/>
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M3 21h18"></path>
+              <path d="M5 21V7l8-4v18"></path>
+              <path d="M19 21V11l-6-4"></path>
             </svg>
             Geographic Distribution
           </h2>
           <p class="chart-description">Participants by emirate headquarters</p>
           <div class="chart-container">
-            <DonutChart
-              data={cityData}
-              size={180}
-              strokeWidth={24}
-              showLegend={true}
-            />
+            <DonutChart data={cityData} size={180} strokeWidth={24} showLegend={true} />
           </div>
         </div>
 
         <div class="chart-card api-matrix-card">
           <h2 class="chart-title">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="16 18 22 12 16 6"/>
-              <polyline points="8 6 2 12 8 18"/>
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="16 18 22 12 16 6"></polyline>
+              <polyline points="8 6 2 12 8 18"></polyline>
             </svg>
             API Coverage
           </h2>
           <p class="chart-description">API families supported by participants</p>
           <div class="api-matrix">
-            {apiFamilies.map((api: string) => {
-              const count = participants.filter((p: any) => p.apiFamilies?.includes(api)).length;
-              const percentage = totalParticipants > 0 ? Math.round((count / totalParticipants) * 100) : 0;
-              return (
-                <div class="api-row">
-                  <span class="api-name">{(apiFamilyLabels as any)[api] || api}</span>
-                  <div class="api-bar-container">
-                    <div class="api-bar" style={`width: ${percentage}%`}></div>
+            {
+              apiFamilies.map((api: string) => {
+                const count = participants.filter((p: any) => p.apiFamilies?.includes(api)).length;
+                const percentage =
+                  totalParticipants > 0 ? Math.round((count / totalParticipants) * 100) : 0;
+                return (
+                  <div class="api-row">
+                    <span class="api-name">{(apiFamilyLabels as any)[api] || api}</span>
+                    <div class="api-bar-container">
+                      <div class="api-bar" style={`width: ${percentage}%`} />
+                    </div>
+                    <span class="api-count">
+                      {count}/{totalParticipants}
+                    </span>
                   </div>
-                  <span class="api-count">{count}/{totalParticipants}</span>
-                </div>
-              );
-            })}
+                );
+              })
+            }
           </div>
         </div>
       </div>
@@ -383,23 +417,34 @@ if (currentEnv === 'both' && crossEnvironment) {
     <section class="participants-section">
       <header class="section-header">
         <h2>
-          {currentEnv === 'both' ? 'All Participants' : currentEnv === 'sandbox' ? 'Sandbox Participants' : 'Production Participants'}
+          {
+            currentEnv === 'both'
+              ? 'All Participants'
+              : currentEnv === 'sandbox'
+                ? 'Sandbox Participants'
+                : 'Production Participants'
+          }
         </h2>
-        <p>{displayParticipants.length} {currentEnv === 'both' ? 'unique' : 'registered'} institutions</p>
+        <p>
+          {displayParticipants.length}
+          {currentEnv === 'both' ? 'unique' : 'registered'} institutions
+        </p>
       </header>
       <div class="participants-grid">
-        {displayParticipants.map((participant: any) => (
-          <ParticipantCard
-            name={participant.name}
-            legalName={participant.legalName}
-            status={participant.status}
-            roles={participant.roles}
-            city={participant.city}
-            apiFamilies={participant.apiFamilies}
-            hasAuthServer={participant.hasAuthServer}
-            isShariahCompliant={participant.isShariahCompliant}
-          />
-        ))}
+        {
+          displayParticipants.map((participant: any) => (
+            <ParticipantCard
+              name={participant.name}
+              legalName={participant.legalName}
+              status={participant.status}
+              roles={participant.roles}
+              city={participant.city}
+              apiFamilies={participant.apiFamilies}
+              hasAuthServer={participant.hasAuthServer}
+              isShariahCompliant={participant.isShariahCompliant}
+            />
+          ))
+        }
       </div>
     </section>
 
@@ -408,12 +453,17 @@ if (currentEnv === 'both' && crossEnvironment) {
         <h3>Data Source & Methodology</h3>
         <p>
           This dashboard displays data derived from the public
-          <a href="https://data.directory.openfinance.ae" target="_blank" rel="noopener noreferrer">UAE Open Finance Trust Framework Directory</a>.
-          Data is collected daily at 06:00 UTC via automated scripts from both production and sandbox environments.
+          <a href="https://data.directory.openfinance.ae" target="_blank" rel="noopener noreferrer"
+            >UAE Open Finance Trust Framework Directory</a
+          >. Data is collected daily at 06:00 UTC via automated scripts from both production and
+          sandbox environments.
         </p>
         <p>
-          <strong>This is not official statistics.</strong> For authoritative information, please refer to the
-          <a href="https://altareq.openfinance.ae" target="_blank" rel="noopener noreferrer">Al Tareq</a> portal or the
+          <strong>This is not official statistics.</strong> For authoritative information, please refer
+          to the
+          <a href="https://altareq.openfinance.ae" target="_blank" rel="noopener noreferrer"
+            >Al Tareq</a
+          > portal or the
           <a href="https://www.centralbank.ae" target="_blank" rel="noopener noreferrer">CBUAE</a>.
         </p>
       </div>
@@ -473,8 +523,13 @@ if (currentEnv === 'both' && crossEnvironment) {
   }
 
   @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
   }
 
   .page-header h1 {

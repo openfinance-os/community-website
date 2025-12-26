@@ -35,7 +35,7 @@ function formatDate(date: Date, endDate?: Date): string {
     weekday: 'short',
     month: 'short',
     day: 'numeric',
-    year: 'numeric'
+    year: 'numeric',
   };
   const formatted = date.toLocaleDateString('en-US', options);
   if (endDate && endDate.getTime() !== date.getTime()) {
@@ -45,7 +45,10 @@ function formatDate(date: Date, endDate?: Date): string {
 }
 ---
 
-<PageLayout title="Events" description="Upcoming and past events in the UAE Open Finance community.">
+<PageLayout
+  title="Events"
+  description="Upcoming and past events in the UAE Open Finance community."
+>
   <div class="events-page">
     <div class="container">
       <header class="page-header">
@@ -55,121 +58,187 @@ function formatDate(date: Date, endDate?: Date): string {
         </p>
       </header>
 
-      {upcomingEvents.length > 0 && (
-        <section class="events-section">
-          <h2 class="section-title">
-            <span class="pulse"></span>
-            Upcoming Events
-          </h2>
-          <div class="events-list">
-            {upcomingEvents.map((event) => (
-              <a href={`/events/${event.slug}`} class="event-card upcoming">
-                <div class="event-date-badge">
-                  <span class="month">{new Date(event.data.date).toLocaleDateString('en-US', { month: 'short' })}</span>
-                  <span class="day">{new Date(event.data.date).getDate()}</span>
-                </div>
-                <div class="event-content">
-                  <div class="event-meta">
-                    <span class={`event-type ${typeColors[event.data.type]}`}>
-                      {typeLabels[event.data.type]}
+      {
+        upcomingEvents.length > 0 && (
+          <section class="events-section">
+            <h2 class="section-title">
+              <span class="pulse" />
+              Upcoming Events
+            </h2>
+            <div class="events-list">
+              {upcomingEvents.map((event) => (
+                <a href={`/events/${event.slug}`} class="event-card upcoming">
+                  <div class="event-date-badge">
+                    <span class="month">
+                      {new Date(event.data.date).toLocaleDateString('en-US', { month: 'short' })}
                     </span>
-                    {event.data.featured && <span class="featured-badge">Featured</span>}
+                    <span class="day">{new Date(event.data.date).getDate()}</span>
                   </div>
-                  <h3>{event.data.title}</h3>
-                  <p class="event-description">{event.data.description}</p>
-                  <div class="event-details">
-                    <span class="event-location">
-                      {event.data.isOnline ? (
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <rect x="2" y="3" width="20" height="14" rx="2"/>
-                          <path d="M8 21h8"/><path d="M12 17v4"/>
+                  <div class="event-content">
+                    <div class="event-meta">
+                      <span class={`event-type ${typeColors[event.data.type]}`}>
+                        {typeLabels[event.data.type]}
+                      </span>
+                      {event.data.featured && <span class="featured-badge">Featured</span>}
+                    </div>
+                    <h3>{event.data.title}</h3>
+                    <p class="event-description">{event.data.description}</p>
+                    <div class="event-details">
+                      <span class="event-location">
+                        {event.data.isOnline ? (
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <rect x="2" y="3" width="20" height="14" rx="2" />
+                            <path d="M8 21h8" />
+                            <path d="M12 17v4" />
+                          </svg>
+                        ) : (
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                            <circle cx="12" cy="10" r="3" />
+                          </svg>
+                        )}
+                        {event.data.location}
+                      </span>
+                      <span class="event-time">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <circle cx="12" cy="12" r="10" />
+                          <path d="M12 6v6l4 2" />
                         </svg>
-                      ) : (
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                          <circle cx="12" cy="10" r="3"/>
-                        </svg>
-                      )}
-                      {event.data.location}
-                    </span>
-                    <span class="event-time">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"/>
-                        <path d="M12 6v6l4 2"/>
-                      </svg>
-                      {formatDate(new Date(event.data.date), event.data.endDate ? new Date(event.data.endDate) : undefined)}
-                    </span>
+                        {formatDate(
+                          new Date(event.data.date),
+                          event.data.endDate ? new Date(event.data.endDate) : undefined
+                        )}
+                      </span>
+                    </div>
                   </div>
-                </div>
-                <span class="event-arrow">→</span>
-              </a>
-            ))}
-          </div>
-        </section>
-      )}
+                  <span class="event-arrow">→</span>
+                </a>
+              ))}
+            </div>
+          </section>
+        )
+      }
 
-      {upcomingEvents.length === 0 && (
-        <section class="no-events">
-          <div class="no-events-content">
-            <span class="no-events-icon">📅</span>
-            <h3>No upcoming events</h3>
-            <p>Check back soon for new events, or host your own!</p>
-            <a href="https://github.com/openfinance-os/community/discussions" class="host-event-link" target="_blank" rel="noopener noreferrer">
-              Propose an event →
-            </a>
-          </div>
-        </section>
-      )}
-
-      {pastEvents.length > 0 && (
-        <section class="events-section past-section">
-          <h2 class="section-title">Past Events</h2>
-          <div class="events-list past">
-            {pastEvents.map((event) => (
-              <a href={`/events/${event.slug}`} class="event-card past">
-                <div class="event-date-badge past">
-                  <span class="month">{new Date(event.data.date).toLocaleDateString('en-US', { month: 'short' })}</span>
-                  <span class="day">{new Date(event.data.date).getDate()}</span>
-                </div>
-                <div class="event-content">
-                  <div class="event-meta">
-                    <span class={`event-type ${typeColors[event.data.type]}`}>
-                      {typeLabels[event.data.type]}
-                    </span>
-                  </div>
-                  <h3>{event.data.title}</h3>
-                  <div class="event-details">
-                    <span class="event-location">
-                      {event.data.isOnline ? (
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <rect x="2" y="3" width="20" height="14" rx="2"/>
-                          <path d="M8 21h8"/><path d="M12 17v4"/>
-                        </svg>
-                      ) : (
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                          <circle cx="12" cy="10" r="3"/>
-                        </svg>
-                      )}
-                      {event.data.location}
-                    </span>
-                    <span class="event-time">
-                      {formatDate(new Date(event.data.date), event.data.endDate ? new Date(event.data.endDate) : undefined)}
-                    </span>
-                  </div>
-                </div>
-                <span class="event-arrow">→</span>
+      {
+        upcomingEvents.length === 0 && (
+          <section class="no-events">
+            <div class="no-events-content">
+              <span class="no-events-icon">📅</span>
+              <h3>No upcoming events</h3>
+              <p>Check back soon for new events, or host your own!</p>
+              <a
+                href="https://github.com/openfinance-os/community/discussions"
+                class="host-event-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Propose an event →
               </a>
-            ))}
-          </div>
-        </section>
-      )}
+            </div>
+          </section>
+        )
+      }
+
+      {
+        pastEvents.length > 0 && (
+          <section class="events-section past-section">
+            <h2 class="section-title">Past Events</h2>
+            <div class="events-list past">
+              {pastEvents.map((event) => (
+                <a href={`/events/${event.slug}`} class="event-card past">
+                  <div class="event-date-badge past">
+                    <span class="month">
+                      {new Date(event.data.date).toLocaleDateString('en-US', { month: 'short' })}
+                    </span>
+                    <span class="day">{new Date(event.data.date).getDate()}</span>
+                  </div>
+                  <div class="event-content">
+                    <div class="event-meta">
+                      <span class={`event-type ${typeColors[event.data.type]}`}>
+                        {typeLabels[event.data.type]}
+                      </span>
+                    </div>
+                    <h3>{event.data.title}</h3>
+                    <div class="event-details">
+                      <span class="event-location">
+                        {event.data.isOnline ? (
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <rect x="2" y="3" width="20" height="14" rx="2" />
+                            <path d="M8 21h8" />
+                            <path d="M12 17v4" />
+                          </svg>
+                        ) : (
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                            <circle cx="12" cy="10" r="3" />
+                          </svg>
+                        )}
+                        {event.data.location}
+                      </span>
+                      <span class="event-time">
+                        {formatDate(
+                          new Date(event.data.date),
+                          event.data.endDate ? new Date(event.data.endDate) : undefined
+                        )}
+                      </span>
+                    </div>
+                  </div>
+                  <span class="event-arrow">→</span>
+                </a>
+              ))}
+            </div>
+          </section>
+        )
+      }
 
       <section class="host-section">
         <div class="host-content">
           <h2>Host an Event</h2>
-          <p>Want to organize a meetup, workshop, or webinar for the community? We'd love to help promote it.</p>
-          <a href="https://github.com/openfinance-os/community/discussions" class="host-button" target="_blank" rel="noopener noreferrer">
+          <p>
+            Want to organize a meetup, workshop, or webinar for the community? We'd love to help
+            promote it.
+          </p>
+          <a
+            href="https://github.com/openfinance-os/community/discussions"
+            class="host-button"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Propose Your Event →
           </a>
         </div>
@@ -259,7 +328,10 @@ function formatDate(date: Date, endDate?: Date): string {
     border: 1px solid var(--color-gray-200);
     border-radius: var(--radius-xl);
     text-decoration: none;
-    transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast),
+      transform var(--transition-fast);
   }
 
   .event-card:hover {
@@ -415,7 +487,9 @@ function formatDate(date: Date, endDate?: Date): string {
     align-self: center;
     color: var(--color-gray-400);
     font-size: 1.25rem;
-    transition: transform var(--transition-fast), color var(--transition-fast);
+    transition:
+      transform var(--transition-fast),
+      color var(--transition-fast);
   }
 
   .event-card:hover .event-arrow {

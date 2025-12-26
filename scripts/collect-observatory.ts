@@ -1,7 +1,11 @@
 import { writeFileSync, readFileSync, mkdirSync, existsSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { fetchParticipants, fetchFromBothEnvironments, getDirectoryUrl } from './utils/directory-client.js';
+import {
+  fetchParticipants,
+  fetchFromBothEnvironments,
+  getDirectoryUrl,
+} from './utils/directory-client.js';
 import type {
   RawParticipant,
   TransformedParticipant,
@@ -288,10 +292,7 @@ function createDualEnvironmentSnapshot(
   };
 }
 
-function updateHistoricalData(
-  snapshot: ObservatorySnapshot,
-  environment: Environment
-): void {
+function updateHistoricalData(snapshot: ObservatorySnapshot, environment: Environment): void {
   let history: HistoricalTrends;
 
   if (existsSync(HISTORY_FILE)) {
@@ -448,11 +449,15 @@ function printSummary(snapshot: ObservatorySnapshot, environment: Environment): 
   console.log(`  Shariah compliant: ${summary.shariahCompliantCount}`);
   console.log(`  Multi-role participants: ${summary.multiRoleCount}`);
   console.log(`  TPP count: ${summary.tppCount}`);
-  console.log(`  Auth capabilities: CIBA=${summary.byAuthCapabilities.ciba}, DCR=${summary.byAuthCapabilities.dcr}, Redirect=${summary.byAuthCapabilities.redirect}`);
+  console.log(
+    `  Auth capabilities: CIBA=${summary.byAuthCapabilities.ciba}, DCR=${summary.byAuthCapabilities.dcr}, Redirect=${summary.byAuthCapabilities.redirect}`
+  );
 
   if (snapshot.trends) {
     console.log(`  Trends:`);
-    console.log(`    Participant change: ${snapshot.trends.participantChange >= 0 ? '+' : ''}${snapshot.trends.participantChange}`);
+    console.log(
+      `    Participant change: ${snapshot.trends.participantChange >= 0 ? '+' : ''}${snapshot.trends.participantChange}`
+    );
     if (snapshot.trends.newParticipants.length > 0) {
       console.log(`    New participants: ${snapshot.trends.newParticipants.length}`);
     }
@@ -484,7 +489,11 @@ async function main() {
         const rawProduction = await fetchParticipants({ environment: 'production' });
         const productionParticipants = rawProduction.map(transformParticipant);
         const previousProduction = loadPreviousSnapshot('production');
-        productionSnapshot = createSnapshot(productionParticipants, 'production', previousProduction);
+        productionSnapshot = createSnapshot(
+          productionParticipants,
+          'production',
+          previousProduction
+        );
         printSummary(productionSnapshot, 'production');
         writeSnapshot(productionSnapshot, 'production', isDryRun);
       } catch (error) {
@@ -517,8 +526,12 @@ async function main() {
       const dualSnapshot = createDualEnvironmentSnapshot(productionSnapshot, sandboxSnapshot);
 
       console.log('\nCross-Environment Analysis:');
-      console.log(`  Total unique participants: ${dualSnapshot.crossEnvironment.totalUniqueParticipants}`);
-      console.log(`  In both environments: ${dualSnapshot.crossEnvironment.inBothEnvironments.length}`);
+      console.log(
+        `  Total unique participants: ${dualSnapshot.crossEnvironment.totalUniqueParticipants}`
+      );
+      console.log(
+        `  In both environments: ${dualSnapshot.crossEnvironment.inBothEnvironments.length}`
+      );
       console.log(`  Production only: ${dualSnapshot.crossEnvironment.productionOnly.length}`);
       console.log(`  Sandbox only: ${dualSnapshot.crossEnvironment.sandboxOnly.length}`);
 

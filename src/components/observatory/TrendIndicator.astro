@@ -27,21 +27,45 @@ const displayValue = isPositive ? `+${value}` : value.toString();
   ]}
   title={label}
 >
-  {isPositive && (
-    <svg class="trend-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M8 12V4M4 8l4-4 4 4" stroke-linecap="round" stroke-linejoin="round" />
-    </svg>
-  )}
-  {isNegative && (
-    <svg class="trend-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M8 4v8M4 8l4 4 4-4" stroke-linecap="round" stroke-linejoin="round" />
-    </svg>
-  )}
-  {isNeutral && (
-    <svg class="trend-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M3 8h10" stroke-linecap="round" />
-    </svg>
-  )}
+  {
+    isPositive && (
+      <svg
+        class="trend-icon"
+        viewBox="0 0 16 16"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="M8 12V4M4 8l4-4 4 4" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    )
+  }
+  {
+    isNegative && (
+      <svg
+        class="trend-icon"
+        viewBox="0 0 16 16"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="M8 4v8M4 8l4 4 4-4" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    )
+  }
+  {
+    isNeutral && (
+      <svg
+        class="trend-icon"
+        viewBox="0 0 16 16"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="M3 8h10" stroke-linecap="round" />
+      </svg>
+    )
+  }
   {showValue && <span class="trend-value">{displayValue}</span>}
 </span>
 

@@ -17,18 +17,25 @@ const {
   totalUnique,
 } = Astro.props;
 
-const graduationRate = sandboxCount > 0
-  ? Math.round((inBothCount / sandboxCount) * 100)
-  : 0;
+const graduationRate = sandboxCount > 0 ? Math.round((inBothCount / sandboxCount) * 100) : 0;
 ---
 
 <div class="cross-env-stats">
   <h3 class="section-title">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M16 3h5v5" />
-      <path d="M8 3H3v5" />
-      <path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3" />
-      <path d="m15 9 6-6" />
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M16 3h5v5"></path>
+      <path d="M8 3H3v5"></path>
+      <path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3"></path>
+      <path d="m15 9 6-6"></path>
     </svg>
     Cross-Environment Analysis
   </h3>
@@ -60,33 +67,39 @@ const graduationRate = sandboxCount > 0
     <div class="breakdown-title">Environment Distribution</div>
 
     <div class="breakdown-bar">
-      {inBothCount > 0 && (
-        <div
-          class="bar-segment both"
-          style={`width: ${(inBothCount / totalUnique) * 100}%`}
-          title={`In both environments: ${inBothCount}`}
-        >
-          {inBothCount}
-        </div>
-      )}
-      {productionOnlyCount > 0 && (
-        <div
-          class="bar-segment production-only"
-          style={`width: ${(productionOnlyCount / totalUnique) * 100}%`}
-          title={`Production only: ${productionOnlyCount}`}
-        >
-          {productionOnlyCount}
-        </div>
-      )}
-      {sandboxOnlyCount > 0 && (
-        <div
-          class="bar-segment sandbox-only"
-          style={`width: ${(sandboxOnlyCount / totalUnique) * 100}%`}
-          title={`Sandbox only (testing): ${sandboxOnlyCount}`}
-        >
-          {sandboxOnlyCount}
-        </div>
-      )}
+      {
+        inBothCount > 0 && (
+          <div
+            class="bar-segment both"
+            style={`width: ${(inBothCount / totalUnique) * 100}%`}
+            title={`In both environments: ${inBothCount}`}
+          >
+            {inBothCount}
+          </div>
+        )
+      }
+      {
+        productionOnlyCount > 0 && (
+          <div
+            class="bar-segment production-only"
+            style={`width: ${(productionOnlyCount / totalUnique) * 100}%`}
+            title={`Production only: ${productionOnlyCount}`}
+          >
+            {productionOnlyCount}
+          </div>
+        )
+      }
+      {
+        sandboxOnlyCount > 0 && (
+          <div
+            class="bar-segment sandbox-only"
+            style={`width: ${(sandboxOnlyCount / totalUnique) * 100}%`}
+            title={`Sandbox only (testing): ${sandboxOnlyCount}`}
+          >
+            {sandboxOnlyCount}
+          </div>
+        )
+      }
     </div>
 
     <div class="breakdown-legend">
@@ -105,15 +118,27 @@ const graduationRate = sandboxCount > 0
     </div>
   </div>
 
-  {sandboxOnlyCount > 0 && (
-    <div class="pipeline-indicator">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="12" r="10" />
-        <path d="M12 6v6l4 2" />
-      </svg>
-      <span><strong>{sandboxOnlyCount}</strong> institution{sandboxOnlyCount !== 1 ? 's' : ''} currently in testing/certification phase</span>
-    </div>
-  )}
+  {
+    sandboxOnlyCount > 0 && (
+      <div class="pipeline-indicator">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 6v6l4 2" />
+        </svg>
+        <span>
+          <strong>{sandboxOnlyCount}</strong> institution{sandboxOnlyCount !== 1 ? 's' : ''}{' '}
+          currently in testing/certification phase
+        </span>
+      </div>
+    )
+  }
 </div>
 
 <style>
