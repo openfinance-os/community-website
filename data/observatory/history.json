@@ -1,7 +1,235 @@
 {
-  "lastUpdated": "2025-12-26T00:00:00.000Z",
-  "dataPoints": [],
-  "productionHistory": [],
-  "sandboxHistory": [],
-  "milestones": []
+  "lastUpdated": "2025-12-26T10:43:47.966Z",
+  "dataPoints": [
+    {
+      "date": "2025-12-26",
+      "totalParticipants": 9,
+      "liveInProduction": 9,
+      "byRole": {
+        "BDSP": 6,
+        "BSIP": 6,
+        "LFI": 9,
+        "ISP": 2
+      },
+      "byCity": {
+        "Abu Dhabi": 4,
+        "Dubai": 5
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 8,
+        "payments": 8,
+        "products": 6
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 2
+    }
+  ],
+  "productionHistory": [
+    {
+      "date": "2025-12-26",
+      "totalParticipants": 9,
+      "liveInProduction": 9,
+      "byRole": {
+        "BDSP": 6,
+        "BSIP": 6,
+        "LFI": 9,
+        "ISP": 2
+      },
+      "byCity": {
+        "Abu Dhabi": 4,
+        "Dubai": 5
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 8,
+        "payments": 8,
+        "products": 6
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 2
+    }
+  ],
+  "sandboxHistory": [
+    {
+      "date": "2025-12-26",
+      "totalParticipants": 16,
+      "liveInProduction": 16,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 16,
+        "ISP": 14,
+        "LFI": 14,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 4,
+        "Dubai": 9,
+        "London": 2,
+        "Sharjah": 1
+      },
+      "apiFamilyCoverage": {
+        "accounts": 3,
+        "cop": 5,
+        "payments": 10,
+        "products": 2
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 10
+    }
+  ],
+  "milestones": [
+    {
+      "date": "2025-12-26",
+      "event": "ADIB joined production",
+      "participantId": "1b4f7317-8b67-4179-bdfb-8054f74c25d0",
+      "participantName": "ADIB"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "CBD joined production",
+      "participantId": "2f9981d9-47e6-4cd5-ba04-d6bdadf52591",
+      "participantName": "CBD"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "ADCB joined production",
+      "participantId": "36b067c3-8017-4144-bb7e-49cf794089c9",
+      "participantName": "ADCB"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Mashreq joined production",
+      "participantId": "4767786f-ab28-4d5c-8fdb-0f27e1c4eb9c",
+      "participantName": "Mashreq"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "ENBD joined production",
+      "participantId": "64e5061d-437f-43c8-9f17-1df9a4600705",
+      "participantName": "ENBD"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "DIB joined production",
+      "participantId": "690c1e21-5806-43bb-aa16-15bcda631922",
+      "participantName": "DIB"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "FAB joined production",
+      "participantId": "8a37e74c-2827-496c-abf6-985bf177b5ea",
+      "participantName": "FAB"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "WIO Bank joined production",
+      "participantId": "d86e6704-e92b-4368-a425-5a7ba230e986",
+      "participantName": "WIO Bank"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "HSBC joined production",
+      "participantId": "db16163c-efb3-4ec2-aa3d-a3d4f466814e",
+      "participantName": "HSBC"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "ADNIC joined sandbox",
+      "participantId": "b1b75d1a-648e-4e88-8d1f-a2a3cf43de5c",
+      "participantName": "ADNIC"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "CBD joined sandbox",
+      "participantId": "2f9981d9-47e6-4cd5-ba04-d6bdadf52591",
+      "participantName": "CBD"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Citibank NA, UAE joined sandbox",
+      "participantId": "8c14e8a9-6dea-45ce-b6e4-6fbef7d23e64",
+      "participantName": "Citibank NA, UAE"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "ENBD joined sandbox",
+      "participantId": "64e5061d-437f-43c8-9f17-1df9a4600705",
+      "participantName": "ENBD"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "FAB joined sandbox",
+      "participantId": "8a37e74c-2827-496c-abf6-985bf177b5ea",
+      "participantName": "FAB"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Mercury joined sandbox",
+      "participantId": "94884086-b7c2-43a0-b4e7-a928b9fed0ac",
+      "participantName": "Mercury"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Ozone API joined sandbox",
+      "participantId": "233bcd1d-4216-4b3c-a362-9e4a9282bba7",
+      "participantName": "Ozone API"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Standard Chartered Bank joined sandbox",
+      "participantId": "16c610ed-9e4a-407d-90d0-64149ba96b45",
+      "participantName": "Standard Chartered Bank"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Raidiam joined sandbox",
+      "participantId": "f2a91ec1-83bc-4048-838d-6e307d3a29be",
+      "participantName": "Raidiam"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "ADIB joined sandbox",
+      "participantId": "1b4f7317-8b67-4179-bdfb-8054f74c25d0",
+      "participantName": "ADIB"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Mashreq joined sandbox",
+      "participantId": "4767786f-ab28-4d5c-8fdb-0f27e1c4eb9c",
+      "participantName": "Mashreq"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "HSBC joined sandbox",
+      "participantId": "db16163c-efb3-4ec2-aa3d-a3d4f466814e",
+      "participantName": "HSBC"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Sharjah Islamic Bank joined sandbox",
+      "participantId": "29536048-fef2-423e-83c2-b333869677cc",
+      "participantName": "Sharjah Islamic Bank"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "ALAIN AHLIA INSURANCE COMPANY joined sandbox",
+      "participantId": "1696c7b7-249f-48c3-9f21-7e26fac2c116",
+      "participantName": "ALAIN AHLIA INSURANCE COMPANY"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "EIC joined sandbox",
+      "participantId": "f18cef1c-2ea2-4501-a1e5-db2e911689f8",
+      "participantName": "EIC"
+    },
+    {
+      "date": "2025-12-26",
+      "event": "Arab Financial Services LLC joined sandbox",
+      "participantId": "d6f549cc-ff6f-4e21-844e-f26a2ee932cb",
+      "participantName": "Arab Financial Services LLC"
+    }
+  ]
 }

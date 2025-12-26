@@ -7,7 +7,10 @@ import Card from '@components/common/Card.astro';
 // Import observatory data
 import snapshot from '../../data/observatory/snapshots/latest.json';
 
-const { summary, timestamp } = snapshot;
+// Handle both old flat format and new dual-environment format
+const isDualFormat = 'production' in snapshot;
+const productionData = isDualFormat ? snapshot.production : snapshot;
+const { summary, timestamp } = productionData;
 const { totalParticipants, byStatus, byRole, byCity } = summary;
 const activeCount = byStatus.Active || 0;
 

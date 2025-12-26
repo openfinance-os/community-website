@@ -1,0 +1,778 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import StatCard from '@components/observatory/StatCard.astro';
+import DonutChart from '@components/observatory/DonutChart.astro';
+import ParticipantCard from '@components/observatory/ParticipantCard.astro';
+import EnvironmentToggle from '@components/observatory/EnvironmentToggle.astro';
+import AuthCapabilitiesChart from '@components/observatory/AuthCapabilitiesChart.astro';
+import HistoricalTrendsChart from '@components/observatory/HistoricalTrendsChart.astro';
+
+// Import dual environment snapshot
+import dualSnapshot from '../../../../data/observatory/snapshots/latest.json';
+
+// Import historical data
+import historyDataRaw from '../../../../data/observatory/history.json';
+const historyData = historyDataRaw || { dataPoints: [], milestones: [] };
+
+// This page shows SANDBOX environment
+const currentEnv = 'sandbox';
+
+// Handle both old single-environment format and new dual-environment format
+const isDualFormat = 'production' in dualSnapshot && 'crossEnvironment' in dualSnapshot;
+
+let snapshot: any;
+let productionSnapshot: any = null;
+let sandboxSnapshot: any = null;
+
+if (isDualFormat) {
+  productionSnapshot = dualSnapshot.production;
+  sandboxSnapshot = dualSnapshot.sandbox;
+  snapshot = sandboxSnapshot;
+} else {
+  // Old format - redirect to main observatory
+  snapshot = dualSnapshot;
+}
+
+// Fallback if no snapshot available
+if (!snapshot) {
+  snapshot = {
+    timestamp: new Date().toISOString(),
+    summary: {
+      totalParticipants: 0,
+      byStatus: {},
+      byRole: {},
+      byCity: {},
+      apiFamilies: [],
+      liveInProduction: 0,
+      shariahCompliantCount: 0,
+      multiRoleCount: 0,
+      tppCount: 0,
+      byAuthCapabilities: { ciba: 0, dcr: 0, redirect: 0 },
+    },
+    participants: [],
+  };
+}
+
+const { summary, participants, timestamp, trends } = snapshot;
+
+// Handle both old and new summary format
+const totalParticipants = summary.totalParticipants || 0;
+const byStatus = summary.byStatus || {};
+const byRole = summary.byRole || {};
+const byCity = summary.byCity || {};
+const apiFamilies = summary.apiFamilies || [];
+
+// New enhanced metrics (with fallbacks for old format)
+const liveInProduction =
+  summary.liveInProduction ?? participants.filter((p: any) => p.hasAuthServer).length;
+const shariahCompliantCount =
+  summary.shariahCompliantCount ?? participants.filter((p: any) => p.isShariahCompliant).length;
+const multiRoleCount =
+  summary.multiRoleCount ?? participants.filter((p: any) => p.roles?.length > 1).length;
+const tppCount = summary.tppCount ?? (byRole.TPP || 0);
+const byAuthCapabilities = summary.byAuthCapabilities || { ciba: 0, dcr: 0, redirect: 0 };
+
+const activeCount = byStatus.Active || 0;
+
+// Role chart data
+const roleColors = {
+  LFI: 'var(--color-primary-500)',
+  BDSP: 'var(--color-accent-500)',
+  BSIP: '#3b82f6',
+  ISP: '#8b5cf6',
+  TPP: '#ef4444',
+} as const;
+
+const roleData = Object.entries(byRole).map(([label, value]) => ({
+  label,
+  value: value as number,
+  color: (roleColors as any)[label] || 'var(--color-gray-400)',
+}));
+
+// City chart data
+const cityColors = {
+  'Abu Dhabi': 'var(--color-primary-600)',
+  Dubai: 'var(--color-accent-500)',
+  London: '#8b5cf6',
+  Sharjah: '#10b981',
+} as const;
+
+const cityData = Object.entries(byCity).map(([label, value]) => ({
+  label,
+  value: value as number,
+  color: (cityColors as any)[label] || 'var(--color-gray-400)',
+}));
+
+// API family labels
+const apiFamilyLabels = {
+  accounts: 'Account Information',
+  payments: 'Payments',
+  cop: 'Confirmation of Payee',
+  products: 'Products',
+} as const;
+
+// Format timestamp
+const formatDate = (dateStr: string) => {
+  return new Date(dateStr).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: 'UTC',
+  });
+};
+---
+
+<PageLayout
+  title="Observatory - Sandbox"
+  description="Sandbox environment visibility for UAE Open Finance ecosystem. Track test participants and API coverage in the sandbox environment."
+  lastUpdated={timestamp}
+>
+  <div class="observatory-page">
+    <header class="page-header sandbox-header">
+      <div class="header-content">
+        <div class="header-badge sandbox-badge">
+          <span class="sandbox-indicator"></span>
+          <span>Sandbox Environment</span>
+        </div>
+        <h1>Observatory</h1>
+        <p class="header-description">
+          Sandbox environment for testing and development
+        </p>
+      </div>
+      <div class="header-meta">
+        <div class="header-controls">
+          {
+            isDualFormat && (
+              <EnvironmentToggle
+                currentEnvironment={currentEnv}
+                productionCount={productionSnapshot?.summary?.totalParticipants || 0}
+                sandboxCount={sandboxSnapshot?.summary?.totalParticipants || 0}
+              />
+            )
+          }
+        </div>
+        <div class="header-info">
+          <p class="last-updated">
+            Last updated: <time datetime={timestamp}>{formatDate(timestamp)}</time> UTC
+          </p>
+          <div class="header-links">
+            <a href="/observatory/methodology" class="header-link">How we calculate this</a>
+            <a
+              href="https://github.com/openfinance-os/community/issues"
+              class="header-link"
+              target="_blank"
+              rel="noopener noreferrer">See an error?</a
+            >
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="stats-section">
+      <div class="stats-grid">
+        <StatCard
+          value={totalParticipants}
+          label="Total Participants"
+          sublabel="Registered in sandbox"
+          icon="participants"
+          trendValue={trends?.participantChange}
+        />
+        <StatCard
+          value={liveInProduction}
+          label="With Auth Servers"
+          sublabel="Ready for testing"
+          icon="active"
+        />
+        <StatCard
+          value={shariahCompliantCount}
+          label="Shariah Compliant"
+          sublabel="Islamic finance institutions"
+          icon="shariah"
+        />
+        <StatCard
+          value={apiFamilies.length}
+          label="API Families"
+          sublabel="Accounts, Payments, CoP, Products"
+          icon="api"
+        />
+      </div>
+    </section>
+
+    <!-- Additional Stats Row -->
+    <section class="stats-section secondary-stats">
+      <div class="stats-grid-secondary">
+        <StatCard
+          value={multiRoleCount}
+          label="Multi-Role"
+          sublabel="Participants with 2+ roles"
+          icon="participants"
+        />
+        <StatCard value={tppCount} label="TPPs" sublabel="Third Party Providers" icon="tpp" />
+        <StatCard
+          value={byAuthCapabilities.dcr}
+          label="DCR Support"
+          sublabel="Dynamic Client Registration"
+          icon="auth"
+        />
+        <StatCard
+          value={byAuthCapabilities.ciba}
+          label="CIBA Support"
+          sublabel="Backchannel Authentication"
+          icon="auth"
+        />
+      </div>
+    </section>
+
+    <section class="charts-section">
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h2 class="chart-title">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            Participant Roles
+          </h2>
+          <p class="chart-description">Distribution of roles in sandbox</p>
+          <div class="chart-container">
+            <DonutChart
+              data={roleData}
+              size={180}
+              strokeWidth={24}
+              centerValue={totalParticipants}
+              centerLabel="Total"
+            />
+          </div>
+          <div class="role-legend">
+            <div class="role-item">
+              <strong>LFI</strong> — Licensed Financial Institution (banks)
+            </div>
+            <div class="role-item">
+              <strong>BDSP</strong> — Bank Data Service Provider
+            </div>
+            <div class="role-item">
+              <strong>BSIP</strong> — Bank Service Infrastructure Provider
+            </div>
+            <div class="role-item">
+              <strong>ISP</strong> — Information Service Provider
+            </div>
+            <div class="role-item">
+              <strong>TPP</strong> — Third Party Provider (fintechs)
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <h2 class="chart-title">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M3 21h18"></path>
+              <path d="M5 21V7l8-4v18"></path>
+              <path d="M19 21V11l-6-4"></path>
+            </svg>
+            Geographic Distribution
+          </h2>
+          <p class="chart-description">Sandbox participants by location</p>
+          <div class="chart-container">
+            <DonutChart data={cityData} size={180} strokeWidth={24} showLegend={true} />
+          </div>
+        </div>
+
+        <div class="chart-card api-matrix-card">
+          <h2 class="chart-title">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="16 18 22 12 16 6"></polyline>
+              <polyline points="8 6 2 12 8 18"></polyline>
+            </svg>
+            API Coverage
+          </h2>
+          <p class="chart-description">API families in sandbox</p>
+          <div class="api-matrix">
+            {
+              apiFamilies.map((api: string) => {
+                const count = participants.filter((p: any) => p.apiFamilies?.includes(api)).length;
+                const percentage =
+                  totalParticipants > 0 ? Math.round((count / totalParticipants) * 100) : 0;
+                return (
+                  <div class="api-row">
+                    <span class="api-name">{(apiFamilyLabels as any)[api] || api}</span>
+                    <div class="api-bar-container">
+                      <div class="api-bar" style={`width: ${percentage}%`} />
+                    </div>
+                    <span class="api-count">
+                      {count}/{totalParticipants}
+                    </span>
+                  </div>
+                );
+              })
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Authorization Capabilities Section -->
+    <section class="capabilities-section">
+      <div class="capabilities-grid">
+        <AuthCapabilitiesChart
+          cibaCount={byAuthCapabilities.ciba}
+          dcrCount={byAuthCapabilities.dcr}
+          redirectCount={byAuthCapabilities.redirect}
+          totalParticipants={totalParticipants}
+        />
+
+        <HistoricalTrendsChart
+          dataPoints={historyData.dataPoints || []}
+          milestones={historyData.milestones || []}
+        />
+      </div>
+    </section>
+
+    <section class="participants-section">
+      <header class="section-header">
+        <h2>Sandbox Participants</h2>
+        <p>{participants.length} registered test institutions</p>
+      </header>
+      <div class="participants-grid">
+        {
+          participants.map((participant: any) => (
+            <ParticipantCard
+              name={participant.name}
+              legalName={participant.legalName}
+              status={participant.status}
+              roles={participant.roles}
+              city={participant.city}
+              apiFamilies={participant.apiFamilies}
+              hasAuthServer={participant.hasAuthServer}
+              isShariahCompliant={participant.isShariahCompliant}
+            />
+          ))
+        }
+      </div>
+    </section>
+
+    <footer class="page-footer">
+      <div class="disclaimer sandbox-disclaimer">
+        <h3>Sandbox Environment</h3>
+        <p>
+          This view shows data from the
+          <a
+            href="https://data.sandbox.directory.openfinance.ae"
+            target="_blank"
+            rel="noopener noreferrer">UAE Open Finance Sandbox Trust Framework Directory</a
+          >. The sandbox environment is used for testing and development purposes.
+        </p>
+        <p>
+          <strong>This is not production data.</strong> For live ecosystem statistics, view the
+          <a href="/observatory">Production Observatory</a>.
+        </p>
+      </div>
+    </footer>
+  </div>
+</PageLayout>
+
+<style>
+  .observatory-page {
+    padding-bottom: var(--space-16);
+  }
+
+  .page-header {
+    background: linear-gradient(180deg, var(--color-primary-900) 0%, var(--color-primary-800) 100%);
+    color: white;
+    padding: var(--space-12) var(--space-4);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-header.sandbox-header {
+    background: linear-gradient(180deg, #78350f 0%, #92400e 100%);
+  }
+
+  .page-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: var(--grid-pattern-dark);
+    pointer-events: none;
+  }
+
+  .header-content {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-full);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-4);
+  }
+
+  .sandbox-badge {
+    background: rgba(251, 191, 36, 0.2);
+    border-color: rgba(251, 191, 36, 0.4);
+  }
+
+  .sandbox-indicator {
+    width: 8px;
+    height: 8px;
+    background: #fbbf24;
+    border-radius: 50%;
+  }
+
+  .page-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: var(--space-2);
+  }
+
+  .header-description {
+    font-size: 1.125rem;
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 500px;
+  }
+
+  .header-meta {
+    position: relative;
+    max-width: 1200px;
+    margin: var(--space-6) auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .header-controls {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .header-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 640px) {
+    .header-info {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  .last-updated {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .last-updated time {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .header-links {
+    display: flex;
+    gap: var(--space-4);
+  }
+
+  .header-link {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .header-link:hover {
+    color: white;
+    text-decoration: underline;
+  }
+
+  .stats-section {
+    max-width: 1200px;
+    margin: calc(-1 * var(--space-8)) auto 0;
+    padding: 0 var(--space-4);
+    position: relative;
+    z-index: 10;
+  }
+
+  .stats-section.secondary-stats {
+    margin-top: var(--space-6);
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+
+  .stats-grid-secondary {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 768px) {
+    .stats-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .stats-grid-secondary {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .charts-section {
+    max-width: 1200px;
+    margin: var(--space-12) auto 0;
+    padding: 0 var(--space-4);
+  }
+
+  .charts-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 768px) {
+    .charts-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .charts-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .chart-card {
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+  }
+
+  .chart-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-1);
+  }
+
+  .chart-title svg {
+    color: var(--color-primary-500);
+  }
+
+  .chart-description {
+    font-size: 0.8125rem;
+    color: var(--color-gray-500);
+    margin-bottom: var(--space-6);
+  }
+
+  .chart-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: var(--space-4);
+  }
+
+  .role-legend {
+    border-top: 1px solid var(--color-gray-100);
+    padding-top: var(--space-4);
+  }
+
+  .role-item {
+    font-size: 0.75rem;
+    color: var(--color-gray-600);
+    margin-bottom: var(--space-1);
+  }
+
+  .role-item strong {
+    font-family: var(--font-mono);
+    color: var(--color-gray-700);
+  }
+
+  .api-matrix {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .api-row {
+    display: grid;
+    grid-template-columns: 140px 1fr 50px;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .api-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-gray-700);
+  }
+
+  .api-bar-container {
+    height: 8px;
+    background: var(--color-gray-100);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+  }
+
+  .api-bar {
+    height: 100%;
+    background: #f59e0b;
+    border-radius: var(--radius-full);
+    transition: width 0.6s ease-out;
+  }
+
+  .api-count {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-gray-600);
+    text-align: right;
+  }
+
+  .capabilities-section {
+    max-width: 1200px;
+    margin: var(--space-8) auto 0;
+    padding: 0 var(--space-4);
+  }
+
+  .capabilities-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 768px) {
+    .capabilities-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .participants-section {
+    max-width: 1200px;
+    margin: var(--space-12) auto 0;
+    padding: 0 var(--space-8);
+  }
+
+  .section-header {
+    margin-bottom: var(--space-8);
+  }
+
+  .section-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-1);
+  }
+
+  .section-header p {
+    font-size: 0.9375rem;
+    color: var(--color-gray-500);
+  }
+
+  .participants-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+
+  @media (min-width: 640px) {
+    .participants-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-8);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .participants-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-10);
+    }
+  }
+
+  .page-footer {
+    max-width: 1200px;
+    margin: var(--space-12) auto 0;
+    padding: 0 var(--space-4);
+  }
+
+  .disclaimer {
+    background: var(--color-gray-100);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+  }
+
+  .sandbox-disclaimer {
+    background: #fef3c7;
+    border-color: #fcd34d;
+  }
+
+  .disclaimer h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-3);
+  }
+
+  .disclaimer p {
+    font-size: 0.875rem;
+    color: var(--color-gray-600);
+    line-height: 1.6;
+    margin-bottom: var(--space-2);
+  }
+
+  .disclaimer p:last-child {
+    margin-bottom: 0;
+  }
+
+  .disclaimer a {
+    color: var(--color-primary-600);
+  }
+</style>

@@ -1,6 +1,6 @@
 ---
 interface Props {
-  currentEnvironment: 'production' | 'sandbox' | 'both';
+  currentEnvironment: 'production' | 'sandbox';
   productionCount?: number;
   sandboxCount?: number;
 }
@@ -11,31 +11,24 @@ const { currentEnvironment, productionCount = 0, sandboxCount = 0 } = Astro.prop
 <div class="environment-toggle" data-current={currentEnvironment}>
   <div class="toggle-label">Environment</div>
   <div class="toggle-buttons">
-    <button
+    <a
+      href="/observatory"
       class:list={['toggle-btn', { active: currentEnvironment === 'production' }]}
-      data-env="production"
-      aria-pressed={currentEnvironment === 'production'}
+      aria-current={currentEnvironment === 'production' ? 'page' : undefined}
     >
       <span class="env-indicator production"></span>
       <span class="env-name">Production</span>
       {productionCount > 0 && <span class="env-count">{productionCount}</span>}
-    </button>
-    <button
+    </a>
+    <a
+      href="/observatory/sandbox"
       class:list={['toggle-btn', { active: currentEnvironment === 'sandbox' }]}
-      data-env="sandbox"
-      aria-pressed={currentEnvironment === 'sandbox'}
+      aria-current={currentEnvironment === 'sandbox' ? 'page' : undefined}
     >
       <span class="env-indicator sandbox"></span>
       <span class="env-name">Sandbox</span>
       {sandboxCount > 0 && <span class="env-count">{sandboxCount}</span>}
-    </button>
-    <button
-      class:list={['toggle-btn', { active: currentEnvironment === 'both' }]}
-      data-env="both"
-      aria-pressed={currentEnvironment === 'both'}
-    >
-      <span class="env-name">Both</span>
-    </button>
+    </a>
   </div>
 </div>
 
@@ -73,6 +66,7 @@ const { currentEnvironment, productionCount = 0, sandboxCount = 0 } = Astro.prop
     color: var(--color-primary-200);
     cursor: pointer;
     transition: all var(--transition-fast);
+    text-decoration: none;
   }
 
   .toggle-btn:hover {
@@ -136,22 +130,3 @@ const { currentEnvironment, productionCount = 0, sandboxCount = 0 } = Astro.prop
   }
 </style>
 
-<script>
-  // Client-side interactivity for environment toggle
-  document.addEventListener('DOMContentLoaded', () => {
-    const toggle = document.querySelector('.environment-toggle');
-    const buttons = toggle?.querySelectorAll('.toggle-btn');
-
-    buttons?.forEach((button) => {
-      button.addEventListener('click', () => {
-        const env = button.getAttribute('data-env');
-        if (env) {
-          // Update URL with environment parameter
-          const url = new URL(window.location.href);
-          url.searchParams.set('env', env);
-          window.location.href = url.toString();
-        }
-      });
-    });
-  });
-</script>

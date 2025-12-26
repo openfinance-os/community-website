@@ -4,7 +4,6 @@ import StatCard from '@components/observatory/StatCard.astro';
 import DonutChart from '@components/observatory/DonutChart.astro';
 import ParticipantCard from '@components/observatory/ParticipantCard.astro';
 import EnvironmentToggle from '@components/observatory/EnvironmentToggle.astro';
-import CrossEnvironmentStats from '@components/observatory/CrossEnvironmentStats.astro';
 import AuthCapabilitiesChart from '@components/observatory/AuthCapabilitiesChart.astro';
 import HistoricalTrendsChart from '@components/observatory/HistoricalTrendsChart.astro';
 import Badge from '@components/common/Badge.astro';
@@ -16,10 +15,9 @@ import dualSnapshot from '../../../data/observatory/snapshots/latest.json';
 import historyDataRaw from '../../../data/observatory/history.json';
 const historyData = historyDataRaw || { dataPoints: [], milestones: [] };
 
-// Get environment from URL params (default to 'production')
-const url = new URL(Astro.request.url);
-const envParam = url.searchParams.get('env') || 'production';
-const currentEnv = envParam === 'sandbox' ? 'sandbox' : envParam === 'both' ? 'both' : 'production';
+// This page always shows PRODUCTION environment
+// For sandbox, see /observatory/sandbox
+const currentEnv = 'production';
 
 // Handle both old single-environment format and new dual-environment format
 const isDualFormat = 'production' in dualSnapshot && 'crossEnvironment' in dualSnapshot;
@@ -33,16 +31,7 @@ if (isDualFormat) {
   productionSnapshot = dualSnapshot.production;
   sandboxSnapshot = dualSnapshot.sandbox;
   crossEnvironment = dualSnapshot.crossEnvironment;
-
-  // Select which snapshot to display based on environment
-  if (currentEnv === 'sandbox' && sandboxSnapshot) {
-    snapshot = sandboxSnapshot;
-  } else if (currentEnv === 'both') {
-    // For 'both', we'll show production data but with cross-environment context
-    snapshot = productionSnapshot || sandboxSnapshot;
-  } else {
-    snapshot = productionSnapshot;
-  }
+  snapshot = productionSnapshot;
 } else {
   // Old format - single environment
   snapshot = dualSnapshot;
@@ -136,30 +125,8 @@ const formatDate = (dateStr: string) => {
   });
 };
 
-// Determine participants to show based on environment
-let displayParticipants = participants;
-if (currentEnv === 'both' && crossEnvironment) {
-  // Combine participants from both environments, marking their presence
-  const allParticipants = new Map();
-
-  if (productionSnapshot?.participants) {
-    productionSnapshot.participants.forEach((p: any) => {
-      allParticipants.set(p.id, { ...p, inProduction: true, inSandbox: false });
-    });
-  }
-
-  if (sandboxSnapshot?.participants) {
-    sandboxSnapshot.participants.forEach((p: any) => {
-      if (allParticipants.has(p.id)) {
-        allParticipants.get(p.id).inSandbox = true;
-      } else {
-        allParticipants.set(p.id, { ...p, inProduction: false, inSandbox: true });
-      }
-    });
-  }
-
-  displayParticipants = Array.from(allParticipants.values());
-}
+// Display production participants
+const displayParticipants = participants;
 ---
 
 <PageLayout
@@ -207,24 +174,6 @@ if (currentEnv === 'both' && crossEnvironment) {
         </div>
       </div>
     </header>
-
-    <!-- Cross-Environment Stats (only show when both environments available) -->
-    {
-      isDualFormat && currentEnv === 'both' && crossEnvironment && (
-        <section class="cross-env-section">
-          <div class="section-container">
-            <CrossEnvironmentStats
-              productionCount={productionSnapshot?.summary?.totalParticipants || 0}
-              sandboxCount={sandboxSnapshot?.summary?.totalParticipants || 0}
-              inBothCount={crossEnvironment.inBothEnvironments?.length || 0}
-              productionOnlyCount={crossEnvironment.productionOnly?.length || 0}
-              sandboxOnlyCount={crossEnvironment.sandboxOnly?.length || 0}
-              totalUnique={crossEnvironment.totalUniqueParticipants || 0}
-            />
-          </div>
-        </section>
-      )
-    }
 
     <section class="stats-section">
       <div class="stats-grid">
@@ -416,19 +365,8 @@ if (currentEnv === 'both' && crossEnvironment) {
 
     <section class="participants-section">
       <header class="section-header">
-        <h2>
-          {
-            currentEnv === 'both'
-              ? 'All Participants'
-              : currentEnv === 'sandbox'
-                ? 'Sandbox Participants'
-                : 'Production Participants'
-          }
-        </h2>
-        <p>
-          {displayParticipants.length}
-          {currentEnv === 'both' ? 'unique' : 'registered'} institutions
-        </p>
+        <h2>Production Participants</h2>
+        <p>{displayParticipants.length} registered institutions</p>
       </header>
       <div class="participants-grid">
         {
