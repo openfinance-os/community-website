@@ -1,0 +1,646 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+
+const timeline = [
+  { year: '2015', event: 'PSD2 directive adopted by European Parliament' },
+  { year: '2018', event: 'PSD2 comes into force across EU member states' },
+  { year: '2019', event: 'Strong Customer Authentication (SCA) requirements active' },
+  { year: '2020', event: 'Berlin Group NextGenPSD2 framework adopted widely' },
+  { year: '2023', event: 'European Commission proposes PSD3 and PSR' },
+  { year: '2024', event: 'Open Finance framework discussions advance' },
+  { year: '2025+', event: 'Expected PSD3/PSR implementation' },
+];
+
+const lessons = [
+  {
+    title: 'Principles vs Prescriptions',
+    description:
+      'PSD2 set principles but left implementation details to member states and banks. This led to 4,000+ different API implementations across Europe.',
+    relevance: 'UAE\'s prescriptive approach via Al Tareq avoids this fragmentation.',
+  },
+  {
+    title: 'Screen Scraping Fallback',
+    description:
+      'Poor API quality forced regulators to allow fallback to screen scraping, undermining the original intent of secure, standardized access.',
+    relevance: 'UAE can learn to enforce API quality standards from the start.',
+  },
+  {
+    title: 'Consumer Awareness Gap',
+    description:
+      'Surveys show most EU consumers don\'t know about their data sharing rights. Awareness campaigns lagged behind technical implementation.',
+    relevance: 'UAE should invest in consumer education alongside technical rollout.',
+  },
+  {
+    title: 'Beyond Payments',
+    description:
+      'PSD3 and the proposed Open Finance framework expand beyond payments to insurance, investments, and pensions.',
+    relevance: 'UAE\'s "Open Finance" framing already positions for this broader scope.',
+  },
+];
+
+const keyDifferences = [
+  { aspect: 'Scope', psd2: '27 countries, varied implementations', uae: 'Single unified market' },
+  { aspect: 'API Standard', psd2: 'Multiple (Berlin Group, STET, Polish API)', uae: 'Single CBUAE standard' },
+  { aspect: 'Central Directory', psd2: 'National registries, no unified directory', uae: 'Al Tareq serves as central directory' },
+  { aspect: 'Enforcement', psd2: 'National regulators with varied approaches', uae: 'CBUAE as single authority' },
+];
+---
+
+<PageLayout
+  title="European Union Open Banking"
+  description="PSD2, PSD3, and the evolution of open finance across 27 European countries."
+>
+  <div class="profile-page">
+    <div class="container">
+      <nav class="breadcrumb">
+        <a href="/global">Global</a>
+        <span>/</span>
+        <span>European Union</span>
+      </nav>
+
+      <header class="page-header">
+        <div class="header-flag">🇪🇺</div>
+        <div class="header-text">
+          <span class="region-label">PSD2 and Beyond</span>
+          <h1>European Union</h1>
+          <p class="subtitle">
+            The world's largest open banking market by geography, with lessons on both the benefits
+            and challenges of a principles-based regulatory approach.
+          </p>
+        </div>
+      </header>
+
+      <section class="overview-section">
+        <h2 class="section-title">Overview</h2>
+        <div class="overview-content">
+          <p>
+            The Payment Services Directive 2 (PSD2) was the European Union's landmark regulation
+            requiring banks to provide access to customer account data and payment initiation
+            services to licensed third parties. Implemented in 2018, it covers all 27 EU member
+            states plus EEA countries.
+          </p>
+          <p>
+            Unlike the UK's prescriptive approach, PSD2 was a principles-based directive that left
+            significant implementation decisions to member states and individual banks. While this
+            created a massive market, it also led to fragmentation with thousands of different API
+            implementations.
+          </p>
+          <p>
+            The European Commission is now working on PSD3 and a broader Open Finance framework
+            that will address lessons learned and extend access beyond payments to other financial
+            products including insurance, investments, and pensions.
+          </p>
+        </div>
+      </section>
+
+      <section class="comparison-section">
+        <h2 class="section-title">EU vs UAE Approach</h2>
+        <div class="comparison-table-wrapper">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Aspect</th>
+                <th>EU (PSD2)</th>
+                <th>UAE</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                keyDifferences.map((row) => (
+                  <tr>
+                    <td class="aspect-cell">{row.aspect}</td>
+                    <td>{row.psd2}</td>
+                    <td class="uae-cell">{row.uae}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="timeline-section">
+        <h2 class="section-title">Timeline</h2>
+        <div class="timeline">
+          {
+            timeline.map((item) => (
+              <div class="timeline-item">
+                <span class="timeline-year">{item.year}</span>
+                <span class="timeline-event">{item.event}</span>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="lessons-section">
+        <h2 class="section-title">Lessons for UAE</h2>
+        <div class="lessons-grid">
+          {
+            lessons.map((lesson) => (
+              <div class="lesson-card">
+                <h3>{lesson.title}</h3>
+                <p class="lesson-description">{lesson.description}</p>
+                <div class="lesson-relevance">
+                  <span class="relevance-label">UAE Relevance</span>
+                  <p>{lesson.relevance}</p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="future-section">
+        <h2 class="section-title">What's Next: PSD3 & Open Finance</h2>
+        <div class="future-content">
+          <div class="future-card">
+            <h3>PSD3</h3>
+            <p>
+              Building on PSD2 with stronger API standards, improved SCA exemptions, and better
+              consumer protection. Expected to reduce fragmentation with more prescriptive
+              technical standards.
+            </p>
+          </div>
+          <div class="future-card">
+            <h3>Payment Services Regulation (PSR)</h3>
+            <p>
+              A directly applicable regulation (not a directive) that will ensure consistent
+              implementation across all member states without national interpretation.
+            </p>
+          </div>
+          <div class="future-card">
+            <h3>Open Finance Framework</h3>
+            <p>
+              Extends data sharing beyond payments to mortgages, savings, investments, insurance,
+              and pensions. Creates a comprehensive financial data sharing ecosystem.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="resources-section">
+        <h2 class="section-title">Official Resources</h2>
+        <div class="resources-grid">
+          <a
+            href="https://www.berlin-group.org/"
+            class="resource-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="resource-icon">🏛️</span>
+            <div>
+              <strong>Berlin Group</strong>
+              <span>NextGenPSD2 API framework</span>
+            </div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M7 17L17 7M17 7H7M17 7v10"></path>
+            </svg>
+          </a>
+          <a
+            href="https://www.eba.europa.eu/regulation-and-policy/payment-services-and-electronic-money"
+            class="resource-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="resource-icon">📋</span>
+            <div>
+              <strong>EBA Guidelines</strong>
+              <span>European Banking Authority</span>
+            </div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M7 17L17 7M17 7H7M17 7v10"></path>
+            </svg>
+          </a>
+          <a
+            href="https://finance.ec.europa.eu/publications/payment-services-package_en"
+            class="resource-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="resource-icon">📊</span>
+            <div>
+              <strong>PSD3 Proposal</strong>
+              <span>European Commission</span>
+            </div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M7 17L17 7M17 7H7M17 7v10"></path>
+            </svg>
+          </a>
+        </div>
+      </section>
+
+      <nav class="page-nav">
+        <a href="/global/uk" class="nav-link prev">
+          <span class="nav-direction">← Previous</span>
+          <span class="nav-page">United Kingdom</span>
+        </a>
+        <a href="/global/gcc" class="nav-link next">
+          <span class="nav-direction">Next →</span>
+          <span class="nav-page">GCC Region</span>
+        </a>
+      </nav>
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .profile-page {
+    padding: var(--space-8) var(--space-4) var(--space-16);
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+    margin-bottom: var(--space-6);
+  }
+
+  .breadcrumb a {
+    color: var(--color-primary-600);
+  }
+
+  .page-header {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-5);
+    margin-bottom: var(--space-10);
+  }
+
+  .header-flag {
+    font-size: 3rem;
+    line-height: 1;
+  }
+
+  .region-label {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-primary-600);
+    margin-bottom: var(--space-2);
+  }
+
+  .page-header h1 {
+    font-size: 2rem;
+    margin-bottom: var(--space-3);
+  }
+
+  .subtitle {
+    font-size: 1.0625rem;
+    color: var(--color-gray-600);
+    line-height: 1.6;
+  }
+
+  /* Section Styles */
+  .section-title {
+    font-size: 1rem;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gray-500);
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  /* Overview */
+  .overview-section {
+    margin-bottom: var(--space-12);
+  }
+
+  .overview-content p {
+    color: var(--color-gray-700);
+    line-height: 1.8;
+    margin-bottom: var(--space-4);
+  }
+
+  .overview-content p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Comparison Table */
+  .comparison-section {
+    margin-bottom: var(--space-12);
+  }
+
+  .comparison-table-wrapper {
+    overflow-x: auto;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    background: white;
+  }
+
+  .comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+  }
+
+  .comparison-table th {
+    text-align: left;
+    padding: var(--space-4);
+    background: var(--color-gray-50);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gray-500);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .comparison-table td {
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--color-gray-100);
+    color: var(--color-gray-700);
+    vertical-align: top;
+  }
+
+  .comparison-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .aspect-cell {
+    font-weight: 500;
+    color: var(--color-gray-900);
+  }
+
+  .uae-cell {
+    color: var(--color-primary-700);
+  }
+
+  /* Timeline */
+  .timeline-section {
+    margin-bottom: var(--space-12);
+  }
+
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .timeline-item {
+    display: flex;
+    gap: var(--space-4);
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--color-gray-100);
+  }
+
+  .timeline-item:last-child {
+    border-bottom: none;
+  }
+
+  .timeline-year {
+    flex-shrink: 0;
+    width: 60px;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--color-primary-600);
+  }
+
+  .timeline-event {
+    color: var(--color-gray-700);
+  }
+
+  /* Lessons */
+  .lessons-section {
+    margin-bottom: var(--space-12);
+  }
+
+  .lessons-grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 640px) {
+    .lessons-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .lesson-card {
+    padding: var(--space-5);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+  }
+
+  .lesson-card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-2);
+  }
+
+  .lesson-description {
+    font-size: 0.9375rem;
+    color: var(--color-gray-600);
+    line-height: 1.6;
+    margin-bottom: var(--space-4);
+  }
+
+  .lesson-relevance {
+    padding: var(--space-3);
+    background: var(--color-primary-50);
+    border-radius: var(--radius-md);
+  }
+
+  .relevance-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-primary-600);
+    margin-bottom: var(--space-1);
+  }
+
+  .lesson-relevance p {
+    font-size: 0.8125rem;
+    color: var(--color-primary-800);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* Future Section */
+  .future-section {
+    margin-bottom: var(--space-12);
+  }
+
+  .future-content {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 640px) {
+    .future-content {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .future-card {
+    padding: var(--space-5);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-xl);
+  }
+
+  .future-card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-primary-700);
+    margin-bottom: var(--space-2);
+  }
+
+  .future-card p {
+    font-size: 0.875rem;
+    color: var(--color-gray-600);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Resources */
+  .resources-section {
+    margin-bottom: var(--space-12);
+  }
+
+  .resources-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .resource-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition:
+      border-color var(--transition-fast),
+      background-color var(--transition-fast);
+  }
+
+  .resource-link:hover {
+    border-color: var(--color-primary-300);
+    background: var(--color-gray-50);
+    text-decoration: none;
+  }
+
+  .resource-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .resource-link div {
+    flex: 1;
+  }
+
+  .resource-link strong {
+    display: block;
+    font-size: 0.9375rem;
+    color: var(--color-gray-900);
+  }
+
+  .resource-link span {
+    font-size: 0.8125rem;
+    color: var(--color-gray-500);
+  }
+
+  .resource-link svg {
+    flex-shrink: 0;
+    color: var(--color-gray-400);
+  }
+
+  /* Page Navigation */
+  .page-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-gray-200);
+  }
+
+  .nav-link {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-4);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .nav-link:hover {
+    text-decoration: none;
+  }
+
+  .nav-link.next {
+    text-align: right;
+    margin-left: auto;
+  }
+
+  .nav-direction {
+    font-size: 0.8125rem;
+    color: var(--color-gray-500);
+  }
+
+  .nav-page {
+    font-weight: 500;
+    color: var(--color-primary-600);
+  }
+
+  .nav-link:hover .nav-page {
+    color: var(--color-primary-700);
+  }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .comparison-table-wrapper {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .comparison-table th {
+    background: var(--color-gray-200);
+    border-color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .comparison-table td {
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .lesson-card {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .lesson-relevance {
+    background: var(--color-primary-100);
+  }
+
+  :global([data-theme='dark']) .future-card {
+    background: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .resource-link {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .resource-link:hover {
+    background: var(--color-gray-200);
+  }
+</style>

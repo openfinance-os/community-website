@@ -4,117 +4,479 @@ import PageLayout from '@layouts/PageLayout.astro';
 
 <PageLayout
   title="Community"
-  description="Join the UAE Open Finance community. Contributors, working groups, and how to get involved."
+  description="Join the UAE Open Finance community. Learn how to contribute, connect with maintainers, and help build the ecosystem."
 >
-  <div class="placeholder-page">
-    <div class="container">
-      <span class="coming-soon-badge">Coming Soon</span>
-      <h1>Community</h1>
-      <p>Contributors, working groups, and how to join.</p>
-      <p class="subtitle">
-        This section will showcase community members and provide guidance on contributing.
-      </p>
-      <div class="cta-group">
-        <a
-          href="https://github.com/organizations/openfinance-os/"
-          class="cta-link"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Visit GitHub →
-        </a>
-        <a
-          href="https://github.com/openfinance-os/community/discussions"
-          class="cta-link secondary"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Join Discussions →
-        </a>
+  <div class="community-page">
+    <!-- Hero Section -->
+    <header class="hero">
+      <div class="container">
+        <h1>Join the Community</h1>
+        <p class="hero-subtitle">
+          Built by developers, for developers. OpenFinance-OS is a grassroots initiative to make UAE
+          Open Finance visible, accessible, and welcoming.
+        </p>
+        <div class="hero-cta">
+          <a
+            href="https://github.com/openfinance-os/community/discussions"
+            class="btn btn-primary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            Join Discussions
+          </a>
+          <a
+            href="https://github.com/organizations/openfinance-os/"
+            class="btn btn-secondary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            View on GitHub
+          </a>
+        </div>
       </div>
-      <a href="/" class="back-link">← Back to Home</a>
-    </div>
+    </header>
+
+    <!-- How to Contribute Section -->
+    <section class="section contribute-section">
+      <div class="container">
+        <h2>How to Contribute</h2>
+        <p class="section-intro">
+          There are many ways to help build the UAE Open Finance community. Choose the path that fits your skills.
+        </p>
+
+        <div class="contribute-grid">
+          <div class="contribute-card">
+            <div class="card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14,2 14,8 20,8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10,9 9,9 8,9"/>
+              </svg>
+            </div>
+            <h3>Content</h3>
+            <p>Write news articles, submit events, or improve documentation. Help others learn about UAE Open Finance.</p>
+            <ul class="card-list">
+              <li>Submit news about ecosystem developments</li>
+              <li>Add events to the calendar</li>
+              <li>Improve learning resources</li>
+            </ul>
+            <a href="https://github.com/openfinance-os/community-website" class="card-link" target="_blank" rel="noopener noreferrer">
+              Contribute content →
+            </a>
+          </div>
+
+          <div class="contribute-card">
+            <div class="card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="16,18 22,12 16,6"/>
+                <polyline points="8,6 2,12 8,18"/>
+              </svg>
+            </div>
+            <h3>Code</h3>
+            <p>Build dashboard features, improve data collectors, or enhance the site. We welcome pull requests.</p>
+            <ul class="card-list">
+              <li>Observatory dashboard features</li>
+              <li>Data collection scripts</li>
+              <li>Site improvements and bug fixes</li>
+            </ul>
+            <a href="https://github.com/openfinance-os/community-website/issues" class="card-link" target="_blank" rel="noopener noreferrer">
+              View open issues →
+            </a>
+          </div>
+
+          <div class="contribute-card">
+            <div class="card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+            <h3>Community</h3>
+            <p>Share feedback, participate in discussions, and help spread the word about UAE Open Finance.</p>
+            <ul class="card-list">
+              <li>Answer questions in discussions</li>
+              <li>Report issues and suggest features</li>
+              <li>Share with your network</li>
+            </ul>
+            <a href="https://github.com/openfinance-os/community/discussions" class="card-link" target="_blank" rel="noopener noreferrer">
+              Join discussions →
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contribution Guidelines Section -->
+    <section class="section guidelines-section">
+      <div class="container">
+        <h2>Contribution Guidelines</h2>
+        <div class="guidelines-grid">
+          <div class="guideline-item">
+            <h4>Fork & Pull Request</h4>
+            <p>All contributions go through GitHub. Fork the repo, make your changes, and open a PR.</p>
+          </div>
+          <div class="guideline-item">
+            <h4>Editorial Standards</h4>
+            <p>Content should be factual, link to primary sources, and avoid promotional language.</p>
+          </div>
+          <div class="guideline-item">
+            <h4>Code Quality</h4>
+            <p>Follow existing patterns, write clear code, and test your changes before submitting.</p>
+          </div>
+          <div class="guideline-item">
+            <h4>Be Respectful</h4>
+            <p>We follow a Code of Conduct. Be kind, constructive, and welcoming to all contributors.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Connect Section -->
+    <section class="section connect-section">
+      <div class="container">
+        <h2>Connect With Us</h2>
+        <div class="connect-grid">
+          <a href="https://github.com/organizations/openfinance-os/" class="connect-card" target="_blank" rel="noopener noreferrer">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            <h4>GitHub Organization</h4>
+            <p>Browse repositories, star the project, and fork to contribute</p>
+          </a>
+
+          <a href="https://github.com/openfinance-os/community/discussions" class="connect-card" target="_blank" rel="noopener noreferrer">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            <h4>Discussions</h4>
+            <p>Ask questions, share ideas, and connect with the community</p>
+          </a>
+
+          <a href="https://github.com/openfinance-os/community-website/issues/new" class="connect-card" target="_blank" rel="noopener noreferrer">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            <h4>Report an Issue</h4>
+            <p>Found a bug or have a suggestion? Open an issue on GitHub</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer CTA -->
+    <section class="section cta-section">
+      <div class="container">
+        <div class="cta-card">
+          <h2>Ready to contribute?</h2>
+          <p>Every contribution matters. Whether it's fixing a typo or building a new feature, you're helping grow the UAE Open Finance ecosystem.</p>
+          <a href="https://github.com/openfinance-os/community-website" class="btn btn-accent" target="_blank" rel="noopener noreferrer">
+            Get Started on GitHub
+          </a>
+        </div>
+      </div>
+    </section>
   </div>
 </PageLayout>
 
 <style>
-  .placeholder-page {
-    min-height: 60vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: var(--space-8) var(--space-4);
+  .community-page {
+    --section-spacing: var(--space-16);
   }
 
   .container {
-    max-width: 500px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 var(--space-4);
   }
 
-  .coming-soon-badge {
-    display: inline-block;
-    padding: var(--space-1) var(--space-3);
-    background: var(--color-accent-100, #fef3c7);
-    color: var(--color-accent-700, #b45309);
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border-radius: var(--radius-full);
+  /* Hero Section */
+  .hero {
+    padding: var(--space-16) var(--space-4);
+    text-align: center;
+    background: linear-gradient(180deg, var(--color-primary-50) 0%, var(--color-surface) 100%);
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
     margin-bottom: var(--space-4);
+    color: var(--color-primary-600);
   }
 
-  h1 {
-    font-size: 2rem;
-    margin-bottom: var(--space-3);
+  .hero-subtitle {
+    font-size: 1.125rem;
+    color: var(--color-text-secondary);
+    max-width: 600px;
+    margin: 0 auto var(--space-8);
+    line-height: 1.7;
   }
 
-  p {
-    color: var(--color-gray-600);
-    margin-bottom: var(--space-2);
-  }
-
-  .subtitle {
-    font-size: 0.875rem;
-    color: var(--color-gray-500);
-  }
-
-  .cta-group {
+  .hero-cta {
     display: flex;
-    gap: var(--space-4);
+    gap: var(--space-3);
     justify-content: center;
-    margin-top: var(--space-6);
+    flex-wrap: wrap;
   }
 
-  .cta-link {
-    padding: var(--space-2) var(--space-4);
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-5);
+    font-weight: 500;
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-primary {
     background: var(--color-primary-600);
     color: white;
-    font-weight: 500;
-    border-radius: var(--radius-md);
-    text-decoration: none;
   }
 
-  .cta-link:hover {
+  .btn-primary:hover {
     background: var(--color-primary-700);
     text-decoration: none;
   }
 
-  .cta-link.secondary {
-    background: transparent;
-    color: var(--color-primary-600);
-    border: 1px solid var(--color-primary-600);
+  .btn-secondary {
+    background: white;
+    color: var(--color-text);
+    border: 1px solid var(--color-gray-300);
   }
 
-  .cta-link.secondary:hover {
+  .btn-secondary:hover {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-400);
+    text-decoration: none;
+  }
+
+  .btn-accent {
+    background: var(--color-accent-500);
+    color: white;
+  }
+
+  .btn-accent:hover {
+    background: var(--color-accent-600);
+    text-decoration: none;
+  }
+
+  /* Sections */
+  .section {
+    padding: var(--section-spacing) var(--space-4);
+  }
+
+  .section h2 {
+    font-size: 1.75rem;
+    margin-bottom: var(--space-3);
+    color: var(--color-text);
+  }
+
+  .section-intro {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-8);
+    max-width: 600px;
+  }
+
+  /* Contribute Section */
+  .contribute-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-6);
+  }
+
+  .contribute-card {
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    transition: all var(--transition-fast);
+  }
+
+  .contribute-card:hover {
+    border-color: var(--color-primary-300);
+    box-shadow: var(--shadow-md);
+  }
+
+  .card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
     background: var(--color-primary-50);
+    color: var(--color-primary-600);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-4);
   }
 
-  .back-link {
-    display: inline-block;
-    margin-top: var(--space-6);
-    color: var(--color-primary-600);
+  .contribute-card h3 {
+    font-size: 1.25rem;
+    font-family: var(--font-display);
+    margin-bottom: var(--space-2);
+    color: var(--color-text);
+  }
+
+  .contribute-card > p {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-4);
+    line-height: 1.6;
+  }
+
+  .card-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-4) 0;
+  }
+
+  .card-list li {
+    position: relative;
+    padding-left: var(--space-5);
+    margin-bottom: var(--space-2);
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+  }
+
+  .card-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.5em;
+    width: 6px;
+    height: 6px;
+    background: var(--color-primary-400);
+    border-radius: 50%;
+  }
+
+  .card-link {
     font-weight: 500;
+    color: var(--color-primary-600);
+    font-size: 0.875rem;
+  }
+
+  .card-link:hover {
+    color: var(--color-primary-700);
+  }
+
+  /* Guidelines Section */
+  .guidelines-section {
+    background: var(--color-gray-50);
+  }
+
+  .guidelines-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-6);
+  }
+
+  .guideline-item h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
+  }
+
+  .guideline-item p {
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  /* Connect Section */
+  .connect-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .connect-card {
+    display: block;
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+
+  .connect-card:hover {
+    border-color: var(--color-primary-300);
+    box-shadow: var(--shadow-md);
+    text-decoration: none;
+  }
+
+  .connect-card svg {
+    color: var(--color-primary-500);
+    margin-bottom: var(--space-3);
+  }
+
+  .connect-card h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: var(--space-1);
+  }
+
+  .connect-card p {
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  /* CTA Section */
+  .cta-section {
+    padding-bottom: var(--space-20);
+  }
+
+  .cta-card {
+    background: linear-gradient(135deg, var(--color-primary-600) 0%, var(--color-primary-700) 100%);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-12) var(--space-8);
+    text-align: center;
+    color: white;
+  }
+
+  .cta-card h2 {
+    color: white;
+    margin-bottom: var(--space-3);
+  }
+
+  .cta-card p {
+    opacity: 0.9;
+    max-width: 500px;
+    margin: 0 auto var(--space-6);
+    line-height: 1.6;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .hero {
+      padding: var(--space-12) var(--space-4);
+    }
+
+    .section {
+      padding: var(--space-12) var(--space-4);
+    }
+
+    .contribute-grid,
+    .connect-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .cta-card {
+      padding: var(--space-8) var(--space-4);
+    }
   }
 </style>

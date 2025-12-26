@@ -67,6 +67,60 @@ import PageLayout from '@layouts/PageLayout.astro';
       </section>
 
       <section class="content-section">
+        <h2>Documentation</h2>
+        <div class="docs-grid">
+          <a
+            href="https://github.com/openfinance-os/community-website/blob/main/docs/GOVERNANCE.md"
+            class="doc-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="doc-icon">📜</span>
+            <div>
+              <strong>Governance</strong>
+              <span>How decisions are made</span>
+            </div>
+          </a>
+          <a
+            href="https://github.com/openfinance-os/community-website/blob/main/docs/CONTRIBUTING.md"
+            class="doc-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="doc-icon">🤝</span>
+            <div>
+              <strong>Contributing</strong>
+              <span>How to get involved</span>
+            </div>
+          </a>
+          <a
+            href="https://github.com/openfinance-os/community-website/blob/main/docs/EDITORIAL.md"
+            class="doc-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="doc-icon">✍️</span>
+            <div>
+              <strong>Editorial Guidelines</strong>
+              <span>Content standards</span>
+            </div>
+          </a>
+          <a
+            href="https://github.com/openfinance-os/community-website/blob/main/CODE_OF_CONDUCT.md"
+            class="doc-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="doc-icon">💬</span>
+            <div>
+              <strong>Code of Conduct</strong>
+              <span>Community standards</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <section class="content-section">
         <h2>Get Involved</h2>
         <div class="cta-group">
           <a
@@ -206,5 +260,57 @@ import PageLayout from '@layouts/PageLayout.astro';
   .cta-button.secondary:hover {
     background: var(--color-gray-100);
     border-color: var(--color-gray-400);
+  }
+
+  .docs-grid {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 500px) {
+    .docs-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .doc-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition:
+      border-color var(--transition-fast),
+      background-color var(--transition-fast);
+  }
+
+  .doc-link:hover {
+    border-color: var(--color-primary-300);
+    background: white;
+    text-decoration: none;
+  }
+
+  .doc-icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  .doc-link div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .doc-link strong {
+    font-size: 0.9375rem;
+    color: var(--color-gray-900);
+  }
+
+  .doc-link span {
+    font-size: 0.75rem;
+    color: var(--color-gray-500);
   }
 </style>
