@@ -1,0 +1,36 @@
+# Security Headers for all pages
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+  Content-Security-Policy: default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self' https:; frame-ancestors 'none'
+
+# Immutable caching for hashed assets (1 year)
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML pages - always revalidate
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Root index
+/
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Fonts - long cache
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+  Access-Control-Allow-Origin: *
+
+# Favicon and icons - medium cache
+/favicon.svg
+  Cache-Control: public, max-age=86400
+
+# Sitemap and robots - short cache for SEO updates
+/sitemap*.xml
+  Cache-Control: public, max-age=3600
+
+/robots.txt
+  Cache-Control: public, max-age=3600

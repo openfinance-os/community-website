@@ -1,0 +1,15 @@
+# Redirect www to non-www (canonical URL)
+https://www.openfinance-os.org/* https://openfinance-os.org/:splat 301
+
+# Common legacy URL patterns (add as needed)
+/blog/* /news/:splat 301
+/articles/* /news/:splat 301
+/docs/* /learn/:splat 301
+/dashboard/* /observatory/:splat 301
+
+# Old page redirects (examples for future use)
+# /old-page /new-page 301
+
+# Handle trailing slashes consistently (Astro default includes them)
+# Uncomment if needed:
+# /path /path/ 301
