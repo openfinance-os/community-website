@@ -311,6 +311,12 @@ const cityData = Object.entries(byCity).map(([label, value]) => ({
     text-decoration: none;
   }
 
+  .cta-button:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.2);
+  }
+
   .cta-decoration {
     position: absolute;
     right: -20px;

@@ -262,6 +262,12 @@ import PageLayout from '@layouts/PageLayout.astro';
     border-color: var(--color-gray-400);
   }
 
+  .cta-button:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.2);
+  }
+
   .docs-grid {
     display: grid;
     gap: var(--space-3);
@@ -295,6 +301,12 @@ import PageLayout from '@layouts/PageLayout.astro';
     box-shadow: var(--shadow-sm);
     transform: translateY(-2px);
     text-decoration: none;
+  }
+
+  .doc-link:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+    border-color: var(--color-primary-300);
   }
 
   .doc-icon {

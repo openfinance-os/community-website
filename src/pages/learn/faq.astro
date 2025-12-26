@@ -346,11 +346,14 @@ const faqCategories: FAQCategory[] = [
     background: white;
     border: 1px solid var(--color-gray-200);
     border-radius: var(--radius-lg);
-    transition: border-color var(--transition-fast);
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast);
   }
 
   .faq-item:hover {
-    border-color: var(--color-gray-300);
+    border-color: var(--color-primary-200);
+    box-shadow: var(--shadow-sm);
   }
 
   .faq-item[open] {
@@ -483,27 +486,95 @@ const faqCategories: FAQCategory[] = [
     border-color: var(--color-gray-400);
   }
 
+  .action-button:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+  }
+
+  .action-button.primary:focus-visible {
+    box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.3);
+  }
+
+  .action-button.secondary:focus-visible {
+    box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.2);
+  }
+
   /* Dark mode adjustments */
+  :global([data-theme='dark']) .faq-page {
+    background: var(--color-gray-50);
+  }
+
+  :global([data-theme='dark']) .page-header h1 {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .subtitle {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .breadcrumb {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .faq-category {
+    border-top-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .category-title {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .category-icon {
+    background: var(--color-primary-900);
+    color: var(--color-primary-400);
+  }
+
   :global([data-theme='dark']) .faq-item {
     background: var(--color-gray-100);
     border-color: var(--color-gray-200);
   }
 
   :global([data-theme='dark']) .faq-item:hover {
-    border-color: var(--color-gray-300);
+    border-color: var(--color-primary-700);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
 
   :global([data-theme='dark']) .faq-item[open] {
-    border-color: var(--color-primary-400);
+    border-color: var(--color-primary-500);
+  }
+
+  :global([data-theme='dark']) .question-text {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .expand-icon {
+    color: var(--color-gray-500);
+  }
+
+  :global([data-theme='dark']) .faq-item[open] .expand-icon {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .faq-answer p {
+    color: var(--color-gray-400);
   }
 
   :global([data-theme='dark']) .still-questions {
-    background: var(--color-primary-100);
+    background: var(--color-primary-900);
+  }
+
+  :global([data-theme='dark']) .still-questions h2 {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .still-questions > .still-questions-content > p {
+    color: var(--color-gray-400);
   }
 
   :global([data-theme='dark']) .action-button.secondary {
     background: var(--color-gray-100);
     border-color: var(--color-gray-300);
+    color: var(--color-gray-900);
   }
 
   :global([data-theme='dark']) .action-button.secondary:hover {

@@ -387,6 +387,14 @@ const glossaryData = [
     background: white;
     border: 1px solid var(--color-gray-200);
     border-radius: var(--radius-lg);
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast);
+  }
+
+  .term-item:hover {
+    border-color: var(--color-primary-200);
+    box-shadow: var(--shadow-sm);
   }
 
   .term-item dt {
@@ -435,5 +443,75 @@ const glossaryData = [
 
   .glossary-footer a {
     color: var(--color-primary-600);
+  }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .glossary-page {
+    background: var(--color-gray-50);
+  }
+
+  :global([data-theme='dark']) .page-header h1 {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .subtitle {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .breadcrumb {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .letter-nav {
+    background: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .letter-nav a {
+    background: var(--color-gray-200);
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .letter-nav a:hover {
+    background: var(--color-primary-900);
+    color: var(--color-primary-300);
+  }
+
+  :global([data-theme='dark']) .letter-section h2 {
+    color: var(--color-primary-400);
+    border-bottom-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .term-item {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .term-item:hover {
+    border-color: var(--color-primary-700);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  :global([data-theme='dark']) .term {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .full-name {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .term-item dd {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .glossary-footer {
+    border-top-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .glossary-footer p {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .glossary-footer a {
+    color: var(--color-primary-400);
   }
 </style>

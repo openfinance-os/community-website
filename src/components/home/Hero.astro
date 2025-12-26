@@ -333,6 +333,19 @@ const { participantCount, activeCount } = Astro.props;
     color: var(--color-gray-900);
   }
 
+  .btn:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+  }
+
+  .btn-primary:focus-visible {
+    box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.3);
+  }
+
+  .btn-secondary:focus-visible {
+    box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.2);
+  }
+
   .hero-footer {
     font-family: var(--font-mono);
     font-size: 0.8125rem;

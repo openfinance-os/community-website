@@ -406,6 +406,15 @@ import PageLayout from '@layouts/PageLayout.astro';
     text-decoration: none;
   }
 
+  .btn:focus-visible,
+  .btn-primary:focus-visible,
+  .btn-secondary:focus-visible,
+  .btn-accent:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.2);
+  }
+
   /* Sections */
   .section {
     padding: var(--section-spacing) var(--space-4);

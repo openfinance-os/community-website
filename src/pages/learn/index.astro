@@ -387,7 +387,18 @@ const glossaryTerms = [
   .glossary-item {
     padding: var(--space-4);
     background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-100);
     border-radius: var(--radius-lg);
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast),
+      transform var(--transition-fast);
+  }
+
+  .glossary-item:hover {
+    border-color: var(--color-primary-200);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-1px);
   }
 
   .glossary-term {
@@ -442,12 +453,16 @@ const glossaryTerms = [
     text-decoration: none;
     transition:
       border-color var(--transition-fast),
-      background-color var(--transition-fast);
+      background-color var(--transition-fast),
+      box-shadow var(--transition-fast),
+      transform var(--transition-fast);
   }
 
   .resource-card:hover {
     border-color: var(--color-primary-300);
     background: var(--color-gray-50);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-2px);
     text-decoration: none;
   }
 
@@ -477,5 +492,111 @@ const glossaryTerms = [
   .external-icon {
     flex-shrink: 0;
     color: var(--color-gray-400);
+  }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .learn-page {
+    background: var(--color-gray-50);
+  }
+
+  :global([data-theme='dark']) .page-header h1 {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .subtitle {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .section-title {
+    color: var(--color-gray-400);
+    border-bottom-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .guide-card {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .guide-card:hover {
+    border-color: var(--color-primary-700);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  :global([data-theme='dark']) .guide-icon {
+    background: var(--color-primary-900);
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .guide-card h3 {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .guide-card:hover h3 {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .guide-card p {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .guide-arrow {
+    color: var(--color-gray-500);
+  }
+
+  :global([data-theme='dark']) .guide-card:hover .guide-arrow {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .glossary-intro {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .glossary-item {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .glossary-item:hover {
+    border-color: var(--color-primary-700);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  :global([data-theme='dark']) .glossary-term {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .glossary-definition {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .view-all-link {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .view-all-link:hover {
+    color: var(--color-primary-300);
+  }
+
+  :global([data-theme='dark']) .resource-card {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .resource-card:hover {
+    border-color: var(--color-primary-700);
+    background: var(--color-gray-200);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  :global([data-theme='dark']) .resource-card h4 {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .resource-card p {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .external-icon {
+    color: var(--color-gray-500);
   }
 </style>

@@ -266,7 +266,18 @@ const steps = [
     gap: var(--space-3);
     padding: var(--space-4);
     background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-100);
     border-radius: var(--radius-lg);
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast),
+      transform var(--transition-fast);
+  }
+
+  .key-point:hover {
+    border-color: var(--color-primary-200);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-2px);
   }
 
   .point-icon {
@@ -388,6 +399,16 @@ const steps = [
     background: white;
     border: 1px solid var(--color-gray-200);
     border-radius: var(--radius-xl);
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast),
+      transform var(--transition-fast);
+  }
+
+  .api-card:hover {
+    border-color: var(--color-primary-200);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
   }
 
   .api-card h4 {
@@ -455,5 +476,104 @@ const steps = [
 
   .next-card:hover span {
     transform: translateX(4px);
+  }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .guide-page {
+    background: var(--color-gray-50);
+  }
+
+  :global([data-theme='dark']) .page-header h1 {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .subtitle {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .breadcrumb {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) section h2 {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) section > p {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .key-point {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .key-point:hover {
+    border-color: var(--color-primary-700);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  :global([data-theme='dark']) .key-point h4 {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .key-point p {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .steps-timeline::before {
+    background: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .step-content h3 {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .step-content > p {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .step-content li {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .api-card {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .api-card:hover {
+    border-color: var(--color-primary-700);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  :global([data-theme='dark']) .api-card h4 {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .api-card p {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .next-card {
+    background: var(--color-primary-900);
+    border-color: var(--color-primary-800);
+  }
+
+  :global([data-theme='dark']) .next-card:hover {
+    border-color: var(--color-primary-600);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  :global([data-theme='dark']) .next-card h4 {
+    color: var(--color-primary-300);
+  }
+
+  :global([data-theme='dark']) .next-card p {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .next-card span {
+    color: var(--color-primary-400);
   }
 </style>

@@ -138,9 +138,10 @@ const typeLabels: Record<string, string> = {
 
   .header-description {
     font-size: 1.125rem;
-    color: var(--color-gray-300);
+    color: rgba(255, 255, 255, 0.8);
     max-width: 500px;
     margin: 0 auto;
+    line-height: 1.6;
   }
 
   .news-section {
@@ -205,12 +206,14 @@ const typeLabels: Record<string, string> = {
     text-decoration: none;
     transition:
       border-color var(--transition-fast),
-      box-shadow var(--transition-fast);
+      box-shadow var(--transition-fast),
+      transform var(--transition-fast);
   }
 
   .external-link:hover {
     border-color: var(--color-primary-300);
     box-shadow: var(--shadow-sm);
+    transform: translateY(-2px);
     text-decoration: none;
   }
 
@@ -242,7 +245,7 @@ const typeLabels: Record<string, string> = {
   }
 
   :global([data-theme='dark']) .header-description {
-    color: #9ca3af;
+    color: rgba(255, 255, 255, 0.75);
   }
 
   :global([data-theme='dark']) .news-section {

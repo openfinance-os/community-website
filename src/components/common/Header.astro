@@ -350,6 +350,8 @@ const currentPath = Astro.url.pathname;
   .nav-link.active {
     color: var(--color-primary-700);
     background-color: var(--color-primary-50);
+    font-weight: 600;
+    box-shadow: inset 0 -2px 0 var(--color-primary-500);
   }
 
   .nav-link:focus-visible {
@@ -370,6 +372,8 @@ const currentPath = Astro.url.pathname;
   [data-theme='dark'] .nav-link.active {
     color: var(--color-primary-400);
     background-color: rgba(20, 184, 166, 0.15);
+    font-weight: 600;
+    box-shadow: inset 0 -2px 0 var(--color-primary-400);
   }
 
   .header-actions {
@@ -578,6 +582,9 @@ const currentPath = Astro.url.pathname;
   .nav-link-mobile.active {
     color: var(--color-primary-700);
     background-color: var(--color-primary-50);
+    font-weight: 600;
+    border-left: 3px solid var(--color-primary-500);
+    padding-left: calc(var(--space-4) - 3px);
   }
 
   .nav-link-mobile:focus-visible {
@@ -603,6 +610,9 @@ const currentPath = Astro.url.pathname;
   [data-theme='dark'] .nav-link-mobile.active {
     color: var(--color-primary-400);
     background-color: rgba(20, 184, 166, 0.15);
+    font-weight: 600;
+    border-left: 3px solid var(--color-primary-400);
+    padding-left: calc(var(--space-4) - 3px);
   }
 
   [data-theme='dark'] .nav-link-mobile.github {
