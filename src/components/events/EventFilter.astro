@@ -1,0 +1,134 @@
+---
+interface Props {
+  types: string[];
+  typeLabels?: Record<string, string>;
+}
+
+const { types, typeLabels = {} } = Astro.props;
+
+const defaultLabels: Record<string, string> = {
+  all: 'All',
+  meetup: 'Meetup',
+  hackathon: 'Hackathon',
+  webinar: 'Webinar',
+  conference: 'Conference',
+  workshop: 'Workshop',
+};
+
+const labels = { ...defaultLabels, ...typeLabels };
+---
+
+<div class="event-filter" role="tablist" aria-label="Filter events by type">
+  {
+    types.map((type, index) => (
+      <button
+        class:list={['filter-pill', { active: type === 'all' }]}
+        data-filter={type}
+        role="tab"
+        aria-selected={type === 'all' ? 'true' : 'false'}
+        tabindex={index === 0 ? 0 : -1}
+      >
+        {labels[type] || type}
+      </button>
+    ))
+  }
+</div>
+
+<style>
+  .event-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .filter-pill {
+    padding: var(--space-2) var(--space-4);
+    background: transparent;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-gray-600);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .filter-pill:hover {
+    border-color: var(--color-gray-300);
+    color: var(--color-gray-900);
+  }
+
+  .filter-pill.active {
+    background: var(--color-primary-600);
+    border-color: var(--color-primary-600);
+    color: white;
+  }
+
+  .filter-pill.active:hover {
+    background: var(--color-primary-700);
+    border-color: var(--color-primary-700);
+  }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .filter-pill {
+    border-color: var(--color-gray-300);
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .filter-pill:hover {
+    border-color: var(--color-gray-400);
+    color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .filter-pill.active {
+    background: var(--color-primary-500);
+    border-color: var(--color-primary-500);
+    color: white;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterContainer = document.querySelector('.event-filter');
+    const pills = filterContainer?.querySelectorAll('.filter-pill');
+    const eventCards = document.querySelectorAll('.event-card');
+
+    pills?.forEach((pill) => {
+      pill.addEventListener('click', () => {
+        const filter = pill.getAttribute('data-filter');
+
+        // Update active state
+        pills.forEach((p) => {
+          p.classList.remove('active');
+          p.setAttribute('aria-selected', 'false');
+        });
+        pill.classList.add('active');
+        pill.setAttribute('aria-selected', 'true');
+
+        // Filter cards
+        eventCards.forEach((card) => {
+          const cardType = card.getAttribute('data-type');
+          if (filter === 'all' || cardType === filter) {
+            (card as HTMLElement).style.display = '';
+          } else {
+            (card as HTMLElement).style.display = 'none';
+          }
+        });
+
+        // Update empty state visibility
+        const upcomingSection = document.querySelector('.upcoming-events');
+        const pastSection = document.querySelector('.past-events');
+
+        [upcomingSection, pastSection].forEach((section) => {
+          if (section) {
+            const visibleCards = section.querySelectorAll('.event-card:not([style*="display: none"])');
+            const emptyState = section.querySelector('.empty-state');
+            if (emptyState) {
+              (emptyState as HTMLElement).style.display = visibleCards.length === 0 ? '' : 'none';
+            }
+          }
+        });
+      });
+    });
+  });
+</script>
