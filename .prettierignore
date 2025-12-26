@@ -1,0 +1,20 @@
+# Build output
+dist/
+
+# Dependencies
+node_modules/
+
+# Astro cache
+.astro/
+
+# Package lock
+package-lock.json
+
+# Data snapshots (auto-generated)
+data/observatory/snapshots/*.json
+
+# Public assets
+public/
+
+# Markdown files (preserve formatting)
+*.md

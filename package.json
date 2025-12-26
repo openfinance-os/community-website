@@ -10,7 +10,10 @@
     "astro": "astro",
     "collect": "tsx scripts/collect-observatory.ts",
     "collect:dry": "tsx scripts/collect-observatory.ts --dry-run",
-    "check": "astro check"
+    "check": "astro check",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "validate": "npm run check && npm run format:check"
   },
   "dependencies": {
     "astro": "^5.0.0",
@@ -18,10 +21,11 @@
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
-    "typescript": "^5.7.0",
-    "tsx": "^4.19.0",
+    "html-validate": "^8.0.0",
     "prettier": "^3.4.0",
-    "prettier-plugin-astro": "^0.14.0"
+    "prettier-plugin-astro": "^0.14.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
   },
   "engines": {
     "node": ">=20.0.0"
