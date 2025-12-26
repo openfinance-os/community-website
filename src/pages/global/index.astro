@@ -225,6 +225,30 @@ const statusLabels: Record<string, { label: string; color: string }> = {
         </div>
       </section>
 
+      <section class="resources-section">
+        <h2 class="section-title">Global Resources</h2>
+        <p class="section-intro">
+          Stay informed about open finance developments around the world.
+        </p>
+        <a
+          href="https://www.open-conversations.org"
+          class="resource-card"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div class="resource-content">
+            <h3>Open Conversations</h3>
+            <p>Global news and insights about open finance worldwide — coverage of regulatory developments, industry trends, and ecosystem updates from jurisdictions around the globe.</p>
+          </div>
+          <span class="resource-link">
+            Visit site
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M7 17L17 7M17 7H7M17 7v10"></path>
+            </svg>
+          </span>
+        </a>
+      </section>
+
       <section class="cta-section">
         <div class="cta-content">
           <h2>Want to contribute insights?</h2>
@@ -502,6 +526,75 @@ const statusLabels: Record<string, { label: string; color: string }> = {
     color: var(--color-gray-600);
     line-height: 1.7;
     margin: 0;
+  }
+
+  /* Resources Section */
+  .resources-section {
+    margin-bottom: var(--space-16);
+  }
+
+  .resource-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-6);
+    padding: var(--space-6);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    text-decoration: none;
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast),
+      transform var(--transition-fast);
+  }
+
+  .resource-card:hover {
+    border-color: var(--color-primary-300);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+
+  .resource-content h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-2);
+  }
+
+  .resource-content p {
+    font-size: 0.9375rem;
+    color: var(--color-gray-600);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .resource-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-primary-600);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .resource-card:hover .resource-link {
+    color: var(--color-primary-700);
+  }
+
+  @media (max-width: 640px) {
+    .resource-card {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  :global([data-theme='dark']) .resource-card {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
   }
 
   /* CTA Section */
