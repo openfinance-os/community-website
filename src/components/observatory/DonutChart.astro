@@ -215,4 +215,29 @@ const segments = data.map((item) => {
     text-align: right;
     min-width: 32px;
   }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .chart-svg circle:first-child {
+    stroke: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .center-value {
+    color: var(--color-gray-50);
+  }
+
+  :global([data-theme='dark']) .center-label {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .legend-label {
+    color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .legend-value {
+    color: var(--color-gray-50);
+  }
+
+  :global([data-theme='dark']) .legend-percent {
+    color: var(--color-gray-500);
+  }
 </style>

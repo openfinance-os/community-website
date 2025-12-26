@@ -1,4 +1,28 @@
 ---
+interface Profile {
+  shortName?: string;
+  fullName?: string;
+  description?: string;
+  founded?: number;
+  headquarters?: {
+    city: string;
+    country: string;
+    countryCode: string;
+  };
+  parentCompany?: {
+    name: string;
+    headquarters: string;
+    countryCode: string;
+  };
+  type?: string;
+  typeLabel?: string;
+  ownership?: string;
+  ownershipDetail?: string;
+  marketPosition?: string;
+  website?: string | null;
+  specializations?: string[];
+}
+
 interface Props {
   name: string;
   legalName: string;
@@ -8,9 +32,11 @@ interface Props {
   apiFamilies: string[];
   hasAuthServer: boolean;
   isShariahCompliant: boolean;
+  isLive?: boolean;
+  profile?: Profile;
 }
 
-const { name, legalName, status, roles, city, apiFamilies, hasAuthServer, isShariahCompliant } =
+const { name, legalName, status, roles, city, apiFamilies, hasAuthServer, isShariahCompliant, isLive = true, profile } =
   Astro.props;
 
 // API families configuration
@@ -20,26 +46,59 @@ const allApiFamilies = [
   { key: 'cop', label: 'CoP' },
   { key: 'products', label: 'Products' },
 ];
+
+// Country flags
+const countryFlags: Record<string, string> = {
+  'AE': '🇦🇪',
+  'GB': '🇬🇧',
+  'US': '🇺🇸',
+};
+
+// Type badge colors
+const typeColors: Record<string, string> = {
+  'commercial-bank': 'type-blue',
+  'islamic-bank': 'type-teal',
+  'digital-bank': 'type-purple',
+  'international-bank': 'type-amber',
+  'fintech': 'type-pink',
+  'infrastructure': 'type-gray',
+  'payments': 'type-green',
+  'insurance': 'type-indigo',
+};
+
+const isInternational = profile?.parentCompany || (profile?.headquarters?.countryCode && profile.headquarters.countryCode !== 'AE');
+const hqFlag = profile?.headquarters?.countryCode ? countryFlags[profile.headquarters.countryCode] || '🌍' : '🇦🇪';
+const parentFlag = profile?.parentCompany?.countryCode ? countryFlags[profile.parentCompany.countryCode] : null;
+
+// Use profile city as fallback when API returns "Unknown"
+const displayCity = city === 'Unknown' && profile?.headquarters?.city
+  ? profile.headquarters.city
+  : city;
 ---
 
 <article class="participant-card">
   <!-- Corner decoration (matches StatCard) -->
   <div class="card-decoration" aria-hidden="true"></div>
 
-  <!-- Header: Status + Location -->
+  <!-- Header: Type Badge + Location -->
   <header class="card-header">
-    {
-      hasAuthServer ? (
+    <div class="header-left">
+      {profile?.typeLabel ? (
+        <div class:list={['type-badge', typeColors[profile.type || ''] || 'type-default']}>
+          {isInternational && parentFlag && <span class="type-flag">{parentFlag}</span>}
+          {profile.typeLabel}
+        </div>
+      ) : isLive ? (
         <div class="status-badge live">
           <span class="status-dot" />
           <span class="status-text">Live</span>
         </div>
       ) : (
-        <div class="status-badge">
-          <span class="status-text">{status}</span>
+        <div class="status-badge registered">
+          <span class="status-text">Registered</span>
         </div>
-      )
-    }
+      )}
+    </div>
     <div class="location">
       <svg
         width="12"
@@ -55,7 +114,7 @@ const allApiFamilies = [
         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
         <circle cx="12" cy="10" r="3"></circle>
       </svg>
-      <span>{city}</span>
+      <span>{displayCity}</span>
     </div>
   </header>
 
@@ -64,6 +123,26 @@ const allApiFamilies = [
     <h3 class="institution-name">{name}</h3>
     <p class="legal-name">{legalName}</p>
   </div>
+
+  <!-- Description (if profile available) -->
+  {profile?.description && (
+    <p class="description">{profile.description}</p>
+  )}
+
+  <!-- Parent Company (for international banks) -->
+  {profile?.parentCompany && (
+    <div class="parent-company">
+      <span class="parent-label">HQ:</span>
+      <span class="parent-value">{profile.parentCompany.headquarters}</span>
+    </div>
+  )}
+
+  <!-- Market Position (if notable) -->
+  {profile?.marketPosition && (
+    <div class="market-position">
+      {profile.marketPosition}
+    </div>
+  )}
 
   <!-- Roles -->
   <div class="roles-section">
@@ -98,14 +177,20 @@ const allApiFamilies = [
     </div>
   </div>
 
-  <!-- Footer (Islamic Banking badge) -->
-  {
-    isShariahCompliant && (
-      <footer class="card-footer">
-        <span class="shariah-badge">Islamic Banking</span>
-      </footer>
-    )
-  }
+  <!-- Footer -->
+  <footer class="card-footer">
+    {isShariahCompliant && (
+      <span class="shariah-badge">Islamic Banking</span>
+    )}
+    {profile?.website && (
+      <a href={profile.website} class="website-link" target="_blank" rel="noopener noreferrer">
+        Visit website
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M7 17L17 7M17 7H7M17 7v10"></path>
+        </svg>
+      </a>
+    )}
+  </footer>
 </article>
 
 <style>
@@ -147,6 +232,75 @@ const allApiFamilies = [
     margin-bottom: var(--space-4);
   }
 
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  /* Type Badge */
+  .type-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .type-flag {
+    font-size: 0.75rem;
+  }
+
+  .type-blue {
+    background: var(--color-primary-50);
+    color: var(--color-primary-700);
+  }
+
+  .type-teal {
+    background: #ccfbf1;
+    color: #0f766e;
+  }
+
+  .type-purple {
+    background: #ede9fe;
+    color: #5b21b6;
+  }
+
+  .type-amber {
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  .type-pink {
+    background: #fce7f3;
+    color: #9d174d;
+  }
+
+  .type-gray {
+    background: var(--color-gray-100);
+    color: var(--color-gray-600);
+  }
+
+  .type-green {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .type-indigo {
+    background: #e0e7ff;
+    color: #3730a3;
+  }
+
+  .type-default {
+    background: var(--color-gray-100);
+    color: var(--color-gray-600);
+  }
+
   .status-badge {
     display: inline-flex;
     align-items: center;
@@ -165,6 +319,12 @@ const allApiFamilies = [
   .status-badge.live {
     background: var(--color-primary-50);
     color: var(--color-success);
+  }
+
+  .status-badge.registered {
+    background: var(--color-gray-100);
+    color: var(--color-gray-500);
+    border: 1px dashed var(--color-gray-300);
   }
 
   .status-dot {
@@ -202,7 +362,7 @@ const allApiFamilies = [
 
   /* Name Section */
   .name-section {
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-3);
   }
 
   .institution-name {
@@ -220,6 +380,46 @@ const allApiFamilies = [
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  /* Description */
+  .description {
+    font-size: 0.8125rem;
+    color: var(--color-gray-600);
+    line-height: 1.5;
+    margin-bottom: var(--space-3);
+  }
+
+  /* Parent Company */
+  .parent-company {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.75rem;
+    margin-bottom: var(--space-3);
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-md);
+  }
+
+  .parent-label {
+    font-weight: 600;
+    color: var(--color-gray-500);
+  }
+
+  .parent-value {
+    color: var(--color-gray-700);
+  }
+
+  /* Market Position */
+  .market-position {
+    font-size: 0.6875rem;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-primary-600);
+    margin-bottom: var(--space-4);
   }
 
   /* Roles Section */
@@ -318,7 +518,13 @@ const allApiFamilies = [
     padding-top: var(--space-3);
     border-top: 1px solid var(--color-gray-100);
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .card-footer:empty {
+    display: none;
   }
 
   .shariah-badge {
@@ -333,6 +539,93 @@ const allApiFamilies = [
     border-radius: var(--radius-sm);
   }
 
+  .website-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-primary-600);
+    text-decoration: none;
+    margin-left: auto;
+  }
+
+  .website-link:hover {
+    color: var(--color-primary-700);
+    text-decoration: underline;
+  }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .participant-card {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .participant-card:hover {
+    border-color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .card-decoration {
+    background: radial-gradient(circle at top right, var(--color-primary-900) 0%, transparent 70%);
+  }
+
+  :global([data-theme='dark']) .institution-name {
+    color: var(--color-gray-50);
+  }
+
+  :global([data-theme='dark']) .legal-name {
+    color: var(--color-gray-500);
+  }
+
+  :global([data-theme='dark']) .description {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .parent-company {
+    background: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .parent-label {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .parent-value {
+    color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .roles-section {
+    border-bottom-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .roles-label,
+  :global([data-theme='dark']) .api-label {
+    color: var(--color-gray-500);
+  }
+
+  :global([data-theme='dark']) .role {
+    color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .role-separator {
+    color: var(--color-gray-500);
+  }
+
+  :global([data-theme='dark']) .api-dot {
+    border-color: var(--color-gray-500);
+  }
+
+  :global([data-theme='dark']) .api-name {
+    color: var(--color-gray-500);
+  }
+
+  :global([data-theme='dark']) .api-item.active .api-name {
+    color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .card-footer {
+    border-top-color: var(--color-gray-200);
+  }
+
   /* Responsive */
   @media (max-width: 480px) {
     .participant-card {
@@ -345,6 +638,10 @@ const allApiFamilies = [
 
     .api-indicators {
       gap: var(--space-2);
+    }
+
+    .description {
+      display: none;
     }
   }
 </style>

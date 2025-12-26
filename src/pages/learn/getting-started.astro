@@ -289,7 +289,7 @@ const steps = [
   /* Steps Timeline */
   .steps-timeline {
     position: relative;
-    padding-left: var(--space-8);
+    padding-left: var(--space-12);
   }
 
   .steps-timeline::before {
@@ -315,7 +315,7 @@ const steps = [
 
   .step-number {
     position: absolute;
-    left: calc(-1 * var(--space-8));
+    left: calc(-1 * var(--space-12));
     width: 32px;
     height: 32px;
     display: flex;
@@ -348,21 +348,27 @@ const steps = [
     list-style: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
   }
 
   .step-content li {
-    position: relative;
-    padding-left: var(--space-5);
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
     color: var(--color-gray-600);
     font-size: 0.9375rem;
-    margin-bottom: var(--space-2);
   }
 
   .step-content li::before {
-    content: '→';
-    position: absolute;
-    left: 0;
-    color: var(--color-primary-500);
+    content: '';
+    flex-shrink: 0;
+    width: 6px;
+    height: 6px;
+    margin-top: 0.5em;
+    background: var(--color-primary-500);
+    border-radius: 50%;
   }
 
   /* API Grid */
@@ -378,10 +384,10 @@ const steps = [
   }
 
   .api-card {
-    padding: var(--space-5);
+    padding: var(--space-6) var(--space-8);
     background: white;
     border: 1px solid var(--color-gray-200);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-xl);
   }
 
   .api-card h4 {
@@ -411,10 +417,10 @@ const steps = [
   .next-card {
     display: flex;
     flex-direction: column;
-    padding: var(--space-5);
+    padding: var(--space-6) var(--space-8);
     background: var(--color-primary-50);
     border: 1px solid var(--color-primary-100);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-xl);
     text-decoration: none;
     transition:
       border-color var(--transition-fast),

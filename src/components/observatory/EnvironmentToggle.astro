@@ -48,41 +48,46 @@ const { currentEnvironment, productionCount = 0, sandboxCount = 0 } = Astro.prop
   .toggle-buttons {
     display: flex;
     background: rgba(255, 255, 255, 0.1);
-    border-radius: var(--radius-lg);
-    padding: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius-full);
+    padding: 3px;
     gap: 2px;
+    backdrop-filter: blur(4px);
   }
 
   .toggle-btn {
     display: flex;
     align-items: center;
     gap: var(--space-2);
-    padding: var(--space-2) var(--space-3);
+    padding: var(--space-2) var(--space-4);
     background: transparent;
     border: none;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-full);
     font-size: 0.8125rem;
     font-weight: 500;
     color: var(--color-primary-200);
     cursor: pointer;
-    transition: all var(--transition-fast);
+    transition: all 0.2s ease;
     text-decoration: none;
+    position: relative;
   }
 
-  .toggle-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
+  .toggle-btn:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.15);
     color: white;
   }
 
   .toggle-btn.active {
     background: white;
     color: var(--color-primary-900);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   }
 
   .env-indicator {
     width: 8px;
     height: 8px;
     border-radius: 50%;
+    position: relative;
   }
 
   .env-indicator.production {
@@ -93,24 +98,39 @@ const { currentEnvironment, productionCount = 0, sandboxCount = 0 } = Astro.prop
     background: var(--color-warning);
   }
 
-  .toggle-btn.active .env-indicator.production {
-    background: var(--color-success);
+  /* Pulse animation for active production indicator */
+  .toggle-btn.active .env-indicator.production::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    border: 2px solid var(--color-success);
+    animation: pulse-ring 2s ease-out infinite;
   }
 
-  .toggle-btn.active .env-indicator.sandbox {
-    background: var(--color-warning);
+  @keyframes pulse-ring {
+    0% {
+      transform: scale(1);
+      opacity: 0.8;
+    }
+    100% {
+      transform: scale(1.8);
+      opacity: 0;
+    }
   }
 
   .env-count {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
-    padding: 0 var(--space-1);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    padding: 2px 6px;
     background: rgba(0, 0, 0, 0.1);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-full);
   }
 
   .toggle-btn.active .env-count {
     background: var(--color-primary-100);
+    color: var(--color-primary-700);
   }
 
   @media (max-width: 640px) {

@@ -140,7 +140,7 @@ const typeColors: Record<string, string> = {
                   </span>
                 </div>
                 <p>{link.description}</p>
-                <span class="link-url">{new URL(link.url).hostname} →</span>
+                <span class="link-url">{new URL(link.url).hostname}</span>
               </a>
             ))}
           </div>
@@ -162,16 +162,16 @@ const typeColors: Record<string, string> = {
 
 <style>
   .links-page {
-    padding: var(--space-12) var(--space-4);
+    padding: var(--space-16) var(--space-6);
   }
 
   .container {
-    max-width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
   }
 
   .page-header {
-    margin-bottom: var(--space-8);
+    margin-bottom: var(--space-10);
   }
 
   .page-header h1 {
@@ -193,11 +193,11 @@ const typeColors: Record<string, string> = {
   }
 
   .nav-pill {
-    padding: var(--space-2) var(--space-4);
+    padding: var(--space-2) var(--space-5);
     background: transparent;
     border: 1px solid var(--color-gray-200);
     border-radius: var(--radius-full);
-    font-size: 0.875rem;
+    font-size: 0.9375rem;
     font-weight: 500;
     color: var(--color-gray-600);
     text-decoration: none;
@@ -212,25 +212,25 @@ const typeColors: Record<string, string> = {
 
   /* Link Sections */
   .link-section {
-    margin-bottom: var(--space-10);
+    margin-bottom: var(--space-14);
     scroll-margin-top: var(--space-8);
   }
 
   .link-section h2 {
-    font-size: 1rem;
+    font-size: 1.0625rem;
     font-family: var(--font-mono);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--color-gray-500);
-    margin-bottom: var(--space-4);
-    padding-left: var(--space-3);
-    border-left: 3px solid var(--color-primary-500);
+    color: var(--color-gray-600);
+    margin-bottom: var(--space-5);
+    padding-left: var(--space-4);
+    border-left: 4px solid var(--color-primary-500);
   }
 
   .link-grid {
     display: grid;
-    gap: var(--space-4);
+    gap: var(--space-6);
   }
 
   @media (min-width: 640px) {
@@ -243,10 +243,10 @@ const typeColors: Record<string, string> = {
   .link-card {
     display: flex;
     flex-direction: column;
-    padding: var(--space-5) var(--space-6);
+    padding: var(--space-6) var(--space-8);
     background: white;
     border: 1px solid var(--color-gray-200);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-xl);
     text-decoration: none;
     transition:
       border-color var(--transition-fast),
@@ -256,8 +256,8 @@ const typeColors: Record<string, string> = {
 
   .link-card:hover {
     border-color: var(--color-primary-300);
-    box-shadow: var(--shadow-md);
-    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-3px);
     text-decoration: none;
   }
 
@@ -270,7 +270,7 @@ const typeColors: Record<string, string> = {
   }
 
   .link-card h3 {
-    font-size: 1rem;
+    font-size: 1.0625rem;
     font-weight: 600;
     color: var(--color-gray-900);
     line-height: 1.4;
@@ -315,14 +315,22 @@ const typeColors: Record<string, string> = {
   }
 
   .link-url {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
     font-family: var(--font-mono);
     font-size: 0.8125rem;
     color: var(--color-primary-600);
-    transition: text-decoration var(--transition-fast);
   }
 
-  .link-card:hover .link-url {
-    text-decoration: underline;
+  .link-url::after {
+    content: '→';
+    display: inline-block;
+    transition: transform var(--transition-fast);
+  }
+
+  .link-card:hover .link-url::after {
+    transform: translateX(4px);
   }
 
   /* Footer */
@@ -371,6 +379,45 @@ const typeColors: Record<string, string> = {
 
   :global([data-theme='dark']) .nav-pill:hover {
     border-color: var(--color-primary-400);
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .page-header p {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .link-section h2 {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .type-blue {
+    background: rgba(59, 130, 246, 0.2);
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .type-green {
+    background: rgba(34, 197, 94, 0.2);
+    color: #4ade80;
+  }
+
+  :global([data-theme='dark']) .type-amber {
+    background: rgba(245, 158, 11, 0.2);
+    color: #fbbf24;
+  }
+
+  :global([data-theme='dark']) .link-url {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .page-footer {
+    border-top-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .page-footer p {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .page-footer a {
     color: var(--color-primary-400);
   }
 </style>
