@@ -25,8 +25,10 @@ const labels = { ...defaultLabels, ...typeLabels };
         class:list={['filter-pill', { active: type === 'all' }]}
         data-filter={type}
         role="tab"
+        id={`event-tab-${type}`}
         aria-selected={type === 'all' ? 'true' : 'false'}
-        tabindex={index === 0 ? 0 : -1}
+        aria-controls="events-content"
+        tabindex={type === 'all' ? 0 : -1}
       >
         {labels[type] || type}
       </button>
@@ -93,43 +95,75 @@ const labels = { ...defaultLabels, ...typeLabels };
     const pills = filterContainer?.querySelectorAll('.filter-pill');
     const eventCards = document.querySelectorAll('.event-card');
 
+    function activateTab(pill: Element) {
+      if (!pills) return;
+      const filter = pill.getAttribute('data-filter');
+
+      // Update active state and tabindex
+      pills.forEach((p) => {
+        p.classList.remove('active');
+        p.setAttribute('aria-selected', 'false');
+        p.setAttribute('tabindex', '-1');
+      });
+      pill.classList.add('active');
+      pill.setAttribute('aria-selected', 'true');
+      pill.setAttribute('tabindex', '0');
+      (pill as HTMLElement).focus();
+
+      // Filter cards
+      eventCards.forEach((card) => {
+        const cardType = card.getAttribute('data-type');
+        if (filter === 'all' || cardType === filter) {
+          (card as HTMLElement).style.display = '';
+        } else {
+          (card as HTMLElement).style.display = 'none';
+        }
+      });
+
+      // Update empty state visibility
+      const upcomingSection = document.querySelector('.upcoming-events');
+      const pastSection = document.querySelector('.past-events');
+
+      [upcomingSection, pastSection].forEach((section) => {
+        if (section) {
+          const visibleCards = section.querySelectorAll(
+            '.event-card:not([style*="display: none"])'
+          );
+          const emptyState = section.querySelector('.empty-state');
+          if (emptyState) {
+            (emptyState as HTMLElement).style.display = visibleCards.length === 0 ? '' : 'none';
+          }
+        }
+      });
+    }
+
     pills?.forEach((pill) => {
-      pill.addEventListener('click', () => {
-        const filter = pill.getAttribute('data-filter');
+      pill.addEventListener('click', () => activateTab(pill));
 
-        // Update active state
-        pills.forEach((p) => {
-          p.classList.remove('active');
-          p.setAttribute('aria-selected', 'false');
-        });
-        pill.classList.add('active');
-        pill.setAttribute('aria-selected', 'true');
+      // Keyboard navigation for tabs
+      pill.addEventListener('keydown', (e) => {
+        if (!pills) return;
+        const pillsArray = Array.from(pills);
+        const index = pillsArray.indexOf(pill);
+        let newIndex = index;
 
-        // Filter cards
-        eventCards.forEach((card) => {
-          const cardType = card.getAttribute('data-type');
-          if (filter === 'all' || cardType === filter) {
-            (card as HTMLElement).style.display = '';
-          } else {
-            (card as HTMLElement).style.display = 'none';
-          }
-        });
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          e.preventDefault();
+          newIndex = (index + 1) % pillsArray.length;
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          newIndex = (index - 1 + pillsArray.length) % pillsArray.length;
+        } else if (e.key === 'Home') {
+          e.preventDefault();
+          newIndex = 0;
+        } else if (e.key === 'End') {
+          e.preventDefault();
+          newIndex = pillsArray.length - 1;
+        }
 
-        // Update empty state visibility
-        const upcomingSection = document.querySelector('.upcoming-events');
-        const pastSection = document.querySelector('.past-events');
-
-        [upcomingSection, pastSection].forEach((section) => {
-          if (section) {
-            const visibleCards = section.querySelectorAll(
-              '.event-card:not([style*="display: none"])'
-            );
-            const emptyState = section.querySelector('.empty-state');
-            if (emptyState) {
-              (emptyState as HTMLElement).style.display = visibleCards.length === 0 ? '' : 'none';
-            }
-          }
-        });
+        if (newIndex !== index) {
+          activateTab(pillsArray[newIndex]);
+        }
       });
     });
   });

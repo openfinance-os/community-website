@@ -7,6 +7,8 @@ import EnvironmentToggle from '@components/observatory/EnvironmentToggle.astro';
 import AuthCapabilitiesChart from '@components/observatory/AuthCapabilitiesChart.astro';
 import HistoricalTrendsChart from '@components/observatory/HistoricalTrendsChart.astro';
 import Badge from '@components/common/Badge.astro';
+import { calculateCityDistribution, findProfile } from '@lib/city-utils';
+import type { ProfilesMap } from '@lib/types';
 
 // Import dual environment snapshot
 import dualSnapshot from '../../../data/observatory/snapshots/latest.json';
@@ -68,35 +70,9 @@ const byStatus = summary.byStatus || {};
 const byRole = summary.byRole || {};
 const apiFamilies = summary.apiFamilies || [];
 
-// Recalculate byCity using profile fallbacks for Unknown cities
-const profiles = participantProfiles as Record<string, any>;
-const byCityRecalculated: Record<string, number> = {};
-
-for (const participant of participants) {
-  let city = participant.city;
-
-  // Use profile headquarters as fallback if city is Unknown
-  if (city === 'Unknown') {
-    // Try to find profile by name or shortName
-    const profile =
-      profiles[participant.name] ||
-      profiles[participant.shortName] ||
-      Object.values(profiles).find(
-        (p: any) =>
-          p.shortName === participant.shortName ||
-          p.fullName === participant.legalName ||
-          participant.name.includes(p.shortName)
-      );
-
-    if (profile?.headquarters?.city) {
-      city = profile.headquarters.city;
-    }
-  }
-
-  byCityRecalculated[city] = (byCityRecalculated[city] || 0) + 1;
-}
-
-const byCity = byCityRecalculated;
+// Calculate byCity using shared utility with profile fallbacks
+const profiles = participantProfiles as ProfilesMap;
+const byCity = calculateCityDistribution(participants, profiles);
 
 // New enhanced metrics (with fallbacks for old format)
 const liveInProduction =
@@ -115,15 +91,7 @@ const byType: Record<string, number> = {};
 const byOwnership: Record<string, number> = {};
 
 for (const participant of participants) {
-  const profile =
-    profiles[participant.name] ||
-    profiles[participant.shortName] ||
-    Object.values(profiles).find(
-      (p: any) =>
-        p.shortName === participant.shortName ||
-        p.fullName === participant.legalName ||
-        participant.name.includes(p.shortName)
-    );
+  const profile = findProfile(participant, profiles);
 
   // Aggregate by type
   const type = profile?.type || 'unknown';

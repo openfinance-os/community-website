@@ -16,8 +16,9 @@
     "validate": "npm run check && npm run format:check"
   },
   "dependencies": {
-    "astro": "^5.0.0",
-    "@astrojs/sitemap": "^3.2.0"
+    "@astrojs/rss": "^4.0.14",
+    "@astrojs/sitemap": "^3.2.0",
+    "astro": "^5.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

@@ -3,6 +3,8 @@ import PageLayout from '@layouts/PageLayout.astro';
 import Hero from '@components/home/Hero.astro';
 import ObservatoryPreview from '@components/home/ObservatoryPreview.astro';
 import Card from '@components/common/Card.astro';
+import { calculateCityDistribution } from '@lib/city-utils';
+import type { ProfilesMap } from '@lib/types';
 
 // Import observatory data
 import snapshot from '../../data/observatory/snapshots/latest.json';
@@ -17,31 +19,9 @@ const { summary, timestamp, participants } = productionData;
 const { totalParticipants, byStatus, byRole } = summary;
 const activeCount = byStatus.Active || 0;
 
-// Recalculate byCity using profile fallbacks for Unknown cities
-const profiles = participantProfiles as Record<string, any>;
-const byCity: Record<string, number> = {};
-
-for (const participant of participants) {
-  let city = participant.city;
-
-  if (city === 'Unknown') {
-    const profile =
-      profiles[participant.name] ||
-      profiles[participant.shortName] ||
-      Object.values(profiles).find(
-        (p: any) =>
-          p.shortName === participant.shortName ||
-          p.fullName === participant.legalName ||
-          participant.name.includes(p.shortName)
-      );
-
-    if (profile?.headquarters?.city) {
-      city = profile.headquarters.city;
-    }
-  }
-
-  byCity[city] = (byCity[city] || 0) + 1;
-}
+// Calculate byCity using shared utility with profile fallbacks
+const profiles = participantProfiles as ProfilesMap;
+const byCity = calculateCityDistribution(participants, profiles);
 
 const quickLinks = [
   {

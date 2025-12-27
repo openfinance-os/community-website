@@ -33,11 +33,40 @@ const formatDate = (date: Date) => {
     day: 'numeric',
   });
 };
+
+// NewsArticle structured data (JSON-LD)
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'NewsArticle',
+  headline: entry.data.title,
+  description: entry.data.description || `${entry.data.title} - OpenFinance-OS News`,
+  datePublished: entry.data.date.toISOString(),
+  dateModified: entry.data.date.toISOString(),
+  author: {
+    '@type': 'Person',
+    name: entry.data.author,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'OpenFinance-OS',
+    logo: {
+      '@type': 'ImageObject',
+      url: new URL('/brand/logo-full.svg', Astro.site).toString(),
+    },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': new URL(`/news/${entry.slug}`, Astro.site).toString(),
+  },
+};
 ---
 
 <PageLayout
   title={entry.data.title}
   description={entry.data.description || `${entry.data.title} - OpenFinance-OS News`}
+  type="article"
+  publishedTime={entry.data.date.toISOString()}
+  articleSchema={articleSchema}
 >
   <article class="article-page">
     <div class="container">

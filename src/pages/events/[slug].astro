@@ -62,9 +62,42 @@ const formatTime = (d: Date) => {
 const eventDate = new Date(event.data.date);
 const endDate = event.data.endDate ? new Date(event.data.endDate) : undefined;
 const isMultiDay = endDate && endDate.getTime() !== eventDate.getTime();
+
+// Event structured data (JSON-LD)
+const eventSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: event.data.title,
+  description: event.data.description,
+  startDate: eventDate.toISOString(),
+  endDate: endDate ? endDate.toISOString() : eventDate.toISOString(),
+  eventStatus: isPast ? 'https://schema.org/EventScheduled' : 'https://schema.org/EventScheduled',
+  eventAttendanceMode: event.data.isOnline
+    ? 'https://schema.org/OnlineEventAttendanceMode'
+    : 'https://schema.org/OfflineEventAttendanceMode',
+  location: event.data.isOnline
+    ? {
+        '@type': 'VirtualLocation',
+        url: event.data.url || Astro.site?.toString(),
+      }
+    : {
+        '@type': 'Place',
+        name: event.data.location,
+        address: event.data.location,
+      },
+  organizer: {
+    '@type': 'Organization',
+    name: event.data.organizer,
+  },
+  url: new URL(`/events/${event.slug}`, Astro.site).toString(),
+};
 ---
 
-<PageLayout title={event.data.title} description={event.data.description}>
+<PageLayout
+  title={event.data.title}
+  description={event.data.description}
+  articleSchema={eventSchema}
+>
   <article class="event-page">
     <div class="container">
       <a href="/events" class="back-link">

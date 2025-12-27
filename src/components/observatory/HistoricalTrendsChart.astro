@@ -106,6 +106,16 @@ const growth =
   displayData.length >= 2
     ? displayData[displayData.length - 1].totalParticipants - displayData[0].totalParticipants
     : 0;
+
+// Generate descriptive aria-label for accessibility
+const latestCount =
+  displayData.length > 0 ? displayData[displayData.length - 1].totalParticipants : 0;
+const earliestCount = displayData.length > 0 ? displayData[0].totalParticipants : 0;
+const dateRange =
+  displayData.length > 0
+    ? `from ${displayData[0].date} to ${displayData[displayData.length - 1].date}`
+    : '';
+const trendAriaLabel = `Ecosystem growth chart showing ${latestCount} total participants ${dateRange}. ${growth > 0 ? `Growth of ${growth} participants` : growth < 0 ? `Decline of ${Math.abs(growth)} participants` : 'No change'} over the period.`;
 ---
 
 <div class="historical-trends">
@@ -138,7 +148,12 @@ const growth =
   {
     displayData.length > 1 ? (
       <div class="chart-container">
-        <svg viewBox={`0 0 ${width} ${height}`} class="trend-chart">
+        <svg
+          viewBox={`0 0 ${width} ${height}`}
+          class="trend-chart"
+          role="img"
+          aria-label={trendAriaLabel}
+        >
           {/* Grid lines */}
           {yLabels.map((_, i) => (
             <line
