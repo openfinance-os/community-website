@@ -1,7 +1,4 @@
 # Cloudflare Pages configuration
 name = "community-website"
 compatibility_date = "2024-12-01"
-
-# Static assets deployment
-[assets]
-directory = "./dist"
+pages_build_output_dir = "dist"
