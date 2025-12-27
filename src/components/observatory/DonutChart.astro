@@ -42,6 +42,14 @@ const segments = data.map((item) => {
     offset,
   };
 });
+
+// Generate descriptive aria-label for accessibility
+const chartDescription = segments
+  .map((s) => `${s.label}: ${s.value} (${Math.round(s.percentage * 100)}%)`)
+  .join(', ');
+const ariaLabel = centerLabel
+  ? `${centerLabel} distribution chart. ${chartDescription}`
+  : `Distribution chart showing: ${chartDescription}`;
 ---
 
 <div class="donut-chart">
@@ -50,7 +58,7 @@ const segments = data.map((item) => {
       viewBox={`0 0 ${size} ${size}`}
       class="chart-svg"
       role="img"
-      aria-label="Donut chart showing distribution"
+      aria-label={ariaLabel}
     >
       <!-- Background circle -->
       <circle
