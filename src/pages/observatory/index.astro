@@ -66,8 +66,37 @@ const { summary, participants, timestamp, trends } = snapshot;
 const totalParticipants = summary.totalParticipants || 0;
 const byStatus = summary.byStatus || {};
 const byRole = summary.byRole || {};
-const byCity = summary.byCity || {};
 const apiFamilies = summary.apiFamilies || [];
+
+// Recalculate byCity using profile fallbacks for Unknown cities
+const profiles = participantProfiles as Record<string, any>;
+const byCityRecalculated: Record<string, number> = {};
+
+for (const participant of participants) {
+  let city = participant.city;
+
+  // Use profile headquarters as fallback if city is Unknown
+  if (city === 'Unknown') {
+    // Try to find profile by name or shortName
+    const profile =
+      profiles[participant.name] ||
+      profiles[participant.shortName] ||
+      Object.values(profiles).find(
+        (p: any) =>
+          p.shortName === participant.shortName ||
+          p.fullName === participant.legalName ||
+          participant.name.includes(p.shortName)
+      );
+
+    if (profile?.headquarters?.city) {
+      city = profile.headquarters.city;
+    }
+  }
+
+  byCityRecalculated[city] = (byCityRecalculated[city] || 0) + 1;
+}
+
+const byCity = byCityRecalculated;
 
 // New enhanced metrics (with fallbacks for old format)
 const liveInProduction =
@@ -100,6 +129,13 @@ const roleData = Object.entries(byRole).map(([label, value]) => ({
 const cityColors = {
   'Abu Dhabi': 'var(--color-primary-600)',
   Dubai: 'var(--color-accent-500)',
+  London: '#6366f1',
+  Riyadh: '#f59e0b',
+  Sharjah: '#10b981',
+  Ajman: '#8b5cf6',
+  'Ras Al Khaimah': '#ec4899',
+  Fujairah: '#14b8a6',
+  'Umm Al Qaiwain': '#f97316',
 } as const;
 
 const cityData = Object.entries(byCity).map(([label, value]) => ({

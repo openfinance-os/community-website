@@ -57,15 +57,133 @@ const types = ['all', 'meetup', 'hackathon', 'webinar', 'conference', 'workshop'
             </div>
           ) : (
             <div class="empty-state">
-              <p>No upcoming events scheduled.</p>
-              <a
-                href="https://github.com/openfinance-os/community/discussions"
-                class="propose-link"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Propose an event
-              </a>
+              <div class="empty-illustration" aria-hidden="true">
+                <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect
+                    x="20"
+                    y="30"
+                    width="80"
+                    height="70"
+                    rx="8"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    class="calendar-body"
+                  />
+                  <path
+                    d="M20 50h80"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    class="calendar-line"
+                  />
+                  <rect
+                    x="35"
+                    y="38"
+                    width="10"
+                    height="16"
+                    rx="2"
+                    fill="currentColor"
+                    class="calendar-hook"
+                  />
+                  <rect
+                    x="75"
+                    y="38"
+                    width="10"
+                    height="16"
+                    rx="2"
+                    fill="currentColor"
+                    class="calendar-hook"
+                  />
+                  <circle
+                    cx="45"
+                    cy="70"
+                    r="6"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    class="calendar-dot"
+                  />
+                  <circle
+                    cx="60"
+                    cy="70"
+                    r="6"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    class="calendar-dot"
+                  />
+                  <circle
+                    cx="75"
+                    cy="70"
+                    r="6"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    class="calendar-dot"
+                  />
+                  <path
+                    d="M45 85h30"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    class="calendar-line"
+                  />
+                  <circle
+                    cx="95"
+                    cy="85"
+                    r="15"
+                    fill="var(--color-primary-100)"
+                    stroke="var(--color-primary-500)"
+                    stroke-width="2"
+                    class="badge-circle"
+                  />
+                  <path
+                    d="M90 85l4 4 8-8"
+                    stroke="var(--color-primary-600)"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="badge-check"
+                  />
+                </svg>
+              </div>
+              <h3 class="empty-title">No upcoming events yet</h3>
+              <p class="empty-description">
+                The community calendar is waiting for its next event. Check back soon or explore
+                what happened before.
+              </p>
+              <div class="empty-actions">
+                {pastEvents.length > 0 && (
+                  <button class="action-btn action-secondary scroll-to-past">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    View {pastEvents.length} past event{pastEvents.length !== 1 ? 's' : ''}
+                  </button>
+                )}
+                <a
+                  href="https://github.com/openfinance-os/community/discussions"
+                  class="action-btn action-primary"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M12 5v14M5 12h14" />
+                  </svg>
+                  Propose an event
+                </a>
+              </div>
             </div>
           )
         }
@@ -185,21 +303,87 @@ const types = ['all', 'meetup', 'hackathon', 'webinar', 'conference', 'workshop'
   }
 
   .empty-state {
-    padding: var(--space-8);
+    padding: var(--space-10) var(--space-6);
     text-align: center;
-    background: var(--color-gray-50);
-    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, var(--color-gray-50) 0%, var(--color-primary-50) 100%);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
   }
 
-  .empty-state p {
+  .empty-illustration {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto var(--space-6);
+    color: var(--color-gray-300);
+  }
+
+  .empty-illustration svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .empty-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-gray-800);
+    margin-bottom: var(--space-2);
+  }
+
+  .empty-description {
+    font-size: 0.9375rem;
     color: var(--color-gray-500);
-    margin-bottom: var(--space-3);
+    max-width: 360px;
+    margin: 0 auto var(--space-6);
+    line-height: 1.6;
   }
 
-  .propose-link {
+  .empty-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    align-items: center;
+  }
+
+  @media (min-width: 480px) {
+    .empty-actions {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+
+  .action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--color-primary-600);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-decoration: none;
+    border: none;
+  }
+
+  .action-primary {
+    background: var(--color-primary-600);
+    color: white;
+  }
+
+  .action-primary:hover {
+    background: var(--color-primary-700);
+    text-decoration: none;
+  }
+
+  .action-secondary {
+    background: white;
+    color: var(--color-gray-700);
+    border: 1px solid var(--color-gray-300);
+  }
+
+  .action-secondary:hover {
+    background: var(--color-gray-50);
+    border-color: var(--color-gray-400);
   }
 
   /* Past Events Toggle */
@@ -299,15 +483,39 @@ const types = ['all', 'meetup', 'hackathon', 'webinar', 'conference', 'workshop'
   }
 
   :global([data-theme='dark']) .empty-state {
-    background: var(--color-gray-100);
+    background: linear-gradient(135deg, var(--color-gray-100) 0%, rgba(15, 118, 110, 0.1) 100%);
+    border-color: var(--color-gray-200);
   }
 
-  :global([data-theme='dark']) .empty-state p {
+  :global([data-theme='dark']) .empty-illustration {
     color: var(--color-gray-400);
   }
 
-  :global([data-theme='dark']) .propose-link {
-    color: var(--color-primary-400);
+  :global([data-theme='dark']) .empty-title {
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .empty-description {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .action-primary {
+    background: var(--color-primary-500);
+  }
+
+  :global([data-theme='dark']) .action-primary:hover {
+    background: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .action-secondary {
+    background: var(--color-gray-200);
+    color: var(--color-gray-100);
+    border-color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .action-secondary:hover {
+    background: var(--color-gray-300);
+    border-color: var(--color-gray-400);
   }
 
   :global([data-theme='dark']) .section-toggle {
@@ -352,11 +560,31 @@ const types = ['all', 'meetup', 'hackathon', 'webinar', 'conference', 'workshop'
   document.addEventListener('DOMContentLoaded', () => {
     const toggle = document.querySelector('.section-toggle');
     const pastList = document.getElementById('past-events-list');
+    const scrollToPastBtn = document.querySelector('.scroll-to-past');
+    const hasNoUpcoming = document.querySelector('.empty-state') !== null;
 
+    // Toggle past events section
     toggle?.addEventListener('click', () => {
       const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
       toggle.setAttribute('aria-expanded', String(!isExpanded));
       pastList?.toggleAttribute('hidden');
     });
+
+    // Scroll to past events button
+    scrollToPastBtn?.addEventListener('click', () => {
+      if (toggle && pastList) {
+        // Expand past events
+        toggle.setAttribute('aria-expanded', 'true');
+        pastList.removeAttribute('hidden');
+        // Scroll to past events section
+        toggle.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+
+    // Auto-expand past events if no upcoming events
+    if (hasNoUpcoming && toggle && pastList) {
+      toggle.setAttribute('aria-expanded', 'true');
+      pastList.removeAttribute('hidden');
+    }
   });
 </script>

@@ -7,12 +7,41 @@ import Card from '@components/common/Card.astro';
 // Import observatory data
 import snapshot from '../../data/observatory/snapshots/latest.json';
 
+// Import participant profiles for city fallback
+import participantProfiles from '../../data/participants/profiles.json';
+
 // Handle both old flat format and new dual-environment format
 const isDualFormat = 'production' in snapshot;
 const productionData = isDualFormat ? snapshot.production : snapshot;
-const { summary, timestamp } = productionData;
-const { totalParticipants, byStatus, byRole, byCity } = summary;
+const { summary, timestamp, participants } = productionData;
+const { totalParticipants, byStatus, byRole } = summary;
 const activeCount = byStatus.Active || 0;
+
+// Recalculate byCity using profile fallbacks for Unknown cities
+const profiles = participantProfiles as Record<string, any>;
+const byCity: Record<string, number> = {};
+
+for (const participant of participants) {
+  let city = participant.city;
+
+  if (city === 'Unknown') {
+    const profile =
+      profiles[participant.name] ||
+      profiles[participant.shortName] ||
+      Object.values(profiles).find(
+        (p: any) =>
+          p.shortName === participant.shortName ||
+          p.fullName === participant.legalName ||
+          participant.name.includes(p.shortName)
+      );
+
+    if (profile?.headquarters?.city) {
+      city = profile.headquarters.city;
+    }
+  }
+
+  byCity[city] = (byCity[city] || 0) + 1;
+}
 
 const quickLinks = [
   {
