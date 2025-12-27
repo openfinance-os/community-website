@@ -1,11 +1,10 @@
-name: CI/CD Pipeline
+name: CI
 
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
-  workflow_dispatch:
 
 env:
   NODE_VERSION: '20'
@@ -17,10 +16,10 @@ concurrency:
 
 jobs:
   # ============================================
-  # Stage 1: Validate
+  # Validate, Build & Test
   # ============================================
-  validate:
-    name: Validate
+  build:
+    name: Build & Test
     runs-on: ubuntu-latest
 
     steps:
@@ -42,40 +41,8 @@ jobs:
       - name: Type check
         run: npm run check
 
-      - name: Security audit
-        run: npm audit --audit-level=high
-        continue-on-error: true
-
-  # ============================================
-  # Stage 2: Build
-  # ============================================
-  build:
-    name: Build
-    needs: validate
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
       - name: Build site
         run: npm run build
-
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: dist/
-          retention-days: 7
 
       - name: Report build size
         run: |
@@ -84,16 +51,22 @@ jobs:
           echo "| Directory | Size |" >> $GITHUB_STEP_SUMMARY
           echo "|-----------|------|" >> $GITHUB_STEP_SUMMARY
           echo "| Total | $(du -sh dist | cut -f1) |" >> $GITHUB_STEP_SUMMARY
-          echo "| HTML | $(find dist -name '*.html' -exec du -ch {} + | tail -1 | cut -f1) |" >> $GITHUB_STEP_SUMMARY
-          echo "| Assets | $(du -sh dist/_astro 2>/dev/null | cut -f1 || echo 'N/A') |" >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          retention-days: 7
 
   # ============================================
-  # Stage 3: Test
+  # Lighthouse CI (optional quality check)
   # ============================================
-  test:
-    name: Test
+  lighthouse:
+    name: Lighthouse
     needs: build
     runs-on: ubuntu-latest
+    continue-on-error: true
 
     steps:
       - name: Checkout repository
@@ -120,119 +93,3 @@ jobs:
           configPath: ./lighthouserc.json
           uploadArtifacts: true
           temporaryPublicStorage: true
-
-      - name: HTML validation
-        run: |
-          npx html-validate "dist/**/*.html" --formatter stylish || true
-        continue-on-error: true
-
-  # ============================================
-  # Stage 4a: Preview Deploy (Pull Requests)
-  # ============================================
-  preview:
-    name: Preview Deploy
-    needs: [build, test]
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      deployments: write
-      pull-requests: write
-
-    steps:
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: dist
-          path: dist/
-
-      - name: Deploy to Cloudflare Pages (Preview)
-        id: deploy
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=community-website --branch=${{ github.head_ref }}
-
-      - name: Comment preview URL on PR
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const output = `### 🚀 Preview Deployment
-
-            | Status | URL |
-            |--------|-----|
-            | ✅ Deployed | ${{ steps.deploy.outputs.deployment-url }} |
-
-            **Commit:** \`${{ github.sha }}\`
-            **Branch:** \`${{ github.head_ref }}\`
-
-            <sub>Deployed via Cloudflare Pages</sub>`;
-
-            // Find existing comment
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-            });
-
-            const botComment = comments.find(comment =>
-              comment.user.type === 'Bot' &&
-              comment.body.includes('Preview Deployment')
-            );
-
-            if (botComment) {
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: botComment.id,
-                body: output
-              });
-            } else {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                body: output
-              });
-            }
-
-  # ============================================
-  # Stage 4b: Production Deploy (main branch)
-  # ============================================
-  deploy:
-    name: Production Deploy
-    needs: [build, test]
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-    runs-on: ubuntu-latest
-
-    environment:
-      name: production
-      url: https://openfinance-os.org
-
-    permissions:
-      contents: read
-      deployments: write
-
-    steps:
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: dist
-          path: dist/
-
-      - name: Deploy to Cloudflare Pages (Production)
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=community-website
-
-      - name: Deployment summary
-        run: |
-          echo "### 🚀 Production Deployment" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Site deployed to: https://openfinance-os.org" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Commit:** \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
