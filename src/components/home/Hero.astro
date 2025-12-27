@@ -22,8 +22,7 @@ const { participantCount, activeCount } = Astro.props;
 
     <h1 class="hero-title">
       <span class="title-line title-line-1">Open</span>
-      <span class="title-line title-line-2">Finance</span>
-      <span class="title-accent">-OS</span>
+      <span class="title-line title-line-2">Finance<span class="title-suffix">-os</span></span>
     </h1>
 
     <p class="hero-tagline">
@@ -203,15 +202,12 @@ const { participantCount, activeCount } = Astro.props;
     color: var(--color-primary-700);
   }
 
-  .title-accent {
+  .title-suffix {
     font-family: var(--font-mono);
-    font-size: 0.4em;
-    font-weight: 500;
+    font-size: 0.5em;
+    font-weight: 400;
     color: var(--color-gray-400);
-    vertical-align: super;
-    margin-left: 0.1em;
-    animation: fadeInUp 0.6s ease-out backwards;
-    animation-delay: 0.3s;
+    letter-spacing: 0;
   }
 
   @keyframes fadeInUp {
@@ -391,7 +387,7 @@ const { participantCount, activeCount } = Astro.props;
     color: var(--color-primary-400);
   }
 
-  :global([data-theme='dark']) .title-accent {
+  :global([data-theme='dark']) .title-suffix {
     color: var(--color-gray-500);
   }
 
