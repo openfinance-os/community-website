@@ -1,8 +1,8 @@
 {
-  "timestamp": "2025-12-26T18:22:34.366Z",
+  "timestamp": "2025-12-27T06:29:43.976Z",
   "version": "2.0.0",
   "production": {
-    "timestamp": "2025-12-26T18:22:34.238Z",
+    "timestamp": "2025-12-27T06:29:42.488Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "production",
@@ -721,7 +721,7 @@
     }
   },
   "sandbox": {
-    "timestamp": "2025-12-26T18:22:34.364Z",
+    "timestamp": "2025-12-27T06:29:43.973Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "sandbox",
@@ -2412,22 +2412,10 @@
       }
     ],
     "trends": {
-      "participantChange": -4,
+      "participantChange": 0,
       "newParticipants": [],
-      "removedParticipants": [
-        "Mercury",
-        "9bfa48bf-647e-4082-a6c2-25291e15c98c",
-        "73423662-b345-453e-a54b-2f9115a6a45d",
-        "a084403e-b182-4369-8ec2-2e22b125b78c"
-      ],
-      "roleChanges": {
-        "BDSP": -3,
-        "BSIP": -3,
-        "LFI": -2,
-        "ISP": -3,
-        "API Read_Write": -1,
-        "TSP": -1
-      },
+      "removedParticipants": [],
+      "roleChanges": {},
       "apiFamilyChanges": {}
     }
   },
