@@ -1,0 +1,1452 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OpenFinance-OS Brand Guidelines</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --p5: #0d4f4f;
+        --p4: #1a6b6b;
+        --p3: #338787;
+        --a5: #e8a85c;
+        --a3: #f5c989;
+        --g9: #0f1419;
+        --g8: #1a1d21;
+        --g6: #5a6169;
+        --g5: #8a9199;
+        --g2: #e2e5e9;
+        --g1: #f0f2f5;
+        --g0: #fafbfc;
+        --w: #fff;
+        --success: #10b981;
+        --error: #ef4444;
+        --fd: 'Fraunces', Georgia, serif;
+        --fb: 'DM Sans', sans-serif;
+        --fm: 'JetBrains Mono', monospace;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        font-size: 16px;
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: var(--fb);
+        line-height: 1.6;
+        color: var(--g8);
+        background: var(--w);
+      }
+      .page {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 64px 32px;
+      }
+      .pb {
+        page-break-after: always;
+      }
+      .cover {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background: linear-gradient(135deg, var(--p5), var(--p4));
+        color: #fff;
+        padding: 64px;
+        position: relative;
+      }
+      .cover::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 70%;
+        height: 100%;
+        background: radial-gradient(ellipse at 70% 30%, rgba(232, 168, 92, 0.2), transparent 60%);
+      }
+      .cover h1 {
+        font-family: var(--fd);
+        font-size: 3.5rem;
+        font-weight: 700;
+        line-height: 1.1;
+        margin-bottom: 16px;
+        position: relative;
+        z-index: 1;
+      }
+      .cover-sub {
+        font-size: 1.5rem;
+        opacity: 0.9;
+        margin-bottom: 32px;
+        position: relative;
+        z-index: 1;
+      }
+      .cover-meta {
+        font-size: 0.875rem;
+        opacity: 0.7;
+        position: relative;
+        z-index: 1;
+      }
+      .cover-logo {
+        width: 140px;
+        height: 140px;
+        margin-bottom: 48px;
+        position: relative;
+        z-index: 1;
+      }
+      .sn {
+        font-family: var(--fm);
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--a5);
+        margin-bottom: 8px;
+      }
+      .st {
+        font-family: var(--fd);
+        font-size: 2.25rem;
+        font-weight: 700;
+        color: var(--g8);
+        margin-bottom: 16px;
+        padding-bottom: 16px;
+        border-bottom: 2px solid var(--g2);
+      }
+      .si {
+        font-size: 1.125rem;
+        color: var(--g6);
+        margin-bottom: 32px;
+        max-width: 650px;
+      }
+      .ss {
+        margin-bottom: 40px;
+      }
+      .sst {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--g8);
+        margin-bottom: 16px;
+      }
+      .card {
+        background: var(--w);
+        border: 1px solid var(--g2);
+        border-radius: 16px;
+        padding: 24px;
+        margin-bottom: 24px;
+      }
+      .card-p {
+        background: var(--p5);
+        border-color: transparent;
+        color: #fff;
+      }
+      .card-m {
+        background: var(--g0);
+        border-color: var(--g1);
+      }
+      .g2 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+      }
+      .g3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+      @media (max-width: 768px) {
+        .g2,
+        .g3 {
+          grid-template-columns: 1fr;
+        }
+      }
+      .ld {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+        border-radius: 16px;
+        min-height: 200px;
+      }
+      .ld.light {
+        background: var(--w);
+        border: 1px solid var(--g2);
+      }
+      .ld.dark {
+        background: var(--g9);
+      }
+      .ll {
+        font-size: 0.6875rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--g5);
+        margin-bottom: 12px;
+        text-align: center;
+      }
+      .cc {
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid var(--g2);
+        background: var(--w);
+      }
+      .cs {
+        height: 100px;
+        display: flex;
+        align-items: flex-end;
+        padding: 12px;
+      }
+      .csl {
+        font-size: 0.6875rem;
+        font-weight: 600;
+        padding: 4px 8px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 6px;
+        color: var(--g8);
+      }
+      .ci {
+        padding: 16px;
+      }
+      .cn {
+        font-weight: 600;
+        font-size: 0.9375rem;
+        color: var(--g8);
+        margin-bottom: 4px;
+      }
+      .cv {
+        font-family: var(--fm);
+        font-size: 0.75rem;
+        color: var(--g5);
+        line-height: 1.6;
+      }
+      .cscale {
+        display: flex;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 24px;
+      }
+      .csi {
+        flex: 1;
+        height: 64px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding: 8px;
+        font-family: var(--fm);
+        font-size: 0.625rem;
+        font-weight: 500;
+      }
+      .csi.lt {
+        color: #fff;
+      }
+      .csi.dt {
+        color: var(--g8);
+      }
+      .ts {
+        background: var(--w);
+        border: 1px solid var(--g2);
+        border-radius: 16px;
+        padding: 32px;
+        margin-bottom: 24px;
+      }
+      .td {
+        font-size: 2.5rem;
+        line-height: 1.2;
+        margin-bottom: 16px;
+        color: var(--g8);
+      }
+      .td.df {
+        font-family: var(--fd);
+        font-weight: 600;
+      }
+      .td.bf {
+        font-family: var(--fb);
+        font-weight: 600;
+      }
+      .td.mf {
+        font-family: var(--fm);
+        font-weight: 500;
+      }
+      .tm {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+        padding-top: 16px;
+        border-top: 1px solid var(--g1);
+        margin-top: 16px;
+      }
+      .tmi {
+        font-size: 0.8125rem;
+      }
+      .tml {
+        color: var(--g5);
+      }
+      .tmv {
+        font-weight: 600;
+        color: var(--g8);
+      }
+      .tsc {
+        border: 1px solid var(--g2);
+        border-radius: 16px;
+        overflow: hidden;
+      }
+      .tsr {
+        display: grid;
+        grid-template-columns: 100px 1fr 80px;
+        align-items: center;
+        padding: 16px 24px;
+        border-bottom: 1px solid var(--g1);
+      }
+      .tsr:last-child {
+        border-bottom: none;
+      }
+      .tsn {
+        font-size: 0.6875rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--g5);
+      }
+      .tss {
+        font-family: var(--fm);
+        font-size: 0.75rem;
+        color: var(--g5);
+        text-align: right;
+      }
+      .sg {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 16px;
+      }
+      .spi {
+        background: var(--w);
+        border: 1px solid var(--g2);
+        border-radius: 10px;
+        padding: 16px;
+        text-align: center;
+      }
+      .spv {
+        height: 48px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        margin-bottom: 8px;
+      }
+      .spb {
+        width: 20px;
+        background: var(--p5);
+        border-radius: 2px;
+      }
+      .spl {
+        font-weight: 600;
+        font-size: 0.8125rem;
+        color: var(--g8);
+      }
+      .spvl {
+        font-family: var(--fm);
+        font-size: 0.6875rem;
+        color: var(--g5);
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px 20px;
+        font-family: var(--fb);
+        font-size: 0.9375rem;
+        font-weight: 600;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .btn-p {
+        background: var(--p5);
+        color: #fff;
+      }
+      .btn-s {
+        background: transparent;
+        color: var(--p5);
+        border: 1.5px solid var(--g2);
+      }
+      .btn-a {
+        background: var(--a5);
+        color: #fff;
+      }
+      .btn-sm {
+        padding: 8px 16px;
+        font-size: 0.8125rem;
+      }
+      .btn-lg {
+        padding: 16px 32px;
+        font-size: 1rem;
+      }
+      .br {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 8px;
+        font-size: 0.6875rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        border-radius: 6px;
+      }
+      .tag-p {
+        background: #cce1e1;
+        color: var(--p5);
+      }
+      .tag-a {
+        background: #fdf6ed;
+        color: #b06b24;
+      }
+      .tag-s {
+        background: #d1fae5;
+        color: #065f46;
+      }
+      .tag-w {
+        background: #fef3c7;
+        color: #92400e;
+      }
+      .tag-e {
+        background: #fee2e2;
+        color: #991b1b;
+      }
+      .tr {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9375rem;
+        margin-bottom: 24px;
+      }
+      th,
+      td {
+        padding: 16px;
+        text-align: left;
+        border-bottom: 1px solid var(--g2);
+      }
+      th {
+        font-weight: 600;
+        font-size: 0.6875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--g5);
+        background: var(--g0);
+      }
+      td {
+        color: var(--g6);
+      }
+      .hb {
+        background: #e6f0f0;
+        border-left: 4px solid var(--p5);
+        padding: 24px;
+        border-radius: 0 10px 10px 0;
+        margin-bottom: 24px;
+      }
+      .hb h4 {
+        font-weight: 600;
+        color: var(--p5);
+        margin-bottom: 8px;
+      }
+      .hb p {
+        color: var(--g6);
+        font-size: 0.9375rem;
+      }
+      .code {
+        background: var(--g9);
+        border-radius: 10px;
+        padding: 20px;
+        overflow-x: auto;
+        margin-bottom: 16px;
+      }
+      .code code {
+        font-family: var(--fm);
+        font-size: 0.8125rem;
+        color: #e2e8f0;
+        line-height: 1.7;
+        white-space: pre;
+      }
+      .toc h2 {
+        font-family: var(--fd);
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--p5);
+        margin-bottom: 32px;
+        padding-bottom: 16px;
+        border-bottom: 2px solid var(--g2);
+      }
+      .tocs {
+        margin-bottom: 24px;
+      }
+      .tocst {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--g5);
+        margin-bottom: 12px;
+      }
+      .toci {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding: 8px 0;
+        border-bottom: 1px dotted var(--g2);
+      }
+      .toci a {
+        color: var(--g8);
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .tocp {
+        font-family: var(--fm);
+        font-size: 0.875rem;
+        color: var(--g5);
+      }
+      @media print {
+        .pb {
+          page-break-after: always;
+        }
+        .cover {
+          min-height: auto;
+          padding: 2in 1in;
+        }
+        body {
+          font-size: 11pt;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cover">
+      <svg class="cover-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+        <defs>
+          <linearGradient id="cpg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color: #1a6b6b" />
+            <stop offset="100%" style="stop-color: #0d4f4f" />
+          </linearGradient>
+          <linearGradient id="cag" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color: #f5c989" />
+            <stop offset="100%" style="stop-color: #e8a85c" />
+          </linearGradient>
+        </defs>
+        <rect x="60" y="60" width="280" height="280" rx="56" fill="white" fill-opacity="0.15" />
+        <circle
+          cx="200"
+          cy="200"
+          r="95"
+          fill="none"
+          stroke="rgba(255,255,255,0.3)"
+          stroke-width="2"
+        />
+        <circle
+          cx="200"
+          cy="200"
+          r="65"
+          fill="none"
+          stroke="rgba(255,255,255,0.4)"
+          stroke-width="2"
+        />
+        <circle cx="200" cy="200" r="35" fill="none" stroke="white" stroke-width="3" />
+        <ellipse
+          cx="200"
+          cy="200"
+          rx="95"
+          ry="30"
+          fill="none"
+          stroke="rgba(255,255,255,0.3)"
+          stroke-width="1.5"
+        />
+        <ellipse
+          cx="200"
+          cy="200"
+          rx="30"
+          ry="95"
+          fill="none"
+          stroke="rgba(255,255,255,0.3)"
+          stroke-width="1.5"
+        />
+        <circle cx="200" cy="105" r="12" fill="white" />
+        <circle cx="295" cy="200" r="12" fill="white" />
+        <circle cx="200" cy="295" r="12" fill="white" />
+        <circle cx="105" cy="200" r="12" fill="white" />
+        <circle cx="270" cy="130" r="18" fill="url(#cag)" />
+        <circle cx="200" cy="200" r="8" fill="white" />
+      </svg>
+      <h1>Brand Guidelines</h1>
+      <p class="cover-sub">OpenFinance-OS Visual Identity System</p>
+      <p class="cover-meta">Version 1.0 · December 2025</p>
+    </div>
+    <div class="pb"></div>
+
+    <div class="toc page">
+      <h2>Contents</h2>
+      <div class="tocs">
+        <div class="tocst">Foundation</div>
+        <div class="toci"><a href="#intro">Introduction</a><span class="tocp">3</span></div>
+        <div class="toci"><a href="#mission">Mission & Values</a><span class="tocp">4</span></div>
+        <div class="toci">
+          <a href="#personality">Brand Personality</a><span class="tocp">5</span>
+        </div>
+      </div>
+      <div class="tocs">
+        <div class="tocst">Logo</div>
+        <div class="toci"><a href="#logo">Primary Logo</a><span class="tocp">6</span></div>
+        <div class="toci">
+          <a href="#logo-usage">Logo Usage Guidelines</a><span class="tocp">8</span>
+        </div>
+      </div>
+      <div class="tocs">
+        <div class="tocst">Visual Identity</div>
+        <div class="toci"><a href="#colors">Color System</a><span class="tocp">10</span></div>
+        <div class="toci"><a href="#typography">Typography</a><span class="tocp">14</span></div>
+        <div class="toci"><a href="#spacing">Spacing & Layout</a><span class="tocp">17</span></div>
+      </div>
+      <div class="tocs">
+        <div class="tocst">Application</div>
+        <div class="toci"><a href="#components">UI Components</a><span class="tocp">18</span></div>
+        <div class="toci"><a href="#voice">Voice & Tone</a><span class="tocp">20</span></div>
+        <div class="toci"><a href="#downloads">Downloads</a><span class="tocp">22</span></div>
+      </div>
+    </div>
+    <div class="pb"></div>
+
+    <section id="intro" class="page">
+      <div class="sn">01</div>
+      <h2 class="st">Introduction</h2>
+      <p class="si">
+        OpenFinance-OS is the community home for UAE Open Finance. This brand guide ensures
+        consistency across all touchpoints, building recognition and trust within the ecosystem.
+      </p>
+      <div class="ss">
+        <h3 class="sst">About This Guide</h3>
+        <p style="color: var(--g6); margin-bottom: 24px">
+          These guidelines define how we present OpenFinance-OS visually and verbally. Following
+          them ensures our brand remains cohesive, professional, and recognizable.
+        </p>
+        <div class="hb">
+          <h4>Key Principle</h4>
+          <p>
+            OpenFinance-OS is a community initiative, not an official regulatory body. Our brand
+            must clearly communicate this while maintaining professionalism expected in financial
+            services.
+          </p>
+        </div>
+      </div>
+      <div class="g2">
+        <div class="card">
+          <h4 style="font-weight: 600; color: var(--p5); margin-bottom: 8px">For Contributors</h4>
+          <p style="font-size: 0.9375rem; color: var(--g6)">
+            Community members creating content, documentation, or materials for OpenFinance-OS.
+          </p>
+        </div>
+        <div class="card">
+          <h4 style="font-weight: 600; color: var(--p5); margin-bottom: 8px">For Partners</h4>
+          <p style="font-size: 0.9375rem; color: var(--g6)">
+            Organizations referencing or co-branding with OpenFinance-OS in their materials.
+          </p>
+        </div>
+      </div>
+    </section>
+    <div class="pb"></div>
+
+    <section id="mission" class="page">
+      <div class="sn">02</div>
+      <h2 class="st">Mission & Values</h2>
+      <p class="si">
+        Our mission and values guide every decision we make, from design choices to content
+        creation.
+      </p>
+      <div class="ss">
+        <h3 class="sst">Our Mission</h3>
+        <div class="card card-p" style="text-align: center; padding: 40px">
+          <p
+            style="
+              font-family: var(--fd);
+              font-size: 1.375rem;
+              font-weight: 500;
+              font-style: italic;
+              max-width: 600px;
+              margin: 0 auto;
+              line-height: 1.5;
+            "
+          >
+            "To bring visibility, resources, and collaboration to the UAE Open Finance ecosystem
+            through community-driven, open-source tools and content."
+          </p>
+        </div>
+      </div>
+      <div class="ss">
+        <h3 class="sst">Core Values</h3>
+        <div class="g2">
+          <div class="card">
+            <h4 style="font-weight: 600; color: var(--p5); margin-bottom: 8px">🌐 Transparency</h4>
+            <p style="font-size: 0.9375rem; color: var(--g6)">
+              We operate in the open. Our code, data sources, and decision-making are visible to
+              all.
+            </p>
+          </div>
+          <div class="card">
+            <h4 style="font-weight: 600; color: var(--p5); margin-bottom: 8px">🤝 Collaboration</h4>
+            <p style="font-size: 0.9375rem; color: var(--g6)">
+              We believe ecosystems thrive when participants work together.
+            </p>
+          </div>
+          <div class="card">
+            <h4 style="font-weight: 600; color: var(--p5); margin-bottom: 8px">🔗 Complementary</h4>
+            <p style="font-size: 0.9375rem; color: var(--g6)">
+              We link to official sources, never replace them.
+            </p>
+          </div>
+          <div class="card">
+            <h4 style="font-weight: 600; color: var(--p5); margin-bottom: 8px">⚖️ Neutral</h4>
+            <p style="font-size: 0.9375rem; color: var(--g6)">
+              We don't rank or favor specific participants. Our content is factual and balanced.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="pb"></div>
+
+    <section id="personality" class="page">
+      <div class="sn">03</div>
+      <h2 class="st">Brand Personality</h2>
+      <p class="si">
+        Our brand has a distinct personality that guides how we communicate and present ourselves.
+      </p>
+      <div class="ss">
+        <h3 class="sst">Personality Traits</h3>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 50%">We Are</th>
+              <th style="width: 50%">We Are Not</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Knowledgeable</strong> — Deep expertise shared generously</td>
+              <td>Condescending or elitist</td>
+            </tr>
+            <tr>
+              <td><strong>Professional</strong> — Trustworthy and reliable</td>
+              <td>Stiff, corporate, or bureaucratic</td>
+            </tr>
+            <tr>
+              <td><strong>Welcoming</strong> — Warm and approachable</td>
+              <td>Overly casual or unprofessional</td>
+            </tr>
+            <tr>
+              <td><strong>Clear</strong> — Direct and easy to understand</td>
+              <td>Jargon-heavy or confusing</td>
+            </tr>
+            <tr>
+              <td><strong>Community-focused</strong> — Here to serve</td>
+              <td>Self-promoting or commercial</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <div class="pb"></div>
+
+    <section id="logo" class="page">
+      <div class="sn">04</div>
+      <h2 class="st">Primary Logo</h2>
+      <p class="si">
+        Our logo represents the interconnected Open Finance ecosystem — banks, TPPs, regulators, and
+        developers working together.
+      </p>
+      <div class="ss">
+        <h3 class="sst">Logo Mark</h3>
+        <div class="g2">
+          <div>
+            <div class="ll">Light Background</div>
+            <div class="ld light">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 400 400"
+                width="140"
+                height="140"
+              >
+                <defs>
+                  <linearGradient id="pg1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color: #1a6b6b" />
+                    <stop offset="100%" style="stop-color: #0d4f4f" />
+                  </linearGradient>
+                  <linearGradient id="ag1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color: #f5c989" />
+                    <stop offset="100%" style="stop-color: #e8a85c" />
+                  </linearGradient>
+                </defs>
+                <rect x="60" y="60" width="280" height="280" rx="56" fill="url(#pg1)" />
+                <circle
+                  cx="200"
+                  cy="200"
+                  r="95"
+                  fill="none"
+                  stroke="rgba(255,255,255,0.25)"
+                  stroke-width="2"
+                />
+                <circle
+                  cx="200"
+                  cy="200"
+                  r="65"
+                  fill="none"
+                  stroke="rgba(255,255,255,0.35)"
+                  stroke-width="2"
+                />
+                <circle cx="200" cy="200" r="35" fill="none" stroke="white" stroke-width="3" />
+                <ellipse
+                  cx="200"
+                  cy="200"
+                  rx="95"
+                  ry="30"
+                  fill="none"
+                  stroke="rgba(255,255,255,0.3)"
+                  stroke-width="1.5"
+                />
+                <ellipse
+                  cx="200"
+                  cy="200"
+                  rx="30"
+                  ry="95"
+                  fill="none"
+                  stroke="rgba(255,255,255,0.3)"
+                  stroke-width="1.5"
+                />
+                <circle cx="200" cy="105" r="12" fill="white" />
+                <circle cx="295" cy="200" r="12" fill="white" />
+                <circle cx="200" cy="295" r="12" fill="white" />
+                <circle cx="105" cy="200" r="12" fill="white" />
+                <circle cx="270" cy="130" r="18" fill="url(#ag1)" />
+                <circle cx="200" cy="200" r="8" fill="white" />
+              </svg>
+            </div>
+          </div>
+          <div>
+            <div class="ll">Dark Background</div>
+            <div class="ld dark">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 400 400"
+                width="140"
+                height="140"
+              >
+                <defs>
+                  <linearGradient id="pg2" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color: #1a6b6b" />
+                    <stop offset="100%" style="stop-color: #0d4f4f" />
+                  </linearGradient>
+                  <linearGradient id="ag2" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color: #f5c989" />
+                    <stop offset="100%" style="stop-color: #e8a85c" />
+                  </linearGradient>
+                  <filter id="glow1" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="6" result="blur" />
+                    <feFlood flood-color="#1A6B6B" flood-opacity="0.4" />
+                    <feComposite in2="blur" operator="in" />
+                    <feMerge>
+                      <feMergeNode />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                </defs>
+                <rect
+                  x="60"
+                  y="60"
+                  width="280"
+                  height="280"
+                  rx="56"
+                  fill="url(#pg2)"
+                  filter="url(#glow1)"
+                />
+                <circle
+                  cx="200"
+                  cy="200"
+                  r="95"
+                  fill="none"
+                  stroke="rgba(255,255,255,0.25)"
+                  stroke-width="2"
+                />
+                <circle
+                  cx="200"
+                  cy="200"
+                  r="65"
+                  fill="none"
+                  stroke="rgba(255,255,255,0.35)"
+                  stroke-width="2"
+                />
+                <circle cx="200" cy="200" r="35" fill="none" stroke="white" stroke-width="3" />
+                <ellipse
+                  cx="200"
+                  cy="200"
+                  rx="95"
+                  ry="30"
+                  fill="none"
+                  stroke="rgba(255,255,255,0.3)"
+                  stroke-width="1.5"
+                />
+                <ellipse
+                  cx="200"
+                  cy="200"
+                  rx="30"
+                  ry="95"
+                  fill="none"
+                  stroke="rgba(255,255,255,0.3)"
+                  stroke-width="1.5"
+                />
+                <circle cx="200" cy="105" r="12" fill="white" />
+                <circle cx="295" cy="200" r="12" fill="white" />
+                <circle cx="200" cy="295" r="12" fill="white" />
+                <circle cx="105" cy="200" r="12" fill="white" />
+                <circle cx="270" cy="130" r="18" fill="url(#ag2)" />
+                <circle cx="200" cy="200" r="8" fill="white" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ss">
+        <h3 class="sst">Logo Symbolism</h3>
+        <div class="g2">
+          <div class="card card-m">
+            <h4 style="font-weight: 600; color: var(--p5); margin-bottom: 8px">Globe/Network</h4>
+            <p style="font-size: 0.875rem; color: var(--g6)">
+              The interconnected ecosystem — banks, TPPs, regulators, developers.
+            </p>
+          </div>
+          <div class="card card-m">
+            <h4 style="font-weight: 600; color: var(--p5); margin-bottom: 8px">Orbital Rings</h4>
+            <p style="font-size: 0.875rem; color: var(--g6)">
+              Levels of participation — sandbox, production-ready, live.
+            </p>
+          </div>
+          <div class="card card-m">
+            <h4 style="font-weight: 600; color: var(--p5); margin-bottom: 8px">Cardinal Nodes</h4>
+            <p style="font-size: 0.875rem; color: var(--g6)">
+              Four key stakeholders: Banks, TPPs, Regulators, Developers.
+            </p>
+          </div>
+          <div class="card card-m">
+            <h4 style="font-weight: 600; color: var(--a5); margin-bottom: 8px">Amber Accent</h4>
+            <p style="font-size: 0.875rem; color: var(--g6)">
+              The "live" indicator — activity, momentum, growth.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="pb"></div>
+
+    <section id="logo-usage" class="page">
+      <div class="sn">05</div>
+      <h2 class="st">Logo Usage Guidelines</h2>
+      <p class="si">
+        Proper logo usage ensures brand consistency. Follow these guidelines in all applications.
+      </p>
+      <div class="ss">
+        <h3 class="sst">Clear Space & Minimum Sizes</h3>
+        <p style="color: var(--g6); margin-bottom: 16px">
+          Maintain minimum clear space around the logo equal to the height of the accent dot. Never
+          use the logo smaller than 32px for digital or 0.5" for print.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Context</th>
+              <th>Minimum Size</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Digital</strong></td>
+              <td>32px</td>
+              <td>Use simplified favicon below 48px</td>
+            </tr>
+            <tr>
+              <td><strong>Print</strong></td>
+              <td>0.5" / 12mm</td>
+              <td>300dpi minimum resolution</td>
+            </tr>
+            <tr>
+              <td><strong>Full logo</strong></td>
+              <td>200px width</td>
+              <td>Use mark only if narrower</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="ss">
+        <h3 class="sst">Usage Rules</h3>
+        <div class="g2">
+          <div class="card" style="border-left: 4px solid var(--success)">
+            <h4 style="color: #065f46; margin-bottom: 8px">✓ Do</h4>
+            <ul style="color: var(--g6); font-size: 0.9375rem; padding-left: 20px">
+              <li>Use adequate clear space</li>
+              <li>Use dark version on dark backgrounds</li>
+              <li>Maintain aspect ratio</li>
+              <li>Use provided color variations</li>
+            </ul>
+          </div>
+          <div class="card" style="border-left: 4px solid var(--error)">
+            <h4 style="color: #991b1b; margin-bottom: 8px">✗ Don't</h4>
+            <ul style="color: var(--g6); font-size: 0.9375rem; padding-left: 20px">
+              <li>Stretch or distort</li>
+              <li>Change colors or gradients</li>
+              <li>Add effects not specified</li>
+              <li>Place on busy backgrounds</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="pb"></div>
+
+    <section id="colors" class="page">
+      <div class="sn">06</div>
+      <h2 class="st">Color System</h2>
+      <p class="si">
+        Our color palette balances professionalism with warmth. Teal conveys trust; amber adds
+        energy and approachability.
+      </p>
+      <div class="ss">
+        <h3 class="sst">Primary Colors</h3>
+        <div class="g3">
+          <div class="cc">
+            <div class="cs" style="background: #0d4f4f"><span class="csl">Primary</span></div>
+            <div class="ci">
+              <div class="cn">Teal 500</div>
+              <div class="cv">HEX: #0D4F4F<br />RGB: 13, 79, 79</div>
+            </div>
+          </div>
+          <div class="cc">
+            <div class="cs" style="background: #1a6b6b"><span class="csl">Light</span></div>
+            <div class="ci">
+              <div class="cn">Teal 400</div>
+              <div class="cv">HEX: #1A6B6B<br />RGB: 26, 107, 107</div>
+            </div>
+          </div>
+          <div class="cc">
+            <div class="cs" style="background: #083838"><span class="csl">Dark</span></div>
+            <div class="ci">
+              <div class="cn">Teal 700</div>
+              <div class="cv">HEX: #083838<br />RGB: 8, 56, 56</div>
+            </div>
+          </div>
+        </div>
+        <h4 style="font-weight: 600; margin: 24px 0 16px">Primary Scale</h4>
+        <div class="cscale">
+          <div class="csi dt" style="background: #cce1e1">50</div>
+          <div class="csi dt" style="background: #99c3c3">100</div>
+          <div class="csi dt" style="background: #66a5a5">200</div>
+          <div class="csi lt" style="background: #338787">300</div>
+          <div class="csi lt" style="background: #1a6b6b">400</div>
+          <div class="csi lt" style="background: #0d4f4f">500</div>
+          <div class="csi lt" style="background: #0a3f3f">600</div>
+          <div class="csi lt" style="background: #083030">700</div>
+          <div class="csi lt" style="background: #052020">800</div>
+          <div class="csi lt" style="background: #031010">900</div>
+        </div>
+      </div>
+      <div class="ss">
+        <h3 class="sst">Accent Colors</h3>
+        <div class="g3">
+          <div class="cc">
+            <div class="cs" style="background: #e8a85c"><span class="csl">Accent</span></div>
+            <div class="ci">
+              <div class="cn">Amber 500</div>
+              <div class="cv">HEX: #E8A85C<br />RGB: 232, 168, 92</div>
+            </div>
+          </div>
+          <div class="cc">
+            <div class="cs" style="background: #f5c989"><span class="csl">Light</span></div>
+            <div class="ci">
+              <div class="cn">Amber 300</div>
+              <div class="cv">HEX: #F5C989<br />RGB: 245, 201, 137</div>
+            </div>
+          </div>
+          <div class="cc">
+            <div class="cs" style="background: #d4893a"><span class="csl">Dark</span></div>
+            <div class="ci">
+              <div class="cn">Amber 600</div>
+              <div class="cv">HEX: #D4893A<br />RGB: 212, 137, 58</div>
+            </div>
+          </div>
+        </div>
+        <div class="hb" style="margin-top: 24px">
+          <h4>Usage Notes</h4>
+          <p>
+            Use accent colors sparingly for emphasis — CTAs, highlights, badges, and the logo's
+            "live" indicator. The accent should draw attention without overwhelming the primary
+            palette.
+          </p>
+        </div>
+      </div>
+    </section>
+    <div class="pb"></div>
+
+    <section id="typography" class="page">
+      <div class="sn">07</div>
+      <h2 class="st">Typography</h2>
+      <p class="si">
+        Our typography system uses three typefaces, each serving a specific purpose to create
+        hierarchy and readability.
+      </p>
+      <div class="ss">
+        <h3 class="sst">Display: Fraunces</h3>
+        <div class="ts">
+          <div class="td df">Fraunces</div>
+          <p style="color: var(--g6); margin-bottom: 16px">
+            Our display typeface for headlines and titles. Brings personality while maintaining
+            professionalism.
+          </p>
+          <p style="font-family: var(--fd); font-size: 1.125rem; color: var(--g6)">
+            ABCDEFGHIJKLMNOPQRSTUVWXYZ<br />abcdefghijklmnopqrstuvwxyz<br />0123456789
+          </p>
+          <div class="tm">
+            <div class="tmi">
+              <span class="tml">Family: </span><span class="tmv">Fraunces</span>
+            </div>
+            <div class="tmi">
+              <span class="tml">Weights: </span><span class="tmv">400, 500, 600, 700</span>
+            </div>
+            <div class="tmi">
+              <span class="tml">Fallback: </span><span class="tmv">Georgia, serif</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ss">
+        <h3 class="sst">Body: DM Sans</h3>
+        <div class="ts">
+          <div class="td bf">DM Sans</div>
+          <p style="color: var(--g6); margin-bottom: 16px">
+            Our primary body typeface for all general content and UI. Clean, modern, highly legible.
+          </p>
+          <p style="font-family: var(--fb); font-size: 1.125rem; color: var(--g6)">
+            ABCDEFGHIJKLMNOPQRSTUVWXYZ<br />abcdefghijklmnopqrstuvwxyz<br />0123456789
+          </p>
+          <div class="tm">
+            <div class="tmi"><span class="tml">Family: </span><span class="tmv">DM Sans</span></div>
+            <div class="tmi">
+              <span class="tml">Weights: </span><span class="tmv">400, 500, 600, 700</span>
+            </div>
+            <div class="tmi">
+              <span class="tml">Fallback: </span><span class="tmv">system-ui, sans-serif</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ss">
+        <h3 class="sst">Mono: JetBrains Mono</h3>
+        <div class="ts">
+          <div class="td mf">JetBrains Mono</div>
+          <p style="color: var(--g6); margin-bottom: 16px">
+            Our monospace typeface for code, technical content, and data displays.
+          </p>
+          <p style="font-family: var(--fm); font-size: 1rem; color: var(--g6)">
+            ABCDEFGHIJKLMNOPQRSTUVWXYZ<br />abcdefghijklmnopqrstuvwxyz<br />0123456789 {} [] () =>
+            !==
+          </p>
+          <div class="tm">
+            <div class="tmi">
+              <span class="tml">Family: </span><span class="tmv">JetBrains Mono</span>
+            </div>
+            <div class="tmi">
+              <span class="tml">Weights: </span><span class="tmv">400, 500</span>
+            </div>
+            <div class="tmi">
+              <span class="tml">Fallback: </span><span class="tmv">Consolas, monospace</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="pb"></div>
+
+    <section id="spacing" class="page">
+      <div class="sn">08</div>
+      <h2 class="st">Spacing & Layout</h2>
+      <p class="si">
+        Consistent spacing creates visual rhythm and hierarchy. Our scale is based on a 4px base
+        unit.
+      </p>
+      <div class="ss">
+        <h3 class="sst">Spacing Scale</h3>
+        <div class="sg">
+          <div class="spi">
+            <div class="spv"><div class="spb" style="height: 4px"></div></div>
+            <div class="spl">space-1</div>
+            <div class="spvl">4px</div>
+          </div>
+          <div class="spi">
+            <div class="spv"><div class="spb" style="height: 8px"></div></div>
+            <div class="spl">space-2</div>
+            <div class="spvl">8px</div>
+          </div>
+          <div class="spi">
+            <div class="spv"><div class="spb" style="height: 16px"></div></div>
+            <div class="spl">space-4</div>
+            <div class="spvl">16px</div>
+          </div>
+          <div class="spi">
+            <div class="spv"><div class="spb" style="height: 24px"></div></div>
+            <div class="spl">space-6</div>
+            <div class="spvl">24px</div>
+          </div>
+          <div class="spi">
+            <div class="spv"><div class="spb" style="height: 32px"></div></div>
+            <div class="spl">space-8</div>
+            <div class="spvl">32px</div>
+          </div>
+          <div class="spi">
+            <div class="spv"><div class="spb" style="height: 48px"></div></div>
+            <div class="spl">space-12</div>
+            <div class="spvl">48px</div>
+          </div>
+        </div>
+      </div>
+      <div class="ss">
+        <h3 class="sst">Border Radius</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Token</th>
+              <th>Value</th>
+              <th>Use Case</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>radius-sm</strong></td>
+              <td>6px</td>
+              <td>Tags, small buttons</td>
+            </tr>
+            <tr>
+              <td><strong>radius-md</strong></td>
+              <td>10px</td>
+              <td>Buttons, inputs</td>
+            </tr>
+            <tr>
+              <td><strong>radius-lg</strong></td>
+              <td>16px</td>
+              <td>Cards, containers</td>
+            </tr>
+            <tr>
+              <td><strong>radius-xl</strong></td>
+              <td>24px</td>
+              <td>Modals, large panels</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <div class="pb"></div>
+
+    <section id="components" class="page">
+      <div class="sn">09</div>
+      <h2 class="st">UI Components</h2>
+      <p class="si">
+        Reusable components ensure consistency across all digital products and interfaces.
+      </p>
+      <div class="ss">
+        <h3 class="sst">Buttons</h3>
+        <div class="card card-m" style="padding: 32px">
+          <p
+            style="
+              font-size: 0.6875rem;
+              font-weight: 600;
+              text-transform: uppercase;
+              letter-spacing: 0.05em;
+              color: var(--g5);
+              margin-bottom: 16px;
+            "
+          >
+            Button Variants
+          </p>
+          <div class="br">
+            <button class="btn btn-p btn-lg">Large Primary</button
+            ><button class="btn btn-p">Default Primary</button
+            ><button class="btn btn-p btn-sm">Small Primary</button>
+          </div>
+          <div class="br">
+            <button class="btn btn-s">Secondary</button
+            ><button class="btn btn-a">Accent CTA</button>
+          </div>
+        </div>
+      </div>
+      <div class="ss">
+        <h3 class="sst">Tags & Badges</h3>
+        <div class="card card-m" style="padding: 32px">
+          <p
+            style="
+              font-size: 0.6875rem;
+              font-weight: 600;
+              text-transform: uppercase;
+              letter-spacing: 0.05em;
+              color: var(--g5);
+              margin-bottom: 16px;
+            "
+          >
+            Status Tags
+          </p>
+          <div class="tr">
+            <span class="tag tag-p">Primary</span><span class="tag tag-a">Accent</span
+            ><span class="tag tag-s">Live</span><span class="tag tag-w">Pending</span
+            ><span class="tag tag-e">Error</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="pb"></div>
+
+    <section id="voice" class="page">
+      <div class="sn">10</div>
+      <h2 class="st">Voice & Tone</h2>
+      <p class="si">
+        Our voice is consistent; our tone adapts to context. Here's how we communicate.
+      </p>
+      <div class="ss">
+        <h3 class="sst">Writing Principles</h3>
+        <div class="g2">
+          <div class="card">
+            <h4 style="font-weight: 600; color: var(--p5); margin-bottom: 8px">Be Clear</h4>
+            <p style="font-size: 0.9375rem; color: var(--g6)">
+              Use plain language. Avoid jargon. If technical terms are necessary, explain them.
+            </p>
+          </div>
+          <div class="card">
+            <h4 style="font-weight: 600; color: var(--p5); margin-bottom: 8px">Be Helpful</h4>
+            <p style="font-size: 0.9375rem; color: var(--g6)">
+              Anticipate questions. Provide context. Link to resources.
+            </p>
+          </div>
+          <div class="card">
+            <h4 style="font-weight: 600; color: var(--p5); margin-bottom: 8px">Be Honest</h4>
+            <p style="font-size: 0.9375rem; color: var(--g6)">
+              Never overstate our authority. Clarify our community nature.
+            </p>
+          </div>
+          <div class="card">
+            <h4 style="font-weight: 600; color: var(--p5); margin-bottom: 8px">Be Inclusive</h4>
+            <p style="font-size: 0.9375rem; color: var(--g6)">
+              Welcome all skill levels. Avoid assumptions about knowledge.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="ss">
+        <h3 class="sst">Key Messages</h3>
+        <div class="card card-p" style="text-align: center; padding: 32px">
+          <p style="font-family: var(--fd); font-size: 1.5rem; font-weight: 600">
+            The community home for UAE Open Finance
+          </p>
+        </div>
+        <div class="hb" style="margin-top: 24px">
+          <h4>Required Disclaimer</h4>
+          <p>
+            "OpenFinance-OS is a community initiative and is not affiliated with, endorsed by, or
+            officially connected to the CBUAE, Al Tareq Platform, or any financial institution.
+            Always verify information with official sources."
+          </p>
+        </div>
+      </div>
+    </section>
+    <div class="pb"></div>
+
+    <section id="downloads" class="page">
+      <div class="sn">11</div>
+      <h2 class="st">Downloads & Resources</h2>
+      <p class="si">Download official brand assets for use in your projects and communications.</p>
+      <div class="ss">
+        <h3 class="sst">Logo Files</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Asset</th>
+              <th>Format</th>
+              <th>Use Case</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>logo-icon.svg</strong></td>
+              <td>SVG</td>
+              <td>Primary logo mark, scalable</td>
+            </tr>
+            <tr>
+              <td><strong>logo-icon-dark.svg</strong></td>
+              <td>SVG</td>
+              <td>Dark backgrounds with glow</td>
+            </tr>
+            <tr>
+              <td><strong>logo-full.svg</strong></td>
+              <td>SVG</td>
+              <td>Full logo with wordmark</td>
+            </tr>
+            <tr>
+              <td><strong>logo-favicon.svg</strong></td>
+              <td>SVG</td>
+              <td>Simplified for small sizes</td>
+            </tr>
+            <tr>
+              <td><strong>logo-icon-512.png</strong></td>
+              <td>PNG</td>
+              <td>High-res raster, app stores</td>
+            </tr>
+            <tr>
+              <td><strong>apple-touch-icon.png</strong></td>
+              <td>PNG</td>
+              <td>iOS home screen</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="ss">
+        <h3 class="sst">Design Tokens (CSS)</h3>
+        <div class="code">
+          <code
+            >/* Primary Colors */ --color-primary-500: #0D4F4F; --color-primary-400: #1A6B6B; /*
+            Accent Colors */ --color-accent-500: #E8A85C; --color-accent-300: #F5C989; /* Typography
+            */ --font-display: 'Fraunces', Georgia, serif; --font-body: 'DM Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;</code
+          >
+        </div>
+      </div>
+      <div class="card card-m" style="text-align: center; padding: 40px; margin-top: 32px">
+        <p
+          style="
+            font-family: var(--fd);
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--p5);
+            margin-bottom: 8px;
+          "
+        >
+          Built by the community, for everyone.
+        </p>
+        <p style="font-size: 0.9375rem; color: var(--g6)">
+          OpenFinance-OS Brand Guidelines v1.0 · December 2025
+        </p>
+      </div>
+    </section>
+  </body>
+</html>
