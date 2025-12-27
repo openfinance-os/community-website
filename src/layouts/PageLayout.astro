@@ -14,7 +14,16 @@ interface Props {
   articleSchema?: object;
 }
 
-const { title, description, lastUpdated, ogImage, type, publishedTime, modifiedTime, articleSchema } = Astro.props;
+const {
+  title,
+  description,
+  lastUpdated,
+  ogImage,
+  type,
+  publishedTime,
+  modifiedTime,
+  articleSchema,
+} = Astro.props;
 ---
 
 <BaseLayout

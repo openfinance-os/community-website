@@ -29,9 +29,7 @@ const organizationSchema = {
   url: Astro.site?.toString() || 'https://openfinance-os.org',
   logo: new URL('/brand/logo-full.svg', Astro.site).toString(),
   description: 'Community-owned platform providing visibility into the UAE Open Finance ecosystem',
-  sameAs: [
-    'https://github.com/openfinance-os'
-  ]
+  sameAs: ['https://github.com/openfinance-os'],
 };
 
 // WebSite structured data for search
@@ -43,8 +41,8 @@ const websiteSchema = {
   description: 'The community home for UAE Open Finance',
   publisher: {
     '@type': 'Organization',
-    name: 'OpenFinance-OS'
-  }
+    name: 'OpenFinance-OS',
+  },
 };
 ---
 
@@ -82,7 +80,11 @@ const websiteSchema = {
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
     <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
-    {articleSchema && <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />}
+    {
+      articleSchema && (
+        <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+      )
+    }
 
     <!-- Fonts - Brand: DM Sans + Fraunces (see PRD Section 14) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

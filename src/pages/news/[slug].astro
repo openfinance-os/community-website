@@ -44,20 +44,20 @@ const articleSchema = {
   dateModified: entry.data.date.toISOString(),
   author: {
     '@type': 'Person',
-    name: entry.data.author
+    name: entry.data.author,
   },
   publisher: {
     '@type': 'Organization',
     name: 'OpenFinance-OS',
     logo: {
       '@type': 'ImageObject',
-      url: new URL('/brand/logo-full.svg', Astro.site).toString()
-    }
+      url: new URL('/brand/logo-full.svg', Astro.site).toString(),
+    },
   },
   mainEntityOfPage: {
     '@type': 'WebPage',
-    '@id': new URL(`/news/${entry.slug}`, Astro.site).toString()
-  }
+    '@id': new URL(`/news/${entry.slug}`, Astro.site).toString(),
+  },
 };
 ---
 

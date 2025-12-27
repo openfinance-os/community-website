@@ -78,18 +78,18 @@ const eventSchema = {
   location: event.data.isOnline
     ? {
         '@type': 'VirtualLocation',
-        url: event.data.url || Astro.site?.toString()
+        url: event.data.url || Astro.site?.toString(),
       }
     : {
         '@type': 'Place',
         name: event.data.location,
-        address: event.data.location
+        address: event.data.location,
       },
   organizer: {
     '@type': 'Organization',
-    name: event.data.organizer
+    name: event.data.organizer,
   },
-  url: new URL(`/events/${event.slug}`, Astro.site).toString()
+  url: new URL(`/events/${event.slug}`, Astro.site).toString(),
 };
 ---
 
