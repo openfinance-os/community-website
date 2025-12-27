@@ -110,6 +110,30 @@ const byAuthCapabilities = summary.byAuthCapabilities || { ciba: 0, dcr: 0, redi
 
 const activeCount = byStatus.Active || 0;
 
+// Aggregate by Company Type using profile data
+const byType: Record<string, number> = {};
+const byOwnership: Record<string, number> = {};
+
+for (const participant of participants) {
+  const profile =
+    profiles[participant.name] ||
+    profiles[participant.shortName] ||
+    Object.values(profiles).find(
+      (p: any) =>
+        p.shortName === participant.shortName ||
+        p.fullName === participant.legalName ||
+        participant.name.includes(p.shortName)
+    );
+
+  // Aggregate by type
+  const type = profile?.type || 'unknown';
+  byType[type] = (byType[type] || 0) + 1;
+
+  // Aggregate by ownership
+  const ownership = profile?.ownership || 'Unknown';
+  byOwnership[ownership] = (byOwnership[ownership] || 0) + 1;
+}
+
 // Role chart data
 const roleColors = {
   LFI: 'var(--color-primary-500)',
@@ -143,6 +167,58 @@ const cityData = Object.entries(byCity).map(([label, value]) => ({
   value: value as number,
   color: (cityColors as any)[label] || 'var(--color-gray-400)',
 }));
+
+// Type chart data
+const typeColors = {
+  'commercial-bank': '#0d9488',
+  'islamic-bank': '#059669',
+  'digital-bank': '#6366f1',
+  'international-bank': '#3b82f6',
+  fintech: '#8b5cf6',
+  payments: '#ec4899',
+  insurance: '#f59e0b',
+  exchange: '#f97316',
+  infrastructure: '#64748b',
+  unknown: '#9ca3af',
+} as const;
+
+const typeLabels: Record<string, string> = {
+  'commercial-bank': 'Commercial Banks',
+  'islamic-bank': 'Islamic Banks',
+  'digital-bank': 'Digital Banks',
+  'international-bank': 'International Banks',
+  fintech: 'Fintechs',
+  payments: 'Payment Services',
+  insurance: 'Insurance',
+  exchange: 'Exchange Houses',
+  infrastructure: 'Infrastructure',
+  unknown: 'Other',
+};
+
+const typeData = Object.entries(byType)
+  .sort((a, b) => b[1] - a[1])
+  .map(([key, value]) => ({
+    label: typeLabels[key] || key,
+    value: value as number,
+    color: (typeColors as any)[key] || 'var(--color-gray-400)',
+  }));
+
+// Ownership chart data
+const ownershipColors = {
+  Government: '#0d9488',
+  Private: '#6366f1',
+  Public: '#f59e0b',
+  'State-owned': '#059669',
+  Unknown: '#9ca3af',
+} as const;
+
+const ownershipData = Object.entries(byOwnership)
+  .sort((a, b) => b[1] - a[1])
+  .map(([label, value]) => ({
+    label,
+    value: value as number,
+    color: (ownershipColors as any)[label] || 'var(--color-gray-400)',
+  }));
 
 // API family labels
 const apiFamilyLabels = {
@@ -340,6 +416,54 @@ const displayParticipants = participants;
           <p class="chart-description">Participants by emirate headquarters</p>
           <div class="chart-container">
             <DonutChart data={cityData} size={180} strokeWidth={24} showLegend={true} />
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <h2 class="chart-title">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <path d="M3 9h18"></path>
+              <path d="M9 21V9"></path>
+            </svg>
+            Company Types
+          </h2>
+          <p class="chart-description">Institution categories in the ecosystem</p>
+          <div class="chart-container">
+            <DonutChart data={typeData} size={180} strokeWidth={24} showLegend={true} />
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <h2 class="chart-title">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+              <path d="M2 17l10 5 10-5"></path>
+              <path d="M2 12l10 5 10-5"></path>
+            </svg>
+            Ownership Structure
+          </h2>
+          <p class="chart-description">Government vs private sector participation</p>
+          <div class="chart-container">
+            <DonutChart data={ownershipData} size={180} strokeWidth={24} showLegend={true} />
           </div>
         </div>
 
