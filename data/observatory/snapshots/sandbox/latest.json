@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-12-27T06:29:43.973Z",
+  "timestamp": "2025-12-28T06:30:18.063Z",
   "source": "https://data.sandbox.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "sandbox",
@@ -24,7 +24,12 @@
       "London": 2,
       "Sharjah": 1
     },
-    "apiFamilies": ["accounts", "cop", "payments", "products"],
+    "apiFamilies": [
+      "accounts",
+      "cop",
+      "payments",
+      "products"
+    ],
     "liveInProduction": 16,
     "shariahCompliantCount": 10,
     "multiRoleCount": 55,
@@ -52,7 +57,11 @@
       "legalName": "Arab African International Bank",
       "shortName": "AAIB",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "LFI"
+      ],
       "city": "Unknown",
       "registrationNumber": "01.02.01.013.1970.02",
       "apiFamilies": [],
@@ -73,7 +82,12 @@
       "legalName": "Abu Dhabi Commercial Bank PBJC",
       "shortName": "ADCB",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
       "city": "Unknown",
       "registrationNumber": "01.01.01.040.1985.01 / 11086687",
       "apiFamilies": [],
@@ -94,7 +108,12 @@
       "legalName": "Abu Dhabi Islamic Bank P.J.S.C",
       "shortName": "ADIB",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
       "city": "Abu Dhabi",
       "registrationNumber": "01.01.02.042.1997.01",
       "apiFamilies": [],
@@ -115,7 +134,12 @@
       "legalName": "ABU DHABI NATIONAL INSURANCE COMPANY PJSC",
       "shortName": "ADNIC",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
       "city": "Abu Dhabi",
       "registrationNumber": "National001",
       "apiFamilies": [],
@@ -136,7 +160,12 @@
       "legalName": "Ajman Bank P.J.S.C",
       "shortName": "Ajman Bank",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
       "city": "Unknown",
       "registrationNumber": "01.01.02.048.2008.04",
       "apiFamilies": [],
@@ -157,7 +186,12 @@
       "legalName": "Al Ansari Exchange",
       "shortName": "Al Ansari Exchange",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
       "city": "Unknown",
       "registrationNumber": "03.01.01.002.1981.01",
       "apiFamilies": [],
@@ -178,7 +212,12 @@
       "legalName": "Al Buharia National Insurance Co",
       "shortName": "Al Buharia National Insurance Co",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
       "city": "Unknown",
       "registrationNumber": "National015",
       "apiFamilies": [],
@@ -199,7 +238,12 @@
       "legalName": "Al Hilal Bank P.J.S.C",
       "shortName": "Al Hilal Bank",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
       "city": "Unknown",
       "registrationNumber": "01.01.02.045.2007.01",
       "apiFamilies": [],
@@ -220,7 +264,12 @@
       "legalName": "AL ITTIHAD AL WATANI (GENERAL INSURANCE SOCIETY FOR NEAR EAST)",
       "shortName": "AL ITTIHAD AL WATANI (GENERAL INSURANCE SOCIETY FOR NEAR EAST)",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
       "city": "Unknown",
       "registrationNumber": "Foreign042",
       "apiFamilies": [],
@@ -241,7 +290,11 @@
       "legalName": "Al Maryah Community Bank L.L.C.",
       "shortName": "Al Maryah Bank",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "LFI"
+      ],
       "city": "Unknown",
       "registrationNumber": "01.01.07.062.2021.01",
       "apiFamilies": [],
@@ -262,7 +315,11 @@
       "legalName": "Arab Bank for Investment & Foreign Trade",
       "shortName": "Al Masraf",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "LFI"
+      ],
       "city": "Unknown",
       "registrationNumber": "01.01.01.030.1976.01",
       "apiFamilies": [],
@@ -283,7 +340,12 @@
       "legalName": "Al Wathba National Insurance Co",
       "shortName": "Al Wathba National Insurance Co",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
       "city": "Unknown",
       "registrationNumber": "National010",
       "apiFamilies": [],
@@ -304,7 +366,12 @@
       "legalName": "ALAIN AHLIA INSURANCE COMPANY",
       "shortName": "ALAIN AHLIA INSURANCE COMPANY",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
       "city": "Abu Dhabi",
       "registrationNumber": "National003",
       "apiFamilies": [],
@@ -325,7 +392,12 @@
       "legalName": "American Life Insurance Company (MetLife)",
       "shortName": "American Life Insurance Company (MetLife)",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
       "city": "Unknown",
       "registrationNumber": "Foreign034",
       "apiFamilies": [],
@@ -346,10 +418,17 @@
       "legalName": "Arab Financial Services LLC",
       "shortName": "Arab Financial Services LLC",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP"
+      ],
       "city": "Dubai",
       "registrationNumber": "08.01.02.021.2024.02",
-      "apiFamilies": ["cop", "payments"],
+      "apiFamilies": [
+        "cop",
+        "payments"
+      ],
       "hasAuthServer": true,
       "isShariahCompliant": false,
       "authCapabilities": {
@@ -380,7 +459,10 @@
       "legalName": "Bancify Technologies FZ-LLC",
       "shortName": "Bancify",
       "status": "Active",
-      "roles": ["BDSP", "BSIP"],
+      "roles": [
+        "BDSP",
+        "BSIP"
+      ],
       "city": "Unknown",
       "registrationNumber": "NA",
       "apiFamilies": [],
@@ -401,7 +483,12 @@
       "legalName": "Bank of China Limited",
       "shortName": "Bank of China",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
       "city": "Unknown",
       "registrationNumber": "01.02.03.055.2014.01",
       "apiFamilies": [],
@@ -422,7 +509,11 @@
       "legalName": "Bawabat Altarabut For Information Technology L.L.C",
       "shortName": "Bawabat Altarabut For Information Technology L.L.C",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP"
+      ],
       "city": "Unknown",
       "registrationNumber": "1413039",
       "apiFamilies": [],
@@ -443,10 +534,17 @@
       "legalName": "COMMERCIAL BANK OF DUBAI",
       "shortName": "CBD",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
       "city": "Dubai",
       "registrationNumber": "01.01.01.010.1969.02",
-      "apiFamilies": ["payments"],
+      "apiFamilies": [
+        "payments"
+      ],
       "hasAuthServer": true,
       "isShariahCompliant": true,
       "authCapabilities": {
@@ -477,7 +575,12 @@
       "legalName": "Commercial Bank International PJSC",
       "shortName": "CBI",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
       "city": "Unknown",
       "registrationNumber": "01.01.01.041.1991.02",
       "apiFamilies": [],
@@ -498,10 +601,16 @@
       "legalName": "Citibank NA, UAE",
       "shortName": "Citibank NA, UAE",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "LFI"
+      ],
       "city": "Dubai",
       "registrationNumber": "01.02.01.003.1958.02",
-      "apiFamilies": ["payments"],
+      "apiFamilies": [
+        "payments"
+      ],
       "hasAuthServer": true,
       "isShariahCompliant": true,
       "authCapabilities": {
@@ -526,7 +635,12 @@
       "legalName": "Dubai Islamic Bank P.J.S.C",
       "shortName": "DIB",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
       "city": "Unknown",
       "registrationNumber": "01.01.02.025.1975.02 / 10027962",
       "apiFamilies": [],
@@ -547,7 +661,12 @@
       "legalName": "Dubai Insurance Company",
       "shortName": "Dubai Insurance Company",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
       "city": "Unknown",
       "registrationNumber": "National004",
       "apiFamilies": [],
@@ -568,7 +687,12 @@
       "legalName": "Emirates Insurance Company",
       "shortName": "EIC",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
       "city": "Dubai",
       "registrationNumber": "National002",
       "apiFamilies": [],
@@ -589,10 +713,19 @@
       "legalName": "EMIRATES NBD BANK PJSC",
       "shortName": "ENBD",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
       "city": "Dubai",
       "registrationNumber": "01.01.01.003.1963.02",
-      "apiFamilies": ["accounts", "cop", "payments"],
+      "apiFamilies": [
+        "accounts",
+        "cop",
+        "payments"
+      ],
       "hasAuthServer": true,
       "isShariahCompliant": true,
       "authCapabilities": {
@@ -641,10 +774,17 @@
       "legalName": "First Abu Dhabi Islamic Finance PJSC",
       "shortName": "FAB",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
       "city": "Abu Dhabi",
       "registrationNumber": "02.01.02.012.2007.01",
-      "apiFamilies": ["payments"],
+      "apiFamilies": [
+        "payments"
+      ],
       "hasAuthServer": true,
       "isShariahCompliant": true,
       "authCapabilities": {
@@ -669,7 +809,11 @@
       "legalName": "Fintech Galaxy FZE",
       "shortName": "Fintech Galaxy",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP"
+      ],
       "city": "Unknown",
       "registrationNumber": "00.00.00.003.2024.10",
       "apiFamilies": [],
@@ -690,7 +834,10 @@
       "legalName": "Grow High Technology Serices LLC (GrowX.Global)",
       "shortName": "Grow High Technology Serices LLC (GrowX.Global)",
       "status": "Active",
-      "roles": ["BDSP", "BSIP"],
+      "roles": [
+        "BDSP",
+        "BSIP"
+      ],
       "city": "Unknown",
       "registrationNumber": "Foreign036",
       "apiFamilies": [],
@@ -711,7 +858,12 @@
       "legalName": "Gulf Insurance Group (Gulf) B.S.C Closed",
       "shortName": "Gulf Insurance Group (Gulf) B.S.C Closed",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
       "city": "Unknown",
       "registrationNumber": "Foreign069",
       "apiFamilies": [],
@@ -732,10 +884,18 @@
       "legalName": "HSBC Bank Middle East Limited",
       "shortName": "HSBC",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
       "city": "Dubai",
       "registrationNumber": "01.02.01.001.1946.02 / 12192377",
-      "apiFamilies": ["cop", "payments"],
+      "apiFamilies": [
+        "cop",
+        "payments"
+      ],
       "hasAuthServer": true,
       "isShariahCompliant": false,
       "authCapabilities": {
@@ -766,7 +926,10 @@
       "legalName": "Lean Technologies Ltd",
       "shortName": "Lean Technologies",
       "status": "Active",
-      "roles": ["BDSP", "BSIP"],
+      "roles": [
+        "BDSP",
+        "BSIP"
+      ],
       "city": "Unknown",
       "registrationNumber": "200033",
       "apiFamilies": [],
@@ -787,7 +950,11 @@
       "legalName": "Lending Advisor",
       "shortName": "Lending Advisor",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP"
+      ],
       "city": "Unknown",
       "registrationNumber": "NA",
       "apiFamilies": [],
@@ -808,7 +975,10 @@
       "legalName": "MadfooatCom for E Payments DMCC",
       "shortName": "MadfooatCom for E Payments DMCC",
       "status": "Active",
-      "roles": ["BDSP", "BSIP"],
+      "roles": [
+        "BDSP",
+        "BSIP"
+      ],
       "city": "Unknown",
       "registrationNumber": "00.00.00.004.2024.10",
       "apiFamilies": [],
@@ -829,10 +999,17 @@
       "legalName": "MASHREQBANK PSC",
       "shortName": "Mashreq",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
       "city": "Dubai",
       "registrationNumber": "01.01.01.005.1967.02",
-      "apiFamilies": ["payments"],
+      "apiFamilies": [
+        "payments"
+      ],
       "hasAuthServer": true,
       "isShariahCompliant": true,
       "authCapabilities": {
@@ -857,10 +1034,17 @@
       "legalName": "Mercury Payments Services LLC",
       "shortName": "Mercury",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP"
+      ],
       "city": "Dubai",
       "registrationNumber": "08.01.03.019.2024.02",
-      "apiFamilies": ["payments", "products"],
+      "apiFamilies": [
+        "payments",
+        "products"
+      ],
       "hasAuthServer": true,
       "isShariahCompliant": true,
       "authCapabilities": {
@@ -891,7 +1075,11 @@
       "legalName": "myAlfred LLC",
       "shortName": "myAlfred",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP"
+      ],
       "city": "Unknown",
       "registrationNumber": "NA",
       "apiFamilies": [],
@@ -912,7 +1100,11 @@
       "legalName": "NATIONAL BANK OF UMM AL-QAIWAIN",
       "shortName": "NATIONAL BANK OF UMM AL-QAIWAIN",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "LFI"
+      ],
       "city": "Unknown",
       "registrationNumber": "01.01.01.037.1982.05",
       "apiFamilies": [],
@@ -933,7 +1125,12 @@
       "legalName": "National Health Insurance Company - Daman PJSC",
       "shortName": "National Health Insurance Company - Daman PJSC",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
       "city": "Unknown",
       "registrationNumber": "National073",
       "apiFamilies": [],
@@ -954,7 +1151,12 @@
       "legalName": "National Bank of Fujairah PJSC",
       "shortName": "NBF",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
       "city": "Unknown",
       "registrationNumber": "01.01.01.039.1984.07",
       "apiFamilies": [],
@@ -975,7 +1177,11 @@
       "legalName": "NearGo L.L.C-FZ",
       "shortName": "NearGo",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP"
+      ],
       "city": "Unknown",
       "registrationNumber": "00.00.000.010.2024.10",
       "apiFamilies": [],
@@ -996,7 +1202,10 @@
       "legalName": "Nomod Billing LLC",
       "shortName": "Nomod",
       "status": "Active",
-      "roles": ["BDSP", "BSIP"],
+      "roles": [
+        "BDSP",
+        "BSIP"
+      ],
       "city": "Unknown",
       "registrationNumber": "00.00.000.005.2024.10",
       "apiFamilies": [],
@@ -1017,7 +1226,10 @@
       "legalName": "NymCard Payment Services L.L.C.",
       "shortName": "NymCard Payment Services L.L.C.",
       "status": "Active",
-      "roles": ["BDSP", "BSIP"],
+      "roles": [
+        "BDSP",
+        "BSIP"
+      ],
       "city": "Unknown",
       "registrationNumber": "07.01.02.001.2022.02",
       "apiFamilies": [],
@@ -1038,10 +1250,21 @@
       "legalName": "OZONE FINANCIAL TECHNOLOGY LIMITED",
       "shortName": "Ozone API",
       "status": "Active",
-      "roles": ["API Read_Write", "BDSP", "BSIP", "ISP", "LFI", "TSP"],
+      "roles": [
+        "API Read_Write",
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI",
+        "TSP"
+      ],
       "city": "London",
       "registrationNumber": "10969115",
-      "apiFamilies": ["accounts", "cop", "payments"],
+      "apiFamilies": [
+        "accounts",
+        "cop",
+        "payments"
+      ],
       "hasAuthServer": true,
       "isShariahCompliant": true,
       "authCapabilities": {
@@ -1078,7 +1301,10 @@
       "legalName": "PAY TEN PAYMENT SERVICES PROVIDER LLC",
       "shortName": "PAY TEN PAYMENT SERVICES PROVIDER LLC",
       "status": "Active",
-      "roles": ["BDSP", "BSIP"],
+      "roles": [
+        "BDSP",
+        "BSIP"
+      ],
       "city": "Unknown",
       "registrationNumber": "08.01.03.020.2024.02",
       "apiFamilies": [],
@@ -1099,7 +1325,10 @@
       "legalName": "Paymob Technologies LLC",
       "shortName": "Paymob",
       "status": "Active",
-      "roles": ["BDSP", "BSIP"],
+      "roles": [
+        "BDSP",
+        "BSIP"
+      ],
       "city": "Unknown",
       "registrationNumber": "NA",
       "apiFamilies": [],
@@ -1120,10 +1349,23 @@
       "legalName": "Raidiam Services Limited",
       "shortName": "Raidiam",
       "status": "Active",
-      "roles": ["API Read_Write", "BDSP", "BSIP", "ISP", "LFI", "TSP", "pki-test-harness"],
+      "roles": [
+        "API Read_Write",
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI",
+        "TSP",
+        "pki-test-harness"
+      ],
       "city": "London",
       "registrationNumber": "107428512",
-      "apiFamilies": ["accounts", "cop", "payments", "products"],
+      "apiFamilies": [
+        "accounts",
+        "cop",
+        "payments",
+        "products"
+      ],
       "hasAuthServer": true,
       "isShariahCompliant": false,
       "authCapabilities": {
@@ -1226,7 +1468,11 @@
       "legalName": "Sav Technologies Limited",
       "shortName": "Sav",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP"
+      ],
       "city": "Unknown",
       "registrationNumber": "00.00.000.005.2024.11",
       "apiFamilies": [],
@@ -1247,7 +1493,12 @@
       "legalName": "Sharjah Islamic Bank",
       "shortName": "Sharjah Islamic Bank",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
       "city": "Sharjah",
       "registrationNumber": "01.01.02.026.1975.03",
       "apiFamilies": [],
@@ -1268,7 +1519,10 @@
       "legalName": "Spare Digital Technologies LLC S.O.C",
       "shortName": "Spare Digital Technologies LLC S.O.C",
       "status": "Active",
-      "roles": ["BDSP", "BSIP"],
+      "roles": [
+        "BDSP",
+        "BSIP"
+      ],
       "city": "Unknown",
       "registrationNumber": "00.00.00.006.2024.10",
       "apiFamilies": [],
@@ -1289,7 +1543,10 @@
       "legalName": "Spire Technologies WLL",
       "shortName": "Spire",
       "status": "Active",
-      "roles": ["BDSP", "BSIP"],
+      "roles": [
+        "BDSP",
+        "BSIP"
+      ],
       "city": "Unknown",
       "registrationNumber": "00.00.00.008.2024.10",
       "apiFamilies": [],
@@ -1310,7 +1567,11 @@
       "legalName": "Standard Chartered Bank",
       "shortName": "Standard Chartered",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "LFI"
+      ],
       "city": "Dubai",
       "registrationNumber": "01.02.01.002.1958.02",
       "apiFamilies": [],
@@ -1331,7 +1592,12 @@
       "legalName": "Sukoon Insurance PJSC",
       "shortName": "Sukoon Insurance",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
       "city": "Unknown",
       "registrationNumber": "National009",
       "apiFamilies": [],
@@ -1352,7 +1618,10 @@
       "legalName": "Union Insurance",
       "shortName": "Union Insurance",
       "status": "Active",
-      "roles": ["ISP", "LFI"],
+      "roles": [
+        "ISP",
+        "LFI"
+      ],
       "city": "Unknown",
       "registrationNumber": "National067",
       "apiFamilies": [],
@@ -1373,7 +1642,12 @@
       "legalName": "WIO Bank",
       "shortName": "WIO Bank",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
       "city": "Unknown",
       "registrationNumber": "01.01.01.063.2022.01",
       "apiFamilies": [],
@@ -1394,7 +1668,12 @@
       "legalName": "Zurich International Life Limited",
       "shortName": "Zurich",
       "status": "Active",
-      "roles": ["BDSP", "BSIP", "ISP", "LFI"],
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
       "city": "Unknown",
       "registrationNumber": "Foreign062",
       "apiFamilies": [],
