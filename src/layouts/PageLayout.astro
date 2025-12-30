@@ -35,9 +35,10 @@ const {
   modifiedTime={modifiedTime}
   articleSchema={articleSchema}
 >
+  <a href="#main-content" class="skip-link">Skip to main content</a>
   <div class="page-wrapper">
     <Header />
-    <main class="main-content">
+    <main id="main-content" class="main-content">
       <slot />
     </main>
     <Footer lastUpdated={lastUpdated} />
@@ -45,6 +46,29 @@ const {
 </BaseLayout>
 
 <style>
+  .skip-link {
+    position: absolute;
+    top: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    padding: var(--space-3) var(--space-6);
+    background: var(--color-primary-600);
+    color: white;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-decoration: none;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    transition: top var(--transition-fast);
+  }
+
+  .skip-link:focus {
+    top: var(--space-4);
+    outline: 2px solid var(--color-primary-300);
+    outline-offset: 2px;
+  }
+
   .page-wrapper {
     display: flex;
     flex-direction: column;

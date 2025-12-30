@@ -72,7 +72,7 @@ const Tag = href ? 'a' : 'div';
   .card-interactive:hover {
     text-decoration: none;
     border-color: var(--color-primary-300);
-    transform: translateY(-2px);
+    transform: translateY(-2px) scale(1.01);
     box-shadow: var(--shadow-lg);
   }
 
@@ -90,5 +90,36 @@ const Tag = href ? 'a' : 'div';
 
   .card-interactive:hover .card-title {
     color: var(--color-primary-700);
+  }
+
+  /* Dark mode support */
+  :global([data-theme='dark']) .card {
+    background: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .card-default {
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .card-outlined {
+    border-color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .card-elevated {
+    border-color: var(--color-gray-200);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  :global([data-theme='dark']) .card-interactive:hover {
+    border-color: var(--color-primary-400);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  :global([data-theme='dark']) .card-title {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .card-interactive:hover .card-title {
+    color: var(--color-primary-400);
   }
 </style>
