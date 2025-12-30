@@ -205,9 +205,10 @@ const { participantCount, activeCount } = Astro.props;
   .title-suffix {
     font-family: var(--font-mono);
     font-size: 0.5em;
-    font-weight: 400;
-    color: var(--color-gray-400);
+    font-weight: 500;
+    color: var(--color-primary-500);
     letter-spacing: 0;
+    opacity: 0.85;
   }
 
   @keyframes fadeInUp {
@@ -312,21 +313,39 @@ const { participantCount, activeCount } = Astro.props;
     box-shadow: 0 4px 14px 0 rgba(15, 118, 110, 0.3);
   }
 
+  .btn-primary svg {
+    transition: transform var(--transition-fast);
+  }
+
   .btn-primary:hover {
     background: var(--color-primary-700);
     box-shadow: 0 6px 20px 0 rgba(15, 118, 110, 0.4);
   }
 
+  .btn-primary:hover svg {
+    transform: scale(1.15);
+  }
+
   .btn-secondary {
     background: white;
     color: var(--color-gray-700);
-    border: 1px solid var(--color-gray-300);
+    border: 1px solid rgba(26, 127, 122, 0.3);
+    box-shadow: 0 2px 8px rgba(26, 127, 122, 0.08);
   }
 
   .btn-secondary:hover {
-    background: var(--color-gray-50);
-    border-color: var(--color-gray-400);
-    color: var(--color-gray-900);
+    background: var(--color-primary-50);
+    border-color: var(--color-primary-400);
+    color: var(--color-primary-700);
+    box-shadow: 0 4px 12px rgba(26, 127, 122, 0.15);
+  }
+
+  .btn-secondary svg {
+    transition: transform var(--transition-fast);
+  }
+
+  .btn-secondary:hover svg {
+    transform: scale(1.1);
   }
 
   .btn:focus-visible {
@@ -345,7 +364,7 @@ const { participantCount, activeCount } = Astro.props;
   .hero-footer {
     font-family: var(--font-mono);
     font-size: 0.8125rem;
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
     animation: fadeInUp 0.6s ease-out backwards;
     animation-delay: 0.7s;
   }
@@ -388,7 +407,8 @@ const { participantCount, activeCount } = Astro.props;
   }
 
   :global([data-theme='dark']) .title-suffix {
-    color: var(--color-gray-500);
+    color: var(--color-primary-500);
+    opacity: 0.9;
   }
 
   :global([data-theme='dark']) .hero-tagline {
@@ -415,18 +435,20 @@ const { participantCount, activeCount } = Astro.props;
 
   :global([data-theme='dark']) .btn-secondary {
     background: var(--color-gray-100);
-    border-color: var(--color-gray-300);
+    border-color: rgba(77, 196, 196, 0.3);
     color: var(--color-gray-200);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   }
 
   :global([data-theme='dark']) .btn-secondary:hover {
-    background: var(--color-gray-200);
-    border-color: var(--color-gray-400);
-    color: var(--color-gray-900);
+    background: rgba(77, 196, 196, 0.1);
+    border-color: var(--color-primary-500);
+    color: var(--color-primary-400);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   }
 
   :global([data-theme='dark']) .hero-footer {
-    color: var(--color-gray-500);
+    color: var(--color-gray-400);
   }
 
   :global([data-theme='dark']) .gradient-orb-1 {

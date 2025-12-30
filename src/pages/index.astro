@@ -163,9 +163,14 @@ const icons: Record<string, string> = {
 
   .quick-link-card:hover {
     border-color: var(--color-primary-300);
-    box-shadow: var(--shadow-md);
-    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px) scale(1.01);
     text-decoration: none;
+  }
+
+  .quick-link-card:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
   }
 
   .quick-link-icon {
@@ -250,7 +255,8 @@ const icons: Record<string, string> = {
 
   :global([data-theme='dark']) .quick-link-card:hover {
     border-color: var(--color-primary-400);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    transform: translateY(-2px) scale(1.01);
   }
 
   :global([data-theme='dark']) .quick-link-icon {
