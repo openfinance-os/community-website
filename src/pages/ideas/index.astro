@@ -1,0 +1,324 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import IdeaCard from '@components/ideas/IdeaCard.astro';
+import IdeaFilter from '@components/ideas/IdeaFilter.astro';
+import { getCollection } from 'astro:content';
+
+// Get all ideas, sorted by date descending
+const allIdeas = await getCollection('ideas');
+const sortedIdeas = allIdeas.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Filter options
+const categories = ['all', 'consumer', 'business', 'developer', 'integration', 'analytics'];
+const statuses = ['all', 'idea', 'in-progress', 'built'];
+
+// Labels for display
+const categoryLabels: Record<string, string> = {
+  consumer: 'Consumer App',
+  business: 'Business Tool',
+  developer: 'Developer Tool',
+  integration: 'Integration',
+  analytics: 'Analytics',
+};
+
+const statusLabels: Record<string, string> = {
+  idea: 'Idea',
+  'in-progress': 'In Progress',
+  built: 'Built',
+};
+---
+
+<PageLayout
+  title="Demo Ideas"
+  description="Community-contributed ideas for what can be built with UAE Open Finance APIs. Share your ideas and get inspired."
+>
+  <div class="ideas-page">
+    <header class="page-header">
+      <div class="header-bg" aria-hidden="true">
+        <div class="grid-overlay"></div>
+      </div>
+      <div class="header-content">
+        <h1>Demo Ideas</h1>
+        <p class="header-description">
+          Discover what can be built with Open Finance APIs. Contribute your ideas or get inspired to build something new.
+        </p>
+      </div>
+    </header>
+
+    <section class="ideas-section">
+      <div class="container">
+        <IdeaFilter
+          categories={categories}
+          statuses={statuses}
+          categoryLabels={categoryLabels}
+          statusLabels={statusLabels}
+        />
+
+        <div class="ideas-grid" id="ideas-grid">
+          {
+            sortedIdeas.map((idea) => (
+              <IdeaCard
+                title={idea.data.title}
+                date={idea.data.date}
+                category={idea.data.category}
+                status={idea.data.status}
+                complexity={idea.data.complexity}
+                author={idea.data.author}
+                description={idea.data.description}
+                apis={idea.data.apis}
+                slug={idea.slug}
+                demoUrl={idea.data.demoUrl}
+                repoUrl={idea.data.repoUrl}
+              />
+            ))
+          }
+        </div>
+
+        {
+          sortedIdeas.length === 0 && (
+            <div class="empty-state">
+              <p>No ideas yet. Be the first to contribute!</p>
+            </div>
+          )
+        }
+
+        <div class="contribute-section">
+          <h2>Have an Idea?</h2>
+          <p>Share your ideas with the community. Whether it's a simple app concept or a complex integration, we want to hear it!</p>
+          <div class="contribute-actions">
+            <a
+              href="https://github.com/openfinance-os/community-website/issues/new?template=demo-idea.md&title=[Idea]+Your+idea+title"
+              class="contribute-btn primary"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M5 12h14"></path>
+              </svg>
+              Submit an Idea
+            </a>
+            <a
+              href="https://github.com/openfinance-os/community-website/blob/main/docs/CONTRIBUTING.md"
+              class="contribute-btn secondary"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+              Contribution Guide
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</PageLayout>
+
+<style>
+  .ideas-page {
+    min-height: 100vh;
+  }
+
+  .page-header {
+    position: relative;
+    padding: var(--space-16) var(--space-4) var(--space-12);
+    background: linear-gradient(135deg, var(--color-primary-800) 0%, var(--color-primary-600) 100%);
+    color: white;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .header-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image: var(--grid-pattern);
+    opacity: 0.15;
+  }
+
+  .header-content {
+    position: relative;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .header-content h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    margin-bottom: var(--space-4);
+    letter-spacing: -0.02em;
+    color: white;
+  }
+
+  .header-description {
+    font-size: 1.125rem;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 550px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .ideas-section {
+    padding: var(--space-12) var(--space-4);
+    background: var(--color-gray-50);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .ideas-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 640px) {
+    .ideas-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .ideas-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: var(--space-16) var(--space-4);
+    color: var(--color-gray-500);
+  }
+
+  .contribute-section {
+    margin-top: var(--space-16);
+    padding: var(--space-10);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    text-align: center;
+  }
+
+  .contribute-section h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-3);
+  }
+
+  .contribute-section p {
+    font-size: 1rem;
+    color: var(--color-gray-600);
+    max-width: 500px;
+    margin: 0 auto var(--space-6);
+    line-height: 1.6;
+  }
+
+  .contribute-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-4);
+  }
+
+  .contribute-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-5);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: var(--radius-lg);
+    transition:
+      background-color var(--transition-fast),
+      transform var(--transition-fast),
+      box-shadow var(--transition-fast);
+  }
+
+  .contribute-btn:hover {
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+
+  .contribute-btn.primary {
+    background: var(--color-primary-600);
+    color: white;
+  }
+
+  .contribute-btn.primary:hover {
+    background: var(--color-primary-700);
+    box-shadow: var(--shadow-md);
+  }
+
+  .contribute-btn.secondary {
+    background: var(--color-gray-100);
+    color: var(--color-gray-700);
+    border: 1px solid var(--color-gray-200);
+  }
+
+  .contribute-btn.secondary:hover {
+    background: var(--color-gray-200);
+    color: var(--color-gray-900);
+  }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .page-header {
+    background: linear-gradient(135deg, #0f4c4c 0%, #0d6363 100%);
+  }
+
+  :global([data-theme='dark']) .header-description {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  :global([data-theme='dark']) .ideas-section {
+    background: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .contribute-section {
+    background: var(--color-gray-200);
+    border-color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .contribute-section h2 {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .contribute-section p {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .contribute-btn.primary {
+    background: var(--color-primary-500);
+  }
+
+  :global([data-theme='dark']) .contribute-btn.primary:hover {
+    background: var(--color-primary-600);
+  }
+
+  :global([data-theme='dark']) .contribute-btn.secondary {
+    background: var(--color-gray-300);
+    border-color: var(--color-gray-400);
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .contribute-btn.secondary:hover {
+    background: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .empty-state {
+    color: var(--color-gray-400);
+  }
+</style>

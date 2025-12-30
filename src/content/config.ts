@@ -2,6 +2,9 @@ import { defineCollection, z } from 'astro:content';
 
 const newsTypes = ['official', 'milestone', 'community', 'global', 'opinion'] as const;
 const eventTypes = ['meetup', 'hackathon', 'webinar', 'conference', 'workshop'] as const;
+const ideaCategories = ['consumer', 'business', 'developer', 'integration', 'analytics'] as const;
+const ideaStatuses = ['idea', 'in-progress', 'built'] as const;
+const ideaComplexities = ['beginner', 'intermediate', 'advanced'] as const;
 
 const newsCollection = defineCollection({
   type: 'content',
@@ -33,7 +36,25 @@ const eventsCollection = defineCollection({
   }),
 });
 
+const ideasCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    category: z.enum(ideaCategories),
+    status: z.enum(ideaStatuses).default('idea'),
+    complexity: z.enum(ideaComplexities).default('intermediate'),
+    author: z.string().default('Community'),
+    description: z.string(),
+    apis: z.array(z.string()).default([]),
+    demoUrl: z.string().url().optional(),
+    repoUrl: z.string().url().optional(),
+    featured: z.boolean().default(false),
+  }),
+});
+
 export const collections = {
   news: newsCollection,
   events: eventsCollection,
+  ideas: ideasCollection,
 };
