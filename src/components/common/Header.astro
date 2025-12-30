@@ -25,7 +25,9 @@ const currentPath = Astro.url.pathname;
         aria-hidden="true"
       />
       <span class="logo-text">OpenFinance-OS</span>
-      <span class="beta-badge" title="This site is in beta. Data may be incomplete or inaccurate.">BETA</span>
+      <span class="beta-badge" title="This site is in beta. Data may be incomplete or inaccurate."
+        >BETA</span
+      >
     </a>
 
     <nav class="nav-desktop" aria-label="Main navigation">
@@ -325,7 +327,8 @@ const currentPath = Astro.url.pathname;
   }
 
   @keyframes pulse-beta {
-    0%, 100% {
+    0%,
+    100% {
       opacity: 1;
     }
     50% {
