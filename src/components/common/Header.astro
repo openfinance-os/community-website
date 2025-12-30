@@ -25,6 +25,13 @@ const currentPath = Astro.url.pathname;
         aria-hidden="true"
       />
       <span class="logo-text">OpenFinance-OS</span>
+      <span
+        class="beta-badge"
+        title="This site is in beta. Data may be incomplete or inaccurate."
+        aria-label="Beta version"
+      >
+        BETA
+      </span>
     </a>
 
     <nav class="nav-desktop" aria-label="Main navigation">
@@ -307,6 +314,61 @@ const currentPath = Astro.url.pathname;
     font-size: 1rem;
     font-weight: 600;
     letter-spacing: -0.02em;
+  }
+
+  .beta-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: white;
+    background: linear-gradient(135deg, var(--color-primary-600), var(--color-primary-700));
+    border-radius: var(--radius-full);
+    cursor: help;
+    animation: pulse-badge 2s ease-in-out infinite;
+    box-shadow: 0 1px 3px rgba(13, 79, 79, 0.3);
+  }
+
+  .beta-badge:hover {
+    animation-play-state: paused;
+    transform: scale(1.05);
+  }
+
+  [data-theme='dark'] .beta-badge {
+    background: linear-gradient(135deg, var(--color-primary-500), var(--color-primary-600));
+    box-shadow: 0 1px 3px rgba(20, 184, 166, 0.3);
+  }
+
+  @keyframes pulse-badge {
+    0%,
+    100% {
+      opacity: 1;
+      box-shadow: 0 1px 3px rgba(13, 79, 79, 0.3);
+    }
+    50% {
+      opacity: 0.85;
+      box-shadow: 0 1px 8px rgba(13, 79, 79, 0.5);
+    }
+  }
+
+  [data-theme='dark'] .beta-badge {
+    animation-name: pulse-badge-dark;
+  }
+
+  @keyframes pulse-badge-dark {
+    0%,
+    100% {
+      opacity: 1;
+      box-shadow: 0 1px 3px rgba(20, 184, 166, 0.3);
+    }
+    50% {
+      opacity: 0.85;
+      box-shadow: 0 1px 8px rgba(20, 184, 166, 0.5);
+    }
   }
 
   .nav-desktop {
