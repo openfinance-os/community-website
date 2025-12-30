@@ -25,6 +25,7 @@ const currentPath = Astro.url.pathname;
         aria-hidden="true"
       />
       <span class="logo-text">OpenFinance-OS</span>
+      <span class="beta-label">Beta</span>
     </a>
 
     <nav class="nav-desktop" aria-label="Main navigation">
@@ -307,6 +308,27 @@ const currentPath = Astro.url.pathname;
     font-size: 1rem;
     font-weight: 600;
     letter-spacing: -0.02em;
+  }
+
+  .beta-label {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #fff;
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    border-radius: var(--radius-full);
+    box-shadow: 0 2px 8px rgba(249, 115, 22, 0.35);
+    margin-left: var(--space-2);
+  }
+
+  [data-theme='dark'] .beta-label {
+    background: linear-gradient(135deg, #fb923c 0%, #f97316 100%);
+    box-shadow: 0 2px 12px rgba(251, 146, 60, 0.4);
   }
 
   .nav-desktop {
