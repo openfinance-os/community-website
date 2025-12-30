@@ -8,11 +8,7 @@ const { eventId, buttonText = 'Register via Luma' } = Astro.props;
 ---
 
 <div class="luma-checkout-wrapper">
-  <button
-    class="luma-checkout-button"
-    data-luma-action="checkout"
-    data-luma-event-id={eventId}
-  >
+  <button class="luma-checkout-button" data-luma-action="checkout" data-luma-event-id={eventId}>
     <svg
       width="18"
       height="18"
@@ -37,7 +33,7 @@ const { eventId, buttonText = 'Register via Luma' } = Astro.props;
       stroke="currentColor"
       stroke-width="2"
     >
-      <path d="M5 12h14M12 5l7 7-7 7" />
+      <path d="M5 12h14M12 5l7 7-7 7"></path>
     </svg>
   </button>
   <p class="luma-powered">
