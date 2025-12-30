@@ -27,6 +27,7 @@ const eventsCollection = defineCollection({
     isOnline: z.boolean().default(false),
     organizer: z.string(),
     url: z.string().url().optional(),
+    lumaEventId: z.string().optional(),
     description: z.string(),
     featured: z.boolean().default(false),
   }),
