@@ -1,0 +1,105 @@
+---
+interface Props {
+  eventId: string;
+  buttonText?: string;
+}
+
+const { eventId, buttonText = 'Register via Luma' } = Astro.props;
+---
+
+<div class="luma-checkout-wrapper">
+  <button class="luma-checkout-button" data-luma-action="checkout" data-luma-event-id={eventId}>
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+      <circle cx="9" cy="7" r="4"></circle>
+      <line x1="19" y1="8" x2="19" y2="14"></line>
+      <line x1="22" y1="11" x2="16" y2="11"></line>
+    </svg>
+    {buttonText}
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+    >
+      <path d="M5 12h14M12 5l7 7-7 7"></path>
+    </svg>
+  </button>
+  <p class="luma-powered">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+    </svg>
+    Powered by Luma
+  </p>
+</div>
+
+<script is:inline src="https://embed.lu.ma/checkout-button.js"></script>
+
+<style>
+  .luma-checkout-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+
+  .luma-checkout-button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-6);
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    color: white;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    font-family: inherit;
+    border: none;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+  }
+
+  .luma-checkout-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
+  }
+
+  .luma-checkout-button:active {
+    transform: translateY(0);
+  }
+
+  .luma-powered {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: 0.6875rem;
+    font-family: var(--font-mono);
+    color: var(--color-gray-400);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .luma-powered svg {
+    opacity: 0.6;
+  }
+
+  :global([data-theme='dark']) .luma-checkout-button {
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
+  }
+
+  :global([data-theme='dark']) .luma-checkout-button:hover {
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+  }
+</style>

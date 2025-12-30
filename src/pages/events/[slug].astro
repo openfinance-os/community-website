@@ -1,5 +1,6 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
+import LumaCheckout from '@components/events/LumaCheckout.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -201,26 +202,30 @@ const eventSchema = {
       </div>
 
       {
-        event.data.url && !isPast && (
+        !isPast && (event.data.lumaEventId || event.data.url) && (
           <div class="register-section">
-            <a
-              href={event.data.url}
-              class="register-button"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Register for this event
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
+            {event.data.lumaEventId ? (
+              <LumaCheckout eventId={event.data.lumaEventId} />
+            ) : (
+              <a
+                href={event.data.url}
+                class="register-button"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </a>
+                Register for this event
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </a>
+            )}
           </div>
         )
       }
