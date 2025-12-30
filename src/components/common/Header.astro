@@ -25,7 +25,6 @@ const currentPath = Astro.url.pathname;
         aria-hidden="true"
       />
       <span class="logo-text">OpenFinance-OS</span>
-      <span class="beta-badge" title="This site is in beta. Data may be incomplete or inaccurate.">BETA</span>
     </a>
 
     <nav class="nav-desktop" aria-label="Main navigation">
@@ -308,34 +307,6 @@ const currentPath = Astro.url.pathname;
     font-size: 1rem;
     font-weight: 600;
     letter-spacing: -0.02em;
-  }
-
-  .beta-badge {
-    font-family: var(--font-mono);
-    font-size: 0.625rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: 0.125rem 0.375rem;
-    background: var(--color-accent-500);
-    color: var(--color-gray-900);
-    border-radius: var(--radius-sm);
-    cursor: help;
-    animation: pulse-beta 2s ease-in-out 3;
-  }
-
-  @keyframes pulse-beta {
-    0%, 100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.7;
-    }
-  }
-
-  [data-theme='dark'] .beta-badge {
-    background: var(--color-accent-400);
-    color: var(--color-gray-900);
   }
 
   .nav-desktop {
