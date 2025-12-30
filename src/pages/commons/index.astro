@@ -1,0 +1,1121 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '@layouts/PageLayout.astro';
+import Badge from '@components/common/Badge.astro';
+
+const allContributions = await getCollection('commons');
+const contributions = allContributions.sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+
+const featuredContributions = contributions.filter((c) => c.data.featured);
+
+// Type configurations
+const typeConfig = {
+  insight: { label: 'Insight', color: 'primary', icon: 'lightbulb' },
+  reference: { label: 'Reference', color: 'secondary', icon: 'link' },
+  artifact: { label: 'Artifact', color: 'accent', icon: 'file' },
+  utility: { label: 'Utility', color: 'success', icon: 'code' },
+};
+
+const useCaseLabels: Record<string, string> = {
+  payments: 'Payments',
+  data: 'Data',
+  underwriting: 'Underwriting',
+  sme: 'SME',
+  retail: 'Retail',
+  compliance: 'Compliance',
+  identity: 'Identity',
+  onboarding: 'Onboarding',
+};
+
+const audienceLabels: Record<string, string> = {
+  bank: 'Banks',
+  tpp: 'TPPs',
+  developer: 'Developers',
+  regulator: 'Regulators',
+  all: 'All',
+};
+
+const maturityLabels: Record<string, string> = {
+  concept: 'Concept',
+  demo: 'Demo',
+  'production-ready': 'Production Ready',
+};
+
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
+}
+---
+
+<PageLayout
+  title="Commons"
+  description="Shared infrastructure for Open Finance knowledge and execution. Discover insights, references, artifacts, and utilities from the community."
+>
+  <div class="commons-page">
+    <div class="container">
+      <!-- Hero Section -->
+      <header class="page-header">
+        <h1>Commons</h1>
+        <p class="subtitle">
+          Shared infrastructure for Open Finance knowledge and execution. Discover community-built
+          insights, curated references, reusable artifacts, and forkable utilities.
+        </p>
+        <div class="header-actions">
+          <a href="/commons/contribute" class="btn btn-primary">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M12 5v14M5 12h14"></path>
+            </svg>
+            Contribute
+          </a>
+          <a
+            href="https://github.com/openfinance-os/community-website"
+            class="btn btn-secondary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+              ></path>
+            </svg>
+            View on GitHub
+          </a>
+        </div>
+      </header>
+
+      <!-- Type Legend -->
+      <section class="type-legend">
+        <div class="legend-item" data-type="insight">
+          <div class="legend-icon insight">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M9 18h6M10 22h4M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"
+              ></path>
+            </svg>
+          </div>
+          <div>
+            <strong>Insight</strong>
+            <span>Original thinking & analysis</span>
+          </div>
+        </div>
+        <div class="legend-item" data-type="reference">
+          <div class="legend-icon reference">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+            </svg>
+          </div>
+          <div>
+            <strong>Reference</strong>
+            <span>Curated external articles</span>
+          </div>
+        </div>
+        <div class="legend-item" data-type="artifact">
+          <div class="legend-icon artifact">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14,2 14,8 20,8"></polyline>
+            </svg>
+          </div>
+          <div>
+            <strong>Artifact</strong>
+            <span>Templates & schemas</span>
+          </div>
+        </div>
+        <div class="legend-item" data-type="utility">
+          <div class="legend-icon utility">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="16,18 22,12 16,6"></polyline>
+              <polyline points="8,6 2,12 8,18"></polyline>
+            </svg>
+          </div>
+          <div>
+            <strong>Utility</strong>
+            <span>Forkable code & tools</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Filters -->
+      <section class="filters-section">
+        <div class="filter-group">
+          <label class="filter-label">Type</label>
+          <div class="filter-chips" data-filter="type">
+            <button class="filter-chip active" data-value="all">All</button>
+            <button class="filter-chip" data-value="insight">Insight</button>
+            <button class="filter-chip" data-value="reference">Reference</button>
+            <button class="filter-chip" data-value="artifact">Artifact</button>
+            <button class="filter-chip" data-value="utility">Utility</button>
+          </div>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Audience</label>
+          <div class="filter-chips" data-filter="audience">
+            <button class="filter-chip active" data-value="all">All</button>
+            <button class="filter-chip" data-value="bank">Banks</button>
+            <button class="filter-chip" data-value="tpp">TPPs</button>
+            <button class="filter-chip" data-value="developer">Developers</button>
+            <button class="filter-chip" data-value="regulator">Regulators</button>
+          </div>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Use Case</label>
+          <div class="filter-chips" data-filter="useCase">
+            <button class="filter-chip active" data-value="all">All</button>
+            <button class="filter-chip" data-value="payments">Payments</button>
+            <button class="filter-chip" data-value="data">Data</button>
+            <button class="filter-chip" data-value="underwriting">Underwriting</button>
+            <button class="filter-chip" data-value="compliance">Compliance</button>
+            <button class="filter-chip" data-value="identity">Identity</button>
+            <button class="filter-chip" data-value="onboarding">Onboarding</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Results Count -->
+      <div class="results-info">
+        <span class="results-count">{contributions.length} contributions</span>
+      </div>
+
+      <!-- Contributions Grid -->
+      <section class="contributions-grid">
+        {
+          contributions.length > 0 ? (
+            contributions.map((contribution) => {
+              const config = typeConfig[contribution.data.type];
+              const isExternal =
+                contribution.data.type === 'reference' || !contribution.data.authoredByContributor;
+
+              return (
+                <article
+                  class="contribution-card"
+                  data-type={contribution.data.type}
+                  data-audience={contribution.data.audience.join(',')}
+                  data-use-cases={contribution.data.useCases.join(',')}
+                  data-maturity={contribution.data.maturity}
+                >
+                  <div class="card-header">
+                    <div class={`type-indicator ${contribution.data.type}`}>
+                      {contribution.data.type === 'insight' && (
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path d="M9 18h6M10 22h4M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z" />
+                        </svg>
+                      )}
+                      {contribution.data.type === 'reference' && (
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+                        </svg>
+                      )}
+                      {contribution.data.type === 'artifact' && (
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                          <polyline points="14,2 14,8 20,8" />
+                        </svg>
+                      )}
+                      {contribution.data.type === 'utility' && (
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <polyline points="16,18 22,12 16,6" />
+                          <polyline points="8,6 2,12 8,18" />
+                        </svg>
+                      )}
+                      <span>{config.label}</span>
+                    </div>
+                    {isExternal && (
+                      <span class="external-badge" title="External resource">
+                        External
+                        <svg
+                          width="12"
+                          height="12"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path d="M7 17L17 7M17 7H7M17 7v10" />
+                        </svg>
+                      </span>
+                    )}
+                    {contribution.data.featured && (
+                      <span class="featured-badge" title="Featured">
+                        Featured
+                      </span>
+                    )}
+                  </div>
+
+                  <a href={`/commons/${contribution.slug}`} class="card-content">
+                    <h3 class="card-title">{contribution.data.title}</h3>
+                    <p class="card-summary">{contribution.data.summary}</p>
+                  </a>
+
+                  <div class="card-meta">
+                    <div class="meta-tags">
+                      {contribution.data.useCases.slice(0, 2).map((uc) => (
+                        <span class="meta-tag">{useCaseLabels[uc] || uc}</span>
+                      ))}
+                      {contribution.data.useCases.length > 2 && (
+                        <span class="meta-tag more">+{contribution.data.useCases.length - 2}</span>
+                      )}
+                    </div>
+                    <span class="maturity-badge" data-maturity={contribution.data.maturity}>
+                      {maturityLabels[contribution.data.maturity]}
+                    </span>
+                  </div>
+
+                  <div class="card-footer">
+                    <span class="contributor">
+                      {contribution.data.contributorUrl ? (
+                        <a
+                          href={contribution.data.contributorUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {contribution.data.contributor}
+                        </a>
+                      ) : (
+                        contribution.data.contributor
+                      )}
+                    </span>
+                    <span class="date">{formatDate(contribution.data.date)}</span>
+                  </div>
+
+                  {contribution.data.links && (
+                    <div class="card-links">
+                      {contribution.data.links.github && (
+                        <a
+                          href={contribution.data.links.github}
+                          class="link-btn"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="View on GitHub"
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                          </svg>
+                        </a>
+                      )}
+                      {contribution.data.links.demo && (
+                        <a
+                          href={contribution.data.links.demo}
+                          class="link-btn"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="View Demo"
+                        >
+                          <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <polygon points="5,3 19,12 5,21" />
+                          </svg>
+                        </a>
+                      )}
+                      {contribution.data.links.article && (
+                        <a
+                          href={contribution.data.links.article}
+                          class="link-btn"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="Read Article"
+                        >
+                          <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <path d="M7 17L17 7M17 7H7M17 7v10" />
+                          </svg>
+                        </a>
+                      )}
+                    </div>
+                  )}
+                </article>
+              );
+            })
+          ) : (
+            <div class="empty-state">
+              <div class="empty-icon">
+                <svg
+                  width="48"
+                  height="48"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                >
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
+              </div>
+              <h3>No contributions yet</h3>
+              <p>Be the first to contribute to the Commons.</p>
+              <a href="/commons/contribute" class="btn btn-primary">Submit a Contribution</a>
+            </div>
+          )
+        }
+      </section>
+
+      <!-- No Results Message (hidden by default) -->
+      <div class="no-results" style="display: none;">
+        <p>No contributions match your filters. Try adjusting your selection.</p>
+        <button class="btn btn-secondary reset-filters">Reset Filters</button>
+      </div>
+    </div>
+  </div>
+</PageLayout>
+
+<script>
+  const filterGroups = document.querySelectorAll('.filter-chips');
+  const contributionCards = document.querySelectorAll('.contribution-card');
+  const resultsCount = document.querySelector('.results-count');
+  const noResults = document.querySelector('.no-results');
+  const resetBtn = document.querySelector('.reset-filters');
+
+  const activeFilters: Record<string, string> = {
+    type: 'all',
+    audience: 'all',
+    useCase: 'all',
+  };
+
+  function applyFilters() {
+    let visibleCount = 0;
+
+    contributionCards.forEach((card) => {
+      const cardEl = card as HTMLElement;
+      const cardType = cardEl.dataset.type || '';
+      const cardAudience = cardEl.dataset.audience || '';
+      const cardUseCases = cardEl.dataset.useCases || '';
+
+      const typeMatch = activeFilters.type === 'all' || cardType === activeFilters.type;
+
+      const audienceMatch =
+        activeFilters.audience === 'all' ||
+        cardAudience.includes(activeFilters.audience) ||
+        cardAudience.includes('all');
+
+      const useCaseMatch =
+        activeFilters.useCase === 'all' || cardUseCases.includes(activeFilters.useCase);
+
+      if (typeMatch && audienceMatch && useCaseMatch) {
+        cardEl.style.display = '';
+        visibleCount++;
+      } else {
+        cardEl.style.display = 'none';
+      }
+    });
+
+    if (resultsCount) {
+      resultsCount.textContent = `${visibleCount} contribution${visibleCount !== 1 ? 's' : ''}`;
+    }
+
+    if (noResults) {
+      (noResults as HTMLElement).style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+  }
+
+  filterGroups.forEach((group) => {
+    const filterType = (group as HTMLElement).dataset.filter || '';
+    const chips = group.querySelectorAll('.filter-chip');
+
+    chips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        chips.forEach((c) => c.classList.remove('active'));
+        chip.classList.add('active');
+        activeFilters[filterType] = (chip as HTMLElement).dataset.value || 'all';
+        applyFilters();
+      });
+    });
+  });
+
+  resetBtn?.addEventListener('click', () => {
+    Object.keys(activeFilters).forEach((key) => {
+      activeFilters[key] = 'all';
+    });
+
+    filterGroups.forEach((group) => {
+      const chips = group.querySelectorAll('.filter-chip');
+      chips.forEach((chip) => {
+        chip.classList.remove('active');
+        if ((chip as HTMLElement).dataset.value === 'all') {
+          chip.classList.add('active');
+        }
+      });
+    });
+
+    applyFilters();
+  });
+</script>
+
+<style>
+  .commons-page {
+    padding: var(--space-12) var(--space-4);
+    min-height: 80vh;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .page-header {
+    text-align: center;
+    margin-bottom: var(--space-10);
+  }
+
+  .page-header h1 {
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    margin-bottom: var(--space-4);
+    color: var(--color-gray-900);
+  }
+
+  .subtitle {
+    font-size: 1.125rem;
+    color: var(--color-gray-600);
+    max-width: 640px;
+    margin: 0 auto var(--space-6);
+    line-height: 1.7;
+  }
+
+  .header-actions {
+    display: flex;
+    gap: var(--space-3);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-5);
+    font-weight: 500;
+    font-size: 0.875rem;
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    background: var(--color-primary-600);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: var(--color-primary-700);
+    text-decoration: none;
+  }
+
+  .btn-secondary {
+    background: white;
+    color: var(--color-gray-700);
+    border: 1px solid var(--color-gray-300);
+  }
+
+  .btn-secondary:hover {
+    background: var(--color-gray-50);
+    border-color: var(--color-gray-400);
+    text-decoration: none;
+  }
+
+  /* Type Legend */
+  .type-legend {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+    padding: var(--space-6);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--color-gray-200);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .legend-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-lg);
+    flex-shrink: 0;
+  }
+
+  .legend-icon.insight {
+    background: var(--color-primary-100);
+    color: var(--color-primary-700);
+  }
+
+  .legend-icon.reference {
+    background: var(--color-gray-200);
+    color: var(--color-gray-700);
+  }
+
+  .legend-icon.artifact {
+    background: rgba(232, 168, 92, 0.2);
+    color: var(--color-accent-600);
+  }
+
+  .legend-icon.utility {
+    background: rgba(16, 185, 129, 0.15);
+    color: #059669;
+  }
+
+  .legend-item strong {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--color-gray-900);
+  }
+
+  .legend-item span {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--color-gray-500);
+  }
+
+  /* Filters */
+  .filters-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+    padding: var(--space-5);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+  }
+
+  .filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .filter-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gray-500);
+    min-width: 70px;
+  }
+
+  .filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .filter-chip {
+    padding: var(--space-1) var(--space-3);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-gray-600);
+    background: var(--color-gray-100);
+    border: 1px solid transparent;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .filter-chip:hover {
+    background: var(--color-gray-200);
+    color: var(--color-gray-800);
+  }
+
+  .filter-chip.active {
+    background: var(--color-primary-600);
+    color: white;
+  }
+
+  /* Results */
+  .results-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-4);
+  }
+
+  .results-count {
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+  }
+
+  /* Contributions Grid */
+  .contributions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-5);
+  }
+
+  .contribution-card {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast),
+      transform var(--transition-fast);
+  }
+
+  .contribution-card:hover {
+    border-color: var(--color-primary-300);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-4) var(--space-4) 0;
+  }
+
+  .type-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-2);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    border-radius: var(--radius-md);
+  }
+
+  .type-indicator.insight {
+    background: var(--color-primary-100);
+    color: var(--color-primary-700);
+  }
+
+  .type-indicator.reference {
+    background: var(--color-gray-200);
+    color: var(--color-gray-700);
+  }
+
+  .type-indicator.artifact {
+    background: rgba(232, 168, 92, 0.2);
+    color: var(--color-accent-600);
+  }
+
+  .type-indicator.utility {
+    background: rgba(16, 185, 129, 0.15);
+    color: #059669;
+  }
+
+  .external-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: var(--space-1) var(--space-2);
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--color-gray-500);
+    background: var(--color-gray-100);
+    border-radius: var(--radius-md);
+  }
+
+  .featured-badge {
+    margin-left: auto;
+    padding: var(--space-1) var(--space-2);
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--color-accent-700);
+    background: rgba(232, 168, 92, 0.2);
+    border-radius: var(--radius-md);
+  }
+
+  .card-content {
+    flex: 1;
+    padding: var(--space-4);
+    text-decoration: none;
+  }
+
+  .card-content:hover {
+    text-decoration: none;
+  }
+
+  .card-title {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-2);
+    line-height: 1.4;
+  }
+
+  .contribution-card:hover .card-title {
+    color: var(--color-primary-700);
+  }
+
+  .card-summary {
+    font-size: 0.875rem;
+    color: var(--color-gray-600);
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: 0 var(--space-4);
+  }
+
+  .meta-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+  }
+
+  .meta-tag {
+    padding: 2px var(--space-2);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: var(--color-gray-600);
+    background: var(--color-gray-100);
+    border-radius: var(--radius-sm);
+  }
+
+  .meta-tag.more {
+    color: var(--color-gray-400);
+  }
+
+  .maturity-badge {
+    padding: 2px var(--space-2);
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+  }
+
+  .maturity-badge[data-maturity='concept'] {
+    background: var(--color-gray-100);
+    color: var(--color-gray-600);
+  }
+
+  .maturity-badge[data-maturity='demo'] {
+    background: rgba(232, 168, 92, 0.15);
+    color: var(--color-accent-700);
+  }
+
+  .maturity-badge[data-maturity='production-ready'] {
+    background: rgba(16, 185, 129, 0.15);
+    color: #059669;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3) var(--space-4);
+    border-top: 1px solid var(--color-gray-100);
+    font-size: 0.75rem;
+    color: var(--color-gray-500);
+  }
+
+  .contributor a {
+    color: var(--color-primary-600);
+    text-decoration: none;
+  }
+
+  .contributor a:hover {
+    text-decoration: underline;
+  }
+
+  .card-links {
+    display: flex;
+    gap: var(--space-2);
+    padding: 0 var(--space-4) var(--space-4);
+  }
+
+  .link-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: var(--color-gray-100);
+    color: var(--color-gray-600);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+  }
+
+  .link-btn:hover {
+    background: var(--color-primary-100);
+    color: var(--color-primary-700);
+  }
+
+  /* Empty State */
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: var(--space-16) var(--space-8);
+  }
+
+  .empty-icon {
+    color: var(--color-gray-300);
+    margin-bottom: var(--space-4);
+  }
+
+  .empty-state h3 {
+    font-size: 1.25rem;
+    color: var(--color-gray-700);
+    margin-bottom: var(--space-2);
+  }
+
+  .empty-state p {
+    color: var(--color-gray-500);
+    margin-bottom: var(--space-6);
+  }
+
+  /* No Results */
+  .no-results {
+    text-align: center;
+    padding: var(--space-12);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-xl);
+  }
+
+  .no-results p {
+    color: var(--color-gray-600);
+    margin-bottom: var(--space-4);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .type-legend {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .filter-group {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .contributions-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .page-header h1 {
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .subtitle {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .btn-secondary {
+    background: var(--color-gray-800);
+    border-color: var(--color-gray-700);
+    color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .btn-secondary:hover {
+    background: var(--color-gray-700);
+    border-color: var(--color-gray-600);
+  }
+
+  :global([data-theme='dark']) .type-legend {
+    background: var(--color-gray-800);
+    border-color: var(--color-gray-700);
+  }
+
+  :global([data-theme='dark']) .legend-item strong {
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .legend-item span {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .filters-section {
+    background: var(--color-gray-800);
+    border-color: var(--color-gray-700);
+  }
+
+  :global([data-theme='dark']) .filter-label {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .filter-chip {
+    background: var(--color-gray-700);
+    color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .filter-chip:hover {
+    background: var(--color-gray-600);
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .filter-chip.active {
+    background: var(--color-primary-600);
+    color: white;
+  }
+
+  :global([data-theme='dark']) .results-count {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .contribution-card {
+    background: var(--color-gray-800);
+    border-color: var(--color-gray-700);
+  }
+
+  :global([data-theme='dark']) .contribution-card:hover {
+    border-color: var(--color-primary-500);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  :global([data-theme='dark']) .card-title {
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .contribution-card:hover .card-title {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .card-summary {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .meta-tag {
+    background: var(--color-gray-700);
+    color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .card-footer {
+    border-top-color: var(--color-gray-700);
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .contributor a {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .link-btn {
+    background: var(--color-gray-700);
+    color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .link-btn:hover {
+    background: var(--color-primary-800);
+    color: var(--color-primary-300);
+  }
+
+  :global([data-theme='dark']) .empty-icon {
+    color: var(--color-gray-600);
+  }
+
+  :global([data-theme='dark']) .empty-state h3 {
+    color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .empty-state p {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .no-results {
+    background: var(--color-gray-800);
+  }
+
+  :global([data-theme='dark']) .no-results p {
+    color: var(--color-gray-400);
+  }
+</style>

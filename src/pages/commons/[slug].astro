@@ -1,0 +1,1012 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '@layouts/PageLayout.astro';
+
+export async function getStaticPaths() {
+  const contributions = await getCollection('commons');
+  return contributions.map((contribution) => ({
+    params: { slug: contribution.slug },
+    props: { contribution },
+  }));
+}
+
+const { contribution } = Astro.props;
+const { Content } = await contribution.render();
+
+const typeConfig: Record<string, { label: string; description: string }> = {
+  insight: { label: 'Insight', description: 'Original thinking & analysis' },
+  reference: { label: 'Reference', description: 'Curated external article' },
+  artifact: { label: 'Artifact', description: 'Reusable template or schema' },
+  utility: { label: 'Utility', description: 'Forkable code or tool' },
+};
+
+const useCaseLabels: Record<string, string> = {
+  payments: 'Payments',
+  data: 'Data',
+  underwriting: 'Underwriting',
+  sme: 'SME',
+  retail: 'Retail',
+  compliance: 'Compliance',
+  identity: 'Identity',
+  onboarding: 'Onboarding',
+};
+
+const audienceLabels: Record<string, string> = {
+  bank: 'Banks',
+  tpp: 'TPPs',
+  developer: 'Developers',
+  regulator: 'Regulators',
+  all: 'All Participants',
+};
+
+const maturityLabels: Record<string, string> = {
+  concept: 'Concept',
+  demo: 'Demo',
+  'production-ready': 'Production Ready',
+};
+
+const licenseLabels: Record<string, string> = {
+  mit: 'MIT License',
+  'apache-2.0': 'Apache 2.0',
+  'cc-by-4.0': 'CC BY 4.0',
+  proprietary: 'Proprietary',
+  unlicensed: 'Unlicensed',
+};
+
+const platformLabels: Record<string, string> = {
+  github: 'GitHub',
+  substack: 'Substack',
+  medium: 'Medium',
+  blog: 'Blog',
+  research: 'Research Paper',
+  other: 'External',
+};
+
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+}
+
+const isExternal =
+  contribution.data.type === 'reference' || !contribution.data.authoredByContributor;
+const config = typeConfig[contribution.data.type];
+---
+
+<PageLayout title={contribution.data.title} description={contribution.data.summary}>
+  <article class="contribution-page">
+    <div class="container">
+      <!-- Back Link -->
+      <a href="/commons" class="back-link">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M19 12H5M12 19l-7-7 7-7"></path>
+        </svg>
+        Back to Commons
+      </a>
+
+      <!-- Header -->
+      <header class="contribution-header">
+        <div class="header-meta">
+          <div class={`type-badge ${contribution.data.type}`}>
+            {
+              contribution.data.type === 'insight' && (
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M9 18h6M10 22h4M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z" />
+                </svg>
+              )
+            }
+            {
+              contribution.data.type === 'reference' && (
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+                </svg>
+              )
+            }
+            {
+              contribution.data.type === 'artifact' && (
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14,2 14,8 20,8" />
+                </svg>
+              )
+            }
+            {
+              contribution.data.type === 'utility' && (
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <polyline points="16,18 22,12 16,6" />
+                  <polyline points="8,6 2,12 8,18" />
+                </svg>
+              )
+            }
+            {config.label}
+          </div>
+          {
+            isExternal && (
+              <span class="external-indicator">
+                External
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M7 17L17 7M17 7H7M17 7v10" />
+                </svg>
+              </span>
+            )
+          }
+          {contribution.data.featured && <span class="featured-indicator">Featured</span>}
+        </div>
+
+        <h1>{contribution.data.title}</h1>
+        <p class="summary">{contribution.data.summary}</p>
+
+        <div class="attribution">
+          <span class="contributor">
+            Contributed by{' '}
+            {
+              contribution.data.contributorUrl ? (
+                <a
+                  href={contribution.data.contributorUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {contribution.data.contributor}
+                </a>
+              ) : (
+                <strong>{contribution.data.contributor}</strong>
+              )
+            }
+          </span>
+          <span class="separator">·</span>
+          <span class="date">{formatDate(contribution.data.date)}</span>
+        </div>
+      </header>
+
+      <div class="content-wrapper">
+        <!-- Main Content -->
+        <div class="main-content">
+          <!-- Why It Matters (for references) -->
+          {
+            contribution.data.whyItMatters && (
+              <div class="why-it-matters">
+                <h3>Why This Matters</h3>
+                <p>{contribution.data.whyItMatters}</p>
+              </div>
+            )
+          }
+
+          <!-- Primary CTA for external content -->
+          {
+            contribution.data.type === 'reference' && contribution.data.links?.article && (
+              <div class="primary-cta">
+                <a
+                  href={contribution.data.links.article}
+                  class="btn btn-primary btn-large"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Read Original Article
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M7 17L17 7M17 7H7M17 7v10" />
+                  </svg>
+                </a>
+                {contribution.data.source && (
+                  <span class="source-platform">
+                    on {platformLabels[contribution.data.source.platform]}
+                  </span>
+                )}
+              </div>
+            )
+          }
+
+          <!-- Article Content -->
+          <div class="prose">
+            <Content />
+          </div>
+
+          <!-- Disclaimers -->
+          {
+            contribution.data.disclaimers.length > 0 && (
+              <div class="disclaimers">
+                <h4>Disclaimers</h4>
+                <ul>
+                  {contribution.data.disclaimers.map((disclaimer: string) => (
+                    <li>{disclaimer}</li>
+                  ))}
+                </ul>
+              </div>
+            )
+          }
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+          <!-- Quick Links -->
+          {
+            contribution.data.links && (
+              <div class="sidebar-section links-section">
+                <h4>Links</h4>
+                <div class="link-buttons">
+                  {contribution.data.links.github && (
+                    <a
+                      href={contribution.data.links.github}
+                      class="link-button github"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                      </svg>
+                      View on GitHub
+                    </a>
+                  )}
+                  {contribution.data.links.demo && (
+                    <a
+                      href={contribution.data.links.demo}
+                      class="link-button demo"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <polygon points="5,3 19,12 5,21" />
+                      </svg>
+                      View Demo
+                    </a>
+                  )}
+                  {contribution.data.links.docs && (
+                    <a
+                      href={contribution.data.links.docs}
+                      class="link-button docs"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                      </svg>
+                      Documentation
+                    </a>
+                  )}
+                </div>
+              </div>
+            )
+          }
+
+          <!-- Metadata -->
+          <div class="sidebar-section metadata-section">
+            <h4>Details</h4>
+            <dl class="metadata-list">
+              <div class="metadata-item">
+                <dt>Type</dt>
+                <dd>{config.label}</dd>
+              </div>
+              <div class="metadata-item">
+                <dt>Maturity</dt>
+                <dd>
+                  <span class="maturity-badge" data-maturity={contribution.data.maturity}>
+                    {maturityLabels[contribution.data.maturity]}
+                  </span>
+                </dd>
+              </div>
+              {
+                contribution.data.license && (
+                  <div class="metadata-item">
+                    <dt>License</dt>
+                    <dd>{licenseLabels[contribution.data.license]}</dd>
+                  </div>
+                )
+              }
+              {
+                contribution.data.audience.length > 0 && (
+                  <div class="metadata-item">
+                    <dt>Audience</dt>
+                    <dd>
+                      {contribution.data.audience.map((a: string) => audienceLabels[a]).join(', ')}
+                    </dd>
+                  </div>
+                )
+              }
+            </dl>
+          </div>
+
+          <!-- Use Cases -->
+          {
+            contribution.data.useCases.length > 0 && (
+              <div class="sidebar-section">
+                <h4>Use Cases</h4>
+                <div class="use-case-tags">
+                  {contribution.data.useCases.map((uc: string) => (
+                    <span class="use-case-tag">{useCaseLabels[uc] || uc}</span>
+                  ))}
+                </div>
+              </div>
+            )
+          }
+
+          <!-- Source -->
+          {
+            contribution.data.source && (
+              <div class="sidebar-section">
+                <h4>Source</h4>
+                <p class="source-info">
+                  <span class="source-platform-label">
+                    {platformLabels[contribution.data.source.platform]}
+                  </span>
+                  {!contribution.data.authoredByContributor && (
+                    <span class="authorship-note">
+                      Content curated by {contribution.data.contributor}
+                    </span>
+                  )}
+                </p>
+              </div>
+            )
+          }
+        </aside>
+      </div>
+    </div>
+  </article>
+</PageLayout>
+
+<style>
+  .contribution-page {
+    padding: var(--space-8) var(--space-4) var(--space-16);
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.875rem;
+    color: var(--color-gray-600);
+    margin-bottom: var(--space-6);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .back-link:hover {
+    color: var(--color-primary-600);
+  }
+
+  /* Header */
+  .contribution-header {
+    margin-bottom: var(--space-10);
+    padding-bottom: var(--space-8);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .header-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .type-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-3);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    border-radius: var(--radius-md);
+  }
+
+  .type-badge.insight {
+    background: var(--color-primary-100);
+    color: var(--color-primary-700);
+  }
+
+  .type-badge.reference {
+    background: var(--color-gray-200);
+    color: var(--color-gray-700);
+  }
+
+  .type-badge.artifact {
+    background: rgba(232, 168, 92, 0.2);
+    color: var(--color-accent-600);
+  }
+
+  .type-badge.utility {
+    background: rgba(16, 185, 129, 0.15);
+    color: #059669;
+  }
+
+  .external-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: var(--space-1) var(--space-2);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--color-gray-500);
+    background: var(--color-gray-100);
+    border-radius: var(--radius-md);
+  }
+
+  .featured-indicator {
+    padding: var(--space-1) var(--space-2);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--color-accent-700);
+    background: rgba(232, 168, 92, 0.2);
+    border-radius: var(--radius-md);
+  }
+
+  .contribution-header h1 {
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    line-height: 1.3;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-4);
+  }
+
+  .summary {
+    font-size: 1.125rem;
+    color: var(--color-gray-600);
+    line-height: 1.7;
+    max-width: 700px;
+    margin-bottom: var(--space-4);
+  }
+
+  .attribution {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+  }
+
+  .contributor a {
+    color: var(--color-primary-600);
+    text-decoration: none;
+  }
+
+  .contributor a:hover {
+    text-decoration: underline;
+  }
+
+  .separator {
+    color: var(--color-gray-300);
+  }
+
+  /* Content Layout */
+  .content-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: var(--space-12);
+  }
+
+  @media (max-width: 900px) {
+    .content-wrapper {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Main Content */
+  .main-content {
+    min-width: 0;
+  }
+
+  .why-it-matters {
+    padding: var(--space-6);
+    background: var(--color-primary-50);
+    border-left: 4px solid var(--color-primary-500);
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+    margin-bottom: var(--space-8);
+  }
+
+  .why-it-matters h3 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-primary-700);
+    margin-bottom: var(--space-2);
+  }
+
+  .why-it-matters p {
+    color: var(--color-gray-700);
+    line-height: 1.7;
+  }
+
+  .primary-cta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-5);
+    font-weight: 500;
+    font-size: 0.875rem;
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-large {
+    padding: var(--space-4) var(--space-6);
+    font-size: 1rem;
+  }
+
+  .btn-primary {
+    background: var(--color-primary-600);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: var(--color-primary-700);
+    text-decoration: none;
+  }
+
+  .source-platform {
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+  }
+
+  /* Prose Content */
+  .prose {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--color-gray-700);
+  }
+
+  .prose :global(h2) {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin-top: var(--space-10);
+    margin-bottom: var(--space-4);
+  }
+
+  .prose :global(h3) {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-3);
+  }
+
+  .prose :global(p) {
+    margin-bottom: var(--space-4);
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin-bottom: var(--space-4);
+    padding-left: var(--space-6);
+  }
+
+  .prose :global(li) {
+    margin-bottom: var(--space-2);
+  }
+
+  .prose :global(a) {
+    color: var(--color-primary-600);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .prose :global(a:hover) {
+    color: var(--color-primary-700);
+  }
+
+  .prose :global(code) {
+    padding: 2px 6px;
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    background: var(--color-gray-100);
+    border-radius: var(--radius-sm);
+  }
+
+  .prose :global(pre) {
+    padding: var(--space-4);
+    background: var(--color-gray-900);
+    color: var(--color-gray-100);
+    border-radius: var(--radius-lg);
+    overflow-x: auto;
+    margin-bottom: var(--space-6);
+  }
+
+  .prose :global(pre code) {
+    padding: 0;
+    background: none;
+    font-size: 0.8125rem;
+  }
+
+  .prose :global(blockquote) {
+    padding: var(--space-4) var(--space-6);
+    border-left: 4px solid var(--color-gray-300);
+    background: var(--color-gray-50);
+    margin: var(--space-6) 0;
+    font-style: italic;
+    color: var(--color-gray-600);
+  }
+
+  /* Disclaimers */
+  .disclaimers {
+    margin-top: var(--space-10);
+    padding: var(--space-5);
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+  }
+
+  .disclaimers h4 {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gray-500);
+    margin-bottom: var(--space-3);
+  }
+
+  .disclaimers ul {
+    list-style: disc;
+    padding-left: var(--space-5);
+    margin: 0;
+  }
+
+  .disclaimers li {
+    font-size: 0.875rem;
+    color: var(--color-gray-600);
+    margin-bottom: var(--space-1);
+  }
+
+  /* Sidebar */
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  @media (max-width: 900px) {
+    .sidebar {
+      order: -1;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+      padding: var(--space-5);
+      background: var(--color-gray-50);
+      border-radius: var(--radius-xl);
+      margin-bottom: var(--space-8);
+    }
+
+    .sidebar-section {
+      flex: 1;
+      min-width: 200px;
+    }
+  }
+
+  .sidebar-section {
+    padding: var(--space-5);
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+  }
+
+  .sidebar-section h4 {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gray-500);
+    margin-bottom: var(--space-4);
+  }
+
+  .links-section {
+    background: var(--color-primary-50);
+    border-color: var(--color-primary-200);
+  }
+
+  .link-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .link-button {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-gray-700);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+
+  .link-button:hover {
+    border-color: var(--color-primary-300);
+    background: var(--color-primary-50);
+    color: var(--color-primary-700);
+    text-decoration: none;
+  }
+
+  .link-button.github:hover {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-400);
+    color: var(--color-gray-900);
+  }
+
+  .metadata-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .metadata-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem;
+  }
+
+  .metadata-item dt {
+    color: var(--color-gray-500);
+  }
+
+  .metadata-item dd {
+    color: var(--color-gray-800);
+    font-weight: 500;
+  }
+
+  .maturity-badge {
+    padding: 2px var(--space-2);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-radius: var(--radius-sm);
+  }
+
+  .maturity-badge[data-maturity='concept'] {
+    background: var(--color-gray-200);
+    color: var(--color-gray-700);
+  }
+
+  .maturity-badge[data-maturity='demo'] {
+    background: rgba(232, 168, 92, 0.2);
+    color: var(--color-accent-700);
+  }
+
+  .maturity-badge[data-maturity='production-ready'] {
+    background: rgba(16, 185, 129, 0.15);
+    color: #059669;
+  }
+
+  .use-case-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .use-case-tag {
+    padding: var(--space-1) var(--space-2);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-gray-600);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-md);
+  }
+
+  .source-info {
+    font-size: 0.875rem;
+  }
+
+  .source-platform-label {
+    display: block;
+    color: var(--color-gray-800);
+    font-weight: 500;
+  }
+
+  .authorship-note {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--color-gray-500);
+    margin-top: var(--space-1);
+  }
+
+  /* Dark Mode */
+  :global([data-theme='dark']) .back-link {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .back-link:hover {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .contribution-header {
+    border-bottom-color: var(--color-gray-700);
+  }
+
+  :global([data-theme='dark']) .contribution-header h1 {
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .summary {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .attribution {
+    color: var(--color-gray-500);
+  }
+
+  :global([data-theme='dark']) .contributor a {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .separator {
+    color: var(--color-gray-600);
+  }
+
+  :global([data-theme='dark']) .why-it-matters {
+    background: rgba(20, 184, 166, 0.1);
+    border-color: var(--color-primary-500);
+  }
+
+  :global([data-theme='dark']) .why-it-matters h3 {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .why-it-matters p {
+    color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .prose {
+    color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .prose :global(h2),
+  :global([data-theme='dark']) .prose :global(h3) {
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .prose :global(a) {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .prose :global(code) {
+    background: var(--color-gray-800);
+    color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .prose :global(blockquote) {
+    background: var(--color-gray-800);
+    border-color: var(--color-gray-600);
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .disclaimers {
+    background: var(--color-gray-800);
+    border-color: var(--color-gray-700);
+  }
+
+  :global([data-theme='dark']) .disclaimers li {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .sidebar-section {
+    background: var(--color-gray-800);
+    border-color: var(--color-gray-700);
+  }
+
+  :global([data-theme='dark']) .links-section {
+    background: rgba(20, 184, 166, 0.1);
+    border-color: var(--color-primary-800);
+  }
+
+  :global([data-theme='dark']) .link-button {
+    background: var(--color-gray-800);
+    border-color: var(--color-gray-700);
+    color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .link-button:hover {
+    background: var(--color-gray-700);
+    border-color: var(--color-primary-600);
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .metadata-item dt {
+    color: var(--color-gray-500);
+  }
+
+  :global([data-theme='dark']) .metadata-item dd {
+    color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .use-case-tag {
+    background: var(--color-gray-700);
+    border-color: var(--color-gray-600);
+    color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .source-platform-label {
+    color: var(--color-gray-200);
+  }
+
+  @media (max-width: 900px) {
+    :global([data-theme='dark']) .sidebar {
+      background: var(--color-gray-800);
+    }
+  }
+</style>
