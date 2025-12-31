@@ -1,0 +1,811 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+
+interface Jurisdiction {
+  name: string;
+  flag: string;
+  participants: string;
+  apiStandard: string;
+  launchDate: string;
+  status: 'live' | 'live-expanding' | 'rollout' | 'pilot' | 'development';
+  highlight?: boolean;
+}
+
+const jurisdictions: Jurisdiction[] = [
+  {
+    name: 'United Kingdom',
+    flag: '🇬🇧',
+    participants: '600+ TPPs, 9 CMA9 banks',
+    apiStandard: 'UK Open Banking',
+    launchDate: '2018',
+    status: 'live',
+  },
+  {
+    name: 'European Union',
+    flag: '🇪🇺',
+    participants: '4,000+ ASPSPs',
+    apiStandard: 'PSD2 / Berlin Group',
+    launchDate: '2019',
+    status: 'live-expanding',
+  },
+  {
+    name: 'Brazil',
+    flag: '🇧🇷',
+    participants: '800+ institutions',
+    apiStandard: 'Open Finance Brasil',
+    launchDate: '2021',
+    status: 'live-expanding',
+  },
+  {
+    name: 'Australia',
+    flag: '🇦🇺',
+    participants: '100+ data holders',
+    apiStandard: 'Consumer Data Right',
+    launchDate: '2020',
+    status: 'live-expanding',
+  },
+  {
+    name: 'UAE',
+    flag: '🇦🇪',
+    participants: '20+ banks, growing TPPs',
+    apiStandard: 'CBUAE Open Finance',
+    launchDate: '2024',
+    status: 'rollout',
+    highlight: true,
+  },
+  {
+    name: 'Saudi Arabia',
+    flag: '🇸🇦',
+    participants: '10+ banks',
+    apiStandard: 'SAMA Open Banking',
+    launchDate: '2022',
+    status: 'live',
+  },
+  {
+    name: 'Bahrain',
+    flag: '🇧🇭',
+    participants: '30+ banks',
+    apiStandard: 'CBB Open Banking',
+    launchDate: '2020',
+    status: 'live',
+  },
+];
+
+const regionCards = [
+  {
+    title: 'United Kingdom',
+    subtitle: 'The Pioneer',
+    description:
+      "Learn from the world's most mature open banking ecosystem, including lessons on adoption, standardization, and commercial models.",
+    href: '/learn/global/uk',
+    flag: '🇬🇧',
+  },
+  {
+    title: 'European Union',
+    subtitle: 'PSD2 and Beyond',
+    description:
+      'Understand the regulatory-driven approach across 27 countries and the evolution toward PSD3.',
+    href: '/learn/global/eu',
+    flag: '🇪🇺',
+  },
+  {
+    title: 'GCC Region',
+    subtitle: 'Regional Momentum',
+    description:
+      'Explore how Gulf states including Saudi Arabia, Bahrain, and others are building their open finance ecosystems.',
+    href: '/learn/global/gcc',
+    flag: '🌍',
+  },
+];
+
+const statusLabels: Record<string, { label: string; color: string }> = {
+  live: { label: 'Live', color: 'success' },
+  'live-expanding': { label: 'Live & Expanding', color: 'success' },
+  rollout: { label: 'Rollout', color: 'warning' },
+  pilot: { label: 'Pilot', color: 'info' },
+  development: { label: 'Development', color: 'neutral' },
+};
+---
+
+<PageLayout
+  title="Global Perspective"
+  description="UAE Open Finance in international context - benchmarks, lessons, and global trends."
+>
+  <div class="global-page">
+    <div class="container">
+      <nav class="breadcrumb">
+        <a href="/learn">Learn</a>
+        <span>/</span>
+        <span>Global Perspective</span>
+      </nav>
+
+      <header class="page-header">
+        <h1>Global Perspective</h1>
+        <p class="subtitle">
+          Understanding UAE Open Finance in the context of global developments. Learn from
+          international experiences to anticipate opportunities and challenges.
+        </p>
+      </header>
+
+      <section class="benchmark-section">
+        <h2 class="section-title">Global Benchmark</h2>
+        <p class="section-intro">
+          How the UAE compares to other open finance jurisdictions worldwide.
+        </p>
+
+        <div class="table-wrapper">
+          <table class="benchmark-table">
+            <thead>
+              <tr>
+                <th>Jurisdiction</th>
+                <th>Participants</th>
+                <th>API Standard</th>
+                <th>Launch</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                jurisdictions.map((j) => (
+                  <tr class={j.highlight ? 'highlight' : ''}>
+                    <td class="jurisdiction-cell">
+                      <span class="flag">{j.flag}</span>
+                      <span class="name">{j.name}</span>
+                    </td>
+                    <td>{j.participants}</td>
+                    <td class="standard-cell">{j.apiStandard}</td>
+                    <td>{j.launchDate}</td>
+                    <td>
+                      <span class={`status-badge ${statusLabels[j.status].color}`}>
+                        {statusLabels[j.status].label}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="regions-section">
+        <h2 class="section-title">Deep Dives</h2>
+        <p class="section-intro">
+          Explore specific jurisdictions and what the UAE can learn from their journeys.
+        </p>
+
+        <div class="region-grid">
+          {
+            regionCards.map((region) => (
+              <a href={region.href} class="region-card">
+                <div class="region-header">
+                  <span class="region-flag">{region.flag}</span>
+                  <div>
+                    <h3>{region.title}</h3>
+                    <span class="region-subtitle">{region.subtitle}</span>
+                  </div>
+                </div>
+                <p class="region-description">{region.description}</p>
+                <span class="region-arrow">Explore</span>
+              </a>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="insights-section">
+        <h2 class="section-title">Key Insights</h2>
+
+        <div class="insights-grid">
+          <div class="insight-card">
+            <h3>Standardization Matters</h3>
+            <p>
+              The UK's success came from mandating a single API standard. Fragmented approaches in
+              the EU (PSD2) led to inconsistent implementations. The UAE's unified approach through
+              Al Tareq follows the UK model.
+            </p>
+          </div>
+          <div class="insight-card">
+            <h3>Commercial Models Drive Adoption</h3>
+            <p>
+              Early UK open banking struggled with adoption until premium APIs and commercial models
+              emerged. Brazil's approach of mandating participation accelerated growth but required
+              massive investment.
+            </p>
+          </div>
+          <div class="insight-card">
+            <h3>Trust is Foundational</h3>
+            <p>
+              Consumer adoption depends on trust. Australia's Consumer Data Right started slow due
+              to privacy concerns. Strong consent management and clear data usage policies are
+              critical.
+            </p>
+          </div>
+          <div class="insight-card">
+            <h3>Beyond Payments</h3>
+            <p>
+              Mature markets are expanding beyond payments into insurance, investments, and
+              pensions. The UAE's Open Finance (not just Open Banking) framing positions it for this
+              evolution.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="resources-section">
+        <h2 class="section-title">Global Resources</h2>
+        <p class="section-intro">Stay informed about open finance developments around the world.</p>
+        <a
+          href="https://www.open-conversations.org"
+          class="resource-card"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div class="resource-content">
+            <h3>Open Conversations</h3>
+            <p>
+              Global news and insights about open finance worldwide — coverage of regulatory
+              developments, industry trends, and ecosystem updates from jurisdictions around the
+              globe.
+            </p>
+          </div>
+          <span class="resource-link">
+            Visit site
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M7 17L17 7M17 7H7M17 7v10"></path>
+            </svg>
+          </span>
+        </a>
+      </section>
+
+      <section class="cta-section">
+        <div class="cta-content">
+          <h2>Want to contribute insights?</h2>
+          <p>
+            Have experience with open finance in another jurisdiction? Share your knowledge with the
+            UAE community.
+          </p>
+          <a
+            href="https://github.com/openfinance-os/community/discussions"
+            class="cta-button"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Start a Discussion
+          </a>
+        </div>
+      </section>
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .global-page {
+    padding: var(--space-8) var(--space-4) var(--space-12);
+  }
+
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+    margin-bottom: var(--space-6);
+  }
+
+  .breadcrumb a {
+    color: var(--color-primary-600);
+  }
+
+  .page-header {
+    margin-bottom: var(--space-12);
+  }
+
+  .page-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-3);
+  }
+
+  .subtitle {
+    font-size: 1.25rem;
+    color: var(--color-gray-600);
+    max-width: 700px;
+  }
+
+  .section-title {
+    font-size: 1rem;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gray-500);
+    margin-bottom: var(--space-2);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .section-intro {
+    color: var(--color-gray-600);
+    margin-bottom: var(--space-6);
+  }
+
+  /* Benchmark Table */
+  .benchmark-section {
+    margin-bottom: var(--space-16);
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    background: white;
+  }
+
+  .benchmark-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+  }
+
+  .benchmark-table th {
+    text-align: left;
+    padding: var(--space-4);
+    background: var(--color-gray-50);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gray-500);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .benchmark-table td {
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--color-gray-100);
+    color: var(--color-gray-700);
+  }
+
+  .benchmark-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .benchmark-table tr.highlight {
+    background: var(--color-primary-50);
+  }
+
+  .benchmark-table tr.highlight td {
+    border-bottom-color: var(--color-primary-100);
+  }
+
+  .jurisdiction-cell {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .jurisdiction-cell .flag {
+    font-size: 1.25rem;
+  }
+
+  .jurisdiction-cell .name {
+    font-weight: 500;
+    color: var(--color-gray-900);
+  }
+
+  .standard-cell {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+  }
+
+  .status-badge {
+    display: inline-block;
+    padding: var(--space-1) var(--space-2);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    border-radius: var(--radius-full);
+  }
+
+  .status-badge.success {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .status-badge.warning {
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  .status-badge.info {
+    background: #dbeafe;
+    color: #1e40af;
+  }
+
+  .status-badge.neutral {
+    background: var(--color-gray-100);
+    color: var(--color-gray-600);
+  }
+
+  /* Regions Section */
+  .regions-section {
+    margin-bottom: var(--space-16);
+  }
+
+  .region-grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 640px) {
+    .region-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .region-card {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-6);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    text-decoration: none;
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast),
+      transform var(--transition-fast);
+  }
+
+  .region-card:hover {
+    border-color: var(--color-primary-300);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+
+  .region-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+  }
+
+  .region-flag {
+    font-size: 2rem;
+  }
+
+  .region-card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin: 0;
+  }
+
+  .region-subtitle {
+    font-size: 0.8125rem;
+    color: var(--color-primary-600);
+    font-weight: 500;
+  }
+
+  .region-description {
+    font-size: 0.875rem;
+    color: var(--color-gray-600);
+    line-height: 1.6;
+    flex: 1;
+    margin: 0 0 var(--space-4);
+  }
+
+  .region-arrow {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-primary-600);
+    transition: transform var(--transition-fast);
+  }
+
+  .region-card:hover .region-arrow {
+    transform: translateX(4px);
+  }
+
+  /* Insights Section */
+  .insights-section {
+    margin-bottom: var(--space-16);
+  }
+
+  .insights-grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 640px) {
+    .insights-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .insight-card {
+    padding: var(--space-6);
+    background: var(--color-gray-50);
+    border: 1px solid transparent;
+    border-radius: var(--radius-xl);
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast),
+      transform var(--transition-fast);
+  }
+
+  .insight-card:hover {
+    border-color: var(--color-primary-200);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-2px);
+  }
+
+  .insight-card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-primary-700);
+    margin-bottom: var(--space-2);
+  }
+
+  .insight-card p {
+    font-size: 0.9375rem;
+    color: var(--color-gray-600);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* Resources Section */
+  .resources-section {
+    margin-bottom: var(--space-16);
+  }
+
+  .resource-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-6);
+    padding: var(--space-6);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    text-decoration: none;
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast),
+      transform var(--transition-fast);
+  }
+
+  .resource-card:hover {
+    border-color: var(--color-primary-300);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+
+  .resource-content h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-2);
+  }
+
+  .resource-content p {
+    font-size: 0.9375rem;
+    color: var(--color-gray-600);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .resource-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-primary-600);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .resource-card:hover .resource-link {
+    color: var(--color-primary-700);
+  }
+
+  @media (max-width: 640px) {
+    .resource-card {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  /* CTA Section */
+  .cta-section {
+    margin-bottom: var(--space-8);
+  }
+
+  .cta-content {
+    padding: var(--space-12);
+    background: linear-gradient(135deg, var(--color-primary-600), var(--color-primary-700));
+    border-radius: var(--radius-xl);
+    text-align: center;
+    color: white;
+  }
+
+  .cta-content h2 {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-2);
+    color: white;
+  }
+
+  .cta-content p {
+    opacity: 0.9;
+    margin-bottom: var(--space-6);
+    max-width: 500px;
+    margin-inline: auto;
+  }
+
+  .cta-button {
+    display: inline-block;
+    padding: var(--space-4) var(--space-8);
+    background: white;
+    color: var(--color-primary-700);
+    font-weight: 600;
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition:
+      transform var(--transition-fast),
+      box-shadow var(--transition-fast);
+  }
+
+  .cta-button:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+    text-decoration: none;
+  }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .page-header h1 {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .subtitle {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .section-title {
+    color: var(--color-gray-400);
+    border-bottom-color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .section-intro {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .table-wrapper {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .benchmark-table th {
+    background: var(--color-gray-200);
+    border-color: var(--color-gray-300);
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .benchmark-table td {
+    border-color: var(--color-gray-200);
+    color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .jurisdiction-cell .name {
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .benchmark-table tr.highlight {
+    background: rgba(20, 184, 166, 0.1);
+  }
+
+  :global([data-theme='dark']) .benchmark-table tr.highlight td {
+    border-bottom-color: rgba(20, 184, 166, 0.2);
+  }
+
+  :global([data-theme='dark']) .status-badge.success {
+    background: rgba(34, 197, 94, 0.2);
+    color: #4ade80;
+  }
+
+  :global([data-theme='dark']) .status-badge.warning {
+    background: rgba(245, 158, 11, 0.2);
+    color: #fbbf24;
+  }
+
+  :global([data-theme='dark']) .status-badge.info {
+    background: rgba(59, 130, 246, 0.2);
+    color: #60a5fa;
+  }
+
+  :global([data-theme='dark']) .status-badge.neutral {
+    background: var(--color-gray-200);
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .region-card {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .region-card:hover {
+    border-color: var(--color-primary-400);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  :global([data-theme='dark']) .region-card h3 {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .region-subtitle {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .region-description {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .region-arrow {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .insight-card {
+    background: var(--color-gray-100);
+    border-color: transparent;
+  }
+
+  :global([data-theme='dark']) .insight-card:hover {
+    border-color: var(--color-primary-400);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  :global([data-theme='dark']) .insight-card h3 {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .insight-card p {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .resource-card {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .resource-card:hover {
+    border-color: var(--color-primary-400);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  :global([data-theme='dark']) .resource-content h3 {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .resource-content p {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .resource-link {
+    color: var(--color-primary-400);
+  }
+</style>

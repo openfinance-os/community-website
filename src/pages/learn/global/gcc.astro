@@ -1,0 +1,756 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+
+interface Country {
+  name: string;
+  flag: string;
+  regulator: string;
+  status: string;
+  launchYear: string;
+  highlight?: string;
+}
+
+const gccCountries: Country[] = [
+  {
+    name: 'United Arab Emirates',
+    flag: '🇦🇪',
+    regulator: 'CBUAE',
+    status: 'Rollout',
+    launchYear: '2024',
+    highlight: 'Al Tareq platform operational, banks onboarding',
+  },
+  {
+    name: 'Saudi Arabia',
+    flag: '🇸🇦',
+    regulator: 'SAMA',
+    status: 'Live',
+    launchYear: '2022',
+    highlight: 'Account information and payment initiation active',
+  },
+  {
+    name: 'Bahrain',
+    flag: '🇧🇭',
+    regulator: 'CBB',
+    status: 'Live',
+    launchYear: '2020',
+    highlight: 'First GCC country to launch open banking',
+  },
+  {
+    name: 'Kuwait',
+    flag: '🇰🇼',
+    regulator: 'CBK',
+    status: 'Development',
+    launchYear: 'TBD',
+    highlight: 'Regulatory framework under development',
+  },
+  {
+    name: 'Qatar',
+    flag: '🇶🇦',
+    regulator: 'QCB',
+    status: 'Pilot',
+    launchYear: 'TBD',
+    highlight: 'Pilot programs with select banks',
+  },
+  {
+    name: 'Oman',
+    flag: '🇴🇲',
+    regulator: 'CBO',
+    status: 'Planning',
+    launchYear: 'TBD',
+    highlight: 'Regulatory discussions ongoing',
+  },
+];
+
+const regionalInsights = [
+  {
+    title: 'Bahrain: The GCC Pioneer',
+    description:
+      'Bahrain launched the first GCC open banking framework in 2020, providing valuable lessons for the region. Their approach emphasized sandbox-first development and strong TPP engagement.',
+  },
+  {
+    title: 'Saudi Vision 2030 Integration',
+    description:
+      "Saudi Arabia's open banking initiative is tied to Vision 2030 financial sector development goals, with SAMA taking a phased approach to API rollout.",
+  },
+  {
+    title: 'Cross-Border Potential',
+    description:
+      'With multiple GCC countries adopting open finance, there is potential for regional interoperability and cross-border financial services innovation.',
+  },
+];
+
+const opportunities = [
+  {
+    icon: '🤝',
+    title: 'Standard Alignment',
+    description:
+      'Opportunity for GCC countries to align on API standards, reducing friction for regional TPPs.',
+  },
+  {
+    icon: '🌐',
+    title: 'Regional Sandbox',
+    description:
+      'Potential for a shared GCC sandbox environment to accelerate cross-border innovation.',
+  },
+  {
+    icon: '💱',
+    title: 'Remittance Innovation',
+    description:
+      'Open finance could transform the significant GCC remittance corridors with lower costs and faster transfers.',
+  },
+  {
+    icon: '🏢',
+    title: 'SME Finance',
+    description:
+      "Account aggregation and credit decisioning improvements for the region's growing SME sector.",
+  },
+];
+---
+
+<PageLayout
+  title="GCC Open Finance"
+  description="Open banking and open finance developments across the Gulf Cooperation Council countries."
+>
+  <div class="profile-page">
+    <div class="container">
+      <nav class="breadcrumb">
+        <a href="/learn">Learn</a>
+        <span>/</span>
+        <a href="/learn/global">Global</a>
+        <span>/</span>
+        <span>GCC Region</span>
+      </nav>
+
+      <header class="page-header">
+        <div class="header-flag">🌍</div>
+        <div class="header-text">
+          <span class="region-label">Regional Momentum</span>
+          <h1>GCC Open Finance</h1>
+          <p class="subtitle">
+            The Gulf Cooperation Council countries are at various stages of open banking adoption,
+            with the UAE, Saudi Arabia, and Bahrain leading the way.
+          </p>
+        </div>
+      </header>
+
+      <section class="overview-section">
+        <h2 class="section-title">Regional Overview</h2>
+        <div class="overview-content">
+          <p>
+            The GCC region represents a unique opportunity for open finance development. With high
+            smartphone penetration, digitally-savvy populations, and ambitious government
+            digitalization agendas, the region is well-positioned for open finance adoption.
+          </p>
+          <p>
+            Bahrain was the first GCC country to launch open banking in 2020, followed by Saudi
+            Arabia in 2022. The UAE's Al Tareq platform represents the most recent major launch,
+            bringing the third-largest Arab economy into the open finance ecosystem.
+          </p>
+          <p>
+            While each country is developing its own framework, there are opportunities for regional
+            coordination that could benefit the entire GCC financial services sector.
+          </p>
+        </div>
+      </section>
+
+      <section class="countries-section">
+        <h2 class="section-title">Country Status</h2>
+        <div class="countries-grid">
+          {
+            gccCountries.map((country) => (
+              <div
+                class={`country-card ${country.name === 'United Arab Emirates' ? 'highlight' : ''}`}
+              >
+                <div class="country-header">
+                  <span class="country-flag">{country.flag}</span>
+                  <div class="country-info">
+                    <h3>{country.name}</h3>
+                    <span class="country-regulator">{country.regulator}</span>
+                  </div>
+                </div>
+                <div class="country-meta">
+                  <span class={`status-badge ${country.status.toLowerCase().replace(' ', '-')}`}>
+                    {country.status}
+                  </span>
+                  <span class="launch-year">
+                    {country.launchYear !== 'TBD' ? `Since ${country.launchYear}` : 'Coming soon'}
+                  </span>
+                </div>
+                <p class="country-highlight">{country.highlight}</p>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="insights-section">
+        <h2 class="section-title">Regional Insights</h2>
+        <div class="insights-list">
+          {
+            regionalInsights.map((insight) => (
+              <div class="insight-item">
+                <h3>{insight.title}</h3>
+                <p>{insight.description}</p>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="opportunities-section">
+        <h2 class="section-title">Regional Opportunities</h2>
+        <div class="opportunities-grid">
+          {
+            opportunities.map((opp) => (
+              <div class="opportunity-card">
+                <span class="opportunity-icon">{opp.icon}</span>
+                <h3>{opp.title}</h3>
+                <p>{opp.description}</p>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="resources-section">
+        <h2 class="section-title">Regulatory Resources</h2>
+        <div class="resources-grid">
+          <a
+            href="https://altareq.openfinance.ae"
+            class="resource-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="resource-icon">🇦🇪</span>
+            <div>
+              <strong>Al Tareq (UAE)</strong>
+              <span>UAE Open Finance Portal</span>
+            </div>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M7 17L17 7M17 7H7M17 7v10"></path>
+            </svg>
+          </a>
+          <a
+            href="https://www.sama.gov.sa/en-US/OpenBanking/"
+            class="resource-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="resource-icon">🇸🇦</span>
+            <div>
+              <strong>SAMA Open Banking (KSA)</strong>
+              <span>Saudi Arabia Framework</span>
+            </div>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M7 17L17 7M17 7H7M17 7v10"></path>
+            </svg>
+          </a>
+          <a
+            href="https://www.cbb.gov.bh/open-banking/"
+            class="resource-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="resource-icon">🇧🇭</span>
+            <div>
+              <strong>CBB Open Banking (Bahrain)</strong>
+              <span>Bahrain Framework</span>
+            </div>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M7 17L17 7M17 7H7M17 7v10"></path>
+            </svg>
+          </a>
+        </div>
+      </section>
+
+      <section class="cta-section">
+        <div class="cta-content">
+          <h2>Contributing regional knowledge?</h2>
+          <p>
+            Have experience with open finance in another GCC country? Share your insights with the
+            community.
+          </p>
+          <a
+            href="https://github.com/openfinance-os/community/discussions"
+            class="cta-button"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Start a Discussion
+          </a>
+        </div>
+      </section>
+
+      <nav class="page-nav">
+        <a href="/learn/global/eu" class="nav-link prev">
+          <span class="nav-direction">Previous</span>
+          <span class="nav-page">European Union</span>
+        </a>
+        <a href="/learn/global" class="nav-link next">
+          <span class="nav-direction">Back to</span>
+          <span class="nav-page">Global Overview</span>
+        </a>
+      </nav>
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .profile-page {
+    padding: var(--space-8) var(--space-4) var(--space-16);
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+    margin-bottom: var(--space-6);
+  }
+
+  .breadcrumb a {
+    color: var(--color-primary-600);
+  }
+
+  .page-header {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-5);
+    margin-bottom: var(--space-10);
+  }
+
+  .header-flag {
+    font-size: 3rem;
+    line-height: 1;
+  }
+
+  .region-label {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-primary-600);
+    margin-bottom: var(--space-2);
+  }
+
+  .page-header h1 {
+    font-size: 2rem;
+    margin-bottom: var(--space-3);
+  }
+
+  .subtitle {
+    font-size: 1.0625rem;
+    color: var(--color-gray-600);
+    line-height: 1.6;
+  }
+
+  /* Section Styles */
+  .section-title {
+    font-size: 1rem;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gray-500);
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  /* Overview */
+  .overview-section {
+    margin-bottom: var(--space-12);
+  }
+
+  .overview-content p {
+    color: var(--color-gray-700);
+    line-height: 1.8;
+    margin-bottom: var(--space-4);
+  }
+
+  .overview-content p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Countries Section */
+  .countries-section {
+    margin-bottom: var(--space-12);
+  }
+
+  .countries-grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 640px) {
+    .countries-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 900px) {
+    .countries-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .country-card {
+    padding: var(--space-5);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+  }
+
+  .country-card.highlight {
+    background: var(--color-primary-50);
+    border-color: var(--color-primary-200);
+  }
+
+  .country-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+  }
+
+  .country-flag {
+    font-size: 1.75rem;
+  }
+
+  .country-info h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin: 0;
+  }
+
+  .country-regulator {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-gray-500);
+  }
+
+  .country-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+  }
+
+  .status-badge {
+    display: inline-block;
+    padding: 2px var(--space-2);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    border-radius: var(--radius-full);
+  }
+
+  .status-badge.live {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .status-badge.rollout {
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  .status-badge.pilot {
+    background: #dbeafe;
+    color: #1e40af;
+  }
+
+  .status-badge.development,
+  .status-badge.planning {
+    background: var(--color-gray-100);
+    color: var(--color-gray-600);
+  }
+
+  .launch-year {
+    font-size: 0.75rem;
+    color: var(--color-gray-500);
+  }
+
+  .country-highlight {
+    font-size: 0.8125rem;
+    color: var(--color-gray-600);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* Insights Section */
+  .insights-section {
+    margin-bottom: var(--space-12);
+  }
+
+  .insights-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .insight-item {
+    padding: var(--space-5);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-xl);
+  }
+
+  .insight-item h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-primary-700);
+    margin-bottom: var(--space-2);
+  }
+
+  .insight-item p {
+    font-size: 0.9375rem;
+    color: var(--color-gray-600);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* Opportunities Section */
+  .opportunities-section {
+    margin-bottom: var(--space-12);
+  }
+
+  .opportunities-grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 640px) {
+    .opportunities-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .opportunity-card {
+    padding: var(--space-5);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+  }
+
+  .opportunity-icon {
+    font-size: 1.5rem;
+    display: block;
+    margin-bottom: var(--space-2);
+  }
+
+  .opportunity-card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-2);
+  }
+
+  .opportunity-card p {
+    font-size: 0.875rem;
+    color: var(--color-gray-600);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Resources */
+  .resources-section {
+    margin-bottom: var(--space-12);
+  }
+
+  .resources-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .resource-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition:
+      border-color var(--transition-fast),
+      background-color var(--transition-fast);
+  }
+
+  .resource-link:hover {
+    border-color: var(--color-primary-300);
+    background: var(--color-gray-50);
+    text-decoration: none;
+  }
+
+  .resource-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .resource-link div {
+    flex: 1;
+  }
+
+  .resource-link strong {
+    display: block;
+    font-size: 0.9375rem;
+    color: var(--color-gray-900);
+  }
+
+  .resource-link span {
+    font-size: 0.8125rem;
+    color: var(--color-gray-500);
+  }
+
+  .resource-link svg {
+    flex-shrink: 0;
+    color: var(--color-gray-400);
+  }
+
+  /* CTA Section */
+  .cta-section {
+    margin-bottom: var(--space-12);
+  }
+
+  .cta-content {
+    padding: var(--space-8);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-xl);
+    text-align: center;
+  }
+
+  .cta-content h2 {
+    font-size: 1.25rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .cta-content p {
+    color: var(--color-gray-600);
+    margin-bottom: var(--space-4);
+  }
+
+  .cta-button {
+    display: inline-block;
+    padding: var(--space-3) var(--space-6);
+    background: var(--color-primary-600);
+    color: white;
+    font-weight: 500;
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition:
+      background-color var(--transition-fast),
+      transform var(--transition-fast);
+  }
+
+  .cta-button:hover {
+    background: var(--color-primary-700);
+    transform: translateY(-1px);
+    text-decoration: none;
+  }
+
+  /* Page Navigation */
+  .page-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-gray-200);
+  }
+
+  .nav-link {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-4);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .nav-link:hover {
+    text-decoration: none;
+  }
+
+  .nav-link.next {
+    text-align: right;
+    margin-left: auto;
+  }
+
+  .nav-direction {
+    font-size: 0.8125rem;
+    color: var(--color-gray-500);
+  }
+
+  .nav-page {
+    font-weight: 500;
+    color: var(--color-primary-600);
+  }
+
+  .nav-link:hover .nav-page {
+    color: var(--color-primary-700);
+  }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .country-card {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .country-card.highlight {
+    background: var(--color-primary-100);
+    border-color: var(--color-primary-300);
+  }
+
+  :global([data-theme='dark']) .insight-item {
+    background: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .opportunity-card {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .resource-link {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .resource-link:hover {
+    background: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .cta-content {
+    background: var(--color-gray-100);
+  }
+</style>
