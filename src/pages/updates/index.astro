@@ -51,9 +51,7 @@ const initialTab = url.searchParams.get('tab') || 'events';
       </div>
       <div class="header-content">
         <h1>News & Events</h1>
-        <p class="header-description">
-          Stay updated with the latest news and community events
-        </p>
+        <p class="header-description">Stay updated with the latest news and community events</p>
       </div>
     </header>
 
@@ -68,16 +66,25 @@ const initialTab = url.searchParams.get('tab') || 'events';
             class:list={['tab-btn', { active: initialTab === 'events' }]}
             data-tab="events"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
               <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
               <line x1="16" y1="2" x2="16" y2="6"></line>
               <line x1="8" y1="2" x2="8" y2="6"></line>
               <line x1="3" y1="10" x2="21" y2="10"></line>
             </svg>
             Events
-            {upcomingEvents.length > 0 && (
-              <span class="tab-badge upcoming">{upcomingEvents.length}</span>
-            )}
+            {
+              upcomingEvents.length > 0 && (
+                <span class="tab-badge upcoming">{upcomingEvents.length}</span>
+              )
+            }
           </button>
           <button
             role="tab"
@@ -87,8 +94,17 @@ const initialTab = url.searchParams.get('tab') || 'events';
             class:list={['tab-btn', { active: initialTab === 'news' }]}
             data-tab="news"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"></path>
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"
+              ></path>
               <path d="M18 14h-8M15 18h-5M10 6h8v4h-8V6Z"></path>
             </svg>
             News
@@ -107,93 +123,164 @@ const initialTab = url.searchParams.get('tab') || 'events';
       >
         <div class="filter-section">
           <div class="event-filter" role="group" aria-label="Filter events by type">
-            {eventTypes.map((type) => (
-              <button
-                class:list={['filter-btn', { active: type === 'all' }]}
-                data-event-type={type}
-              >
-                {type === 'all' ? 'All' : type.charAt(0).toUpperCase() + type.slice(1)}
-              </button>
-            ))}
+            {
+              eventTypes.map((type) => (
+                <button
+                  class:list={['filter-btn', { active: type === 'all' }]}
+                  data-event-type={type}
+                >
+                  {type === 'all' ? 'All' : type.charAt(0).toUpperCase() + type.slice(1)}
+                </button>
+              ))
+            }
           </div>
         </div>
 
         <section class="upcoming-events">
           <h2 class="section-label">Upcoming</h2>
-          {upcomingEvents.length > 0 ? (
-            <div class="events-grid">
-              {upcomingEvents.map((event) => (
-                <div data-event-type={event.data.type}>
-                  <EventCard
-                    title={event.data.title}
-                    date={event.data.date}
-                    endDate={event.data.endDate}
-                    type={event.data.type}
-                    location={event.data.location}
-                    isOnline={event.data.isOnline}
-                    description={event.data.description}
-                    slug={event.slug}
-                    featured={event.data.featured}
+          {
+            upcomingEvents.length > 0 ? (
+              <div class="events-grid">
+                {upcomingEvents.map((event) => (
+                  <div data-event-type={event.data.type}>
+                    <EventCard
+                      title={event.data.title}
+                      date={event.data.date}
+                      endDate={event.data.endDate}
+                      type={event.data.type}
+                      location={event.data.location}
+                      isOnline={event.data.isOnline}
+                      description={event.data.description}
+                      slug={event.slug}
+                      featured={event.data.featured}
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div class="empty-state">
+                <div class="empty-illustration" aria-hidden="true">
+                  <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect
+                      x="20"
+                      y="30"
+                      width="80"
+                      height="70"
+                      rx="8"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      class="calendar-body"
+                    />
+                    <path
+                      d="M20 50h80"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      class="calendar-line"
+                    />
+                    <rect
+                      x="35"
+                      y="38"
+                      width="10"
+                      height="16"
+                      rx="2"
+                      fill="currentColor"
+                      class="calendar-hook"
+                    />
+                    <rect
+                      x="75"
+                      y="38"
+                      width="10"
+                      height="16"
+                      rx="2"
+                      fill="currentColor"
+                      class="calendar-hook"
+                    />
+                    <circle
+                      cx="45"
+                      cy="70"
+                      r="6"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      class="calendar-dot"
+                    />
+                    <circle
+                      cx="60"
+                      cy="70"
+                      r="6"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      class="calendar-dot"
+                    />
+                    <circle
+                      cx="75"
+                      cy="70"
+                      r="6"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      class="calendar-dot"
+                    />
+                    <path
+                      d="M45 85h30"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      class="calendar-line"
+                    />
+                  </svg>
+                </div>
+                <h3 class="empty-title">No upcoming events yet</h3>
+                <p class="empty-description">Check back soon for new community events!</p>
+                <div class="empty-newsletter">
+                  <NewsletterSignup
+                    variant="card"
+                    title="Get notified about events"
+                    description="Subscribe to be the first to know when new events are announced."
                   />
                 </div>
-              ))}
-            </div>
-          ) : (
-            <div class="empty-state">
-              <div class="empty-illustration" aria-hidden="true">
-                <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="20" y="30" width="80" height="70" rx="8" stroke="currentColor" stroke-width="2" class="calendar-body"/>
-                  <path d="M20 50h80" stroke="currentColor" stroke-width="2" class="calendar-line"/>
-                  <rect x="35" y="38" width="10" height="16" rx="2" fill="currentColor" class="calendar-hook"/>
-                  <rect x="75" y="38" width="10" height="16" rx="2" fill="currentColor" class="calendar-hook"/>
-                  <circle cx="45" cy="70" r="6" stroke="currentColor" stroke-width="2" class="calendar-dot"/>
-                  <circle cx="60" cy="70" r="6" stroke="currentColor" stroke-width="2" class="calendar-dot"/>
-                  <circle cx="75" cy="70" r="6" stroke="currentColor" stroke-width="2" class="calendar-dot"/>
-                  <path d="M45 85h30" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="calendar-line"/>
-                </svg>
               </div>
-              <h3 class="empty-title">No upcoming events yet</h3>
-              <p class="empty-description">Check back soon for new community events!</p>
-              <div class="empty-newsletter">
-                <NewsletterSignup
-                  variant="card"
-                  title="Get notified about events"
-                  description="Subscribe to be the first to know when new events are announced."
-                />
-              </div>
-            </div>
-          )}
+            )
+          }
         </section>
 
-        {pastEvents.length > 0 && (
-          <section class="past-events">
-            <button class="section-toggle" aria-expanded="false" aria-controls="past-events-list">
-              <h2 class="section-label">Past Events</h2>
-              <span class="toggle-count">{pastEvents.length}</span>
-              <svg class="toggle-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="6 9 12 15 18 9"/>
-              </svg>
-            </button>
+        {
+          pastEvents.length > 0 && (
+            <section class="past-events">
+              <button class="section-toggle" aria-expanded="false" aria-controls="past-events-list">
+                <h2 class="section-label">Past Events</h2>
+                <span class="toggle-count">{pastEvents.length}</span>
+                <svg
+                  class="toggle-icon"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
 
-            <div id="past-events-list" class="events-grid past-list" hidden>
-              {pastEvents.map((event) => (
-                <div data-event-type={event.data.type}>
-                  <EventCard
-                    title={event.data.title}
-                    date={event.data.date}
-                    endDate={event.data.endDate}
-                    type={event.data.type}
-                    location={event.data.location}
-                    isOnline={event.data.isOnline}
-                    description={event.data.description}
-                    slug={event.slug}
-                    isPast={true}
-                  />
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
+              <div id="past-events-list" class="events-grid past-list" hidden>
+                {pastEvents.map((event) => (
+                  <div data-event-type={event.data.type}>
+                    <EventCard
+                      title={event.data.title}
+                      date={event.data.date}
+                      endDate={event.data.endDate}
+                      type={event.data.type}
+                      location={event.data.location}
+                      isOnline={event.data.isOnline}
+                      description={event.data.description}
+                      slug={event.slug}
+                      isPast={true}
+                    />
+                  </div>
+                ))}
+              </div>
+            </section>
+          )
+        }
 
         <section class="host-section">
           <h3>Want to host an event?</h3>
@@ -205,7 +292,14 @@ const initialTab = url.searchParams.get('tab') || 'events';
             rel="noopener noreferrer"
           >
             Propose your event
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
               <path d="M7 17L17 7M17 7H7M17 7v10"></path>
             </svg>
           </a>
@@ -223,37 +317,43 @@ const initialTab = url.searchParams.get('tab') || 'events';
       >
         <div class="filter-section">
           <div class="news-filter" role="group" aria-label="Filter news by type">
-            {newsTypes.map((type) => (
-              <button
-                class:list={['filter-btn', { active: type === 'all' }]}
-                data-news-type={type}
-              >
-                {type === 'all' ? 'All' : newsTypeLabels[type] || type}
-              </button>
-            ))}
+            {
+              newsTypes.map((type) => (
+                <button
+                  class:list={['filter-btn', { active: type === 'all' }]}
+                  data-news-type={type}
+                >
+                  {type === 'all' ? 'All' : newsTypeLabels[type] || type}
+                </button>
+              ))
+            }
           </div>
         </div>
 
         <div class="news-grid" id="news-grid">
-          {sortedNews.map((article) => (
-            <div data-news-type={article.data.type}>
-              <NewsCard
-                title={article.data.title}
-                date={article.data.date}
-                type={article.data.type}
-                author={article.data.author}
-                description={article.data.description}
-                slug={article.slug}
-              />
-            </div>
-          ))}
+          {
+            sortedNews.map((article) => (
+              <div data-news-type={article.data.type}>
+                <NewsCard
+                  title={article.data.title}
+                  date={article.data.date}
+                  type={article.data.type}
+                  author={article.data.author}
+                  description={article.data.description}
+                  slug={article.slug}
+                />
+              </div>
+            ))
+          }
         </div>
 
-        {sortedNews.length === 0 && (
-          <div class="empty-state">
-            <p>No news articles yet. Check back soon!</p>
-          </div>
-        )}
+        {
+          sortedNews.length === 0 && (
+            <div class="empty-state">
+              <p>No news articles yet. Check back soon!</p>
+            </div>
+          )
+        }
 
         <div class="external-news">
           <h2>More Global News</h2>
@@ -265,9 +365,18 @@ const initialTab = url.searchParams.get('tab') || 'events';
           >
             <div class="external-content">
               <span class="external-title">Open Conversations</span>
-              <span class="external-description">Global news and insights about open finance worldwide</span>
+              <span class="external-description"
+                >Global news and insights about open finance worldwide</span
+              >
             </div>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
               <path d="M7 17L17 7M17 7H7M17 7v10"></path>
             </svg>
           </a>
@@ -420,8 +529,14 @@ const initialTab = url.searchParams.get('tab') || 'events';
   }
 
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(4px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   /* Filters */
@@ -657,7 +772,10 @@ const initialTab = url.searchParams.get('tab') || 'events';
     border: 1px solid var(--color-gray-200);
     border-radius: var(--radius-lg);
     text-decoration: none;
-    transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast),
+      transform var(--transition-fast);
   }
 
   .external-link:hover {
