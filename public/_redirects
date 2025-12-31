@@ -2,13 +2,24 @@
 https://www.openfinance-os.org/* https://openfinance-os.org/:splat 301
 
 # Common legacy URL patterns (add as needed)
-/blog/* /news/:splat 301
-/articles/* /news/:splat 301
+/blog/* /updates?tab=news 301
+/articles/* /updates?tab=news 301
 /docs/* /learn/:splat 301
 /dashboard/* /observatory/:splat 301
 
-# Old page redirects (examples for future use)
-# /old-page /new-page 301
+# Menu consolidation redirects (2024)
+# News and Events merged into Updates
+/news /updates?tab=news 301
+/events /updates?tab=events 301
+
+# Links merged into Learn
+/links /learn#resources 301
+
+# Global moved under Learn
+/global /learn/global 301
+/global/uk /learn/global/uk 301
+/global/eu /learn/global/eu 301
+/global/gcc /learn/global/gcc 301
 
 # Handle trailing slashes consistently (Astro default includes them)
 # Uncomment if needed:

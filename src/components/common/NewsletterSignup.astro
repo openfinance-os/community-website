@@ -60,21 +60,6 @@ const {
       No spam. Unsubscribe anytime.
     </p>
   </form>
-  <div class="newsletter-success" hidden>
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      aria-hidden="true"
-    >
-      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-      <polyline points="22 4 12 14.01 9 11.01"></polyline>
-    </svg>
-    <span>Thanks for subscribing!</span>
-  </div>
 </div>
 
 <script>
@@ -84,20 +69,12 @@ const {
       e.preventDefault();
       const formEl = e.target as HTMLFormElement;
       const emailInput = formEl.querySelector('.email-input') as HTMLInputElement;
-      const successMsg = formEl.parentElement?.querySelector('.newsletter-success');
 
       if (!emailInput?.value) return;
 
-      // Simulate success (in production, this would send to a newsletter service)
-      formEl.setAttribute('hidden', '');
-      successMsg?.removeAttribute('hidden');
-
-      // Reset after 5 seconds
-      setTimeout(() => {
-        formEl.removeAttribute('hidden');
-        successMsg?.setAttribute('hidden', '');
-        emailInput.value = '';
-      }, 5000);
+      // In production, this would send to a newsletter service
+      // For now, just clear the input
+      emailInput.value = '';
     });
   });
 </script>
@@ -238,17 +215,6 @@ const {
     color: var(--color-gray-400);
   }
 
-  /* Success message */
-  .newsletter-success {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2);
-    padding: var(--space-4);
-    color: var(--color-success-600);
-    font-weight: 500;
-  }
-
   /* Dark mode */
   :global([data-theme='dark']) .newsletter-card {
     background: linear-gradient(135deg, rgba(20, 184, 166, 0.1) 0%, var(--color-gray-100) 100%);
@@ -287,9 +253,5 @@ const {
 
   :global([data-theme='dark']) .submit-btn:hover {
     background: var(--color-primary-400);
-  }
-
-  :global([data-theme='dark']) .newsletter-success {
-    color: var(--color-success-400);
   }
 </style>
