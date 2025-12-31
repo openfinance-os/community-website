@@ -1,0 +1,290 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+---
+
+<PageLayout title="Page Not Found" description="The page you're looking for doesn't exist.">
+  <div class="not-found-page">
+    <div class="container">
+      <div class="error-code">404</div>
+      <h1>Page not found</h1>
+      <p class="description">The page you're looking for doesn't exist or has been moved.</p>
+
+      <div class="actions">
+        <a href="/" class="btn-primary">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          Back to Home
+        </a>
+        <a href="/observatory" class="btn-secondary">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+          View Observatory
+        </a>
+      </div>
+
+      <div class="helpful-links">
+        <h2>Helpful links</h2>
+        <ul>
+          <li>
+            <a href="/observatory">Observatory</a>
+            <span>Explore UAE Open Finance participants</span>
+          </li>
+          <li>
+            <a href="/news">News</a>
+            <span>Latest updates and announcements</span>
+          </li>
+          <li>
+            <a href="/learn">Learn</a>
+            <span>Guides and documentation</span>
+          </li>
+          <li>
+            <a href="/community">Community</a>
+            <span>Connect with others</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .not-found-page {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-12) var(--space-4);
+    text-align: center;
+  }
+
+  .container {
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  .error-code {
+    font-family: var(--font-mono);
+    font-size: 8rem;
+    font-weight: 700;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--color-primary-500) 0%, var(--color-primary-700) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: var(--space-4);
+    opacity: 0.8;
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: var(--space-3);
+    color: var(--color-gray-900);
+  }
+
+  .description {
+    font-size: 1.125rem;
+    color: var(--color-gray-600);
+    margin-bottom: var(--space-8);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    justify-content: center;
+    margin-bottom: var(--space-12);
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-5);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-primary {
+    background: var(--color-primary-600);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: var(--color-primary-700);
+    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .btn-secondary {
+    background: var(--color-gray-100);
+    color: var(--color-gray-700);
+    border: 1px solid var(--color-gray-200);
+  }
+
+  .btn-secondary:hover {
+    background: var(--color-gray-50);
+    border-color: var(--color-gray-300);
+    text-decoration: none;
+  }
+
+  .helpful-links {
+    text-align: left;
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-gray-200);
+  }
+
+  .helpful-links h2 {
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-gray-400);
+    margin-bottom: var(--space-4);
+  }
+
+  .helpful-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .helpful-links li {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-3);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-md);
+    transition: background-color var(--transition-fast);
+  }
+
+  .helpful-links li:hover {
+    background: var(--color-gray-100);
+  }
+
+  .helpful-links a {
+    font-weight: 500;
+    color: var(--color-primary-600);
+  }
+
+  .helpful-links a:hover {
+    color: var(--color-primary-700);
+  }
+
+  .helpful-links span {
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+  }
+
+  /* Dark mode */
+  :global([data-theme='dark']) h1 {
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .description {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .error-code {
+    background: linear-gradient(135deg, var(--color-primary-400) 0%, var(--color-primary-600) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  :global([data-theme='dark']) .btn-primary {
+    background: var(--color-primary-500);
+  }
+
+  :global([data-theme='dark']) .btn-primary:hover {
+    background: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .btn-secondary {
+    background: var(--color-gray-200);
+    color: var(--color-gray-100);
+    border-color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .btn-secondary:hover {
+    background: var(--color-gray-300);
+    border-color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .helpful-links {
+    border-top-color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .helpful-links h2 {
+    color: var(--color-gray-500);
+  }
+
+  :global([data-theme='dark']) .helpful-links li {
+    background: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .helpful-links li:hover {
+    background: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .helpful-links a {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .helpful-links a:hover {
+    color: var(--color-primary-300);
+  }
+
+  :global([data-theme='dark']) .helpful-links span {
+    color: var(--color-gray-400);
+  }
+
+  @media (max-width: 480px) {
+    .error-code {
+      font-size: 5rem;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    .actions {
+      flex-direction: column;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>

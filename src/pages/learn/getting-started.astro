@@ -1,5 +1,6 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
+import Breadcrumb from '@components/common/Breadcrumb.astro';
 
 const steps = [
   {
@@ -64,11 +65,7 @@ const steps = [
 >
   <div class="guide-page">
     <div class="container">
-      <nav class="breadcrumb">
-        <a href="/learn">Learn</a>
-        <span>/</span>
-        <span>Getting Started</span>
-      </nav>
+      <Breadcrumb items={[{ label: 'Learn', href: '/learn' }, { label: 'Getting Started' }]} />
 
       <header class="page-header">
         <span class="badge">Start Here</span>

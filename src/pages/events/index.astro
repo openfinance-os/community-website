@@ -2,6 +2,7 @@
 import PageLayout from '@layouts/PageLayout.astro';
 import EventCard from '@components/events/EventCard.astro';
 import EventFilter from '@components/events/EventFilter.astro';
+import NewsletterSignup from '@components/common/NewsletterSignup.astro';
 import { getCollection } from 'astro:content';
 
 const allEvents = await getCollection('events');
@@ -183,6 +184,80 @@ const types = ['all', 'meetup', 'hackathon', 'webinar', 'conference', 'workshop'
                   </svg>
                   Propose an event
                 </a>
+              </div>
+
+              <div class="empty-newsletter">
+                <NewsletterSignup
+                  variant="card"
+                  title="Get notified about events"
+                  description="Subscribe to be the first to know when new events are announced."
+                />
+              </div>
+
+              <div class="event-suggestions">
+                <h4>Events we're looking for</h4>
+                <ul>
+                  <li>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                      <circle cx="9" cy="7" r="4" />
+                      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                    Community meetups and networking events
+                  </li>
+                  <li>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                      <line x1="8" y1="21" x2="16" y2="21" />
+                      <line x1="12" y1="17" x2="12" y2="21" />
+                    </svg>
+                    Technical webinars and API workshops
+                  </li>
+                  <li>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                      <polyline points="2 17 12 22 22 17" />
+                      <polyline points="2 12 12 17 22 12" />
+                    </svg>
+                    Hackathons and coding challenges
+                  </li>
+                  <li>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                      <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                    </svg>
+                    Educational sessions and training
+                  </li>
+                </ul>
               </div>
             </div>
           )
@@ -384,6 +459,69 @@ const types = ['all', 'meetup', 'hackathon', 'webinar', 'conference', 'workshop'
   .action-secondary:hover {
     background: var(--color-gray-50);
     border-color: var(--color-gray-400);
+  }
+
+  /* Newsletter in empty state */
+  .empty-newsletter {
+    margin-top: var(--space-8);
+    max-width: 400px;
+  }
+
+  /* Event suggestions */
+  .event-suggestions {
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-gray-200);
+    text-align: left;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .event-suggestions h4 {
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-gray-400);
+    margin-bottom: var(--space-3);
+  }
+
+  .event-suggestions ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .event-suggestions li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-2) 0;
+    font-size: 0.875rem;
+    color: var(--color-gray-600);
+  }
+
+  .event-suggestions li svg {
+    flex-shrink: 0;
+    color: var(--color-primary-500);
+  }
+
+  :global([data-theme='dark']) .event-suggestions {
+    border-top-color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .event-suggestions h4 {
+    color: var(--color-gray-500);
+  }
+
+  :global([data-theme='dark']) .event-suggestions li {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .event-suggestions li svg {
+    color: var(--color-primary-400);
   }
 
   /* Past Events Toggle */

@@ -611,10 +611,15 @@ const formatDate = (dateStr: string) => {
                 data-type={profile?.type || ''}
                 data-city={displayCity}
                 data-is-live={participant.isLive ?? true}
+                data-participant-name={participant.name}
+                data-participant-short-name={participant.shortName}
+                data-participant-city={displayCity}
+                data-participant-roles={participant.roles.join(', ')}
               >
                 <ParticipantCard
                   name={participant.name}
                   legalName={participant.legalName}
+                  shortName={participant.shortName}
                   status={participant.status}
                   roles={participant.roles}
                   city={participant.city}

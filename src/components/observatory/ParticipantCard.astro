@@ -26,6 +26,7 @@ interface Profile {
 interface Props {
   name: string;
   legalName: string;
+  shortName: string;
   status: string;
   roles: string[];
   city: string;
@@ -39,6 +40,7 @@ interface Props {
 const {
   name,
   legalName,
+  shortName,
   status,
   roles,
   city,
@@ -48,6 +50,18 @@ const {
   isLive = true,
   profile,
 } = Astro.props;
+
+// Generate slug for the detail page link
+const slug = shortName
+  ? shortName
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '')
+  : name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '');
+const detailUrl = `/observatory/participant/${slug}`;
 
 // API families configuration
 const allApiFamilies = [
@@ -91,129 +105,145 @@ const displayCity =
   city === 'Unknown' && profile?.headquarters?.city ? profile.headquarters.city : city;
 ---
 
-<article class="participant-card">
-  <!-- Corner decoration (matches StatCard) -->
-  <div class="card-decoration" aria-hidden="true"></div>
+<a href={detailUrl} class="participant-card-link">
+  <article class="participant-card">
+    <!-- Corner decoration (matches StatCard) -->
+    <div class="card-decoration" aria-hidden="true"></div>
 
-  <!-- Header: Type Badge + Location -->
-  <header class="card-header">
-    <div class="header-left">
-      {
-        profile?.typeLabel ? (
-          <div class:list={['type-badge', typeColors[profile.type || ''] || 'type-default']}>
-            {isInternational && parentFlag && <span class="type-flag">{parentFlag}</span>}
-            {profile.typeLabel}
-          </div>
-        ) : isLive ? (
-          <div class="status-badge live">
-            <span class="status-dot" />
-            <span class="status-text">Live</span>
-          </div>
-        ) : (
-          <div class="status-badge registered">
-            <span class="status-text">Registered</span>
-          </div>
-        )
-      }
-    </div>
-    <div class="location">
-      <svg
-        width="12"
-        height="12"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true"
-      >
-        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-        <circle cx="12" cy="10" r="3"></circle>
-      </svg>
-      <span>{displayCity}</span>
-    </div>
-  </header>
-
-  <!-- Name Section -->
-  <div class="name-section">
-    <h3 class="institution-name">{name}</h3>
-    <p class="legal-name">{legalName}</p>
-  </div>
-
-  <!-- Description (if profile available) -->
-  {profile?.description && <p class="description">{profile.description}</p>}
-
-  <!-- Parent Company (for international banks) -->
-  {
-    profile?.parentCompany && (
-      <div class="parent-company">
-        <span class="parent-label">HQ:</span>
-        <span class="parent-value">{profile.parentCompany.headquarters}</span>
-      </div>
-    )
-  }
-
-  <!-- Market Position (if notable) -->
-  {profile?.marketPosition && <div class="market-position">{profile.marketPosition}</div>}
-
-  <!-- Roles -->
-  <div class="roles-section">
-    <span class="roles-label">Roles</span>
-    <p class="roles-list">
-      {
-        roles.map((role, index) => (
-          <>
-            <span class="role">{role}</span>
-            {index < roles.length - 1 && <span class="role-separator">·</span>}
-          </>
-        ))
-      }
-    </p>
-  </div>
-
-  <!-- API Coverage -->
-  <div class="api-section">
-    <span class="api-label">API Coverage</span>
-    <div class="api-indicators">
-      {
-        allApiFamilies.map((api) => {
-          const isActive = apiFamilies.includes(api.key);
-          return (
-            <div class="api-item" class:list={[{ active: isActive }]}>
-              <span class="api-dot" />
-              <span class="api-name">{api.label}</span>
+    <!-- Header: Type Badge + Location -->
+    <header class="card-header">
+      <div class="header-left">
+        {
+          profile?.typeLabel ? (
+            <div class:list={['type-badge', typeColors[profile.type || ''] || 'type-default']}>
+              {isInternational && parentFlag && <span class="type-flag">{parentFlag}</span>}
+              {profile.typeLabel}
             </div>
-          );
-        })
-      }
-    </div>
-  </div>
+          ) : isLive ? (
+            <div class="status-badge live">
+              <span class="status-dot" />
+              <span class="status-text">Live</span>
+            </div>
+          ) : (
+            <div class="status-badge registered">
+              <span class="status-text">Registered</span>
+            </div>
+          )
+        }
+      </div>
+      <div class="location">
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+        <span>{displayCity}</span>
+      </div>
+    </header>
 
-  <!-- Footer -->
-  <footer class="card-footer">
-    {isShariahCompliant && <span class="shariah-badge">Islamic Banking</span>}
+    <!-- Name Section -->
+    <div class="name-section">
+      <h3 class="institution-name">{name}</h3>
+      <p class="legal-name">{legalName}</p>
+    </div>
+
+    <!-- Description (if profile available) -->
+    {profile?.description && <p class="description">{profile.description}</p>}
+
+    <!-- Parent Company (for international banks) -->
     {
-      profile?.website && (
-        <a href={profile.website} class="website-link" target="_blank" rel="noopener noreferrer">
-          Visit website
-          <svg
-            width="12"
-            height="12"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path d="M7 17L17 7M17 7H7M17 7v10" />
-          </svg>
-        </a>
+      profile?.parentCompany && (
+        <div class="parent-company">
+          <span class="parent-label">HQ:</span>
+          <span class="parent-value">{profile.parentCompany.headquarters}</span>
+        </div>
       )
     }
-  </footer>
-</article>
+
+    <!-- Market Position (if notable) -->
+    {profile?.marketPosition && <div class="market-position">{profile.marketPosition}</div>}
+
+    <!-- Roles -->
+    <div class="roles-section">
+      <span class="roles-label">Roles</span>
+      <p class="roles-list">
+        {
+          roles.map((role, index) => (
+            <>
+              <span class="role">{role}</span>
+              {index < roles.length - 1 && <span class="role-separator">·</span>}
+            </>
+          ))
+        }
+      </p>
+    </div>
+
+    <!-- API Coverage -->
+    <div class="api-section">
+      <span class="api-label">API Coverage</span>
+      <div class="api-indicators">
+        {
+          allApiFamilies.map((api) => {
+            const isActive = apiFamilies.includes(api.key);
+            return (
+              <div class="api-item" class:list={[{ active: isActive }]}>
+                <span class="api-dot" />
+                <span class="api-name">{api.label}</span>
+              </div>
+            );
+          })
+        }
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="card-footer">
+      {isShariahCompliant && <span class="shariah-badge">Islamic Banking</span>}
+      {
+        profile?.website && (
+          <span
+            class="website-link"
+            data-href={profile.website}
+            onclick="event.preventDefault(); event.stopPropagation(); window.open(this.dataset.href, '_blank');"
+          >
+            Visit website
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M7 17L17 7M17 7H7M17 7v10" />
+            </svg>
+          </span>
+        )
+      }
+    </footer>
+  </article>
+</a>
 
 <style>
+  .participant-card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .participant-card-link:hover {
+    text-decoration: none;
+  }
+
   .participant-card {
     position: relative;
     background: white;
@@ -568,11 +598,18 @@ const displayCity =
     color: var(--color-primary-600);
     text-decoration: none;
     margin-left: auto;
+    cursor: pointer;
   }
 
   .website-link:hover {
     color: var(--color-primary-700);
     text-decoration: underline;
+  }
+
+  .website-link:focus {
+    outline: 2px solid var(--color-primary-400);
+    outline-offset: 2px;
+    border-radius: 2px;
   }
 
   /* Dark mode */
