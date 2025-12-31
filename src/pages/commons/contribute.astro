@@ -536,19 +536,20 @@ Organize with clear headings.
 
   .type-card li {
     position: relative;
-    padding-left: var(--space-4);
+    padding-left: var(--space-5);
     font-size: 0.8125rem;
     color: var(--color-gray-600);
-    margin-bottom: var(--space-1);
+    margin-bottom: var(--space-2);
+    line-height: 1.5;
   }
 
   .type-card li::before {
     content: '';
     position: absolute;
-    left: 0;
-    top: 0.5em;
-    width: 4px;
-    height: 4px;
+    left: var(--space-1);
+    top: 0.55em;
+    width: 5px;
+    height: 5px;
     background: var(--color-gray-400);
     border-radius: 50%;
   }
@@ -718,18 +719,18 @@ Organize with clear headings.
 
   .guideline li {
     position: relative;
-    padding-left: var(--space-5);
+    padding-left: var(--space-6);
     font-size: 0.875rem;
     color: var(--color-gray-600);
-    margin-bottom: var(--space-2);
+    margin-bottom: var(--space-3);
     line-height: 1.5;
   }
 
   .guideline li::before {
     content: '';
     position: absolute;
-    left: 0;
-    top: 0.5em;
+    left: var(--space-1);
+    top: 0.55em;
     width: 6px;
     height: 6px;
     border-radius: 50%;
@@ -816,12 +817,13 @@ Organize with clear headings.
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    padding: var(--space-3) var(--space-5);
+    padding: var(--space-3) var(--space-6);
     font-weight: 500;
     font-size: 0.875rem;
     border-radius: var(--radius-lg);
     text-decoration: none;
     transition: all var(--transition-fast);
+    line-height: 1.5;
   }
 
   .btn-primary {
