@@ -1317,7 +1317,7 @@ const displayParticipants = participants;
 </style>
 
 <script>
-  // Participant filtering
+  // Participant filtering with URL persistence
   const searchInput = document.getElementById('participant-search') as HTMLInputElement;
   const typeFilter = document.getElementById('filter-type') as HTMLSelectElement;
   const cityFilter = document.getElementById('filter-city') as HTMLSelectElement;
@@ -1325,7 +1325,43 @@ const displayParticipants = participants;
   const participantsGrid = document.getElementById('participants-grid');
   const filteredCountEl = document.getElementById('filtered-count');
 
-  function filterParticipants() {
+  // Read filters from URL on page load
+  function loadFiltersFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    const search = params.get('search');
+    const type = params.get('type');
+    const city = params.get('city');
+    const status = params.get('status');
+
+    if (search && searchInput) searchInput.value = search;
+    if (type && typeFilter) typeFilter.value = type;
+    if (city && cityFilter) cityFilter.value = city;
+    if (status && statusFilter) statusFilter.value = status;
+
+    // Apply filters if any URL params exist
+    if (search || type || city || status) {
+      filterParticipants(false); // Don't update URL, we're loading from it
+    }
+  }
+
+  // Update URL with current filters
+  function updateURL() {
+    const params = new URLSearchParams();
+
+    if (searchInput?.value) params.set('search', searchInput.value);
+    if (typeFilter?.value) params.set('type', typeFilter.value);
+    if (cityFilter?.value) params.set('city', cityFilter.value);
+    if (statusFilter?.value) params.set('status', statusFilter.value);
+
+    const newURL = params.toString()
+      ? `${window.location.pathname}?${params.toString()}`
+      : window.location.pathname;
+
+    // Use replaceState to avoid creating history entries for every filter change
+    window.history.replaceState({}, '', newURL);
+  }
+
+  function filterParticipants(shouldUpdateURL = true) {
     if (!participantsGrid) return;
 
     const searchTerm = searchInput?.value.toLowerCase() || '';
@@ -1386,11 +1422,24 @@ const displayParticipants = participants;
     } else if (visibleCount > 0 && existingNoResults) {
       existingNoResults.remove();
     }
+
+    // Update URL with current filters
+    if (shouldUpdateURL) {
+      updateURL();
+    }
   }
 
   // Add event listeners
-  searchInput?.addEventListener('input', filterParticipants);
-  typeFilter?.addEventListener('change', filterParticipants);
-  cityFilter?.addEventListener('change', filterParticipants);
-  statusFilter?.addEventListener('change', filterParticipants);
+  searchInput?.addEventListener('input', () => filterParticipants());
+  typeFilter?.addEventListener('change', () => filterParticipants());
+  cityFilter?.addEventListener('change', () => filterParticipants());
+  statusFilter?.addEventListener('change', () => filterParticipants());
+
+  // Load filters from URL on page load
+  loadFiltersFromURL();
+
+  // Handle browser back/forward navigation
+  window.addEventListener('popstate', () => {
+    loadFiltersFromURL();
+  });
 </script>

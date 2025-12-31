@@ -1,0 +1,926 @@
+---
+// SearchDialog component - Global search functionality
+// Searches across participants, news, and pages
+---
+
+<div class="search-trigger-container">
+  <button class="search-trigger" aria-label="Search" title="Search (Ctrl+K)">
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      aria-hidden="true"
+    >
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+    <span class="search-label">Search</span>
+    <kbd class="search-kbd">
+      <span class="kbd-ctrl">Ctrl</span>
+      <span class="kbd-key">K</span>
+    </kbd>
+  </button>
+</div>
+
+<dialog class="search-dialog" aria-label="Search">
+  <div class="search-container">
+    <div class="search-header">
+      <div class="search-input-wrapper">
+        <svg
+          class="search-icon"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input
+          type="search"
+          class="search-input"
+          placeholder="Search participants, news, pages..."
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+        />
+        <button class="search-clear" aria-label="Clear search" hidden>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M18 6L6 18M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <button class="search-close" aria-label="Close search">
+        <kbd>ESC</kbd>
+      </button>
+    </div>
+
+    <div class="search-body">
+      <div class="search-results" hidden>
+        <div class="results-section results-participants" hidden>
+          <h3 class="results-heading">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            Participants
+          </h3>
+          <ul class="results-list participants-list"></ul>
+        </div>
+        <div class="results-section results-news" hidden>
+          <h3 class="results-heading">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"
+              ></path>
+              <path d="M18 14h-8M15 18h-5M10 6h8v4h-8V6Z"></path>
+            </svg>
+            News
+          </h3>
+          <ul class="results-list news-list"></ul>
+        </div>
+        <div class="results-section results-pages" hidden>
+          <h3 class="results-heading">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            Pages
+          </h3>
+          <ul class="results-list pages-list"></ul>
+        </div>
+      </div>
+
+      <div class="search-empty" hidden>
+        <svg
+          width="48"
+          height="48"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <p class="empty-title">No results found</p>
+        <p class="empty-description">Try different keywords or browse by category</p>
+      </div>
+
+      <div class="search-initial">
+        <div class="quick-links">
+          <h3>Quick Links</h3>
+          <ul>
+            <li>
+              <a href="/observatory" class="quick-link">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                Observatory
+                <span>View all participants</span>
+              </a>
+            </li>
+            <li>
+              <a href="/news" class="quick-link">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"
+                  ></path>
+                </svg>
+                News
+                <span>Latest updates</span>
+              </a>
+            </li>
+            <li>
+              <a href="/learn" class="quick-link">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                </svg>
+                Learn
+                <span>Guides & documentation</span>
+              </a>
+            </li>
+            <li>
+              <a href="/events" class="quick-link">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                Events
+                <span>Community events</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="search-footer">
+      <div class="search-hints">
+        <span><kbd>Enter</kbd> to select</span>
+        <span><kbd>&uarr;</kbd><kbd>&darr;</kbd> to navigate</span>
+        <span><kbd>ESC</kbd> to close</span>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  // Initialize search dialog
+  const trigger = document.querySelector('.search-trigger');
+  const dialog = document.querySelector('.search-dialog') as HTMLDialogElement | null;
+  const input = document.querySelector('.search-input') as HTMLInputElement | null;
+  const clearBtn = document.querySelector('.search-clear');
+  const closeBtn = document.querySelector('.search-close');
+  const resultsContainer = document.querySelector('.search-results');
+  const emptyState = document.querySelector('.search-empty');
+  const initialState = document.querySelector('.search-initial');
+
+  // Searchable data (will be populated from page data)
+  interface SearchItem {
+    type: 'participant' | 'news' | 'page';
+    title: string;
+    description?: string;
+    url: string;
+    meta?: string;
+  }
+
+  const searchData: SearchItem[] = [];
+
+  // Pages data (static)
+  const pages: SearchItem[] = [
+    {
+      type: 'page',
+      title: 'Observatory',
+      description: 'Explore UAE Open Finance participants',
+      url: '/observatory',
+    },
+    { type: 'page', title: 'News', description: 'Latest updates and announcements', url: '/news' },
+    { type: 'page', title: 'Events', description: 'Community events and meetups', url: '/events' },
+    { type: 'page', title: 'Learn', description: 'Guides and documentation', url: '/learn' },
+    {
+      type: 'page',
+      title: 'Getting Started',
+      description: 'Introduction to UAE Open Finance',
+      url: '/learn/getting-started',
+    },
+    {
+      type: 'page',
+      title: 'API Guide',
+      description: 'Technical API documentation',
+      url: '/learn/api-guide',
+    },
+    {
+      type: 'page',
+      title: 'Bank Guide',
+      description: 'Guide for banks and ASPSPs',
+      url: '/learn/bank-guide',
+    },
+    {
+      type: 'page',
+      title: 'TPP Guide',
+      description: 'Guide for third-party providers',
+      url: '/learn/tpp-guide',
+    },
+    {
+      type: 'page',
+      title: 'Glossary',
+      description: 'Open Finance terminology',
+      url: '/learn/glossary',
+    },
+    { type: 'page', title: 'FAQ', description: 'Frequently asked questions', url: '/learn/faq' },
+    {
+      type: 'page',
+      title: 'Global Standards',
+      description: 'International Open Banking standards',
+      url: '/global',
+    },
+    {
+      type: 'page',
+      title: 'Community',
+      description: 'Connect with the community',
+      url: '/community',
+    },
+    { type: 'page', title: 'Links', description: 'Useful resources and links', url: '/links' },
+    { type: 'page', title: 'About', description: 'About OpenFinance-OS', url: '/about' },
+  ];
+
+  // Load participant data from data attribute or fetch
+  async function loadSearchData() {
+    searchData.length = 0;
+    searchData.push(...pages);
+
+    try {
+      // Load participants from the page if available
+      const participantCards = document.querySelectorAll('[data-participant-name]');
+      participantCards.forEach((card) => {
+        const name = card.getAttribute('data-participant-name');
+        const city = card.getAttribute('data-participant-city');
+        const roles = card.getAttribute('data-participant-roles');
+        if (name) {
+          searchData.push({
+            type: 'participant',
+            title: name,
+            description: roles || '',
+            meta: city || '',
+            url: `/observatory?search=${encodeURIComponent(name)}`,
+          });
+        }
+      });
+
+      // Load news from the page if available
+      const newsCards = document.querySelectorAll('[data-news-title]');
+      newsCards.forEach((card) => {
+        const title = card.getAttribute('data-news-title');
+        const href = card.getAttribute('data-news-href');
+        const type = card.getAttribute('data-news-type');
+        if (title && href) {
+          searchData.push({
+            type: 'news',
+            title: title,
+            meta: type || '',
+            url: href,
+          });
+        }
+      });
+    } catch (error) {
+      console.error('Failed to load search data:', error);
+    }
+  }
+
+  // Search function
+  function search(query: string): SearchItem[] {
+    if (!query.trim()) return [];
+    const q = query.toLowerCase().trim();
+    return searchData
+      .filter((item) => {
+        const titleMatch = item.title.toLowerCase().includes(q);
+        const descMatch = item.description?.toLowerCase().includes(q);
+        const metaMatch = item.meta?.toLowerCase().includes(q);
+        return titleMatch || descMatch || metaMatch;
+      })
+      .slice(0, 15); // Limit results
+  }
+
+  // Render results
+  function renderResults(results: SearchItem[]) {
+    const participantsList = document.querySelector('.participants-list');
+    const newsList = document.querySelector('.news-list');
+    const pagesList = document.querySelector('.pages-list');
+    const participantsSection = document.querySelector('.results-participants');
+    const newsSection = document.querySelector('.results-news');
+    const pagesSection = document.querySelector('.results-pages');
+
+    if (!participantsList || !newsList || !pagesList) return;
+
+    // Clear previous results
+    participantsList.innerHTML = '';
+    newsList.innerHTML = '';
+    pagesList.innerHTML = '';
+
+    const participants = results.filter((r) => r.type === 'participant');
+    const news = results.filter((r) => r.type === 'news');
+    const pageResults = results.filter((r) => r.type === 'page');
+
+    // Show/hide sections based on results
+    participantsSection?.toggleAttribute('hidden', participants.length === 0);
+    newsSection?.toggleAttribute('hidden', news.length === 0);
+    pagesSection?.toggleAttribute('hidden', pageResults.length === 0);
+
+    // Render participants
+    participants.forEach((item) => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <a href="${item.url}" class="result-item">
+          <span class="result-title">${item.title}</span>
+          ${item.meta ? `<span class="result-meta">${item.meta}</span>` : ''}
+        </a>
+      `;
+      participantsList.appendChild(li);
+    });
+
+    // Render news
+    news.forEach((item) => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <a href="${item.url}" class="result-item">
+          <span class="result-title">${item.title}</span>
+          ${item.meta ? `<span class="result-meta">${item.meta}</span>` : ''}
+        </a>
+      `;
+      newsList.appendChild(li);
+    });
+
+    // Render pages
+    pageResults.forEach((item) => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <a href="${item.url}" class="result-item">
+          <span class="result-title">${item.title}</span>
+          ${item.description ? `<span class="result-desc">${item.description}</span>` : ''}
+        </a>
+      `;
+      pagesList.appendChild(li);
+    });
+  }
+
+  // Update UI based on search state
+  function updateSearchUI(query: string, results: SearchItem[]) {
+    if (!query.trim()) {
+      resultsContainer?.setAttribute('hidden', '');
+      emptyState?.setAttribute('hidden', '');
+      initialState?.removeAttribute('hidden');
+      clearBtn?.setAttribute('hidden', '');
+    } else if (results.length === 0) {
+      resultsContainer?.setAttribute('hidden', '');
+      emptyState?.removeAttribute('hidden');
+      initialState?.setAttribute('hidden', '');
+      clearBtn?.removeAttribute('hidden');
+    } else {
+      resultsContainer?.removeAttribute('hidden');
+      emptyState?.setAttribute('hidden', '');
+      initialState?.setAttribute('hidden', '');
+      clearBtn?.removeAttribute('hidden');
+      renderResults(results);
+    }
+  }
+
+  // Debounce helper
+  function debounce<T extends (...args: any[]) => void>(fn: T, delay: number): T {
+    let timeoutId: ReturnType<typeof setTimeout>;
+    return ((...args: Parameters<T>) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => fn(...args), delay);
+    }) as T;
+  }
+
+  // Handle search input
+  const handleSearch = debounce((query: string) => {
+    const results = search(query);
+    updateSearchUI(query, results);
+  }, 150);
+
+  // Open dialog
+  function openSearch() {
+    loadSearchData();
+    dialog?.showModal();
+    input?.focus();
+    document.body.style.overflow = 'hidden';
+  }
+
+  // Close dialog
+  function closeSearch() {
+    dialog?.close();
+    if (input) input.value = '';
+    updateSearchUI('', []);
+    document.body.style.overflow = '';
+  }
+
+  // Event listeners
+  trigger?.addEventListener('click', openSearch);
+  closeBtn?.addEventListener('click', closeSearch);
+  clearBtn?.addEventListener('click', () => {
+    if (input) input.value = '';
+    updateSearchUI('', []);
+    input?.focus();
+  });
+
+  input?.addEventListener('input', (e) => {
+    const target = e.target as HTMLInputElement;
+    handleSearch(target.value);
+  });
+
+  // Close on backdrop click
+  dialog?.addEventListener('click', (e) => {
+    if (e.target === dialog) closeSearch();
+  });
+
+  // Keyboard shortcuts
+  document.addEventListener('keydown', (e) => {
+    // Ctrl/Cmd + K to open search
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      if (dialog?.open) {
+        closeSearch();
+      } else {
+        openSearch();
+      }
+    }
+
+    // ESC to close
+    if (e.key === 'Escape' && dialog?.open) {
+      closeSearch();
+    }
+  });
+
+  // Handle result navigation with keyboard
+  input?.addEventListener('keydown', (e) => {
+    const items = document.querySelectorAll('.result-item');
+    if (!items.length) return;
+
+    const currentIndex = Array.from(items).findIndex((item) => item === document.activeElement);
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      const nextIndex = currentIndex < items.length - 1 ? currentIndex + 1 : 0;
+      (items[nextIndex] as HTMLElement).focus();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      const prevIndex = currentIndex > 0 ? currentIndex - 1 : items.length - 1;
+      (items[prevIndex] as HTMLElement).focus();
+    }
+  });
+</script>
+
+<style>
+  .search-trigger-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .search-trigger {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-gray-100);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    color: var(--color-gray-500);
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: all var(--transition-fast);
+  }
+
+  .search-trigger:hover {
+    background: var(--color-gray-50);
+    border-color: var(--color-gray-300);
+    color: var(--color-gray-700);
+  }
+
+  [data-theme='dark'] .search-trigger {
+    background: var(--color-gray-800);
+    border-color: var(--color-gray-700);
+    color: var(--color-gray-400);
+  }
+
+  [data-theme='dark'] .search-trigger:hover {
+    background: var(--color-gray-700);
+    border-color: var(--color-gray-600);
+    color: var(--color-gray-200);
+  }
+
+  .search-label {
+    display: none;
+  }
+
+  @media (min-width: 640px) {
+    .search-label {
+      display: inline;
+    }
+  }
+
+  .search-kbd {
+    display: none;
+    align-items: center;
+    gap: 2px;
+    margin-left: var(--space-2);
+    padding: 2px 6px;
+    background: var(--color-gray-200);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-gray-500);
+  }
+
+  @media (min-width: 768px) {
+    .search-kbd {
+      display: flex;
+    }
+  }
+
+  [data-theme='dark'] .search-kbd {
+    background: var(--color-gray-700);
+    color: var(--color-gray-400);
+  }
+
+  .kbd-ctrl {
+    font-size: 0.625rem;
+  }
+
+  /* Dialog */
+  .search-dialog {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95%;
+    max-width: 600px;
+    max-height: 80vh;
+    padding: 0;
+    border: none;
+    border-radius: var(--radius-xl);
+    background: var(--color-gray-50);
+    box-shadow: var(--shadow-xl);
+    overflow: hidden;
+  }
+
+  .search-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+  }
+
+  [data-theme='dark'] .search-dialog {
+    background: var(--color-gray-100);
+  }
+
+  .search-container {
+    display: flex;
+    flex-direction: column;
+    max-height: 80vh;
+  }
+
+  .search-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  [data-theme='dark'] .search-header {
+    border-bottom-color: var(--color-gray-300);
+  }
+
+  .search-input-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .search-icon {
+    flex-shrink: 0;
+    color: var(--color-gray-400);
+  }
+
+  .search-input {
+    flex: 1;
+    padding: var(--space-2) 0;
+    border: none;
+    background: transparent;
+    font-size: 1.125rem;
+    color: var(--color-gray-900);
+    outline: none;
+  }
+
+  .search-input::placeholder {
+    color: var(--color-gray-400);
+  }
+
+  [data-theme='dark'] .search-input {
+    color: var(--color-gray-100);
+  }
+
+  .search-clear {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: none;
+    background: var(--color-gray-200);
+    border-radius: var(--radius-full);
+    color: var(--color-gray-500);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .search-clear:hover {
+    background: var(--color-gray-300);
+    color: var(--color-gray-700);
+  }
+
+  [data-theme='dark'] .search-clear {
+    background: var(--color-gray-300);
+    color: var(--color-gray-400);
+  }
+
+  .search-close {
+    display: flex;
+    align-items: center;
+    padding: var(--space-1) var(--space-2);
+    border: 1px solid var(--color-gray-200);
+    background: var(--color-gray-100);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .search-close:hover {
+    background: var(--color-gray-200);
+  }
+
+  [data-theme='dark'] .search-close {
+    background: var(--color-gray-200);
+    border-color: var(--color-gray-300);
+  }
+
+  .search-close kbd {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-gray-500);
+  }
+
+  .search-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-4);
+    min-height: 200px;
+    max-height: 50vh;
+  }
+
+  /* Results */
+  .results-section {
+    margin-bottom: var(--space-6);
+  }
+
+  .results-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .results-heading {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gray-400);
+    margin-bottom: var(--space-2);
+  }
+
+  .results-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .result-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: background-color var(--transition-fast);
+  }
+
+  .result-item:hover,
+  .result-item:focus {
+    background: var(--color-gray-100);
+    text-decoration: none;
+    outline: none;
+  }
+
+  [data-theme='dark'] .result-item:hover,
+  [data-theme='dark'] .result-item:focus {
+    background: var(--color-gray-200);
+  }
+
+  .result-title {
+    font-weight: 500;
+    color: var(--color-gray-900);
+  }
+
+  [data-theme='dark'] .result-title {
+    color: var(--color-gray-100);
+  }
+
+  .result-desc,
+  .result-meta {
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+  }
+
+  /* Empty state */
+  .search-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-8);
+    text-align: center;
+    color: var(--color-gray-400);
+  }
+
+  .empty-title {
+    font-weight: 500;
+    color: var(--color-gray-600);
+    margin-top: var(--space-4);
+  }
+
+  .empty-description {
+    font-size: 0.875rem;
+    color: var(--color-gray-400);
+  }
+
+  /* Initial state / Quick links */
+  .quick-links h3 {
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gray-400);
+    margin-bottom: var(--space-3);
+  }
+
+  .quick-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .quick-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    color: var(--color-gray-700);
+    text-decoration: none;
+    transition: background-color var(--transition-fast);
+  }
+
+  .quick-link:hover {
+    background: var(--color-gray-100);
+    text-decoration: none;
+  }
+
+  [data-theme='dark'] .quick-link {
+    color: var(--color-gray-200);
+  }
+
+  [data-theme='dark'] .quick-link:hover {
+    background: var(--color-gray-200);
+  }
+
+  .quick-link span {
+    margin-left: auto;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: var(--color-gray-400);
+  }
+
+  /* Footer */
+  .search-footer {
+    padding: var(--space-3) var(--space-4);
+    border-top: 1px solid var(--color-gray-200);
+    background: var(--color-gray-100);
+  }
+
+  [data-theme='dark'] .search-footer {
+    border-top-color: var(--color-gray-300);
+    background: var(--color-gray-200);
+  }
+
+  .search-hints {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    font-size: 0.75rem;
+    color: var(--color-gray-400);
+  }
+
+  .search-hints kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    padding: 2px 6px;
+    margin-right: var(--space-1);
+    background: var(--color-gray-200);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+  }
+
+  [data-theme='dark'] .search-hints kbd {
+    background: var(--color-gray-300);
+  }
+</style>

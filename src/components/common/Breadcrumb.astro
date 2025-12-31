@@ -1,0 +1,137 @@
+---
+export interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <ol class="breadcrumb-list" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <li
+      class="breadcrumb-item"
+      itemprop="itemListElement"
+      itemscope
+      itemtype="https://schema.org/ListItem"
+    >
+      <a href="/" itemprop="item">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        <span itemprop="name" class="sr-only">Home</span>
+      </a>
+      <meta itemprop="position" content="1" />
+    </li>
+    {
+      items.map((item, index) => (
+        <li
+          class="breadcrumb-item"
+          itemprop="itemListElement"
+          itemscope
+          itemtype="https://schema.org/ListItem"
+        >
+          <svg
+            class="breadcrumb-separator"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+          {item.href ? (
+            <a href={item.href} itemprop="item">
+              <span itemprop="name">{item.label}</span>
+            </a>
+          ) : (
+            <span itemprop="name" aria-current="page">
+              {item.label}
+            </span>
+          )}
+          <meta itemprop="position" content={(index + 2).toString()} />
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<style>
+  .breadcrumb {
+    margin-bottom: var(--space-6);
+  }
+
+  .breadcrumb-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.875rem;
+  }
+
+  .breadcrumb-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+
+  .breadcrumb-item a {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    color: var(--color-gray-500);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .breadcrumb-item a:hover {
+    color: var(--color-primary-600);
+    text-decoration: none;
+  }
+
+  .breadcrumb-item span[aria-current='page'] {
+    color: var(--color-gray-700);
+    font-weight: 500;
+  }
+
+  .breadcrumb-separator {
+    color: var(--color-gray-300);
+    flex-shrink: 0;
+  }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .breadcrumb-item a {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .breadcrumb-item a:hover {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .breadcrumb-item span[aria-current='page'] {
+    color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .breadcrumb-separator {
+    color: var(--color-gray-500);
+  }
+</style>

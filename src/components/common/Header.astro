@@ -1,4 +1,6 @@
 ---
+import SearchDialog from './SearchDialog.astro';
+
 const navItems = [
   { label: 'Observatory', href: '/observatory' },
   { label: 'News', href: '/news' },
@@ -46,6 +48,8 @@ const currentPath = Astro.url.pathname;
     </nav>
 
     <div class="header-actions">
+      <SearchDialog />
+
       <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme">
         <svg
           class="icon-sun"

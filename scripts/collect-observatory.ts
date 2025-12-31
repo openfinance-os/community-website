@@ -192,9 +192,11 @@ function mergeParticipantsAndRoles(
   roles: RawRole[]
 ): TransformedParticipant[] {
   const seenIds = new Set<string>();
+  const seenNames = new Map<string, TransformedParticipant>(); // Track by name to merge duplicates
   const merged: TransformedParticipant[] = [];
   let excludedCount = 0;
   let duplicateCount = 0;
+  let mergedByNameCount = 0;
 
   // Process participants first (live orgs)
   for (const p of participants) {
@@ -203,13 +205,48 @@ function mergeParticipantsAndRoles(
       excludedCount++;
       continue;
     }
-    // Skip duplicates
+    // Skip duplicates by ID
     if (seenIds.has(p.id)) {
       duplicateCount++;
       continue;
     }
-    seenIds.add(p.id);
-    merged.push(p);
+
+    // Check if we've seen this name before (handle same org with different IDs)
+    const nameKey = p.legalName.toLowerCase().trim();
+    const existingByName = seenNames.get(nameKey);
+
+    if (existingByName) {
+      // Merge roles and other data from duplicate
+      mergedByNameCount++;
+      const mergedRoles = [...new Set([...existingByName.roles, ...p.roles])].sort();
+      const mergedApiFamilies = [
+        ...new Set([...existingByName.apiFamilies, ...p.apiFamilies]),
+      ].sort();
+      const mergedApiResources = [...existingByName.apiResources, ...p.apiResources];
+
+      existingByName.roles = mergedRoles;
+      existingByName.apiFamilies = mergedApiFamilies;
+      existingByName.apiResources = mergedApiResources;
+      existingByName.hasAuthServer = existingByName.hasAuthServer || p.hasAuthServer;
+      existingByName.isShariahCompliant = existingByName.isShariahCompliant || p.isShariahCompliant;
+      existingByName.authServerCount = existingByName.authServerCount + p.authServerCount;
+      existingByName.isLive = existingByName.isLive || p.isLive;
+      existingByName.authCapabilities = {
+        supportsCiba:
+          existingByName.authCapabilities.supportsCiba || p.authCapabilities.supportsCiba,
+        supportsDCR: existingByName.authCapabilities.supportsDCR || p.authCapabilities.supportsDCR,
+        supportsRedirect:
+          existingByName.authCapabilities.supportsRedirect || p.authCapabilities.supportsRedirect,
+      };
+      // Use the city that's not "Unknown" if available
+      if (existingByName.city === 'Unknown' && p.city !== 'Unknown') {
+        existingByName.city = p.city;
+      }
+    } else {
+      seenIds.add(p.id);
+      seenNames.set(nameKey, p);
+      merged.push(p);
+    }
   }
 
   // Add roles that aren't already in participants
@@ -224,15 +261,33 @@ function mergeParticipantsAndRoles(
       excludedCount++;
       continue;
     }
-    seenIds.add(role.OrganisationId);
-    merged.push(transformRole(role));
+
+    // Check if we've seen this name before
+    const nameKey = role.RegisteredName.toLowerCase().trim();
+    const existingByName = seenNames.get(nameKey);
+
+    if (existingByName) {
+      // Merge roles from this registration
+      mergedByNameCount++;
+      const transformedRole = transformRole(role);
+      const mergedRoles = [...new Set([...existingByName.roles, ...transformedRole.roles])].sort();
+      existingByName.roles = mergedRoles;
+    } else {
+      seenIds.add(role.OrganisationId);
+      const transformed = transformRole(role);
+      seenNames.set(nameKey, transformed);
+      merged.push(transformed);
+    }
   }
 
   if (excludedCount > 0) {
     console.log(`  Filtered out ${excludedCount} test/support organizations`);
   }
   if (duplicateCount > 0) {
-    console.log(`  Removed ${duplicateCount} duplicate entries`);
+    console.log(`  Removed ${duplicateCount} duplicate entries (by ID)`);
+  }
+  if (mergedByNameCount > 0) {
+    console.log(`  Merged ${mergedByNameCount} duplicate entries (by name)`);
   }
 
   // Sort by name (with null safety)
