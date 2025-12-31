@@ -315,6 +315,14 @@
     { type: 'page', title: 'About', description: 'About OpenFinance-OS', url: '/about' },
   ];
 
+  // Helper to create URL-friendly slugs
+  function createSlug(name: string): string {
+    return name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
+
   // Load participant data from data attribute or fetch
   async function loadSearchData() {
     searchData.length = 0;
@@ -325,15 +333,18 @@
       const participantCards = document.querySelectorAll('[data-participant-name]');
       participantCards.forEach((card) => {
         const name = card.getAttribute('data-participant-name');
+        const shortName = card.getAttribute('data-participant-short-name');
         const city = card.getAttribute('data-participant-city');
         const roles = card.getAttribute('data-participant-roles');
         if (name) {
+          // Generate slug from shortName or fall back to name
+          const slug = createSlug(shortName || name);
           searchData.push({
             type: 'participant',
             title: name,
             description: roles || '',
             meta: city || '',
-            url: `/observatory?search=${encodeURIComponent(name)}`,
+            url: `/observatory/participant/${slug}`,
           });
         }
       });
