@@ -338,52 +338,65 @@ const initialTab = url.searchParams.get('tab') || 'events';
   }
 
   .tabs {
-    display: flex;
-    gap: var(--space-2);
-    padding: var(--space-1);
-    background: var(--color-gray-100);
-    border-radius: var(--radius-lg);
-    width: fit-content;
+    display: inline-flex;
+    gap: var(--space-3);
+    padding: var(--space-2);
+    background: white;
+    border: 2px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
   }
 
   .tab-btn {
     display: flex;
     align-items: center;
     gap: var(--space-2);
-    padding: var(--space-3) var(--space-5);
-    background: transparent;
-    border: none;
-    border-radius: var(--radius-md);
-    font-size: 0.9375rem;
-    font-weight: 500;
+    padding: var(--space-3) var(--space-6);
+    background: var(--color-gray-50);
+    border: 2px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    font-size: 1rem;
+    font-weight: 600;
     color: var(--color-gray-600);
     cursor: pointer;
     transition: all var(--transition-fast);
   }
 
+  .tab-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
   .tab-btn:hover {
-    color: var(--color-gray-900);
+    color: var(--color-primary-700);
+    border-color: var(--color-primary-300);
+    background: var(--color-primary-50);
   }
 
   .tab-btn.active {
-    background: white;
-    color: var(--color-primary-700);
-    box-shadow: var(--shadow-sm);
+    background: var(--color-primary-600);
+    border-color: var(--color-primary-600);
+    color: white;
+    box-shadow: var(--shadow-md);
+  }
+
+  .tab-btn.active svg {
+    stroke: white;
   }
 
   .tab-badge {
-    padding: 2px 8px;
+    padding: 3px 10px;
     background: var(--color-gray-200);
     border-radius: var(--radius-full);
     font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--color-gray-500);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--color-gray-600);
   }
 
   .tab-btn.active .tab-badge {
-    background: var(--color-primary-100);
-    color: var(--color-primary-700);
+    background: rgba(255, 255, 255, 0.25);
+    color: white;
   }
 
   .tab-badge.upcoming {
@@ -392,7 +405,7 @@ const initialTab = url.searchParams.get('tab') || 'events';
   }
 
   .tab-btn.active .tab-badge.upcoming {
-    background: var(--color-primary-600);
+    background: rgba(255, 255, 255, 0.3);
     color: white;
   }
 
@@ -677,25 +690,36 @@ const initialTab = url.searchParams.get('tab') || 'events';
   }
 
   :global([data-theme='dark']) .tabs {
-    background: var(--color-gray-200);
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-300);
   }
 
   :global([data-theme='dark']) .tab-btn {
+    background: var(--color-gray-200);
+    border-color: var(--color-gray-300);
     color: var(--color-gray-400);
   }
 
   :global([data-theme='dark']) .tab-btn:hover {
-    color: var(--color-gray-200);
+    color: var(--color-primary-300);
+    border-color: var(--color-primary-500);
+    background: rgba(15, 118, 110, 0.15);
   }
 
   :global([data-theme='dark']) .tab-btn.active {
-    background: var(--color-gray-100);
-    color: var(--color-primary-400);
+    background: var(--color-primary-500);
+    border-color: var(--color-primary-500);
+    color: white;
   }
 
   :global([data-theme='dark']) .tab-badge {
     background: var(--color-gray-300);
     color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .tab-btn.active .tab-badge {
+    background: rgba(255, 255, 255, 0.25);
+    color: white;
   }
 
   :global([data-theme='dark']) .filter-btn {
