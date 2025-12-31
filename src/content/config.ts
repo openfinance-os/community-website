@@ -18,14 +18,7 @@ const useCases = [
 const audiences = ['bank', 'tpp', 'developer', 'regulator', 'all'] as const;
 const maturityLevels = ['concept', 'demo', 'production-ready'] as const;
 const licenses = ['mit', 'apache-2.0', 'cc-by-4.0', 'proprietary', 'unlicensed'] as const;
-const sourcePlatforms = [
-  'github',
-  'substack',
-  'medium',
-  'blog',
-  'research',
-  'other',
-] as const;
+const sourcePlatforms = ['github', 'substack', 'medium', 'blog', 'research', 'other'] as const;
 
 const newsCollection = defineCollection({
   type: 'content',
