@@ -1,0 +1,955 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+---
+
+<PageLayout
+  title="Contribute to Commons"
+  description="Learn how to contribute insights, references, artifacts, and utilities to the OpenFinance-OS Commons."
+>
+  <div class="contribute-page">
+    <div class="container">
+      <!-- Back Link -->
+      <a href="/commons" class="back-link">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M19 12H5M12 19l-7-7 7-7"></path>
+        </svg>
+        Back to Commons
+      </a>
+
+      <!-- Header -->
+      <header class="page-header">
+        <h1>Contribute to Commons</h1>
+        <p class="subtitle">
+          Share your knowledge, tools, and resources with the UAE Open Finance ecosystem. Every
+          contribution helps lower barriers and accelerate adoption.
+        </p>
+      </header>
+
+      <!-- Contribution Types -->
+      <section class="types-section">
+        <h2>What You Can Contribute</h2>
+        <div class="types-grid">
+          <div class="type-card">
+            <div class="type-icon insight">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M9 18h6M10 22h4M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"
+                ></path>
+              </svg>
+            </div>
+            <h3>Insight</h3>
+            <p>Original thinking and analysis written by you.</p>
+            <ul>
+              <li>How Open Finance data supports underwriting</li>
+              <li>Regulatory interpretation and guidance</li>
+              <li>Commercial or inclusion framing</li>
+              <li>Implementation learnings</li>
+            </ul>
+            <div class="type-format">
+              <strong>Format:</strong> Markdown article with optional diagrams
+            </div>
+          </div>
+
+          <div class="type-card">
+            <div class="type-icon reference">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+              </svg>
+            </div>
+            <h3>Reference</h3>
+            <p>Curated external articles that advance understanding.</p>
+            <ul>
+              <li>Substack articles on Open Banking</li>
+              <li>Medium posts on consent UX patterns</li>
+              <li>Academic or policy research</li>
+              <li>Industry analysis</li>
+            </ul>
+            <div class="type-format">
+              <strong>Format:</strong> Link + your written context
+            </div>
+          </div>
+
+          <div class="type-card">
+            <div class="type-icon artifact">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14,2 14,8 20,8"></polyline>
+              </svg>
+            </div>
+            <h3>Artifact</h3>
+            <p>Reusable but non-executable assets.</p>
+            <ul>
+              <li>TPP Terms & Conditions templates</li>
+              <li>Consent UX patterns and flows</li>
+              <li>Data schemas and models</li>
+              <li>Checklists and playbooks</li>
+            </ul>
+            <div class="type-format">
+              <strong>Format:</strong> Files, gists, or repo folders
+            </div>
+          </div>
+
+          <div class="type-card">
+            <div class="type-icon utility">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polyline points="16,18 22,12 16,6"></polyline>
+                <polyline points="8,6 2,12 8,18"></polyline>
+              </svg>
+            </div>
+            <h3>Utility</h3>
+            <p>Executable or forkable code and tools.</p>
+            <ul>
+              <li>Demo TPP applications</li>
+              <li>Consent flow SDKs</li>
+              <li>Revenue & cost forecasting tools</li>
+              <li>Sandbox automation scripts</li>
+            </ul>
+            <div class="type-format">
+              <strong>Format:</strong> GitHub repos or starter kits
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Submission Process -->
+      <section class="process-section">
+        <h2>How to Submit</h2>
+        <p class="section-intro">
+          All contributions go through GitHub. This ensures transparency, version control, and
+          community review.
+        </p>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Fork the Repository</h4>
+              <p>
+                Fork the <a
+                  href="https://github.com/openfinance-os/community-website"
+                  target="_blank"
+                  rel="noopener noreferrer">community-website repository</a
+                > to your GitHub account.
+              </p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Create Your Contribution</h4>
+              <p>
+                Add a new Markdown file in <code>src/content/commons/</code> with the required frontmatter
+                metadata and your content.
+              </p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Open a Pull Request</h4>
+              <p>
+                Submit a PR with a clear description. Include why this contribution is valuable to
+                the ecosystem.
+              </p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h4>Community Review</h4>
+              <p>
+                Maintainers will review for clarity, relevance, and compliance with guidelines.
+                Minor edits may be suggested.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Metadata Template -->
+      <section class="template-section">
+        <h2>Contribution Template</h2>
+        <p class="section-intro">
+          Each contribution requires frontmatter metadata. Here's the complete schema:
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-filename">src/content/commons/your-contribution.md</span>
+            <button class="copy-btn" data-code="template">Copy</button>
+          </div>
+          <pre><code>---
+title: "Your Contribution Title"
+type: insight | reference | artifact | utility
+summary: "A 1-2 sentence summary of what this contribution provides."
+date: 2024-01-15
+
+# Required for references - explain the value
+whyItMatters: "Why this external resource is valuable to the ecosystem."
+
+# Taxonomy
+useCases:
+  - payments
+  - underwriting
+  - compliance
+audience:
+  - tpp
+  - developer
+maturity: concept | demo | production-ready
+license: mit | apache-2.0 | cc-by-4.0 | proprietary | unlicensed
+
+# Source (for external content)
+source:
+  platform: github | substack | medium | blog | research | other
+  url: https://example.com/original-article
+
+# Attribution
+authoredByContributor: true  # false if curating external content
+contributor: "Your Name or Organization"
+contributorUrl: https://github.com/yourusername
+
+# Links (include relevant ones)
+links:
+  github: https://github.com/org/repo
+  demo: https://demo.example.com
+  docs: https://docs.example.com
+  article: https://external-article.com
+
+# Governance
+disclaimers:
+  - "Example implementation only"
+  - "Not legal or regulatory advice"
+featured: false
+---
+
+## Your Content
+
+Write your contribution content here using Markdown.
+
+### Sections
+
+Organize with clear headings.
+
+- Use bullet points
+- Include code examples if relevant
+- Link to additional resources</code></pre>
+        </div>
+      </section>
+
+      <!-- Guidelines -->
+      <section class="guidelines-section">
+        <h2>Contribution Guidelines</h2>
+        <div class="guidelines-grid">
+          <div class="guideline">
+            <div class="guideline-icon allowed">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+            </div>
+            <h4>Do</h4>
+            <ul>
+              <li>Provide clear, actionable content</li>
+              <li>Include proper attribution</li>
+              <li>Add disclaimers for legal content</li>
+              <li>Use permissive licenses for code</li>
+              <li>Write "Why It Matters" for references</li>
+              <li>Test code before submitting</li>
+            </ul>
+          </div>
+
+          <div class="guideline">
+            <div class="guideline-icon not-allowed">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="15" y1="9" x2="9" y2="15"></line>
+                <line x1="9" y1="9" x2="15" y2="15"></line>
+              </svg>
+            </div>
+            <h4>Don't</h4>
+            <ul>
+              <li>Include confidential or proprietary data</li>
+              <li>Re-host full external articles</li>
+              <li>Submit vendor promotional content</li>
+              <li>Include real customer data</li>
+              <li>Use restrictive licenses without disclosure</li>
+              <li>Submit without testing</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- External References -->
+      <section class="references-section">
+        <h2>For External References</h2>
+        <p class="section-intro">
+          When curating external content, you're adding value through context and curation.
+        </p>
+
+        <div class="reference-rules">
+          <div class="rule">
+            <h4>Always Required</h4>
+            <ul>
+              <li><strong>Link to original source</strong> - never re-host content</li>
+              <li><strong>"Why It Matters" field</strong> - your context on the value</li>
+              <li><strong>Clear attribution</strong> - credit original authors</li>
+              <li><strong>Source platform</strong> - indicate Substack, Medium, etc.</li>
+            </ul>
+          </div>
+          <div class="rule">
+            <h4>Your Added Value</h4>
+            <ul>
+              <li>Explain relevance to UAE Open Finance</li>
+              <li>Highlight key takeaways</li>
+              <li>Connect to other Commons resources</li>
+              <li>Suggest practical applications</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="cta-section">
+        <div class="cta-card">
+          <h2>Ready to Contribute?</h2>
+          <p>
+            Your knowledge and tools can help accelerate Open Finance adoption in the UAE. Every
+            contribution compounds.
+          </p>
+          <div class="cta-buttons">
+            <a
+              href="https://github.com/openfinance-os/community-website"
+              class="btn btn-primary"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                ></path>
+              </svg>
+              Fork Repository
+            </a>
+            <a
+              href="https://github.com/openfinance-os/community/discussions"
+              class="btn btn-secondary"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ask a Question
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</PageLayout>
+
+<script>
+  document.querySelectorAll('.copy-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const codeBlock = btn.closest('.code-block')?.querySelector('code');
+      if (codeBlock) {
+        navigator.clipboard.writeText(codeBlock.textContent || '');
+        btn.textContent = 'Copied!';
+        setTimeout(() => {
+          btn.textContent = 'Copy';
+        }, 2000);
+      }
+    });
+  });
+</script>
+
+<style>
+  .contribute-page {
+    padding: var(--space-8) var(--space-4) var(--space-16);
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.875rem;
+    color: var(--color-gray-600);
+    margin-bottom: var(--space-6);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .back-link:hover {
+    color: var(--color-primary-600);
+  }
+
+  .page-header {
+    margin-bottom: var(--space-12);
+  }
+
+  .page-header h1 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-4);
+  }
+
+  .subtitle {
+    font-size: 1.125rem;
+    color: var(--color-gray-600);
+    line-height: 1.7;
+    max-width: 640px;
+  }
+
+  /* Sections */
+  section {
+    margin-bottom: var(--space-14);
+  }
+
+  section h2 {
+    font-size: 1.5rem;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-4);
+  }
+
+  .section-intro {
+    color: var(--color-gray-600);
+    margin-bottom: var(--space-6);
+    max-width: 600px;
+  }
+
+  /* Types Grid */
+  .types-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-5);
+  }
+
+  .type-card {
+    padding: var(--space-6);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+  }
+
+  .type-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-4);
+  }
+
+  .type-icon.insight {
+    background: var(--color-primary-100);
+    color: var(--color-primary-700);
+  }
+
+  .type-icon.reference {
+    background: var(--color-gray-200);
+    color: var(--color-gray-700);
+  }
+
+  .type-icon.artifact {
+    background: rgba(232, 168, 92, 0.2);
+    color: var(--color-accent-600);
+  }
+
+  .type-icon.utility {
+    background: rgba(16, 185, 129, 0.15);
+    color: #059669;
+  }
+
+  .type-card h3 {
+    font-size: 1.125rem;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-2);
+  }
+
+  .type-card > p {
+    color: var(--color-gray-600);
+    font-size: 0.875rem;
+    margin-bottom: var(--space-3);
+  }
+
+  .type-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-4);
+  }
+
+  .type-card li {
+    position: relative;
+    padding-left: var(--space-5);
+    font-size: 0.8125rem;
+    color: var(--color-gray-600);
+    margin-bottom: var(--space-2);
+    line-height: 1.5;
+  }
+
+  .type-card li::before {
+    content: '';
+    position: absolute;
+    left: var(--space-1);
+    top: 0.55em;
+    width: 5px;
+    height: 5px;
+    background: var(--color-gray-400);
+    border-radius: 50%;
+  }
+
+  .type-format {
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-gray-100);
+    font-size: 0.75rem;
+    color: var(--color-gray-500);
+  }
+
+  .type-format strong {
+    color: var(--color-gray-600);
+  }
+
+  /* Steps */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .step {
+    display: flex;
+    gap: var(--space-4);
+    padding: var(--space-5);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-xl);
+  }
+
+  .step-number {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-primary-600);
+    color: white;
+    font-weight: 700;
+    border-radius: var(--radius-full);
+    flex-shrink: 0;
+  }
+
+  .step-content h4 {
+    font-size: 1rem;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-1);
+  }
+
+  .step-content p {
+    font-size: 0.875rem;
+    color: var(--color-gray-600);
+    line-height: 1.6;
+  }
+
+  .step-content a {
+    color: var(--color-primary-600);
+  }
+
+  .step-content code {
+    padding: 2px 6px;
+    font-family: var(--font-mono);
+    font-size: 0.8125em;
+    background: var(--color-gray-200);
+    border-radius: var(--radius-sm);
+  }
+
+  /* Code Block */
+  .code-block {
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+  }
+
+  .code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-gray-100);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .code-filename {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-gray-600);
+  }
+
+  .copy-btn {
+    padding: var(--space-1) var(--space-3);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-gray-600);
+    background: white;
+    border: 1px solid var(--color-gray-300);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .copy-btn:hover {
+    background: var(--color-gray-50);
+    border-color: var(--color-primary-300);
+    color: var(--color-primary-600);
+  }
+
+  .code-block pre {
+    margin: 0;
+    padding: var(--space-5);
+    background: var(--color-gray-900);
+    overflow-x: auto;
+  }
+
+  .code-block code {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-gray-200);
+    line-height: 1.6;
+  }
+
+  /* Guidelines */
+  .guidelines-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-5);
+  }
+
+  .guideline {
+    padding: var(--space-6);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+  }
+
+  .guideline-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    margin-bottom: var(--space-4);
+  }
+
+  .guideline-icon.allowed {
+    background: rgba(16, 185, 129, 0.15);
+    color: #059669;
+  }
+
+  .guideline-icon.not-allowed {
+    background: rgba(239, 68, 68, 0.1);
+    color: #dc2626;
+  }
+
+  .guideline h4 {
+    font-size: 1rem;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-3);
+  }
+
+  .guideline ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .guideline li {
+    position: relative;
+    padding-left: var(--space-6);
+    font-size: 0.875rem;
+    color: var(--color-gray-600);
+    margin-bottom: var(--space-3);
+    line-height: 1.5;
+  }
+
+  .guideline li::before {
+    content: '';
+    position: absolute;
+    left: var(--space-1);
+    top: 0.55em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+
+  .guideline:first-child li::before {
+    background: #10b981;
+  }
+
+  .guideline:last-child li::before {
+    background: #ef4444;
+  }
+
+  /* References Section */
+  .reference-rules {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-5);
+  }
+
+  .rule {
+    padding: var(--space-5);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-xl);
+  }
+
+  .rule h4 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-3);
+  }
+
+  .rule ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .rule li {
+    font-size: 0.875rem;
+    color: var(--color-gray-600);
+    margin-bottom: var(--space-2);
+    line-height: 1.5;
+  }
+
+  .rule li strong {
+    color: var(--color-gray-800);
+  }
+
+  /* CTA */
+  .cta-section {
+    margin-bottom: 0;
+  }
+
+  .cta-card {
+    padding: var(--space-10) var(--space-8);
+    background: linear-gradient(135deg, var(--color-primary-600) 0%, var(--color-primary-700) 100%);
+    border-radius: var(--radius-2xl);
+    text-align: center;
+    color: white;
+  }
+
+  .cta-card h2 {
+    color: white;
+    margin-bottom: var(--space-3);
+  }
+
+  .cta-card p {
+    opacity: 0.9;
+    max-width: 500px;
+    margin: 0 auto var(--space-6);
+    line-height: 1.6;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: var(--space-3);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-6);
+    font-weight: 500;
+    font-size: 0.875rem;
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    line-height: 1.5;
+  }
+
+  .btn-primary {
+    background: white;
+    color: var(--color-primary-700);
+  }
+
+  .btn-primary:hover {
+    background: var(--color-gray-100);
+    text-decoration: none;
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: white;
+    text-decoration: none;
+  }
+
+  /* Dark Mode */
+  :global([data-theme='dark']) .back-link {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .page-header h1 {
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .subtitle {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) section h2 {
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .section-intro {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .type-card {
+    background: var(--color-gray-800);
+    border-color: var(--color-gray-700);
+  }
+
+  :global([data-theme='dark']) .type-card h3 {
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .type-card > p,
+  :global([data-theme='dark']) .type-card li {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .type-format {
+    border-top-color: var(--color-gray-700);
+    color: var(--color-gray-500);
+  }
+
+  :global([data-theme='dark']) .step {
+    background: var(--color-gray-800);
+  }
+
+  :global([data-theme='dark']) .step-content h4 {
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .step-content p {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .step-content code {
+    background: var(--color-gray-700);
+    color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .code-block {
+    border-color: var(--color-gray-700);
+  }
+
+  :global([data-theme='dark']) .code-header {
+    background: var(--color-gray-800);
+    border-bottom-color: var(--color-gray-700);
+  }
+
+  :global([data-theme='dark']) .code-filename {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .copy-btn {
+    background: var(--color-gray-700);
+    border-color: var(--color-gray-600);
+    color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .guideline {
+    background: var(--color-gray-800);
+    border-color: var(--color-gray-700);
+  }
+
+  :global([data-theme='dark']) .guideline h4 {
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .guideline li {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .rule {
+    background: var(--color-gray-800);
+  }
+
+  :global([data-theme='dark']) .rule h4 {
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .rule li {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .rule li strong {
+    color: var(--color-gray-200);
+  }
+</style>
