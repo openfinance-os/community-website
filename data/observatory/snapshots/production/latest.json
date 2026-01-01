@@ -1,12 +1,12 @@
 {
-  "timestamp": "2025-12-31T06:32:37.851Z",
+  "timestamp": "2026-01-01T06:32:22.956Z",
   "source": "https://data.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "production",
   "summary": {
-    "totalParticipants": 17,
+    "totalParticipants": 16,
     "byStatus": {
-      "Active": 17
+      "Active": 16
     },
     "byRole": {
       "BDSP": 12,
@@ -20,7 +20,7 @@
     "byCity": {
       "Abu Dhabi": 4,
       "Dubai": 5,
-      "Unknown": 8
+      "Unknown": 7
     },
     "apiFamilies": [
       "accounts",
@@ -30,7 +30,7 @@
     ],
     "liveInProduction": 9,
     "shariahCompliantCount": 2,
-    "multiRoleCount": 14,
+    "multiRoleCount": 13,
     "tppCount": 0,
     "byAuthCapabilities": {
       "ciba": 0,
@@ -490,34 +490,12 @@
       "status": "Active",
       "roles": [
         "API Read_Write",
+        "BDSP",
+        "BSIP",
         "TSP"
       ],
       "city": "Unknown",
       "registrationNumber": "N/A",
-      "apiFamilies": [],
-      "hasAuthServer": false,
-      "isShariahCompliant": false,
-      "authCapabilities": {
-        "supportsCiba": false,
-        "supportsDCR": false,
-        "supportsRedirect": false
-      },
-      "apiResources": [],
-      "authServerCount": 0,
-      "isLive": false
-    },
-    {
-      "id": "94884086-b7c2-43a0-b4e7-a928b9fed0ac",
-      "name": "Mercury",
-      "legalName": "Mercury Payments Services LLC",
-      "shortName": "Mercury",
-      "status": "Active",
-      "roles": [
-        "BDSP",
-        "BSIP"
-      ],
-      "city": "Unknown",
-      "registrationNumber": "08.01.03.019.2024.02",
       "apiFamilies": [],
       "hasAuthServer": false,
       "isShariahCompliant": false,
@@ -710,9 +688,11 @@
     }
   ],
   "trends": {
-    "participantChange": 0,
+    "participantChange": -1,
     "newParticipants": [],
-    "removedParticipants": [],
+    "removedParticipants": [
+      "94884086-b7c2-43a0-b4e7-a928b9fed0ac"
+    ],
     "roleChanges": {},
     "apiFamilyChanges": {}
   }
