@@ -48,6 +48,29 @@ const currentPath = Astro.url.pathname;
     <div class="header-actions">
       <SearchDialog />
 
+      <a
+        href="https://velox.openfinance-os.org"
+        class="try-demo-btn"
+        target="_blank"
+        rel="noopener noreferrer"
+        title="Try the interactive Open Finance demo"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+        </svg>
+        Try Demo
+      </a>
+
       <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme">
         <svg
           class="icon-sun"
@@ -118,6 +141,38 @@ const currentPath = Astro.url.pathname;
           </li>
         ))
       }
+      <li>
+        <a
+          href="https://velox.openfinance-os.org"
+          class="nav-link-mobile try-demo"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+          Try Demo
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M7 17L17 7M17 7H7M17 7v10"></path>
+          </svg>
+        </a>
+      </li>
       <li>
         <a
           href="https://github.com/organizations/openfinance-os/"
@@ -474,6 +529,42 @@ const currentPath = Astro.url.pathname;
     }
   }
 
+  .try-demo-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(135deg, var(--color-primary-600) 0%, var(--color-primary-700) 100%);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    box-shadow: 0 2px 8px rgba(13, 79, 79, 0.25);
+  }
+
+  .try-demo-btn:hover {
+    background: linear-gradient(135deg, var(--color-primary-500) 0%, var(--color-primary-600) 100%);
+    box-shadow: 0 4px 12px rgba(13, 79, 79, 0.35);
+    transform: translateY(-1px);
+    text-decoration: none;
+  }
+
+  .try-demo-btn:active {
+    transform: translateY(0);
+  }
+
+  [data-theme='dark'] .try-demo-btn {
+    background: linear-gradient(135deg, var(--color-primary-500) 0%, var(--color-primary-600) 100%);
+    box-shadow: 0 2px 12px rgba(20, 184, 166, 0.3);
+  }
+
+  [data-theme='dark'] .try-demo-btn:hover {
+    background: linear-gradient(135deg, var(--color-primary-400) 0%, var(--color-primary-500) 100%);
+    box-shadow: 0 4px 16px rgba(20, 184, 166, 0.4);
+  }
+
   .github-link {
     display: flex;
     align-items: center;
@@ -645,11 +736,32 @@ const currentPath = Astro.url.pathname;
     border-top-color: var(--color-gray-700);
   }
 
-  .nav-link-mobile.github {
-    color: var(--color-gray-500);
+  .nav-link-mobile.try-demo {
+    color: var(--color-primary-600);
+    font-weight: 600;
     margin-top: var(--space-2);
     padding-top: var(--space-3);
     border-top: 1px solid var(--color-gray-200);
+  }
+
+  .nav-link-mobile.try-demo:hover {
+    color: var(--color-primary-700);
+    background-color: var(--color-primary-50);
+  }
+
+  [data-theme='dark'] .nav-link-mobile.try-demo {
+    color: var(--color-primary-400);
+    border-top-color: var(--color-gray-700);
+  }
+
+  [data-theme='dark'] .nav-link-mobile.try-demo:hover {
+    color: var(--color-primary-300);
+    background-color: rgba(20, 184, 166, 0.15);
+  }
+
+  .nav-link-mobile.github {
+    color: var(--color-gray-500);
+    border-top: none;
   }
 
   .theme-toggle-mobile {
