@@ -1,6 +1,5 @@
 import { defineCollection, z } from 'astro:content';
 
-const newsTypes = ['official', 'milestone', 'community', 'global', 'opinion'] as const;
 const eventTypes = ['meetup', 'hackathon', 'webinar', 'conference', 'workshop'] as const;
 
 // Commons taxonomy
@@ -19,20 +18,6 @@ const audiences = ['bank', 'tpp', 'developer', 'regulator', 'all'] as const;
 const maturityLevels = ['concept', 'demo', 'production-ready'] as const;
 const licenses = ['mit', 'apache-2.0', 'cc-by-4.0', 'proprietary', 'unlicensed'] as const;
 const sourcePlatforms = ['github', 'substack', 'medium', 'blog', 'research', 'other'] as const;
-
-const newsCollection = defineCollection({
-  type: 'content',
-  schema: z.object({
-    title: z.string(),
-    date: z.coerce.date(),
-    type: z.enum(newsTypes),
-    author: z.string().default('Community'),
-    source: z.string().url().optional(),
-    description: z.string().optional(),
-    featured: z.boolean().default(false),
-    external: z.boolean().default(false),
-  }),
-});
 
 const eventsCollection = defineCollection({
   type: 'content',
@@ -99,7 +84,6 @@ const commonsCollection = defineCollection({
 });
 
 export const collections = {
-  news: newsCollection,
   events: eventsCollection,
   commons: commonsCollection,
 };

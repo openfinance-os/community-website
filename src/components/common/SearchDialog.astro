@@ -1,6 +1,6 @@
 ---
 // SearchDialog component - Global search functionality
-// Searches across participants, news, and pages
+// Searches across participants and pages
 ---
 
 <div class="search-trigger-container">
@@ -45,7 +45,7 @@
         <input
           type="search"
           class="search-input"
-          placeholder="Search participants, news, pages..."
+          placeholder="Search participants, pages..."
           autocomplete="off"
           autocorrect="off"
           autocapitalize="off"
@@ -87,25 +87,6 @@
             Participants
           </h3>
           <ul class="results-list participants-list"></ul>
-        </div>
-        <div class="results-section results-news" hidden>
-          <h3 class="results-heading">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"
-              ></path>
-              <path d="M18 14h-8M15 18h-5M10 6h8v4h-8V6Z"></path>
-            </svg>
-            News
-          </h3>
-          <ul class="results-list news-list"></ul>
         </div>
         <div class="results-section results-pages" hidden>
           <h3 class="results-heading">
@@ -176,12 +157,13 @@
                   stroke="currentColor"
                   stroke-width="2"
                 >
-                  <path
-                    d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"
-                  ></path>
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
                 </svg>
-                Updates
-                <span>News & events</span>
+                Events
+                <span>Community events</span>
               </a>
             </li>
             <li>
@@ -229,7 +211,7 @@
 
   // Searchable data (will be populated from page data)
   interface SearchItem {
-    type: 'participant' | 'news' | 'page';
+    type: 'participant' | 'page';
     title: string;
     description?: string;
     url: string;
@@ -246,7 +228,7 @@
       description: 'Explore UAE Open Finance participants',
       url: '/observatory',
     },
-    { type: 'page', title: 'Updates', description: 'News and events', url: '/updates' },
+    { type: 'page', title: 'Events', description: 'Community events', url: '/updates' },
     { type: 'page', title: 'Learn', description: 'Guides and documentation', url: '/learn' },
     {
       type: 'page',
@@ -328,21 +310,6 @@
         }
       });
 
-      // Load news from the page if available
-      const newsCards = document.querySelectorAll('[data-news-title]');
-      newsCards.forEach((card) => {
-        const title = card.getAttribute('data-news-title');
-        const href = card.getAttribute('data-news-href');
-        const type = card.getAttribute('data-news-type');
-        if (title && href) {
-          searchData.push({
-            type: 'news',
-            title: title,
-            meta: type || '',
-            url: href,
-          });
-        }
-      });
     } catch (error) {
       console.error('Failed to load search data:', error);
     }
@@ -365,26 +332,21 @@
   // Render results
   function renderResults(results: SearchItem[]) {
     const participantsList = document.querySelector('.participants-list');
-    const newsList = document.querySelector('.news-list');
     const pagesList = document.querySelector('.pages-list');
     const participantsSection = document.querySelector('.results-participants');
-    const newsSection = document.querySelector('.results-news');
     const pagesSection = document.querySelector('.results-pages');
 
-    if (!participantsList || !newsList || !pagesList) return;
+    if (!participantsList || !pagesList) return;
 
     // Clear previous results
     participantsList.innerHTML = '';
-    newsList.innerHTML = '';
     pagesList.innerHTML = '';
 
     const participants = results.filter((r) => r.type === 'participant');
-    const news = results.filter((r) => r.type === 'news');
     const pageResults = results.filter((r) => r.type === 'page');
 
     // Show/hide sections based on results
     participantsSection?.toggleAttribute('hidden', participants.length === 0);
-    newsSection?.toggleAttribute('hidden', news.length === 0);
     pagesSection?.toggleAttribute('hidden', pageResults.length === 0);
 
     // Render participants
@@ -397,18 +359,6 @@
         </a>
       `;
       participantsList.appendChild(li);
-    });
-
-    // Render news
-    news.forEach((item) => {
-      const li = document.createElement('li');
-      li.innerHTML = `
-        <a href="${item.url}" class="result-item">
-          <span class="result-title">${item.title}</span>
-          ${item.meta ? `<span class="result-meta">${item.meta}</span>` : ''}
-        </a>
-      `;
-      newsList.appendChild(li);
     });
 
     // Render pages
