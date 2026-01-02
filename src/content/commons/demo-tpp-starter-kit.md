@@ -1,7 +1,7 @@
 ---
-title: "Demo TPP Starter Kit"
+title: "Open Finance Hackathon Docs"
 type: utility
-summary: "A forkable Next.js application demonstrating the complete TPP integration flow with Al Tareq sandbox, including authentication, consent, and account data retrieval."
+summary: "Complete documentation hub for the ADCB & Nebras UAE Open Finance Hackathon — from quick start guides and API references to the starter kit and project examples."
 date: 2024-12-01
 
 useCases:
@@ -22,80 +22,80 @@ contributor: "OpenFinance-OS Community"
 contributorUrl: https://github.com/openfinance-os
 
 links:
-  github: https://github.com/openfinance-os/demo-tpp-starter
-  docs: https://openfinanceuae.atlassian.net/wiki/spaces/tfdocsv7
+  github: https://github.com/openfinance-os/docs
+  docs: https://docs.openfinance-hackathon.com
 
 disclaimers:
-  - "Demo application for sandbox environment only"
-  - "Not production-ready without security hardening"
-  - "Requires valid Al Tareq sandbox credentials"
+  - "Hackathon documentation for sandbox environment"
+  - "APIs and examples are for hackathon participants"
 featured: true
 ---
 
 ## Overview
 
-This starter kit provides a working reference implementation for TPPs building on the UAE Open Finance (Al Tareq) platform. It demonstrates the complete integration flow from customer consent to data retrieval.
+The [Open Finance Hackathon Documentation](https://docs.openfinance-hackathon.com) is designed to help hackathon teams get up and running fast — from your first API call to your final demo. This community-maintained resource provides everything you need to build innovative financial applications using UAE Open Finance APIs.
 
-## Features
+## Documentation Structure
 
-- **FAPI 1.0 Advanced Compliance** - Implements the required security profile
-- **Consent Flow UI** - Complete redirect-based authorization
-- **Account Information Retrieval** - Fetches balances and transactions
-- **Token Management** - Handles access and refresh tokens
-- **Error Handling** - Graceful handling of API errors
+The docs are organized into focused sections to help you find what you need:
 
-## Tech Stack
+### Getting Started
 
-- **Framework**: Next.js 14 (App Router)
-- **Language**: TypeScript
-- **Auth**: OpenID Connect / OAuth 2.0
-- **Styling**: Tailwind CSS
-- **HTTP Client**: Native fetch with type safety
+Quick orientation for new participants:
+- **Starter Kit** — Full-stack application with backend API and frontend UI
+- **Postman Collection** — Pre-configured API testing environment
+- **Client Registration** — Step-by-step sandbox onboarding
 
-## Quick Start
+### Open Finance APIs
 
-### Prerequisites
+Complete API reference documentation covering:
 
-1. **Al Tareq Sandbox Access**
-   - Register at [Al Tareq Portal](https://altareq.openfinance.ae)
-   - Create a sandbox application
-   - Obtain client credentials
+| API Category | Description |
+|--------------|-------------|
+| **Bank Data Sharing** | Consent-driven access to customer banking data including accounts, balances, transactions, and beneficiaries |
+| **Payment Initiation** | Consent-driven initiation and management of customer payments |
+| **Products and Leads** | Structured banking product data with application capabilities |
+| **Confirmation of Payee** | Verification of payee account details before payments |
 
-2. **Development Environment**
-   - Node.js 18+
-   - npm or yarn
+### Hackathon Challenge Tracks
+
+Four focus areas combining intelligent automation with Open Finance:
+
+- **Retail & Wealth** — Personal finance insights and investment guidance
+- **SME & Corporate** — Business cash-flow and lending solutions
+- **Risk & Compliance** — Fraud detection and regulatory automation
+- **Smart Automation** — Autonomous systems with user consent
+
+## Starter Kit Quick Start
+
+The hackathon starter kit provides an integrated development environment with Node.js/Express backend and Vite-powered frontend.
 
 ### Installation
 
 ```bash
 # Clone the repository
-git clone https://github.com/openfinance-os/demo-tpp-starter.git
-cd demo-tpp-starter
+git clone https://github.com/openfinance-os/starter-kit.git
+cd starter-kit
 
 # Install dependencies
 npm install
-
-# Copy environment template
-cp .env.example .env.local
 ```
 
 ### Configuration
 
-Edit `.env.local` with your sandbox credentials:
+Add your credentials to `api/config.js`:
 
-```env
-# Al Tareq Sandbox Configuration
-ALTAREQ_CLIENT_ID=your_client_id
-ALTAREQ_CLIENT_SECRET=your_client_secret
-ALTAREQ_REDIRECT_URI=http://localhost:3000/callback
-
-# Sandbox endpoints
-ALTAREQ_AUTH_URL=https://sandbox-auth.altareq.openfinance.ae
-ALTAREQ_API_URL=https://sandbox-api.altareq.openfinance.ae
-
-# Application
-NEXT_PUBLIC_APP_URL=http://localhost:3000
+```javascript
+module.exports = {
+  CLIENT_ID: 'your_client_id',
+  SIGNING_KEY_ID: 'your_signing_key_id'
+};
 ```
+
+Place your certificate files in `api/certificates/`:
+- `client_signing.key`
+- `client_transport.key`
+- `client_transport.pem`
 
 ### Run Development Server
 
@@ -103,187 +103,60 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to see the demo.
+Access points:
+- **Swagger API Docs**: `http://localhost:1411/api-docs`
+- **Frontend UI**: `http://localhost:1411/client`
 
-## Architecture
+## Key Capabilities
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                     DEMO TPP APPLICATION                     │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│   ┌──────────────┐    ┌──────────────┐    ┌──────────────┐  │
-│   │   Frontend   │───▶│   API Routes │───▶│  Al Tareq    │  │
-│   │   (Next.js)  │    │   (Next.js)  │    │  Sandbox     │  │
-│   └──────────────┘    └──────────────┘    └──────────────┘  │
-│          │                   │                   │          │
-│          ▼                   ▼                   ▼          │
-│   ┌──────────────┐    ┌──────────────┐    ┌──────────────┐  │
-│   │   Consent    │    │    Token     │    │   Account    │  │
-│   │   Management │    │   Storage    │    │   Data API   │  │
-│   └──────────────┘    └──────────────┘    └──────────────┘  │
-│                                                              │
-└─────────────────────────────────────────────────────────────┘
-```
+The starter kit enables these core workflows:
 
-## Key Flows
+- **User Registration** — Onboard to the Open Finance sandbox
+- **OAuth Consent Flows** — Implement authorization with banks
+- **Token Management** — Handle access and refresh tokens
+- **Banking Data Access** — Retrieve accounts, balances, transactions
+- **Payment Initiation** — Create and manage payments
+- **Payee Confirmation** — Verify payment recipients
+- **Product Discovery** — Explore available financial products
 
-### 1. Consent Initiation
+## Contributing to the Docs
 
-```typescript
-// app/api/consent/route.ts
-export async function POST(request: Request) {
-  const { bankId, accountTypes } = await request.json();
+The documentation is open source and welcomes contributions:
 
-  // Create consent request
-  const consentResponse = await fetch(
-    `${ALTAREQ_API_URL}/consents`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${clientAccessToken}`,
-      },
-      body: JSON.stringify({
-        permissions: accountTypes,
-        expirationDateTime: getExpirationDate(90), // 90 days
-      }),
-    }
-  );
+```bash
+# Clone the docs repository
+git clone https://github.com/openfinance-os/docs.git
+cd docs
 
-  const consent = await consentResponse.json();
+# Install Mintlify CLI
+npm i -g mintlify
 
-  // Build authorization URL
-  const authUrl = buildAuthUrl({
-    consentId: consent.consentId,
-    bankId,
-    redirectUri: REDIRECT_URI,
-  });
-
-  return Response.json({ authUrl, consentId: consent.consentId });
-}
+# Start local development server
+mint dev
 ```
 
-### 2. Authorization Callback
+View your changes at `http://localhost:3000`.
 
-```typescript
-// app/callback/page.tsx
-export default async function CallbackPage({ searchParams }) {
-  const { code, state } = searchParams;
+## Resources
 
-  // Exchange code for tokens
-  const tokens = await exchangeCodeForTokens(code);
+| Resource | Link |
+|----------|------|
+| **Live Documentation** | [docs.openfinance-hackathon.com](https://docs.openfinance-hackathon.com) |
+| **Docs GitHub Repo** | [github.com/openfinance-os/docs](https://github.com/openfinance-os/docs) |
+| **Community Discussions** | [GitHub Discussions](https://github.com/openfinance-os/docs/discussions) |
+| **Open Finance Standards** | [OpenFinance UAE Wiki](https://openfinanceuae.atlassian.net/wiki/spaces/tfdocsv7) |
 
-  // Store tokens securely
-  await storeTokens(tokens);
+## Agentic Coding
 
-  // Redirect to dashboard
-  redirect('/dashboard');
-}
-```
+The docs include resources for building AI-powered financial applications, with guidance on implementing agentic workflows that leverage Open Finance APIs.
 
-### 3. Account Data Retrieval
+## Support
 
-```typescript
-// app/api/accounts/route.ts
-export async function GET(request: Request) {
-  const accessToken = await getStoredAccessToken();
-
-  const accountsResponse = await fetch(
-    `${ALTAREQ_API_URL}/accounts`,
-    {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'x-fapi-financial-id': FINANCIAL_ID,
-      },
-    }
-  );
-
-  const accounts = await accountsResponse.json();
-  return Response.json(accounts);
-}
-```
-
-## Project Structure
-
-```
-demo-tpp-starter/
-├── app/
-│   ├── api/
-│   │   ├── consent/route.ts      # Consent management
-│   │   ├── callback/route.ts     # OAuth callback
-│   │   ├── accounts/route.ts     # Account data
-│   │   └── transactions/route.ts # Transaction data
-│   ├── dashboard/
-│   │   └── page.tsx              # Main dashboard
-│   ├── consent/
-│   │   └── page.tsx              # Consent initiation UI
-│   └── layout.tsx
-├── lib/
-│   ├── altareq/
-│   │   ├── client.ts             # API client
-│   │   ├── auth.ts               # OAuth utilities
-│   │   └── types.ts              # Type definitions
-│   └── utils/
-├── components/
-│   ├── AccountCard.tsx
-│   ├── ConsentFlow.tsx
-│   └── TransactionList.tsx
-└── .env.example
-```
-
-## Security Considerations
-
-This demo is for **sandbox testing only**. For production:
-
-- [ ] Implement proper session management
-- [ ] Add CSRF protection
-- [ ] Secure token storage (not localStorage)
-- [ ] Add rate limiting
-- [ ] Implement audit logging
-- [ ] Complete security review
-- [ ] Obtain security certifications as required
-
-## Extending the Demo
-
-### Adding Payment Initiation
-
-The demo focuses on Account Information Services (AIS). To add Payment Initiation Services (PIS):
-
-1. Register for PIS scope in Al Tareq
-2. Implement payment consent flow
-3. Add payment submission endpoints
-4. Handle payment status callbacks
-
-### Supporting Multiple Banks
-
-The demo works with a single bank. To support multiple:
-
-1. Implement bank selection UI
-2. Store per-bank consent references
-3. Aggregate data across consents
-4. Handle different bank-specific behaviors
-
-## Troubleshooting
-
-### Common Issues
-
-**"Invalid client credentials"**
-- Verify `.env.local` contains correct sandbox credentials
-- Check client ID/secret for typos
-
-**"Consent expired"**
-- Sandbox consents may expire quickly
-- Re-initiate consent flow
-
-**"CORS errors"**
-- API calls must go through Next.js API routes
-- Don't call Al Tareq directly from browser
-
-## Contributing
-
-Contributions welcome! See the [contribution guide](/commons/contribute) for details.
+For hackathon support:
+- Post questions in [GitHub Discussions](https://github.com/openfinance-os/docs/discussions)
+- Check the Support section in the documentation
+- Review existing examples and project templates
 
 ## License
 
-MIT License - see LICENSE file for details.
+MIT License — see the [docs repository](https://github.com/openfinance-os/docs) for details.
