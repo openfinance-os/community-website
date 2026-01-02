@@ -6,6 +6,7 @@ author: Community
 source: https://www.whitecase.com/insight-alert/uae-enacts-new-cbuae-law-which-repeals-and-replaces-2018-law
 description: "Federal Decree Law No. 6 of 2025 marks the most significant overhaul of the UAE's financial regulatory framework in over a decade."
 featured: true
+external: true
 ---
 
 The UAE has enacted Federal Decree Law No. 6 of 2025 Regarding the Central Bank Regulation of Financial Institutions and Activities and Insurance Business (the "New CBUAE Law"), marking one of the most significant overhauls of the UAE's financial regulatory framework in over a decade.

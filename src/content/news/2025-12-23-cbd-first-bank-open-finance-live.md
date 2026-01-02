@@ -6,6 +6,7 @@ author: Community
 source: https://gulfbusiness.com/commercial-bank-of-dubai-becomes-uaes-first-bank-live-on-open-finance/
 description: "CBD sets a new benchmark for the UAE banking sector by becoming the first bank to fully activate Open Finance under the AlTareq initiative."
 featured: true
+external: true
 ---
 
 Commercial Bank of Dubai (CBD) has set a new benchmark for the UAE banking sector by becoming the first bank in the country to fully activate Open Finance into live operational use under the Central Bank of the UAE's Open Finance Initiative, AlTareq.

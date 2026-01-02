@@ -5,6 +5,7 @@ type: official
 author: Community
 source: https://www.zawya.com/en/press-release/companies-news/spare-receives-in-principle-approval-from-the-central-bank-of-the-uae-for-open-finance-license-nlkdjoz1
 description: "Spare becomes one of the first companies advancing toward full regulatory authorization under the UAE's Open Finance framework."
+external: true
 ---
 
 Spare, a leading Open Finance infrastructure provider, has received in-principle approval from the Central Bank of the UAE (CBUAE) to be licensed for Open Finance operations in the UAE.

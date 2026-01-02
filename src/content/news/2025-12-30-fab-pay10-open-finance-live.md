@@ -6,6 +6,7 @@ author: Community
 source: https://gulfnews.com/business/banking/fab-pay10-go-live-with-uae-open-finance-initiative-1.500394316
 description: "First Abu Dhabi Bank and Pay10 announce Open Finance go-live under the AlTareq initiative, enabling Pay by Bank services for retail customers."
 featured: true
+external: true
 ---
 
 Pay10 and First Abu Dhabi Bank (FAB), the UAE's global bank and one of the world's largest and safest financial institutions, have announced they have gone live on Open Finance for retail customers in the UAE.

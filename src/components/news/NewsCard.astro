@@ -8,9 +8,14 @@ interface Props {
   author: string;
   description?: string;
   slug: string;
+  source?: string;
+  external?: boolean;
 }
 
-const { title, date, type, author, description, slug } = Astro.props;
+const { title, date, type, author, description, slug, source, external } = Astro.props;
+
+const href = external && source ? source : `/news/${slug}`;
+const isExternal = external && source;
 
 const typeLabels: Record<string, string> = {
   official: 'Regulatory',
@@ -29,7 +34,13 @@ const formatDate = (d: Date) => {
 };
 ---
 
-<a href={`/news/${slug}`} class="news-card" data-type={type}>
+<a
+  href={href}
+  class="news-card"
+  data-type={type}
+  target={isExternal ? '_blank' : undefined}
+  rel={isExternal ? 'noopener noreferrer' : undefined}
+>
   <div class="card-header">
     <Badge variant={type} size="sm">{typeLabels[type]}</Badge>
     <time datetime={date.toISOString()}>{formatDate(date)}</time>
@@ -42,18 +53,32 @@ const formatDate = (d: Date) => {
   <div class="card-footer">
     <span class="author">By {author}</span>
     <span class="read-more">
-      Read more
-      <svg
-        width="14"
-        height="14"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        aria-hidden="true"
-      >
-        <path d="M5 12h14M12 5l7 7-7 7"></path>
-      </svg>
+      {isExternal ? 'View source' : 'Read more'}
+      {isExternal ? (
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <path d="M7 17L17 7M17 7H7M17 7v10"></path>
+        </svg>
+      ) : (
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14M12 5l7 7-7 7"></path>
+        </svg>
+      )}
     </span>
   </div>
 </a>

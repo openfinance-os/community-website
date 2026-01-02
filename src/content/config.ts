@@ -30,6 +30,7 @@ const newsCollection = defineCollection({
     source: z.string().url().optional(),
     description: z.string().optional(),
     featured: z.boolean().default(false),
+    external: z.boolean().default(false),
   }),
 });
 
