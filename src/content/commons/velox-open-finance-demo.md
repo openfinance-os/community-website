@@ -24,7 +24,7 @@ contributor: "OpenFinance-OS Community"
 contributorUrl: https://github.com/openfinance-os
 
 links:
-  demo: https://velox.openfinance-os.org
+  demo: https://demoapp.openfinance-os.org
   github: https://github.com/openfinance-os/velox
 
 whyItMatters: "Velox provides a zero-friction way to experience Open Finance capabilities firsthand. Developers can explore API responses, understand consent flows, and see real ecosystem data without the overhead of sandbox registration."
@@ -63,7 +63,7 @@ Anyone interested in understanding how Open Finance works in practice.
 
 ## Try It Now
 
-Visit [velox.openfinance-os.org](https://velox.openfinance-os.org) to explore the demo.
+Visit [demoapp.openfinance-os.org](https://demoapp.openfinance-os.org) to explore the demo.
 
 ## Next Steps
 
