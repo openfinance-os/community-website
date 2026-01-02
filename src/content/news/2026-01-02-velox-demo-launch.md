@@ -32,7 +32,7 @@ Velox is fully open source under the MIT license. We encourage contributions, wh
 
 ## Try It Now
 
-Visit [velox.openfinance-os.org](https://velox.openfinance-os.org) to explore.
+Visit [velox.openfinance-os.org](https://demoapp.openfinance-os.org) to explore.
 
 When you're ready to build, the [Demo TPP Starter Kit](/commons/demo-tpp-starter-kit) provides a complete working codebase to fork and customize.
 
