@@ -17,6 +17,30 @@ const { title, date, type, author, description, slug, source, external } = Astro
 const href = external && source ? source : `/news/${slug}`;
 const isExternal = external && source;
 
+// Extract readable source name from URL for external articles
+const getSourceName = (url: string): string => {
+  try {
+    const hostname = new URL(url).hostname.replace('www.', '');
+    // Map common domains to readable names
+    const domainNames: Record<string, string> = {
+      'gulfbusiness.com': 'Gulf Business',
+      'gulfnews.com': 'Gulf News',
+      'zawya.com': 'Zawya',
+      'whitecase.com': 'White & Case',
+      'rulebook.centralbank.ae': 'CBUAE',
+      'centralbank.ae': 'CBUAE',
+      'khaleejtimes.com': 'Khaleej Times',
+      'arabianbusiness.com': 'Arabian Business',
+      'thenationalnews.com': 'The National',
+    };
+    return domainNames[hostname] || hostname;
+  } catch {
+    return 'External';
+  }
+};
+
+const sourceName = isExternal && source ? getSourceName(source) : null;
+
 const typeLabels: Record<string, string> = {
   official: 'Regulatory',
   milestone: 'Ecosystem',
@@ -51,7 +75,7 @@ const formatDate = (d: Date) => {
   {description && <p class="card-description">{description}</p>}
 
   <div class="card-footer">
-    <span class="author">By {author}</span>
+    <span class="author">{isExternal ? `via ${sourceName}` : `By ${author}`}</span>
     <span class="read-more">
       {isExternal ? 'View source' : 'Read more'}
       {isExternal ? (
