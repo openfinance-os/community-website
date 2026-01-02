@@ -69,7 +69,7 @@ Visit [velox.openfinance-os.org](https://velox.openfinance-os.org) to explore th
 
 After exploring Velox, you can:
 
-1. **Get Sandbox Access** — Register at the [Al Tareq Portal](https://altareq.openfinance.ae) for real API testing
+1. **Get Sandbox Access** — Register at the [Al Tareq Portal](https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview?mode=global) for real API testing
 2. **Try the Starter Kit** — Fork the [Demo TPP Starter Kit](/commons/demo-tpp-starter-kit) for a working codebase
 3. **Read the Docs** — Dive into the [official documentation](https://openfinanceuae.atlassian.net/wiki/spaces/tfdocsv7)
 
