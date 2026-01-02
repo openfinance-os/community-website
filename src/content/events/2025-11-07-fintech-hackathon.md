@@ -1,7 +1,7 @@
 ---
 title: "ADCB & Nebras UAE Open Finance Hackathon"
-date: 2025-05-01
-endDate: 2025-05-03
+date: 2025-11-07
+endDate: 2025-11-17
 type: hackathon
 location: Abu Dhabi
 isOnline: false
