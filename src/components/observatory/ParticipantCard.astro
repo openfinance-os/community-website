@@ -249,7 +249,7 @@ const displayCity =
     background: white;
     border: 1px solid var(--color-gray-200);
     border-radius: var(--radius-xl);
-    padding: var(--space-6);
+    padding: var(--space-6) var(--space-8);
     overflow: hidden;
     transition:
       border-color var(--transition-fast),
@@ -292,8 +292,8 @@ const displayCity =
   .type-badge {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    padding: 4px 10px;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-3);
     border-radius: var(--radius-full);
     font-family: var(--font-mono);
     font-size: 0.625rem;
@@ -354,8 +354,8 @@ const displayCity =
   .status-badge {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 4px 10px;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-3);
     background: var(--color-gray-100);
     border-radius: var(--radius-full);
     font-family: var(--font-mono);
@@ -585,7 +585,7 @@ const displayCity =
     letter-spacing: 0.04em;
     color: var(--color-primary-600);
     background: var(--color-primary-50);
-    padding: 4px 8px;
+    padding: var(--space-1) var(--space-2);
     border-radius: var(--radius-sm);
   }
 
@@ -686,7 +686,7 @@ const displayCity =
   /* Responsive */
   @media (max-width: 480px) {
     .participant-card {
-      padding: var(--space-4);
+      padding: var(--space-5);
     }
 
     .institution-name {
