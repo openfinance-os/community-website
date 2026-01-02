@@ -1,59 +1,58 @@
 ---
-title: "UAE Open Finance Hackathon 2025"
+title: "ADCB & Nebras UAE Open Finance Hackathon"
 date: 2025-05-01
 endDate: 2025-05-03
 type: hackathon
-location: Dubai World Trade Centre
+location: Abu Dhabi
 isOnline: false
-organizer: Dubai FinTech Summit
-url: https://www.dubaifintechsummit.com
-description: "48-hour hackathon to build innovative solutions using UAE Open Finance APIs. Cash prizes and mentorship from industry leaders."
+organizer: ADCB & Nebras
+url: https://openfinance-hackathon.com/
+description: "Build innovative solutions using UAE Open Finance APIs. Turn intelligent automation + Open Finance into real-world solutions that empower consumers and businesses."
 featured: true
 ---
 
-The inaugural UAE Open Finance Hackathon brings together developers, designers, and entrepreneurs to build the next generation of financial applications.
+The ADCB & Nebras UAE Open Finance Hackathon brings together developers, designers, and entrepreneurs to build the next generation of financial applications using the UAE's Open Finance infrastructure.
 
 ## Challenge Tracks
 
-### Track 1: Financial Inclusion
-Build solutions that make banking more accessible to underserved populations.
+Choose one of the four official Hackathon Challenge Tracks:
 
-### Track 2: SME Banking
-Create tools that help small businesses manage their finances more effectively.
+### Track 1: Intelligent Automation
+How might intelligent automation transform personal finance when connected to Open Finance APIs?
 
-### Track 3: Personal Finance
-Develop apps that help individuals make better financial decisions.
+### Track 2: Financial Wellness
+Build solutions that help individuals and families improve their financial health and decision-making.
 
-### Track 4: Open Category
-Surprise us with your innovative use of Open Finance APIs.
+### Track 3: Embedded Finance
+Create seamless financial experiences embedded into everyday digital platforms and services.
 
-## Prizes
+### Track 4: Open Innovation
+Surprise us with your innovative use of Open Finance APIs across banking, payments, and insurance.
 
-- **Grand Prize**: AED 100,000 + incubation support
-- **Track Winners**: AED 25,000 each
-- **Best Technical Implementation**: AED 15,000
-- **People's Choice**: AED 10,000
+## Resources & APIs
 
-## Schedule
+Participants have access to:
 
-**Day 1 - Friday, May 1**
-- 9:00 AM: Opening ceremony and API workshops
-- 12:00 PM: Team formation and hacking begins
-- 6:00 PM: Mentor sessions
+- **Open Finance Sandbox** with live APIs
+- **Full-stack Starter Kit** (UI & API) for rapid development
+- **Postman Collection** for API exploration
+- **Datasets, AI tools, and developer resources**
 
-**Day 2 - Saturday, May 2**
-- All day: Hacking continues
-- Mentor office hours throughout
+### Available APIs
 
-**Day 3 - Sunday, May 3**
-- 12:00 PM: Code freeze
-- 2:00 PM: Presentations begin
-- 5:00 PM: Judging and awards ceremony
+- Account details, balances, and transactions
+- Beneficiaries, direct debits, and standing orders
+- Scheduled payments and product information
+- Confirmation of Payee (CoP) for secure verification
+- Products and Leads APIs
 
-## Mentors
+## About the Organizers
 
-Industry experts from leading banks, fintechs, and technology companies will be available throughout the event.
+**Nebras Open Finance LLC** is the CBUAE subsidiary that operates the UAE's centralized API hub, the backbone of the Open Finance ecosystem that standardizes how banks, fintechs, and TPPs interact.
 
-## How to Register
+**ADCB (Abu Dhabi Commercial Bank)** was the first bank certified on the Al Tareq platform and processed the UAE's first live Open Finance transaction.
 
-Teams of 2-5 people can register. Solo participants will be matched with teams.
+## Documentation
+
+- [Hackathon Portal](https://openfinance-hackathon.com/)
+- [Developer Documentation](https://adcb.mintlify.app/)
