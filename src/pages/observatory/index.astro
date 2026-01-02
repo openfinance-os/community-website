@@ -488,8 +488,8 @@ const displayParticipants = participants;
         />
 
         <HistoricalTrendsChart
-          dataPoints={historyData.dataPoints || []}
-          milestones={historyData.milestones || []}
+          dataPoints={historyData.productionHistory || []}
+          milestones={(historyData.milestones || []).filter((m: any) => m.event?.includes('production'))}
         />
       </div>
     </section>

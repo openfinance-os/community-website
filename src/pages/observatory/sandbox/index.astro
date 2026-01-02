@@ -510,8 +510,8 @@ const formatDate = (dateStr: string) => {
         />
 
         <HistoricalTrendsChart
-          dataPoints={historyData.dataPoints || []}
-          milestones={historyData.milestones || []}
+          dataPoints={historyData.sandboxHistory || []}
+          milestones={(historyData.milestones || []).filter((m: any) => m.event?.includes('sandbox'))}
         />
       </div>
     </section>
