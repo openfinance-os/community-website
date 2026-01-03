@@ -35,6 +35,7 @@ interface Props {
   isShariahCompliant: boolean;
   isLive?: boolean;
   profile?: Profile;
+  environment?: 'production' | 'sandbox';
 }
 
 const {
@@ -49,6 +50,7 @@ const {
   isShariahCompliant,
   isLive = true,
   profile,
+  environment = 'production',
 } = Astro.props;
 
 // Generate slug for the detail page link
@@ -61,7 +63,10 @@ const slug = shortName
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/^-|-$/g, '');
-const detailUrl = `/observatory/participant/${slug}`;
+const detailUrl =
+  environment === 'sandbox'
+    ? `/observatory/sandbox/participant/${slug}`
+    : `/observatory/participant/${slug}`;
 
 // API families configuration
 const allApiFamilies = [

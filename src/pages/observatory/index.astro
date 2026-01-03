@@ -489,7 +489,9 @@ const displayParticipants = participants;
 
         <HistoricalTrendsChart
           dataPoints={historyData.productionHistory || []}
-          milestones={(historyData.milestones || []).filter((m: any) => m.event?.includes('production'))}
+          milestones={(historyData.milestones || []).filter((m: any) =>
+            m.event?.includes('production')
+          )}
         />
       </div>
     </section>
@@ -607,6 +609,7 @@ const displayParticipants = participants;
                   isShariahCompliant={participant.isShariahCompliant}
                   isLive={participant.isLive ?? true}
                   profile={profile}
+                  environment="production"
                 />
               </div>
             );
@@ -628,8 +631,10 @@ const displayParticipants = participants;
         <p>
           <strong>This is not official statistics.</strong> For authoritative information, please refer
           to the
-          <a href="https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview?mode=global" target="_blank" rel="noopener noreferrer"
-            >Al Tareq</a
+          <a
+            href="https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview?mode=global"
+            target="_blank"
+            rel="noopener noreferrer">Al Tareq</a
           > portal or the
           <a href="https://www.centralbank.ae" target="_blank" rel="noopener noreferrer">CBUAE</a>.
         </p>
