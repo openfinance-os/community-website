@@ -3,8 +3,16 @@ name: CI
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.github/ISSUE_TEMPLATE/**'
   pull_request:
     branches: [main]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.github/ISSUE_TEMPLATE/**'
 
 env:
   NODE_VERSION: '20'
@@ -16,30 +24,62 @@ concurrency:
 
 jobs:
   # ============================================
-  # Validate, Build & Test
+  # Lint & Format Check (runs in parallel with typecheck)
   # ============================================
-  build:
-    name: Build & Test
+  lint:
+    name: Lint & Format
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: ./.github/actions/setup-node
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
 
       - name: Check formatting
         run: npx prettier --check .
 
+  # ============================================
+  # Type Check (runs in parallel with lint)
+  # ============================================
+  typecheck:
+    name: Type Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: ./.github/actions/setup-node
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
       - name: Type check
         run: npm run check
+
+  # ============================================
+  # Build (depends on lint and typecheck)
+  # ============================================
+  build:
+    name: Build
+    needs: [lint, typecheck]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: ./.github/actions/setup-node
+        with:
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Build site
         run: npm run build
@@ -66,6 +106,7 @@ jobs:
     name: Lighthouse
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     continue-on-error: true
 
     steps:
@@ -79,13 +120,9 @@ jobs:
           path: dist/
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: ./.github/actions/setup-node
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
 
       - name: Lighthouse CI
         uses: treosh/lighthouse-ci-action@v12

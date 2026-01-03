@@ -6,41 +6,133 @@ on:
     - cron: '0 0 * * 0'
   workflow_dispatch:
 
+# Prevent multiple link checks running simultaneously
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
 jobs:
-  check-links:
+  build:
+    name: Build Site
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
+        uses: ./.github/actions/setup-node
 
       - name: Build site
         run: npm run build
 
-      - name: Check links
-        uses: lycheeverse/lychee-action@v1
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
         with:
-          args: --verbose --no-progress './dist/**/*.html'
-          fail: false
+          name: dist-link-check
+          path: dist/
+          retention-days: 1
 
-      - name: Create issue on failure
-        if: failure()
+  check-links:
+    name: Check Links
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-link-check
+          path: dist/
+
+      - name: Check links
+        id: lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --verbose
+            --no-progress
+            --accept 200,204,301,302,403
+            --exclude-mail
+            --timeout 30
+            './dist/**/*.html'
+          fail: true
+          output: ./lychee-report.md
+
+      - name: Upload link check report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: link-check-report
+          path: lychee-report.md
+          retention-days: 7
+
+  create-issue:
+    name: Create Issue on Failure
+    needs: check-links
+    if: failure()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    permissions:
+      issues: write
+
+    steps:
+      - name: Download link check report
+        uses: actions/download-artifact@v4
+        with:
+          name: link-check-report
+        continue-on-error: true
+
+      - name: Create issue for broken links
         uses: actions/github-script@v7
         with:
           script: |
-            github.rest.issues.create({
+            const fs = require('fs');
+            let reportContent = '';
+
+            try {
+              reportContent = fs.readFileSync('lychee-report.md', 'utf8');
+            } catch (e) {
+              reportContent = 'Unable to read link check report. See workflow run for details.';
+            }
+
+            // Check for existing open issue
+            const { data: issues } = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: 'Broken links detected',
-              body: 'The weekly link check found broken links. Please review the workflow run.',
-              labels: ['bug', 'documentation']
-            })
+              state: 'open',
+              labels: 'broken-links'
+            });
+
+            const existingIssue = issues.find(issue =>
+              issue.title.includes('Broken links detected')
+            );
+
+            const body = `## Broken Links Detected
+
+            The weekly link check found broken links in the site.
+
+            **Workflow Run:** [View Details](${process.env.GITHUB_SERVER_URL}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})
+
+            ### Report
+            ${reportContent.substring(0, 60000)}`;
+
+            if (existingIssue) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existingIssue.number,
+                body: `Link check failed again at ${new Date().toISOString()}\n\n${body}`
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: 'Broken links detected',
+                body: body,
+                labels: ['broken-links', 'bug']
+              });
+            }
