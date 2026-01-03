@@ -79,7 +79,7 @@ export async function fetchNewsArticles(options: FetchNewsOptions): Promise<News
       }
 
       const url = `${NEWSAPI_BASE_URL}/everything?${params.toString()}`;
-      console.log(`Searching for: "${keyword}"...`);
+      console.log(`Searching for: ${keyword}...`);
 
       const response = await fetchWithRetry(url, {
         headers: {
@@ -104,7 +104,7 @@ export async function fetchNewsArticles(options: FetchNewsOptions): Promise<News
 
           allArticles.push(article);
         }
-        console.log(`  Found ${data.articles.length} articles for "${keyword}"`);
+        console.log(`  Found ${data.articles.length} articles for ${keyword}`);
       }
     } catch (error) {
       console.error(`Failed to fetch for keyword "${keyword}":`, error);
@@ -123,61 +123,135 @@ export function scoreArticle(article: NewsApiArticle, config: NewsSourceConfig):
   const contentLower = (article.content || '').toLowerCase();
   const combinedText = `${titleLower} ${descLower} ${contentLower}`;
 
-  // Score based on keyword presence in title (higher weight)
-  for (const keyword of config.keywords) {
-    const keywordLower = keyword.toLowerCase();
-    if (titleLower.includes(keywordLower)) {
-      score += 10;
-    }
-    if (descLower.includes(keywordLower)) {
-      score += 5;
-    }
-    if (contentLower.includes(keywordLower)) {
-      score += 2;
-    }
-  }
-
-  // Bonus for UAE/Middle East specific content
-  const regionKeywords = [
-    'uae',
-    'dubai',
-    'abu dhabi',
-    'cbuae',
-    'middle east',
-    'gulf',
-    'gcc',
-    'emirates',
+  // === CORE OPEN BANKING/FINANCE TERMS (highest weight) ===
+  // These are the exact phrases we care about most
+  const coreTerms = [
+    { term: 'open banking', weight: 25 },
+    { term: 'open finance', weight: 25 },
+    { term: 'openbanking', weight: 25 },
+    { term: 'openfinance', weight: 25 },
+    { term: 'psd2', weight: 20 },
+    { term: 'psd3', weight: 20 },
+    { term: 'account aggregation', weight: 18 },
+    { term: 'banking api', weight: 18 },
+    { term: 'payment initiation', weight: 18 },
+    { term: 'account information service', weight: 18 },
+    { term: 'aisp', weight: 15 },
+    { term: 'pisp', weight: 15 },
+    { term: 'third party provider', weight: 15 },
+    { term: 'third-party provider', weight: 15 },
+    { term: 'tpp regulation', weight: 15 },
+    { term: 'screen scraping', weight: 12 },
+    { term: 'data sharing banking', weight: 12 },
+    { term: 'consumer data right', weight: 12 },
+    { term: 'fdata', weight: 12 },
   ];
-  for (const regionKw of regionKeywords) {
-    if (combinedText.includes(regionKw)) {
-      score += 8;
+
+  for (const { term, weight } of coreTerms) {
+    if (titleLower.includes(term)) {
+      score += weight * 2; // Double weight for title matches
+    } else if (combinedText.includes(term)) {
+      score += weight;
     }
   }
 
-  // Bonus for fintech/banking specific content
-  const fintechKeywords = ['fintech', 'api', 'tpp', 'third-party', 'psd2', 'payment', 'banking'];
-  for (const fintechKw of fintechKeywords) {
-    if (combinedText.includes(fintechKw)) {
-      score += 3;
+  // === REGULATORY/FRAMEWORK TERMS ===
+  const regulatoryTerms = [
+    { term: 'cbuae', weight: 15 },
+    { term: 'central bank uae', weight: 12 },
+    { term: 'fca open banking', weight: 12 },
+    { term: 'eba guidelines', weight: 10 },
+    { term: 'open banking regulation', weight: 15 },
+    { term: 'banking license', weight: 8 },
+    { term: 'fintech regulation', weight: 8 },
+  ];
+
+  for (const { term, weight } of regulatoryTerms) {
+    if (combinedText.includes(term)) {
+      score += weight;
     }
   }
 
-  // Bonus for preferred sources
+  // === RELATED FINTECH TERMS (lower weight) ===
+  const relatedTerms = [
+    { term: 'fintech', weight: 3 },
+    { term: 'neobank', weight: 5 },
+    { term: 'challenger bank', weight: 5 },
+    { term: 'embedded finance', weight: 8 },
+    { term: 'banking as a service', weight: 10 },
+    { term: 'baas', weight: 8 },
+    { term: 'api banking', weight: 10 },
+    { term: 'digital banking', weight: 3 },
+  ];
+
+  for (const { term, weight } of relatedTerms) {
+    if (combinedText.includes(term)) {
+      score += weight;
+    }
+  }
+
+  // === REGIONAL BONUS (UAE/GCC focus) ===
+  const regionTerms = [
+    { term: 'uae', weight: 8 },
+    { term: 'dubai', weight: 6 },
+    { term: 'abu dhabi', weight: 6 },
+    { term: 'emirates', weight: 5 },
+    { term: 'gulf', weight: 4 },
+    { term: 'gcc', weight: 5 },
+    { term: 'middle east', weight: 4 },
+    { term: 'saudi', weight: 4 },
+    { term: 'bahrain', weight: 5 }, // Bahrain has advanced open banking
+    { term: 'uk open banking', weight: 8 },
+    { term: 'europe', weight: 3 },
+  ];
+
+  for (const { term, weight } of regionTerms) {
+    if (combinedText.includes(term)) {
+      score += weight;
+    }
+  }
+
+  // === PREFERRED SOURCES BONUS ===
   const sourceName = article.source.name.toLowerCase();
   for (const preferred of config.preferredSources) {
     if (sourceName.includes(preferred.toLowerCase())) {
-      score += 15;
+      score += 10;
     }
   }
 
-  // Recency bonus (articles from last 24 hours get a boost)
+  // === RECENCY BONUS ===
   const publishedDate = new Date(article.publishedAt);
   const hoursAgo = (Date.now() - publishedDate.getTime()) / (1000 * 60 * 60);
-  if (hoursAgo < 24) {
+  if (hoursAgo < 12) {
+    score += 8;
+  } else if (hoursAgo < 24) {
     score += 5;
+  } else if (hoursAgo < 48) {
+    score += 2;
   }
 
-  return score;
+  // === NEGATIVE SIGNALS (reduce score for off-topic) ===
+  const negativeTerms = [
+    'crypto',
+    'bitcoin',
+    'ethereum',
+    'nft',
+    'metaverse',
+    'web3',
+    'defi',
+    'blockchain trading',
+    'stock market',
+    'forex',
+    'investment tips',
+  ];
+
+  for (const term of negativeTerms) {
+    if (combinedText.includes(term)) {
+      score -= 10;
+    }
+  }
+
+  return Math.max(0, score); // Don't go negative
 }
 
 export function rankArticles(
@@ -185,19 +259,33 @@ export function rankArticles(
   config: NewsSourceConfig,
   limit: number = 5
 ): NewsApiArticle[] {
-  // Score and sort articles
+  const minScore = config.minRelevanceScore || 0;
+
+  // Score all articles
   const scoredArticles = articles.map((article) => ({
     article,
     score: scoreArticle(article, config),
   }));
 
-  scoredArticles.sort((a, b) => b.score - a.score);
+  // Filter by minimum score
+  const relevantArticles = scoredArticles.filter((item) => item.score >= minScore);
+
+  console.log(
+    `\nFiltered ${scoredArticles.length} articles to ${relevantArticles.length} with score >= ${minScore}`
+  );
+
+  // Sort by score descending
+  relevantArticles.sort((a, b) => b.score - a.score);
 
   // Log top articles with scores
   console.log('\nTop ranked articles:');
-  scoredArticles.slice(0, limit).forEach((item, index) => {
+  relevantArticles.slice(0, limit).forEach((item, index) => {
     console.log(`  ${index + 1}. [Score: ${item.score}] ${item.article.title.substring(0, 60)}...`);
   });
 
-  return scoredArticles.slice(0, limit).map((item) => item.article);
+  if (relevantArticles.length === 0) {
+    console.log('  No articles met the minimum relevance score threshold');
+  }
+
+  return relevantArticles.slice(0, limit).map((item) => item.article);
 }

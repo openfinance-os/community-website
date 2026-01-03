@@ -1,17 +1,17 @@
 {
   "keywords": [
-    "open finance UAE",
-    "open banking Middle East",
-    "CBUAE fintech",
-    "UAE digital banking regulation",
-    "GCC fintech regulation",
-    "open banking API",
-    "PSD2 Middle East",
-    "UAE payment services",
-    "Abu Dhabi fintech",
-    "Dubai open banking",
-    "Saudi open banking",
-    "Bahrain open banking"
+    "\"open banking\"",
+    "\"open finance\"",
+    "\"open banking\" UAE",
+    "\"open banking\" API",
+    "\"PSD2\"",
+    "\"account aggregation\" fintech",
+    "\"banking API\"",
+    "\"third party provider\" banking",
+    "\"TPP\" fintech",
+    "\"screen scraping\" banking",
+    "\"CBUAE\" fintech",
+    "\"payment initiation\" API"
   ],
   "excludeDomains": [
     "youtube.com",
@@ -20,23 +20,27 @@
     "linkedin.com",
     "instagram.com",
     "tiktok.com",
-    "reddit.com"
+    "reddit.com",
+    "pinterest.com"
   ],
   "preferredSources": [
-    "Gulf Business",
-    "Arabian Business",
     "Finextra",
-    "The National",
-    "Khaleej Times",
-    "Gulf News",
     "PYMNTS",
     "Fintech Futures",
-    "Arab News",
-    "Emirates 24/7",
-    "Zawya",
+    "The Paypers",
+    "Finovate",
+    "Banking Technology",
+    "Tearsheet",
+    "American Banker",
+    "Financial Times",
     "Reuters",
-    "Bloomberg"
+    "Bloomberg",
+    "Gulf Business",
+    "Arabian Business",
+    "The National",
+    "Khaleej Times"
   ],
   "maxArticlesPerRun": 5,
-  "lookbackHours": 48
+  "lookbackHours": 72,
+  "minRelevanceScore": 15
 }

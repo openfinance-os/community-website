@@ -90,4 +90,5 @@ export interface NewsSourceConfig {
   preferredSources: string[];
   maxArticlesPerRun: number;
   lookbackHours: number;
+  minRelevanceScore?: number;
 }
