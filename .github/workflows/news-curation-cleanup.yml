@@ -6,9 +6,16 @@ on:
     - cron: '0 0,12 * * *'
   workflow_dispatch:
 
+# Prevent multiple cleanup runs simultaneously
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
 jobs:
   cleanup:
+    name: Cleanup Stale PRs
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     permissions:
       contents: write
@@ -21,13 +28,7 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
+        uses: ./.github/actions/setup-node
 
       - name: Cleanup stale news PRs
         env:
@@ -37,4 +38,7 @@ jobs:
 
       - name: Log result
         if: always()
-        run: echo "Cleanup workflow completed"
+        run: |
+          echo "### Cleanup Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Cleanup workflow completed" >> $GITHUB_STEP_SUMMARY

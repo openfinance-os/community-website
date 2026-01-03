@@ -6,10 +6,16 @@ on:
     - cron: '0 */6 * * *'
   workflow_dispatch:
 
+# Prevent multiple health checks running simultaneously
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
 jobs:
   health-check:
     name: Health Check
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - name: Check site availability
@@ -29,11 +35,11 @@ jobs:
             local duration=$(( (end - start) / 1000000 ))
 
             if [ "$response" = "200" ]; then
-              echo "| $name | ✅ $response | ${duration}ms |" >> $GITHUB_STEP_SUMMARY
-              echo "✅ $name: HTTP $response (${duration}ms)"
+              echo "| $name | $response | ${duration}ms |" >> $GITHUB_STEP_SUMMARY
+              echo "$name: HTTP $response (${duration}ms)"
             else
-              echo "| $name | ❌ $response | ${duration}ms |" >> $GITHUB_STEP_SUMMARY
-              echo "❌ $name: HTTP $response (${duration}ms)"
+              echo "| $name | $response | ${duration}ms |" >> $GITHUB_STEP_SUMMARY
+              echo "$name: HTTP $response (${duration}ms)"
               return 1
             fi
           }
@@ -86,9 +92,9 @@ jobs:
           check_header() {
             local header=$1
             if echo "$headers" | grep -qi "^$header:"; then
-              echo "| $header | ✅ Present |" >> $GITHUB_STEP_SUMMARY
+              echo "| $header | Present |" >> $GITHUB_STEP_SUMMARY
             else
-              echo "| $header | ❌ Missing |" >> $GITHUB_STEP_SUMMARY
+              echo "| $header | Missing |" >> $GITHUB_STEP_SUMMARY
             fi
           }
 
@@ -105,6 +111,7 @@ jobs:
     needs: health-check
     if: failure()
     runs-on: ubuntu-latest
+    timeout-minutes: 5
 
     permissions:
       issues: write
@@ -114,7 +121,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const title = `🚨 Site Health Check Failed - ${new Date().toISOString().split('T')[0]}`;
+            const title = `Site Health Check Failed - ${new Date().toISOString().split('T')[0]}`;
 
             // Check for existing open issue
             const { data: issues } = await github.rest.issues.listForRepo({

@@ -12,9 +12,16 @@ on:
         default: 'false'
         type: boolean
 
+# Prevent multiple data updates running simultaneously
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
 jobs:
   collect:
+    name: Collect Observatory Data
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     permissions:
       contents: write
@@ -26,13 +33,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
+        uses: ./.github/actions/setup-node
 
       - name: Run collector script
         run: |
@@ -58,8 +59,10 @@ jobs:
 
       - name: Log result
         run: |
+          echo "### Observatory Update Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
           if [ "${{ steps.git-check.outputs.changes }}" = "true" ]; then
-            echo "Observatory data updated successfully"
+            echo "Observatory data updated successfully" >> $GITHUB_STEP_SUMMARY
           else
-            echo "No changes detected in observatory data"
+            echo "No changes detected in observatory data" >> $GITHUB_STEP_SUMMARY
           fi

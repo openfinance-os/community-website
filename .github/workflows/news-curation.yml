@@ -12,9 +12,16 @@ on:
         default: 'false'
         type: boolean
 
+# Prevent multiple news curation runs simultaneously
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
 jobs:
   curate:
+    name: Curate News
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     permissions:
       contents: write
@@ -27,18 +34,12 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
+        uses: ./.github/actions/setup-node
 
       - name: Run news curation
         env:
           NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }} # Optional - for AI summaries
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
@@ -52,5 +53,7 @@ jobs:
       - name: Log result
         if: always()
         run: |
-          echo "News curation workflow completed"
-          echo "Check Slack for notification with PR links"
+          echo "### News Curation Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "News curation workflow completed" >> $GITHUB_STEP_SUMMARY
+          echo "Check Slack for notification with PR links" >> $GITHUB_STEP_SUMMARY

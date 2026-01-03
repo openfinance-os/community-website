@@ -16,6 +16,11 @@ on:
       - 'package-lock.json'
   workflow_dispatch:
 
+# Prevent multiple security scans running simultaneously
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   # ============================================
   # Dependency Audit
@@ -23,19 +28,14 @@ jobs:
   dependency-audit:
     name: Dependency Audit
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
+        uses: ./.github/actions/setup-node
 
       - name: Run npm audit
         run: |
@@ -53,10 +53,10 @@ jobs:
 
           echo "| Severity | Count |" >> $GITHUB_STEP_SUMMARY
           echo "|----------|-------|" >> $GITHUB_STEP_SUMMARY
-          echo "| 🔴 Critical | $critical |" >> $GITHUB_STEP_SUMMARY
-          echo "| 🟠 High | $high |" >> $GITHUB_STEP_SUMMARY
-          echo "| 🟡 Moderate | $moderate |" >> $GITHUB_STEP_SUMMARY
-          echo "| 🟢 Low | $low |" >> $GITHUB_STEP_SUMMARY
+          echo "| Critical | $critical |" >> $GITHUB_STEP_SUMMARY
+          echo "| High | $high |" >> $GITHUB_STEP_SUMMARY
+          echo "| Moderate | $moderate |" >> $GITHUB_STEP_SUMMARY
+          echo "| Low | $low |" >> $GITHUB_STEP_SUMMARY
 
           # Fail on critical or high vulnerabilities
           if [ "$critical" -gt 0 ] || [ "$high" -gt 0 ]; then
@@ -67,7 +67,7 @@ jobs:
           fi
 
           echo ""
-          echo "✅ No critical or high severity vulnerabilities found"
+          echo "No critical or high severity vulnerabilities found"
 
       - name: Check for outdated packages
         run: |
@@ -85,6 +85,7 @@ jobs:
   codeql:
     name: CodeQL Analysis
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     permissions:
       security-events: write
@@ -112,6 +113,7 @@ jobs:
   secrets-scan:
     name: Secrets Scan
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - name: Checkout repository
@@ -120,7 +122,7 @@ jobs:
           fetch-depth: 0
 
       - name: Scan for secrets
-        uses: trufflesecurity/trufflehog@main
+        uses: trufflesecurity/trufflehog@v3.88.1
         with:
           path: ./
           base: ${{ github.event.repository.default_branch }}
@@ -134,19 +136,14 @@ jobs:
   license-check:
     name: License Compliance
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
+        uses: ./.github/actions/setup-node
 
       - name: Check licenses
         run: |
