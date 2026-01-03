@@ -16,11 +16,12 @@ let participants: Array<{
 }> = [];
 
 try {
-  const snapshotPath = join(process.cwd(), 'data/observatory/snapshots/latest.json');
+  // Use the production-only snapshot to match participant page generation
+  const snapshotPath = join(process.cwd(), 'data/observatory/snapshots/production/latest.json');
   const snapshot = JSON.parse(readFileSync(snapshotPath, 'utf-8'));
 
-  // Handle dual environment format
-  const participantData = snapshot.production?.participants || snapshot.participants || [];
+  // Production snapshot has participants directly at root level
+  const participantData = snapshot.participants || [];
 
   // Load profiles for city data
   const profilesPath = join(process.cwd(), 'data/participants/profiles.json');
