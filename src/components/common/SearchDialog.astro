@@ -1,6 +1,173 @@
 ---
 // SearchDialog component - Global search functionality
 // Searches across participants, news, and pages
+// Pre-loads participant data at build time for global search
+
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { getCollection } from 'astro:content';
+
+// Load profiles for city data (used by both production and sandbox)
+const profilesPath = join(process.cwd(), 'data/participants/profiles.json');
+let profiles: Record<string, any> = {};
+try {
+  profiles = JSON.parse(readFileSync(profilesPath, 'utf-8'));
+} catch {
+  // Profiles are optional
+}
+
+// Load production participant data at build time
+let productionParticipants: Array<{
+  name: string;
+  shortName: string;
+  city: string;
+  roles: string[];
+}> = [];
+
+try {
+  const snapshotPath = join(process.cwd(), 'data/observatory/snapshots/production/latest.json');
+  const snapshot = JSON.parse(readFileSync(snapshotPath, 'utf-8'));
+  const participantData = snapshot.participants || [];
+
+  productionParticipants = participantData.map((p: any) => {
+    const profile = profiles[p.name] || profiles[p.shortName] || null;
+    const city =
+      p.city === 'Unknown' && profile?.headquarters?.city ? profile.headquarters.city : p.city;
+
+    return {
+      name: p.name,
+      shortName: p.shortName || p.name,
+      city: city || 'UAE',
+      roles: p.roles || [],
+    };
+  });
+} catch (error) {
+  console.warn('Could not load production participant data for search:', error);
+}
+
+// Load sandbox participant data at build time
+let sandboxParticipants: Array<{
+  name: string;
+  shortName: string;
+  city: string;
+  roles: string[];
+}> = [];
+
+try {
+  const snapshotPath = join(process.cwd(), 'data/observatory/snapshots/sandbox/latest.json');
+  const snapshot = JSON.parse(readFileSync(snapshotPath, 'utf-8'));
+  const participantData = snapshot.participants || [];
+
+  // Get production participant names to filter out duplicates
+  const productionNames = new Set(productionParticipants.map((p) => p.name));
+
+  sandboxParticipants = participantData
+    .filter((p: any) => !productionNames.has(p.name)) // Exclude those already in production
+    .map((p: any) => {
+      const profile = profiles[p.name] || profiles[p.shortName] || null;
+      const city =
+        p.city === 'Unknown' && profile?.headquarters?.city ? profile.headquarters.city : p.city;
+
+      return {
+        name: p.name,
+        shortName: p.shortName || p.name,
+        city: city || 'UAE',
+        roles: p.roles || [],
+      };
+    });
+} catch (error) {
+  console.warn('Could not load sandbox participant data for search:', error);
+}
+
+// Load news articles at build time
+let newsArticles: Array<{
+  title: string;
+  slug: string;
+  type: string;
+}> = [];
+
+try {
+  const allNews = await getCollection('news');
+  newsArticles = allNews.map((article) => ({
+    title: article.data.title,
+    slug: article.slug,
+    type: article.data.type || 'news',
+  }));
+} catch (error) {
+  console.warn('Could not load news for search:', error);
+}
+
+// Load commons contributions at build time
+let commonsItems: Array<{
+  title: string;
+  slug: string;
+  type: string;
+}> = [];
+
+try {
+  const allCommons = await getCollection('commons');
+  commonsItems = allCommons.map((item) => ({
+    title: item.data.title,
+    slug: item.slug,
+    type: item.data.type || 'resource',
+  }));
+} catch (error) {
+  console.warn('Could not load commons for search:', error);
+}
+
+// Helper to create URL-friendly slugs
+function createSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+// Serialize data for client-side use
+const searchIndex = {
+  participants: [
+    // Production participants
+    ...productionParticipants.map((p) => ({
+      type: 'participant' as const,
+      title: p.name,
+      description: p.roles.join(', '),
+      meta: `${p.city} • Production`,
+      url: `/observatory/participant/${createSlug(p.shortName || p.name)}`,
+      searchTerms: [
+        p.name.toLowerCase(),
+        p.shortName?.toLowerCase(),
+        ...p.roles.map((r) => r.toLowerCase()),
+      ].filter(Boolean),
+    })),
+    // Sandbox-only participants
+    ...sandboxParticipants.map((p) => ({
+      type: 'participant' as const,
+      title: p.name,
+      description: p.roles.join(', '),
+      meta: `${p.city} • Sandbox`,
+      url: `/observatory/sandbox/participant/${createSlug(p.shortName || p.name)}`,
+      searchTerms: [
+        p.name.toLowerCase(),
+        p.shortName?.toLowerCase(),
+        ...p.roles.map((r) => r.toLowerCase()),
+      ].filter(Boolean),
+    })),
+  ],
+  news: newsArticles.map((n) => ({
+    type: 'news' as const,
+    title: n.title,
+    meta: n.type,
+    url: `/news/${n.slug}`,
+    searchTerms: [n.title.toLowerCase()],
+  })),
+  commons: commonsItems.map((c) => ({
+    type: 'resource' as const,
+    title: c.title,
+    meta: c.type,
+    url: `/commons/${c.slug}`,
+    searchTerms: [c.title.toLowerCase()],
+  })),
+};
 ---
 
 <div class="search-trigger-container">
@@ -127,6 +294,22 @@
           </h3>
           <ul class="results-list pages-list"></ul>
         </div>
+        <div class="results-section results-resources" hidden>
+          <h3 class="results-heading">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+            </svg>
+            Resources
+          </h3>
+          <ul class="results-list resources-list"></ul>
+        </div>
       </div>
 
       <div class="search-empty" hidden>
@@ -216,6 +399,9 @@
   </div>
 </dialog>
 
+<!-- Inject search index as a data attribute for client-side access -->
+<script id="search-index-data" type="application/json" set:html={JSON.stringify(searchIndex)} />
+
 <script>
   // Initialize search dialog
   const trigger = document.querySelector('.search-trigger');
@@ -227,16 +413,31 @@
   const emptyState = document.querySelector('.search-empty');
   const initialState = document.querySelector('.search-initial');
 
-  // Searchable data (will be populated from page data)
+  // Searchable data types
   interface SearchItem {
-    type: 'participant' | 'news' | 'page';
+    type: 'participant' | 'news' | 'page' | 'resource';
     title: string;
     description?: string;
     url: string;
     meta?: string;
+    searchTerms?: string[];
   }
 
-  const searchData: SearchItem[] = [];
+  // Load pre-built search index from embedded data
+  let preloadedIndex: {
+    participants: SearchItem[];
+    news: SearchItem[];
+    commons: SearchItem[];
+  } = { participants: [], news: [], commons: [] };
+
+  try {
+    const indexScript = document.getElementById('search-index-data');
+    if (indexScript?.textContent) {
+      preloadedIndex = JSON.parse(indexScript.textContent);
+    }
+  } catch (e) {
+    console.warn('Could not parse search index:', e);
+  }
 
   // Pages data (static)
   const pages: SearchItem[] = [
@@ -292,74 +493,121 @@
       url: '/community',
     },
     { type: 'page', title: 'About', description: 'About OpenFinance-OS', url: '/about' },
+    { type: 'page', title: 'Commons', description: 'Shared community resources', url: '/commons' },
+    { type: 'page', title: 'Events', description: 'Community events and meetups', url: '/events' },
   ];
 
-  // Helper to create URL-friendly slugs
-  function createSlug(name: string): string {
-    return name
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-|-$/g, '');
-  }
+  // Combine all searchable data
+  const searchData: SearchItem[] = [
+    ...preloadedIndex.participants,
+    ...preloadedIndex.news,
+    ...preloadedIndex.commons,
+    ...pages,
+  ];
 
-  // Load participant data from data attribute or fetch
-  async function loadSearchData() {
-    searchData.length = 0;
-    searchData.push(...pages);
+  // Fuzzy matching function - checks if query matches with some tolerance
+  function fuzzyMatch(text: string, query: string): { match: boolean; score: number } {
+    if (!text || !query) return { match: false, score: 0 };
 
-    try {
-      // Load participants from the page if available
-      const participantCards = document.querySelectorAll('[data-participant-name]');
-      participantCards.forEach((card) => {
-        const name = card.getAttribute('data-participant-name');
-        const shortName = card.getAttribute('data-participant-short-name');
-        const city = card.getAttribute('data-participant-city');
-        const roles = card.getAttribute('data-participant-roles');
-        if (name) {
-          // Generate slug from shortName or fall back to name
-          const slug = createSlug(shortName || name);
-          searchData.push({
-            type: 'participant',
-            title: name,
-            description: roles || '',
-            meta: city || '',
-            url: `/observatory/participant/${slug}`,
-          });
-        }
-      });
+    const lowerText = text.toLowerCase();
+    const lowerQuery = query.toLowerCase();
 
-      // Load news from the page if available
-      const newsCards = document.querySelectorAll('[data-news-title]');
-      newsCards.forEach((card) => {
-        const title = card.getAttribute('data-news-title');
-        const href = card.getAttribute('data-news-href');
-        const type = card.getAttribute('data-news-type');
-        if (title && href) {
-          searchData.push({
-            type: 'news',
-            title: title,
-            meta: type || '',
-            url: href,
-          });
-        }
-      });
-    } catch (error) {
-      console.error('Failed to load search data:', error);
+    // Exact match
+    if (lowerText === lowerQuery) return { match: true, score: 100 };
+
+    // Contains match
+    if (lowerText.includes(lowerQuery)) {
+      // Boost score if it starts with the query
+      if (lowerText.startsWith(lowerQuery)) return { match: true, score: 90 };
+      return { match: true, score: 70 };
     }
+
+    // Word-boundary match (e.g., searching "ADCB" matches "Abu Dhabi Commercial Bank")
+    const words = lowerText.split(/\s+/);
+    const queryWords = lowerQuery.split(/\s+/);
+
+    // Check if any word starts with any query word
+    for (const queryWord of queryWords) {
+      if (queryWord.length < 2) continue;
+      for (const word of words) {
+        if (word.startsWith(queryWord)) {
+          return { match: true, score: 60 };
+        }
+      }
+    }
+
+    // Check acronym match (e.g., "ADCB" for "Abu Dhabi Commercial Bank")
+    if (lowerQuery.length >= 2 && lowerQuery.length <= 6) {
+      const initials = words
+        .map((w) => w.charAt(0))
+        .join('')
+        .toLowerCase();
+      if (initials.includes(lowerQuery)) {
+        return { match: true, score: 75 };
+      }
+    }
+
+    // Simple typo tolerance: allow 1 character difference for queries of 4+ chars
+    if (lowerQuery.length >= 4) {
+      for (const word of words) {
+        if (word.length >= lowerQuery.length - 1) {
+          let differences = 0;
+          const minLen = Math.min(word.length, lowerQuery.length);
+          for (let i = 0; i < minLen; i++) {
+            if (word[i] !== lowerQuery[i]) differences++;
+          }
+          differences += Math.abs(word.length - lowerQuery.length);
+          if (differences <= 1) {
+            return { match: true, score: 40 };
+          }
+        }
+      }
+    }
+
+    return { match: false, score: 0 };
   }
 
-  // Search function
+  // Search function with fuzzy matching
   function search(query: string): SearchItem[] {
     if (!query.trim()) return [];
     const q = query.toLowerCase().trim();
-    return searchData
-      .filter((item) => {
-        const titleMatch = item.title.toLowerCase().includes(q);
-        const descMatch = item.description?.toLowerCase().includes(q);
-        const metaMatch = item.meta?.toLowerCase().includes(q);
-        return titleMatch || descMatch || metaMatch;
+
+    // Score each item
+    const scored = searchData
+      .map((item) => {
+        let bestScore = 0;
+
+        // Check title
+        const titleResult = fuzzyMatch(item.title, q);
+        if (titleResult.match) bestScore = Math.max(bestScore, titleResult.score);
+
+        // Check description
+        if (item.description) {
+          const descResult = fuzzyMatch(item.description, q);
+          if (descResult.match) bestScore = Math.max(bestScore, descResult.score * 0.8);
+        }
+
+        // Check meta
+        if (item.meta) {
+          const metaResult = fuzzyMatch(item.meta, q);
+          if (metaResult.match) bestScore = Math.max(bestScore, metaResult.score * 0.6);
+        }
+
+        // Check search terms (for pre-indexed items)
+        if (item.searchTerms) {
+          for (const term of item.searchTerms) {
+            const termResult = fuzzyMatch(term, q);
+            if (termResult.match) bestScore = Math.max(bestScore, termResult.score * 0.9);
+          }
+        }
+
+        return { item, score: bestScore };
       })
-      .slice(0, 15); // Limit results
+      .filter((x) => x.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 15);
+
+    return scored.map((x) => x.item);
   }
 
   // Render results
@@ -367,9 +615,11 @@
     const participantsList = document.querySelector('.participants-list');
     const newsList = document.querySelector('.news-list');
     const pagesList = document.querySelector('.pages-list');
+    const resourcesList = document.querySelector('.resources-list');
     const participantsSection = document.querySelector('.results-participants');
     const newsSection = document.querySelector('.results-news');
     const pagesSection = document.querySelector('.results-pages');
+    const resourcesSection = document.querySelector('.results-resources');
 
     if (!participantsList || !newsList || !pagesList) return;
 
@@ -377,15 +627,18 @@
     participantsList.innerHTML = '';
     newsList.innerHTML = '';
     pagesList.innerHTML = '';
+    if (resourcesList) resourcesList.innerHTML = '';
 
     const participants = results.filter((r) => r.type === 'participant');
     const news = results.filter((r) => r.type === 'news');
     const pageResults = results.filter((r) => r.type === 'page');
+    const resources = results.filter((r) => r.type === 'resource');
 
     // Show/hide sections based on results
     participantsSection?.toggleAttribute('hidden', participants.length === 0);
     newsSection?.toggleAttribute('hidden', news.length === 0);
     pagesSection?.toggleAttribute('hidden', pageResults.length === 0);
+    resourcesSection?.toggleAttribute('hidden', resources.length === 0);
 
     // Render participants
     participants.forEach((item) => {
@@ -422,6 +675,20 @@
       `;
       pagesList.appendChild(li);
     });
+
+    // Render resources (commons)
+    if (resourcesList) {
+      resources.forEach((item) => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <a href="${item.url}" class="result-item">
+            <span class="result-title">${item.title}</span>
+            ${item.meta ? `<span class="result-meta">${item.meta}</span>` : ''}
+          </a>
+        `;
+        resourcesList.appendChild(li);
+      });
+    }
   }
 
   // Update UI based on search state
@@ -462,7 +729,6 @@
 
   // Open dialog
   function openSearch() {
-    loadSearchData();
     dialog?.showModal();
     input?.focus();
     document.body.style.overflow = 'hidden';

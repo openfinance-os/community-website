@@ -1,0 +1,1130 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import Breadcrumb from '@components/common/Breadcrumb.astro';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+
+// Helper to create URL-friendly slugs
+function createSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+// Load sandbox participant data
+const snapshotPath = join(process.cwd(), 'data/observatory/snapshots/sandbox/latest.json');
+const snapshot = JSON.parse(readFileSync(snapshotPath, 'utf-8'));
+
+// Load profiles for enhanced data
+const profilesPath = join(process.cwd(), 'data/participants/profiles.json');
+let profiles: Record<string, any> = {};
+try {
+  profiles = JSON.parse(readFileSync(profilesPath, 'utf-8'));
+} catch {
+  // Profiles are optional
+}
+
+export function getStaticPaths() {
+  const snapshotPath = join(process.cwd(), 'data/observatory/snapshots/sandbox/latest.json');
+  const snapshot = JSON.parse(readFileSync(snapshotPath, 'utf-8'));
+  const profilesPath = join(process.cwd(), 'data/participants/profiles.json');
+  let profiles: Record<string, any> = {};
+  try {
+    profiles = JSON.parse(readFileSync(profilesPath, 'utf-8'));
+  } catch {
+    // Profiles are optional
+  }
+
+  return snapshot.participants.map((p: any) => {
+    const slug = p.shortName
+      ? p.shortName
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-|-$/g, '')
+      : p.id;
+    const profile = profiles[p.name] || profiles[p.shortName] || profiles[p.legalName] || null;
+
+    return {
+      params: { slug },
+      props: { participant: p, profile },
+    };
+  });
+}
+
+interface Props {
+  participant: {
+    id: string;
+    name: string;
+    legalName: string;
+    shortName: string;
+    status: string;
+    roles: string[];
+    city: string;
+    registrationNumber?: string;
+    apiFamilies: string[];
+    hasAuthServer: boolean;
+    isShariahCompliant: boolean;
+    isLive: boolean;
+    authCapabilities?: {
+      supportsCiba: boolean;
+      supportsDCR: boolean;
+      supportsRedirect: boolean;
+    };
+    apiResources?: Array<{
+      family: string;
+      version: string;
+      certificationStatus: string;
+      familyComplete: boolean;
+    }>;
+    authServerCount?: number;
+  };
+  profile: {
+    shortName?: string;
+    fullName?: string;
+    description?: string;
+    founded?: number;
+    headquarters?: {
+      city: string;
+      country: string;
+      countryCode: string;
+    };
+    parentCompany?: {
+      name: string;
+      headquarters: string;
+      countryCode: string;
+    };
+    type?: string;
+    typeLabel?: string;
+    ownership?: string;
+    ownershipDetail?: string;
+    marketPosition?: string;
+    website?: string | null;
+    specializations?: string[];
+  } | null;
+}
+
+const { participant, profile } = Astro.props;
+
+// Find related participants (same type or location)
+const currentType = profile?.type || 'unknown';
+const currentCity = profile?.headquarters?.city || participant.city;
+
+// Get all participants from snapshot for related section
+const relatedParticipants = snapshot.participants
+  .filter((p: any) => {
+    if (p.name === participant.name) return false;
+    const pProfile = profiles[p.name] || profiles[p.shortName] || null;
+    const pType = pProfile?.type || 'unknown';
+    const pCity = pProfile?.headquarters?.city || p.city;
+
+    // Match by type or city
+    return pType === currentType || pCity === currentCity;
+  })
+  .slice(0, 4)
+  .map((p: any) => {
+    const pProfile = profiles[p.name] || profiles[p.shortName] || null;
+    return {
+      name: p.name,
+      shortName: p.shortName || p.name,
+      type: pProfile?.typeLabel || pProfile?.type || 'Participant',
+      slug: (p.shortName || p.name)
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, ''),
+    };
+  });
+
+// API families configuration
+const allApiFamilies = [
+  { key: 'accounts', label: 'Accounts', description: 'Account information access' },
+  { key: 'payments', label: 'Payments', description: 'Payment initiation services' },
+  { key: 'cop', label: 'CoP', description: 'Confirmation of Payee' },
+  { key: 'products', label: 'Products', description: 'Product information' },
+];
+
+// Role descriptions
+const roleDescriptions: Record<string, string> = {
+  LFI: 'Licensed Financial Institution - A regulated bank or financial institution',
+  BDSP: 'Business Data Service Provider - Provides business data services',
+  BSIP: 'Business Service Integration Provider - Integrates business services',
+  ISP: 'Information Service Provider - Provides information services',
+  TSP: 'Technical Service Provider - Provides technical infrastructure',
+  TPP: 'Third Party Provider - Accesses bank data on behalf of customers',
+  'API Read_Write': 'API Read/Write Access - Has read and write API permissions',
+};
+
+// Type badge colors
+const typeColors: Record<string, string> = {
+  'commercial-bank': 'type-blue',
+  'islamic-bank': 'type-teal',
+  'digital-bank': 'type-purple',
+  'international-bank': 'type-amber',
+  fintech: 'type-pink',
+  infrastructure: 'type-gray',
+  payments: 'type-green',
+  insurance: 'type-indigo',
+};
+
+// Country flags
+const countryFlags: Record<string, string> = {
+  AE: '🇦🇪',
+  GB: '🇬🇧',
+  US: '🇺🇸',
+};
+
+const displayCity =
+  participant.city === 'Unknown' && profile?.headquarters?.city
+    ? profile.headquarters.city
+    : participant.city;
+
+const hqFlag = profile?.headquarters?.countryCode
+  ? countryFlags[profile.headquarters.countryCode] || '🌍'
+  : '🇦🇪';
+
+// Generate structured data for SEO
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: participant.name,
+  legalName: participant.legalName,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: displayCity,
+    addressCountry: 'AE',
+  },
+  ...(profile?.website && { url: profile.website }),
+  ...(profile?.description && { description: profile.description }),
+};
+---
+
+<PageLayout
+  title={`${participant.name} (Sandbox)`}
+  description={profile?.description ||
+    `${participant.name} - UAE Open Finance sandbox participant. ${participant.roles.join(', ')}`}
+  articleSchema={structuredData}
+>
+  <div class="participant-page">
+    <div class="container">
+      <Breadcrumb
+        items={[
+          { label: 'Observatory', href: '/observatory' },
+          { label: 'Sandbox', href: '/observatory/sandbox' },
+          { label: participant.name },
+        ]}
+      />
+
+      <!-- Sandbox Badge -->
+      <div class="sandbox-banner">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"
+          ></path>
+        </svg>
+        <span>Sandbox Environment</span>
+        <span class="sandbox-note">Testing & Development</span>
+      </div>
+
+      <div class="page-grid">
+        <!-- Main Content -->
+        <main class="main-content">
+          <!-- Header -->
+          <header class="participant-header">
+            <div class="header-badges">
+              {
+                profile?.typeLabel ? (
+                  <div
+                    class:list={['type-badge', typeColors[profile.type || ''] || 'type-default']}
+                  >
+                    {profile.typeLabel}
+                  </div>
+                ) : null
+              }
+              <div class="status-badge sandbox">
+                <span class="status-dot"></span>
+                Sandbox
+              </div>
+              {participant.isShariahCompliant && <div class="shariah-badge">Islamic Banking</div>}
+            </div>
+
+            <h1 class="participant-name">{participant.name}</h1>
+            <p class="legal-name">{participant.legalName}</p>
+
+            {profile?.description && <p class="description">{profile.description}</p>}
+
+            {profile?.marketPosition && <p class="market-position">{profile.marketPosition}</p>}
+          </header>
+
+          <!-- Roles Section -->
+          <section class="section">
+            <h2 class="section-title">Roles & Capabilities</h2>
+            <div class="roles-grid">
+              {
+                participant.roles.map((role) => (
+                  <div class="role-card">
+                    <div class="role-header">
+                      <span class="role-name">{role}</span>
+                      <span class="role-active">Active</span>
+                    </div>
+                    {roleDescriptions[role] && (
+                      <p class="role-description">{roleDescriptions[role]}</p>
+                    )}
+                  </div>
+                ))
+              }
+            </div>
+          </section>
+
+          <!-- API Coverage Section -->
+          <section class="section">
+            <h2 class="section-title">API Coverage</h2>
+            <div class="api-grid">
+              {
+                allApiFamilies.map((api) => {
+                  const isActive = participant.apiFamilies.includes(api.key);
+                  const resource = participant.apiResources?.find((r) => r.family === api.key);
+                  return (
+                    <div class:list={['api-card', { active: isActive }]}>
+                      <div class="api-header">
+                        <span class="api-indicator" />
+                        <span class="api-name">{api.label}</span>
+                      </div>
+                      <p class="api-description">{api.description}</p>
+                      {resource && (
+                        <div class="api-details">
+                          <span class="api-version">v{resource.version}</span>
+                          <span class="api-status">{resource.certificationStatus}</span>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })
+              }
+            </div>
+          </section>
+
+          <!-- Authorization Capabilities -->
+          {
+            participant.hasAuthServer && (
+              <section class="section">
+                <h2 class="section-title">Authorization Capabilities</h2>
+                <div class="auth-grid">
+                  <div
+                    class:list={[
+                      'auth-item',
+                      { active: participant.authCapabilities?.supportsRedirect },
+                    ]}
+                  >
+                    <span class="auth-indicator" />
+                    <div class="auth-content">
+                      <span class="auth-name">Redirect</span>
+                      <span class="auth-description">Traditional OAuth redirect flow</span>
+                    </div>
+                  </div>
+                  <div
+                    class:list={[
+                      'auth-item',
+                      { active: participant.authCapabilities?.supportsCiba },
+                    ]}
+                  >
+                    <span class="auth-indicator" />
+                    <div class="auth-content">
+                      <span class="auth-name">CIBA</span>
+                      <span class="auth-description">
+                        Client Initiated Backchannel Authentication
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class:list={[
+                      'auth-item',
+                      { active: participant.authCapabilities?.supportsDCR },
+                    ]}
+                  >
+                    <span class="auth-indicator" />
+                    <div class="auth-content">
+                      <span class="auth-name">DCR</span>
+                      <span class="auth-description">Dynamic Client Registration</span>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            )
+          }
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+          <div class="info-card">
+            <h3 class="info-title">Details</h3>
+            <dl class="info-list">
+              <div class="info-item">
+                <dt>Location</dt>
+                <dd>
+                  <span class="flag">{hqFlag}</span>
+                  {displayCity}, UAE
+                </dd>
+              </div>
+              {
+                profile?.parentCompany && (
+                  <div class="info-item">
+                    <dt>Parent Company</dt>
+                    <dd>
+                      <span class="flag">
+                        {countryFlags[profile.parentCompany.countryCode] || '🌍'}
+                      </span>
+                      {profile.parentCompany.name}
+                    </dd>
+                  </div>
+                )
+              }
+              {
+                profile?.founded && (
+                  <div class="info-item">
+                    <dt>Founded</dt>
+                    <dd>{profile.founded}</dd>
+                  </div>
+                )
+              }
+              {
+                participant.registrationNumber && participant.registrationNumber !== 'N/A' && (
+                  <div class="info-item">
+                    <dt>Registration</dt>
+                    <dd class="mono">{participant.registrationNumber}</dd>
+                  </div>
+                )
+              }
+              {
+                participant.authServerCount !== undefined && participant.authServerCount > 0 && (
+                  <div class="info-item">
+                    <dt>Auth Servers</dt>
+                    <dd>{participant.authServerCount}</dd>
+                  </div>
+                )
+              }
+              {
+                profile?.ownership && (
+                  <div class="info-item">
+                    <dt>Ownership</dt>
+                    <dd>{profile.ownership}</dd>
+                  </div>
+                )
+              }
+            </dl>
+          </div>
+
+          {
+            profile?.website && (
+              <a
+                href={profile.website}
+                class="website-btn"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="2" y1="12" x2="22" y2="12" />
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                </svg>
+                Visit Website
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M7 17L17 7M17 7H7M17 7v10" />
+                </svg>
+              </a>
+            )
+          }
+
+          {
+            relatedParticipants.length > 0 && (
+              <div class="related-section">
+                <h3 class="info-title">Related Participants</h3>
+                <ul class="related-list">
+                  {relatedParticipants.map((related) => (
+                    <li>
+                      <a
+                        href={`/observatory/sandbox/participant/${related.slug}`}
+                        class="related-link"
+                      >
+                        <span class="related-name">{related.shortName}</span>
+                        <span class="related-type">{related.type}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )
+          }
+
+          <a href="/observatory/sandbox" class="back-link">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M19 12H5M12 19l-7-7 7-7"></path>
+            </svg>
+            Back to Sandbox
+          </a>
+        </aside>
+      </div>
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .participant-page {
+    padding: var(--space-8) var(--space-4) var(--space-16);
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .sandbox-banner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border: 1px solid #fbbf24;
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-6);
+    color: #92400e;
+    font-weight: 500;
+    font-size: 0.875rem;
+  }
+
+  .sandbox-note {
+    margin-left: auto;
+    font-size: 0.75rem;
+    opacity: 0.8;
+  }
+
+  .page-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    margin-top: var(--space-6);
+  }
+
+  @media (min-width: 900px) {
+    .page-grid {
+      grid-template-columns: 1fr 300px;
+    }
+  }
+
+  /* Header */
+  .participant-header {
+    margin-bottom: var(--space-8);
+  }
+
+  .header-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+
+  .type-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .type-blue {
+    background: var(--color-primary-50);
+    color: var(--color-primary-700);
+  }
+
+  .type-teal {
+    background: #ccfbf1;
+    color: #0f766e;
+  }
+
+  .type-purple {
+    background: #ede9fe;
+    color: #5b21b6;
+  }
+
+  .type-amber {
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  .type-pink {
+    background: #fce7f3;
+    color: #9d174d;
+  }
+
+  .type-gray {
+    background: var(--color-gray-100);
+    color: var(--color-gray-600);
+  }
+
+  .type-green {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .type-indigo {
+    background: #e0e7ff;
+    color: #3730a3;
+  }
+
+  .type-default {
+    background: var(--color-gray-100);
+    color: var(--color-gray-600);
+  }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .status-badge.sandbox {
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    background: #f59e0b;
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  .shariah-badge {
+    display: inline-flex;
+    padding: 4px 12px;
+    background: #ccfbf1;
+    color: #0f766e;
+    border-radius: var(--radius-full);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .participant-name {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-gray-900);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-2);
+  }
+
+  .legal-name {
+    font-size: 1rem;
+    color: var(--color-gray-500);
+    margin-bottom: var(--space-4);
+  }
+
+  .description {
+    font-size: 1.0625rem;
+    color: var(--color-gray-600);
+    line-height: 1.6;
+    max-width: 600px;
+  }
+
+  .market-position {
+    margin-top: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-primary-600);
+  }
+
+  /* Sections */
+  .section {
+    margin-bottom: var(--space-8);
+  }
+
+  .section-title {
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-gray-400);
+    margin-bottom: var(--space-4);
+  }
+
+  /* Roles */
+  .roles-grid {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .role-card {
+    padding: var(--space-4);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-gray-100);
+  }
+
+  .role-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-2);
+  }
+
+  .role-name {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-gray-800);
+  }
+
+  .role-active {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: #92400e;
+    background: #fef3c7;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+  }
+
+  .role-description {
+    font-size: 0.8125rem;
+    color: var(--color-gray-500);
+    line-height: 1.5;
+  }
+
+  /* API Coverage */
+  .api-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-3);
+  }
+
+  .api-card {
+    padding: var(--space-4);
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    opacity: 0.6;
+    transition: all var(--transition-fast);
+  }
+
+  .api-card.active {
+    background: white;
+    border-color: #fbbf24;
+    opacity: 1;
+  }
+
+  .api-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+  }
+
+  .api-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--color-gray-300);
+    background: transparent;
+  }
+
+  .api-card.active .api-indicator {
+    background: #f59e0b;
+    border-color: #f59e0b;
+  }
+
+  .api-name {
+    font-weight: 600;
+    color: var(--color-gray-700);
+  }
+
+  .api-description {
+    font-size: 0.8125rem;
+    color: var(--color-gray-500);
+    margin-bottom: var(--space-2);
+  }
+
+  .api-details {
+    display: flex;
+    gap: var(--space-2);
+    font-size: 0.6875rem;
+    font-family: var(--font-mono);
+  }
+
+  .api-version {
+    background: #fef3c7;
+    color: #92400e;
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
+  }
+
+  .api-status {
+    color: var(--color-gray-500);
+  }
+
+  /* Auth Capabilities */
+  .auth-grid {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .auth-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-gray-100);
+    opacity: 0.6;
+  }
+
+  .auth-item.active {
+    background: white;
+    border-color: #fbbf24;
+    opacity: 1;
+  }
+
+  .auth-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--color-gray-300);
+    margin-top: 4px;
+    flex-shrink: 0;
+  }
+
+  .auth-item.active .auth-indicator {
+    background: #f59e0b;
+    border-color: #f59e0b;
+  }
+
+  .auth-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .auth-name {
+    font-weight: 600;
+    color: var(--color-gray-800);
+  }
+
+  .auth-description {
+    font-size: 0.8125rem;
+    color: var(--color-gray-500);
+  }
+
+  /* Sidebar */
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .info-card {
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+  }
+
+  .info-title {
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-gray-400);
+    margin-bottom: var(--space-4);
+  }
+
+  .info-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .info-item dt {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-gray-400);
+  }
+
+  .info-item dd {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-gray-700);
+  }
+
+  .info-item .flag {
+    font-size: 1rem;
+  }
+
+  .info-item .mono {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+  }
+
+  .website-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    background: #f59e0b;
+    color: white;
+    font-weight: 500;
+    font-size: 0.875rem;
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+
+  .website-btn:hover {
+    background: #d97706;
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+
+  .back-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-gray-600);
+    text-decoration: none;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-fast);
+  }
+
+  .back-link:hover {
+    background: var(--color-gray-50);
+    color: var(--color-gray-900);
+    text-decoration: none;
+  }
+
+  /* Related participants */
+  .related-section {
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    padding: var(--space-5);
+    margin-bottom: var(--space-4);
+  }
+
+  .related-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .related-link {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: var(--space-3);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+
+  .related-link:hover {
+    border-color: #fbbf24;
+    background: #fffbeb;
+    text-decoration: none;
+  }
+
+  .related-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-gray-800);
+  }
+
+  .related-link:hover .related-name {
+    color: #92400e;
+  }
+
+  .related-type {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-gray-500);
+  }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .sandbox-banner {
+    background: linear-gradient(135deg, #78350f 0%, #92400e 100%);
+    border-color: #b45309;
+    color: #fef3c7;
+  }
+
+  :global([data-theme='dark']) .participant-name {
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .legal-name {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .description {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .role-card,
+  :global([data-theme='dark']) .api-card,
+  :global([data-theme='dark']) .auth-item {
+    background: var(--color-gray-200);
+    border-color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .api-card.active,
+  :global([data-theme='dark']) .auth-item.active {
+    background: var(--color-gray-100);
+    border-color: #f59e0b;
+  }
+
+  :global([data-theme='dark']) .role-name,
+  :global([data-theme='dark']) .api-name,
+  :global([data-theme='dark']) .auth-name {
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .role-description,
+  :global([data-theme='dark']) .api-description,
+  :global([data-theme='dark']) .auth-description {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .info-card {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .info-item dd {
+    color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .back-link {
+    border-color: var(--color-gray-300);
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .back-link:hover {
+    background: var(--color-gray-200);
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .related-section {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .related-link {
+    background: var(--color-gray-200);
+    border-color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .related-link:hover {
+    background: var(--color-gray-300);
+    border-color: #f59e0b;
+  }
+
+  :global([data-theme='dark']) .related-name {
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .related-link:hover .related-name {
+    color: #fbbf24;
+  }
+
+  :global([data-theme='dark']) .related-type {
+    color: var(--color-gray-400);
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .participant-name {
+      font-size: 1.75rem;
+    }
+
+    .api-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
