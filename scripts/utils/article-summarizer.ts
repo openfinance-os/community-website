@@ -1,18 +1,18 @@
-// AI-powered article summarization using OpenAI API
+// AI-powered article summarization using Anthropic Claude API
+// Falls back to article description if no API key is provided (free mode)
 import type { NewsApiArticle, CuratedArticle } from '../types/news-curation.js';
 
-const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
+const ANTHROPIC_API_URL = 'https://api.anthropic.com/v1/messages';
 
 export interface SummarizerOptions {
-  apiKey: string;
+  apiKey?: string; // Optional - falls back to description if not provided
   model?: string;
 }
 
-interface OpenAIResponse {
-  choices: Array<{
-    message: {
-      content: string;
-    };
+interface AnthropicResponse {
+  content: Array<{
+    type: string;
+    text: string;
   }>;
 }
 
@@ -35,7 +35,6 @@ function generateSlug(title: string, date: string): string {
 }
 
 function generateArticleId(url: string): string {
-  // Create a simple hash from the URL
   let hash = 0;
   for (let i = 0; i < url.length; i++) {
     const char = url.charCodeAt(i);
@@ -45,47 +44,132 @@ function generateArticleId(url: string): string {
   return Math.abs(hash).toString(36);
 }
 
-async function callOpenAI(
+// Determine article type based on keywords (used when no AI available)
+function inferArticleType(
+  article: NewsApiArticle
+): 'global' | 'community' | 'milestone' | 'official' | 'opinion' {
+  const text =
+    `${article.title} ${article.description || ''} ${article.content || ''}`.toLowerCase();
+
+  // Check for official/regulatory content
+  if (
+    text.includes('cbuae') ||
+    text.includes('central bank') ||
+    text.includes('regulation') ||
+    text.includes('regulatory') ||
+    text.includes('license') ||
+    text.includes('framework')
+  ) {
+    return 'official';
+  }
+
+  // Check for milestone content
+  if (
+    text.includes('first') ||
+    text.includes('launch') ||
+    text.includes('milestone') ||
+    text.includes('achievement') ||
+    text.includes('record')
+  ) {
+    return 'milestone';
+  }
+
+  // Check for opinion/analysis
+  if (
+    text.includes('opinion') ||
+    text.includes('analysis') ||
+    text.includes('commentary') ||
+    text.includes('perspective')
+  ) {
+    return 'opinion';
+  }
+
+  // Check for community/local
+  if (
+    text.includes('uae') ||
+    text.includes('dubai') ||
+    text.includes('abu dhabi') ||
+    text.includes('emirates')
+  ) {
+    return 'community';
+  }
+
+  return 'global';
+}
+
+// Simple extractive summary when no AI is available
+function extractSummary(article: NewsApiArticle): string {
+  // Use description if available and reasonable length
+  if (article.description && article.description.length >= 50) {
+    // Clean up and truncate if needed
+    let summary = article.description.trim();
+    if (summary.length > 300) {
+      summary = summary.substring(0, 297) + '...';
+    }
+    return summary;
+  }
+
+  // Fall back to content excerpt
+  if (article.content) {
+    // Remove the "[+XXXX chars]" suffix that NewsAPI adds
+    const cleanContent = article.content.replace(/\[\+\d+ chars\]$/, '').trim();
+    if (cleanContent.length > 300) {
+      return cleanContent.substring(0, 297) + '...';
+    }
+    return cleanContent;
+  }
+
+  return 'Read the full article for more details.';
+}
+
+async function callClaude(
   prompt: string,
   systemPrompt: string,
   options: SummarizerOptions
 ): Promise<string> {
-  const response = await fetch(OPENAI_API_URL, {
+  const response = await fetch(ANTHROPIC_API_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${options.apiKey}`,
+      'x-api-key': options.apiKey!,
+      'anthropic-version': '2023-06-01',
     },
     body: JSON.stringify({
-      model: options.model || 'gpt-4o-mini',
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: prompt },
-      ],
-      temperature: 0.3,
+      model: options.model || 'claude-3-haiku-20240307',
       max_tokens: 200,
+      system: systemPrompt,
+      messages: [{ role: 'user', content: prompt }],
     }),
   });
 
   if (!response.ok) {
     const error = await response.text();
-    throw new Error(`OpenAI API error: ${response.status} - ${error}`);
+    throw new Error(`Anthropic API error: ${response.status} - ${error}`);
   }
 
-  const data: OpenAIResponse = await response.json();
-  return data.choices[0]?.message?.content || '';
+  const data: AnthropicResponse = await response.json();
+  return data.content[0]?.text || '';
 }
 
 export async function summarizeArticle(
   article: NewsApiArticle,
   options: SummarizerOptions
 ): Promise<SummaryResult> {
+  // If no API key, use free mode (extractive summary)
+  if (!options.apiKey) {
+    console.log('  (Using free mode - no AI summarization)');
+    return {
+      summary: extractSummary(article),
+      type: inferArticleType(article),
+    };
+  }
+
   const systemPrompt = `You are a news summarizer for the UAE Open Finance community website.
 Your task is to:
 1. Write a 2-3 sentence summary of the article that is informative and relevant to the open finance/fintech community
 2. Classify the article type as one of: global (international news), community (local ecosystem), milestone (significant achievement), official (regulatory/government), opinion (analysis/commentary)
 
-Respond in JSON format: {"summary": "...", "type": "..."}`;
+Respond in JSON format only: {"summary": "...", "type": "..."}`;
 
   const prompt = `Summarize this article for the UAE Open Finance community:
 
@@ -94,10 +178,10 @@ Source: ${article.source.name}
 Description: ${article.description || 'N/A'}
 Content: ${article.content || 'N/A'}
 
-Remember to respond only with valid JSON.`;
+Respond only with valid JSON.`;
 
   try {
-    const response = await callOpenAI(prompt, systemPrompt, options);
+    const response = await callClaude(prompt, systemPrompt, options);
 
     // Parse JSON response
     const jsonMatch = response.match(/\{[\s\S]*\}/);
@@ -112,11 +196,10 @@ Remember to respond only with valid JSON.`;
       type: result.type || 'global',
     };
   } catch (error) {
-    console.warn(`Failed to summarize article, using description: ${error}`);
-    // Fallback to description
+    console.warn(`  Failed to summarize with AI, using fallback: ${error}`);
     return {
-      summary: article.description || 'No summary available.',
-      type: 'global',
+      summary: extractSummary(article),
+      type: inferArticleType(article),
     };
   }
 }
@@ -127,9 +210,14 @@ export async function processArticles(
   options: SummarizerOptions
 ): Promise<CuratedArticle[]> {
   const curatedArticles: CuratedArticle[] = [];
+  const useAI = !!options.apiKey;
+
+  if (!useAI) {
+    console.log('\nNo ANTHROPIC_API_KEY provided - using free mode (article descriptions)\n');
+  }
 
   for (const article of articles) {
-    console.log(`Summarizing: ${article.title.substring(0, 50)}...`);
+    console.log(`Processing: ${article.title.substring(0, 50)}...`);
 
     try {
       const { summary, type } = await summarizeArticle(article, options);
@@ -149,8 +237,10 @@ export async function processArticles(
 
       curatedArticles.push(curated);
 
-      // Small delay to avoid rate limiting
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      // Small delay only if using AI to avoid rate limiting
+      if (useAI) {
+        await new Promise((resolve) => setTimeout(resolve, 500));
+      }
     } catch (error) {
       console.error(`Failed to process article: ${article.title}`, error);
     }

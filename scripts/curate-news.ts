@@ -5,16 +5,18 @@
  * This script:
  * 1. Fetches open finance news from NewsAPI.org
  * 2. Ranks articles by relevance
- * 3. Summarizes top articles using AI
+ * 3. Summarizes top articles (using Claude AI if available, otherwise uses article descriptions)
  * 4. Creates draft PRs for each article
  * 5. Sends Slack notification with PR links
  *
  * Environment variables required:
  * - NEWSAPI_KEY: NewsAPI.org API key
- * - OPENAI_API_KEY: OpenAI API key for summarization
  * - SLACK_WEBHOOK_URL: Slack incoming webhook URL
  * - GH_TOKEN: GitHub personal access token with repo scope
  * - GITHUB_REPOSITORY: owner/repo format (set automatically in GitHub Actions)
+ *
+ * Optional:
+ * - ANTHROPIC_API_KEY: Anthropic API key for AI summarization (if not set, uses article descriptions)
  */
 
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
@@ -84,7 +86,7 @@ function getExistingArticleSlugs(): Set<string> {
 
 // Check required environment variables
 function checkEnvironment(): { valid: boolean; missing: string[] } {
-  const required = ['NEWSAPI_KEY', 'OPENAI_API_KEY', 'SLACK_WEBHOOK_URL', 'GH_TOKEN'];
+  const required = ['NEWSAPI_KEY', 'SLACK_WEBHOOK_URL', 'GH_TOKEN'];
   const missing = required.filter((key) => !process.env[key]);
 
   return {
@@ -182,8 +184,11 @@ async function main() {
     // Take only top N
     const topArticles = newArticles.slice(0, config.maxArticlesPerRun);
 
-    // Step 4: Summarize articles with AI
-    console.log('\nStep 4: Generating AI summaries...\n');
+    // Step 4: Summarize articles
+    const hasAI = !!process.env.ANTHROPIC_API_KEY;
+    console.log(
+      `\nStep 4: Processing articles${hasAI ? ' with AI summaries' : ' (free mode - using descriptions)'}...\n`
+    );
     const scores = new Map<string, number>();
     topArticles.forEach((article) => {
       scores.set(article.url, scoreArticle(article, config));
@@ -211,7 +216,7 @@ async function main() {
       }));
     } else {
       curatedArticles = await processArticles(topArticles, scores, {
-        apiKey: process.env.OPENAI_API_KEY || '',
+        apiKey: process.env.ANTHROPIC_API_KEY, // Optional - falls back to descriptions if not set
       });
     }
 
