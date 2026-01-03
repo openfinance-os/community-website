@@ -106,6 +106,35 @@ interface Props {
 
 const { participant, profile } = Astro.props;
 
+// Find related participants (same type or location)
+const currentType = profile?.type || 'unknown';
+const currentCity = profile?.headquarters?.city || participant.city;
+
+// Get all participants from snapshot for related section
+const relatedParticipants = snapshot.participants
+  .filter((p: any) => {
+    if (p.name === participant.name) return false;
+    const pProfile = profiles[p.name] || profiles[p.shortName] || null;
+    const pType = pProfile?.type || 'unknown';
+    const pCity = pProfile?.headquarters?.city || p.city;
+
+    // Match by type or city
+    return pType === currentType || pCity === currentCity;
+  })
+  .slice(0, 4)
+  .map((p: any) => {
+    const pProfile = profiles[p.name] || profiles[p.shortName] || null;
+    return {
+      name: p.name,
+      shortName: p.shortName || p.name,
+      type: pProfile?.typeLabel || pProfile?.type || 'Participant',
+      slug: (p.shortName || p.name)
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, ''),
+    };
+  });
+
 // API families configuration
 const allApiFamilies = [
   { key: 'accounts', label: 'Accounts', description: 'Account information access' },
@@ -407,6 +436,24 @@ const structuredData = {
                   <path d="M7 17L17 7M17 7H7M17 7v10" />
                 </svg>
               </a>
+            )
+          }
+
+          {
+            relatedParticipants.length > 0 && (
+              <div class="related-section">
+                <h3 class="info-title">Related Participants</h3>
+                <ul class="related-list">
+                  {relatedParticipants.map((related) => (
+                    <li>
+                      <a href={`/observatory/participant/${related.slug}`} class="related-link">
+                        <span class="related-name">{related.shortName}</span>
+                        <span class="related-type">{related.type}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             )
           }
 
@@ -893,6 +940,60 @@ const structuredData = {
     text-decoration: none;
   }
 
+  /* Related participants */
+  .related-section {
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    padding: var(--space-5);
+    margin-bottom: var(--space-4);
+  }
+
+  .related-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .related-link {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: var(--space-3);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+
+  .related-link:hover {
+    border-color: var(--color-primary-300);
+    background: var(--color-primary-50);
+    text-decoration: none;
+  }
+
+  .related-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-gray-800);
+  }
+
+  .related-link:hover .related-name {
+    color: var(--color-primary-700);
+  }
+
+  .related-type {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-gray-500);
+  }
+
   /* Dark mode */
   :global([data-theme='dark']) .participant-name {
     color: var(--color-gray-100);
@@ -948,6 +1049,33 @@ const structuredData = {
   :global([data-theme='dark']) .back-link:hover {
     background: var(--color-gray-200);
     color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .related-section {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .related-link {
+    background: var(--color-gray-200);
+    border-color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .related-link:hover {
+    background: var(--color-gray-300);
+    border-color: var(--color-primary-500);
+  }
+
+  :global([data-theme='dark']) .related-name {
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .related-link:hover .related-name {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .related-type {
+    color: var(--color-gray-400);
   }
 
   /* Responsive */

@@ -10,6 +10,26 @@ const contributions = allContributions.sort(
 
 const featuredContributions = contributions.filter((c) => c.data.featured);
 
+// Non-featured contributions for the main grid
+const nonFeaturedContributions = contributions.filter((c) => !c.data.featured);
+
+// Contribution statistics
+const stats = {
+  total: contributions.length,
+  byType: {
+    insight: contributions.filter((c) => c.data.type === 'insight').length,
+    reference: contributions.filter((c) => c.data.type === 'reference').length,
+    artifact: contributions.filter((c) => c.data.type === 'artifact').length,
+    utility: contributions.filter((c) => c.data.type === 'utility').length,
+  },
+  productionReady: contributions.filter((c) => c.data.maturity === 'production-ready').length,
+  recentlyUpdated: contributions.filter((c) => {
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    return c.data.date >= thirtyDaysAgo;
+  }).length,
+};
+
 // Type configurations
 const typeConfig = {
   insight: { label: 'Insight', color: 'primary', icon: 'lightbulb' },
@@ -94,6 +114,85 @@ function formatDate(date: Date): string {
           </a>
         </div>
       </header>
+
+      <!-- Statistics Bar -->
+      <section class="stats-bar">
+        <div class="stat-item">
+          <span class="stat-value">{stats.total}</span>
+          <span class="stat-label">Contributions</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-value">{stats.productionReady}</span>
+          <span class="stat-label">Production Ready</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-value">{stats.recentlyUpdated}</span>
+          <span class="stat-label">Updated This Month</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-value">{Object.values(stats.byType).filter(v => v > 0).length}</span>
+          <span class="stat-label">Categories</span>
+        </div>
+      </section>
+
+      <!-- Featured Section -->
+      {featuredContributions.length > 0 && (
+        <section class="featured-section">
+          <div class="featured-header">
+            <h2 class="featured-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+              </svg>
+              Featured Contributions
+            </h2>
+            <p class="featured-description">Hand-picked resources that exemplify community value</p>
+          </div>
+          <div class="featured-grid">
+            {featuredContributions.map((contribution) => {
+              const config = typeConfig[contribution.data.type];
+              return (
+                <a href={`/commons/${contribution.slug}`} class="featured-card">
+                  <div class={`featured-type-badge ${contribution.data.type}`}>
+                    {contribution.data.type === 'insight' && (
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 18h6M10 22h4M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"></path>
+                      </svg>
+                    )}
+                    {contribution.data.type === 'reference' && (
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                      </svg>
+                    )}
+                    {contribution.data.type === 'artifact' && (
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14,2 14,8 20,8"></polyline>
+                      </svg>
+                    )}
+                    {contribution.data.type === 'utility' && (
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="16,18 22,12 16,6"></polyline>
+                        <polyline points="8,6 2,12 8,18"></polyline>
+                      </svg>
+                    )}
+                    {config.label}
+                  </div>
+                  <h3 class="featured-card-title">{contribution.data.title}</h3>
+                  <p class="featured-card-summary">{contribution.data.summary}</p>
+                  <div class="featured-card-meta">
+                    <span class="contributor">{contribution.data.contributor}</span>
+                    <span class="arrow-icon">→</span>
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       <!-- Type Legend -->
       <section class="type-legend">
@@ -561,6 +660,194 @@ function formatDate(date: Date): string {
     margin-bottom: var(--space-6);
   }
 
+  /* Statistics Bar */
+  .stats-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-6);
+    padding: var(--space-5) var(--space-6);
+    background: var(--color-primary-50);
+    border-radius: var(--radius-xl);
+    margin-bottom: var(--space-8);
+    flex-wrap: wrap;
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .stat-value {
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-primary-700);
+  }
+
+  .stat-label {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gray-600);
+  }
+
+  .stat-divider {
+    width: 1px;
+    height: 32px;
+    background: var(--color-primary-200);
+  }
+
+  /* Featured Section */
+  .featured-section {
+    margin-bottom: var(--space-8);
+    padding: var(--space-6);
+    background: linear-gradient(135deg, var(--color-gray-50) 0%, white 100%);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+  }
+
+  .featured-header {
+    margin-bottom: var(--space-5);
+  }
+
+  .featured-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-1);
+  }
+
+  .featured-title svg {
+    color: var(--color-accent-500);
+  }
+
+  .featured-description {
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+  }
+
+  .featured-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .featured-card {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-5);
+    background: white;
+    border: 2px solid var(--color-primary-100);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+
+  .featured-card:hover {
+    border-color: var(--color-primary-400);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+
+  .featured-type-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-2);
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    border-radius: var(--radius-sm);
+    width: fit-content;
+    margin-bottom: var(--space-3);
+  }
+
+  .featured-type-badge.insight {
+    background: var(--color-primary-100);
+    color: var(--color-primary-700);
+  }
+
+  .featured-type-badge.reference {
+    background: var(--color-gray-200);
+    color: var(--color-gray-700);
+  }
+
+  .featured-type-badge.artifact {
+    background: rgba(232, 168, 92, 0.2);
+    color: var(--color-accent-600);
+  }
+
+  .featured-type-badge.utility {
+    background: rgba(16, 185, 129, 0.15);
+    color: #059669;
+  }
+
+  .featured-card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-2);
+    line-height: 1.4;
+  }
+
+  .featured-card:hover .featured-card-title {
+    color: var(--color-primary-700);
+  }
+
+  .featured-card-summary {
+    flex: 1;
+    font-size: 0.875rem;
+    color: var(--color-gray-600);
+    line-height: 1.6;
+    margin-bottom: var(--space-4);
+  }
+
+  .featured-card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-gray-100);
+  }
+
+  .featured-card-meta .contributor {
+    font-size: 0.75rem;
+    color: var(--color-gray-500);
+  }
+
+  .featured-card-meta .arrow-icon {
+    font-size: 1rem;
+    color: var(--color-primary-500);
+    transition: transform var(--transition-fast);
+  }
+
+  .featured-card:hover .arrow-icon {
+    transform: translateX(4px);
+  }
+
+  @media (max-width: 768px) {
+    .stats-bar {
+      gap: var(--space-4);
+    }
+
+    .stat-divider {
+      display: none;
+    }
+
+    .stat-item {
+      min-width: 80px;
+    }
+  }
+
   .btn {
     display: inline-flex;
     align-items: center;
@@ -1008,6 +1295,65 @@ function formatDate(date: Date): string {
   }
 
   :global([data-theme='dark']) .subtitle {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .stats-bar {
+    background: var(--color-gray-800);
+  }
+
+  :global([data-theme='dark']) .stat-value {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .stat-label {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .stat-divider {
+    background: var(--color-gray-600);
+  }
+
+  :global([data-theme='dark']) .featured-section {
+    background: linear-gradient(135deg, var(--color-gray-800) 0%, var(--color-gray-900) 100%);
+    border-color: var(--color-gray-700);
+  }
+
+  :global([data-theme='dark']) .featured-title {
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .featured-description {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .featured-card {
+    background: var(--color-gray-800);
+    border-color: var(--color-gray-700);
+  }
+
+  :global([data-theme='dark']) .featured-card:hover {
+    border-color: var(--color-primary-500);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  :global([data-theme='dark']) .featured-card-title {
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .featured-card:hover .featured-card-title {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .featured-card-summary {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .featured-card-meta {
+    border-top-color: var(--color-gray-700);
+  }
+
+  :global([data-theme='dark']) .featured-card-meta .contributor {
     color: var(--color-gray-400);
   }
 
