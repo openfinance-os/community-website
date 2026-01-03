@@ -31,9 +31,8 @@ try {
 
   productionParticipants = participantData.map((p: any) => {
     const profile = profiles[p.name] || profiles[p.shortName] || null;
-    const city = p.city === 'Unknown' && profile?.headquarters?.city
-      ? profile.headquarters.city
-      : p.city;
+    const city =
+      p.city === 'Unknown' && profile?.headquarters?.city ? profile.headquarters.city : p.city;
 
     return {
       name: p.name,
@@ -60,15 +59,14 @@ try {
   const participantData = snapshot.participants || [];
 
   // Get production participant names to filter out duplicates
-  const productionNames = new Set(productionParticipants.map(p => p.name));
+  const productionNames = new Set(productionParticipants.map((p) => p.name));
 
   sandboxParticipants = participantData
     .filter((p: any) => !productionNames.has(p.name)) // Exclude those already in production
     .map((p: any) => {
       const profile = profiles[p.name] || profiles[p.shortName] || null;
-      const city = p.city === 'Unknown' && profile?.headquarters?.city
-        ? profile.headquarters.city
-        : p.city;
+      const city =
+        p.city === 'Unknown' && profile?.headquarters?.city ? profile.headquarters.city : p.city;
 
       return {
         name: p.name,
@@ -129,32 +127,40 @@ function createSlug(name: string): string {
 const searchIndex = {
   participants: [
     // Production participants
-    ...productionParticipants.map(p => ({
+    ...productionParticipants.map((p) => ({
       type: 'participant' as const,
       title: p.name,
       description: p.roles.join(', '),
       meta: `${p.city} • Production`,
       url: `/observatory/participant/${createSlug(p.shortName || p.name)}`,
-      searchTerms: [p.name.toLowerCase(), p.shortName?.toLowerCase(), ...p.roles.map(r => r.toLowerCase())].filter(Boolean),
+      searchTerms: [
+        p.name.toLowerCase(),
+        p.shortName?.toLowerCase(),
+        ...p.roles.map((r) => r.toLowerCase()),
+      ].filter(Boolean),
     })),
     // Sandbox-only participants
-    ...sandboxParticipants.map(p => ({
+    ...sandboxParticipants.map((p) => ({
       type: 'participant' as const,
       title: p.name,
       description: p.roles.join(', '),
       meta: `${p.city} • Sandbox`,
       url: `/observatory/sandbox/participant/${createSlug(p.shortName || p.name)}`,
-      searchTerms: [p.name.toLowerCase(), p.shortName?.toLowerCase(), ...p.roles.map(r => r.toLowerCase())].filter(Boolean),
+      searchTerms: [
+        p.name.toLowerCase(),
+        p.shortName?.toLowerCase(),
+        ...p.roles.map((r) => r.toLowerCase()),
+      ].filter(Boolean),
     })),
   ],
-  news: newsArticles.map(n => ({
+  news: newsArticles.map((n) => ({
     type: 'news' as const,
     title: n.title,
     meta: n.type,
     url: `/news/${n.slug}`,
     searchTerms: [n.title.toLowerCase()],
   })),
-  commons: commonsItems.map(c => ({
+  commons: commonsItems.map((c) => ({
     type: 'resource' as const,
     title: c.title,
     meta: c.type,
