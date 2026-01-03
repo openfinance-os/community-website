@@ -42,6 +42,58 @@
     "TechCrunch",
     "Wired"
   ],
+  "rssFeeds": [
+    {
+      "name": "Finextra",
+      "url": "https://www.finextra.com/rss/headlines.aspx",
+      "priority": 1
+    },
+    {
+      "name": "Finextra - Open Banking",
+      "url": "https://www.finextra.com/rss/channel.aspx?channel=openbanking",
+      "priority": 1
+    },
+    {
+      "name": "FinTech Futures",
+      "url": "https://www.fintechfutures.com/feed/",
+      "priority": 1
+    },
+    {
+      "name": "The Paypers",
+      "url": "https://thepaypers.com/rss",
+      "priority": 1
+    },
+    {
+      "name": "PYMNTS - Banking",
+      "url": "https://www.pymnts.com/feed/",
+      "priority": 2
+    },
+    {
+      "name": "Open Banking Excellence",
+      "url": "https://www.openbankingexcellence.org/feed/",
+      "priority": 1
+    },
+    {
+      "name": "Tearsheet",
+      "url": "https://tearsheet.co/feed/",
+      "priority": 2
+    },
+    {
+      "name": "Bank Automation News",
+      "url": "https://bankautomationnews.com/feed/",
+      "priority": 2
+    },
+    {
+      "name": "Finovate",
+      "url": "https://finovate.com/feed/",
+      "priority": 2
+    },
+    {
+      "name": "Fintech News Middle East",
+      "url": "https://fintechnews.ae/feed/",
+      "priority": 1
+    }
+  ],
   "maxArticlesPerRun": 5,
   "lookbackHours": 168,
   "minRelevanceScore": 8

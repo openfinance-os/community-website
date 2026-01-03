@@ -116,12 +116,25 @@ export async function fetchNewsArticles(options: FetchNewsOptions): Promise<News
   return allArticles;
 }
 
-export function scoreArticle(article: NewsApiArticle, config: NewsSourceConfig): number {
+export interface ScoreOptions {
+  rssSourceBonus?: number; // Bonus points for articles from RSS feeds
+}
+
+export function scoreArticle(
+  article: NewsApiArticle,
+  config: NewsSourceConfig,
+  options: ScoreOptions = {}
+): number {
   let score = 0;
   const titleLower = article.title.toLowerCase();
   const descLower = (article.description || '').toLowerCase();
   const contentLower = (article.content || '').toLowerCase();
   const combinedText = `${titleLower} ${descLower} ${contentLower}`;
+
+  // Apply RSS source bonus if provided
+  if (options.rssSourceBonus) {
+    score += options.rssSourceBonus;
+  }
 
   // === CORE OPEN BANKING/FINANCE TERMS (highest weight) ===
   // These are the exact phrases we care about most
@@ -254,18 +267,26 @@ export function scoreArticle(article: NewsApiArticle, config: NewsSourceConfig):
   return Math.max(0, score); // Don't go negative
 }
 
+export interface RankOptions {
+  getRssBonus?: (sourceName: string) => number;
+}
+
 export function rankArticles(
   articles: NewsApiArticle[],
   config: NewsSourceConfig,
-  limit: number = 5
+  limit: number = 5,
+  options: RankOptions = {}
 ): NewsApiArticle[] {
   const minScore = config.minRelevanceScore || 0;
 
   // Score all articles
-  const scoredArticles = articles.map((article) => ({
-    article,
-    score: scoreArticle(article, config),
-  }));
+  const scoredArticles = articles.map((article) => {
+    const rssBonus = options.getRssBonus ? options.getRssBonus(article.source.name) : 0;
+    return {
+      article,
+      score: scoreArticle(article, config, { rssSourceBonus: rssBonus }),
+    };
+  });
 
   // Sort by score descending first to see top scores
   scoredArticles.sort((a, b) => b.score - a.score);
@@ -293,7 +314,9 @@ export function rankArticles(
     console.log('  No articles met the minimum score threshold.');
     console.log('  Top 3 rejected articles:');
     scoredArticles.slice(0, 3).forEach((item, index) => {
-      console.log(`    ${index + 1}. [Score: ${item.score}] ${item.article.title.substring(0, 50)}...`);
+      console.log(
+        `    ${index + 1}. [Score: ${item.score}] ${item.article.title.substring(0, 50)}...`
+      );
     });
   }
 

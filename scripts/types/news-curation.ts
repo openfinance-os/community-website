@@ -84,10 +84,27 @@ export interface GitHubPR {
   branch: string;
 }
 
+export interface RssFeedSource {
+  name: string;
+  url: string;
+  priority: number; // 1 = highest priority, 2 = secondary
+}
+
+export interface RssArticle {
+  title: string;
+  link: string;
+  pubDate: string;
+  description: string;
+  content?: string;
+  source: string;
+  categories?: string[];
+}
+
 export interface NewsSourceConfig {
   keywords: string[];
   excludeDomains: string[];
   preferredSources: string[];
+  rssFeeds?: RssFeedSource[];
   maxArticlesPerRun: number;
   lookbackHours: number;
   minRelevanceScore?: number;
