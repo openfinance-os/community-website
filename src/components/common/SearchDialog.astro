@@ -106,7 +106,7 @@ const searchIndex = {
     type: 'news' as const,
     title: n.title,
     meta: n.type,
-    url: `/updates/${n.slug}`,
+    url: `/news/${n.slug}`,
     searchTerms: [n.title.toLowerCase()],
   })),
   commons: commonsItems.map(c => ({
