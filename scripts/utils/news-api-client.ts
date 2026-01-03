@@ -267,15 +267,21 @@ export function rankArticles(
     score: scoreArticle(article, config),
   }));
 
+  // Sort by score descending first to see top scores
+  scoredArticles.sort((a, b) => b.score - a.score);
+
+  // Show score distribution
+  if (scoredArticles.length > 0) {
+    const scores = scoredArticles.map((a) => a.score);
+    console.log(`Score distribution: max=${scores[0]}, min=${scores[scores.length - 1]}`);
+  }
+
   // Filter by minimum score
   const relevantArticles = scoredArticles.filter((item) => item.score >= minScore);
 
   console.log(
-    `\nFiltered ${scoredArticles.length} articles to ${relevantArticles.length} with score >= ${minScore}`
+    `Filtered ${scoredArticles.length} articles to ${relevantArticles.length} with score >= ${minScore}`
   );
-
-  // Sort by score descending
-  relevantArticles.sort((a, b) => b.score - a.score);
 
   // Log top articles with scores
   console.log('\nTop ranked articles:');
@@ -283,8 +289,12 @@ export function rankArticles(
     console.log(`  ${index + 1}. [Score: ${item.score}] ${item.article.title.substring(0, 60)}...`);
   });
 
-  if (relevantArticles.length === 0) {
-    console.log('  No articles met the minimum relevance score threshold');
+  if (relevantArticles.length === 0 && scoredArticles.length > 0) {
+    console.log('  No articles met the minimum score threshold.');
+    console.log('  Top 3 rejected articles:');
+    scoredArticles.slice(0, 3).forEach((item, index) => {
+      console.log(`    ${index + 1}. [Score: ${item.score}] ${item.article.title.substring(0, 50)}...`);
+    });
   }
 
   return relevantArticles.slice(0, limit).map((item) => item.article);
