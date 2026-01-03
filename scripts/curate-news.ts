@@ -3,19 +3,22 @@
  * News Curation Script
  *
  * This script:
- * 1. Fetches open finance news from NewsAPI.org
- * 2. Ranks articles by relevance
+ * 1. Fetches open finance news from RSS feeds (primary) and NewsAPI.org (secondary)
+ * 2. Ranks articles by relevance with bonuses for trusted RSS sources
  * 3. Summarizes top articles (using Claude AI if available, otherwise uses article descriptions)
  * 4. Creates draft PRs for each article
  * 5. Sends Slack notification with PR links
  *
+ * RSS feeds are configured in data/news-curation/sources.json under "rssFeeds".
+ * Priority 1 feeds get higher scoring bonus than priority 2 feeds.
+ *
  * Environment variables required:
- * - NEWSAPI_KEY: NewsAPI.org API key
  * - SLACK_WEBHOOK_URL: Slack incoming webhook URL
  * - GH_TOKEN: GitHub personal access token with repo scope
  * - GITHUB_REPOSITORY: owner/repo format (set automatically in GitHub Actions)
  *
  * Optional:
+ * - NEWSAPI_KEY: NewsAPI.org API key (for additional coverage beyond RSS feeds)
  * - ANTHROPIC_API_KEY: Anthropic API key for AI summarization (if not set, uses article descriptions)
  */
 
@@ -23,10 +26,11 @@ import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { fetchNewsArticles, rankArticles, scoreArticle } from './utils/news-api-client.js';
+import { fetchRssArticles, getRssSourceBonus } from './utils/rss-feed-client.js';
 import { processArticles } from './utils/article-summarizer.js';
 import { createAllPRs, closeOldPRs } from './utils/github-pr-creator.js';
 import { sendSlackNotification, sendErrorNotification } from './utils/slack-notifier.js';
-import type { NewsSourceConfig, CuratedArticle } from './types/news-curation.js';
+import type { NewsSourceConfig, CuratedArticle, NewsApiArticle } from './types/news-curation.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -85,13 +89,15 @@ function getExistingArticleSlugs(): Set<string> {
 }
 
 // Check required environment variables
-function checkEnvironment(): { valid: boolean; missing: string[] } {
-  const required = ['NEWSAPI_KEY', 'SLACK_WEBHOOK_URL', 'GH_TOKEN'];
+function checkEnvironment(): { valid: boolean; missing: string[]; hasNewsApi: boolean } {
+  // NEWSAPI_KEY is now optional - RSS feeds can work without it
+  const required = ['SLACK_WEBHOOK_URL', 'GH_TOKEN'];
   const missing = required.filter((key) => !process.env[key]);
 
   return {
     valid: missing.length === 0,
     missing,
+    hasNewsApi: !!process.env.NEWSAPI_KEY,
   };
 }
 
@@ -138,24 +144,58 @@ async function main() {
   }
 
   try {
-    // Step 1: Fetch news articles
+    // Step 1: Fetch news articles from multiple sources
     console.log('Step 1: Fetching news articles...\n');
-    const articles = await fetchNewsArticles({
-      apiKey: process.env.NEWSAPI_KEY || '',
-      config,
-    });
 
-    if (articles.length === 0) {
-      console.log('No articles found. Exiting.');
+    const allArticles: NewsApiArticle[] = [];
+    const seenUrls = new Set<string>();
+
+    // 1a: Fetch from RSS feeds (primary source - better quality)
+    console.log('--- RSS Feeds (Primary) ---');
+    const rssArticles = await fetchRssArticles({ config });
+    for (const article of rssArticles) {
+      if (!seenUrls.has(article.url)) {
+        seenUrls.add(article.url);
+        allArticles.push(article);
+      }
+    }
+
+    // 1b: Fetch from NewsAPI (secondary source - broader coverage)
+    if (envCheck.hasNewsApi) {
+      console.log('\n--- NewsAPI (Secondary) ---');
+      const newsApiArticles = await fetchNewsArticles({
+        apiKey: process.env.NEWSAPI_KEY || '',
+        config,
+      });
+      for (const article of newsApiArticles) {
+        if (!seenUrls.has(article.url)) {
+          seenUrls.add(article.url);
+          allArticles.push(article);
+        }
+      }
+    } else {
+      console.log('\n(NewsAPI skipped - no NEWSAPI_KEY configured)');
+    }
+
+    console.log(`\nTotal combined articles: ${allArticles.length}`);
+
+    if (allArticles.length === 0) {
+      console.log('No articles found from any source. Exiting.');
       return;
     }
 
-    // Step 2: Rank articles
+    const articles = allArticles;
+
+    // Step 2: Rank articles (with RSS source bonus)
     console.log('\nStep 2: Ranking articles by relevance...\n');
-    const rankedArticles = rankArticles(articles, config, config.maxArticlesPerRun * 3);
+    const rankedArticles = rankArticles(articles, config, config.maxArticlesPerRun * 3, {
+      getRssBonus: (sourceName) => getRssSourceBonus(sourceName, config.rssFeeds || []),
+    });
 
     if (rankedArticles.length === 0) {
-      console.log('\nNo articles passed the relevance threshold. Try lowering minRelevanceScore in sources.json');
+      console.log(
+        '\nNo articles passed the relevance threshold. Try lowering minRelevanceScore in sources.json'
+      );
       console.log('Current threshold:', config.minRelevanceScore || 0);
       return;
     }
