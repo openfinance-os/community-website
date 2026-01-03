@@ -7,8 +7,17 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { getCollection } from 'astro:content';
 
-// Load participant data at build time
-let participants: Array<{
+// Load profiles for city data (used by both production and sandbox)
+const profilesPath = join(process.cwd(), 'data/participants/profiles.json');
+let profiles: Record<string, any> = {};
+try {
+  profiles = JSON.parse(readFileSync(profilesPath, 'utf-8'));
+} catch {
+  // Profiles are optional
+}
+
+// Load production participant data at build time
+let productionParticipants: Array<{
   name: string;
   shortName: string;
   city: string;
@@ -16,23 +25,11 @@ let participants: Array<{
 }> = [];
 
 try {
-  // Use the production-only snapshot to match participant page generation
   const snapshotPath = join(process.cwd(), 'data/observatory/snapshots/production/latest.json');
   const snapshot = JSON.parse(readFileSync(snapshotPath, 'utf-8'));
-
-  // Production snapshot has participants directly at root level
   const participantData = snapshot.participants || [];
 
-  // Load profiles for city data
-  const profilesPath = join(process.cwd(), 'data/participants/profiles.json');
-  let profiles: Record<string, any> = {};
-  try {
-    profiles = JSON.parse(readFileSync(profilesPath, 'utf-8'));
-  } catch {
-    // Profiles are optional
-  }
-
-  participants = participantData.map((p: any) => {
+  productionParticipants = participantData.map((p: any) => {
     const profile = profiles[p.name] || profiles[p.shortName] || null;
     const city = p.city === 'Unknown' && profile?.headquarters?.city
       ? profile.headquarters.city
@@ -46,7 +43,42 @@ try {
     };
   });
 } catch (error) {
-  console.warn('Could not load participant data for search:', error);
+  console.warn('Could not load production participant data for search:', error);
+}
+
+// Load sandbox participant data at build time
+let sandboxParticipants: Array<{
+  name: string;
+  shortName: string;
+  city: string;
+  roles: string[];
+}> = [];
+
+try {
+  const snapshotPath = join(process.cwd(), 'data/observatory/snapshots/sandbox/latest.json');
+  const snapshot = JSON.parse(readFileSync(snapshotPath, 'utf-8'));
+  const participantData = snapshot.participants || [];
+
+  // Get production participant names to filter out duplicates
+  const productionNames = new Set(productionParticipants.map(p => p.name));
+
+  sandboxParticipants = participantData
+    .filter((p: any) => !productionNames.has(p.name)) // Exclude those already in production
+    .map((p: any) => {
+      const profile = profiles[p.name] || profiles[p.shortName] || null;
+      const city = p.city === 'Unknown' && profile?.headquarters?.city
+        ? profile.headquarters.city
+        : p.city;
+
+      return {
+        name: p.name,
+        shortName: p.shortName || p.name,
+        city: city || 'UAE',
+        roles: p.roles || [],
+      };
+    });
+} catch (error) {
+  console.warn('Could not load sandbox participant data for search:', error);
 }
 
 // Load news articles at build time
@@ -95,14 +127,26 @@ function createSlug(name: string): string {
 
 // Serialize data for client-side use
 const searchIndex = {
-  participants: participants.map(p => ({
-    type: 'participant' as const,
-    title: p.name,
-    description: p.roles.join(', '),
-    meta: p.city,
-    url: `/observatory/participant/${createSlug(p.shortName || p.name)}`,
-    searchTerms: [p.name.toLowerCase(), p.shortName?.toLowerCase(), ...p.roles.map(r => r.toLowerCase())].filter(Boolean),
-  })),
+  participants: [
+    // Production participants
+    ...productionParticipants.map(p => ({
+      type: 'participant' as const,
+      title: p.name,
+      description: p.roles.join(', '),
+      meta: `${p.city} • Production`,
+      url: `/observatory/participant/${createSlug(p.shortName || p.name)}`,
+      searchTerms: [p.name.toLowerCase(), p.shortName?.toLowerCase(), ...p.roles.map(r => r.toLowerCase())].filter(Boolean),
+    })),
+    // Sandbox-only participants
+    ...sandboxParticipants.map(p => ({
+      type: 'participant' as const,
+      title: p.name,
+      description: p.roles.join(', '),
+      meta: `${p.city} • Sandbox`,
+      url: `/observatory/sandbox/participant/${createSlug(p.shortName || p.name)}`,
+      searchTerms: [p.name.toLowerCase(), p.shortName?.toLowerCase(), ...p.roles.map(r => r.toLowerCase())].filter(Boolean),
+    })),
+  ],
   news: newsArticles.map(n => ({
     type: 'news' as const,
     title: n.title,
