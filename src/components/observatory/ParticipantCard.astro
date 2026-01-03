@@ -63,9 +63,10 @@ const slug = shortName
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/^-|-$/g, '');
-const detailUrl = environment === 'sandbox'
-  ? `/observatory/sandbox/participant/${slug}`
-  : `/observatory/participant/${slug}`;
+const detailUrl =
+  environment === 'sandbox'
+    ? `/observatory/sandbox/participant/${slug}`
+    : `/observatory/participant/${slug}`;
 
 // API families configuration
 const allApiFamilies = [
