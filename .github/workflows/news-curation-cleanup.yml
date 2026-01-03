@@ -1,0 +1,40 @@
+name: News Curation Cleanup
+
+on:
+  schedule:
+    # Run twice daily at 00:00 and 12:00 UTC to clean up stale PRs
+    - cron: '0 0,12 * * *'
+  workflow_dispatch:
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Cleanup stale news PRs
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: npm run curate-news:cleanup
+
+      - name: Log result
+        if: always()
+        run: echo "Cleanup workflow completed"

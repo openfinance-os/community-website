@@ -1,0 +1,42 @@
+{
+  "keywords": [
+    "open finance UAE",
+    "open banking Middle East",
+    "CBUAE fintech",
+    "UAE digital banking regulation",
+    "GCC fintech regulation",
+    "open banking API",
+    "PSD2 Middle East",
+    "UAE payment services",
+    "Abu Dhabi fintech",
+    "Dubai open banking",
+    "Saudi open banking",
+    "Bahrain open banking"
+  ],
+  "excludeDomains": [
+    "youtube.com",
+    "facebook.com",
+    "twitter.com",
+    "linkedin.com",
+    "instagram.com",
+    "tiktok.com",
+    "reddit.com"
+  ],
+  "preferredSources": [
+    "Gulf Business",
+    "Arabian Business",
+    "Finextra",
+    "The National",
+    "Khaleej Times",
+    "Gulf News",
+    "PYMNTS",
+    "Fintech Futures",
+    "Arab News",
+    "Emirates 24/7",
+    "Zawya",
+    "Reuters",
+    "Bloomberg"
+  ],
+  "maxArticlesPerRun": 5,
+  "lookbackHours": 48
+}
