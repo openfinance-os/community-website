@@ -1,17 +1,17 @@
 {
   "keywords": [
-    "\"open banking\"",
-    "\"open finance\"",
-    "\"open banking\" UAE",
-    "\"open banking\" API",
-    "\"PSD2\"",
-    "\"account aggregation\" fintech",
-    "\"banking API\"",
-    "\"third party provider\" banking",
-    "\"TPP\" fintech",
-    "\"screen scraping\" banking",
-    "\"CBUAE\" fintech",
-    "\"payment initiation\" API"
+    "open banking",
+    "open finance",
+    "PSD2",
+    "banking API",
+    "fintech regulation",
+    "digital banking",
+    "neobank",
+    "embedded finance",
+    "payment API",
+    "account aggregation",
+    "CBUAE",
+    "UAE fintech"
   ],
   "excludeDomains": [
     "youtube.com",
@@ -38,9 +38,11 @@
     "Gulf Business",
     "Arabian Business",
     "The National",
-    "Khaleej Times"
+    "Khaleej Times",
+    "TechCrunch",
+    "Wired"
   ],
   "maxArticlesPerRun": 5,
-  "lookbackHours": 72,
-  "minRelevanceScore": 15
+  "lookbackHours": 168,
+  "minRelevanceScore": 8
 }

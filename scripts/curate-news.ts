@@ -152,11 +152,19 @@ async function main() {
 
     // Step 2: Rank articles
     console.log('\nStep 2: Ranking articles by relevance...\n');
-    const rankedArticles = rankArticles(articles, config, config.maxArticlesPerRun * 2);
+    const rankedArticles = rankArticles(articles, config, config.maxArticlesPerRun * 3);
+
+    if (rankedArticles.length === 0) {
+      console.log('\nNo articles passed the relevance threshold. Try lowering minRelevanceScore in sources.json');
+      console.log('Current threshold:', config.minRelevanceScore || 0);
+      return;
+    }
 
     // Step 3: Filter out duplicates
     console.log('\nStep 3: Filtering duplicates...\n');
     const existingSlugs = getExistingArticleSlugs();
+    console.log(`  Existing articles: ${existingSlugs.size}`);
+
     const newArticles = rankedArticles.filter((article) => {
       const slug = article.title
         .toLowerCase()
@@ -164,9 +172,9 @@ async function main() {
         .replace(/\s+/g, '-')
         .substring(0, 50);
 
-      // Check if we already have an article with a similar title
+      // Check if we already have an article with a similar title (first 20 chars)
       for (const existingSlug of existingSlugs) {
-        if (existingSlug.includes(slug.substring(0, 30))) {
+        if (existingSlug.includes(slug.substring(0, 20))) {
           console.log(`  Skipping duplicate: ${article.title.substring(0, 50)}...`);
           return false;
         }
@@ -177,7 +185,8 @@ async function main() {
     console.log(`  ${newArticles.length} new articles after filtering`);
 
     if (newArticles.length === 0) {
-      console.log('\nNo new articles to process. Exiting.');
+      console.log('\nNo new articles to process - all were duplicates or already published.');
+      console.log('This is normal if there are no new open banking articles today.');
       return;
     }
 
