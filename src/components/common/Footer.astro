@@ -1,6 +1,4 @@
 ---
-import NewsletterSignup from './NewsletterSignup.astro';
-
 interface Props {
   lastUpdated?: string;
 }
@@ -163,14 +161,6 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
     </div>
   </div>
 
-  <div class="footer-newsletter">
-    <NewsletterSignup
-      variant="inline"
-      title="Stay updated"
-      description="Get notified about new events, participants, and community updates."
-    />
-  </div>
-
   <div class="footer-bottom">
     <div class="footer-bottom-inner">
       <p class="footer-meta">
@@ -323,21 +313,6 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
 
   .footer-link svg {
     opacity: 0.6;
-  }
-
-  /* Newsletter section */
-  .footer-newsletter {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 var(--space-4) var(--space-8);
-    border-top: 1px solid var(--color-gray-800);
-    padding-top: var(--space-8);
-  }
-
-  @media (min-width: 640px) {
-    .footer-newsletter {
-      max-width: 480px;
-    }
   }
 
   .footer-bottom {

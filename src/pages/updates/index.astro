@@ -2,7 +2,6 @@
 import PageLayout from '@layouts/PageLayout.astro';
 import NewsCard from '@components/news/NewsCard.astro';
 import EventCard from '@components/events/EventCard.astro';
-import NewsletterSignup from '@components/common/NewsletterSignup.astro';
 import { getCollection } from 'astro:content';
 
 // Get all news and events
@@ -230,13 +229,6 @@ const initialTab = url.searchParams.get('tab') || 'news';
                 </div>
                 <h3 class="empty-title">No upcoming events yet</h3>
                 <p class="empty-description">Check back soon for new community events!</p>
-                <div class="empty-newsletter">
-                  <NewsletterSignup
-                    variant="card"
-                    title="Get notified about events"
-                    description="Subscribe to be the first to know when new events are announced."
-                  />
-                </div>
               </div>
             )
           }
@@ -649,13 +641,6 @@ const initialTab = url.searchParams.get('tab') || 'news';
     max-width: 360px;
     margin: 0 auto var(--space-6);
     line-height: 1.6;
-  }
-
-  .empty-newsletter {
-    margin-top: var(--space-8);
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
   }
 
   /* Past Events Toggle */
