@@ -2,7 +2,6 @@
 import PageLayout from '@layouts/PageLayout.astro';
 import EventCard from '@components/events/EventCard.astro';
 import EventFilter from '@components/events/EventFilter.astro';
-import NewsletterSignup from '@components/common/NewsletterSignup.astro';
 import { getCollection } from 'astro:content';
 
 const allEvents = await getCollection('events');
@@ -184,14 +183,6 @@ const types = ['all', 'meetup', 'hackathon', 'webinar', 'conference', 'workshop'
                   </svg>
                   Propose an event
                 </a>
-              </div>
-
-              <div class="empty-newsletter">
-                <NewsletterSignup
-                  variant="card"
-                  title="Get notified about events"
-                  description="Subscribe to be the first to know when new events are announced."
-                />
               </div>
 
               <div class="event-suggestions">
@@ -459,12 +450,6 @@ const types = ['all', 'meetup', 'hackathon', 'webinar', 'conference', 'workshop'
   .action-secondary:hover {
     background: var(--color-gray-50);
     border-color: var(--color-gray-400);
-  }
-
-  /* Newsletter in empty state */
-  .empty-newsletter {
-    margin-top: var(--space-8);
-    max-width: 400px;
   }
 
   /* Event suggestions */
