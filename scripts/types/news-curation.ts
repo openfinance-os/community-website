@@ -30,6 +30,7 @@ export interface CuratedArticle {
   summary: string;
   relevanceScore: number;
   type: 'global' | 'community' | 'milestone' | 'official' | 'opinion';
+  region: 'uae' | 'mena' | 'global';
   slug: string;
 }
 
