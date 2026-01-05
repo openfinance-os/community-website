@@ -2,6 +2,7 @@
 title: "Introducing Velox: Explore UAE Open Finance in Your Browser"
 date: 2026-01-02
 type: community
+region: uae
 author: Community
 description: "The OpenFinance-OS community releases Velox, an interactive demo that lets anyone explore Open Finance capabilities instantly without sandbox registration."
 featured: true

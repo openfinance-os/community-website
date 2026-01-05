@@ -19,6 +19,16 @@ const typeLabels: Record<string, string> = {
   global: 'International',
   opinion: 'Opinion',
 };
+
+// Filter regions
+const regions = ['all', 'uae', 'mena', 'global'];
+
+// Region labels for display
+const regionLabels: Record<string, string> = {
+  uae: 'UAE',
+  mena: 'MENA',
+  global: 'Global',
+};
 ---
 
 <PageLayout
@@ -40,7 +50,7 @@ const typeLabels: Record<string, string> = {
 
     <section class="news-section">
       <div class="container">
-        <NewsFilter types={types} typeLabels={typeLabels} />
+        <NewsFilter types={types} typeLabels={typeLabels} regions={regions} regionLabels={regionLabels} />
 
         <div class="news-grid" id="news-grid">
           {
@@ -49,6 +59,7 @@ const typeLabels: Record<string, string> = {
                 title={article.data.title}
                 date={article.data.date}
                 type={article.data.type}
+                region={article.data.region}
                 author={article.data.author}
                 description={article.data.description}
                 slug={article.slug}

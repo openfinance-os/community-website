@@ -2,41 +2,86 @@
 interface Props {
   types: string[];
   typeLabels: Record<string, string>;
+  regions: string[];
+  regionLabels: Record<string, string>;
 }
 
-const { types, typeLabels } = Astro.props;
+const { types, typeLabels, regions, regionLabels } = Astro.props;
 ---
 
 <div class="news-filter">
-  <div class="filter-buttons" role="tablist" aria-label="Filter news by type">
-    {
-      types.map((type, index) => (
-        <button
-          class:list={['filter-btn', { active: type === 'all' }]}
-          data-filter={type}
-          role="tab"
-          id={`news-tab-${type}`}
-          aria-selected={type === 'all' ? 'true' : 'false'}
-          aria-controls="news-grid"
-          tabindex={type === 'all' ? 0 : -1}
-        >
-          {type === 'all' ? 'All' : typeLabels[type] || type}
-        </button>
-      ))
-    }
+  <div class="filter-group">
+    <span class="filter-label">Type:</span>
+    <div class="filter-buttons" role="tablist" aria-label="Filter news by type">
+      {
+        types.map((type) => (
+          <button
+            class:list={['filter-btn', { active: type === 'all' }]}
+            data-filter-type={type}
+            role="tab"
+            id={`news-tab-type-${type}`}
+            aria-selected={type === 'all' ? 'true' : 'false'}
+            aria-controls="news-grid"
+            tabindex={type === 'all' ? 0 : -1}
+          >
+            {type === 'all' ? 'All' : typeLabels[type] || type}
+          </button>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="filter-group">
+    <span class="filter-label">Region:</span>
+    <div class="filter-buttons" role="tablist" aria-label="Filter news by region">
+      {
+        regions.map((region) => (
+          <button
+            class:list={['filter-btn', { active: region === 'all' }]}
+            data-filter-region={region}
+            role="tab"
+            id={`news-tab-region-${region}`}
+            aria-selected={region === 'all' ? 'true' : 'false'}
+            aria-controls="news-grid"
+            tabindex={region === 'all' ? 0 : -1}
+          >
+            {region === 'all' ? 'All' : regionLabels[region] || region}
+          </button>
+        ))
+      }
+    </div>
   </div>
 </div>
 
 <script>
-  const filterButtons = document.querySelectorAll('.news-filter .filter-btn');
+  const typeButtons = document.querySelectorAll('.news-filter [data-filter-type]');
+  const regionButtons = document.querySelectorAll('.news-filter [data-filter-region]');
   const newsGrid = document.getElementById('news-grid');
   const newsCards = newsGrid?.querySelectorAll('.news-card');
 
-  function activateTab(button: Element) {
-    const filter = button.getAttribute('data-filter');
+  let activeType = 'all';
+  let activeRegion = 'all';
 
-    // Update active state and tabindex
-    filterButtons.forEach((btn) => {
+  function filterCards() {
+    newsCards?.forEach((card) => {
+      const cardType = card.getAttribute('data-type');
+      const cardRegion = card.getAttribute('data-region');
+
+      const matchesType = activeType === 'all' || cardType === activeType;
+      const matchesRegion = activeRegion === 'all' || cardRegion === activeRegion;
+
+      if (matchesType && matchesRegion) {
+        (card as HTMLElement).style.display = 'flex';
+      } else {
+        (card as HTMLElement).style.display = 'none';
+      }
+    });
+  }
+
+  function activateTypeTab(button: Element) {
+    activeType = button.getAttribute('data-filter-type') || 'all';
+
+    typeButtons.forEach((btn) => {
       btn.classList.remove('active');
       btn.setAttribute('aria-selected', 'false');
       btn.setAttribute('tabindex', '-1');
@@ -46,50 +91,79 @@ const { types, typeLabels } = Astro.props;
     button.setAttribute('tabindex', '0');
     (button as HTMLElement).focus();
 
-    // Filter cards
-    newsCards?.forEach((card) => {
-      const cardType = card.getAttribute('data-type');
-      if (filter === 'all' || cardType === filter) {
-        (card as HTMLElement).style.display = 'flex';
-      } else {
-        (card as HTMLElement).style.display = 'none';
-      }
+    filterCards();
+  }
+
+  function activateRegionTab(button: Element) {
+    activeRegion = button.getAttribute('data-filter-region') || 'all';
+
+    regionButtons.forEach((btn) => {
+      btn.classList.remove('active');
+      btn.setAttribute('aria-selected', 'false');
+      btn.setAttribute('tabindex', '-1');
+    });
+    button.classList.add('active');
+    button.setAttribute('aria-selected', 'true');
+    button.setAttribute('tabindex', '0');
+    (button as HTMLElement).focus();
+
+    filterCards();
+  }
+
+  function setupButtonGroup(buttons: NodeListOf<Element>, activateFn: (btn: Element) => void) {
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => activateFn(button));
+
+      button.addEventListener('keydown', (e) => {
+        const btnArray = Array.from(buttons);
+        const index = btnArray.indexOf(button);
+        let newIndex = index;
+
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          e.preventDefault();
+          newIndex = (index + 1) % btnArray.length;
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          newIndex = (index - 1 + btnArray.length) % btnArray.length;
+        } else if (e.key === 'Home') {
+          e.preventDefault();
+          newIndex = 0;
+        } else if (e.key === 'End') {
+          e.preventDefault();
+          newIndex = btnArray.length - 1;
+        }
+
+        if (newIndex !== index) {
+          activateFn(btnArray[newIndex]);
+        }
+      });
     });
   }
 
-  filterButtons.forEach((button) => {
-    button.addEventListener('click', () => activateTab(button));
-
-    // Keyboard navigation for tabs
-    button.addEventListener('keydown', (e) => {
-      const buttons = Array.from(filterButtons);
-      const index = buttons.indexOf(button);
-      let newIndex = index;
-
-      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-        e.preventDefault();
-        newIndex = (index + 1) % buttons.length;
-      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-        e.preventDefault();
-        newIndex = (index - 1 + buttons.length) % buttons.length;
-      } else if (e.key === 'Home') {
-        e.preventDefault();
-        newIndex = 0;
-      } else if (e.key === 'End') {
-        e.preventDefault();
-        newIndex = buttons.length - 1;
-      }
-
-      if (newIndex !== index) {
-        activateTab(buttons[newIndex]);
-      }
-    });
-  });
+  setupButtonGroup(typeButtons, activateTypeTab);
+  setupButtonGroup(regionButtons, activateRegionTab);
 </script>
 
 <style>
   .news-filter {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
     margin-bottom: var(--space-8);
+  }
+
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .filter-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-gray-600);
+    min-width: 4rem;
   }
 
   .filter-buttons {
@@ -122,5 +196,27 @@ const { types, typeLabels } = Astro.props;
     color: var(--color-primary-700);
     background: var(--color-primary-50);
     border-color: var(--color-primary-200);
+  }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .filter-label {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .filter-btn {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .filter-btn:hover {
+    color: var(--color-gray-200);
+    border-color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .filter-btn.active {
+    color: var(--color-primary-300);
+    background: rgba(59, 130, 246, 0.1);
+    border-color: var(--color-primary-500);
   }
 </style>
