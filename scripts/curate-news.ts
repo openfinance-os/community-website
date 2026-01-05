@@ -246,7 +246,14 @@ async function main() {
     let curatedArticles: CuratedArticle[];
 
     if (isDryRun) {
-      // In dry run, create mock summaries
+      // In dry run, create mock summaries with region inference
+      const inferRegion = (text: string): 'uae' | 'mena' | 'global' => {
+        const lowerText = text.toLowerCase();
+        if (lowerText.includes('uae') || lowerText.includes('emirates') || lowerText.includes('dubai') || lowerText.includes('cbuae')) return 'uae';
+        if (lowerText.includes('saudi') || lowerText.includes('bahrain') || lowerText.includes('gcc') || lowerText.includes('mena') || lowerText.includes('middle east')) return 'mena';
+        return 'global';
+      };
+
       curatedArticles = topArticles.map((article) => ({
         id: Math.random().toString(36).substring(7),
         title: article.title,
@@ -257,6 +264,7 @@ async function main() {
         summary: article.description || 'No summary available.',
         relevanceScore: scores.get(article.url) || 0,
         type: 'global' as const,
+        region: inferRegion(`${article.title} ${article.description || ''}`),
         slug: `${article.publishedAt.split('T')[0]}-${article.title
           .toLowerCase()
           .replace(/[^a-z0-9\s-]/g, '')
@@ -277,6 +285,7 @@ async function main() {
         console.log(`${index + 1}. ${article.title}`);
         console.log(`   Source: ${article.source}`);
         console.log(`   Type: ${article.type}`);
+        console.log(`   Region: ${article.region.toUpperCase()}`);
         console.log(`   Score: ${article.relevanceScore}`);
         console.log(`   Summary: ${article.summary.substring(0, 100)}...`);
         console.log(`   Slug: ${article.slug}`);

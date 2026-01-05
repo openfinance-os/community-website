@@ -5,6 +5,7 @@ interface Props {
   title: string;
   date: Date;
   type: 'official' | 'milestone' | 'community' | 'global' | 'opinion';
+  region: 'uae' | 'mena' | 'global';
   author: string;
   description?: string;
   slug: string;
@@ -12,7 +13,7 @@ interface Props {
   external?: boolean;
 }
 
-const { title, date, type, author, description, slug, source, external } = Astro.props;
+const { title, date, type, region, author, description, slug, source, external } = Astro.props;
 
 const href = external && source ? source : `/news/${slug}`;
 const isExternal = external && source;
@@ -49,6 +50,15 @@ const typeLabels: Record<string, string> = {
   opinion: 'Opinion',
 };
 
+const regionLabels: Record<string, string> = {
+  uae: 'UAE',
+  mena: 'MENA',
+  global: 'Global',
+};
+
+// Map region to badge variant (global needs different key to avoid collision with type)
+const regionVariant = region === 'global' ? 'region-global' : region;
+
 const formatDate = (d: Date) => {
   return d.toLocaleDateString('en-US', {
     year: 'numeric',
@@ -62,11 +72,15 @@ const formatDate = (d: Date) => {
   href={href}
   class="news-card"
   data-type={type}
+  data-region={region}
   target={isExternal ? '_blank' : undefined}
   rel={isExternal ? 'noopener noreferrer' : undefined}
 >
   <div class="card-header">
-    <Badge variant={type} size="sm">{typeLabels[type]}</Badge>
+    <div class="badges">
+      <Badge variant={type} size="sm">{typeLabels[type]}</Badge>
+      <Badge variant={regionVariant} size="sm">{regionLabels[region]}</Badge>
+    </div>
     <time datetime={date.toISOString()}>{formatDate(date)}</time>
   </div>
 
@@ -141,6 +155,12 @@ const formatDate = (d: Date) => {
     font-family: var(--font-mono);
     font-size: 0.75rem;
     color: var(--color-gray-500);
+  }
+
+  .badges {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
   }
 
   .card-title {

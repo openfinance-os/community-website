@@ -1,6 +1,7 @@
 import { defineCollection, z } from 'astro:content';
 
 const newsTypes = ['official', 'milestone', 'community', 'global', 'opinion'] as const;
+const newsRegions = ['uae', 'mena', 'global'] as const;
 const eventTypes = ['meetup', 'hackathon', 'webinar', 'conference', 'workshop'] as const;
 
 // Commons taxonomy
@@ -26,6 +27,7 @@ const newsCollection = defineCollection({
     title: z.string(),
     date: z.coerce.date(),
     type: z.enum(newsTypes),
+    region: z.enum(newsRegions),
     author: z.string().default('Community'),
     source: z.string().url().optional(),
     description: z.string().optional(),

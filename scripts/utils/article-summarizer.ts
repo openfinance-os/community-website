@@ -19,6 +19,7 @@ interface AnthropicResponse {
 interface SummaryResult {
   summary: string;
   type: 'global' | 'community' | 'milestone' | 'official' | 'opinion';
+  region: 'uae' | 'mena' | 'global';
 }
 
 function generateSlug(title: string, date: string): string {
@@ -97,6 +98,48 @@ function inferArticleType(
   return 'global';
 }
 
+// Determine article region based on keywords (used when no AI available)
+function inferArticleRegion(article: NewsApiArticle): 'uae' | 'mena' | 'global' {
+  const text =
+    `${article.title} ${article.description || ''} ${article.content || ''}`.toLowerCase();
+
+  // Check for UAE-specific content
+  if (
+    text.includes('uae') ||
+    text.includes('emirates') ||
+    text.includes('dubai') ||
+    text.includes('abu dhabi') ||
+    text.includes('cbuae') ||
+    text.includes('central bank of the uae') ||
+    text.includes('difc') ||
+    text.includes('adgm') ||
+    text.includes('altareq') ||
+    text.includes('al tareq')
+  ) {
+    return 'uae';
+  }
+
+  // Check for MENA region content (excluding UAE which is caught above)
+  if (
+    text.includes('saudi') ||
+    text.includes('bahrain') ||
+    text.includes('qatar') ||
+    text.includes('kuwait') ||
+    text.includes('oman') ||
+    text.includes('egypt') ||
+    text.includes('jordan') ||
+    text.includes('lebanon') ||
+    text.includes('gcc') ||
+    text.includes('gulf') ||
+    text.includes('middle east') ||
+    text.includes('mena')
+  ) {
+    return 'mena';
+  }
+
+  return 'global';
+}
+
 // Simple extractive summary when no AI is available
 function extractSummary(article: NewsApiArticle): string {
   // Use description if available and reasonable length
@@ -161,6 +204,7 @@ export async function summarizeArticle(
     return {
       summary: extractSummary(article),
       type: inferArticleType(article),
+      region: inferArticleRegion(article),
     };
   }
 
@@ -168,8 +212,9 @@ export async function summarizeArticle(
 Your task is to:
 1. Write a 2-3 sentence summary of the article that is informative and relevant to the open finance/fintech community
 2. Classify the article type as one of: global (international news), community (local ecosystem), milestone (significant achievement), official (regulatory/government), opinion (analysis/commentary)
+3. Classify the article region as one of: uae (specifically about the UAE), mena (Middle East & North Africa excluding UAE), global (international/worldwide)
 
-Respond in JSON format only: {"summary": "...", "type": "..."}`;
+Respond in JSON format only: {"summary": "...", "type": "...", "region": "..."}`;
 
   const prompt = `Summarize this article for the UAE Open Finance community:
 
@@ -194,12 +239,14 @@ Respond only with valid JSON.`;
     return {
       summary: result.summary || article.description || '',
       type: result.type || 'global',
+      region: result.region || inferArticleRegion(article),
     };
   } catch (error) {
     console.warn(`  Failed to summarize with AI, using fallback: ${error}`);
     return {
       summary: extractSummary(article),
       type: inferArticleType(article),
+      region: inferArticleRegion(article),
     };
   }
 }
@@ -220,7 +267,7 @@ export async function processArticles(
     console.log(`Processing: ${article.title.substring(0, 50)}...`);
 
     try {
-      const { summary, type } = await summarizeArticle(article, options);
+      const { summary, type, region } = await summarizeArticle(article, options);
 
       const curated: CuratedArticle = {
         id: generateArticleId(article.url),
@@ -232,6 +279,7 @@ export async function processArticles(
         summary,
         relevanceScore: scores.get(article.url) || 0,
         type,
+        region,
         slug: generateSlug(article.title, article.publishedAt),
       };
 

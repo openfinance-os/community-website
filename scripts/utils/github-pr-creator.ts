@@ -40,6 +40,7 @@ function generateMarkdownContent(article: CuratedArticle): string {
 title: "${article.title.replace(/"/g, '\\"')}"
 date: ${date}
 type: ${article.type}
+region: ${article.region}
 author: ${article.source}
 source: ${article.sourceUrl}
 description: "${article.summary.replace(/"/g, '\\"')}"
@@ -64,6 +65,7 @@ function generatePRBody(article: CuratedArticle): string {
 | **Source** | ${article.source} |
 | **Published** | ${publishedDate} |
 | **Type** | ${article.type} |
+| **Region** | ${article.region.toUpperCase()} |
 | **Relevance Score** | ${article.relevanceScore} |
 
 ## Summary
