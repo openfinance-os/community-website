@@ -31,6 +31,14 @@ const newsTypeLabels: Record<string, string> = {
   opinion: 'Opinion',
 };
 
+// Filter regions for news
+const newsRegions = ['all', 'uae', 'mena', 'global'];
+const newsRegionLabels: Record<string, string> = {
+  uae: 'UAE',
+  mena: 'MENA',
+  global: 'Global',
+};
+
 // Filter types for events
 const eventTypes = ['all', 'meetup', 'hackathon', 'webinar', 'conference', 'workshop'];
 
@@ -308,24 +316,38 @@ const initialTab = url.searchParams.get('tab') || 'news';
         hidden={initialTab !== 'news'}
       >
         <div class="filter-section">
-          <div class="news-filter" role="group" aria-label="Filter news by type">
-            {
-              newsTypes.map((type) => (
-                <button
-                  class:list={['filter-btn', { active: type === 'all' }]}
-                  data-news-type={type}
-                >
-                  {type === 'all' ? 'All' : newsTypeLabels[type] || type}
-                </button>
-              ))
-            }
+          <div class="filter-row">
+            <div class="news-filter" role="group" aria-label="Filter news by type">
+              {
+                newsTypes.map((type) => (
+                  <button
+                    class:list={['filter-btn', { active: type === 'all' }]}
+                    data-news-type={type}
+                  >
+                    {type === 'all' ? 'All' : newsTypeLabels[type] || type}
+                  </button>
+                ))
+              }
+            </div>
+            <div class="region-filter" role="group" aria-label="Filter news by region">
+              {
+                newsRegions.map((region) => (
+                  <button
+                    class:list={['filter-btn region-btn', { active: region === 'all' }]}
+                    data-news-region={region}
+                  >
+                    {region === 'all' ? 'All Regions' : newsRegionLabels[region] || region}
+                  </button>
+                ))
+              }
+            </div>
           </div>
         </div>
 
         <div class="news-grid" id="news-grid">
           {
             sortedNews.map((article) => (
-              <div data-news-type={article.data.type}>
+              <div data-news-type={article.data.type} data-news-region={article.data.region}>
                 <NewsCard
                   title={article.data.title}
                   date={article.data.date}
@@ -537,11 +559,38 @@ const initialTab = url.searchParams.get('tab') || 'news';
     margin-bottom: var(--space-6);
   }
 
+  .filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    align-items: center;
+  }
+
   .news-filter,
-  .event-filter {
+  .event-filter,
+  .region-filter {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2);
+  }
+
+  .region-filter {
+    padding-left: var(--space-4);
+    border-left: 1px solid var(--color-gray-200);
+  }
+
+  @media (max-width: 640px) {
+    .filter-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .region-filter {
+      padding-left: 0;
+      padding-top: var(--space-3);
+      border-left: none;
+      border-top: 1px solid var(--color-gray-200);
+    }
   }
 
   .filter-btn {
@@ -844,6 +893,16 @@ const initialTab = url.searchParams.get('tab') || 'news';
     border-color: var(--color-primary-500);
   }
 
+  :global([data-theme='dark']) .region-filter {
+    border-left-color: var(--color-gray-300);
+  }
+
+  @media (max-width: 640px) {
+    :global([data-theme='dark']) .region-filter {
+      border-top-color: var(--color-gray-300);
+    }
+  }
+
   :global([data-theme='dark']) .section-label {
     color: var(--color-gray-500);
   }
@@ -971,32 +1030,47 @@ const initialTab = url.searchParams.get('tab') || 'news';
       pastList.removeAttribute('hidden');
     }
 
-    // News filtering
-    const newsFilters = document.querySelectorAll('[data-news-type]');
+    // News filtering (combined type + region)
     const newsCards = document.querySelectorAll('#news-grid > [data-news-type]');
+    let activeType = 'all';
+    let activeRegion = 'all';
 
-    newsFilters.forEach((filter) => {
-      if (filter.tagName === 'BUTTON') {
-        filter.addEventListener('click', () => {
-          const type = filter.getAttribute('data-news-type');
+    function filterNewsCards() {
+      newsCards.forEach((card) => {
+        const cardType = card.getAttribute('data-news-type');
+        const cardRegion = card.getAttribute('data-news-region');
+        const typeMatch = activeType === 'all' || cardType === activeType;
+        const regionMatch = activeRegion === 'all' || cardRegion === activeRegion;
+        if (typeMatch && regionMatch) {
+          (card as HTMLElement).style.display = '';
+        } else {
+          (card as HTMLElement).style.display = 'none';
+        }
+      });
+    }
 
-          // Update active state
-          document.querySelectorAll('.news-filter .filter-btn').forEach((btn) => {
-            btn.classList.remove('active');
-          });
-          filter.classList.add('active');
-
-          // Filter cards
-          newsCards.forEach((card) => {
-            const cardType = card.getAttribute('data-news-type');
-            if (type === 'all' || cardType === type) {
-              (card as HTMLElement).style.display = '';
-            } else {
-              (card as HTMLElement).style.display = 'none';
-            }
-          });
+    // Type filter buttons
+    document.querySelectorAll('.news-filter [data-news-type]').forEach((filter) => {
+      filter.addEventListener('click', () => {
+        activeType = filter.getAttribute('data-news-type') || 'all';
+        document.querySelectorAll('.news-filter .filter-btn').forEach((btn) => {
+          btn.classList.remove('active');
         });
-      }
+        filter.classList.add('active');
+        filterNewsCards();
+      });
+    });
+
+    // Region filter buttons
+    document.querySelectorAll('.region-filter [data-news-region]').forEach((filter) => {
+      filter.addEventListener('click', () => {
+        activeRegion = filter.getAttribute('data-news-region') || 'all';
+        document.querySelectorAll('.region-filter .filter-btn').forEach((btn) => {
+          btn.classList.remove('active');
+        });
+        filter.classList.add('active');
+        filterNewsCards();
+      });
     });
 
     // Event filtering
