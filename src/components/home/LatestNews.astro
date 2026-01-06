@@ -1,0 +1,394 @@
+---
+interface NewsItem {
+  title: string;
+  date: Date;
+  type: 'official' | 'milestone' | 'community' | 'global' | 'opinion';
+  slug: string;
+  source?: string;
+  external?: boolean;
+}
+
+interface Props {
+  news: NewsItem[];
+}
+
+const { news } = Astro.props;
+
+const typeLabels: Record<string, string> = {
+  official: 'Regulatory',
+  milestone: 'Ecosystem',
+  community: 'Community',
+  global: 'International',
+  opinion: 'Opinion',
+};
+
+const formatDate = (d: Date) => {
+  return d.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+  });
+};
+---
+
+<section class="latest-news">
+  <div class="container">
+    <div class="section-header">
+      <div class="header-content">
+        <h2 class="section-title">
+          <span class="title-icon">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+            </svg>
+          </span>
+          Latest Updates
+        </h2>
+        <p class="section-description">Stay informed with the latest from the UAE Open Finance ecosystem</p>
+      </div>
+      <a href="/news" class="view-all-link">
+        View all news
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14M12 5l7 7-7 7"></path>
+        </svg>
+      </a>
+    </div>
+
+    <div class="news-grid">
+      {
+        news.map((item, index) => {
+          const href = item.external && item.source ? item.source : `/news/${item.slug}`;
+          const isExternal = item.external && item.source;
+
+          return (
+            <a
+              href={href}
+              class="news-item"
+              target={isExternal ? '_blank' : undefined}
+              rel={isExternal ? 'noopener noreferrer' : undefined}
+              style={`--delay: ${index * 0.1}s`}
+            >
+              <div class="news-meta">
+                <span class={`news-type type-${item.type}`}>{typeLabels[item.type]}</span>
+                <time datetime={item.date.toISOString()}>{formatDate(item.date)}</time>
+              </div>
+              <h3 class="news-title">{item.title}</h3>
+              <div class="news-arrow" aria-hidden="true">
+                {isExternal ? (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M7 17L17 7M17 7H7M17 7v10" />
+                  </svg>
+                ) : (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                )}
+              </div>
+            </a>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .latest-news {
+    padding: var(--space-16) var(--space-4);
+    background: white;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+  }
+
+  @media (min-width: 768px) {
+    .section-header {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+  }
+
+  .header-content {
+    max-width: 500px;
+  }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-2);
+  }
+
+  .title-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--color-accent-100);
+    color: var(--color-accent-600);
+    border-radius: var(--radius-lg);
+  }
+
+  .section-description {
+    color: var(--color-gray-600);
+    font-size: 1rem;
+  }
+
+  .view-all-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: 500;
+    color: var(--color-primary-600);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: gap var(--transition-fast);
+  }
+
+  .view-all-link:hover {
+    gap: var(--space-3);
+    text-decoration: none;
+  }
+
+  .news-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 640px) {
+    .news-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .news-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .news-item {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-5) var(--space-6);
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    text-decoration: none;
+    color: inherit;
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast),
+      transform var(--transition-fast);
+    animation: fadeInUp 0.5s ease-out backwards;
+    animation-delay: var(--delay);
+  }
+
+  .news-item:hover {
+    border-color: var(--color-primary-300);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+
+  .news-item:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .news-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-3);
+  }
+
+  .news-type {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+  }
+
+  .type-official {
+    background: var(--color-primary-100);
+    color: var(--color-primary-700);
+  }
+
+  .type-milestone {
+    background: var(--color-accent-100);
+    color: var(--color-accent-700);
+  }
+
+  .type-community {
+    background: #dbeafe;
+    color: #1d4ed8;
+  }
+
+  .type-global {
+    background: #ede9fe;
+    color: #6d28d9;
+  }
+
+  .type-opinion {
+    background: #fce7f3;
+    color: #be185d;
+  }
+
+  .news-meta time {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-gray-500);
+  }
+
+  .news-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    line-height: 1.4;
+    flex: 1;
+    margin-bottom: var(--space-3);
+  }
+
+  .news-item:hover .news-title {
+    color: var(--color-primary-700);
+  }
+
+  .news-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    color: var(--color-gray-400);
+    transition:
+      color var(--transition-fast),
+      transform var(--transition-fast);
+  }
+
+  .news-item:hover .news-arrow {
+    color: var(--color-primary-500);
+    transform: translateX(4px);
+  }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .latest-news {
+    background: var(--color-gray-50);
+  }
+
+  :global([data-theme='dark']) .section-title {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .title-icon {
+    background: rgba(232, 168, 92, 0.2);
+    color: var(--color-accent-400);
+  }
+
+  :global([data-theme='dark']) .section-description {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .view-all-link {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .news-item {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .news-item:hover {
+    border-color: var(--color-primary-400);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  }
+
+  :global([data-theme='dark']) .type-official {
+    background: rgba(20, 184, 166, 0.2);
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .type-milestone {
+    background: rgba(232, 168, 92, 0.2);
+    color: var(--color-accent-400);
+  }
+
+  :global([data-theme='dark']) .type-community {
+    background: rgba(59, 130, 246, 0.2);
+    color: #60a5fa;
+  }
+
+  :global([data-theme='dark']) .type-global {
+    background: rgba(139, 92, 246, 0.2);
+    color: #a78bfa;
+  }
+
+  :global([data-theme='dark']) .type-opinion {
+    background: rgba(236, 72, 153, 0.2);
+    color: #f472b6;
+  }
+
+  :global([data-theme='dark']) .news-meta time {
+    color: var(--color-gray-500);
+  }
+
+  :global([data-theme='dark']) .news-title {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .news-item:hover .news-title {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .news-arrow {
+    color: var(--color-gray-500);
+  }
+
+  :global([data-theme='dark']) .news-item:hover .news-arrow {
+    color: var(--color-primary-400);
+  }
+</style>

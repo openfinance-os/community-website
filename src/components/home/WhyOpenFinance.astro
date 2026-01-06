@@ -1,0 +1,320 @@
+---
+// No props needed - static content
+---
+
+<section class="why-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-badge">
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+        Understanding Open Finance
+      </span>
+      <h2 class="section-title">What is UAE Open Finance?</h2>
+      <p class="section-description">
+        A national initiative enabling secure data sharing between financial institutions, fintechs, and consumers
+      </p>
+    </div>
+
+    <div class="pillars-grid">
+      <div class="pillar-card">
+        <div class="pillar-icon">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+        </div>
+        <h3>Consumer Control</h3>
+        <p>Customers control their financial data and can share it securely with authorized third parties</p>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-icon">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </div>
+        <h3>Secure APIs</h3>
+        <p>Standardized, secure APIs enable safe data exchange between banks and third-party providers</p>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-icon">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+        </div>
+        <h3>Innovation</h3>
+        <p>Enables fintechs to build new products and services that benefit consumers and businesses</p>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-icon">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+        </div>
+        <h3>Regulated</h3>
+        <p>Overseen by the Central Bank of the UAE (CBUAE) with clear rules and participant licensing</p>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <a href="/learn" class="learn-link">
+        <span>New to Open Finance? Start learning</span>
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M5 12h14M12 5l7 7-7 7"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .why-section {
+    padding: var(--space-16) var(--space-4);
+    background: linear-gradient(180deg, var(--color-gray-50) 0%, white 100%);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: var(--space-10);
+  }
+
+  .section-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-primary-50);
+    color: var(--color-primary-700);
+    border-radius: var(--radius-full);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    margin-bottom: var(--space-4);
+  }
+
+  .section-title {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 700;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-3);
+  }
+
+  .section-description {
+    font-size: 1.0625rem;
+    color: var(--color-gray-600);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 640px) {
+    .pillars-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .pillars-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .pillar-card {
+    padding: var(--space-6);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    text-align: center;
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast),
+      transform var(--transition-fast);
+  }
+
+  .pillar-card:hover {
+    border-color: var(--color-primary-300);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .pillar-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    background: var(--color-primary-50);
+    color: var(--color-primary-600);
+    border-radius: var(--radius-xl);
+    margin-bottom: var(--space-4);
+  }
+
+  .pillar-card h3 {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-2);
+  }
+
+  .pillar-card p {
+    font-size: 0.875rem;
+    color: var(--color-gray-600);
+    line-height: 1.5;
+  }
+
+  .cta-row {
+    margin-top: var(--space-10);
+    text-align: center;
+  }
+
+  .learn-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-6);
+    background: var(--color-primary-600);
+    color: white;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: var(--radius-lg);
+    transition:
+      background-color var(--transition-fast),
+      gap var(--transition-fast),
+      box-shadow var(--transition-fast);
+    box-shadow: 0 4px 14px rgba(15, 118, 110, 0.25);
+  }
+
+  .learn-link:hover {
+    background: var(--color-primary-700);
+    gap: var(--space-3);
+    box-shadow: 0 6px 20px rgba(15, 118, 110, 0.35);
+    text-decoration: none;
+  }
+
+  .learn-link:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+  }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .why-section {
+    background: linear-gradient(180deg, var(--color-gray-100) 0%, var(--color-gray-50) 100%);
+  }
+
+  :global([data-theme='dark']) .section-badge {
+    background: rgba(20, 184, 166, 0.15);
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .section-title {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .section-description {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .pillar-card {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .pillar-card:hover {
+    border-color: var(--color-primary-400);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  :global([data-theme='dark']) .pillar-icon {
+    background: rgba(20, 184, 166, 0.15);
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .pillar-card h3 {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .pillar-card p {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .learn-link {
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  }
+
+  :global([data-theme='dark']) .learn-link:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+</style>

@@ -1,9 +1,13 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
 import Hero from '@components/home/Hero.astro';
+import WhyOpenFinance from '@components/home/WhyOpenFinance.astro';
 import ObservatoryPreview from '@components/home/ObservatoryPreview.astro';
+import LatestNews from '@components/home/LatestNews.astro';
+import GetInvolved from '@components/home/GetInvolved.astro';
 import Card from '@components/common/Card.astro';
 import { calculateCityDistribution } from '@lib/city-utils';
+import { getCollection } from 'astro:content';
 import type { ProfilesMap } from '@lib/types';
 
 // Import observatory data
@@ -22,6 +26,20 @@ const activeCount = byStatus.Active || 0;
 // Calculate byCity using shared utility with profile fallbacks
 const profiles = participantProfiles as ProfilesMap;
 const byCity = calculateCityDistribution(participants, profiles);
+
+// Get latest news (3 most recent)
+const allNews = await getCollection('news');
+const latestNews = allNews
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3)
+  .map((article) => ({
+    title: article.data.title,
+    date: article.data.date,
+    type: article.data.type,
+    slug: article.slug,
+    source: article.data.source,
+    external: article.data.external,
+  }));
 
 const quickLinks = [
   {
@@ -59,7 +77,13 @@ const icons: Record<string, string> = {
 >
   <Hero participantCount={totalParticipants} activeCount={activeCount} />
 
+  <WhyOpenFinance />
+
   <ObservatoryPreview byRole={byRole} byCity={byCity} totalParticipants={totalParticipants} />
+
+  <LatestNews news={latestNews} />
+
+  <GetInvolved />
 
   <section class="quick-links-section">
     <div class="container">
@@ -118,7 +142,8 @@ const icons: Record<string, string> = {
 <style>
   .quick-links-section {
     padding: var(--space-16) var(--space-4);
-    background: var(--color-gray-50);
+    background: white;
+    border-top: 1px solid var(--color-gray-100);
   }
 
   .container {
@@ -150,7 +175,7 @@ const icons: Record<string, string> = {
     align-items: flex-start;
     gap: var(--space-4);
     padding: var(--space-6) var(--space-8);
-    background: white;
+    background: var(--color-gray-50);
     border: 1px solid var(--color-gray-200);
     border-radius: var(--radius-xl);
     text-decoration: none;
@@ -241,7 +266,8 @@ const icons: Record<string, string> = {
 
   /* Dark mode */
   :global([data-theme='dark']) .quick-links-section {
-    background: var(--color-gray-100);
+    background: var(--color-gray-50);
+    border-top-color: var(--color-gray-200);
   }
 
   :global([data-theme='dark']) .section-title {
@@ -249,8 +275,8 @@ const icons: Record<string, string> = {
   }
 
   :global([data-theme='dark']) .quick-link-card {
-    background: var(--color-gray-200);
-    border-color: var(--color-gray-300);
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
   }
 
   :global([data-theme='dark']) .quick-link-card:hover {
