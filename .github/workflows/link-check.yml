@@ -55,7 +55,7 @@ jobs:
             --verbose
             --no-progress
             --accept 200,204,301,302,403
-            --exclude-mail
+            --exclude '^mailto:'
             --timeout 30
             './dist/**/*.html'
           fail: true
