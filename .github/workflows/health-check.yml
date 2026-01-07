@@ -5,6 +5,12 @@ on:
     # Run every 6 hours
     - cron: '0 */6 * * *'
   workflow_dispatch:
+    inputs:
+      test_mode:
+        description: 'Test mode - simulate failure to verify notifications'
+        required: false
+        default: 'false'
+        type: boolean
 
 # Prevent multiple health checks running simultaneously
 concurrency:
@@ -18,6 +24,15 @@ jobs:
     timeout-minutes: 10
 
     steps:
+      - name: Test mode check
+        if: ${{ inputs.test_mode == true }}
+        run: |
+          echo "::notice::Running in TEST MODE - will simulate failure to verify notifications"
+          echo "### ⚠️ TEST MODE ENABLED" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "This run will simulate a failure to test Slack notifications." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
       - name: Check site availability
         id: site-check
         run: |
@@ -106,6 +121,15 @@ jobs:
           check_header "Content-Security-Policy"
           check_header "Referrer-Policy"
 
+      - name: Simulate failure (test mode only)
+        if: ${{ inputs.test_mode == true }}
+        run: |
+          echo "::error::TEST MODE - Simulating health check failure to verify notifications"
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🧪 Test Failure Simulation" >> $GITHUB_STEP_SUMMARY
+          echo "This failure was intentionally triggered to test the notification system." >> $GITHUB_STEP_SUMMARY
+          exit 1
+
   notify-on-failure:
     name: Notify on Failure
     needs: health-check
@@ -159,3 +183,82 @@ jobs:
                 labels: ['health-check', 'bug', 'priority:high']
               });
             }
+
+      - name: Send Slack notification
+        if: ${{ env.SLACK_WEBHOOK_URL != '' }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          TEST_MODE="${{ inputs.test_mode }}"
+          if [ "$TEST_MODE" = "true" ]; then
+            TITLE="🧪 [TEST] Health Check Notification Test"
+            MESSAGE="This is a test notification to verify the health check alerting system is working correctly."
+            COLOR="#36a64f"
+          else
+            TITLE="🚨 Site Health Check Failed"
+            MESSAGE="The automated health check has detected issues with the production site. Please investigate immediately."
+            COLOR="#dc3545"
+          fi
+
+          curl -X POST -H 'Content-type: application/json' \
+            --data "{
+              \"attachments\": [{
+                \"color\": \"$COLOR\",
+                \"blocks\": [
+                  {
+                    \"type\": \"header\",
+                    \"text\": {
+                      \"type\": \"plain_text\",
+                      \"text\": \"$TITLE\",
+                      \"emoji\": true
+                    }
+                  },
+                  {
+                    \"type\": \"section\",
+                    \"text\": {
+                      \"type\": \"mrkdwn\",
+                      \"text\": \"$MESSAGE\"
+                    }
+                  },
+                  {
+                    \"type\": \"section\",
+                    \"fields\": [
+                      {
+                        \"type\": \"mrkdwn\",
+                        \"text\": \"*Repository:*\n${{ github.repository }}\"
+                      },
+                      {
+                        \"type\": \"mrkdwn\",
+                        \"text\": \"*Triggered by:*\n${{ github.actor }}\"
+                      }
+                    ]
+                  },
+                  {
+                    \"type\": \"actions\",
+                    \"elements\": [
+                      {
+                        \"type\": \"button\",
+                        \"text\": {
+                          \"type\": \"plain_text\",
+                          \"text\": \"View Workflow Run\",
+                          \"emoji\": true
+                        },
+                        \"url\": \"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\"
+                      },
+                      {
+                        \"type\": \"button\",
+                        \"text\": {
+                          \"type\": \"plain_text\",
+                          \"text\": \"View Site\",
+                          \"emoji\": true
+                        },
+                        \"url\": \"https://openfinance-os.org\"
+                      }
+                    ]
+                  }
+                ]
+              }]
+            }" \
+            "$SLACK_WEBHOOK_URL"
+
+          echo "Slack notification sent successfully"
