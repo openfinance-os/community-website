@@ -128,7 +128,6 @@ jobs:
           base: ${{ github.event.repository.default_branch }}
           head: HEAD
           extra_args: --only-verified
-        continue-on-error: true
 
   # ============================================
   # License Compliance
@@ -155,6 +154,6 @@ jobs:
 
           # Check for problematic licenses
           npx license-checker --failOn "GPL-3.0;AGPL-3.0" || {
-            echo "::warning::Found packages with potentially incompatible licenses"
+            echo "::error::Found packages with potentially incompatible licenses (GPL-3.0 or AGPL-3.0)"
+            exit 1
           }
-        continue-on-error: true

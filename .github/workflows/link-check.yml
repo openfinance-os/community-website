@@ -67,7 +67,7 @@ jobs:
         with:
           name: link-check-report
           path: lychee-report.md
-          retention-days: 7
+          retention-days: 3
 
   create-issue:
     name: Create Issue on Failure

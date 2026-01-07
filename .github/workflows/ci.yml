@@ -24,7 +24,7 @@ concurrency:
 
 jobs:
   # ============================================
-  # Lint & Format Check (runs in parallel with typecheck)
+  # Lint & Format Check (runs in parallel)
   # ============================================
   lint:
     name: Lint & Format
@@ -44,7 +44,7 @@ jobs:
         run: npx prettier --check .
 
   # ============================================
-  # Type Check (runs in parallel with lint)
+  # Type Check (runs in parallel)
   # ============================================
   typecheck:
     name: Type Check
@@ -64,11 +64,59 @@ jobs:
         run: npm run check
 
   # ============================================
-  # Build (depends on lint and typecheck)
+  # Security Audit (runs in parallel)
+  # ============================================
+  security-audit:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: ./.github/actions/setup-node
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Run security audit
+        run: |
+          echo "### Security Audit" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Run audit and capture output
+          npm audit --json > audit.json 2>&1 || true
+
+          # Parse results
+          critical=$(jq '.metadata.vulnerabilities.critical // 0' audit.json)
+          high=$(jq '.metadata.vulnerabilities.high // 0' audit.json)
+          moderate=$(jq '.metadata.vulnerabilities.moderate // 0' audit.json)
+          low=$(jq '.metadata.vulnerabilities.low // 0' audit.json)
+
+          echo "| Severity | Count |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Critical | $critical |" >> $GITHUB_STEP_SUMMARY
+          echo "| High | $high |" >> $GITHUB_STEP_SUMMARY
+          echo "| Moderate | $moderate |" >> $GITHUB_STEP_SUMMARY
+          echo "| Low | $low |" >> $GITHUB_STEP_SUMMARY
+
+          # Fail on critical or high vulnerabilities
+          if [ "$critical" -gt 0 ] || [ "$high" -gt 0 ]; then
+            echo ""
+            echo "::error::Found $critical critical and $high high severity vulnerabilities"
+            npm audit --audit-level=high
+            exit 1
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "No critical or high severity vulnerabilities found" >> $GITHUB_STEP_SUMMARY
+
+  # ============================================
+  # Build (runs in parallel with lint/typecheck)
   # ============================================
   build:
     name: Build
-    needs: [lint, typecheck]
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -97,17 +145,16 @@ jobs:
         with:
           name: dist
           path: dist/
-          retention-days: 7
+          retention-days: 3
 
   # ============================================
-  # Lighthouse CI (optional quality check)
+  # Lighthouse CI (blocking quality gate)
   # ============================================
   lighthouse:
     name: Lighthouse
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    continue-on-error: true
 
     steps:
       - name: Checkout repository
@@ -130,3 +177,70 @@ jobs:
           configPath: ./lighthouserc.json
           uploadArtifacts: true
           temporaryPublicStorage: true
+
+  # ============================================
+  # Link Check (quick check on changed files)
+  # ============================================
+  link-check:
+    name: Link Check
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # Only run on PRs to avoid slowing down main branch pushes
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Check links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --no-progress
+            --accept 200,204,301,302,403
+            --exclude-mail
+            --timeout 15
+            --max-concurrency 5
+            './dist/**/*.html'
+          fail: true
+
+  # ============================================
+  # CI Status (aggregates all job results)
+  # ============================================
+  ci-status:
+    name: CI Status
+    needs: [lint, typecheck, security-audit, build, lighthouse]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check job results
+        run: |
+          echo "### CI Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Job | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Lint & Format | ${{ needs.lint.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Type Check | ${{ needs.typecheck.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Security Audit | ${{ needs.security-audit.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Build | ${{ needs.build.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Lighthouse | ${{ needs.lighthouse.result }} |" >> $GITHUB_STEP_SUMMARY
+
+          # Fail if any required job failed
+          if [ "${{ needs.lint.result }}" = "failure" ] || \
+             [ "${{ needs.typecheck.result }}" = "failure" ] || \
+             [ "${{ needs.security-audit.result }}" = "failure" ] || \
+             [ "${{ needs.build.result }}" = "failure" ] || \
+             [ "${{ needs.lighthouse.result }}" = "failure" ]; then
+            echo ""
+            echo "::error::One or more CI jobs failed"
+            exit 1
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "All CI checks passed" >> $GITHUB_STEP_SUMMARY
