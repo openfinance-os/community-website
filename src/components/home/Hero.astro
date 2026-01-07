@@ -17,7 +17,7 @@ const { participantCount, activeCount } = Astro.props;
   <div class="hero-content">
     <div class="hero-badge">
       <span class="badge-dot"></span>
-      <span class="badge-text">Community-driven ecosystem visibility</span>
+      <span class="badge-text">Independent · Open Source · Community-Led</span>
     </div>
 
     <h1 class="hero-title">
@@ -26,7 +26,12 @@ const { participantCount, activeCount } = Astro.props;
     </h1>
 
     <p class="hero-tagline">
-      The community home for <span class="highlight">UAE Open Finance</span>
+      Building transparency in <span class="highlight">UAE's financial ecosystem</span> — together
+    </p>
+
+    <p class="hero-mission">
+      We are not official. We are not affiliated. We are contributors.<br />
+      <span class="mission-emphasis">By the community, for the community.</span>
     </p>
 
     <div class="hero-stat">
@@ -71,7 +76,7 @@ const { participantCount, activeCount } = Astro.props;
       </a>
     </div>
 
-    <p class="hero-footer">Open source · Community-built · Linking to what matters</p>
+    <p class="hero-footer">Visibility · Education · Community — Independent voices for an open financial future</p>
   </div>
 </section>
 
@@ -233,6 +238,24 @@ const { participantCount, activeCount } = Astro.props;
   .highlight {
     color: var(--color-gray-900);
     font-weight: 500;
+  }
+
+  .hero-mission {
+    font-size: clamp(0.9375rem, 2vw, 1.0625rem);
+    color: var(--color-gray-500);
+    line-height: 1.6;
+    margin-bottom: var(--space-8);
+    animation: fadeInUp 0.6s ease-out backwards;
+    animation-delay: 0.45s;
+    font-style: italic;
+  }
+
+  .mission-emphasis {
+    display: block;
+    margin-top: var(--space-1);
+    color: var(--color-primary-600);
+    font-weight: 600;
+    font-style: normal;
   }
 
   .hero-stat {
@@ -417,6 +440,14 @@ const { participantCount, activeCount } = Astro.props;
 
   :global([data-theme='dark']) .highlight {
     color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .hero-mission {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .mission-emphasis {
+    color: var(--color-primary-400);
   }
 
   :global([data-theme='dark']) .hero-stat {
