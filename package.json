@@ -16,7 +16,12 @@
     "check": "astro check",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "validate": "npm run check && npm run format:check"
+    "validate": "npm run check && npm run format:check",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.14",
@@ -24,12 +29,16 @@
     "astro": "^5.0.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.57.0",
     "@types/node": "^22.0.0",
+    "@vitest/coverage-v8": "^4.0.16",
+    "happy-dom": "^20.1.0",
     "html-validate": "^8.0.0",
     "prettier": "^3.4.0",
     "prettier-plugin-astro": "^0.14.0",
     "tsx": "^4.19.0",
-    "typescript": "^5.7.0"
+    "typescript": "^5.7.0",
+    "vitest": "^4.0.16"
   },
   "engines": {
     "node": ">=20.0.0"
