@@ -185,10 +185,14 @@ jobs:
             }
 
       - name: Send Slack notification
-        if: ${{ secrets.SLACK_WEBHOOK_ALERT_URL != '' }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_ALERT_URL }}
         run: |
+          if [ -z "$SLACK_WEBHOOK_URL" ]; then
+            echo "SLACK_WEBHOOK_ALERT_URL secret not configured, skipping notification"
+            exit 0
+          fi
+
           TEST_MODE="${{ inputs.test_mode }}"
           if [ "$TEST_MODE" = "true" ]; then
             TITLE="🧪 [TEST] Health Check Notification Test"
