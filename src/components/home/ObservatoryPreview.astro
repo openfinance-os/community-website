@@ -1,47 +1,42 @@
 ---
-import DonutChart from '@components/observatory/DonutChart.astro';
-
-interface Props {
-  byRole: Record<string, number>;
-  byCity: Record<string, number>;
-  totalParticipants: number;
+interface EcosystemStats {
+  totalUnique: number;
+  production: {
+    registered: number;
+    live: number;
+  };
+  sandbox: {
+    registered: number;
+    live: number;
+  };
+  inBoth: number;
+  productionOnly: number;
+  sandboxOnly: number;
 }
 
-const { byRole, byCity, totalParticipants } = Astro.props;
+interface Props {
+  stats: EcosystemStats;
+}
 
-const roleColors: Record<string, string> = {
-  LFI: 'var(--color-primary-500)',
-  BDSP: 'var(--color-accent-500)',
-  BSIP: '#3b82f6',
-  ISP: '#8b5cf6',
-  TPP: '#ef4444',
-};
+const { stats } = Astro.props;
 
-const cityColors: Record<string, string> = {
-  'Abu Dhabi': 'var(--color-primary-600)',
-  Dubai: 'var(--color-accent-500)',
-};
+// Calculate percentages for the engagement funnel
+const totalRegistered = stats.totalUnique;
+const testingInSandbox = stats.sandbox.registered;
+const liveInProduction = stats.production.live;
 
-const roleData = Object.entries(byRole).map(([label, value]) => ({
-  label,
-  value,
-  color: roleColors[label] || 'var(--color-gray-400)',
-}));
-
-const cityData = Object.entries(byCity).map(([label, value]) => ({
-  label,
-  value,
-  color: cityColors[label] || 'var(--color-gray-400)',
-}));
+// Progress percentages (relative to total)
+const sandboxPercent = totalRegistered > 0 ? (testingInSandbox / totalRegistered) * 100 : 0;
+const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegistered) * 100 : 0;
 ---
 
 <section class="observatory-preview">
   <div class="section-header">
     <div class="header-content">
-      <h2 class="section-title">Ecosystem Observatory</h2>
+      <h2 class="section-title">Ecosystem Engagement</h2>
       <p class="section-description">
-        Real-time visibility into UAE Open Finance ecosystem health, derived from public registry
-        data.
+        Track participation across the UAE Open Finance ecosystem, from sandbox testing to production
+        deployment.
       </p>
     </div>
     <a href="/observatory" class="view-all-link">
@@ -63,7 +58,8 @@ const cityData = Object.entries(byCity).map(([label, value]) => ({
   </div>
 
   <div class="preview-grid">
-    <div class="preview-card">
+    <!-- Total Ecosystem Card -->
+    <div class="preview-card ecosystem-card">
       <h3 class="card-title">
         <span class="title-icon">
           <svg
@@ -76,26 +72,39 @@ const cityData = Object.entries(byCity).map(([label, value]) => ({
             stroke-linecap="round"
             stroke-linejoin="round"
           >
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-            <circle cx="9" cy="7" r="4"></circle>
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M2 12h20"></path>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+            ></path>
           </svg>
         </span>
-        Participant Roles
+        Total Ecosystem
       </h3>
-      <div class="chart-wrapper">
-        <DonutChart
-          data={roleData}
-          size={140}
-          strokeWidth={18}
-          centerValue={totalParticipants}
-          centerLabel="Total"
-        />
+      <div class="ecosystem-stat">
+        <span class="stat-number">{stats.totalUnique}</span>
+        <span class="stat-label">Organizations</span>
+      </div>
+      <div class="environment-breakdown">
+        <div class="env-item">
+          <span class="env-dot env-dot-both"></span>
+          <span class="env-label">In both</span>
+          <span class="env-value">{stats.inBoth}</span>
+        </div>
+        <div class="env-item">
+          <span class="env-dot env-dot-production"></span>
+          <span class="env-label">Production only</span>
+          <span class="env-value">{stats.productionOnly}</span>
+        </div>
+        <div class="env-item">
+          <span class="env-dot env-dot-sandbox"></span>
+          <span class="env-label">Sandbox only</span>
+          <span class="env-value">{stats.sandboxOnly}</span>
+        </div>
       </div>
     </div>
 
-    <div class="preview-card">
+    <!-- Engagement Pipeline Card -->
+    <div class="preview-card pipeline-card">
       <h3 class="card-title">
         <span class="title-icon">
           <svg
@@ -108,18 +117,54 @@ const cityData = Object.entries(byCity).map(([label, value]) => ({
             stroke-linecap="round"
             stroke-linejoin="round"
           >
-            <path d="M3 21h18"></path>
-            <path d="M5 21V7l8-4v18"></path>
-            <path d="M19 21V11l-6-4"></path>
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
           </svg>
         </span>
-        Geographic Distribution
+        Engagement Pipeline
       </h3>
-      <div class="chart-wrapper">
-        <DonutChart data={cityData} size={140} strokeWidth={18} showLegend={true} />
+      <div class="pipeline">
+        <div class="pipeline-stage">
+          <div class="stage-header">
+            <span class="stage-label">Registered</span>
+            <span class="stage-value">{totalRegistered}</span>
+          </div>
+          <div class="stage-bar">
+            <div class="stage-fill stage-fill-registered" style="width: 100%"></div>
+          </div>
+        </div>
+        <div class="pipeline-stage">
+          <div class="stage-header">
+            <span class="stage-label">Testing in Sandbox</span>
+            <span class="stage-value">{testingInSandbox}</span>
+          </div>
+          <div class="stage-bar">
+            <div
+              class="stage-fill stage-fill-sandbox"
+              style={`width: ${sandboxPercent}%`}
+            >
+            </div>
+          </div>
+        </div>
+        <div class="pipeline-stage">
+          <div class="stage-header">
+            <span class="stage-label">Live in Production</span>
+            <span class="stage-value">{liveInProduction}</span>
+          </div>
+          <div class="stage-bar">
+            <div
+              class="stage-fill stage-fill-production"
+              style={`width: ${productionPercent}%`}
+            >
+            </div>
+          </div>
+        </div>
       </div>
+      <p class="pipeline-note">
+        {Math.round(sandboxPercent)}% testing, {Math.round(productionPercent)}% live
+      </p>
     </div>
 
+    <!-- CTA Card -->
     <div class="preview-card preview-card-cta">
       <div class="cta-content">
         <h3 class="cta-title">Explore More</h3>
@@ -258,11 +303,134 @@ const cityData = Object.entries(byCity).map(([label, value]) => ({
     color: var(--color-primary-500);
   }
 
-  .chart-wrapper {
+  /* Ecosystem Card Styles */
+  .ecosystem-stat {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: var(--space-4);
   }
 
+  .stat-number {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--color-gray-900);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+    margin-top: var(--space-1);
+  }
+
+  .environment-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-gray-200);
+  }
+
+  .env-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.8125rem;
+  }
+
+  .env-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .env-dot-both {
+    background: var(--color-primary-500);
+  }
+
+  .env-dot-production {
+    background: var(--color-accent-500);
+  }
+
+  .env-dot-sandbox {
+    background: #3b82f6;
+  }
+
+  .env-label {
+    flex: 1;
+    color: var(--color-gray-600);
+  }
+
+  .env-value {
+    font-weight: 600;
+    color: var(--color-gray-900);
+  }
+
+  /* Pipeline Card Styles */
+  .pipeline {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .pipeline-stage {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .stage-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .stage-label {
+    font-size: 0.8125rem;
+    color: var(--color-gray-600);
+  }
+
+  .stage-value {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+  }
+
+  .stage-bar {
+    height: 8px;
+    background: var(--color-gray-200);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .stage-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.6s ease-out;
+  }
+
+  .stage-fill-registered {
+    background: var(--color-gray-400);
+  }
+
+  .stage-fill-sandbox {
+    background: #3b82f6;
+  }
+
+  .stage-fill-production {
+    background: var(--color-primary-500);
+  }
+
+  .pipeline-note {
+    font-size: 0.75rem;
+    color: var(--color-gray-500);
+    text-align: center;
+    margin-top: var(--space-2);
+  }
+
+  /* CTA Card Styles */
   .preview-card-cta {
     position: relative;
     background: linear-gradient(135deg, var(--color-primary-900) 0%, var(--color-primary-800) 100%);

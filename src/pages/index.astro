@@ -3,25 +3,38 @@ import PageLayout from '@layouts/PageLayout.astro';
 import Hero from '@components/home/Hero.astro';
 import ObservatoryPreview from '@components/home/ObservatoryPreview.astro';
 import Card from '@components/common/Card.astro';
-import { calculateCityDistribution } from '@lib/city-utils';
-import type { ProfilesMap } from '@lib/types';
-
 // Import observatory data
 import snapshot from '../../data/observatory/snapshots/latest.json';
-
-// Import participant profiles for city fallback
-import participantProfiles from '../../data/participants/profiles.json';
 
 // Handle both old flat format and new dual-environment format
 const isDualFormat = 'production' in snapshot;
 const productionData = isDualFormat ? snapshot.production : snapshot;
+const sandboxData = isDualFormat ? snapshot.sandbox : null;
+const crossEnvironment = isDualFormat ? snapshot.crossEnvironment : null;
+
 const { summary, timestamp, participants } = productionData;
-const { totalParticipants, byStatus, byRole } = summary;
+const { totalParticipants, byStatus, liveInProduction } = summary;
 const activeCount = byStatus.Active || 0;
 
-// Calculate byCity using shared utility with profile fallbacks
-const profiles = participantProfiles as ProfilesMap;
-const byCity = calculateCityDistribution(participants, profiles);
+// Calculate ecosystem engagement stats
+const ecosystemStats = {
+  // Total unique participants across both environments
+  totalUnique: crossEnvironment?.totalUniqueParticipants || totalParticipants,
+  // Production stats
+  production: {
+    registered: totalParticipants,
+    live: liveInProduction || 0,
+  },
+  // Sandbox stats
+  sandbox: {
+    registered: sandboxData?.summary?.totalParticipants || 0,
+    live: sandboxData?.summary?.liveInProduction || 0,
+  },
+  // Cross-environment breakdown
+  inBoth: crossEnvironment?.inBothEnvironments?.length || 0,
+  productionOnly: crossEnvironment?.productionOnly?.length || 0,
+  sandboxOnly: crossEnvironment?.sandboxOnly?.length || 0,
+};
 
 const quickLinks = [
   {
@@ -59,7 +72,7 @@ const icons: Record<string, string> = {
 >
   <Hero participantCount={totalParticipants} activeCount={activeCount} />
 
-  <ObservatoryPreview byRole={byRole} byCity={byCity} totalParticipants={totalParticipants} />
+  <ObservatoryPreview stats={ecosystemStats} />
 
   <section class="quick-links-section">
     <div class="container">
