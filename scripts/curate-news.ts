@@ -249,8 +249,21 @@ async function main() {
       // In dry run, create mock summaries with region inference
       const inferRegion = (text: string): 'uae' | 'mena' | 'global' => {
         const lowerText = text.toLowerCase();
-        if (lowerText.includes('uae') || lowerText.includes('emirates') || lowerText.includes('dubai') || lowerText.includes('cbuae')) return 'uae';
-        if (lowerText.includes('saudi') || lowerText.includes('bahrain') || lowerText.includes('gcc') || lowerText.includes('mena') || lowerText.includes('middle east')) return 'mena';
+        if (
+          lowerText.includes('uae') ||
+          lowerText.includes('emirates') ||
+          lowerText.includes('dubai') ||
+          lowerText.includes('cbuae')
+        )
+          return 'uae';
+        if (
+          lowerText.includes('saudi') ||
+          lowerText.includes('bahrain') ||
+          lowerText.includes('gcc') ||
+          lowerText.includes('mena') ||
+          lowerText.includes('middle east')
+        )
+          return 'mena';
         return 'global';
       };
 
