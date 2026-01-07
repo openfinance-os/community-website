@@ -185,9 +185,9 @@ jobs:
             }
 
       - name: Send Slack notification
-        if: ${{ env.SLACK_WEBHOOK_URL != '' }}
+        if: ${{ secrets.SLACK_WEBHOOK_ALERT_URL != '' }}
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_ALERT_URL }}
         run: |
           TEST_MODE="${{ inputs.test_mode }}"
           if [ "$TEST_MODE" = "true" ]; then
