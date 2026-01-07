@@ -24,7 +24,7 @@ concurrency:
 
 jobs:
   # ============================================
-  # Lint & Format Check (runs in parallel with typecheck)
+  # Lint & Format Check (runs in parallel with typecheck and test)
   # ============================================
   lint:
     name: Lint & Format
@@ -44,7 +44,7 @@ jobs:
         run: npx prettier --check .
 
   # ============================================
-  # Type Check (runs in parallel with lint)
+  # Type Check (runs in parallel with lint and test)
   # ============================================
   typecheck:
     name: Type Check
@@ -64,11 +64,34 @@ jobs:
         run: npm run check
 
   # ============================================
-  # Build (depends on lint and typecheck)
+  # Unit Tests (runs in parallel with lint and typecheck)
+  # ============================================
+  test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: ./.github/actions/setup-node
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Run unit tests
+        run: npm run test
+
+      - name: Run tests with coverage
+        run: npm run test:coverage
+
+  # ============================================
+  # Build (depends on lint, typecheck, and test)
   # ============================================
   build:
     name: Build
-    needs: [lint, typecheck]
+    needs: [lint, typecheck, test]
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -97,6 +120,44 @@ jobs:
         with:
           name: dist
           path: dist/
+          retention-days: 7
+
+  # ============================================
+  # E2E Tests (runs after build)
+  # ============================================
+  e2e:
+    name: E2E Tests
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Setup Node.js
+        uses: ./.github/actions/setup-node
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run E2E tests
+        run: npm run test:e2e -- --project=chromium
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report/
           retention-days: 7
 
   # ============================================
