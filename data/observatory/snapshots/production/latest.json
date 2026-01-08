@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-01-07T06:33:02.004Z",
+  "timestamp": "2026-01-08T06:33:35.340Z",
   "source": "https://data.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "production",
@@ -9,8 +9,8 @@
       "Active": 16
     },
     "byRole": {
-      "BDSP": 12,
-      "BSIP": 11,
+      "BDSP": 11,
+      "BSIP": 10,
       "LFI": 9,
       "ISP": 2,
       "API Read_Write": 3,
@@ -30,7 +30,7 @@
     ],
     "liveInProduction": 9,
     "shariahCompliantCount": 2,
-    "multiRoleCount": 13,
+    "multiRoleCount": 12,
     "tppCount": 0,
     "byAuthCapabilities": {
       "ciba": 0,
@@ -114,8 +114,6 @@
       "shortName": "ADIB",
       "status": "Active",
       "roles": [
-        "BDSP",
-        "BSIP",
         "LFI"
       ],
       "city": "Abu Dhabi",
@@ -691,7 +689,10 @@
     "participantChange": 0,
     "newParticipants": [],
     "removedParticipants": [],
-    "roleChanges": {},
+    "roleChanges": {
+      "BDSP": -1,
+      "BSIP": -1
+    },
     "apiFamilyChanges": {}
   }
 }
