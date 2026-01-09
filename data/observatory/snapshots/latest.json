@@ -1,29 +1,29 @@
 {
-  "timestamp": "2026-01-08T06:33:36.754Z",
+  "timestamp": "2026-01-09T06:33:00.442Z",
   "version": "2.0.0",
   "production": {
-    "timestamp": "2026-01-08T06:33:35.340Z",
+    "timestamp": "2026-01-09T06:32:58.933Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "production",
     "summary": {
-      "totalParticipants": 16,
+      "totalParticipants": 17,
       "byStatus": {
-        "Active": 16
+        "Active": 17
       },
       "byRole": {
         "BDSP": 11,
         "BSIP": 10,
-        "LFI": 9,
-        "ISP": 2,
+        "LFI": 10,
+        "ISP": 3,
         "API Read_Write": 3,
         "TSP": 3,
         "pki-test-harness": 1
       },
       "byCity": {
         "Abu Dhabi": 4,
-        "Dubai": 5,
-        "Unknown": 7
+        "Unknown": 8,
+        "Dubai": 5
       },
       "apiFamilies": [
         "accounts",
@@ -33,7 +33,7 @@
       ],
       "liveInProduction": 9,
       "shariahCompliantCount": 2,
-      "multiRoleCount": 12,
+      "multiRoleCount": 13,
       "tppCount": 0,
       "byAuthCapabilities": {
         "ciba": 0,
@@ -155,6 +155,30 @@
         ],
         "authServerCount": 1,
         "isLive": true
+      },
+      {
+        "id": "473cbc09-d58d-4656-8e70-11e467f37cfe",
+        "name": "Al Wathba National Insurance Co",
+        "legalName": "Al Wathba National Insurance Co",
+        "shortName": "Al Wathba National Insurance Co",
+        "status": "Active",
+        "roles": [
+          "ISP",
+          "LFI"
+        ],
+        "city": "Unknown",
+        "registrationNumber": "National010",
+        "apiFamilies": [],
+        "hasAuthServer": false,
+        "isShariahCompliant": false,
+        "authCapabilities": {
+          "supportsCiba": false,
+          "supportsDCR": false,
+          "supportsRedirect": false
+        },
+        "apiResources": [],
+        "authServerCount": 0,
+        "isLive": false
       },
       {
         "id": "2f9981d9-47e6-4cd5-ba04-d6bdadf52591",
@@ -689,18 +713,20 @@
       }
     ],
     "trends": {
-      "participantChange": 0,
-      "newParticipants": [],
+      "participantChange": 1,
+      "newParticipants": [
+        "473cbc09-d58d-4656-8e70-11e467f37cfe"
+      ],
       "removedParticipants": [],
       "roleChanges": {
-        "BDSP": -1,
-        "BSIP": -1
+        "LFI": 1,
+        "ISP": 1
       },
       "apiFamilyChanges": {}
     }
   },
   "sandbox": {
-    "timestamp": "2026-01-08T06:33:36.752Z",
+    "timestamp": "2026-01-09T06:33:00.440Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "sandbox",
@@ -2402,6 +2428,7 @@
     "inBothEnvironments": [
       "36b067c3-8017-4144-bb7e-49cf794089c9",
       "1b4f7317-8b67-4179-bdfb-8054f74c25d0",
+      "473cbc09-d58d-4656-8e70-11e467f37cfe",
       "2f9981d9-47e6-4cd5-ba04-d6bdadf52591",
       "64e5061d-437f-43c8-9f17-1df9a4600705",
       "8a37e74c-2827-496c-abf6-985bf177b5ea",
@@ -2429,7 +2456,6 @@
       "30303fd5-70a9-4cfc-a08e-d927572e9a8d",
       "edee04f4-7dc6-4274-815d-c18262b344c4",
       "8e4400b9-2250-4788-9871-13b123921199",
-      "473cbc09-d58d-4656-8e70-11e467f37cfe",
       "1696c7b7-249f-48c3-9f21-7e26fac2c116",
       "a632a8ef-44d8-4331-856f-a0b9dc66241e",
       "d6f549cc-ff6f-4e21-844e-f26a2ee932cb",

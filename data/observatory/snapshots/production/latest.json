@@ -1,26 +1,26 @@
 {
-  "timestamp": "2026-01-08T06:33:35.340Z",
+  "timestamp": "2026-01-09T06:32:58.933Z",
   "source": "https://data.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "production",
   "summary": {
-    "totalParticipants": 16,
+    "totalParticipants": 17,
     "byStatus": {
-      "Active": 16
+      "Active": 17
     },
     "byRole": {
       "BDSP": 11,
       "BSIP": 10,
-      "LFI": 9,
-      "ISP": 2,
+      "LFI": 10,
+      "ISP": 3,
       "API Read_Write": 3,
       "TSP": 3,
       "pki-test-harness": 1
     },
     "byCity": {
       "Abu Dhabi": 4,
-      "Dubai": 5,
-      "Unknown": 7
+      "Unknown": 8,
+      "Dubai": 5
     },
     "apiFamilies": [
       "accounts",
@@ -30,7 +30,7 @@
     ],
     "liveInProduction": 9,
     "shariahCompliantCount": 2,
-    "multiRoleCount": 12,
+    "multiRoleCount": 13,
     "tppCount": 0,
     "byAuthCapabilities": {
       "ciba": 0,
@@ -152,6 +152,30 @@
       ],
       "authServerCount": 1,
       "isLive": true
+    },
+    {
+      "id": "473cbc09-d58d-4656-8e70-11e467f37cfe",
+      "name": "Al Wathba National Insurance Co",
+      "legalName": "Al Wathba National Insurance Co",
+      "shortName": "Al Wathba National Insurance Co",
+      "status": "Active",
+      "roles": [
+        "ISP",
+        "LFI"
+      ],
+      "city": "Unknown",
+      "registrationNumber": "National010",
+      "apiFamilies": [],
+      "hasAuthServer": false,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 0,
+      "isLive": false
     },
     {
       "id": "2f9981d9-47e6-4cd5-ba04-d6bdadf52591",
@@ -686,12 +710,14 @@
     }
   ],
   "trends": {
-    "participantChange": 0,
-    "newParticipants": [],
+    "participantChange": 1,
+    "newParticipants": [
+      "473cbc09-d58d-4656-8e70-11e467f37cfe"
+    ],
     "removedParticipants": [],
     "roleChanges": {
-      "BDSP": -1,
-      "BSIP": -1
+      "LFI": 1,
+      "ISP": 1
     },
     "apiFamilyChanges": {}
   }
