@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-01-09T06:33:00.442Z",
+  "timestamp": "2026-01-10T06:29:45.797Z",
   "version": "2.0.0",
   "production": {
-    "timestamp": "2026-01-09T06:32:58.933Z",
+    "timestamp": "2026-01-10T06:29:44.318Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "production",
@@ -713,20 +713,15 @@
       }
     ],
     "trends": {
-      "participantChange": 1,
-      "newParticipants": [
-        "473cbc09-d58d-4656-8e70-11e467f37cfe"
-      ],
+      "participantChange": 0,
+      "newParticipants": [],
       "removedParticipants": [],
-      "roleChanges": {
-        "LFI": 1,
-        "ISP": 1
-      },
+      "roleChanges": {},
       "apiFamilyChanges": {}
     }
   },
   "sandbox": {
-    "timestamp": "2026-01-09T06:33:00.440Z",
+    "timestamp": "2026-01-10T06:29:45.794Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "sandbox",
