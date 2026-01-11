@@ -14,8 +14,11 @@
 - **Historical analytics** (growth trends, adoption curves, comparisons)
 - **Educational content** (Learn section, glossary, FAQs)
 - **Community resources** (news, events, official links)
+- **Real-time alerts** when ecosystem changes occur (new participants, API updates, status changes)
 
 The agent is built on a **Community SDK** that wraps the Raidiam Trust Framework Directory API and exposes functionality via an **MCP (Model Context Protocol) Server**, making the same capabilities available to external AI tools (Claude Desktop, Cursor, ChatGPT, etc.).
+
+**Habibi extends beyond the website** through a Slack/Teams bot, bringing ecosystem intelligence directly into team workspaces where developers and fintech teams already collaborate.
 
 ### 1.2 Why This Matters
 
@@ -43,14 +46,19 @@ Open Finance ecosystems are complex. Developers, fintechs, and curious stakehold
 ## 2. Architecture Overview
 
 ```
+                    ┌─────────────────────────────────────┐
+                    │         External Interfaces          │
+                    │  ┌─────────┐  ┌─────────┐  ┌──────┐ │
+                    │  │  Slack  │  │  Teams  │  │ Web  │ │
+                    │  │   Bot   │  │   Bot   │  │ Chat │ │
+                    │  └────┬────┘  └────┬────┘  └───┬──┘ │
+                    └───────┼────────────┼──────────┼─────┘
+                            │            │          │
+                            └────────────┼──────────┘
+                                         │
+                                         ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                        OpenFinance-OS.org                                │
-│  ┌─────────────────────────────────────────────────────────────────┐    │
-│  │                    Habibi Chat Interface                         │    │
-│  │         (Embedded chat widget on website)                        │    │
-│  └─────────────────────────────────────────────────────────────────┘    │
-│                                │                                         │
-│                                ▼                                         │
 │  ┌─────────────────────────────────────────────────────────────────┐    │
 │  │                     AI Agent Backend                             │    │
 │  │   ┌─────────────┐  ┌─────────────┐  ┌─────────────┐             │    │
@@ -65,12 +73,20 @@ Open Finance ecosystems are complex. Developers, fintechs, and curious stakehold
 │  │                                                                   │    │
 │  │   ┌───────────────────────────────────────────────────────────┐  │    │
 │  │   │                  Community SDK                             │  │    │
-│  │   │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐        │  │    │
-│  │   │  │ Directory   │  │ Analytics   │  │  Content    │        │  │    │
-│  │   │  │ Client      │  │ Engine      │  │  Search     │        │  │    │
-│  │   │  └─────────────┘  └─────────────┘  └─────────────┘        │  │    │
+│  │   │  ┌───────────┐ ┌───────────┐ ┌───────────┐ ┌───────────┐  │  │    │
+│  │   │  │ Directory │ │ Analytics │ │  Content  │ │  Alerts   │  │  │    │
+│  │   │  │ Client    │ │ Engine    │ │  Search   │ │  Engine   │  │  │    │
+│  │   │  └───────────┘ └───────────┘ └───────────┘ └───────────┘  │  │    │
 │  │   └───────────────────────────────────────────────────────────┘  │    │
 │  │                                                                   │    │
+│  └─────────────────────────────────────────────────────────────────┘    │
+│                                │                                         │
+│  ┌─────────────────────────────────────────────────────────────────┐    │
+│  │                  Notification Service                            │    │
+│  │   ┌─────────────┐  ┌─────────────┐  ┌─────────────┐             │    │
+│  │   │   Email     │  │   Webhook   │  │   In-App    │             │    │
+│  │   │   Sender    │  │   Dispatch  │  │   Push      │             │    │
+│  │   └─────────────┘  └─────────────┘  └─────────────┘             │    │
 │  └─────────────────────────────────────────────────────────────────┘    │
 │                                │                                         │
 └────────────────────────────────┼─────────────────────────────────────────┘
@@ -162,7 +178,41 @@ const definition = await search.getGlossaryTerm('TPP');
 const faq = await search.findFAQ('How do I register as a TPP?');
 ```
 
-#### 3.1.4 SDK Distribution
+#### 3.1.4 Alerts Engine
+
+```typescript
+import { AlertsEngine, AlertType } from '@openfinance-os/sdk';
+
+const alerts = new AlertsEngine();
+
+// Subscribe to ecosystem changes
+alerts.subscribe({
+  types: [
+    AlertType.NEW_PARTICIPANT,
+    AlertType.API_ADDED,
+    AlertType.STATUS_CHANGE,
+    AlertType.ENVIRONMENT_PROMOTION
+  ],
+  filters: {
+    participants: ['adib', 'enbd', 'fab'], // Optional: specific participants
+    environments: ['production'],           // Optional: specific environments
+    roles: ['LFI', 'TPP']                   // Optional: specific roles
+  },
+  delivery: {
+    email: 'team@fintech.ae',
+    webhook: 'https://api.fintech.ae/webhooks/openfinance',
+    slack: '#openfinance-alerts'
+  }
+});
+
+// Query recent alerts
+const recentAlerts = await alerts.getRecent({
+  since: '7d',
+  types: [AlertType.NEW_PARTICIPANT]
+});
+```
+
+#### 3.1.5 SDK Distribution
 
 | Package | Registry | Usage |
 |---------|----------|-------|
@@ -172,11 +222,383 @@ const faq = await search.findFAQ('How do I register as a TPP?');
 
 ---
 
-### 3.2 MCP Server
+### 3.2 Ecosystem Alerts & Notifications
+
+Real-time notification system that detects and broadcasts ecosystem changes.
+
+#### 3.2.1 Alert Types
+
+| Alert Type | Trigger | Priority |
+|------------|---------|----------|
+| `NEW_PARTICIPANT` | New organization registered in Directory | High |
+| `API_ADDED` | Participant exposes new API family | Medium |
+| `API_REMOVED` | Participant removes API family | High |
+| `STATUS_CHANGE` | Participant status changes (Active/Inactive) | High |
+| `ENVIRONMENT_PROMOTION` | Participant moves sandbox → production | High |
+| `ROLE_CHANGE` | Participant adds/removes role (LFI, TPP, etc.) | Medium |
+| `AUTH_CAPABILITY_CHANGE` | CIBA, DCR, or redirect support changed | Medium |
+| `REGULATORY_UPDATE` | New CBUAE guidance detected | High |
+| `COMMUNITY_NEWS` | New article published on OpenFinance-OS | Low |
+
+#### 3.2.2 Detection Pipeline
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    Alert Detection Pipeline                      │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│   ┌──────────────┐         ┌──────────────┐                     │
+│   │  Daily Cron  │         │  Previous    │                     │
+│   │  (06:00 UTC) │         │  Snapshot    │                     │
+│   └──────┬───────┘         └──────┬───────┘                     │
+│          │                        │                              │
+│          ▼                        ▼                              │
+│   ┌──────────────┐         ┌──────────────┐                     │
+│   │  Fetch New   │         │  Load from   │                     │
+│   │  Directory   │         │  data/       │                     │
+│   │  Data        │         │  observatory │                     │
+│   └──────┬───────┘         └──────┬───────┘                     │
+│          │                        │                              │
+│          └───────────┬────────────┘                              │
+│                      ▼                                           │
+│               ┌──────────────┐                                   │
+│               │  Diff Engine │                                   │
+│               │  - Compare   │                                   │
+│               │  - Detect    │                                   │
+│               │  - Classify  │                                   │
+│               └──────┬───────┘                                   │
+│                      │                                           │
+│                      ▼                                           │
+│               ┌──────────────┐                                   │
+│               │  Alert       │                                   │
+│               │  Generator   │                                   │
+│               └──────┬───────┘                                   │
+│                      │                                           │
+│          ┌───────────┼───────────┬───────────┐                   │
+│          ▼           ▼           ▼           ▼                   │
+│   ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐           │
+│   │  Email   │ │  Slack/  │ │  Webhook │ │  In-App  │           │
+│   │  Queue   │ │  Teams   │ │  Dispatch│ │  Store   │           │
+│   └──────────┘ └──────────┘ └──────────┘ └──────────┘           │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+#### 3.2.3 Delivery Channels
+
+| Channel | Use Case | Implementation |
+|---------|----------|----------------|
+| **Email** | Daily/weekly digests, high-priority alerts | SendGrid / Resend |
+| **Slack** | Real-time team notifications | Slack Incoming Webhooks |
+| **Teams** | Enterprise team notifications | Teams Incoming Webhooks |
+| **Webhook** | Custom integrations, automation | HTTP POST with signature |
+| **In-App** | Website notification bell | Stored in KV, polled by client |
+| **RSS** | Feed readers, aggregators | Generated static XML |
+
+#### 3.2.4 Subscription Management
+
+**Web UI (`/settings/alerts`):**
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  Alert Preferences                                               │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  Email: team@fintech.ae                      [Change]            │
+│                                                                  │
+│  ┌─────────────────────────────────────────────────────────────┐│
+│  │  Alert Types                                                 ││
+│  │  ☑ New participants                        Immediate         ││
+│  │  ☑ API changes                             Daily digest      ││
+│  │  ☑ Production promotions                   Immediate         ││
+│  │  ☐ Community news                          Weekly digest     ││
+│  │  ☑ Regulatory updates                      Immediate         ││
+│  └─────────────────────────────────────────────────────────────┘│
+│                                                                  │
+│  ┌─────────────────────────────────────────────────────────────┐│
+│  │  Watchlist (get alerts for specific participants)           ││
+│  │  [ADIB ×] [Emirates NBD ×] [+ Add participant]              ││
+│  └─────────────────────────────────────────────────────────────┘│
+│                                                                  │
+│  ┌─────────────────────────────────────────────────────────────┐│
+│  │  Integrations                                                ││
+│  │  Slack:   #openfinance-alerts              [Connected ✓]    ││
+│  │  Webhook: https://api.fintech.ae/hooks/of  [Test] [Remove]  ││
+│  └─────────────────────────────────────────────────────────────┘│
+│                                                                  │
+│  [Save Preferences]                                              │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+#### 3.2.5 Alert Message Format
+
+**Email (Immediate):**
+```
+Subject: [OpenFinance-OS] New participant: WIO Bank is now live
+
+──────────────────────────────────────────────────
+
+🎉 New Participant Alert
+
+WIO Bank has registered in the UAE Open Finance ecosystem.
+
+Details:
+• Environment: Production
+• Roles: LFI, BDSP, BSIP
+• API Families: Accounts, Payments
+• Auth: CIBA ✓, DCR ✓, Redirect ✓
+
+→ View in Observatory: https://openfinance-os.org/observatory/participant/wio-bank
+
+──────────────────────────────────────────────────
+
+You're receiving this because you subscribed to New Participant alerts.
+Manage preferences: https://openfinance-os.org/settings/alerts
+```
+
+**Webhook Payload:**
+```json
+{
+  "event": "participant.registered",
+  "timestamp": "2026-01-11T06:15:00Z",
+  "data": {
+    "participant": {
+      "slug": "wio-bank",
+      "name": "WIO Bank",
+      "environment": "production",
+      "roles": ["LFI", "BDSP", "BSIP"],
+      "api_families": ["accounts", "payments"],
+      "auth_capabilities": {
+        "ciba": true,
+        "dcr": true,
+        "redirect": true
+      }
+    },
+    "change_type": "new_participant"
+  },
+  "signature": "sha256=abc123..."
+}
+```
+
+---
+
+### 3.3 Slack & Teams Bot
+
+Bring Habibi's capabilities directly into team workspaces.
+
+#### 3.3.1 Bot Identity
+
+| Platform | Bot Name | Handle |
+|----------|----------|--------|
+| Slack | Habibi | `@habibi` |
+| Teams | Habibi - OpenFinance Assistant | `@Habibi` |
+
+**Bot Avatar:** OpenFinance-OS logo icon with chat bubble overlay
+
+#### 3.3.2 Interaction Modes
+
+**1. Direct Messages (DM)**
+```
+User: @habibi which banks support payment initiation?
+
+Habibi: Based on Observatory data, these 8 LFIs expose Payment
+Initiation APIs in production:
+
+• Emirates NBD
+• ADCB
+• ADIB
+• Mashreq Bank
+• FAB
+• DIB
+• CBD
+• HSBC UAE
+
+Data updated: 2026-01-11 06:00 UTC
+🔗 View in Observatory
+```
+
+**2. Channel Mentions**
+```
+#openfinance-dev
+
+Sarah: We need to integrate with a bank that supports CIBA and
+has the fastest sandbox setup. Any recommendations?
+
+@habibi which banks support CIBA?
+
+Habibi: 6 participants currently support CIBA authentication:
+
+┌─────────────────┬─────────────┬──────────────┐
+│ Participant     │ Environment │ API Families │
+├─────────────────┼─────────────┼──────────────┤
+│ Emirates NBD    │ Production  │ All 4        │
+│ ADCB            │ Production  │ Accounts     │
+│ ADIB            │ Production  │ Accounts     │
+│ Mashreq         │ Sandbox     │ Accounts     │
+│ FAB             │ Production  │ All 4        │
+│ DIB             │ Production  │ Accounts     │
+└─────────────────┴─────────────┴──────────────┘
+
+For sandbox setup speed, I'd check each bank's developer
+portal. FAB and ENBD have the most complete API coverage.
+
+💡 Tip: Use `/habibi compare enbd fab` for a detailed comparison
+```
+
+**3. Slash Commands**
+```
+/habibi stats
+→ Quick ecosystem stats summary
+
+/habibi compare <participant1> <participant2>
+→ Side-by-side comparison
+
+/habibi alerts subscribe
+→ Subscribe channel to alerts
+
+/habibi search <query>
+→ Search Observatory and content
+
+/habibi glossary <term>
+→ Get term definition
+```
+
+**4. Alert Broadcasts**
+```
+#openfinance-alerts
+
+🔔 Habibi Alert
+
+New participant registered:
+
+📍 RAK Bank
+   Environment: Sandbox
+   Roles: LFI, BDSP
+   APIs: Accounts
+
+This is their first registration in the ecosystem.
+🔗 View details in Observatory
+```
+
+#### 3.3.3 Slack App Configuration
+
+**OAuth Scopes:**
+```
+bot:
+  - app_mentions:read
+  - channels:history
+  - chat:write
+  - commands
+  - im:history
+  - im:read
+  - im:write
+  - incoming-webhook
+  - users:read
+```
+
+**Slash Commands:**
+| Command | Description |
+|---------|-------------|
+| `/habibi` | Query the Open Finance assistant |
+| `/habibi-stats` | Get quick ecosystem stats |
+| `/habibi-alerts` | Manage alert subscriptions |
+
+**Event Subscriptions:**
+- `app_mention` - Respond when @habibi is mentioned
+- `message.im` - Respond to DMs
+
+#### 3.3.4 Teams App Configuration
+
+**Permissions:**
+```
+- ChannelMessage.Read.Group
+- ChannelMessage.Send
+- Chat.ReadWrite
+- User.Read
+```
+
+**Bot Commands:**
+Registered via Teams App manifest with similar structure to Slack.
+
+#### 3.3.5 Response Formatting
+
+**Slack Block Kit Example:**
+```json
+{
+  "blocks": [
+    {
+      "type": "header",
+      "text": {
+        "type": "plain_text",
+        "text": "🏦 Participant Comparison"
+      }
+    },
+    {
+      "type": "section",
+      "fields": [
+        {
+          "type": "mrkdwn",
+          "text": "*Emirates NBD*\n✅ Production\n4 API Families\nCIBA ✓"
+        },
+        {
+          "type": "mrkdwn",
+          "text": "*ADIB*\n✅ Production\n3 API Families\nCIBA ✓"
+        }
+      ]
+    },
+    {
+      "type": "actions",
+      "elements": [
+        {
+          "type": "button",
+          "text": {"type": "plain_text", "text": "View in Observatory"},
+          "url": "https://openfinance-os.org/observatory"
+        }
+      ]
+    }
+  ]
+}
+```
+
+#### 3.3.6 Deployment Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        Slack/Teams Bot                           │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│   ┌──────────────────┐      ┌──────────────────┐                │
+│   │  Slack Events    │      │  Teams Events    │                │
+│   │  API             │      │  API             │                │
+│   └────────┬─────────┘      └────────┬─────────┘                │
+│            │                         │                           │
+│            └────────────┬────────────┘                           │
+│                         ▼                                        │
+│   ┌─────────────────────────────────────────────────────────┐   │
+│   │              Cloudflare Worker                           │   │
+│   │                                                          │   │
+│   │   ┌────────────┐  ┌────────────┐  ┌────────────┐        │   │
+│   │   │  Request   │  │  Platform  │  │  Response  │        │   │
+│   │   │  Parser    │  │  Adapter   │  │  Formatter │        │   │
+│   │   └────────────┘  └────────────┘  └────────────┘        │   │
+│   │                                                          │   │
+│   └───────────────────────────┬─────────────────────────────┘   │
+│                               │                                  │
+│                               ▼                                  │
+│   ┌─────────────────────────────────────────────────────────┐   │
+│   │              Shared AI Agent Backend                     │   │
+│   │              (Same as web chat)                          │   │
+│   └─────────────────────────────────────────────────────────┘   │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+### 3.4 MCP Server
 
 The MCP (Model Context Protocol) server exposes SDK functionality as tools that AI assistants can invoke.
 
-#### 3.2.1 Tool Definitions
+#### 3.4.1 Tool Definitions
 
 ```json
 {
@@ -245,7 +667,7 @@ The MCP (Model Context Protocol) server exposes SDK functionality as tools that 
 }
 ```
 
-#### 3.2.2 MCP Server Deployment
+#### 3.4.2 MCP Server Deployment
 
 | Deployment Model | Use Case |
 |------------------|----------|
@@ -253,7 +675,7 @@ The MCP (Model Context Protocol) server exposes SDK functionality as tools that 
 | **Standalone Server** | Self-hosted MCP for Claude Desktop, Cursor |
 | **npm Package** | `@openfinance-os/mcp-server` for custom integrations |
 
-#### 3.2.3 MCP Configuration for AI Tools
+#### 3.4.3 MCP Configuration for AI Tools
 
 **Claude Desktop (`claude_desktop_config.json`):**
 ```json
@@ -280,9 +702,9 @@ The MCP (Model Context Protocol) server exposes SDK functionality as tools that 
 
 ---
 
-### 3.3 Chat Interface (Habibi)
+### 3.5 Chat Interface (Habibi)
 
-#### 3.3.1 User Experience
+#### 3.5.1 User Experience
 
 **Entry Points:**
 - Floating chat button (bottom-right corner)
@@ -321,7 +743,7 @@ The MCP (Model Context Protocol) server exposes SDK functionality as tools that 
 | List | Collapsible cards for participants |
 | Citation | Links to source (Observatory, Learn, News) |
 
-#### 3.3.2 Example Interactions
+#### 3.5.2 Example Interactions
 
 **Query:** "Which banks support CIBA?"
 
@@ -387,11 +809,11 @@ capabilities.
 
 ---
 
-### 3.4 Historical Analytics Dashboard Integration
+### 3.6 Historical Analytics Dashboard Integration
 
 The chat agent provides conversational access to analytics that complement the visual Observatory dashboard.
 
-#### 3.4.1 Analytics Capabilities
+#### 3.6.1 Analytics Capabilities
 
 | Capability | Description | Data Source |
 |------------|-------------|-------------|
@@ -401,7 +823,7 @@ The chat agent provides conversational access to analytics that complement the v
 | **Sandbox→Production** | Time-to-production metrics | Environment tracking |
 | **Comparative** | Side-by-side participant analysis | Live + historical |
 
-#### 3.4.2 Natural Language Queries
+#### 3.6.2 Natural Language Queries
 
 The agent understands temporal and comparative queries:
 
@@ -602,9 +1024,11 @@ The agent will NOT:
 
 | Metric | 3-month target | 6-month target |
 |--------|----------------|----------------|
-| Chat sessions/week | 100 | 500 |
+| Chat sessions/week (web) | 100 | 500 |
 | Messages/session | 3+ | 4+ |
 | Return users | 30% | 40% |
+| Slack/Teams queries/week | 50 | 200 |
+| Alert subscribers | 100 | 500 |
 
 ### 7.2 Quality
 
@@ -613,20 +1037,34 @@ The agent will NOT:
 | Query resolution rate | >80% answered without escalation |
 | Accuracy (spot-checked) | >95% factually correct |
 | User satisfaction | >4.0/5.0 (feedback widget) |
+| Alert delivery success | >99% |
+| Slack response time | <3 seconds |
 
-### 7.3 Ecosystem Impact
+### 7.3 Alerts & Notifications
+
+| Metric | 3-month target | 6-month target |
+|--------|----------------|----------------|
+| Email subscribers | 50 | 200 |
+| Webhook integrations | 10 | 50 |
+| Slack workspaces | 5 | 25 |
+| Teams organizations | 3 | 15 |
+| Alert open rate (email) | >40% | >50% |
+
+### 7.4 Ecosystem Impact
 
 | Metric | Measurement |
 |--------|-------------|
 | Reduced support questions | GitHub Discussions volume |
 | Developer onboarding | Time to first API call |
 | MCP adoption | npm downloads of MCP server |
+| Ecosystem awareness | Time to learn about new participants |
+| Integration velocity | Webhook + bot adoption rate |
 
 ---
 
 ## 8. Phased Rollout
 
-### Phase 1: Foundation (4-6 weeks)
+### Phase 1: Foundation (Weeks 1-6)
 
 - [ ] Extract and publish Community SDK from existing `directory-client.ts`
 - [ ] Implement core MCP server with 4 basic tools:
@@ -643,7 +1081,7 @@ The agent will NOT:
 - `@openfinance-os/mcp-server` on npm
 - Working chat widget on staging
 
-### Phase 2: Analytics Integration (Weeks 6-10)
+### Phase 2: Analytics & Alerts (Weeks 6-12)
 
 - [ ] Analytics Engine implementation
 - [ ] Historical data query tools:
@@ -652,33 +1090,79 @@ The agent will NOT:
   - `compare_participants`
 - [ ] Inline chart rendering in chat responses
 - [ ] Contextual suggestions based on current page
+- [ ] **Alert Detection Pipeline:**
+  - [ ] Diff engine to compare daily snapshots
+  - [ ] Alert type classification system
+  - [ ] Alert storage (Cloudflare KV)
+- [ ] **Notification Infrastructure:**
+  - [ ] Email delivery integration (SendGrid/Resend)
+  - [ ] Webhook dispatch system with signatures
+  - [ ] In-app notification bell component
+  - [ ] RSS feed generation for alerts
+- [ ] **Subscription Management UI:**
+  - [ ] `/settings/alerts` page
+  - [ ] Alert type preferences
+  - [ ] Participant watchlist
+  - [ ] Integration configuration (webhooks)
 
 **Deliverables:**
 - Analytics-aware chat responses
 - Embedded visualizations
 - Page-aware context
+- Working alert system with email + webhook delivery
+- Alert preferences UI
 
-### Phase 3: Polish & Launch (Weeks 10-14)
+### Phase 3: Slack & Teams Integration (Weeks 12-16)
 
-- [ ] Response quality tuning
+- [ ] **Slack App:**
+  - [ ] App manifest and OAuth configuration
+  - [ ] Slash command handlers (`/habibi`, `/habibi-stats`)
+  - [ ] Event subscription handlers (mentions, DMs)
+  - [ ] Block Kit response formatting
+  - [ ] Alert broadcast to subscribed channels
+- [ ] **Teams App:**
+  - [ ] Teams app manifest
+  - [ ] Bot command handlers
+  - [ ] Adaptive Card response formatting
+  - [ ] Alert broadcast integration
+- [ ] **Shared Infrastructure:**
+  - [ ] Platform adapter layer (Slack/Teams → unified format)
+  - [ ] Channel subscription management
+  - [ ] Rate limiting per workspace
+
+**Deliverables:**
+- Slack app in Slack App Directory
+- Teams app in Teams App Store
+- Alert broadcasts to team channels
+- `/habibi` slash commands working
+
+### Phase 4: Polish & Launch (Weeks 16-20)
+
+- [ ] Response quality tuning across all interfaces
 - [ ] Edge case handling
 - [ ] Rate limiting and caching optimization
-- [ ] Feedback collection widget
-- [ ] Documentation for MCP setup
+- [ ] Feedback collection (web, Slack reactions)
+- [ ] Documentation:
+  - [ ] MCP setup guides for Claude Desktop, Cursor
+  - [ ] Slack workspace installation guide
+  - [ ] Teams admin installation guide
+  - [ ] Webhook integration guide
 - [ ] Public launch announcement
 
 **Deliverables:**
-- Production-ready chat agent
-- MCP setup guides for Claude Desktop, Cursor
+- Production-ready chat agent (web + Slack + Teams)
+- Comprehensive documentation
 - Blog post announcing Habibi
 
-### Phase 4: Expansion (Months 4-6)
+### Phase 5: Expansion (Months 6-9)
 
 - [ ] Python SDK (`openfinance-os` on PyPI)
 - [ ] Additional tools based on usage patterns
 - [ ] Multi-language support (Arabic)
 - [ ] API access for third-party integrations
-- [ ] Advanced analytics (predictions, alerts)
+- [ ] Advanced analytics (predictions)
+- [ ] Discord bot (if community demand)
+- [ ] WhatsApp Business integration (future)
 
 ---
 
@@ -689,8 +1173,12 @@ The agent will NOT:
 | Service | Purpose | Cost Estimate |
 |---------|---------|---------------|
 | Anthropic API | Claude for chat responses | ~$50-200/month |
-| Cloudflare Workers | Chat backend hosting | Free tier |
+| Cloudflare Workers | Chat backend, bot handlers | Free tier |
+| Cloudflare KV | Alert storage, subscriptions | Free tier |
 | npm Registry | SDK distribution | Free |
+| SendGrid / Resend | Email delivery | Free tier (100/day) |
+| Slack API | Slack bot hosting | Free |
+| Microsoft Teams | Teams bot hosting | Free |
 
 ### 9.2 Internal Requirements
 
@@ -701,6 +1189,8 @@ The agent will NOT:
 | Content collections (Learn, News) | Exists |
 | Glossary content | Needs expansion |
 | FAQ content | Needs creation |
+| Alert diff engine | Needs creation |
+| Subscription storage | Needs creation |
 
 ### 9.3 Team Requirements
 
