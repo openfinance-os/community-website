@@ -119,7 +119,29 @@ async function main() {
     console.log('DRY RUN MODE - No PRs will be created\n');
   }
 
-  // Check environment
+  const { owner, repo } = getRepoInfo();
+
+  // Handle cleanup mode early - only requires GH_TOKEN
+  if (cleanupOnly) {
+    console.log('Running cleanup only...\n');
+
+    if (!process.env.GH_TOKEN) {
+      console.error('Missing required environment variable: GH_TOKEN');
+      process.exit(1);
+    }
+
+    const githubOptions = {
+      token: process.env.GH_TOKEN,
+      owner,
+      repo,
+    };
+
+    const closed = await closeOldPRs(githubOptions, 48);
+    console.log(`\nCleanup complete. Closed ${closed} stale PRs.`);
+    return;
+  }
+
+  // Check environment for full curation run
   const envCheck = checkEnvironment();
   if (!envCheck.valid && !isDryRun) {
     console.error('Missing required environment variables:', envCheck.missing.join(', '));
@@ -127,21 +149,12 @@ async function main() {
   }
 
   const config = loadConfig();
-  const { owner, repo } = getRepoInfo();
 
   const githubOptions = {
     token: process.env.GH_TOKEN || '',
     owner,
     repo,
   };
-
-  // Handle cleanup mode
-  if (cleanupOnly) {
-    console.log('Running cleanup only...\n');
-    const closed = await closeOldPRs(githubOptions, 48);
-    console.log(`\nCleanup complete. Closed ${closed} stale PRs.`);
-    return;
-  }
 
   try {
     // Step 1: Fetch news articles from multiple sources
