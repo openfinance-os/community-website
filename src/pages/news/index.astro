@@ -2,11 +2,16 @@
 import PageLayout from '@layouts/PageLayout.astro';
 import NewsCard from '@components/news/NewsCard.astro';
 import NewsFilter from '@components/news/NewsFilter.astro';
+import Badge from '@components/common/Badge.astro';
 import { getCollection } from 'astro:content';
 
 // Get all news entries, sorted by date descending
 const allNews = await getCollection('news');
 const sortedNews = allNews.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Separate featured/latest article from the rest
+const featuredArticle = sortedNews[0];
+const remainingNews = sortedNews.slice(1);
 
 // Filter types
 const types = ['all', 'official', 'milestone', 'community', 'global', 'opinion'];
@@ -29,6 +34,44 @@ const regionLabels: Record<string, string> = {
   mena: 'MENA',
   global: 'Global',
 };
+
+const formatDate = (d: Date) => {
+  return d.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};
+
+const regionVariant = (region: string) => region === 'global' ? 'region-global' : region;
+
+const getFeaturedHref = () => {
+  if (!featuredArticle) return '#';
+  return featuredArticle.data.external && featuredArticle.data.source
+    ? featuredArticle.data.source
+    : `/news/${featuredArticle.slug}`;
+};
+
+const getSourceName = (url: string): string => {
+  try {
+    const hostname = new URL(url).hostname.replace('www.', '');
+    const domainNames: Record<string, string> = {
+      'gulfbusiness.com': 'Gulf Business',
+      'gulfnews.com': 'Gulf News',
+      'zawya.com': 'Zawya',
+      'finovate.com': 'Finovate',
+      'whitecase.com': 'White & Case',
+      'rulebook.centralbank.ae': 'CBUAE',
+      'centralbank.ae': 'CBUAE',
+      'khaleejtimes.com': 'Khaleej Times',
+      'arabianbusiness.com': 'Arabian Business',
+      'thenationalnews.com': 'The National',
+    };
+    return domainNames[hostname] || hostname;
+  } catch {
+    return 'External';
+  }
+};
 ---
 
 <PageLayout
@@ -48,13 +91,78 @@ const regionLabels: Record<string, string> = {
       </div>
     </header>
 
+    {featuredArticle && (
+      <section class="featured-section">
+        <div class="container">
+          <div class="featured-label">
+            <span class="label-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+              </svg>
+            </span>
+            Latest
+          </div>
+          <a
+            href={getFeaturedHref()}
+            class="featured-card"
+            target={featuredArticle.data.external ? '_blank' : undefined}
+            rel={featuredArticle.data.external ? 'noopener noreferrer' : undefined}
+          >
+            <div class="featured-content">
+              <div class="featured-meta">
+                <div class="featured-badges">
+                  <Badge variant={featuredArticle.data.type} size="sm">{typeLabels[featuredArticle.data.type]}</Badge>
+                  <Badge variant={regionVariant(featuredArticle.data.region)} size="sm">{regionLabels[featuredArticle.data.region]}</Badge>
+                </div>
+                <time datetime={featuredArticle.data.date.toISOString()}>
+                  {formatDate(featuredArticle.data.date)}
+                </time>
+              </div>
+              <h2 class="featured-title">{featuredArticle.data.title}</h2>
+              {featuredArticle.data.description && (
+                <p class="featured-description">{featuredArticle.data.description}</p>
+              )}
+              <div class="featured-footer">
+                <span class="featured-author">
+                  {featuredArticle.data.external && featuredArticle.data.source
+                    ? `via ${getSourceName(featuredArticle.data.source)}`
+                    : `By ${featuredArticle.data.author}`}
+                </span>
+                <span class="featured-cta">
+                  {featuredArticle.data.external ? 'View source' : 'Read article'}
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"></path>
+                  </svg>
+                </span>
+              </div>
+            </div>
+            <div class="featured-decoration" aria-hidden="true">
+              <div class="decoration-circle"></div>
+              <div class="decoration-lines">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </section>
+    )}
+
     <section class="news-section">
       <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">All Articles</h2>
+          <span class="article-count" id="article-count">
+            {remainingNews.length} article{remainingNews.length !== 1 ? 's' : ''}
+          </span>
+        </div>
+
         <NewsFilter types={types} typeLabels={typeLabels} regions={regions} regionLabels={regionLabels} />
 
         <div class="news-grid" id="news-grid">
           {
-            sortedNews.map((article) => (
+            remainingNews.map((article) => (
               <NewsCard
                 title={article.data.title}
                 date={article.data.date}
@@ -68,6 +176,20 @@ const regionLabels: Record<string, string> = {
               />
             ))
           }
+        </div>
+
+        <div class="empty-state" id="empty-state" style="display: none;">
+          <div class="empty-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+          </div>
+          <p class="empty-title">No articles found</p>
+          <p class="empty-description">Try adjusting your filters or search terms</p>
+          <button class="reset-filters-btn" id="reset-filters">
+            Clear all filters
+          </button>
         </div>
 
         {
@@ -108,6 +230,52 @@ const regionLabels: Record<string, string> = {
     </section>
   </div>
 </PageLayout>
+
+<script>
+  // Update article count based on visible cards
+  function updateArticleCount() {
+    const newsGrid = document.getElementById('news-grid');
+    const articleCount = document.getElementById('article-count');
+    const emptyState = document.getElementById('empty-state');
+    const visibleCards = newsGrid?.querySelectorAll('.news-card[style*="display: flex"], .news-card:not([style*="display: none"])');
+
+    const count = visibleCards?.length || 0;
+
+    if (articleCount) {
+      articleCount.textContent = `${count} article${count !== 1 ? 's' : ''}`;
+    }
+
+    if (emptyState) {
+      emptyState.style.display = count === 0 ? 'flex' : 'none';
+    }
+  }
+
+  // Reset filters button
+  const resetBtn = document.getElementById('reset-filters');
+  resetBtn?.addEventListener('click', () => {
+    // Click all "All" filter buttons
+    const allTypeBtn = document.querySelector('[data-filter-type="all"]');
+    const allRegionBtn = document.querySelector('[data-filter-region="all"]');
+
+    if (allTypeBtn) (allTypeBtn as HTMLElement).click();
+    if (allRegionBtn) (allRegionBtn as HTMLElement).click();
+  });
+
+  // Observe changes to news grid
+  const observer = new MutationObserver(updateArticleCount);
+  const newsGrid = document.getElementById('news-grid');
+
+  if (newsGrid) {
+    observer.observe(newsGrid, {
+      attributes: true,
+      subtree: true,
+      attributeFilter: ['style']
+    });
+  }
+
+  // Initial count
+  updateArticleCount();
+</script>
 
 <style>
   .news-page {
@@ -158,6 +326,222 @@ const regionLabels: Record<string, string> = {
     line-height: 1.6;
   }
 
+  /* Featured Section */
+  .featured-section {
+    padding: var(--space-8) var(--space-4);
+    background: white;
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .featured-label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent-600);
+    margin-bottom: var(--space-4);
+  }
+
+  .label-icon {
+    display: flex;
+    align-items: center;
+    color: var(--color-accent-500);
+  }
+
+  .featured-card {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    padding: var(--space-8);
+    background: linear-gradient(135deg, var(--color-primary-50) 0%, white 50%, var(--color-accent-50) 100%);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast),
+      transform var(--transition-fast);
+  }
+
+  @media (min-width: 768px) {
+    .featured-card {
+      grid-template-columns: 1fr auto;
+      padding: var(--space-10);
+    }
+  }
+
+  .featured-card:hover {
+    border-color: var(--color-primary-300);
+    box-shadow: var(--shadow-xl);
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+
+  .featured-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .featured-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .featured-badges {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .featured-meta time {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-gray-500);
+  }
+
+  .featured-title {
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    font-weight: 700;
+    color: var(--color-gray-900);
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+
+  .featured-card:hover .featured-title {
+    color: var(--color-primary-700);
+  }
+
+  .featured-description {
+    font-size: 1rem;
+    color: var(--color-gray-600);
+    line-height: 1.7;
+    max-width: 600px;
+  }
+
+  .featured-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-gray-200);
+    margin-top: auto;
+  }
+
+  .featured-author {
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+  }
+
+  .featured-cta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-primary-600);
+  }
+
+  .featured-card:hover .featured-cta {
+    color: var(--color-primary-700);
+  }
+
+  .featured-card:hover .featured-cta svg {
+    transform: translateX(4px);
+  }
+
+  .featured-cta svg {
+    transition: transform var(--transition-fast);
+  }
+
+  .featured-decoration {
+    display: none;
+    position: relative;
+    width: 120px;
+    height: 120px;
+  }
+
+  @media (min-width: 768px) {
+    .featured-decoration {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .decoration-circle {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--color-primary-200);
+    border-radius: 50%;
+    opacity: 0.5;
+  }
+
+  .decoration-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .decoration-lines span {
+    display: block;
+    height: 3px;
+    background: var(--color-primary-300);
+    border-radius: 2px;
+    opacity: 0.6;
+  }
+
+  .decoration-lines span:nth-child(1) {
+    width: 60px;
+  }
+
+  .decoration-lines span:nth-child(2) {
+    width: 40px;
+  }
+
+  .decoration-lines span:nth-child(3) {
+    width: 20px;
+  }
+
+  /* Section Header */
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-6);
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-gray-900);
+    letter-spacing: -0.01em;
+  }
+
+  .article-count {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-gray-500);
+    background: white;
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-full);
+  }
+
   .news-section {
     padding: var(--space-12) var(--space-4);
     background: var(--color-gray-50);
@@ -186,10 +570,59 @@ const regionLabels: Record<string, string> = {
     }
   }
 
+  /* Empty State */
   .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     text-align: center;
     padding: var(--space-16) var(--space-4);
     color: var(--color-gray-500);
+  }
+
+  .empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    background: var(--color-gray-100);
+    border-radius: 50%;
+    margin-bottom: var(--space-6);
+    color: var(--color-gray-400);
+  }
+
+  .empty-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-gray-700);
+    margin-bottom: var(--space-2);
+  }
+
+  .empty-description {
+    font-size: 0.9375rem;
+    color: var(--color-gray-500);
+    margin-bottom: var(--space-6);
+  }
+
+  .reset-filters-btn {
+    padding: var(--space-3) var(--space-6);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-primary-600);
+    background: var(--color-primary-50);
+    border: 1px solid var(--color-primary-200);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition:
+      background-color var(--transition-fast),
+      border-color var(--transition-fast);
+  }
+
+  .reset-filters-btn:hover {
+    background: var(--color-primary-100);
+    border-color: var(--color-primary-300);
   }
 
   .external-news {
@@ -254,7 +687,6 @@ const regionLabels: Record<string, string> = {
 
   /* Dark mode */
   :global([data-theme='dark']) .page-header {
-    /* Use fixed dark colors - don't use CSS variables that invert */
     background: linear-gradient(to bottom, #111827 0%, #1f2937 100%);
   }
 
@@ -262,8 +694,105 @@ const regionLabels: Record<string, string> = {
     color: rgba(255, 255, 255, 0.75);
   }
 
+  :global([data-theme='dark']) .featured-section {
+    background: var(--color-gray-100);
+    border-bottom-color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .featured-label {
+    color: var(--color-accent-400);
+  }
+
+  :global([data-theme='dark']) .label-icon {
+    color: var(--color-accent-400);
+  }
+
+  :global([data-theme='dark']) .featured-card {
+    background: linear-gradient(135deg, var(--color-gray-200) 0%, var(--color-gray-100) 50%, var(--color-gray-200) 100%);
+    border-color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .featured-card:hover {
+    border-color: var(--color-primary-400);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  :global([data-theme='dark']) .featured-meta time {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .featured-title {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .featured-card:hover .featured-title {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .featured-description {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .featured-footer {
+    border-top-color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .featured-author {
+    color: var(--color-gray-500);
+  }
+
+  :global([data-theme='dark']) .featured-cta {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .featured-card:hover .featured-cta {
+    color: var(--color-primary-300);
+  }
+
+  :global([data-theme='dark']) .decoration-circle {
+    border-color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .decoration-lines span {
+    background: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .section-title {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .article-count {
+    background: var(--color-gray-200);
+    border-color: var(--color-gray-300);
+    color: var(--color-gray-400);
+  }
+
   :global([data-theme='dark']) .news-section {
     background: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .empty-icon {
+    background: var(--color-gray-200);
+    color: var(--color-gray-500);
+  }
+
+  :global([data-theme='dark']) .empty-title {
+    color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .empty-description {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .reset-filters-btn {
+    color: var(--color-primary-400);
+    background: rgba(59, 130, 246, 0.1);
+    border-color: var(--color-primary-500);
+  }
+
+  :global([data-theme='dark']) .reset-filters-btn:hover {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: var(--color-primary-400);
   }
 
   :global([data-theme='dark']) .external-news {

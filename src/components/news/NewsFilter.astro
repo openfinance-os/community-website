@@ -10,45 +10,68 @@ const { types, typeLabels, regions, regionLabels } = Astro.props;
 ---
 
 <div class="news-filter">
-  <div class="filter-group">
-    <span class="filter-label">Type:</span>
-    <div class="filter-buttons" role="tablist" aria-label="Filter news by type">
-      {
-        types.map((type) => (
-          <button
-            class:list={['filter-btn', { active: type === 'all' }]}
-            data-filter-type={type}
-            role="tab"
-            id={`news-tab-type-${type}`}
-            aria-selected={type === 'all' ? 'true' : 'false'}
-            aria-controls="news-grid"
-            tabindex={type === 'all' ? 0 : -1}
-          >
-            {type === 'all' ? 'All' : typeLabels[type] || type}
-          </button>
-        ))
-      }
+  <div class="search-row">
+    <div class="search-wrapper">
+      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+      </svg>
+      <input
+        type="text"
+        class="search-input"
+        id="news-search"
+        placeholder="Search articles..."
+        aria-label="Search news articles"
+      />
+      <button class="search-clear" id="search-clear" type="button" aria-label="Clear search" style="display: none;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"></path>
+        </svg>
+      </button>
     </div>
   </div>
 
-  <div class="filter-group">
-    <span class="filter-label">Region:</span>
-    <div class="filter-buttons" role="tablist" aria-label="Filter news by region">
-      {
-        regions.map((region) => (
-          <button
-            class:list={['filter-btn', { active: region === 'all' }]}
-            data-filter-region={region}
-            role="tab"
-            id={`news-tab-region-${region}`}
-            aria-selected={region === 'all' ? 'true' : 'false'}
-            aria-controls="news-grid"
-            tabindex={region === 'all' ? 0 : -1}
-          >
-            {region === 'all' ? 'All' : regionLabels[region] || region}
-          </button>
-        ))
-      }
+  <div class="filter-row">
+    <div class="filter-group">
+      <span class="filter-label">Type:</span>
+      <div class="filter-buttons" role="tablist" aria-label="Filter news by type">
+        {
+          types.map((type) => (
+            <button
+              class:list={['filter-btn', { active: type === 'all' }]}
+              data-filter-type={type}
+              role="tab"
+              id={`news-tab-type-${type}`}
+              aria-selected={type === 'all' ? 'true' : 'false'}
+              aria-controls="news-grid"
+              tabindex={type === 'all' ? 0 : -1}
+            >
+              {type === 'all' ? 'All' : typeLabels[type] || type}
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <span class="filter-label">Region:</span>
+      <div class="filter-buttons" role="tablist" aria-label="Filter news by region">
+        {
+          regions.map((region) => (
+            <button
+              class:list={['filter-btn', { active: region === 'all' }]}
+              data-filter-region={region}
+              role="tab"
+              id={`news-tab-region-${region}`}
+              aria-selected={region === 'all' ? 'true' : 'false'}
+              aria-controls="news-grid"
+              tabindex={region === 'all' ? 0 : -1}
+            >
+              {region === 'all' ? 'All' : regionLabels[region] || region}
+            </button>
+          ))
+        }
+      </div>
     </div>
   </div>
 </div>
@@ -56,27 +79,66 @@ const { types, typeLabels, regions, regionLabels } = Astro.props;
 <script>
   const typeButtons = document.querySelectorAll('.news-filter [data-filter-type]');
   const regionButtons = document.querySelectorAll('.news-filter [data-filter-region]');
+  const searchInput = document.getElementById('news-search') as HTMLInputElement;
+  const searchClear = document.getElementById('search-clear');
   const newsGrid = document.getElementById('news-grid');
   const newsCards = newsGrid?.querySelectorAll('.news-card');
 
   let activeType = 'all';
   let activeRegion = 'all';
+  let searchQuery = '';
 
   function filterCards() {
+    const query = searchQuery.toLowerCase().trim();
+
     newsCards?.forEach((card) => {
       const cardType = card.getAttribute('data-type');
       const cardRegion = card.getAttribute('data-region');
+      const cardTitle = card.querySelector('.card-title')?.textContent?.toLowerCase() || '';
+      const cardDescription = card.querySelector('.card-description')?.textContent?.toLowerCase() || '';
 
       const matchesType = activeType === 'all' || cardType === activeType;
       const matchesRegion = activeRegion === 'all' || cardRegion === activeRegion;
+      const matchesSearch = !query || cardTitle.includes(query) || cardDescription.includes(query);
 
-      if (matchesType && matchesRegion) {
-        (card as HTMLElement).style.display = 'flex';
+      const element = card as HTMLElement;
+      if (matchesType && matchesRegion && matchesSearch) {
+        element.style.display = 'flex';
+        element.style.opacity = '1';
+        element.style.transform = 'translateY(0)';
       } else {
-        (card as HTMLElement).style.display = 'none';
+        element.style.display = 'none';
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(8px)';
       }
     });
   }
+
+  // Search functionality
+  let searchTimeout: ReturnType<typeof setTimeout>;
+
+  searchInput?.addEventListener('input', () => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+      searchQuery = searchInput.value;
+
+      if (searchClear) {
+        searchClear.style.display = searchQuery ? 'flex' : 'none';
+      }
+
+      filterCards();
+    }, 150);
+  });
+
+  searchClear?.addEventListener('click', () => {
+    if (searchInput) {
+      searchInput.value = '';
+      searchQuery = '';
+      searchClear.style.display = 'none';
+      searchInput.focus();
+      filterCards();
+    }
+  });
 
   function activateTypeTab(button: Element) {
     activeType = button.getAttribute('data-filter-type') || 'all';
@@ -142,6 +204,12 @@ const { types, typeLabels, regions, regionLabels } = Astro.props;
 
   setupButtonGroup(typeButtons, activateTypeTab);
   setupButtonGroup(regionButtons, activateRegionTab);
+
+  // Add transition styles to cards
+  newsCards?.forEach((card) => {
+    const element = card as HTMLElement;
+    element.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
+  });
 </script>
 
 <style>
@@ -152,6 +220,88 @@ const { types, typeLabels, regions, regionLabels } = Astro.props;
     margin-bottom: var(--space-8);
   }
 
+  /* Search Row */
+  .search-row {
+    margin-bottom: var(--space-2);
+  }
+
+  .search-wrapper {
+    position: relative;
+    max-width: 400px;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: var(--space-4);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-gray-400);
+    pointer-events: none;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    padding-left: var(--space-12);
+    padding-right: var(--space-10);
+    font-size: 0.9375rem;
+    color: var(--color-gray-900);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    outline: none;
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast);
+  }
+
+  .search-input::placeholder {
+    color: var(--color-gray-400);
+  }
+
+  .search-input:focus {
+    border-color: var(--color-primary-400);
+    box-shadow: 0 0 0 3px rgba(13, 79, 79, 0.1);
+  }
+
+  .search-clear {
+    position: absolute;
+    right: var(--space-3);
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    color: var(--color-gray-400);
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: color var(--transition-fast), background-color var(--transition-fast);
+  }
+
+  .search-clear:hover {
+    color: var(--color-gray-600);
+    background: var(--color-gray-100);
+  }
+
+  /* Filter Row */
+  .filter-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 768px) {
+    .filter-row {
+      flex-direction: row;
+      gap: var(--space-8);
+    }
+  }
+
   .filter-group {
     display: flex;
     align-items: center;
@@ -160,10 +310,10 @@ const { types, typeLabels, regions, regionLabels } = Astro.props;
   }
 
   .filter-label {
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     font-weight: 500;
-    color: var(--color-gray-600);
-    min-width: 4rem;
+    color: var(--color-gray-500);
+    min-width: 3.5rem;
   }
 
   .filter-buttons {
@@ -174,7 +324,7 @@ const { types, typeLabels, regions, regionLabels } = Astro.props;
 
   .filter-btn {
     padding: var(--space-2) var(--space-4);
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     font-weight: 500;
     color: var(--color-gray-600);
     background: white;
@@ -184,12 +334,18 @@ const { types, typeLabels, regions, regionLabels } = Astro.props;
     transition:
       color var(--transition-fast),
       background-color var(--transition-fast),
-      border-color var(--transition-fast);
+      border-color var(--transition-fast),
+      transform var(--transition-fast);
   }
 
   .filter-btn:hover {
     color: var(--color-gray-900);
     border-color: var(--color-gray-300);
+    transform: translateY(-1px);
+  }
+
+  .filter-btn:active {
+    transform: translateY(0);
   }
 
   .filter-btn.active {
@@ -199,6 +355,34 @@ const { types, typeLabels, regions, regionLabels } = Astro.props;
   }
 
   /* Dark mode */
+  :global([data-theme='dark']) .search-input {
+    background: var(--color-gray-200);
+    border-color: var(--color-gray-300);
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .search-input::placeholder {
+    color: var(--color-gray-500);
+  }
+
+  :global([data-theme='dark']) .search-input:focus {
+    border-color: var(--color-primary-400);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+
+  :global([data-theme='dark']) .search-icon {
+    color: var(--color-gray-500);
+  }
+
+  :global([data-theme='dark']) .search-clear {
+    color: var(--color-gray-500);
+  }
+
+  :global([data-theme='dark']) .search-clear:hover {
+    color: var(--color-gray-300);
+    background: var(--color-gray-300);
+  }
+
   :global([data-theme='dark']) .filter-label {
     color: var(--color-gray-400);
   }
