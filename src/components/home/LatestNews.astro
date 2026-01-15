@@ -1,0 +1,150 @@
+---
+import { getCollection } from 'astro:content';
+import NewsCard from '@components/news/NewsCard.astro';
+
+interface Props {
+  limit?: number;
+}
+
+const { limit = 4 } = Astro.props;
+
+// Fetch all news articles
+const allNews = await getCollection('news');
+
+// Sort: featured articles first (pinned), then by date (newest first)
+const sortedNews = allNews.sort((a, b) => {
+  // Featured articles come first
+  if (a.data.featured && !b.data.featured) return -1;
+  if (!a.data.featured && b.data.featured) return 1;
+  // Within each group, sort by date (newest first)
+  return b.data.date.getTime() - a.data.date.getTime();
+});
+
+// Take the top articles
+const latestNews = sortedNews.slice(0, limit);
+---
+
+<section class="latest-news-section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Latest News</h2>
+      <a href="/news" class="view-all">
+        View all news
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14M12 5l7 7-7 7"></path>
+        </svg>
+      </a>
+    </div>
+    <div class="news-grid">
+      {
+        latestNews.map((article) => (
+          <NewsCard
+            title={article.data.title}
+            date={article.data.date}
+            type={article.data.type}
+            region={article.data.region}
+            author={article.data.author}
+            description={article.data.description}
+            slug={article.slug}
+            source={article.data.source}
+            external={article.data.external}
+          />
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .latest-news-section {
+    padding: var(--space-16) var(--space-4);
+    background: white;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-8);
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-gray-900);
+  }
+
+  .view-all {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-primary-600);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .view-all:hover {
+    color: var(--color-primary-700);
+    text-decoration: none;
+  }
+
+  .view-all:hover svg {
+    transform: translateX(4px);
+  }
+
+  .view-all svg {
+    transition: transform var(--transition-fast);
+  }
+
+  .news-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 640px) {
+    .news-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .news-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .latest-news-section {
+    background: var(--color-gray-50);
+  }
+
+  :global([data-theme='dark']) .section-title {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .view-all {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .view-all:hover {
+    color: var(--color-primary-300);
+  }
+</style>
