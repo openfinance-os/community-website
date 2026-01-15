@@ -2,6 +2,7 @@
 import PageLayout from '@layouts/PageLayout.astro';
 import Hero from '@components/home/Hero.astro';
 import ObservatoryPreview from '@components/home/ObservatoryPreview.astro';
+import LatestNews from '@components/home/LatestNews.astro';
 import Card from '@components/common/Card.astro';
 // Import observatory data
 import snapshot from '../../data/observatory/snapshots/latest.json';
@@ -73,6 +74,8 @@ const icons: Record<string, string> = {
   <Hero participantCount={totalParticipants} activeCount={activeCount} />
 
   <ObservatoryPreview stats={ecosystemStats} />
+
+  <LatestNews limit={4} />
 
   <section class="quick-links-section">
     <div class="container">
