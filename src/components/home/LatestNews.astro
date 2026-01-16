@@ -11,12 +11,8 @@ const { limit = 4 } = Astro.props;
 // Fetch all news articles
 const allNews = await getCollection('news');
 
-// Sort: featured articles first (pinned), then by date (newest first)
+// Sort by date (newest first) to show the latest news
 const sortedNews = allNews.sort((a, b) => {
-  // Featured articles come first
-  if (a.data.featured && !b.data.featured) return -1;
-  if (!a.data.featured && b.data.featured) return 1;
-  // Within each group, sort by date (newest first)
   return b.data.date.getTime() - a.data.date.getTime();
 });
 
