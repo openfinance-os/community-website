@@ -31,3 +31,4 @@ pnpm-debug.log*
 
 # test coverage
 coverage/
+test-results/
