@@ -1,0 +1,129 @@
+{
+  "meta": {
+    "language": "Arabic",
+    "languageNative": "العربية",
+    "direction": "rtl",
+    "locale": "ar"
+  },
+  "nav": {
+    "observatory": "المرصد",
+    "updates": "التحديثات",
+    "learn": "تعلّم",
+    "commons": "المشتركات",
+    "community": "المجتمع",
+    "about": "عن المشروع"
+  },
+  "footer": {
+    "quickLinks": "روابط سريعة",
+    "resources": "الموارد",
+    "connect": "تواصل",
+    "copyright": "© {year} OpenFinance OS. مفتوح المصدر تحت رخصة MIT.",
+    "builtWith": "بُني بحب المجتمع ❤️"
+  },
+  "common": {
+    "search": "بحث",
+    "searchPlaceholder": "ابحث في المقالات...",
+    "filter": "تصفية",
+    "type": "النوع",
+    "region": "المنطقة",
+    "all": "الكل",
+    "viewAll": "عرض الكل",
+    "readMore": "اقرأ المزيد",
+    "loading": "جاري التحميل...",
+    "error": "خطأ",
+    "notFound": "غير موجود",
+    "backToHome": "العودة للرئيسية",
+    "learnMore": "اعرف المزيد",
+    "viewOnGitHub": "عرض على GitHub",
+    "exploreObservatory": "استكشف المرصد"
+  },
+  "home": {
+    "hero": {
+      "title": "مجتمع التمويل المفتوح في الإمارات",
+      "subtitle": "نبني مستقبل الخدمات المالية معاً",
+      "description": "مركز مجتمعي مفتوح المصدر للمطورين وشركات التكنولوجيا المالية والمؤسسات المالية المشاركة في منظومة التمويل المفتوح بالإمارات."
+    },
+    "latestNews": {
+      "title": "آخر الأخبار",
+      "viewAll": "عرض جميع الأخبار"
+    },
+    "upcomingEvents": {
+      "title": "الفعاليات القادمة",
+      "viewAll": "عرض جميع الفعاليات"
+    }
+  },
+  "observatory": {
+    "title": "المرصد",
+    "description": "رؤى آنية حول منظومة التمويل المفتوح في الإمارات",
+    "participants": "المشاركون",
+    "apiProviders": "مزودو الـ API",
+    "tpps": "مزودو الخدمات الخارجيون",
+    "lastUpdated": "آخر تحديث"
+  },
+  "news": {
+    "title": "الأخبار والتحديثات",
+    "description": "آخر الأخبار من منظومة التمويل المفتوح في الإمارات",
+    "filters": {
+      "official": "رسمي",
+      "milestone": "إنجاز",
+      "community": "مجتمعي",
+      "global": "عالمي",
+      "opinion": "رأي"
+    },
+    "regions": {
+      "uae": "الإمارات",
+      "mena": "الشرق الأوسط",
+      "global": "عالمي"
+    }
+  },
+  "events": {
+    "title": "الفعاليات",
+    "description": "الفعاليات القادمة في مجتمع التمويل المفتوح",
+    "types": {
+      "meetup": "لقاء",
+      "hackathon": "هاكاثون",
+      "webinar": "ندوة إلكترونية",
+      "conference": "مؤتمر",
+      "workshop": "ورشة عمل"
+    },
+    "location": "الموقع",
+    "date": "التاريخ",
+    "register": "سجّل الآن"
+  },
+  "learn": {
+    "title": "تعلّم",
+    "description": "موارد وأدلة لمساعدتك على البدء",
+    "gettingStarted": "البدء",
+    "guides": "الأدلة",
+    "documentation": "التوثيق",
+    "tutorials": "الدروس التعليمية"
+  },
+  "community": {
+    "title": "المجتمع",
+    "description": "انضم إلى مجتمع التمويل المفتوح في الإمارات",
+    "joinUs": "انضم إلينا",
+    "contribute": "ساهم",
+    "discuss": "ناقش"
+  },
+  "about": {
+    "title": "عن المشروع",
+    "description": "عن مجتمع OpenFinance OS"
+  },
+  "errors": {
+    "404": {
+      "title": "الصفحة غير موجودة",
+      "description": "الصفحة التي تبحث عنها غير موجودة أو تم نقلها."
+    },
+    "500": {
+      "title": "خطأ في الخادم",
+      "description": "حدث خطأ ما. يرجى المحاولة مرة أخرى لاحقاً."
+    }
+  },
+  "accessibility": {
+    "skipToContent": "انتقل إلى المحتوى",
+    "openMenu": "افتح القائمة",
+    "closeMenu": "أغلق القائمة",
+    "toggleTheme": "تبديل المظهر",
+    "switchLanguage": "تغيير اللغة"
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "meta": {
+    "language": "English",
+    "languageNative": "English",
+    "direction": "ltr",
+    "locale": "en"
+  },
+  "nav": {
+    "observatory": "Observatory",
+    "updates": "Updates",
+    "learn": "Learn",
+    "commons": "Commons",
+    "community": "Community",
+    "about": "About"
+  },
+  "footer": {
+    "quickLinks": "Quick Links",
+    "resources": "Resources",
+    "connect": "Connect",
+    "copyright": "© {year} OpenFinance OS. Open source under MIT License.",
+    "builtWith": "Built with community ❤️"
+  },
+  "common": {
+    "search": "Search",
+    "searchPlaceholder": "Search articles...",
+    "filter": "Filter",
+    "type": "Type",
+    "region": "Region",
+    "all": "All",
+    "viewAll": "View all",
+    "readMore": "Read more",
+    "loading": "Loading...",
+    "error": "Error",
+    "notFound": "Not found",
+    "backToHome": "Back to home",
+    "learnMore": "Learn more",
+    "viewOnGitHub": "View on GitHub",
+    "exploreObservatory": "Explore the Observatory"
+  },
+  "home": {
+    "hero": {
+      "title": "UAE Open Finance Community",
+      "subtitle": "Building the future of financial services together",
+      "description": "An open-source community hub for developers, fintechs, and financial institutions participating in the UAE Open Finance ecosystem."
+    },
+    "latestNews": {
+      "title": "Latest News",
+      "viewAll": "View all news"
+    },
+    "upcomingEvents": {
+      "title": "Upcoming Events",
+      "viewAll": "View all events"
+    }
+  },
+  "observatory": {
+    "title": "Observatory",
+    "description": "Real-time insights into the UAE Open Finance ecosystem",
+    "participants": "Participants",
+    "apiProviders": "API Providers",
+    "tpps": "Third Party Providers",
+    "lastUpdated": "Last updated"
+  },
+  "news": {
+    "title": "News & Updates",
+    "description": "Latest news from the UAE Open Finance ecosystem",
+    "filters": {
+      "official": "Official",
+      "milestone": "Milestone",
+      "community": "Community",
+      "global": "Global",
+      "opinion": "Opinion"
+    },
+    "regions": {
+      "uae": "UAE",
+      "mena": "MENA",
+      "global": "Global"
+    }
+  },
+  "events": {
+    "title": "Events",
+    "description": "Upcoming events in the Open Finance community",
+    "types": {
+      "meetup": "Meetup",
+      "hackathon": "Hackathon",
+      "webinar": "Webinar",
+      "conference": "Conference",
+      "workshop": "Workshop"
+    },
+    "location": "Location",
+    "date": "Date",
+    "register": "Register"
+  },
+  "learn": {
+    "title": "Learn",
+    "description": "Resources and guides to help you get started",
+    "gettingStarted": "Getting Started",
+    "guides": "Guides",
+    "documentation": "Documentation",
+    "tutorials": "Tutorials"
+  },
+  "community": {
+    "title": "Community",
+    "description": "Join the UAE Open Finance community",
+    "joinUs": "Join us",
+    "contribute": "Contribute",
+    "discuss": "Discuss"
+  },
+  "about": {
+    "title": "About",
+    "description": "About the OpenFinance OS community"
+  },
+  "errors": {
+    "404": {
+      "title": "Page not found",
+      "description": "The page you're looking for doesn't exist or has been moved."
+    },
+    "500": {
+      "title": "Server error",
+      "description": "Something went wrong. Please try again later."
+    }
+  },
+  "accessibility": {
+    "skipToContent": "Skip to content",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "toggleTheme": "Toggle theme",
+    "switchLanguage": "Switch language"
+  }
+}
