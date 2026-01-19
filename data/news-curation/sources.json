@@ -3,6 +3,7 @@
     "open banking",
     "open finance",
     "PSD2",
+    "PSD3",
     "banking API",
     "fintech regulation",
     "digital banking",
@@ -11,7 +12,19 @@
     "payment API",
     "account aggregation",
     "CBUAE",
-    "UAE fintech"
+    "UAE fintech",
+    "financial data operating",
+    "FDO UAE",
+    "variable recurring payments",
+    "VRP",
+    "premium API",
+    "consent management",
+    "strong customer authentication",
+    "SCA",
+    "payment initiation service",
+    "account information service",
+    "AISP",
+    "PISP"
   ],
   "excludeDomains": [
     "youtube.com",
@@ -22,6 +35,19 @@
     "tiktok.com",
     "reddit.com",
     "pinterest.com"
+  ],
+  "excludedKeywords": [
+    "crypto",
+    "bitcoin",
+    "ethereum",
+    "nft",
+    "meme coin",
+    "trading bot",
+    "get rich",
+    "passive income",
+    "investment opportunity",
+    "sponsored content",
+    "advertorial"
   ],
   "preferredSources": [
     "Finextra",
@@ -40,7 +66,11 @@
     "The National",
     "Khaleej Times",
     "TechCrunch",
-    "Wired"
+    "Wired",
+    "Open Banking Excellence",
+    "Fintech News Middle East",
+    "Zawya",
+    "Gulf News"
   ],
   "rssFeeds": [
     {
@@ -92,9 +122,152 @@
       "name": "Fintech News Middle East",
       "url": "https://fintechnews.ae/feed/",
       "priority": 1
+    },
+    {
+      "name": "UK Open Banking (OBIE)",
+      "url": "https://www.openbanking.org.uk/news/feed/",
+      "priority": 1,
+      "category": "regulatory"
+    },
+    {
+      "name": "Zawya - Banking",
+      "url": "https://www.zawya.com/en/rss-feed/banking-finance.xml",
+      "priority": 1,
+      "category": "regional"
+    },
+    {
+      "name": "Gulf News - Business",
+      "url": "https://gulfnews.com/rss/business",
+      "priority": 2,
+      "category": "regional"
+    },
+    {
+      "name": "Arabian Business",
+      "url": "https://www.arabianbusiness.com/rss",
+      "priority": 2,
+      "category": "regional"
+    },
+    {
+      "name": "Fintech Global",
+      "url": "https://fintech.global/feed/",
+      "priority": 2
     }
+  ],
+  "keyCompanies": [
+    {
+      "name": "Lean Technologies",
+      "region": "uae",
+      "weight": 15
+    },
+    {
+      "name": "Tarabut Gateway",
+      "region": "uae",
+      "weight": 15
+    },
+    {
+      "name": "NymCard",
+      "region": "uae",
+      "weight": 12
+    },
+    {
+      "name": "Plaid",
+      "region": "global",
+      "weight": 10
+    },
+    {
+      "name": "TrueLayer",
+      "region": "global",
+      "weight": 10
+    },
+    {
+      "name": "Tink",
+      "region": "global",
+      "weight": 10
+    },
+    {
+      "name": "Yapily",
+      "region": "global",
+      "weight": 10
+    },
+    {
+      "name": "Volt",
+      "region": "global",
+      "weight": 8
+    },
+    {
+      "name": "Token.io",
+      "region": "global",
+      "weight": 8
+    }
+  ],
+  "regulatoryBodies": [
+    {
+      "name": "CBUAE",
+      "fullName": "Central Bank of the UAE",
+      "region": "uae",
+      "weight": 20
+    },
+    {
+      "name": "FCA",
+      "fullName": "Financial Conduct Authority",
+      "region": "uk",
+      "weight": 15
+    },
+    {
+      "name": "EBA",
+      "fullName": "European Banking Authority",
+      "region": "europe",
+      "weight": 12
+    },
+    {
+      "name": "OBIE",
+      "fullName": "Open Banking Implementation Entity",
+      "region": "uk",
+      "weight": 15
+    },
+    {
+      "name": "SAMA",
+      "fullName": "Saudi Arabian Monetary Authority",
+      "region": "mena",
+      "weight": 12
+    },
+    {
+      "name": "CBB",
+      "fullName": "Central Bank of Bahrain",
+      "region": "mena",
+      "weight": 12
+    },
+    {
+      "name": "DIFC",
+      "fullName": "Dubai International Financial Centre",
+      "region": "uae",
+      "weight": 15
+    },
+    {
+      "name": "ADGM",
+      "fullName": "Abu Dhabi Global Market",
+      "region": "uae",
+      "weight": 15
+    }
+  ],
+  "breakingNewsSignals": [
+    "breaking:",
+    "exclusive:",
+    "just in:",
+    "announced today",
+    "first of its kind",
+    "launches",
+    "unveils",
+    "signs agreement",
+    "partnership announced",
+    "acquires",
+    "raises funding"
   ],
   "maxArticlesPerRun": 5,
   "lookbackHours": 168,
-  "minRelevanceScore": 8
+  "minRelevanceScore": 8,
+  "breakingNewsBonus": 20,
+  "contentQualityWeight": 0.2,
+  "minDescriptionLength": 50,
+  "staleThresholdHours": 48
 }

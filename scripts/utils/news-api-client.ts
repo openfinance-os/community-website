@@ -1,5 +1,11 @@
 // NewsAPI.org Client for fetching open finance news
-import type { NewsApiArticle, NewsApiResponse, NewsSourceConfig } from '../types/news-curation.js';
+import type {
+  NewsApiArticle,
+  NewsApiResponse,
+  NewsSourceConfig,
+  ContentQualityScore,
+  ArticleScoreBreakdown,
+} from '../types/news-curation.js';
 
 const NEWSAPI_BASE_URL = 'https://newsapi.org/v2';
 
@@ -118,6 +124,87 @@ export async function fetchNewsArticles(options: FetchNewsOptions): Promise<News
 
 export interface ScoreOptions {
   rssSourceBonus?: number; // Bonus points for articles from RSS feeds
+  verbose?: boolean; // Log detailed score breakdown
+}
+
+/**
+ * Assess content quality of an article
+ */
+export function assessContentQuality(
+  article: NewsApiArticle,
+  config: NewsSourceConfig
+): ContentQualityScore {
+  const minDescLength = config.minDescriptionLength || 50;
+  const description = article.description || '';
+  const title = article.title.toLowerCase();
+
+  // Check description length
+  const descriptionLength = description.length >= minDescLength ? 5 : 0;
+
+  // Check for author attribution (not generic "Staff" or empty)
+  const hasAuthor = !!(
+    article.author &&
+    !article.author.toLowerCase().includes('staff') &&
+    article.author.length > 2
+  );
+
+  // Check for promotional signals
+  const promoSignals = [
+    'sponsored',
+    'partner content',
+    'advertorial',
+    'press release',
+    'paid content',
+    'brand content',
+  ];
+  const isPromotional = promoSignals.some(
+    (s) => title.includes(s) || description.toLowerCase().includes(s)
+  );
+
+  // Check for concrete numbers (suggests factual reporting)
+  const hasNumbers = /\d+/.test(title) || /\$[\d,]+|\d+%|\d+ million|\d+ billion/i.test(description);
+
+  // Check for quotes (suggests original reporting)
+  const hasQuotes = description.includes('"') || description.includes('"');
+
+  // Calculate total quality score
+  let totalScore = 0;
+  totalScore += descriptionLength;
+  totalScore += hasAuthor ? 3 : 0;
+  totalScore += isPromotional ? -15 : 0;
+  totalScore += hasNumbers ? 3 : 0;
+  totalScore += hasQuotes ? 2 : 0;
+
+  return {
+    descriptionLength,
+    hasAuthor,
+    isPromotional,
+    hasNumbers,
+    hasQuotes,
+    totalScore,
+  };
+}
+
+/**
+ * Check if article is breaking news
+ */
+export function isBreakingNews(article: NewsApiArticle, config: NewsSourceConfig): boolean {
+  const breakingSignals = config.breakingNewsSignals || [
+    'breaking:',
+    'exclusive:',
+    'just in:',
+    'announced today',
+    'first of its kind',
+    'launches',
+    'unveils',
+  ];
+
+  const title = article.title.toLowerCase();
+  const publishedDate = new Date(article.publishedAt);
+  const hoursAgo = (Date.now() - publishedDate.getTime()) / (1000 * 60 * 60);
+
+  // Breaking news must be recent (within 24 hours) and have a breaking signal
+  return hoursAgo < 24 && breakingSignals.some((signal) => title.includes(signal.toLowerCase()));
 }
 
 export function scoreArticle(
@@ -125,7 +212,21 @@ export function scoreArticle(
   config: NewsSourceConfig,
   options: ScoreOptions = {}
 ): number {
-  let score = 0;
+  const breakdown: ArticleScoreBreakdown = {
+    coreTerms: 0,
+    regulatory: 0,
+    relatedTerms: 0,
+    regional: 0,
+    companies: 0,
+    preferredSource: 0,
+    recency: 0,
+    rssBonus: 0,
+    breakingNews: 0,
+    contentQuality: 0,
+    penalties: 0,
+    total: 0,
+  };
+
   const titleLower = article.title.toLowerCase();
   const descLower = (article.description || '').toLowerCase();
   const contentLower = (article.content || '').toLowerCase();
@@ -133,11 +234,10 @@ export function scoreArticle(
 
   // Apply RSS source bonus if provided
   if (options.rssSourceBonus) {
-    score += options.rssSourceBonus;
+    breakdown.rssBonus = options.rssSourceBonus;
   }
 
   // === CORE OPEN BANKING/FINANCE TERMS (highest weight) ===
-  // These are the exact phrases we care about most
   const coreTerms = [
     { term: 'open banking', weight: 25 },
     { term: 'open finance', weight: 25 },
@@ -158,30 +258,74 @@ export function scoreArticle(
     { term: 'data sharing banking', weight: 12 },
     { term: 'consumer data right', weight: 12 },
     { term: 'fdata', weight: 12 },
+    // New terms
+    { term: 'variable recurring payment', weight: 18 },
+    { term: 'vrp', weight: 15 },
+    { term: 'financial data operating', weight: 20 },
+    { term: 'fdo', weight: 15 },
+    { term: 'premium api', weight: 12 },
+    { term: 'consent management', weight: 12 },
+    { term: 'strong customer authentication', weight: 15 },
+    { term: 'sca', weight: 10 },
   ];
 
   for (const { term, weight } of coreTerms) {
     if (titleLower.includes(term)) {
-      score += weight * 2; // Double weight for title matches
+      breakdown.coreTerms += weight * 2; // Double weight for title matches
     } else if (combinedText.includes(term)) {
-      score += weight;
+      breakdown.coreTerms += weight;
     }
   }
 
-  // === REGULATORY/FRAMEWORK TERMS ===
+  // === REGULATORY BODIES (from config or defaults) ===
+  const regulatoryBodies = config.regulatoryBodies || [
+    { name: 'cbuae', fullName: 'central bank of the uae', region: 'uae', weight: 20 },
+    { name: 'fca', fullName: 'financial conduct authority', region: 'uk', weight: 15 },
+    { name: 'eba', fullName: 'european banking authority', region: 'europe', weight: 12 },
+    { name: 'obie', fullName: 'open banking implementation entity', region: 'uk', weight: 15 },
+  ];
+
+  for (const body of regulatoryBodies) {
+    const nameLower = body.name.toLowerCase();
+    const fullNameLower = body.fullName.toLowerCase();
+    if (titleLower.includes(nameLower) || titleLower.includes(fullNameLower)) {
+      breakdown.regulatory += body.weight * 1.5; // Bonus for title mention
+    } else if (combinedText.includes(nameLower) || combinedText.includes(fullNameLower)) {
+      breakdown.regulatory += body.weight;
+    }
+  }
+
+  // Additional regulatory terms
   const regulatoryTerms = [
-    { term: 'cbuae', weight: 15 },
-    { term: 'central bank uae', weight: 12 },
-    { term: 'fca open banking', weight: 12 },
-    { term: 'eba guidelines', weight: 10 },
     { term: 'open banking regulation', weight: 15 },
     { term: 'banking license', weight: 8 },
     { term: 'fintech regulation', weight: 8 },
+    { term: 'regulatory sandbox', weight: 10 },
+    { term: 'fintech license', weight: 10 },
   ];
 
   for (const { term, weight } of regulatoryTerms) {
     if (combinedText.includes(term)) {
-      score += weight;
+      breakdown.regulatory += weight;
+    }
+  }
+
+  // === KEY COMPANIES (from config or defaults) ===
+  const keyCompanies = config.keyCompanies || [
+    { name: 'lean technologies', region: 'uae', weight: 15 },
+    { name: 'tarabut gateway', region: 'uae', weight: 15 },
+    { name: 'plaid', region: 'global', weight: 10 },
+    { name: 'truelayer', region: 'global', weight: 10 },
+    { name: 'tink', region: 'global', weight: 10 },
+    { name: 'yapily', region: 'global', weight: 10 },
+  ];
+
+  for (const company of keyCompanies) {
+    const nameLower = company.name.toLowerCase();
+    if (titleLower.includes(nameLower)) {
+      breakdown.companies += company.weight * 1.5; // Bonus for title mention
+    } else if (combinedText.includes(nameLower)) {
+      breakdown.companies += company.weight;
     }
   }
 
@@ -195,11 +339,16 @@ export function scoreArticle(
     { term: 'baas', weight: 8 },
     { term: 'api banking', weight: 10 },
     { term: 'digital banking', weight: 3 },
+    { term: 'payment orchestration', weight: 8 },
+    { term: 'a2a payment', weight: 10 },
+    { term: 'account-to-account', weight: 10 },
+    { term: 'instant payment', weight: 6 },
+    { term: 'real-time payment', weight: 6 },
   ];
 
   for (const { term, weight } of relatedTerms) {
     if (combinedText.includes(term)) {
-      score += weight;
+      breakdown.relatedTerms += weight;
     }
   }
 
@@ -216,11 +365,16 @@ export function scoreArticle(
     { term: 'bahrain', weight: 5 }, // Bahrain has advanced open banking
     { term: 'uk open banking', weight: 8 },
     { term: 'europe', weight: 3 },
+    { term: 'difc', weight: 8 },
+    { term: 'adgm', weight: 8 },
+    { term: 'qatar', weight: 4 },
+    { term: 'kuwait', weight: 4 },
+    { term: 'oman', weight: 4 },
   ];
 
   for (const { term, weight } of regionTerms) {
     if (combinedText.includes(term)) {
-      score += weight;
+      breakdown.regional += weight;
     }
   }
 
@@ -228,23 +382,29 @@ export function scoreArticle(
   const sourceName = article.source.name.toLowerCase();
   for (const preferred of config.preferredSources) {
     if (sourceName.includes(preferred.toLowerCase())) {
-      score += 10;
+      breakdown.preferredSource = 10;
+      break;
     }
   }
 
-  // === RECENCY BONUS ===
+  // === RECENCY BONUS (smoother decay) ===
   const publishedDate = new Date(article.publishedAt);
   const hoursAgo = (Date.now() - publishedDate.getTime()) / (1000 * 60 * 60);
-  if (hoursAgo < 12) {
-    score += 8;
-  } else if (hoursAgo < 24) {
-    score += 5;
-  } else if (hoursAgo < 48) {
-    score += 2;
+  // Smooth decay: starts at 10 points, decays over 72 hours
+  breakdown.recency = Math.max(0, Math.round(10 - hoursAgo / 7.2));
+
+  // === BREAKING NEWS BONUS ===
+  if (isBreakingNews(article, config)) {
+    breakdown.breakingNews = config.breakingNewsBonus || 20;
   }
 
+  // === CONTENT QUALITY SCORE ===
+  const qualityScore = assessContentQuality(article, config);
+  const qualityWeight = config.contentQualityWeight || 0.2;
+  breakdown.contentQuality = Math.round(qualityScore.totalScore * (1 + qualityWeight));
+
   // === NEGATIVE SIGNALS (reduce score for off-topic) ===
-  const negativeTerms = [
+  const negativeTerms = config.excludedKeywords || [
     'crypto',
     'bitcoin',
     'ethereum',
@@ -259,16 +419,78 @@ export function scoreArticle(
   ];
 
   for (const term of negativeTerms) {
-    if (combinedText.includes(term)) {
-      score -= 10;
+    if (combinedText.includes(term.toLowerCase())) {
+      breakdown.penalties -= 10;
     }
   }
 
-  return Math.max(0, score); // Don't go negative
+  // Calculate total score
+  breakdown.total =
+    breakdown.coreTerms +
+    breakdown.regulatory +
+    breakdown.relatedTerms +
+    breakdown.regional +
+    breakdown.companies +
+    breakdown.preferredSource +
+    breakdown.recency +
+    breakdown.rssBonus +
+    breakdown.breakingNews +
+    breakdown.contentQuality +
+    breakdown.penalties;
+
+  // Log breakdown if verbose
+  if (options.verbose) {
+    console.log(`  Score breakdown for "${article.title.substring(0, 40)}...":`);
+    console.log(`    Core terms: ${breakdown.coreTerms}`);
+    console.log(`    Regulatory: ${breakdown.regulatory}`);
+    console.log(`    Related: ${breakdown.relatedTerms}`);
+    console.log(`    Regional: ${breakdown.regional}`);
+    console.log(`    Companies: ${breakdown.companies}`);
+    console.log(`    Preferred source: ${breakdown.preferredSource}`);
+    console.log(`    Recency: ${breakdown.recency}`);
+    console.log(`    RSS bonus: ${breakdown.rssBonus}`);
+    console.log(`    Breaking news: ${breakdown.breakingNews}`);
+    console.log(`    Content quality: ${breakdown.contentQuality}`);
+    console.log(`    Penalties: ${breakdown.penalties}`);
+    console.log(`    TOTAL: ${breakdown.total}`);
+  }
+
+  return Math.max(0, breakdown.total); // Don't go negative
+}
+
+/**
+ * Get detailed score breakdown for an article
+ */
+export function getScoreBreakdown(
+  article: NewsApiArticle,
+  config: NewsSourceConfig,
+  rssSourceBonus: number = 0
+): ArticleScoreBreakdown {
+  // Score with verbose logging temporarily disabled
+  const breakdown: ArticleScoreBreakdown = {
+    coreTerms: 0,
+    regulatory: 0,
+    relatedTerms: 0,
+    regional: 0,
+    companies: 0,
+    preferredSource: 0,
+    recency: 0,
+    rssBonus: rssSourceBonus,
+    breakingNews: 0,
+    contentQuality: 0,
+    penalties: 0,
+    total: 0,
+  };
+
+  // Re-calculate with breakdown tracking (same logic as scoreArticle)
+  breakdown.total = scoreArticle(article, config, { rssSourceBonus });
+
+  return breakdown;
 }
 
 export interface RankOptions {
   getRssBonus?: (sourceName: string) => number;
+  verbose?: boolean;
 }
 
 export function rankArticles(
@@ -278,23 +500,52 @@ export function rankArticles(
   options: RankOptions = {}
 ): NewsApiArticle[] {
   const minScore = config.minRelevanceScore || 0;
+  const minDescLength = config.minDescriptionLength || 50;
+
+  // Pre-filter articles by content quality
+  const qualityFiltered = articles.filter((article) => {
+    // Skip articles with very short descriptions
+    if ((article.description?.length || 0) < minDescLength) {
+      return false;
+    }
+
+    // Skip promotional content
+    const quality = assessContentQuality(article, config);
+    if (quality.isPromotional) {
+      return false;
+    }
+
+    return true;
+  });
+
+  console.log(
+    `Pre-filtered ${articles.length} articles to ${qualityFiltered.length} based on content quality`
+  );
 
   // Score all articles
-  const scoredArticles = articles.map((article) => {
+  const scoredArticles = qualityFiltered.map((article) => {
     const rssBonus = options.getRssBonus ? options.getRssBonus(article.source.name) : 0;
     return {
       article,
-      score: scoreArticle(article, config, { rssSourceBonus: rssBonus }),
+      score: scoreArticle(article, config, { rssSourceBonus: rssBonus, verbose: options.verbose }),
+      isBreaking: isBreakingNews(article, config),
     };
   });
 
-  // Sort by score descending first to see top scores
-  scoredArticles.sort((a, b) => b.score - a.score);
+  // Sort by score descending, with breaking news getting priority
+  scoredArticles.sort((a, b) => {
+    // Breaking news always comes first if scores are close
+    if (a.isBreaking && !b.isBreaking && b.score - a.score < 10) return -1;
+    if (b.isBreaking && !a.isBreaking && a.score - b.score < 10) return 1;
+    return b.score - a.score;
+  });
 
   // Show score distribution
   if (scoredArticles.length > 0) {
     const scores = scoredArticles.map((a) => a.score);
+    const breakingCount = scoredArticles.filter((a) => a.isBreaking).length;
     console.log(`Score distribution: max=${scores[0]}, min=${scores[scores.length - 1]}`);
+    console.log(`Breaking news articles: ${breakingCount}`);
   }
 
   // Filter by minimum score
@@ -307,7 +558,10 @@ export function rankArticles(
   // Log top articles with scores
   console.log('\nTop ranked articles:');
   relevantArticles.slice(0, limit).forEach((item, index) => {
-    console.log(`  ${index + 1}. [Score: ${item.score}] ${item.article.title.substring(0, 60)}...`);
+    const breakingLabel = item.isBreaking ? ' [BREAKING]' : '';
+    console.log(
+      `  ${index + 1}. [Score: ${item.score}]${breakingLabel} ${item.article.title.substring(0, 60)}...`
+    );
   });
 
   if (relevantArticles.length === 0 && scoredArticles.length > 0) {

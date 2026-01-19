@@ -89,6 +89,7 @@ export interface RssFeedSource {
   name: string;
   url: string;
   priority: number; // 1 = highest priority, 2 = secondary
+  category?: 'regulatory' | 'regional' | 'industry';
 }
 
 export interface RssArticle {
@@ -101,12 +102,57 @@ export interface RssArticle {
   categories?: string[];
 }
 
+export interface KeyCompany {
+  name: string;
+  region: 'uae' | 'mena' | 'global';
+  weight: number;
+}
+
+export interface RegulatoryBody {
+  name: string;
+  fullName: string;
+  region: 'uae' | 'uk' | 'europe' | 'mena' | 'global';
+  weight: number;
+}
+
 export interface NewsSourceConfig {
   keywords: string[];
   excludeDomains: string[];
+  excludedKeywords?: string[];
   preferredSources: string[];
   rssFeeds?: RssFeedSource[];
+  keyCompanies?: KeyCompany[];
+  regulatoryBodies?: RegulatoryBody[];
+  breakingNewsSignals?: string[];
   maxArticlesPerRun: number;
   lookbackHours: number;
   minRelevanceScore?: number;
+  breakingNewsBonus?: number;
+  contentQualityWeight?: number;
+  minDescriptionLength?: number;
+  staleThresholdHours?: number;
+}
+
+export interface ContentQualityScore {
+  descriptionLength: number;
+  hasAuthor: boolean;
+  isPromotional: boolean;
+  hasNumbers: boolean;
+  hasQuotes: boolean;
+  totalScore: number;
+}
+
+export interface ArticleScoreBreakdown {
+  coreTerms: number;
+  regulatory: number;
+  relatedTerms: number;
+  regional: number;
+  companies: number;
+  preferredSource: number;
+  recency: number;
+  rssBonus: number;
+  breakingNews: number;
+  contentQuality: number;
+  penalties: number;
+  total: number;
 }
