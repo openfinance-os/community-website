@@ -1,0 +1,508 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+
+const locale = 'ar';
+
+const guides = [
+  {
+    title: 'البدء مع التمويل المفتوح في الإمارات',
+    description: 'كل ما تحتاج معرفته للبدء في البناء على منصة الطارق.',
+    href: '/ar/learn/getting-started',
+    icon: 'rocket',
+    badge: 'ابدأ هنا',
+  },
+  {
+    title: 'لمزودي الخدمات الخارجيين (TPPs)',
+    description: 'التسجيل، والوصول إلى بيئة الاختبار، والانطلاق كمزود خدمات خارجي في الإمارات.',
+    href: '/ar/learn/tpp-guide',
+    icon: 'building',
+  },
+  {
+    title: 'للبنوك والمؤسسات المالية',
+    description: 'دليل التنفيذ لمزودي خدمات الدفع الذين يخدمون الحسابات (ASPSPs).',
+    href: '/ar/learn/bank-guide',
+    icon: 'bank',
+  },
+  {
+    title: 'دليل تكامل الـ API',
+    description: 'نظرة تقنية معمقة في المصادقة، وتدفقات الموافقة، واستخدام الـ API.',
+    href: '/ar/learn/api-guide',
+    icon: 'code',
+  },
+  {
+    title: 'الأسئلة الشائعة',
+    description: 'أسئلة شائعة حول التسجيل، والـ APIs، والامتثال، والمشاركة.',
+    href: '/ar/learn/faq',
+    icon: 'help',
+  },
+  {
+    title: 'المنظور العالمي',
+    description: 'تعلم من منظومات الخدمات المصرفية المفتوحة الدولية وكيف تقارن الإمارات.',
+    href: '/ar/learn/global',
+    icon: 'globe',
+  },
+];
+
+interface Link {
+  title: string;
+  description: string;
+  url: string;
+  type: 'official' | 'developer' | 'reference';
+}
+
+const officialLinks: Link[] = [
+  {
+    title: 'بوابة الطارق',
+    description:
+      'منصة التمويل المفتوح الرسمية في الإمارات التي تديرها نبراس للتسجيل وإدارة المشاركين',
+    url: 'https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview?mode=global',
+    type: 'official',
+  },
+  {
+    title: 'المصرف المركزي للتمويل المفتوح',
+    description:
+      'الإطار التنظيمي لمصرف الإمارات المركزي والإرشادات ووثائق السياسات للتمويل المفتوح',
+    url: 'https://www.centralbank.ae',
+    type: 'official',
+  },
+  {
+    title: 'دليل إطار الثقة',
+    description:
+      'تصفح وتحقق من مزودي الخدمات الخارجيين المسجلين ومزودي الخدمات الآخرين في المنظومة',
+    url: 'https://data.directory.openfinance.ae',
+    type: 'official',
+  },
+];
+
+const developerLinks: Link[] = [
+  {
+    title: 'وثائق الـ API',
+    description: 'الوثائق التقنية ومواصفات الـ API وأدلة التكامل لـ APIs التمويل المفتوح',
+    url: 'https://openfinanceuae.atlassian.net/wiki/spaces/tfdocsv7/pages/362840092',
+    type: 'developer',
+  },
+  {
+    title: 'هاكاثون التمويل المفتوح',
+    description: 'هاكاثون مجتمعي لبناء حلول مبتكرة على APIs التمويل المفتوح في الإمارات',
+    url: 'https://openfinance-hackathon.com',
+    type: 'developer',
+  },
+];
+
+const labels = {
+  title: 'تعلّم',
+  description: 'الموارد والأدلة والوثائق لمساعدتك على البدء في التمويل المفتوح في الإمارات.',
+  guidesTitle: 'الأدلة والدروس',
+  officialResources: 'الموارد الرسمية',
+  developerResources: 'موارد المطورين',
+  glossary: 'المصطلحات',
+  glossaryDesc: 'تعريفات المصطلحات الرئيسية للتمويل المفتوح',
+  viewGlossary: 'عرض المصطلحات',
+};
+
+const icons: Record<string, string> = {
+  rocket: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 19l-7-7 7-7m0 14l7-7-7-7" stroke="none"/><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>`,
+  building: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18M9 8h1M9 12h1M9 16h1M14 8h1M14 12h1M14 16h1"/><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>`,
+  bank: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18M3 10h18M12 3l9 7H3l9-7zM5 10v8m4-8v8m6-8v8m4-8v8"/></svg>`,
+  code: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`,
+  help: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+  globe: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
+  external: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`,
+};
+
+const typeColors: Record<string, string> = {
+  official: 'var(--color-primary-600)',
+  developer: 'var(--color-accent-600)',
+  reference: 'var(--color-gray-600)',
+};
+---
+
+<PageLayout title={labels.title} description={labels.description}>
+  <section class="learn-header">
+    <div class="header-content">
+      <h1 class="page-title">{labels.title}</h1>
+      <p class="page-description">{labels.description}</p>
+    </div>
+  </section>
+
+  <section class="guides-section">
+    <h2 class="section-title">{labels.guidesTitle}</h2>
+    <div class="guides-grid">
+      {
+        guides.map((guide) => (
+          <a href={guide.href} class="guide-card">
+            <div class="guide-icon" set:html={icons[guide.icon]} />
+            <div class="guide-content">
+              <div class="guide-header">
+                <h3 class="guide-title">{guide.title}</h3>
+                {guide.badge && <span class="guide-badge">{guide.badge}</span>}
+              </div>
+              <p class="guide-description">{guide.description}</p>
+            </div>
+            <div class="guide-arrow">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="resources-section" id="resources">
+    <h2 class="section-title">{labels.officialResources}</h2>
+    <div class="links-grid">
+      {
+        officialLinks.map((link) => (
+          <a href={link.url} class="link-card" target="_blank" rel="noopener noreferrer">
+            <div class="link-type" style={`color: ${typeColors[link.type]}`}>
+              {link.type === 'official' ? 'رسمي' : 'مطورين'}
+            </div>
+            <h3 class="link-title">
+              {link.title}
+              <span class="external-icon" set:html={icons.external} />
+            </h3>
+            <p class="link-description">{link.description}</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="resources-section">
+    <h2 class="section-title">{labels.developerResources}</h2>
+    <div class="links-grid">
+      {
+        developerLinks.map((link) => (
+          <a href={link.url} class="link-card" target="_blank" rel="noopener noreferrer">
+            <div class="link-type" style={`color: ${typeColors[link.type]}`}>
+              {link.type === 'developer' ? 'مطورين' : 'رسمي'}
+            </div>
+            <h3 class="link-title">
+              {link.title}
+              <span class="external-icon" set:html={icons.external} />
+            </h3>
+            <p class="link-description">{link.description}</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="glossary-section">
+    <div class="glossary-card">
+      <div class="glossary-content">
+        <h2 class="glossary-title">{labels.glossary}</h2>
+        <p class="glossary-description">{labels.glossaryDesc}</p>
+      </div>
+      <a href="/ar/learn/glossary" class="glossary-link">{labels.viewGlossary}</a>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .learn-header {
+    padding: var(--space-8) var(--space-4);
+    background: linear-gradient(135deg, var(--color-primary-50) 0%, var(--color-gray-50) 100%);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .page-title {
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-weight: 700;
+    color: var(--color-gray-900);
+    margin: 0 0 var(--space-2) 0;
+  }
+
+  .page-description {
+    font-size: 1.0625rem;
+    color: var(--color-gray-600);
+    margin: 0;
+    max-width: 600px;
+  }
+
+  .guides-section,
+  .resources-section {
+    padding: var(--space-8) var(--space-4);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-6);
+  }
+
+  .guides-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 768px) {
+    .guides-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .guide-card {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+    padding: var(--space-6);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    text-decoration: none;
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast);
+  }
+
+  .guide-card:hover {
+    border-color: var(--color-primary-300);
+    box-shadow: var(--shadow-lg);
+    text-decoration: none;
+  }
+
+  .guide-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-primary-50);
+    color: var(--color-primary-600);
+    border-radius: var(--radius-lg);
+  }
+
+  .guide-icon :global(svg) {
+    width: 20px;
+    height: 20px;
+  }
+
+  .guide-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .guide-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-1);
+  }
+
+  .guide-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin: 0;
+  }
+
+  .guide-badge {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--color-accent-600);
+    background: var(--color-accent-100);
+    padding: 0.125rem 0.5rem;
+    border-radius: var(--radius-full);
+  }
+
+  .guide-description {
+    font-size: 0.875rem;
+    color: var(--color-gray-600);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .guide-arrow {
+    flex-shrink: 0;
+    color: var(--color-gray-300);
+    transition: transform var(--transition-fast);
+  }
+
+  [dir='rtl'] .guide-arrow {
+    transform: scaleX(-1);
+  }
+
+  .guide-card:hover .guide-arrow {
+    color: var(--color-primary-500);
+  }
+
+  [dir='rtl'] .guide-card:hover .guide-arrow {
+    transform: scaleX(-1) translateX(4px);
+  }
+
+  .links-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 768px) {
+    .links-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .link-card {
+    display: block;
+    padding: var(--space-5);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast);
+  }
+
+  .link-card:hover {
+    border-color: var(--color-primary-300);
+    box-shadow: var(--shadow-md);
+    text-decoration: none;
+  }
+
+  .link-type {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-2);
+  }
+
+  .link-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin: 0 0 var(--space-2) 0;
+  }
+
+  .external-icon {
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+    opacity: 0.5;
+  }
+
+  .link-description {
+    font-size: 0.8125rem;
+    color: var(--color-gray-600);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .glossary-section {
+    padding: var(--space-8) var(--space-4);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .glossary-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-6);
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+  }
+
+  @media (min-width: 640px) {
+    .glossary-card {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  .glossary-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin: 0 0 var(--space-1) 0;
+  }
+
+  .glossary-description {
+    font-size: 0.875rem;
+    color: var(--color-gray-600);
+    margin: 0;
+  }
+
+  .glossary-link {
+    display: inline-flex;
+    padding: var(--space-2) var(--space-4);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-primary-600);
+    background: white;
+    border: 1px solid var(--color-primary-200);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition:
+      background-color var(--transition-fast),
+      border-color var(--transition-fast);
+  }
+
+  .glossary-link:hover {
+    background: var(--color-primary-50);
+    border-color: var(--color-primary-300);
+    text-decoration: none;
+  }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .learn-header {
+    background: linear-gradient(135deg, var(--color-gray-100) 0%, var(--color-gray-50) 100%);
+  }
+
+  :global([data-theme='dark']) .page-title,
+  :global([data-theme='dark']) .section-title {
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .guide-card,
+  :global([data-theme='dark']) .link-card {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .guide-title,
+  :global([data-theme='dark']) .link-title {
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .guide-description,
+  :global([data-theme='dark']) .link-description {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .glossary-card {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .glossary-title {
+    color: var(--color-gray-100);
+  }
+</style>

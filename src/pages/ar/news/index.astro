@@ -1,0 +1,314 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import NewsCard from '@components/news/NewsCard.astro';
+import NewsFilter from '@components/news/NewsFilter.astro';
+import Badge from '@components/common/Badge.astro';
+import { getCollection } from 'astro:content';
+
+const locale = 'ar';
+
+// Get all news entries, sorted by date descending
+const allNews = await getCollection('news');
+const sortedNews = allNews.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Separate featured/latest article from the rest
+const featuredArticle = sortedNews[0];
+const remainingNews = sortedNews.slice(1);
+
+// Arabic labels
+const labels = {
+  title: 'الأخبار',
+  description: 'أخبار وتحديثات منسقة من منظومة التمويل المفتوح في الإمارات.',
+  featured: 'مميز',
+  latest: 'الأحدث',
+  readMore: 'اقرأ المزيد',
+  allNews: 'جميع الأخبار',
+  filterByType: 'تصفية حسب النوع',
+  filterByRegion: 'تصفية حسب المنطقة',
+  all: 'الكل',
+  noNews: 'لا توجد أخبار حالياً.',
+};
+
+// Filter types
+const types = ['all', 'official', 'milestone', 'community', 'global', 'opinion'];
+
+// Type labels for display (Arabic)
+const typeLabels: Record<string, string> = {
+  all: 'الكل',
+  official: 'تنظيمي',
+  milestone: 'إنجاز',
+  community: 'مجتمعي',
+  global: 'دولي',
+  opinion: 'رأي',
+};
+
+// Filter regions
+const regions = ['all', 'uae', 'mena', 'global'];
+
+// Region labels for display (Arabic)
+const regionLabels: Record<string, string> = {
+  all: 'الكل',
+  uae: 'الإمارات',
+  mena: 'الشرق الأوسط',
+  global: 'عالمي',
+};
+
+const formatDate = (d: Date) => {
+  return d.toLocaleDateString('ar-AE', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};
+
+const regionVariant = (region: string) => (region === 'global' ? 'region-global' : region);
+
+const getFeaturedHref = () => {
+  if (!featuredArticle) return '#';
+  return featuredArticle.data.external && featuredArticle.data.source
+    ? featuredArticle.data.source
+    : `/ar/news/${featuredArticle.slug}`;
+};
+
+const getSourceName = (url: string): string => {
+  try {
+    const hostname = new URL(url).hostname.replace('www.', '');
+    const domainNames: Record<string, string> = {
+      'gulfbusiness.com': 'Gulf Business',
+      'gulfnews.com': 'Gulf News',
+      'zawya.com': 'Zawya',
+      'finovate.com': 'Finovate',
+      'whitecase.com': 'White & Case',
+      'rulebook.centralbank.ae': 'CBUAE',
+      'centralbank.ae': 'CBUAE',
+      'khaleejtimes.com': 'Khaleej Times',
+      'arabianbusiness.com': 'Arabian Business',
+      'thenationalnews.com': 'The National',
+    };
+    return domainNames[hostname] || hostname;
+  } catch {
+    return 'External';
+  }
+};
+---
+
+<PageLayout title={labels.title} description={labels.description}>
+  <section class="news-header">
+    <div class="header-content">
+      <h1 class="page-title">{labels.title}</h1>
+      <p class="page-description">{labels.description}</p>
+    </div>
+  </section>
+
+  {
+    featuredArticle && (
+      <section class="featured-section">
+        <a
+          href={getFeaturedHref()}
+          class="featured-card"
+          target={featuredArticle.data.external ? '_blank' : undefined}
+          rel={featuredArticle.data.external ? 'noopener noreferrer' : undefined}
+        >
+          <div class="featured-badges">
+            <Badge variant="accent" size="sm">
+              {labels.featured}
+            </Badge>
+            <Badge variant={regionVariant(featuredArticle.data.region || 'uae')} size="sm">
+              {regionLabels[featuredArticle.data.region || 'uae']}
+            </Badge>
+            {featuredArticle.data.external && (
+              <Badge variant="muted" size="sm">
+                {getSourceName(featuredArticle.data.source || '')}
+              </Badge>
+            )}
+          </div>
+          <h2 class="featured-title">{featuredArticle.data.title}</h2>
+          <p class="featured-description">{featuredArticle.data.description}</p>
+          <div class="featured-meta">
+            <span class="featured-date">{formatDate(featuredArticle.data.date)}</span>
+            <span class="featured-type">
+              {typeLabels[featuredArticle.data.type] || featuredArticle.data.type}
+            </span>
+          </div>
+        </a>
+      </section>
+    )
+  }
+
+  <NewsFilter types={types} typeLabels={typeLabels} regions={regions} regionLabels={regionLabels} />
+
+  <section class="news-grid-section">
+    <div class="news-grid" id="news-grid">
+      {
+        remainingNews.map((article) => (
+          <NewsCard
+            title={article.data.title}
+            date={article.data.date}
+            type={article.data.type}
+            region={article.data.region}
+            author={article.data.author}
+            description={article.data.description}
+            slug={article.slug}
+            source={article.data.source}
+            external={article.data.external}
+            basePath="/ar/news"
+          />
+        ))
+      }
+    </div>
+    {remainingNews.length === 0 && <p class="no-news">{labels.noNews}</p>}
+  </section>
+</PageLayout>
+
+<style>
+  .news-header {
+    padding: var(--space-8) var(--space-4);
+    background: linear-gradient(135deg, var(--color-primary-50) 0%, var(--color-gray-50) 100%);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .page-title {
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-weight: 700;
+    color: var(--color-gray-900);
+    margin: 0 0 var(--space-2) 0;
+  }
+
+  .page-description {
+    font-size: 1.0625rem;
+    color: var(--color-gray-600);
+    margin: 0;
+    max-width: 600px;
+  }
+
+  .featured-section {
+    padding: var(--space-6) var(--space-4);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .featured-card {
+    display: block;
+    padding: var(--space-8);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    text-decoration: none;
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast);
+  }
+
+  .featured-card:hover {
+    border-color: var(--color-primary-300);
+    box-shadow: var(--shadow-lg);
+    text-decoration: none;
+  }
+
+  .featured-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+
+  .featured-title {
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    font-weight: 700;
+    color: var(--color-gray-900);
+    margin: 0 0 var(--space-3) 0;
+    line-height: 1.3;
+  }
+
+  .featured-card:hover .featured-title {
+    color: var(--color-primary-700);
+  }
+
+  .featured-description {
+    font-size: 1rem;
+    color: var(--color-gray-600);
+    margin: 0 0 var(--space-4) 0;
+    line-height: 1.6;
+  }
+
+  .featured-meta {
+    display: flex;
+    gap: var(--space-4);
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+  }
+
+  .featured-type {
+    text-transform: capitalize;
+  }
+
+  .news-grid-section {
+    padding: var(--space-6) var(--space-4);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .news-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 640px) {
+    .news-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .news-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .no-news {
+    text-align: center;
+    color: var(--color-gray-500);
+    padding: var(--space-12);
+  }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .news-header {
+    background: linear-gradient(135deg, var(--color-gray-100) 0%, var(--color-gray-50) 100%);
+    border-bottom-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .page-title {
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .page-description {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .featured-card {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .featured-card:hover {
+    border-color: var(--color-primary-500);
+  }
+
+  :global([data-theme='dark']) .featured-title {
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .featured-card:hover .featured-title {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .featured-description {
+    color: var(--color-gray-400);
+  }
+</style>

@@ -1,0 +1,437 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import StatCard from '@components/observatory/StatCard.astro';
+import DonutChart from '@components/observatory/DonutChart.astro';
+import ParticipantCard from '@components/observatory/ParticipantCard.astro';
+import EnvironmentToggle from '@components/observatory/EnvironmentToggle.astro';
+import AuthCapabilitiesChart from '@components/observatory/AuthCapabilitiesChart.astro';
+import HistoricalTrendsChart from '@components/observatory/HistoricalTrendsChart.astro';
+import Badge from '@components/common/Badge.astro';
+import { calculateCityDistribution, findProfile } from '@lib/city-utils';
+import type { ProfilesMap } from '@lib/types';
+
+// Import dual environment snapshot
+import dualSnapshot from '../../../../data/observatory/snapshots/latest.json';
+
+// Import historical data
+import historyDataRaw from '../../../../data/observatory/history.json';
+
+// Import participant profiles
+import participantProfiles from '../../../../data/participants/profiles.json';
+const historyData = historyDataRaw || { dataPoints: [], milestones: [] };
+
+const locale = 'ar';
+
+// This page always shows PRODUCTION environment
+const currentEnv = 'production';
+
+// Handle both old single-environment format and new dual-environment format
+const isDualFormat = 'production' in dualSnapshot && 'crossEnvironment' in dualSnapshot;
+
+let snapshot: any;
+let crossEnvironment: any = null;
+let productionSnapshot: any = null;
+let sandboxSnapshot: any = null;
+
+if (isDualFormat) {
+  productionSnapshot = dualSnapshot.production;
+  sandboxSnapshot = dualSnapshot.sandbox;
+  crossEnvironment = dualSnapshot.crossEnvironment;
+  snapshot = productionSnapshot;
+} else {
+  snapshot = dualSnapshot;
+}
+
+// Fallback if no snapshot available
+if (!snapshot) {
+  snapshot = {
+    timestamp: new Date().toISOString(),
+    summary: {
+      totalParticipants: 0,
+      byStatus: {},
+      byRole: {},
+      byCity: {},
+      apiFamilies: [],
+      liveInProduction: 0,
+      shariahCompliantCount: 0,
+      multiRoleCount: 0,
+      tppCount: 0,
+      byAuthCapabilities: { ciba: 0, dcr: 0, redirect: 0 },
+    },
+    participants: [],
+  };
+}
+
+const { summary, participants, timestamp, trends } = snapshot;
+
+const totalParticipants = summary.totalParticipants || 0;
+const byStatus = summary.byStatus || {};
+const byRole = summary.byRole || {};
+const apiFamilies = summary.apiFamilies || [];
+
+const profiles = participantProfiles as ProfilesMap;
+const byCity = calculateCityDistribution(participants, profiles);
+
+const liveInProduction =
+  summary.liveInProduction ?? participants.filter((p: any) => p.hasAuthServer).length;
+const shariahCompliantCount =
+  summary.shariahCompliantCount ?? participants.filter((p: any) => p.isShariahCompliant).length;
+const multiRoleCount =
+  summary.multiRoleCount ?? participants.filter((p: any) => p.roles?.length > 1).length;
+const tppCount = summary.tppCount ?? (byRole.TPP || 0);
+const byAuthCapabilities = summary.byAuthCapabilities || { ciba: 0, dcr: 0, redirect: 0 };
+
+const activeCount = byStatus.Active || 0;
+
+// Role chart data
+const roleColors = {
+  LFI: 'var(--color-primary-500)',
+  BDSP: 'var(--color-accent-500)',
+  BSIP: '#3b82f6',
+  ISP: '#8b5cf6',
+  TPP: '#ef4444',
+} as const;
+
+const roleData = Object.entries(byRole).map(([label, value]) => ({
+  label,
+  value: value as number,
+  color: (roleColors as any)[label] || 'var(--color-gray-400)',
+}));
+
+// City chart data
+const cityColors = {
+  'Abu Dhabi': 'var(--color-primary-600)',
+  Dubai: 'var(--color-accent-500)',
+  London: '#6366f1',
+  Riyadh: '#f59e0b',
+  Sharjah: '#10b981',
+  Ajman: '#8b5cf6',
+  'Ras Al Khaimah': '#ec4899',
+  Fujairah: '#14b8a6',
+  'Umm Al Qaiwain': '#f97316',
+} as const;
+
+const cityData = Object.entries(byCity).map(([label, value]) => ({
+  label,
+  value: value as number,
+  color: (cityColors as any)[label] || 'var(--color-gray-400)',
+}));
+
+// Status chart data
+const statusColors = {
+  Active: 'var(--color-success-500)',
+  Pending: 'var(--color-warning-500)',
+  Inactive: 'var(--color-gray-400)',
+  Suspended: 'var(--color-error-500)',
+} as const;
+
+const statusData = Object.entries(byStatus).map(([label, value]) => ({
+  label,
+  value: value as number,
+  color: (statusColors as any)[label] || 'var(--color-gray-400)',
+}));
+
+// Localized labels
+const labels = {
+  title: 'المرصد',
+  description: 'رؤية آنية في منظومة التمويل المفتوح في الإمارات',
+  production: 'الإنتاج',
+  sandbox: 'التجريبي',
+  totalParticipants: 'إجمالي المشاركين',
+  liveInProduction: 'مباشر في الإنتاج',
+  tppProviders: 'مزودو الخدمات الخارجيون',
+  shariahCompliant: 'متوافق مع الشريعة',
+  byRole: 'حسب الدور',
+  byCity: 'حسب المدينة',
+  byStatus: 'حسب الحالة',
+  authCapabilities: 'قدرات المصادقة',
+  historicalTrends: 'الاتجاهات التاريخية',
+  allParticipants: 'جميع المشاركين',
+  lastUpdated: 'آخر تحديث',
+  viewSandbox: 'عرض بيئة التجريب',
+  methodology: 'المنهجية',
+};
+---
+
+<PageLayout title={labels.title} description={labels.description} lastUpdated={timestamp}>
+  <section class="observatory-header">
+    <div class="header-content">
+      <div class="title-row">
+        <h1 class="page-title">{labels.title}</h1>
+        <Badge variant="success" size="sm">مباشر</Badge>
+      </div>
+      <p class="page-description">{labels.description}</p>
+      <div class="header-meta">
+        <span class="last-updated">
+          {labels.lastUpdated}: {new Date(timestamp).toLocaleDateString('ar-AE')}
+        </span>
+        <div class="header-links">
+          <a href="/ar/observatory/sandbox" class="header-link">{labels.viewSandbox}</a>
+          <a href="/ar/observatory/methodology" class="header-link">{labels.methodology}</a>
+        </div>
+      </div>
+    </div>
+    <EnvironmentToggle currentEnv={currentEnv} basePath="/ar/observatory" />
+  </section>
+
+  <section class="stats-grid">
+    <StatCard
+      title={labels.totalParticipants}
+      value={totalParticipants}
+      icon="users"
+      trend={trends?.participants}
+    />
+    <StatCard
+      title={labels.liveInProduction}
+      value={liveInProduction}
+      icon="server"
+      trend={trends?.liveInProduction}
+    />
+    <StatCard title={labels.tppProviders} value={tppCount} icon="code" trend={trends?.tpp} />
+    <StatCard
+      title={labels.shariahCompliant}
+      value={shariahCompliantCount}
+      icon="shield"
+      trend={trends?.shariahCompliant}
+    />
+  </section>
+
+  <section class="charts-section">
+    <div class="charts-grid">
+      <DonutChart data={roleData} centerLabel={labels.byRole} centerValue={totalParticipants} />
+      <DonutChart data={cityData} centerLabel={labels.byCity} centerValue={totalParticipants} />
+      <DonutChart data={statusData} centerLabel={labels.byStatus} centerValue={totalParticipants} />
+    </div>
+  </section>
+
+  <section class="auth-section">
+    <AuthCapabilitiesChart data={byAuthCapabilities} />
+  </section>
+
+  {
+    historyData.dataPoints && historyData.dataPoints.length > 0 && (
+      <section class="history-section">
+        <HistoricalTrendsChart
+          dataPoints={historyData.dataPoints}
+          milestones={historyData.milestones}
+        />
+      </section>
+    )
+  }
+
+  <section class="participants-section">
+    <div class="section-header">
+      <h2 class="section-title">{labels.allParticipants}</h2>
+      <span class="participant-count">{totalParticipants} مؤسسة</span>
+    </div>
+    <div class="participants-grid">
+      {
+        participants.map((participant: any) => {
+          const profile = findProfile(participant, profiles);
+          return (
+            <ParticipantCard
+              name={participant.name}
+              legalName={participant.legalName}
+              shortName={participant.shortName}
+              status={participant.status}
+              roles={participant.roles}
+              city={participant.city}
+              apiFamilies={participant.apiFamilies}
+              hasAuthServer={participant.hasAuthServer}
+              isShariahCompliant={participant.isShariahCompliant}
+              isLive={participant.isLive ?? true}
+              profile={profile}
+              environment={currentEnv}
+            />
+          );
+        })
+      }
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .observatory-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding: var(--space-8) var(--space-4);
+    background: linear-gradient(135deg, var(--color-primary-50) 0%, var(--color-gray-50) 100%);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  @media (min-width: 768px) {
+    .observatory-header {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: var(--space-12) var(--space-8);
+    }
+  }
+
+  .header-content {
+    max-width: 600px;
+  }
+
+  .title-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-2);
+  }
+
+  .page-title {
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-weight: 700;
+    color: var(--color-gray-900);
+    margin: 0;
+  }
+
+  .page-description {
+    font-size: 1.0625rem;
+    color: var(--color-gray-600);
+    margin-bottom: var(--space-4);
+  }
+
+  .header-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 640px) {
+    .header-meta {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  .last-updated {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-gray-500);
+  }
+
+  .header-links {
+    display: flex;
+    gap: var(--space-4);
+  }
+
+  .header-link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-primary-600);
+    text-decoration: none;
+  }
+
+  .header-link:hover {
+    text-decoration: underline;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+    padding: var(--space-6) var(--space-4);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 768px) {
+    .stats-grid {
+      grid-template-columns: repeat(4, 1fr);
+      padding: var(--space-8);
+    }
+  }
+
+  .charts-section {
+    padding: var(--space-6) var(--space-4);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .charts-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 768px) {
+    .charts-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .auth-section,
+  .history-section {
+    padding: var(--space-6) var(--space-4);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .participants-section {
+    padding: var(--space-8) var(--space-4);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-6);
+  }
+
+  .section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+  }
+
+  .participant-count {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+  }
+
+  .participants-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 640px) {
+    .participants-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .participants-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .observatory-header {
+    background: linear-gradient(135deg, var(--color-gray-100) 0%, var(--color-gray-50) 100%);
+    border-bottom-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .page-title {
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .page-description {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .section-title {
+    color: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .header-link {
+    color: var(--color-primary-400);
+  }
+</style>

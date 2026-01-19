@@ -1,22 +1,33 @@
 ---
 import SearchDialog from './SearchDialog.astro';
 import LanguageSwitcher from './LanguageSwitcher.astro';
-
-const navItems = [
-  { label: 'Observatory', href: '/observatory' },
-  { label: 'Updates', href: '/updates' },
-  { label: 'Learn', href: '/learn' },
-  { label: 'Commons', href: '/commons' },
-  { label: 'Community', href: '/community' },
-  { label: 'About', href: '/about' },
-];
+import { getLocaleFromPath, getLocalizedPath, type Locale } from '../../i18n/utils';
 
 const currentPath = Astro.url.pathname;
+const locale = getLocaleFromPath(currentPath);
+const isArabic = locale === 'ar';
+
+// Navigation items with translations
+const navItemsData = [
+  { labelEn: 'Observatory', labelAr: 'المرصد', path: '/observatory' },
+  { labelEn: 'Updates', labelAr: 'التحديثات', path: '/updates' },
+  { labelEn: 'Learn', labelAr: 'تعلّم', path: '/learn' },
+  { labelEn: 'Commons', labelAr: 'المشتركات', path: '/commons' },
+  { labelEn: 'Community', labelAr: 'المجتمع', path: '/community' },
+  { labelEn: 'About', labelAr: 'عن المشروع', path: '/about' },
+];
+
+const navItems = navItemsData.map((item) => ({
+  label: isArabic ? item.labelAr : item.labelEn,
+  href: getLocalizedPath(item.path, locale),
+}));
+
+const homeHref = getLocalizedPath('/', locale);
 ---
 
 <header class="header">
   <div class="header-inner">
-    <a href="/" class="logo">
+    <a href={homeHref} class="logo" data-testid="logo">
       <img
         src="/brand/logo-icon.svg"
         alt=""
@@ -32,16 +43,20 @@ const currentPath = Astro.url.pathname;
     <nav class="nav-desktop" aria-label="Main navigation">
       <ul class="nav-list">
         {
-          navItems.map((item) => (
-            <li>
-              <a
-                href={item.href}
-                class:list={['nav-link', { active: currentPath.startsWith(item.href) }]}
-              >
-                {item.label}
-              </a>
-            </li>
-          ))
+          navItems.map((item) => {
+            // Check if current path matches this nav item (accounting for locale prefix)
+            const pathWithoutLocale = currentPath.replace(/^\/(en|ar)/, '');
+            const itemPathWithoutLocale = item.href.replace(/^\/(en|ar)/, '');
+            const isActive =
+              pathWithoutLocale.startsWith(itemPathWithoutLocale) && itemPathWithoutLocale !== '/';
+            return (
+              <li>
+                <a href={item.href} class:list={['nav-link', { active: isActive }]}>
+                  {item.label}
+                </a>
+              </li>
+            );
+          })
         }
       </ul>
     </nav>
@@ -109,16 +124,19 @@ const currentPath = Astro.url.pathname;
   <nav class="nav-mobile" aria-label="Mobile navigation">
     <ul class="nav-list-mobile">
       {
-        navItems.map((item) => (
-          <li>
-            <a
-              href={item.href}
-              class:list={['nav-link-mobile', { active: currentPath.startsWith(item.href) }]}
-            >
-              {item.label}
-            </a>
-          </li>
-        ))
+        navItems.map((item) => {
+          const pathWithoutLocale = currentPath.replace(/^\/(en|ar)/, '');
+          const itemPathWithoutLocale = item.href.replace(/^\/(en|ar)/, '');
+          const isActive =
+            pathWithoutLocale.startsWith(itemPathWithoutLocale) && itemPathWithoutLocale !== '/';
+          return (
+            <li>
+              <a href={item.href} class:list={['nav-link-mobile', { active: isActive }]}>
+                {item.label}
+              </a>
+            </li>
+          );
+        })
       }
       <li>
         <a
