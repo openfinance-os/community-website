@@ -1,12 +1,28 @@
 ---
 import { getCollection } from 'astro:content';
 import NewsCard from '@components/news/NewsCard.astro';
+import { type Locale, getLocalizedPath } from '../../i18n/utils';
 
 interface Props {
   limit?: number;
+  locale?: Locale;
 }
 
-const { limit = 4 } = Astro.props;
+const { limit = 4, locale = 'en' } = Astro.props;
+
+// Localized content
+const content = {
+  en: {
+    sectionTitle: 'Latest News',
+    viewAll: 'View all news',
+  },
+  ar: {
+    sectionTitle: 'آخر الأخبار',
+    viewAll: 'عرض جميع الأخبار',
+  },
+};
+
+const t = content[locale];
 
 // Fetch all news articles
 const allNews = await getCollection('news');
@@ -23,9 +39,9 @@ const latestNews = sortedNews.slice(0, limit);
 <section class="latest-news-section">
   <div class="container">
     <div class="section-header">
-      <h2 class="section-title">Latest News</h2>
-      <a href="/news" class="view-all">
-        View all news
+      <h2 class="section-title">{t.sectionTitle}</h2>
+      <a href={getLocalizedPath('/news', locale)} class="view-all">
+        {t.viewAll}
         <svg
           width="16"
           height="16"

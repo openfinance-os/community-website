@@ -1,4 +1,6 @@
 ---
+import { getLocaleFromPath, getDirection, getLocalizedPath, type Locale } from '../i18n/utils';
+
 interface Props {
   title: string;
   description?: string;
@@ -7,7 +9,11 @@ interface Props {
   publishedTime?: string;
   modifiedTime?: string;
   articleSchema?: object;
+  locale?: Locale;
 }
+
+// Detect locale from URL path
+const detectedLocale = getLocaleFromPath(Astro.url.pathname);
 
 const {
   title,
@@ -17,7 +23,10 @@ const {
   publishedTime,
   modifiedTime,
   articleSchema,
+  locale = detectedLocale,
 } = Astro.props;
+
+const direction = getDirection(locale);
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = new URL(ogImage, Astro.site);
 
@@ -47,7 +56,7 @@ const websiteSchema = {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={locale} dir={direction}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -58,6 +67,23 @@ const websiteSchema = {
     <title>{title} | OpenFinance-OS</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
+
+    <!-- Hreflang for language alternatives -->
+    <link
+      rel="alternate"
+      hreflang="en"
+      href={new URL(getLocalizedPath(Astro.url.pathname, 'en'), Astro.site)}
+    />
+    <link
+      rel="alternate"
+      hreflang="ar"
+      href={new URL(getLocalizedPath(Astro.url.pathname, 'ar'), Astro.site)}
+    />
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={new URL(getLocalizedPath(Astro.url.pathname, 'en'), Astro.site)}
+    />
 
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
@@ -86,11 +112,11 @@ const websiteSchema = {
       )
     }
 
-    <!-- Fonts - Brand: DM Sans + Fraunces (see PRD Section 14) -->
+    <!-- Fonts - Brand: DM Sans + Fraunces + IBM Plex Sans Arabic for RTL -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
 

@@ -92,6 +92,23 @@
   color-scheme: light dark;
 }
 
+/* RTL (Arabic) font and direction support */
+[dir='rtl'] {
+  --font-sans:
+    'IBM Plex Sans Arabic', 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, sans-serif;
+  --font-display: 'IBM Plex Sans Arabic', 'Fraunces', Georgia, serif;
+}
+
+/* RTL-specific layout adjustments */
+[dir='rtl'] .quick-link-arrow {
+  transform: scaleX(-1);
+}
+
+[dir='rtl'] .quick-link-card:hover .quick-link-arrow {
+  transform: scaleX(-1) translateX(-4px);
+}
+
 /* Dark mode variables */
 [data-theme='dark'] {
   /* Primary - adjusted for dark backgrounds */

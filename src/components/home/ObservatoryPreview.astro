@@ -1,4 +1,6 @@
 ---
+import { type Locale, getLocalizedPath } from '../../i18n/utils';
+
 interface EcosystemStats {
   totalUnique: number;
   production: {
@@ -16,9 +18,50 @@ interface EcosystemStats {
 
 interface Props {
   stats: EcosystemStats;
+  locale?: Locale;
 }
 
-const { stats } = Astro.props;
+const { stats, locale = 'en' } = Astro.props;
+
+// Localized content
+const content = {
+  en: {
+    sectionTitle: 'Ecosystem Engagement',
+    sectionDesc:
+      'Track participation across the UAE Open Finance ecosystem, from sandbox testing to production deployment.',
+    viewAll: 'See the full dashboard',
+    totalEcosystem: 'Total Ecosystem',
+    organizations: 'Organizations',
+    inBoth: 'In both',
+    productionOnly: 'Production only',
+    sandboxOnly: 'Sandbox only',
+    engagementPipeline: 'Engagement Pipeline',
+    registered: 'Registered',
+    testingInSandbox: 'Testing in Sandbox',
+    liveInProduction: 'Live in Production',
+    testing: 'testing',
+    live: 'live',
+  },
+  ar: {
+    sectionTitle: 'مشاركة المنظومة',
+    sectionDesc:
+      'تتبع المشاركة في منظومة التمويل المفتوح الإماراتية، من اختبار البيئة التجريبية إلى النشر في الإنتاج.',
+    viewAll: 'عرض لوحة المعلومات الكاملة',
+    totalEcosystem: 'إجمالي المنظومة',
+    organizations: 'مؤسسة',
+    inBoth: 'في كليهما',
+    productionOnly: 'الإنتاج فقط',
+    sandboxOnly: 'التجريبي فقط',
+    engagementPipeline: 'مسار المشاركة',
+    registered: 'مسجّل',
+    testingInSandbox: 'في الاختبار التجريبي',
+    liveInProduction: 'مباشر في الإنتاج',
+    testing: 'في الاختبار',
+    live: 'مباشر',
+  },
+};
+
+const t = content[locale];
 
 // Calculate percentages for the engagement funnel
 const totalRegistered = stats.totalUnique;
@@ -33,14 +76,13 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
 <section class="observatory-preview">
   <div class="section-header">
     <div class="header-content">
-      <h2 class="section-title">Ecosystem Engagement</h2>
+      <h2 class="section-title">{t.sectionTitle}</h2>
       <p class="section-description">
-        Track participation across the UAE Open Finance ecosystem, from sandbox testing to
-        production deployment.
+        {t.sectionDesc}
       </p>
     </div>
-    <a href="/observatory" class="view-all-link">
-      See the full dashboard
+    <a href={getLocalizedPath('/observatory', locale)} class="view-all-link">
+      {t.viewAll}
       <svg
         width="16"
         height="16"
@@ -79,26 +121,26 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
             ></path>
           </svg>
         </span>
-        Total Ecosystem
+        {t.totalEcosystem}
       </h3>
       <div class="ecosystem-stat">
         <span class="stat-number">{stats.totalUnique}</span>
-        <span class="stat-label">Organizations</span>
+        <span class="stat-label">{t.organizations}</span>
       </div>
       <div class="environment-breakdown">
         <div class="env-item">
           <span class="env-dot env-dot-both"></span>
-          <span class="env-label">In both</span>
+          <span class="env-label">{t.inBoth}</span>
           <span class="env-value">{stats.inBoth}</span>
         </div>
         <div class="env-item">
           <span class="env-dot env-dot-production"></span>
-          <span class="env-label">Production only</span>
+          <span class="env-label">{t.productionOnly}</span>
           <span class="env-value">{stats.productionOnly}</span>
         </div>
         <div class="env-item">
           <span class="env-dot env-dot-sandbox"></span>
-          <span class="env-label">Sandbox only</span>
+          <span class="env-label">{t.sandboxOnly}</span>
           <span class="env-value">{stats.sandboxOnly}</span>
         </div>
       </div>
@@ -121,12 +163,12 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
             <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
           </svg>
         </span>
-        Engagement Pipeline
+        {t.engagementPipeline}
       </h3>
       <div class="pipeline">
         <div class="pipeline-stage">
           <div class="stage-header">
-            <span class="stage-label">Registered</span>
+            <span class="stage-label">{t.registered}</span>
             <span class="stage-value">{totalRegistered}</span>
           </div>
           <div class="stage-bar">
@@ -135,7 +177,7 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
         </div>
         <div class="pipeline-stage">
           <div class="stage-header">
-            <span class="stage-label">Testing in Sandbox</span>
+            <span class="stage-label">{t.testingInSandbox}</span>
             <span class="stage-value">{testingInSandbox}</span>
           </div>
           <div class="stage-bar">
@@ -144,7 +186,7 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
         </div>
         <div class="pipeline-stage">
           <div class="stage-header">
-            <span class="stage-label">Live in Production</span>
+            <span class="stage-label">{t.liveInProduction}</span>
             <span class="stage-value">{liveInProduction}</span>
           </div>
           <div class="stage-bar">
@@ -154,7 +196,7 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
         </div>
       </div>
       <p class="pipeline-note">
-        {Math.round(sandboxPercent)}% testing, {Math.round(productionPercent)}% live
+        {Math.round(sandboxPercent)}% {t.testing}, {Math.round(productionPercent)}% {t.live}
       </p>
     </div>
 
