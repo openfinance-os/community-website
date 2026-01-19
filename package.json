@@ -23,6 +23,7 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:i18n": "playwright test e2e/i18n.spec.ts",
+    "test:e2e:arabic": "playwright test e2e/arabic-navigation.spec.ts",
     "test:i18n": "vitest run src/i18n/",
     "validate:translations": "tsx scripts/validate-translations.ts"
   },
