@@ -162,7 +162,8 @@ export function assessContentQuality(
   );
 
   // Check for concrete numbers (suggests factual reporting)
-  const hasNumbers = /\d+/.test(title) || /\$[\d,]+|\d+%|\d+ million|\d+ billion/i.test(description);
+  const hasNumbers =
+    /\d+/.test(title) || /\$[\d,]+|\d+%|\d+ million|\d+ billion/i.test(description);
 
   // Check for quotes (suggests original reporting)
   const hasQuotes = description.includes('"') || description.includes('"');
