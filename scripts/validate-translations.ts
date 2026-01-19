@@ -31,10 +31,7 @@ type TranslationObject = Record<string, TranslationValue>;
 /**
  * Flattens a nested object into dot-notation keys
  */
-function flattenObject(
-  obj: Record<string, unknown>,
-  prefix = ''
-): Record<string, string> {
+function flattenObject(obj: Record<string, unknown>, prefix = ''): Record<string, string> {
   const result: Record<string, string> = {};
 
   for (const key in obj) {
@@ -81,9 +78,7 @@ function loadTranslation(locale: string): TranslationObject | null {
  */
 function getAvailableLocales(): string[] {
   const files = readdirSync(I18N_DIR);
-  return files
-    .filter((f) => f.endsWith('.json'))
-    .map((f) => f.replace('.json', ''));
+  return files.filter((f) => f.endsWith('.json')).map((f) => f.replace('.json', ''));
 }
 
 /**
@@ -193,7 +188,12 @@ function validateTranslations(): ValidationResult {
   }
 
   // Check for required metadata
-  const requiredMetaKeys = ['meta.language', 'meta.languageNative', 'meta.direction', 'meta.locale'];
+  const requiredMetaKeys = [
+    'meta.language',
+    'meta.languageNative',
+    'meta.direction',
+    'meta.locale',
+  ];
   for (const locale of locales) {
     for (const metaKey of requiredMetaKeys) {
       if (!translations[locale]?.[metaKey]) {

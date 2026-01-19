@@ -35,8 +35,8 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
     <div class="header-content">
       <h2 class="section-title">Ecosystem Engagement</h2>
       <p class="section-description">
-        Track participation across the UAE Open Finance ecosystem, from sandbox testing to production
-        deployment.
+        Track participation across the UAE Open Finance ecosystem, from sandbox testing to
+        production deployment.
       </p>
     </div>
     <a href="/observatory" class="view-all-link">
@@ -74,7 +74,8 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
           >
             <circle cx="12" cy="12" r="10"></circle>
             <path d="M2 12h20"></path>
-            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+            <path
+              d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
             ></path>
           </svg>
         </span>
@@ -138,11 +139,7 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
             <span class="stage-value">{testingInSandbox}</span>
           </div>
           <div class="stage-bar">
-            <div
-              class="stage-fill stage-fill-sandbox"
-              style={`width: ${sandboxPercent}%`}
-            >
-            </div>
+            <div class="stage-fill stage-fill-sandbox" style={`width: ${sandboxPercent}%`}></div>
           </div>
         </div>
         <div class="pipeline-stage">
@@ -151,10 +148,7 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
             <span class="stage-value">{liveInProduction}</span>
           </div>
           <div class="stage-bar">
-            <div
-              class="stage-fill stage-fill-production"
-              style={`width: ${productionPercent}%`}
-            >
+            <div class="stage-fill stage-fill-production" style={`width: ${productionPercent}%`}>
             </div>
           </div>
         </div>

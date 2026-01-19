@@ -12,7 +12,16 @@ const { types, typeLabels, regions, regionLabels } = Astro.props;
 <div class="news-filter">
   <div class="search-row">
     <div class="search-wrapper">
-      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <svg
+        class="search-icon"
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        aria-hidden="true"
+      >
         <circle cx="11" cy="11" r="8"></circle>
         <path d="m21 21-4.35-4.35"></path>
       </svg>
@@ -23,8 +32,21 @@ const { types, typeLabels, regions, regionLabels } = Astro.props;
         placeholder="Search articles..."
         aria-label="Search news articles"
       />
-      <button class="search-clear" id="search-clear" type="button" aria-label="Clear search" style="display: none;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <button
+        class="search-clear"
+        id="search-clear"
+        type="button"
+        aria-label="Clear search"
+        style="display: none;"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
           <path d="M18 6L6 18M6 6l12 12"></path>
         </svg>
       </button>
@@ -95,7 +117,8 @@ const { types, typeLabels, regions, regionLabels } = Astro.props;
       const cardType = card.getAttribute('data-type');
       const cardRegion = card.getAttribute('data-region');
       const cardTitle = card.querySelector('.card-title')?.textContent?.toLowerCase() || '';
-      const cardDescription = card.querySelector('.card-description')?.textContent?.toLowerCase() || '';
+      const cardDescription =
+        card.querySelector('.card-description')?.textContent?.toLowerCase() || '';
 
       const matchesType = activeType === 'all' || cardType === activeType;
       const matchesRegion = activeRegion === 'all' || cardRegion === activeRegion;
@@ -280,7 +303,9 @@ const { types, typeLabels, regions, regionLabels } = Astro.props;
     border: none;
     border-radius: var(--radius-full);
     cursor: pointer;
-    transition: color var(--transition-fast), background-color var(--transition-fast);
+    transition:
+      color var(--transition-fast),
+      background-color var(--transition-fast);
   }
 
   .search-clear:hover {

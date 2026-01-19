@@ -144,7 +144,12 @@ const typeColors: Record<string, string> = {
             <h2>{section.label}</h2>
             <div class="link-grid">
               {section.links.map((link) => (
-                <a href={link.url === '#' ? undefined : link.url} class:list={['link-card', { 'placeholder': link.url === '#' }]} target={link.url === '#' ? undefined : '_blank'} rel={link.url === '#' ? undefined : 'noopener noreferrer'}>
+                <a
+                  href={link.url === '#' ? undefined : link.url}
+                  class:list={['link-card', { placeholder: link.url === '#' }]}
+                  target={link.url === '#' ? undefined : '_blank'}
+                  rel={link.url === '#' ? undefined : 'noopener noreferrer'}
+                >
                   <div class="card-header">
                     <h3>{link.title}</h3>
                     <span class:list={['type-badge', typeColors[link.type]]}>
@@ -152,7 +157,9 @@ const typeColors: Record<string, string> = {
                     </span>
                   </div>
                   <p>{link.description}</p>
-                  <span class="link-url">{link.url === '#' ? 'Coming soon' : new URL(link.url).hostname}</span>
+                  <span class="link-url">
+                    {link.url === '#' ? 'Coming soon' : new URL(link.url).hostname}
+                  </span>
                 </a>
               ))}
             </div>

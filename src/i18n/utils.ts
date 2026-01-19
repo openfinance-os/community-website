@@ -21,10 +21,7 @@ const translations: Record<Locale, typeof en> = {
  * Flattens a nested object into dot-notation keys
  * @example { nav: { home: "Home" } } => { "nav.home": "Home" }
  */
-export function flattenObject(
-  obj: Record<string, unknown>,
-  prefix = ''
-): Record<string, string> {
+export function flattenObject(obj: Record<string, unknown>, prefix = ''): Record<string, string> {
   const result: Record<string, string> = {};
 
   for (const key in obj) {
@@ -172,9 +169,7 @@ export function hasTranslation(key: string, locale: Locale): boolean {
   if (!translation) {
     return false;
   }
-  return (
-    getNestedValue(translation as unknown as Record<string, unknown>, key) !== undefined
-  );
+  return getNestedValue(translation as unknown as Record<string, unknown>, key) !== undefined;
 }
 
 /**
