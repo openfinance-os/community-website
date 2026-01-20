@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-01-19T06:37:20.572Z",
+  "timestamp": "2026-01-20T06:35:06.192Z",
   "source": "https://data.sandbox.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "sandbox",
@@ -18,8 +18,8 @@
       "pki-test-harness": 1
     },
     "byCity": {
-      "Unknown": 39,
-      "Abu Dhabi": 4,
+      "Unknown": 38,
+      "Abu Dhabi": 5,
       "Dubai": 9,
       "London": 2,
       "Sharjah": 1
@@ -30,7 +30,7 @@
       "payments",
       "products"
     ],
-    "liveInProduction": 16,
+    "liveInProduction": 17,
     "shariahCompliantCount": 10,
     "multiRoleCount": 55,
     "tppCount": 0,
@@ -40,12 +40,12 @@
       "redirect": 0
     },
     "byCertificationStatus": {
-      "Self-Certified": 33
+      "Self-Certified": 41
     },
     "byApiVersion": {
-      "2.0": 4,
+      "2.0": 8,
       "1.2.0": 13,
-      "1.2": 1,
+      "1.2": 5,
       "1.0.0": 12,
       "2.0.0": 3
     }
@@ -1648,19 +1648,73 @@
         "ISP",
         "LFI"
       ],
-      "city": "Unknown",
+      "city": "Abu Dhabi",
       "registrationNumber": "01.01.01.063.2022.01",
-      "apiFamilies": [],
-      "hasAuthServer": false,
+      "apiFamilies": [
+        "accounts",
+        "cop",
+        "payments",
+        "products"
+      ],
+      "hasAuthServer": true,
       "isShariahCompliant": false,
       "authCapabilities": {
         "supportsCiba": false,
         "supportsDCR": false,
         "supportsRedirect": false
       },
-      "apiResources": [],
-      "authServerCount": 0,
-      "isLive": false
+      "apiResources": [
+        {
+          "family": "payments",
+          "version": "1.2",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "cop",
+          "version": "1.2",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "accounts",
+          "version": "1.2",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "products",
+          "version": "1.2",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "payments",
+          "version": "2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "cop",
+          "version": "2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "accounts",
+          "version": "2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "products",
+          "version": "2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        }
+      ],
+      "authServerCount": 1,
+      "isLive": true
     },
     {
       "id": "a90b2761-560d-45a9-9b32-67465c603059",
@@ -1694,6 +1748,11 @@
     "newParticipants": [],
     "removedParticipants": [],
     "roleChanges": {},
-    "apiFamilyChanges": {}
+    "apiFamilyChanges": {
+      "accounts": 1,
+      "cop": 1,
+      "payments": 1,
+      "products": 1
+    }
   }
 }
