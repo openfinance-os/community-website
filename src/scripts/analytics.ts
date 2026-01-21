@@ -10,8 +10,13 @@ declare global {
     posthog?: {
       capture: (event: string, properties?: Record<string, unknown>) => void;
       identify: (distinctId: string, properties?: Record<string, unknown>) => void;
+      register: (properties: Record<string, unknown>) => void;
+      people?: {
+        set: (properties: Record<string, unknown>) => void;
+      };
     };
     __analyticsInitialized?: Record<string, boolean>;
+    __enhancedAnalyticsInitialized?: boolean;
   }
 }
 

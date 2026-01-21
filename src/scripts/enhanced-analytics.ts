@@ -10,19 +10,7 @@
  * - Page performance metrics (Core Web Vitals)
  */
 
-declare global {
-  interface Window {
-    posthog?: {
-      capture: (event: string, properties?: Record<string, unknown>) => void;
-      identify: (distinctId: string, properties?: Record<string, unknown>) => void;
-      register: (properties: Record<string, unknown>) => void;
-      people?: {
-        set: (properties: Record<string, unknown>) => void;
-      };
-    };
-    __enhancedAnalyticsInitialized?: boolean;
-  }
-}
+// Types are declared in analytics.ts
 
 /**
  * Initialize all enhanced analytics features
