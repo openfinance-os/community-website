@@ -55,7 +55,8 @@ test.describe('Homepage', () => {
   });
 
   test('should display header with logo/brand', async ({ page }) => {
-    const header = page.locator('header');
+    // Target main site header specifically (class="header"), not card-headers
+    const header = page.locator('header.header');
     await expect(header).toBeVisible();
   });
 
