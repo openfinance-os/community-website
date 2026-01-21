@@ -26,8 +26,8 @@ test.describe('Homepage', () => {
   });
 
   test('should display quick links section', async ({ page }) => {
-    // Check for the quick links section
-    const quickLinksHeading = page.getByRole('heading', { name: /Quick Links/i });
+    // Check for the quick links section (target h2 in main content, not footer h3)
+    const quickLinksHeading = page.locator('main').getByRole('heading', { name: /Quick Links/i });
     await expect(quickLinksHeading).toBeVisible();
 
     // Should have at least 3 quick link cards
@@ -55,12 +55,14 @@ test.describe('Homepage', () => {
   });
 
   test('should display header with logo/brand', async ({ page }) => {
-    const header = page.locator('header');
+    // Target main site header specifically (class="header"), not card-headers
+    const header = page.locator('header.header');
     await expect(header).toBeVisible();
   });
 
   test('should display footer', async ({ page }) => {
-    const footer = page.locator('footer');
+    // Target main site footer specifically (class="footer"), not card-footers
+    const footer = page.locator('footer.footer');
     await expect(footer).toBeVisible();
   });
 });

@@ -34,8 +34,8 @@ test.describe('Site Navigation', () => {
   test('should have working logo link to homepage', async ({ page }) => {
     await page.goto('/observatory');
 
-    // Click on logo/brand to go home
-    const logoLink = page.locator('header a').first();
+    // Click on logo/brand to go home (target main site header, not card headers)
+    const logoLink = page.locator('header.header a').first();
     await logoLink.click();
 
     await expect(page).toHaveURL('/');
@@ -46,7 +46,8 @@ test.describe('Site Navigation', () => {
 
     for (const pagePath of pages) {
       await page.goto(pagePath);
-      const header = page.locator('header');
+      // Target main site header specifically (class="header"), not card-headers
+      const header = page.locator('header.header');
       await expect(header).toBeVisible();
 
       // Should have navigation links
@@ -61,7 +62,8 @@ test.describe('Site Navigation', () => {
 
     for (const pagePath of pages) {
       await page.goto(pagePath);
-      const footer = page.locator('footer');
+      // Target main site footer specifically (class="footer"), not card-footers
+      const footer = page.locator('footer.footer');
       await expect(footer).toBeVisible();
     }
   });

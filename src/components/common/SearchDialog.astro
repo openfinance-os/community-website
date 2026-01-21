@@ -403,6 +403,16 @@ const searchIndex = {
 <script id="search-index-data" type="application/json" set:html={JSON.stringify(searchIndex)} />
 
 <script>
+  // PostHog tracking helpers
+  function trackSearchEvent(event: string, properties?: Record<string, unknown>): void {
+    if (typeof window !== 'undefined' && (window as any).posthog) {
+      (window as any).posthog.capture(event, {
+        ...properties,
+        page_url: window.location.pathname,
+      });
+    }
+  }
+
   // Initialize search dialog
   const trigger = document.querySelector('.search-trigger');
   const dialog = document.querySelector('.search-dialog') as HTMLDialogElement | null;
@@ -640,53 +650,51 @@ const searchIndex = {
     pagesSection?.toggleAttribute('hidden', pageResults.length === 0);
     resourcesSection?.toggleAttribute('hidden', resources.length === 0);
 
-    // Render participants
-    participants.forEach((item) => {
+    // Helper to create result item with tracking
+    function createResultItem(item: SearchItem, index: number): HTMLLIElement {
       const li = document.createElement('li');
+      const hasDesc = 'description' in item && item.description;
       li.innerHTML = `
-        <a href="${item.url}" class="result-item">
+        <a href="${item.url}" class="result-item" data-type="${item.type}" data-title="${item.title}" data-position="${index}">
           <span class="result-title">${item.title}</span>
-          ${item.meta ? `<span class="result-meta">${item.meta}</span>` : ''}
+          ${hasDesc ? `<span class="result-desc">${item.description}</span>` : ''}
+          ${item.meta && !hasDesc ? `<span class="result-meta">${item.meta}</span>` : ''}
         </a>
       `;
-      participantsList.appendChild(li);
+      // Add click tracking
+      li.querySelector('a')?.addEventListener('click', () => {
+        trackSearchEvent('search_result_clicked', {
+          result_type: item.type,
+          result_title: item.title,
+          result_url: item.url,
+          position: index,
+          query: input?.value || '',
+        });
+      });
+      return li;
+    }
+
+    // Render participants
+    participants.forEach((item, index) => {
+      participantsList.appendChild(createResultItem(item, index));
     });
 
     // Render news
-    news.forEach((item) => {
-      const li = document.createElement('li');
-      li.innerHTML = `
-        <a href="${item.url}" class="result-item">
-          <span class="result-title">${item.title}</span>
-          ${item.meta ? `<span class="result-meta">${item.meta}</span>` : ''}
-        </a>
-      `;
-      newsList.appendChild(li);
+    news.forEach((item, index) => {
+      newsList.appendChild(createResultItem(item, participants.length + index));
     });
 
     // Render pages
-    pageResults.forEach((item) => {
-      const li = document.createElement('li');
-      li.innerHTML = `
-        <a href="${item.url}" class="result-item">
-          <span class="result-title">${item.title}</span>
-          ${item.description ? `<span class="result-desc">${item.description}</span>` : ''}
-        </a>
-      `;
-      pagesList.appendChild(li);
+    pageResults.forEach((item, index) => {
+      pagesList.appendChild(createResultItem(item, participants.length + news.length + index));
     });
 
     // Render resources (commons)
     if (resourcesList) {
-      resources.forEach((item) => {
-        const li = document.createElement('li');
-        li.innerHTML = `
-          <a href="${item.url}" class="result-item">
-            <span class="result-title">${item.title}</span>
-            ${item.meta ? `<span class="result-meta">${item.meta}</span>` : ''}
-          </a>
-        `;
-        resourcesList.appendChild(li);
+      resources.forEach((item, index) => {
+        resourcesList.appendChild(
+          createResultItem(item, participants.length + news.length + pageResults.length + index)
+        );
       });
     }
   }
@@ -721,17 +729,35 @@ const searchIndex = {
     }) as T;
   }
 
+  // Track search with longer debounce to capture intent, not keystrokes
+  let lastTrackedQuery = '';
+  const trackSearchQuery = debounce((query: string, resultsCount: number) => {
+    const trimmed = query.trim();
+    // Only track if query is meaningful and different from last tracked
+    if (trimmed.length >= 3 && trimmed !== lastTrackedQuery) {
+      lastTrackedQuery = trimmed;
+      trackSearchEvent('search_query', {
+        query: trimmed,
+        query_length: trimmed.length,
+        results_count: resultsCount,
+      });
+    }
+  }, 800); // Longer debounce for tracking to capture final intent
+
   // Handle search input
   const handleSearch = debounce((query: string) => {
     const results = search(query);
     updateSearchUI(query, results);
+    // Track with longer debounce
+    trackSearchQuery(query, results.length);
   }, 150);
 
   // Open dialog
-  function openSearch() {
+  function openSearch(trigger: 'button' | 'keyboard' = 'button') {
     dialog?.showModal();
     input?.focus();
     document.body.style.overflow = 'hidden';
+    trackSearchEvent('search_opened', { trigger });
   }
 
   // Close dialog
@@ -743,7 +769,7 @@ const searchIndex = {
   }
 
   // Event listeners
-  trigger?.addEventListener('click', openSearch);
+  trigger?.addEventListener('click', () => openSearch('button'));
   closeBtn?.addEventListener('click', closeSearch);
   clearBtn?.addEventListener('click', () => {
     if (input) input.value = '';
@@ -769,7 +795,7 @@ const searchIndex = {
       if (dialog?.open) {
         closeSearch();
       } else {
-        openSearch();
+        openSearch('keyboard');
       }
     }
 
@@ -795,6 +821,21 @@ const searchIndex = {
       const prevIndex = currentIndex > 0 ? currentIndex - 1 : items.length - 1;
       (items[prevIndex] as HTMLElement).focus();
     }
+  });
+
+  // Track quick link clicks
+  document.querySelectorAll('.quick-link').forEach((link) => {
+    link.addEventListener('click', () => {
+      const href = link.getAttribute('href') || '';
+      const title =
+        link.querySelector('svg + *:not(span)')?.textContent?.trim() ||
+        link.textContent?.trim().split('\n')[0] ||
+        '';
+      trackSearchEvent('quick_link_clicked', {
+        link_name: title,
+        link_url: href,
+      });
+    });
   });
 </script>
 

@@ -91,13 +91,25 @@ const labels = { ...defaultLabels, ...typeLabels };
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    // PostHog tracking helper
+    function trackFilterEvent(event: string, properties?: Record<string, unknown>): void {
+      if (typeof window !== 'undefined' && (window as any).posthog) {
+        (window as any).posthog.capture(event, {
+          ...properties,
+          page_url: window.location.pathname,
+        });
+      }
+    }
+
     const filterContainer = document.querySelector('.event-filter');
     const pills = filterContainer?.querySelectorAll('.filter-pill');
     const eventCards = document.querySelectorAll('.event-card');
+    let activeFilter = 'all';
 
     function activateTab(pill: Element) {
       if (!pills) return;
       const filter = pill.getAttribute('data-filter');
+      const previousFilter = activeFilter;
 
       // Update active state and tabindex
       pills.forEach((p) => {
@@ -109,6 +121,16 @@ const labels = { ...defaultLabels, ...typeLabels };
       pill.setAttribute('aria-selected', 'true');
       pill.setAttribute('tabindex', '0');
       (pill as HTMLElement).focus();
+
+      // Track filter change
+      if (filter && filter !== previousFilter) {
+        activeFilter = filter;
+        trackFilterEvent('filter_applied', {
+          filter_type: 'event_type',
+          filter_value: filter,
+          previous_value: previousFilter,
+        });
+      }
 
       // Filter cards
       eventCards.forEach((card) => {

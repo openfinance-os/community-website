@@ -73,6 +73,10 @@ const formatDate = (d: Date) => {
   class="news-card"
   data-type={type}
   data-region={region}
+  data-title={title}
+  data-slug={slug}
+  data-external={isExternal ? 'true' : 'false'}
+  data-source={source || ''}
   target={isExternal ? '_blank' : undefined}
   rel={isExternal ? 'noopener noreferrer' : undefined}
 >
@@ -92,31 +96,33 @@ const formatDate = (d: Date) => {
     <span class="author">{isExternal ? `via ${sourceName}` : `By ${author}`}</span>
     <span class="read-more">
       {isExternal ? 'View source' : 'Read more'}
-      {isExternal ? (
-        <svg
-          width="14"
-          height="14"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          aria-hidden="true"
-        >
-          <path d="M7 17L17 7M17 7H7M17 7v10"></path>
-        </svg>
-      ) : (
-        <svg
-          width="14"
-          height="14"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          aria-hidden="true"
-        >
-          <path d="M5 12h14M12 5l7 7-7 7"></path>
-        </svg>
-      )}
+      {
+        isExternal ? (
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <path d="M7 17L17 7M17 7H7M17 7v10" />
+          </svg>
+        ) : (
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        )
+      }
     </span>
   </div>
 </a>
@@ -261,3 +267,37 @@ const formatDate = (d: Date) => {
     color: var(--color-primary-300);
   }
 </style>
+
+<script>
+  // Guard against duplicate initialization
+  (function initNewsCardTracking() {
+    const key = 'news-card-tracking';
+    if ((window as any).__analyticsInitialized?.[key]) return;
+    (window as any).__analyticsInitialized = (window as any).__analyticsInitialized || {};
+    (window as any).__analyticsInitialized[key] = true;
+
+    // Track news card clicks
+    document.querySelectorAll('.news-card').forEach((card) => {
+      card.addEventListener('click', () => {
+        if ((window as any).posthog) {
+          const title = card.getAttribute('data-title') || '';
+          const slug = card.getAttribute('data-slug') || '';
+          const type = card.getAttribute('data-type') || '';
+          const region = card.getAttribute('data-region') || '';
+          const isExternal = card.getAttribute('data-external') === 'true';
+          const source = card.getAttribute('data-source') || '';
+
+          (window as any).posthog.capture('news_article_clicked', {
+            title,
+            slug,
+            type,
+            region,
+            is_external: isExternal,
+            source: isExternal ? source : 'internal',
+            page_url: window.location.pathname,
+          });
+        }
+      });
+    });
+  })();
+</script>

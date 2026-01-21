@@ -176,6 +176,16 @@ const currentPath = Astro.url.pathname;
 </header>
 
 <script>
+  // PostHog tracking helper
+  function trackHeaderEvent(event: string, properties?: Record<string, unknown>): void {
+    if (typeof window !== 'undefined' && (window as any).posthog) {
+      (window as any).posthog.capture(event, {
+        ...properties,
+        page_url: window.location.pathname,
+      });
+    }
+  }
+
   const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
   const navMobile = document.querySelector('.nav-mobile');
   const header = document.querySelector('.header');
@@ -227,10 +237,44 @@ const currentPath = Astro.url.pathname;
     const current = getTheme();
     const next = current === 'dark' ? 'light' : 'dark';
     setTheme(next);
+    trackHeaderEvent('theme_toggled', { new_theme: next, previous_theme: current });
   }
 
   themeToggle?.addEventListener('click', toggleTheme);
   themeToggleMobile?.addEventListener('click', toggleTheme);
+
+  // Track navigation link clicks
+  document.querySelectorAll('.nav-link, .nav-link-mobile').forEach((link) => {
+    link.addEventListener('click', () => {
+      const href = link.getAttribute('href') || '';
+      const label = link.textContent?.trim() || '';
+      const isMobile = link.classList.contains('nav-link-mobile');
+      trackHeaderEvent('navigation_clicked', {
+        destination: href,
+        label,
+        source: isMobile ? 'mobile' : 'header',
+      });
+    });
+  });
+
+  // Track logo click
+  document.querySelector('.logo')?.addEventListener('click', () => {
+    trackHeaderEvent('navigation_clicked', {
+      destination: '/',
+      label: 'Logo',
+      source: 'header',
+    });
+  });
+
+  // Track GitHub link click
+  document.querySelectorAll('.github-link, .nav-link-mobile.github').forEach((link) => {
+    link.addEventListener('click', () => {
+      const isMobile = link.classList.contains('nav-link-mobile');
+      trackHeaderEvent('github_clicked', {
+        source: isMobile ? 'mobile' : 'header',
+      });
+    });
+  });
 
   // Listen for system theme changes
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
