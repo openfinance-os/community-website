@@ -149,3 +149,26 @@ const { currentEnvironment, productionCount = 0, sandboxCount = 0 } = Astro.prop
     }
   }
 </style>
+
+<script>
+  // Track environment toggle clicks
+  document.querySelectorAll('.environment-toggle .toggle-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      if (typeof window !== 'undefined' && (window as any).posthog) {
+        const toggle = btn.closest('.environment-toggle');
+        const currentEnv = toggle?.getAttribute('data-current') || 'production';
+        const href = btn.getAttribute('href') || '';
+        const newEnv = href.includes('sandbox') ? 'sandbox' : 'production';
+
+        // Only track if switching to a different environment
+        if (newEnv !== currentEnv) {
+          (window as any).posthog.capture('environment_switched', {
+            new_environment: newEnv,
+            previous_environment: currentEnv,
+            page_url: window.location.pathname,
+          });
+        }
+      }
+    });
+  });
+</script>

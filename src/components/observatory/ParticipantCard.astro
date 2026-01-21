@@ -110,7 +110,7 @@ const displayCity =
   city === 'Unknown' && profile?.headquarters?.city ? profile.headquarters.city : city;
 ---
 
-<a href={detailUrl} class="participant-card-link">
+<a href={detailUrl} class="participant-card-link" data-name={name} data-slug={slug} data-environment={environment} data-type={profile?.type || ''}>
   <article class="participant-card">
     <!-- Corner decoration (matches StatCard) -->
     <div class="card-decoration" aria-hidden="true"></div>
@@ -231,7 +231,7 @@ const displayCity =
           <span
             class="website-link"
             data-href={profile.website}
-            onclick="event.preventDefault(); event.stopPropagation(); window.open(this.dataset.href, '_blank');"
+            data-participant={name}
           >
             Visit website
             <svg
@@ -760,3 +760,56 @@ const displayCity =
     }
   }
 </style>
+
+<script>
+  // PostHog tracking helper
+  function trackParticipantEvent(event: string, properties?: Record<string, unknown>): void {
+    if (typeof window !== 'undefined' && (window as any).posthog) {
+      (window as any).posthog.capture(event, {
+        ...properties,
+        page_url: window.location.pathname,
+      });
+    }
+  }
+
+  // Track participant card clicks
+  document.querySelectorAll('.participant-card-link').forEach((card) => {
+    card.addEventListener('click', (e) => {
+      // Don't track if clicking on the website link (that has its own tracking)
+      if ((e.target as HTMLElement).closest('.website-link')) return;
+
+      const name = card.getAttribute('data-name') || '';
+      const slug = card.getAttribute('data-slug') || '';
+      const environment = card.getAttribute('data-environment') || 'production';
+      const participantType = card.getAttribute('data-type') || '';
+
+      trackParticipantEvent('participant_viewed', {
+        name,
+        slug,
+        environment,
+        participant_type: participantType,
+      });
+    });
+  });
+
+  // Track website link clicks
+  document.querySelectorAll('.website-link').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const href = link.getAttribute('data-href') || '';
+      const participantName = link.getAttribute('data-participant') || '';
+
+      if (href) {
+        trackParticipantEvent('participant_website_clicked', {
+          participant_name: participantName,
+          website_url: href,
+          domain: new URL(href).hostname,
+        });
+
+        window.open(href, '_blank');
+      }
+    });
+  });
+</script>

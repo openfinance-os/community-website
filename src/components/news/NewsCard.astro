@@ -73,6 +73,10 @@ const formatDate = (d: Date) => {
   class="news-card"
   data-type={type}
   data-region={region}
+  data-title={title}
+  data-slug={slug}
+  data-external={isExternal ? 'true' : 'false'}
+  data-source={source || ''}
   target={isExternal ? '_blank' : undefined}
   rel={isExternal ? 'noopener noreferrer' : undefined}
 >
@@ -261,3 +265,29 @@ const formatDate = (d: Date) => {
     color: var(--color-primary-300);
   }
 </style>
+
+<script>
+  // Track news card clicks
+  document.querySelectorAll('.news-card').forEach((card) => {
+    card.addEventListener('click', () => {
+      if (typeof window !== 'undefined' && (window as any).posthog) {
+        const title = card.getAttribute('data-title') || '';
+        const slug = card.getAttribute('data-slug') || '';
+        const type = card.getAttribute('data-type') || '';
+        const region = card.getAttribute('data-region') || '';
+        const isExternal = card.getAttribute('data-external') === 'true';
+        const source = card.getAttribute('data-source') || '';
+
+        (window as any).posthog.capture('news_article_clicked', {
+          title,
+          slug,
+          type,
+          region,
+          is_external: isExternal,
+          source: isExternal ? source : 'internal',
+          page_url: window.location.pathname,
+        });
+      }
+    });
+  });
+</script>
