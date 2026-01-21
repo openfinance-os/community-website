@@ -43,7 +43,7 @@ const formatDate = (d: Date) => {
   });
 };
 
-const regionVariant = (region: string) => region === 'global' ? 'region-global' : region;
+const regionVariant = (region: string) => (region === 'global' ? 'region-global' : region);
 
 const getFeaturedHref = () => {
   if (!featuredArticle) return '#';
@@ -91,63 +91,83 @@ const getSourceName = (url: string): string => {
       </div>
     </header>
 
-    {featuredArticle && (
-      <section class="featured-section">
-        <div class="container">
-          <div class="featured-label">
-            <span class="label-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-              </svg>
-            </span>
-            Latest
-          </div>
-          <a
-            href={getFeaturedHref()}
-            class="featured-card"
-            target={featuredArticle.data.external ? '_blank' : undefined}
-            rel={featuredArticle.data.external ? 'noopener noreferrer' : undefined}
-          >
-            <div class="featured-content">
-              <div class="featured-meta">
-                <div class="featured-badges">
-                  <Badge variant={featuredArticle.data.type} size="sm">{typeLabels[featuredArticle.data.type]}</Badge>
-                  <Badge variant={regionVariant(featuredArticle.data.region)} size="sm">{regionLabels[featuredArticle.data.region]}</Badge>
+    {
+      featuredArticle && (
+        <section class="featured-section">
+          <div class="container">
+            <div class="featured-label">
+              <span class="label-icon">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                </svg>
+              </span>
+              Latest
+            </div>
+            <a
+              href={getFeaturedHref()}
+              class="featured-card"
+              target={featuredArticle.data.external ? '_blank' : undefined}
+              rel={featuredArticle.data.external ? 'noopener noreferrer' : undefined}
+            >
+              <div class="featured-content">
+                <div class="featured-meta">
+                  <div class="featured-badges">
+                    <Badge variant={featuredArticle.data.type} size="sm">
+                      {typeLabels[featuredArticle.data.type]}
+                    </Badge>
+                    <Badge variant={regionVariant(featuredArticle.data.region)} size="sm">
+                      {regionLabels[featuredArticle.data.region]}
+                    </Badge>
+                  </div>
+                  <time datetime={featuredArticle.data.date.toISOString()}>
+                    {formatDate(featuredArticle.data.date)}
+                  </time>
                 </div>
-                <time datetime={featuredArticle.data.date.toISOString()}>
-                  {formatDate(featuredArticle.data.date)}
-                </time>
+                <h2 class="featured-title">{featuredArticle.data.title}</h2>
+                {featuredArticle.data.description && (
+                  <p class="featured-description">{featuredArticle.data.description}</p>
+                )}
+                <div class="featured-footer">
+                  <span class="featured-author">
+                    {featuredArticle.data.external && featuredArticle.data.source
+                      ? `via ${getSourceName(featuredArticle.data.source)}`
+                      : `By ${featuredArticle.data.author}`}
+                  </span>
+                  <span class="featured-cta">
+                    {featuredArticle.data.external ? 'View source' : 'Read article'}
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                  </span>
+                </div>
               </div>
-              <h2 class="featured-title">{featuredArticle.data.title}</h2>
-              {featuredArticle.data.description && (
-                <p class="featured-description">{featuredArticle.data.description}</p>
-              )}
-              <div class="featured-footer">
-                <span class="featured-author">
-                  {featuredArticle.data.external && featuredArticle.data.source
-                    ? `via ${getSourceName(featuredArticle.data.source)}`
-                    : `By ${featuredArticle.data.author}`}
-                </span>
-                <span class="featured-cta">
-                  {featuredArticle.data.external ? 'View source' : 'Read article'}
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M5 12h14M12 5l7 7-7 7"></path>
-                  </svg>
-                </span>
+              <div class="featured-decoration" aria-hidden="true">
+                <div class="decoration-circle" />
+                <div class="decoration-lines">
+                  <span />
+                  <span />
+                  <span />
+                </div>
               </div>
-            </div>
-            <div class="featured-decoration" aria-hidden="true">
-              <div class="decoration-circle"></div>
-              <div class="decoration-lines">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-            </div>
-          </a>
-        </div>
-      </section>
-    )}
+            </a>
+          </div>
+        </section>
+      )
+    }
 
     <section class="news-section">
       <div class="container">
@@ -158,7 +178,12 @@ const getSourceName = (url: string): string => {
           </span>
         </div>
 
-        <NewsFilter types={types} typeLabels={typeLabels} regions={regions} regionLabels={regionLabels} />
+        <NewsFilter
+          types={types}
+          typeLabels={typeLabels}
+          regions={regions}
+          regionLabels={regionLabels}
+        />
 
         <div class="news-grid" id="news-grid">
           {
@@ -180,16 +205,21 @@ const getSourceName = (url: string): string => {
 
         <div class="empty-state" id="empty-state" style="display: none;">
           <div class="empty-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <svg
+              width="48"
+              height="48"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
               <circle cx="11" cy="11" r="8"></circle>
               <path d="m21 21-4.35-4.35"></path>
             </svg>
           </div>
           <p class="empty-title">No articles found</p>
           <p class="empty-description">Try adjusting your filters or search terms</p>
-          <button class="reset-filters-btn" id="reset-filters">
-            Clear all filters
-          </button>
+          <button class="reset-filters-btn" id="reset-filters"> Clear all filters </button>
         </div>
 
         {
@@ -237,7 +267,9 @@ const getSourceName = (url: string): string => {
     const newsGrid = document.getElementById('news-grid');
     const articleCount = document.getElementById('article-count');
     const emptyState = document.getElementById('empty-state');
-    const visibleCards = newsGrid?.querySelectorAll('.news-card[style*="display: flex"], .news-card:not([style*="display: none"])');
+    const visibleCards = newsGrid?.querySelectorAll(
+      '.news-card[style*="display: flex"], .news-card:not([style*="display: none"])'
+    );
 
     const count = visibleCards?.length || 0;
 
@@ -269,7 +301,7 @@ const getSourceName = (url: string): string => {
     observer.observe(newsGrid, {
       attributes: true,
       subtree: true,
-      attributeFilter: ['style']
+      attributeFilter: ['style'],
     });
   }
 
@@ -357,7 +389,12 @@ const getSourceName = (url: string): string => {
     grid-template-columns: 1fr;
     gap: var(--space-6);
     padding: var(--space-8);
-    background: linear-gradient(135deg, var(--color-primary-50) 0%, white 50%, var(--color-accent-50) 100%);
+    background: linear-gradient(
+      135deg,
+      var(--color-primary-50) 0%,
+      white 50%,
+      var(--color-accent-50) 100%
+    );
     border: 1px solid var(--color-gray-200);
     border-radius: var(--radius-xl);
     text-decoration: none;
@@ -708,7 +745,12 @@ const getSourceName = (url: string): string => {
   }
 
   :global([data-theme='dark']) .featured-card {
-    background: linear-gradient(135deg, var(--color-gray-200) 0%, var(--color-gray-100) 50%, var(--color-gray-200) 100%);
+    background: linear-gradient(
+      135deg,
+      var(--color-gray-200) 0%,
+      var(--color-gray-100) 50%,
+      var(--color-gray-200) 100%
+    );
     border-color: var(--color-gray-300);
   }
 

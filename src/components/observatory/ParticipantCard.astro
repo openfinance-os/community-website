@@ -110,7 +110,14 @@ const displayCity =
   city === 'Unknown' && profile?.headquarters?.city ? profile.headquarters.city : city;
 ---
 
-<a href={detailUrl} class="participant-card-link" data-name={name} data-slug={slug} data-environment={environment} data-type={profile?.type || ''}>
+<a
+  href={detailUrl}
+  class="participant-card-link"
+  data-name={name}
+  data-slug={slug}
+  data-environment={environment}
+  data-type={profile?.type || ''}
+>
   <article class="participant-card">
     <!-- Corner decoration (matches StatCard) -->
     <div class="card-decoration" aria-hidden="true"></div>
@@ -228,11 +235,7 @@ const displayCity =
       {isShariahCompliant && <span class="shariah-badge">Islamic Banking</span>}
       {
         profile?.website && (
-          <span
-            class="website-link"
-            data-href={profile.website}
-            data-participant={name}
-          >
+          <span class="website-link" data-href={profile.website} data-participant={name}>
             Visit website
             <svg
               width="12"

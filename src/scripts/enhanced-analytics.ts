@@ -136,7 +136,7 @@ function identifyReturningVisitor(): void {
   const now = new Date().toISOString();
 
   // Check if this is a new session (more than 30 min since last visit)
-  const isNewSession = !lastVisit || (Date.now() - new Date(lastVisit).getTime()) > 30 * 60 * 1000;
+  const isNewSession = !lastVisit || Date.now() - new Date(lastVisit).getTime() > 30 * 60 * 1000;
 
   if (!visitorId) {
     // New visitor
@@ -224,13 +224,17 @@ function initScrollDepthTracking(): void {
 
   // Throttled scroll handler
   let scrollTimeout: ReturnType<typeof setTimeout> | null = null;
-  window.addEventListener('scroll', () => {
-    if (scrollTimeout) return;
-    scrollTimeout = setTimeout(() => {
-      trackScrollDepth();
-      scrollTimeout = null;
-    }, 200);
-  }, { passive: true });
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (scrollTimeout) return;
+      scrollTimeout = setTimeout(() => {
+        trackScrollDepth();
+        scrollTimeout = null;
+      }, 200);
+    },
+    { passive: true }
+  );
 
   // Track max scroll depth when leaving page
   window.addEventListener('beforeunload', () => {
@@ -393,7 +397,10 @@ function initPerformanceTracking(): void {
   try {
     const fidObserver = new PerformanceObserver((list) => {
       const entries = list.getEntries();
-      const firstEntry = entries[0] as PerformanceEntry & { processingStart: number; startTime: number };
+      const firstEntry = entries[0] as PerformanceEntry & {
+        processingStart: number;
+        startTime: number;
+      };
       metrics.fid = Math.round(firstEntry.processingStart - firstEntry.startTime);
     });
     fidObserver.observe({ type: 'first-input', buffered: true });
@@ -405,7 +412,10 @@ function initPerformanceTracking(): void {
   try {
     let clsValue = 0;
     const clsObserver = new PerformanceObserver((list) => {
-      for (const entry of list.getEntries() as (PerformanceEntry & { hadRecentInput: boolean; value: number })[]) {
+      for (const entry of list.getEntries() as (PerformanceEntry & {
+        hadRecentInput: boolean;
+        value: number;
+      })[]) {
         if (!entry.hadRecentInput) {
           clsValue += entry.value;
         }
@@ -436,9 +446,29 @@ function initPerformanceTracking(): void {
     setTimeout(() => {
       if (Object.keys(metrics).length > 0) {
         // Categorize performance
-        const lcpRating = metrics.lcp ? (metrics.lcp < 2500 ? 'good' : metrics.lcp < 4000 ? 'needs_improvement' : 'poor') : 'unknown';
-        const fidRating = metrics.fid !== undefined ? (metrics.fid < 100 ? 'good' : metrics.fid < 300 ? 'needs_improvement' : 'poor') : 'unknown';
-        const clsRating = metrics.cls !== undefined ? (metrics.cls < 0.1 ? 'good' : metrics.cls < 0.25 ? 'needs_improvement' : 'poor') : 'unknown';
+        const lcpRating = metrics.lcp
+          ? metrics.lcp < 2500
+            ? 'good'
+            : metrics.lcp < 4000
+              ? 'needs_improvement'
+              : 'poor'
+          : 'unknown';
+        const fidRating =
+          metrics.fid !== undefined
+            ? metrics.fid < 100
+              ? 'good'
+              : metrics.fid < 300
+                ? 'needs_improvement'
+                : 'poor'
+            : 'unknown';
+        const clsRating =
+          metrics.cls !== undefined
+            ? metrics.cls < 0.1
+              ? 'good'
+              : metrics.cls < 0.25
+                ? 'needs_improvement'
+                : 'poor'
+            : 'unknown';
 
         window.posthog?.capture('page_performance', {
           ...metrics,
@@ -446,7 +476,9 @@ function initPerformanceTracking(): void {
           fid_rating: fidRating,
           cls_rating: clsRating,
           page_path: window.location.pathname,
-          connection_type: (navigator as Navigator & { connection?: { effectiveType?: string } }).connection?.effectiveType || 'unknown',
+          connection_type:
+            (navigator as Navigator & { connection?: { effectiveType?: string } }).connection
+              ?.effectiveType || 'unknown',
         });
       }
     }, 3000);

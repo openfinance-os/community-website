@@ -692,7 +692,9 @@ const searchIndex = {
     // Render resources (commons)
     if (resourcesList) {
       resources.forEach((item, index) => {
-        resourcesList.appendChild(createResultItem(item, participants.length + news.length + pageResults.length + index));
+        resourcesList.appendChild(
+          createResultItem(item, participants.length + news.length + pageResults.length + index)
+        );
       });
     }
   }
@@ -825,8 +827,10 @@ const searchIndex = {
   document.querySelectorAll('.quick-link').forEach((link) => {
     link.addEventListener('click', () => {
       const href = link.getAttribute('href') || '';
-      const title = link.querySelector('svg + *:not(span)')?.textContent?.trim() ||
-                    link.textContent?.trim().split('\n')[0] || '';
+      const title =
+        link.querySelector('svg + *:not(span)')?.textContent?.trim() ||
+        link.textContent?.trim().split('\n')[0] ||
+        '';
       trackSearchEvent('quick_link_clicked', {
         link_name: title,
         link_url: href,

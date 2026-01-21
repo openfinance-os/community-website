@@ -196,10 +196,7 @@ export function trackParticipantViewed(
   });
 }
 
-export function trackParticipantWebsiteClicked(
-  participantName: string,
-  websiteUrl: string
-): void {
+export function trackParticipantWebsiteClicked(participantName: string, websiteUrl: string): void {
   trackEvent('participant_website_clicked', {
     participant_name: participantName,
     website_url: websiteUrl,
