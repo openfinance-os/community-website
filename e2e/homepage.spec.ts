@@ -26,8 +26,8 @@ test.describe('Homepage', () => {
   });
 
   test('should display quick links section', async ({ page }) => {
-    // Check for the quick links section
-    const quickLinksHeading = page.getByRole('heading', { name: /Quick Links/i });
+    // Check for the quick links section (target h2 in main content, not footer h3)
+    const quickLinksHeading = page.locator('main').getByRole('heading', { name: /Quick Links/i });
     await expect(quickLinksHeading).toBeVisible();
 
     // Should have at least 3 quick link cards
