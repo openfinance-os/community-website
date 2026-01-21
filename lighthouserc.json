@@ -26,7 +26,13 @@
         "dom-size": "off",
         "dom-size-insight": "off",
         "render-blocking-insight": "off",
-        "render-blocking-resources": "off"
+        "render-blocking-resources": "off",
+        "duplicated-javascript-insight": "off",
+        "legacy-javascript-insight": "off",
+        "unused-javascript": "off",
+        "uses-long-cache-ttl": "off",
+        "cache-insight": "off",
+        "max-potential-fid": "off"
       }
     },
     "upload": {
