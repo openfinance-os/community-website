@@ -116,6 +116,12 @@ const websiteSchema = {
   </head>
   <body>
     <slot />
+
+    <!-- Enhanced Analytics (UTM, scroll depth, engagement, performance) -->
+    <script>
+      import { initEnhancedAnalytics } from '../scripts/enhanced-analytics';
+      initEnhancedAnalytics();
+    </script>
   </body>
 </html>
 
