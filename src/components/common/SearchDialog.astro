@@ -727,18 +727,27 @@ const searchIndex = {
     }) as T;
   }
 
+  // Track search with longer debounce to capture intent, not keystrokes
+  let lastTrackedQuery = '';
+  const trackSearchQuery = debounce((query: string, resultsCount: number) => {
+    const trimmed = query.trim();
+    // Only track if query is meaningful and different from last tracked
+    if (trimmed.length >= 3 && trimmed !== lastTrackedQuery) {
+      lastTrackedQuery = trimmed;
+      trackSearchEvent('search_query', {
+        query: trimmed,
+        query_length: trimmed.length,
+        results_count: resultsCount,
+      });
+    }
+  }, 800); // Longer debounce for tracking to capture final intent
+
   // Handle search input
   const handleSearch = debounce((query: string) => {
     const results = search(query);
     updateSearchUI(query, results);
-    // Track search queries (only if query has content)
-    if (query.trim().length >= 2) {
-      trackSearchEvent('search_query', {
-        query: query.trim(),
-        query_length: query.trim().length,
-        results_count: results.length,
-      });
-    }
+    // Track with longer debounce
+    trackSearchQuery(query, results.length);
   }, 150);
 
   // Open dialog

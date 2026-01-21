@@ -11,6 +11,7 @@ declare global {
       capture: (event: string, properties?: Record<string, unknown>) => void;
       identify: (distinctId: string, properties?: Record<string, unknown>) => void;
     };
+    __analyticsInitialized?: Record<string, boolean>;
   }
 }
 
@@ -25,6 +26,29 @@ export function trackEvent(event: string, properties?: Record<string, unknown>):
       page_title: document.title,
     });
   }
+}
+
+/**
+ * Safely extract hostname from URL, returns null if invalid
+ */
+export function safeGetHostname(url: string): string | null {
+  try {
+    return new URL(url).hostname;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Guard to prevent duplicate initialization of tracking scripts
+ * Returns true if this is the first initialization, false if already initialized
+ */
+export function initOnce(key: string): boolean {
+  if (typeof window === 'undefined') return false;
+  window.__analyticsInitialized = window.__analyticsInitialized || {};
+  if (window.__analyticsInitialized[key]) return false;
+  window.__analyticsInitialized[key] = true;
+  return true;
 }
 
 // ============================================

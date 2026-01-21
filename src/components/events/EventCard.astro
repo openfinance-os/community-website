@@ -309,23 +309,31 @@ const typeColors: Record<string, string> = {
 </style>
 
 <script>
-  // Track event card clicks
-  document.querySelectorAll('.event-card').forEach((card) => {
-    card.addEventListener('click', () => {
-      if (typeof window !== 'undefined' && (window as any).posthog) {
-        const title = card.getAttribute('data-title') || '';
-        const slug = card.getAttribute('data-slug') || '';
-        const eventType = card.getAttribute('data-type') || '';
-        const isPast = card.getAttribute('data-past') === 'true';
+  // Guard against duplicate initialization
+  (function initEventCardTracking() {
+    const key = 'event-card-tracking';
+    if ((window as any).__analyticsInitialized?.[key]) return;
+    (window as any).__analyticsInitialized = (window as any).__analyticsInitialized || {};
+    (window as any).__analyticsInitialized[key] = true;
 
-        (window as any).posthog.capture('event_clicked', {
-          title,
-          slug,
-          event_type: eventType,
-          is_past: isPast,
-          page_url: window.location.pathname,
-        });
-      }
+    // Track event card clicks
+    document.querySelectorAll('.event-card').forEach((card) => {
+      card.addEventListener('click', () => {
+        if ((window as any).posthog) {
+          const title = card.getAttribute('data-title') || '';
+          const slug = card.getAttribute('data-slug') || '';
+          const eventType = card.getAttribute('data-type') || '';
+          const isPast = card.getAttribute('data-past') === 'true';
+
+          (window as any).posthog.capture('event_clicked', {
+            title,
+            slug,
+            event_type: eventType,
+            is_past: isPast,
+            page_url: window.location.pathname,
+          });
+        }
+      });
     });
-  });
+  })();
 </script>
