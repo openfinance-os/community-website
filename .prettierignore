@@ -10,8 +10,8 @@ node_modules/
 # Package lock
 package-lock.json
 
-# Data snapshots (auto-generated)
-data/observatory/snapshots/*.json
+# Observatory data (auto-generated)
+data/observatory/
 
 # Public assets
 public/

@@ -22,8 +22,8 @@ const { stats } = Astro.props;
 
 // Calculate percentages for the engagement funnel
 const totalRegistered = stats.totalUnique;
-const testingInSandbox = stats.sandbox.registered;
-const liveInProduction = stats.production.live;
+const testingInSandbox = stats.inBoth + stats.sandboxOnly;
+const liveInProduction = stats.inBoth + stats.productionOnly;
 
 // Progress percentages (relative to total)
 const sandboxPercent = totalRegistered > 0 ? (testingInSandbox / totalRegistered) * 100 : 0;
