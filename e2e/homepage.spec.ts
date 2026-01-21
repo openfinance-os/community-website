@@ -61,7 +61,8 @@ test.describe('Homepage', () => {
   });
 
   test('should display footer', async ({ page }) => {
-    const footer = page.locator('footer');
+    // Target main site footer specifically (class="footer"), not card-footers
+    const footer = page.locator('footer.footer');
     await expect(footer).toBeVisible();
   });
 });
