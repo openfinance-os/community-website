@@ -452,18 +452,98 @@ function createSnapshot(
   };
 }
 
+/**
+ * Normalize organization name for matching across environments.
+ * Organizations may be registered with different IDs in sandbox vs production,
+ * so we need to match by name as a fallback.
+ */
+function normalizeOrgName(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/\s+(p\.?j\.?s\.?c\.?|pjsc|llc|ltd|limited|l\.l\.c\.?|fz-?llc|fze)$/i, '')
+    .replace(/[^a-z0-9]/g, '')
+    .trim();
+}
+
+/**
+ * Find matching organization in the other environment by name.
+ * Returns the ID of the matching organization if found.
+ */
+function findOrgByName(
+  participant: TransformedParticipant,
+  otherEnvParticipants: TransformedParticipant[]
+): string | null {
+  const normalizedName = normalizeOrgName(participant.name);
+  const normalizedShortName = normalizeOrgName(participant.shortName);
+  const normalizedLegalName = normalizeOrgName(participant.legalName);
+
+  for (const other of otherEnvParticipants) {
+    const otherName = normalizeOrgName(other.name);
+    const otherShortName = normalizeOrgName(other.shortName);
+    const otherLegalName = normalizeOrgName(other.legalName);
+
+    // Match if any name variant matches
+    if (
+      normalizedName === otherName ||
+      normalizedName === otherShortName ||
+      normalizedShortName === otherName ||
+      normalizedShortName === otherShortName ||
+      normalizedLegalName === otherLegalName
+    ) {
+      return other.id;
+    }
+  }
+  return null;
+}
+
 function createDualEnvironmentSnapshot(
   production: ObservatorySnapshot | null,
   sandbox: ObservatorySnapshot | null
 ): DualEnvironmentSnapshot {
-  const productionIds = new Set(production?.participants.map((p) => p.id) || []);
-  const sandboxIds = new Set(sandbox?.participants.map((p) => p.id) || []);
+  const productionParticipants = production?.participants || [];
+  const sandboxParticipants = sandbox?.participants || [];
 
-  const inBothEnvironments = [...productionIds].filter((id) => sandboxIds.has(id));
-  const productionOnly = [...productionIds].filter((id) => !sandboxIds.has(id));
-  const sandboxOnly = [...sandboxIds].filter((id) => !productionIds.has(id));
+  const productionIds = new Set(productionParticipants.map((p) => p.id));
+  const sandboxIds = new Set(sandboxParticipants.map((p) => p.id));
 
-  const allIds = new Set([...productionIds, ...sandboxIds]);
+  // Track matched organizations (using production ID as canonical)
+  const inBothEnvironments: string[] = [];
+  const productionOnly: string[] = [];
+  const sandboxOnly: string[] = [];
+
+  // Track sandbox orgs that have been matched (by ID or name)
+  const matchedSandboxIds = new Set<string>();
+
+  // Process production participants
+  for (const prodParticipant of productionParticipants) {
+    if (sandboxIds.has(prodParticipant.id)) {
+      // Direct ID match
+      inBothEnvironments.push(prodParticipant.id);
+      matchedSandboxIds.add(prodParticipant.id);
+    } else {
+      // Try to find by name - organizations may have different IDs across environments
+      const matchedSandboxId = findOrgByName(prodParticipant, sandboxParticipants);
+      if (matchedSandboxId) {
+        // Found by name - this org is in both environments
+        inBothEnvironments.push(prodParticipant.id);
+        matchedSandboxIds.add(matchedSandboxId);
+      } else {
+        // Truly production only (shouldn't happen in normal business flow)
+        productionOnly.push(prodParticipant.id);
+      }
+    }
+  }
+
+  // Process sandbox participants that weren't matched
+  for (const sandboxParticipant of sandboxParticipants) {
+    if (!matchedSandboxIds.has(sandboxParticipant.id)) {
+      sandboxOnly.push(sandboxParticipant.id);
+    }
+  }
+
+  // Total unique is: in both + production only + sandbox only
+  const totalUniqueParticipants =
+    inBothEnvironments.length + productionOnly.length + sandboxOnly.length;
 
   return {
     timestamp: new Date().toISOString(),
@@ -474,7 +554,7 @@ function createDualEnvironmentSnapshot(
       inBothEnvironments,
       productionOnly,
       sandboxOnly,
-      totalUniqueParticipants: allIds.size,
+      totalUniqueParticipants,
     },
   };
 }
