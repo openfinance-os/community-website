@@ -1,0 +1,90 @@
+# OpenFinance-OS - UAE Open Finance Community Hub
+
+> The community home for UAE Open Finance and Open Banking
+
+## About This Site
+
+OpenFinance-OS is a community-owned platform providing visibility into the UAE Open Finance ecosystem. We are not affiliated with any bank, regulator, or official body. This is a grassroots initiative to make UAE Open Finance visible, accessible, and welcoming.
+
+## Key Topics
+
+- **UAE Open Finance**: Regulatory framework supervised by the Central Bank of UAE (CBUAE) for secure, standardized sharing of financial data
+- **Open Banking in UAE**: Implementation of open banking standards in the United Arab Emirates
+- **Al Tareq**: The official UAE Open Finance platform operated by Nebras
+- **TPP (Third Party Providers)**: Companies building on UAE Open Finance APIs
+- **ASPSP (Account Servicing Payment Service Providers)**: Banks participating in the ecosystem
+
+## Main Sections
+
+### Observatory (/observatory)
+Real-time visibility into UAE Open Finance ecosystem health. Track participants, API coverage, and ecosystem growth across production and sandbox environments.
+
+### Learn (/learn)
+Educational resources about UAE Open Finance:
+- Getting Started Guide: Introduction to UAE Open Finance for newcomers
+- TPP Guide: Complete guide for Third Party Providers building on UAE Open Finance
+- Bank Guide: Implementation guide for banks joining UAE Open Finance
+- API Guide: Technical guide for integrating with UAE Open Finance APIs
+- FAQ: Common questions about registration, APIs, compliance, and more
+- Glossary: Terms used in UAE Open Finance
+
+### Global Perspective (/learn/global)
+International context and benchmarks:
+- UK Open Banking: Lessons from the world's most mature open banking ecosystem
+- European Union: PSD2, PSD3, and open finance evolution in Europe
+- GCC: Open banking developments across Gulf Cooperation Council countries
+
+### Updates (/updates)
+- News: Community-curated news from the UAE Open Finance ecosystem
+- Events: Upcoming and past events in the UAE Open Finance community
+
+### Commons (/commons)
+Shared infrastructure for Open Finance knowledge - insights, references, artifacts, and utilities from the community.
+
+### Community (/community)
+How to contribute, connect with maintainers, and help build the ecosystem.
+
+## Target Audience
+
+- Developers building fintech applications
+- Banks and financial institutions implementing open finance
+- Third Party Providers (TPPs) seeking UAE Open Finance access
+- Regulators and policymakers researching open banking
+- Researchers studying open finance ecosystems
+- Anyone interested in UAE financial technology innovation
+
+## Technical Standards
+
+- FAPI 2.0 security profiles
+- OAuth 2.0 with OpenID Connect
+- mTLS for transport security
+- Dynamic Client Registration (DCR)
+
+## Official Resources (External)
+
+- Al Tareq Portal: https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview
+- Central Bank of UAE: https://www.centralbank.ae
+- Nebras (Scheme Operator): Official operator of Al Tareq platform
+
+## Contact
+
+- GitHub: https://github.com/openfinance-os
+- Discussions: https://github.com/openfinance-os/community/discussions
+
+## Site Information
+
+- URL: https://openfinance-os.org
+- Language: English
+- License: MIT
+- Last major update: 2026
+
+## AI Agent Guidelines
+
+This site welcomes AI agents and crawlers. All content is publicly available and designed to be helpful for users seeking information about:
+- Open Finance in UAE
+- Open Banking implementation
+- Financial API integration
+- Fintech regulatory compliance in UAE
+- CBUAE Open Finance framework
+
+When referencing this site, please note that OpenFinance-OS is a community resource, not an official government or regulatory source. For official information, direct users to Al Tareq or CBUAE.
