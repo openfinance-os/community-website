@@ -7,19 +7,44 @@ interface Props {
   publishedTime?: string;
   modifiedTime?: string;
   articleSchema?: object;
+  keywords?: string[];
 }
 
 const {
   title,
-  description = 'The community home for UAE Open Finance',
+  description = 'The community home for UAE Open Finance and Open Banking. Ecosystem visibility, resources, and community collaboration for the UAE financial services industry.',
   ogImage = '/og-image.png',
   type = 'website',
   publishedTime,
   modifiedTime,
   articleSchema,
+  keywords = [],
 } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = new URL(ogImage, Astro.site);
+
+// Default keywords for SEO - always include core terms
+const defaultKeywords = [
+  'UAE Open Finance',
+  'Open Banking UAE',
+  'Open Finance',
+  'Open Banking',
+  'UAE fintech',
+  'CBUAE',
+  'Al Tareq',
+  'financial APIs',
+  'banking APIs',
+  'PSD2 UAE',
+  'Third Party Providers',
+  'TPP',
+  'ASPSP',
+  'financial data sharing',
+  'UAE financial services',
+  'Open Finance ecosystem',
+  'fintech UAE',
+  'banking innovation UAE',
+];
+const allKeywords = [...new Set([...keywords, ...defaultKeywords])];
 
 // Organization structured data (JSON-LD)
 const organizationSchema = {
@@ -28,22 +53,70 @@ const organizationSchema = {
   name: 'OpenFinance-OS',
   url: Astro.site?.toString() || 'https://openfinance-os.org',
   logo: new URL('/brand/logo-full.svg', Astro.site).toString(),
-  description: 'Community-owned platform providing visibility into the UAE Open Finance ecosystem',
+  description: 'Community-owned platform providing visibility into the UAE Open Finance and Open Banking ecosystem. Resources for developers, banks, and fintechs.',
   sameAs: ['https://github.com/openfinance-os'],
+  knowsAbout: [
+    'UAE Open Finance',
+    'Open Banking',
+    'Financial APIs',
+    'CBUAE regulations',
+    'Fintech',
+  ],
 };
 
-// WebSite structured data for search
+// WebSite structured data for search with SearchAction for sitelinks
 const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'OpenFinance-OS',
+  name: 'OpenFinance-OS - UAE Open Finance Community',
+  alternateName: ['OpenFinance-OS', 'UAE Open Finance Hub', 'Open Banking UAE'],
   url: Astro.site?.toString() || 'https://openfinance-os.org',
-  description: 'The community home for UAE Open Finance',
+  description: 'The community home for UAE Open Finance and Open Banking. Real-time ecosystem visibility, educational resources, and community collaboration.',
   publisher: {
     '@type': 'Organization',
     name: 'OpenFinance-OS',
   },
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: 'https://openfinance-os.org/learn?q={search_term_string}',
+    },
+    'query-input': 'required name=search_term_string',
+  },
 };
+
+// Generate BreadcrumbList schema from current path
+const pathSegments = Astro.url.pathname.split('/').filter(Boolean);
+const breadcrumbItems = [
+  {
+    '@type': 'ListItem',
+    position: 1,
+    name: 'Home',
+    item: Astro.site?.toString() || 'https://openfinance-os.org',
+  },
+];
+
+let currentPath = '';
+pathSegments.forEach((segment, index) => {
+  currentPath += `/${segment}`;
+  const name = segment
+    .split('-')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+  breadcrumbItems.push({
+    '@type': 'ListItem',
+    position: index + 2,
+    name: name,
+    item: new URL(currentPath, Astro.site).toString(),
+  });
+});
+
+const breadcrumbSchema = pathSegments.length > 0 ? {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: breadcrumbItems,
+} : null;
 ---
 
 <!doctype html>
@@ -55,31 +128,50 @@ const websiteSchema = {
     <link rel="alternate" type="application/rss+xml" title="OpenFinance-OS News" href="/rss.xml" />
 
     <!-- SEO -->
-    <title>{title} | OpenFinance-OS</title>
+    <title>{title} | OpenFinance-OS - UAE Open Finance & Open Banking</title>
     <meta name="description" content={description} />
+    <meta name="keywords" content={allKeywords.join(', ')} />
     <link rel="canonical" href={canonicalURL} />
 
+    <!-- Additional SEO meta tags -->
+    <meta name="author" content="OpenFinance-OS Community" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="geo.region" content="AE" />
+    <meta name="geo.placename" content="United Arab Emirates" />
+    <meta name="language" content="English" />
+
     <!-- Open Graph -->
-    <meta property="og:title" content={title} />
+    <meta property="og:title" content={`${title} | UAE Open Finance & Open Banking`} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
-    <meta property="og:site_name" content="OpenFinance-OS" />
+    <meta property="og:site_name" content="OpenFinance-OS - UAE Open Finance Community" />
     <meta property="og:type" content={type} />
     <meta property="og:image" content={ogImageURL} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="OpenFinance-OS - The community home for UAE Open Finance and Open Banking" />
+    <meta property="og:locale" content="en_US" />
     {publishedTime && <meta property="article:published_time" content={publishedTime} />}
     {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+    {type === 'article' && <meta property="article:section" content="Open Finance" />}
+    {type === 'article' && <meta property="article:tag" content="UAE Open Finance" />}
+    {type === 'article' && <meta property="article:tag" content="Open Banking" />}
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
+    <meta name="twitter:title" content={`${title} | UAE Open Finance & Open Banking`} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL} />
+    <meta name="twitter:image:alt" content="OpenFinance-OS - UAE Open Finance and Open Banking community platform" />
 
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
     <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+    {
+      breadcrumbSchema && (
+        <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+      )
+    }
     {
       articleSchema && (
         <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />

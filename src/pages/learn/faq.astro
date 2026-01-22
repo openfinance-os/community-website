@@ -12,6 +12,28 @@ interface FAQCategory {
   items: FAQItem[];
 }
 
+// Generate FAQPage schema for Google rich results
+const generateFAQSchema = (categories: FAQCategory[]) => {
+  const allQuestions = categories.flatMap((category) =>
+    category.items.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    }))
+  );
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: allQuestions,
+    name: 'UAE Open Finance FAQ',
+    description: 'Frequently asked questions about UAE Open Finance, Open Banking, registration, APIs, compliance, and technical implementation.',
+  };
+};
+
 const faqCategories: FAQCategory[] = [
   {
     title: 'Getting Started',
@@ -134,11 +156,15 @@ const faqCategories: FAQCategory[] = [
     ],
   },
 ];
+
+// Generate the FAQ schema
+const faqSchema = generateFAQSchema(faqCategories);
 ---
 
 <PageLayout
   title="Frequently Asked Questions"
-  description="Common questions about UAE Open Finance - registration, APIs, compliance, and more."
+  description="Common questions about UAE Open Finance and Open Banking - registration, APIs, compliance, TPP requirements, and technical implementation guidance."
+  articleSchema={faqSchema}
 >
   <div class="faq-page">
     <div class="container">

@@ -64,7 +64,7 @@ const eventDate = new Date(event.data.date);
 const endDate = event.data.endDate ? new Date(event.data.endDate) : undefined;
 const isMultiDay = endDate && endDate.getTime() !== eventDate.getTime();
 
-// Event structured data (JSON-LD)
+// Event structured data (JSON-LD) - Enhanced for SEO
 const eventSchema = {
   '@context': 'https://schema.org',
   '@type': 'Event',
@@ -84,13 +84,25 @@ const eventSchema = {
     : {
         '@type': 'Place',
         name: event.data.location,
-        address: event.data.location,
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: event.data.location,
+          addressCountry: 'AE',
+        },
       },
   organizer: {
     '@type': 'Organization',
     name: event.data.organizer,
   },
   url: new URL(`/events/${event.slug}`, Astro.site).toString(),
+  about: {
+    '@type': 'Thing',
+    name: 'UAE Open Finance',
+    description: 'Open Finance and Open Banking ecosystem in the United Arab Emirates',
+  },
+  inLanguage: 'en',
+  isAccessibleForFree: true,
+  keywords: ['UAE Open Finance', 'Open Banking', 'Fintech', event.data.type, event.data.organizer],
 };
 ---
 
