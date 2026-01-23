@@ -1,0 +1,379 @@
+---
+const actions = [
+  {
+    icon: 'github',
+    title: 'Contribute Code',
+    description: 'Report issues, submit PRs, or help with documentation.',
+    href: 'https://github.com/organizations/openfinance-os/',
+    linkText: 'GitHub',
+    external: true,
+  },
+  {
+    icon: 'book',
+    title: 'Learn More',
+    description: 'Understand Open Finance and how it works in the UAE.',
+    href: '/learn',
+    linkText: 'Learning Hub',
+  },
+  {
+    icon: 'link',
+    title: 'Official Resources',
+    description: 'CBUAE, Al Tareq, and official documentation links.',
+    href: '/learn#resources',
+    linkText: 'Resources',
+  },
+];
+
+const icons: Record<string, string> = {
+  github: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>`,
+  book: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>`,
+  link: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>`,
+};
+---
+
+<section class="get-involved">
+  <div class="container">
+    <div class="content-grid">
+      <!-- Mission Statement -->
+      <div class="mission-block">
+        <h2 class="mission-title">By the community,<br />for the community.</h2>
+        <p class="mission-text">
+          We are not official. We are not affiliated. We are contributors building transparency in
+          UAE's Open Finance ecosystem.
+        </p>
+        <p class="mission-text">
+          Every dataset, every feature, every fix comes from people like you who believe financial
+          services should be more open.
+        </p>
+        <div class="mission-cta">
+          <a
+            href="https://github.com/organizations/openfinance-os/"
+            class="btn btn-primary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="btn-icon" set:html={icons.github} />
+            Join us on GitHub
+          </a>
+        </div>
+      </div>
+
+      <!-- Action Cards -->
+      <div class="actions-block">
+        {
+          actions.map((action) => (
+            <a
+              href={action.href}
+              class="action-card"
+              target={action.external ? '_blank' : undefined}
+              rel={action.external ? 'noopener noreferrer' : undefined}
+            >
+              <div class="action-icon" set:html={icons[action.icon]} />
+              <div class="action-content">
+                <h3 class="action-title">
+                  {action.title}
+                  {action.external && (
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      class="external-icon"
+                    >
+                      <path d="M7 17L17 7M17 7H7M17 7v10" />
+                    </svg>
+                  )}
+                </h3>
+                <p class="action-description">{action.description}</p>
+              </div>
+              <div class="action-arrow" aria-hidden="true">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .get-involved {
+    padding: var(--space-16) var(--space-4);
+    background: var(--color-gray-50);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  @media (min-width: 768px) {
+    .content-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-12);
+    }
+  }
+
+  /* Mission Block */
+  .mission-block {
+    max-width: 480px;
+  }
+
+  .mission-title {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 700;
+    color: var(--color-gray-900);
+    line-height: 1.2;
+    margin-bottom: var(--space-4);
+  }
+
+  .mission-text {
+    font-size: 1rem;
+    color: var(--color-gray-600);
+    line-height: 1.6;
+    margin-bottom: var(--space-4);
+  }
+
+  .mission-text:last-of-type {
+    margin-bottom: var(--space-6);
+  }
+
+  .mission-cta {
+    display: flex;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-6);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: var(--radius-lg);
+    transition:
+      transform var(--transition-fast),
+      box-shadow var(--transition-fast),
+      background-color var(--transition-fast);
+  }
+
+  .btn:hover {
+    text-decoration: none;
+  }
+
+  .btn-primary {
+    background: var(--color-gray-900);
+    color: white;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  }
+
+  .btn-primary:hover {
+    background: var(--color-gray-800);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
+  }
+
+  .btn:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+  }
+
+  .btn-icon {
+    display: flex;
+    width: 18px;
+    height: 18px;
+  }
+
+  .btn-icon :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Action Cards */
+  .actions-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .action-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-5);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    text-decoration: none;
+    color: inherit;
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast),
+      transform var(--transition-fast);
+  }
+
+  .action-card:hover {
+    border-color: var(--color-primary-300);
+    box-shadow: var(--shadow-md);
+    transform: translateX(4px);
+    text-decoration: none;
+  }
+
+  .action-card:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+  }
+
+  .action-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-primary-50);
+    color: var(--color-primary-600);
+    border-radius: var(--radius-lg);
+  }
+
+  .action-icon :global(svg) {
+    width: 20px;
+    height: 20px;
+  }
+
+  .action-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .action-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-1);
+  }
+
+  .action-card:hover .action-title {
+    color: var(--color-primary-700);
+  }
+
+  .external-icon {
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+
+  .action-description {
+    font-size: 0.8125rem;
+    color: var(--color-gray-500);
+    line-height: 1.4;
+  }
+
+  .action-arrow {
+    flex-shrink: 0;
+    color: var(--color-gray-300);
+    transition:
+      color var(--transition-fast),
+      transform var(--transition-fast);
+  }
+
+  .action-card:hover .action-arrow {
+    color: var(--color-primary-500);
+    transform: translateX(2px);
+  }
+
+  @media (max-width: 767px) {
+    .mission-block {
+      text-align: center;
+      max-width: none;
+    }
+
+    .mission-cta {
+      justify-content: center;
+    }
+
+    .action-arrow {
+      display: none;
+    }
+  }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .get-involved {
+    background: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .mission-title {
+    color: var(--color-gray-50);
+  }
+
+  :global([data-theme='dark']) .mission-text {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .btn-primary {
+    background: white;
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .btn-primary:hover {
+    background: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .action-card {
+    background: var(--color-gray-200);
+    border-color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .action-card:hover {
+    border-color: var(--color-primary-500);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  :global([data-theme='dark']) .action-icon {
+    background: rgba(20, 184, 166, 0.15);
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .action-title {
+    color: var(--color-gray-50);
+  }
+
+  :global([data-theme='dark']) .action-card:hover .action-title {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .action-description {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .action-arrow {
+    color: var(--color-gray-500);
+  }
+
+  :global([data-theme='dark']) .action-card:hover .action-arrow {
+    color: var(--color-primary-400);
+  }
+</style>

@@ -1,0 +1,695 @@
+---
+interface EcosystemStats {
+  totalUnique: number;
+  production: {
+    registered: number;
+    live: number;
+  };
+  sandbox: {
+    registered: number;
+    live: number;
+  };
+  inBoth: number;
+  productionOnly: number;
+  sandboxOnly: number;
+}
+
+interface Props {
+  stats: EcosystemStats;
+  lastUpdated: string;
+}
+
+const { stats, lastUpdated } = Astro.props;
+
+// Calculate percentages for the donut chart
+const total = stats.totalUnique;
+const inBothPercent = total > 0 ? (stats.inBoth / total) * 100 : 0;
+const productionOnlyPercent = total > 0 ? (stats.productionOnly / total) * 100 : 0;
+const sandboxOnlyPercent = total > 0 ? (stats.sandboxOnly / total) * 100 : 0;
+
+// Calculate stroke-dasharray for donut segments
+const circumference = 2 * Math.PI * 40; // radius = 40
+const inBothDash = (inBothPercent / 100) * circumference;
+const productionOnlyDash = (productionOnlyPercent / 100) * circumference;
+const sandboxOnlyDash = (sandboxOnlyPercent / 100) * circumference;
+
+// Offsets for each segment
+const inBothOffset = 0;
+const productionOnlyOffset = -inBothDash;
+const sandboxOnlyOffset = -(inBothDash + productionOnlyDash);
+
+// Format the last updated time
+const formatDate = (dateStr: string) => {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+};
+---
+
+<section class="live-dashboard">
+  <div class="container">
+    <div class="section-header">
+      <div class="header-left">
+        <div class="live-indicator">
+          <span class="live-dot"></span>
+          <span class="live-text">Live Data</span>
+        </div>
+        <h2 class="section-title">Ecosystem Dashboard</h2>
+        <p class="section-description">
+          Real-time participation data from the UAE Open Finance registry
+        </p>
+      </div>
+      <a href="/observatory" class="view-all-link">
+        Full Dashboard
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14M12 5l7 7-7 7"></path>
+        </svg>
+      </a>
+    </div>
+
+    <div class="dashboard-grid">
+      <!-- Donut Chart Card -->
+      <div class="dashboard-card chart-card">
+        <div class="chart-container">
+          <svg class="donut-chart" viewBox="0 0 100 100">
+            <!-- Background circle -->
+            <circle
+              cx="50"
+              cy="50"
+              r="40"
+              fill="none"
+              stroke="var(--color-gray-200)"
+              stroke-width="12"></circle>
+            <!-- In Both segment (teal) -->
+            <circle
+              cx="50"
+              cy="50"
+              r="40"
+              fill="none"
+              stroke="var(--color-primary-500)"
+              stroke-width="12"
+              stroke-dasharray={`${inBothDash} ${circumference}`}
+              stroke-dashoffset={inBothOffset}
+              transform="rotate(-90 50 50)"
+              class="chart-segment"></circle>
+            <!-- Production Only segment (amber) -->
+            <circle
+              cx="50"
+              cy="50"
+              r="40"
+              fill="none"
+              stroke="var(--color-accent-500)"
+              stroke-width="12"
+              stroke-dasharray={`${productionOnlyDash} ${circumference}`}
+              stroke-dashoffset={productionOnlyOffset}
+              transform="rotate(-90 50 50)"
+              class="chart-segment"></circle>
+            <!-- Sandbox Only segment (blue) -->
+            <circle
+              cx="50"
+              cy="50"
+              r="40"
+              fill="none"
+              stroke="#3b82f6"
+              stroke-width="12"
+              stroke-dasharray={`${sandboxOnlyDash} ${circumference}`}
+              stroke-dashoffset={sandboxOnlyOffset}
+              transform="rotate(-90 50 50)"
+              class="chart-segment"></circle>
+          </svg>
+          <div class="chart-center">
+            <span class="chart-number">{stats.totalUnique}</span>
+            <span class="chart-label">Total</span>
+          </div>
+        </div>
+
+        <div class="chart-legend">
+          <div class="legend-item">
+            <span class="legend-dot legend-dot-both"></span>
+            <span class="legend-label">Both Environments</span>
+            <span class="legend-value">{stats.inBoth}</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot legend-dot-production"></span>
+            <span class="legend-label">Production Only</span>
+            <span class="legend-value">{stats.productionOnly}</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot legend-dot-sandbox"></span>
+            <span class="legend-label">Sandbox Only</span>
+            <span class="legend-value">{stats.sandboxOnly}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Cards -->
+      <div class="stats-column">
+        <div class="dashboard-card stat-card">
+          <div class="stat-header">
+            <span class="stat-icon stat-icon-production">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+            </span>
+            <span class="stat-title">Production</span>
+          </div>
+          <div class="stat-value">{stats.production.registered}</div>
+          <div class="stat-sublabel">
+            {stats.production.live} live
+          </div>
+          <div class="stat-bar">
+            <div
+              class="stat-bar-fill stat-bar-production"
+              style={`width: ${stats.production.registered > 0 ? (stats.production.live / stats.production.registered) * 100 : 0}%`}
+            >
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-card stat-card">
+          <div class="stat-header">
+            <span class="stat-icon stat-icon-sandbox">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="3" y1="9" x2="21" y2="9"></line>
+                <line x1="9" y1="21" x2="9" y2="9"></line>
+              </svg>
+            </span>
+            <span class="stat-title">Sandbox</span>
+          </div>
+          <div class="stat-value">{stats.sandbox.registered}</div>
+          <div class="stat-sublabel">
+            {stats.sandbox.live} testing
+          </div>
+          <div class="stat-bar">
+            <div
+              class="stat-bar-fill stat-bar-sandbox"
+              style={`width: ${stats.sandbox.registered > 0 ? (stats.sandbox.live / stats.sandbox.registered) * 100 : 0}%`}
+            >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA Card -->
+      <div class="dashboard-card cta-card">
+        <div class="cta-content">
+          <h3 class="cta-title">Dive Deeper</h3>
+          <p class="cta-description">
+            Explore individual participant profiles, API coverage, and historical trends in the full
+            observatory.
+          </p>
+          <a href="/observatory" class="cta-button">
+            Open Full Dashboard
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M12 5l7 7-7 7"></path>
+            </svg>
+          </a>
+        </div>
+        <div class="cta-graphic" aria-hidden="true">
+          <svg viewBox="0 0 80 80" fill="none">
+            <circle cx="40" cy="40" r="35" stroke="currentColor" stroke-width="1" opacity="0.2"
+            ></circle>
+            <circle cx="40" cy="40" r="25" stroke="currentColor" stroke-width="1" opacity="0.3"
+            ></circle>
+            <circle cx="40" cy="40" r="15" stroke="currentColor" stroke-width="1" opacity="0.4"
+            ></circle>
+            <circle cx="40" cy="40" r="5" fill="currentColor" opacity="0.6"></circle>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <p class="data-note">
+      Last updated: {formatDate(lastUpdated)} ·
+      <a href="/observatory/methodology">How we calculate this</a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .live-dashboard {
+    padding: var(--space-16) var(--space-4);
+    background: white;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+  }
+
+  @media (min-width: 768px) {
+    .section-header {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+  }
+
+  .header-left {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .live-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-success);
+  }
+
+  .live-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--color-success);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.6;
+      transform: scale(0.95);
+    }
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-gray-900);
+  }
+
+  .section-description {
+    font-size: 1rem;
+    color: var(--color-gray-600);
+  }
+
+  .view-all-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: 500;
+    color: var(--color-primary-600);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: gap var(--transition-fast);
+  }
+
+  .view-all-link:hover {
+    gap: var(--space-3);
+    text-decoration: none;
+  }
+
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 768px) {
+    .dashboard-grid {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+
+  .dashboard-card {
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+  }
+
+  /* Chart Card */
+  .chart-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .chart-container {
+    position: relative;
+    width: 180px;
+    height: 180px;
+  }
+
+  .donut-chart {
+    width: 100%;
+    height: 100%;
+  }
+
+  .chart-segment {
+    transition: stroke-dasharray 0.6s ease-out;
+  }
+
+  .chart-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .chart-number {
+    font-family: var(--font-mono);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-gray-900);
+    line-height: 1;
+  }
+
+  .chart-label {
+    font-size: 0.8125rem;
+    color: var(--color-gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .chart-legend {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    width: 100%;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.875rem;
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .legend-dot-both {
+    background: var(--color-primary-500);
+  }
+
+  .legend-dot-production {
+    background: var(--color-accent-500);
+  }
+
+  .legend-dot-sandbox {
+    background: #3b82f6;
+  }
+
+  .legend-label {
+    flex: 1;
+    color: var(--color-gray-600);
+  }
+
+  .legend-value {
+    font-weight: 600;
+    color: var(--color-gray-900);
+  }
+
+  /* Stats Column */
+  .stats-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .stat-card {
+    flex: 1;
+  }
+
+  .stat-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+  }
+
+  .stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-md);
+  }
+
+  .stat-icon-production {
+    background: rgba(232, 168, 92, 0.15);
+    color: var(--color-accent-600);
+  }
+
+  .stat-icon-sandbox {
+    background: rgba(59, 130, 246, 0.15);
+    color: #3b82f6;
+  }
+
+  .stat-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-gray-600);
+  }
+
+  .stat-value {
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-gray-900);
+    line-height: 1;
+    margin-bottom: var(--space-1);
+  }
+
+  .stat-sublabel {
+    font-size: 0.8125rem;
+    color: var(--color-gray-500);
+    margin-bottom: var(--space-3);
+  }
+
+  .stat-bar {
+    height: 6px;
+    background: var(--color-gray-200);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .stat-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.6s ease-out;
+  }
+
+  .stat-bar-production {
+    background: var(--color-accent-500);
+  }
+
+  .stat-bar-sandbox {
+    background: #3b82f6;
+  }
+
+  /* CTA Card */
+  .cta-card {
+    position: relative;
+    background: linear-gradient(135deg, var(--color-primary-800) 0%, var(--color-primary-900) 100%);
+    border-color: transparent;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+
+  .cta-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: var(--space-2);
+  }
+
+  .cta-description {
+    font-size: 0.9375rem;
+    color: var(--color-primary-200);
+    line-height: 1.5;
+    margin-bottom: var(--space-4);
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-5);
+    background: white;
+    color: var(--color-primary-700);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    transition:
+      background-color var(--transition-fast),
+      gap var(--transition-fast),
+      transform var(--transition-fast);
+  }
+
+  .cta-button:hover {
+    background: var(--color-gray-100);
+    gap: var(--space-3);
+    transform: translateY(-1px);
+    text-decoration: none;
+  }
+
+  .cta-button:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 2px;
+  }
+
+  .cta-graphic {
+    position: absolute;
+    right: -20px;
+    bottom: -20px;
+    width: 120px;
+    height: 120px;
+    color: var(--color-primary-400);
+    opacity: 0.3;
+  }
+
+  .cta-graphic svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .data-note {
+    text-align: center;
+    font-size: 0.8125rem;
+    color: var(--color-gray-500);
+    margin-top: var(--space-6);
+  }
+
+  .data-note a {
+    color: var(--color-primary-600);
+  }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .live-dashboard {
+    background: var(--color-gray-50);
+  }
+
+  :global([data-theme='dark']) .section-title {
+    color: var(--color-gray-50);
+  }
+
+  :global([data-theme='dark']) .section-description {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .view-all-link {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .dashboard-card {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .chart-number {
+    color: var(--color-gray-50);
+  }
+
+  :global([data-theme='dark']) .chart-label {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .legend-label {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .legend-value {
+    color: var(--color-gray-50);
+  }
+
+  :global([data-theme='dark']) .stat-title {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .stat-value {
+    color: var(--color-gray-50);
+  }
+
+  :global([data-theme='dark']) .stat-sublabel {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .stat-bar {
+    background: var(--color-gray-600);
+  }
+
+  :global([data-theme='dark']) .data-note {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .data-note a {
+    color: var(--color-primary-400);
+  }
+</style>
