@@ -1,0 +1,1256 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+---
+
+<PageLayout
+  title="Funding"
+  description="Support OpenFinance-OS - a community-funded initiative for UAE Open Finance ecosystem visibility. No corporate sponsorship, no paid placement."
+>
+  <div class="funding-page">
+    <!-- Hero Section -->
+    <header class="hero">
+      <div class="container">
+        <h1>Support OpenFinance-OS</h1>
+        <p class="hero-subtitle">
+          Community-funded. No corporate sponsorship. Full transparency.
+        </p>
+        <p class="hero-description">
+          We keep costs minimal and funding transparent. Every contribution goes directly to
+          maintaining and improving this community resource.
+        </p>
+        <div class="hero-cta">
+          <a
+            href="https://github.com/sponsors/openfinance-os"
+            class="btn btn-primary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path
+                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+              ></path>
+            </svg>
+            Sponsor on GitHub
+          </a>
+          <a
+            href="https://opencollective.com/openfinance-os"
+            class="btn btn-secondary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Open Collective
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Funding Philosophy Section -->
+    <section class="section philosophy-section">
+      <div class="container">
+        <h2>Our Funding Philosophy</h2>
+        <p class="section-intro">
+          OpenFinance-OS is built differently. We believe community resources should be owned by the
+          community, free from corporate influence.
+        </p>
+
+        <div class="philosophy-grid">
+          <div class="philosophy-card">
+            <div class="card-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+            </div>
+            <h3>Community-Owned</h3>
+            <p>
+              Funded by individuals who care about UAE Open Finance. No single company or
+              organization has outsized influence.
+            </p>
+          </div>
+
+          <div class="philosophy-card">
+            <div class="card-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+            </div>
+            <h3>No Strings Attached</h3>
+            <p>
+              We accept no funding that implies editorial influence. Our content is determined by
+              community needs, not sponsor interests.
+            </p>
+          </div>
+
+          <div class="philosophy-card">
+            <div class="card-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </div>
+            <h3>Fully Transparent</h3>
+            <p>
+              Every expense is documented and publicly visible. You can see exactly where your
+              contribution goes.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Budget Section -->
+    <section class="section budget-section">
+      <div class="container">
+        <h2>Annual Budget</h2>
+        <p class="section-intro">
+          We keep costs minimal by using free and open-source tools wherever possible.
+        </p>
+
+        <div class="budget-card">
+          <div class="budget-header">
+            <span class="budget-label">Estimated Annual Costs</span>
+            <span class="budget-total">&lt;$110/year</span>
+          </div>
+          <div class="budget-items">
+            <div class="budget-item">
+              <div class="item-info">
+                <span class="item-name">Domain (openfinance-os.org)</span>
+                <span class="item-description">Annual domain registration</span>
+              </div>
+              <span class="item-cost">~$15</span>
+            </div>
+            <div class="budget-item">
+              <div class="item-info">
+                <span class="item-name">Hosting (Cloudflare Pages)</span>
+                <span class="item-description">Static site hosting with CDN</span>
+              </div>
+              <span class="item-cost free">Free</span>
+            </div>
+            <div class="budget-item">
+              <div class="item-info">
+                <span class="item-name">Analytics (Plausible)</span>
+                <span class="item-description">Privacy-respecting analytics</span>
+              </div>
+              <span class="item-cost">~$90</span>
+            </div>
+            <div class="budget-item">
+              <div class="item-info">
+                <span class="item-name">GitHub Actions</span>
+                <span class="item-description">CI/CD and data collection</span>
+              </div>
+              <span class="item-cost free">Free</span>
+            </div>
+          </div>
+          <div class="budget-footer">
+            <p>
+              All spending is tracked on our
+              <a
+                href="https://opencollective.com/openfinance-os"
+                target="_blank"
+                rel="noopener noreferrer">Open Collective page</a
+              >.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ways to Support Section -->
+    <section class="section support-section">
+      <div class="container">
+        <h2>Ways to Support</h2>
+        <p class="section-intro">
+          Financial contributions help keep the lights on, but there are many ways to support the
+          project.
+        </p>
+
+        <div class="support-grid">
+          <div class="support-card primary">
+            <div class="card-badge">Financial</div>
+            <h3>GitHub Sponsors</h3>
+            <p>
+              Set up monthly or one-time sponsorship directly through GitHub. Great for individuals
+              and developers.
+            </p>
+            <a
+              href="https://github.com/sponsors/openfinance-os"
+              class="support-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Sponsor on GitHub
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M7 17L17 7M17 7H7M17 7v10"></path>
+              </svg>
+            </a>
+          </div>
+
+          <div class="support-card primary">
+            <div class="card-badge">Financial</div>
+            <h3>Open Collective</h3>
+            <p>
+              Transparent finances with public expense tracking. Ideal for organizations wanting
+              visibility into spending.
+            </p>
+            <a
+              href="https://opencollective.com/openfinance-os"
+              class="support-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View on Open Collective
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M7 17L17 7M17 7H7M17 7v10"></path>
+              </svg>
+            </a>
+          </div>
+
+          <div class="support-card">
+            <div class="card-badge secondary">Non-Financial</div>
+            <h3>Contribute Code</h3>
+            <p>
+              Help improve the Observatory, fix bugs, or add new features. Check out our open issues
+              on GitHub.
+            </p>
+            <a
+              href="https://github.com/openfinance-os/community-website/issues"
+              class="support-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View Open Issues
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M7 17L17 7M17 7H7M17 7v10"></path>
+              </svg>
+            </a>
+          </div>
+
+          <div class="support-card">
+            <div class="card-badge secondary">Non-Financial</div>
+            <h3>Share Knowledge</h3>
+            <p>
+              Write articles, submit news updates, or help with documentation. Community content
+              makes us valuable.
+            </p>
+            <a href="/commons/contribute" class="support-link">
+              Contribution Guide
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
+            </a>
+          </div>
+
+          <div class="support-card">
+            <div class="card-badge secondary">Non-Financial</div>
+            <h3>Spread the Word</h3>
+            <p>
+              Tell colleagues about OpenFinance-OS. Share our resources. Help grow the community.
+            </p>
+            <a
+              href="https://github.com/openfinance-os/community/discussions"
+              class="support-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Join Discussions
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M7 17L17 7M17 7H7M17 7v10"></path>
+              </svg>
+            </a>
+          </div>
+
+          <div class="support-card">
+            <div class="card-badge secondary">Non-Financial</div>
+            <h3>Report Issues</h3>
+            <p>
+              Found a bug or outdated information? Let us know. Quality feedback helps us improve.
+            </p>
+            <a
+              href="https://github.com/openfinance-os/community-website/issues/new"
+              class="support-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Open an Issue
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M7 17L17 7M17 7H7M17 7v10"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- What We Won't Do Section -->
+    <section class="section wont-section">
+      <div class="container">
+        <h2>What We Won't Do</h2>
+        <p class="section-intro">
+          Some things are more important than funding. Here's what we've committed to never doing.
+        </p>
+
+        <div class="wont-grid">
+          <div class="wont-item">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="15" y1="9" x2="9" y2="15"></line>
+              <line x1="9" y1="9" x2="15" y2="15"></line>
+            </svg>
+            <div>
+              <strong>Sponsored content</strong>
+              <span>No paid articles or promotional pieces</span>
+            </div>
+          </div>
+          <div class="wont-item">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="15" y1="9" x2="9" y2="15"></line>
+              <line x1="9" y1="9" x2="15" y2="15"></line>
+            </svg>
+            <div>
+              <strong>"Partner" logos</strong>
+              <span>No corporate branding on our site</span>
+            </div>
+          </div>
+          <div class="wont-item">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="15" y1="9" x2="9" y2="15"></line>
+              <line x1="9" y1="9" x2="15" y2="15"></line>
+            </svg>
+            <div>
+              <strong>Paid placement</strong>
+              <span>No priority listing for sponsors</span>
+            </div>
+          </div>
+          <div class="wont-item">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="15" y1="9" x2="9" y2="15"></line>
+              <line x1="9" y1="9" x2="15" y2="15"></line>
+            </svg>
+            <div>
+              <strong>Editorial influence</strong>
+              <span>Content determined by community needs only</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section faq-section">
+      <div class="container">
+        <h2>Frequently Asked Questions</h2>
+
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>Why don't you accept corporate sponsorship tiers?</summary>
+            <div class="faq-answer">
+              <p>
+                Corporate sponsorship tiers create implicit expectations. Even with the best
+                intentions, sponsors may expect visibility, influence over content, or priority
+                treatment. We want to be free to criticize, praise, or ignore any participant in the
+                ecosystem based solely on merit and community interest.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>How do you decide what to spend money on?</summary>
+            <div class="faq-answer">
+              <p>
+                All expenses are discussed in our GitHub Discussions before being approved. Major
+                expenses require maintainer consensus. We prioritize keeping the site running
+                reliably over adding features that would increase costs.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>What happens if you receive more funding than needed?</summary>
+            <div class="faq-answer">
+              <p>
+                Excess funds are held in reserve for future years or unexpected expenses. If the
+                reserve grows significantly, we'd discuss with the community whether to expand
+                services (better analytics, additional tools) or reduce funding requests.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>Can my company donate without getting recognition?</summary>
+            <div class="faq-answer">
+              <p>
+                Yes. We welcome anonymous donations. If you contribute through Open Collective, you
+                can choose to appear as "Anonymous" or "Incognito". For GitHub Sponsors, you can set
+                your profile to private.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>What if the maintainers disappear?</summary>
+            <div class="faq-answer">
+              <p>
+                Our GOVERNANCE.md documents succession planning. Domain ownership has documented
+                handover terms. The codebase is open source and can be forked. Open Collective funds
+                would be handled according to their fiscal sponsorship terms.
+              </p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta-section">
+      <div class="container">
+        <div class="cta-card">
+          <h2>Every contribution matters</h2>
+          <p>
+            Whether it's $5 or 5 minutes of your time, your support helps keep UAE Open Finance
+            visible and accessible to everyone.
+          </p>
+          <div class="cta-buttons">
+            <a
+              href="https://github.com/sponsors/openfinance-os"
+              class="btn btn-accent"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path
+                  d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                ></path>
+              </svg>
+              Sponsor on GitHub
+            </a>
+            <a href="/community" class="btn btn-light"> Join the Community </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</PageLayout>
+
+<style>
+  .funding-page {
+    --section-spacing: var(--space-16);
+  }
+
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 var(--space-4);
+  }
+
+  /* Hero Section */
+  .hero {
+    padding: var(--space-16) var(--space-4);
+    text-align: center;
+    background: linear-gradient(180deg, var(--color-primary-50) 0%, var(--color-surface) 100%);
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: var(--space-4);
+    color: var(--color-primary-700);
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--color-primary-600);
+    max-width: 600px;
+    margin: 0 auto var(--space-4);
+    line-height: 1.5;
+  }
+
+  .hero-description {
+    font-size: 1.0625rem;
+    color: var(--color-text-secondary);
+    max-width: 550px;
+    margin: 0 auto var(--space-8);
+    line-height: 1.7;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: var(--space-3);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-4) var(--space-6);
+    font-weight: 500;
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-primary {
+    background: var(--color-gray-900);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: var(--color-gray-800);
+    text-decoration: none;
+  }
+
+  .btn-secondary {
+    background: white;
+    color: var(--color-text);
+    border: 1px solid var(--color-gray-300);
+  }
+
+  .btn-secondary:hover {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-400);
+    text-decoration: none;
+  }
+
+  .btn-accent {
+    background: var(--color-primary-600);
+    color: white;
+  }
+
+  .btn-accent:hover {
+    background: var(--color-primary-700);
+    text-decoration: none;
+  }
+
+  .btn-light {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .btn-light:hover {
+    background: rgba(255, 255, 255, 0.3);
+    text-decoration: none;
+  }
+
+  .btn:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.2);
+  }
+
+  /* Sections */
+  .section {
+    padding: var(--section-spacing) var(--space-4);
+  }
+
+  .section h2 {
+    font-size: 1.75rem;
+    margin-bottom: var(--space-3);
+    color: var(--color-text);
+  }
+
+  .section-intro {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-8);
+    max-width: 600px;
+    line-height: 1.6;
+  }
+
+  /* Philosophy Grid */
+  .philosophy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-5);
+  }
+
+  .philosophy-card {
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    transition: all var(--transition-fast);
+  }
+
+  .philosophy-card:hover {
+    border-color: var(--color-primary-300);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: var(--color-primary-50);
+    color: var(--color-primary-600);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-4);
+  }
+
+  .philosophy-card h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: var(--space-2);
+    color: var(--color-text);
+  }
+
+  .philosophy-card p {
+    color: var(--color-text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  /* Budget Section */
+  .budget-section {
+    background: var(--color-gray-50);
+  }
+
+  .budget-card {
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    max-width: 600px;
+  }
+
+  .budget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-5) var(--space-6);
+    background: var(--color-primary-50);
+    border-bottom: 1px solid var(--color-primary-100);
+  }
+
+  .budget-label {
+    font-weight: 600;
+    color: var(--color-primary-700);
+  }
+
+  .budget-total {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-primary-600);
+  }
+
+  .budget-items {
+    padding: var(--space-2) 0;
+  }
+
+  .budget-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-4) var(--space-6);
+    border-bottom: 1px solid var(--color-gray-100);
+  }
+
+  .budget-item:last-child {
+    border-bottom: none;
+  }
+
+  .item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .item-name {
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  .item-description {
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+  }
+
+  .item-cost {
+    font-weight: 600;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+  }
+
+  .item-cost.free {
+    color: var(--color-primary-600);
+  }
+
+  .budget-footer {
+    padding: var(--space-4) var(--space-6);
+    background: var(--color-gray-50);
+    border-top: 1px solid var(--color-gray-200);
+  }
+
+  .budget-footer p {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  .budget-footer a {
+    color: var(--color-primary-600);
+    font-weight: 500;
+  }
+
+  .budget-footer a:hover {
+    color: var(--color-primary-700);
+  }
+
+  /* Support Grid */
+  .support-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-5);
+  }
+
+  .support-card {
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    transition: all var(--transition-fast);
+  }
+
+  .support-card:hover {
+    border-color: var(--color-gray-300);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .support-card.primary {
+    border-color: var(--color-primary-200);
+    background: linear-gradient(180deg, var(--color-primary-50) 0%, white 100%);
+  }
+
+  .support-card.primary:hover {
+    border-color: var(--color-primary-300);
+    box-shadow: var(--shadow-md);
+  }
+
+  .card-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: var(--radius-full);
+    background: var(--color-primary-100);
+    color: var(--color-primary-700);
+    margin-bottom: var(--space-3);
+    width: fit-content;
+  }
+
+  .card-badge.secondary {
+    background: var(--color-gray-100);
+    color: var(--color-gray-600);
+  }
+
+  .support-card h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: var(--space-2);
+    color: var(--color-text);
+  }
+
+  .support-card p {
+    color: var(--color-text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    flex: 1;
+    margin-bottom: var(--space-4);
+  }
+
+  .support-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-primary-600);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .support-link:hover {
+    color: var(--color-primary-700);
+  }
+
+  .support-link svg {
+    transition: transform var(--transition-fast);
+  }
+
+  .support-link:hover svg {
+    transform: translate(2px, -2px);
+  }
+
+  /* What We Won't Do Section */
+  .wont-section {
+    background: var(--color-gray-50);
+  }
+
+  .wont-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .wont-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+  }
+
+  .wont-item svg {
+    flex-shrink: 0;
+    color: var(--color-gray-400);
+    margin-top: 2px;
+  }
+
+  .wont-item div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .wont-item strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .wont-item span {
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+  }
+
+  /* FAQ Section */
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    max-width: 700px;
+  }
+
+  .faq-item {
+    background: white;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .faq-item summary {
+    padding: var(--space-4) var(--space-5);
+    font-weight: 500;
+    color: var(--color-text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    list-style: none;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary::after {
+    content: '+';
+    font-size: 1.25rem;
+    color: var(--color-gray-400);
+    transition: transform var(--transition-fast);
+  }
+
+  .faq-item[open] summary::after {
+    transform: rotate(45deg);
+  }
+
+  .faq-item summary:hover {
+    background: var(--color-gray-50);
+  }
+
+  .faq-answer {
+    padding: 0 var(--space-5) var(--space-4);
+  }
+
+  .faq-answer p {
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* CTA Section */
+  .cta-section {
+    padding-bottom: var(--space-20);
+  }
+
+  .cta-card {
+    background: linear-gradient(135deg, var(--color-primary-600) 0%, var(--color-primary-700) 100%);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-12) var(--space-8);
+    text-align: center;
+    color: white;
+  }
+
+  .cta-card h2 {
+    color: white;
+    margin-bottom: var(--space-3);
+  }
+
+  .cta-card > p {
+    opacity: 0.9;
+    max-width: 500px;
+    margin: 0 auto var(--space-6);
+    line-height: 1.6;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: var(--space-3);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .hero {
+      padding: var(--space-12) var(--space-4);
+    }
+
+    .section {
+      padding: var(--space-12) var(--space-4);
+    }
+
+    .philosophy-grid,
+    .support-grid,
+    .wont-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .budget-header {
+      flex-direction: column;
+      gap: var(--space-2);
+      text-align: center;
+    }
+
+    .cta-card {
+      padding: var(--space-8) var(--space-4);
+    }
+  }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .hero {
+    background: linear-gradient(180deg, rgba(20, 184, 166, 0.1) 0%, var(--color-surface) 100%);
+  }
+
+  :global([data-theme='dark']) .hero h1 {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .hero-subtitle {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .hero-description {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .btn-primary {
+    background: var(--color-gray-100);
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .btn-primary:hover {
+    background: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .btn-secondary {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-300);
+    color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .btn-secondary:hover {
+    background: var(--color-gray-200);
+    border-color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .section h2 {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .section-intro {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .philosophy-card {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .philosophy-card:hover {
+    border-color: var(--color-primary-400);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  :global([data-theme='dark']) .card-icon {
+    background: rgba(20, 184, 166, 0.15);
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .philosophy-card h3 {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .philosophy-card p {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .budget-section {
+    background: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .budget-card {
+    background: var(--color-gray-200);
+    border-color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .budget-header {
+    background: rgba(20, 184, 166, 0.15);
+    border-color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .budget-label {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .budget-total {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .budget-item {
+    border-color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .item-name {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .item-description {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .item-cost {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .item-cost.free {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .budget-footer {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .budget-footer p {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .budget-footer a {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .support-card {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .support-card:hover {
+    border-color: var(--color-gray-300);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  :global([data-theme='dark']) .support-card.primary {
+    border-color: var(--color-primary-500);
+    background: linear-gradient(180deg, rgba(20, 184, 166, 0.1) 0%, var(--color-gray-100) 100%);
+  }
+
+  :global([data-theme='dark']) .support-card.primary:hover {
+    border-color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .card-badge {
+    background: rgba(20, 184, 166, 0.2);
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .card-badge.secondary {
+    background: var(--color-gray-200);
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .support-card h3 {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .support-card p {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .support-link {
+    color: var(--color-primary-400);
+  }
+
+  :global([data-theme='dark']) .support-link:hover {
+    color: var(--color-primary-300);
+  }
+
+  :global([data-theme='dark']) .wont-section {
+    background: var(--color-gray-100);
+  }
+
+  :global([data-theme='dark']) .wont-item {
+    background: var(--color-gray-200);
+    border-color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .wont-item svg {
+    color: var(--color-gray-500);
+  }
+
+  :global([data-theme='dark']) .wont-item strong {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .wont-item span {
+    color: var(--color-gray-400);
+  }
+
+  :global([data-theme='dark']) .faq-item {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .faq-item summary {
+    color: var(--color-gray-900);
+  }
+
+  :global([data-theme='dark']) .faq-item summary::after {
+    color: var(--color-gray-500);
+  }
+
+  :global([data-theme='dark']) .faq-item summary:hover {
+    background: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .faq-answer p {
+    color: var(--color-gray-400);
+  }
+</style>
