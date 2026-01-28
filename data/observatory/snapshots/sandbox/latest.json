@@ -1,18 +1,18 @@
 {
-  "timestamp": "2026-01-27T06:34:14.683Z",
+  "timestamp": "2026-01-28T06:35:17.953Z",
   "source": "https://data.sandbox.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "sandbox",
   "summary": {
-    "totalParticipants": 55,
+    "totalParticipants": 56,
     "byStatus": {
-      "Active": 55
+      "Active": 56
     },
     "byRole": {
-      "BDSP": 54,
-      "BSIP": 54,
-      "LFI": 37,
-      "ISP": 39,
+      "BDSP": 55,
+      "BSIP": 55,
+      "LFI": 38,
+      "ISP": 40,
       "API Read_Write": 2,
       "TSP": 2,
       "pki-test-harness": 1
@@ -20,7 +20,7 @@
     "byCity": {
       "Unknown": 38,
       "Abu Dhabi": 5,
-      "Dubai": 9,
+      "Dubai": 10,
       "London": 2,
       "Sharjah": 1
     },
@@ -30,9 +30,9 @@
       "payments",
       "products"
     ],
-    "liveInProduction": 17,
+    "liveInProduction": 18,
     "shariahCompliantCount": 10,
-    "multiRoleCount": 55,
+    "multiRoleCount": 56,
     "tppCount": 0,
     "byAuthCapabilities": {
       "ciba": 0,
@@ -411,6 +411,32 @@
       "apiResources": [],
       "authServerCount": 0,
       "isLive": false
+    },
+    {
+      "id": "239cb7d5-4dcb-4348-9964-d8872faadc1c",
+      "name": "Arab Bank PLC",
+      "legalName": "Arab Bank PLC",
+      "shortName": "Arab Bank PLC",
+      "status": "Active",
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
+      "city": "Dubai",
+      "registrationNumber": "01.02.01.016.1973.01",
+      "apiFamilies": [],
+      "hasAuthServer": true,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 1,
+      "isLive": true
     },
     {
       "id": "d6f549cc-ff6f-4e21-844e-f26a2ee932cb",
@@ -1744,10 +1770,17 @@
     }
   ],
   "trends": {
-    "participantChange": 0,
-    "newParticipants": [],
+    "participantChange": 1,
+    "newParticipants": [
+      "239cb7d5-4dcb-4348-9964-d8872faadc1c"
+    ],
     "removedParticipants": [],
-    "roleChanges": {},
+    "roleChanges": {
+      "BDSP": 1,
+      "BSIP": 1,
+      "LFI": 1,
+      "ISP": 1
+    },
     "apiFamilyChanges": {}
   }
 }
