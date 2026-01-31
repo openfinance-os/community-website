@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-01-30T06:47:01.133Z",
+  "timestamp": "2026-01-31T06:37:41.517Z",
   "source": "https://data.sandbox.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "sandbox",
@@ -40,12 +40,12 @@
       "redirect": 0
     },
     "byCertificationStatus": {
-      "Self-Certified": 41
+      "Self-Certified": 42
     },
     "byApiVersion": {
+      "1.2": 6,
       "2.0": 8,
       "1.2.0": 13,
-      "1.2": 5,
       "1.0.0": 12,
       "2.0.0": 3
     }
@@ -426,7 +426,9 @@
       ],
       "city": "Dubai",
       "registrationNumber": "01.02.01.016.1973.01",
-      "apiFamilies": [],
+      "apiFamilies": [
+        "accounts"
+      ],
       "hasAuthServer": true,
       "isShariahCompliant": false,
       "authCapabilities": {
@@ -434,7 +436,14 @@
         "supportsDCR": false,
         "supportsRedirect": false
       },
-      "apiResources": [],
+      "apiResources": [
+        {
+          "family": "accounts",
+          "version": "1.2",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        }
+      ],
       "authServerCount": 1,
       "isLive": true
     },
@@ -1774,6 +1783,8 @@
     "newParticipants": [],
     "removedParticipants": [],
     "roleChanges": {},
-    "apiFamilyChanges": {}
+    "apiFamilyChanges": {
+      "accounts": 1
+    }
   }
 }
