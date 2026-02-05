@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-02-04T06:51:38.904Z",
+  "timestamp": "2026-02-05T06:58:12.161Z",
   "version": "2.0.0",
   "production": {
-    "timestamp": "2026-02-04T06:51:37.519Z",
+    "timestamp": "2026-02-05T06:58:10.587Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "production",
@@ -12,8 +12,8 @@
         "Active": 17
       },
       "byRole": {
-        "BDSP": 12,
-        "BSIP": 11,
+        "BDSP": 13,
+        "BSIP": 12,
         "LFI": 10,
         "ISP": 3,
         "API Read_Write": 3,
@@ -33,7 +33,7 @@
       ],
       "liveInProduction": 9,
       "shariahCompliantCount": 2,
-      "multiRoleCount": 14,
+      "multiRoleCount": 15,
       "tppCount": 0,
       "byAuthCapabilities": {
         "ciba": 0,
@@ -41,11 +41,11 @@
         "redirect": 0
       },
       "byCertificationStatus": {
-        "Self-Certified": 35
+        "Self-Certified": 33
       },
       "byApiVersion": {
-        "1.2": 29,
-        "2.0": 6
+        "1.2": 26,
+        "2.0": 7
       }
     },
     "participants": [
@@ -353,6 +353,8 @@
         "shortName": "FAB",
         "status": "Active",
         "roles": [
+          "BDSP",
+          "BSIP",
           "LFI"
         ],
         "city": "Abu Dhabi",
@@ -371,24 +373,6 @@
           "supportsRedirect": false
         },
         "apiResources": [
-          {
-            "family": "accounts",
-            "version": "1.2",
-            "certificationStatus": "Self-Certified",
-            "familyComplete": true
-          },
-          {
-            "family": "payments",
-            "version": "1.2",
-            "certificationStatus": "Self-Certified",
-            "familyComplete": false
-          },
-          {
-            "family": "cop",
-            "version": "1.2",
-            "certificationStatus": "Self-Certified",
-            "familyComplete": true
-          },
           {
             "family": "accounts",
             "version": "2.0",
@@ -412,9 +396,15 @@
             "version": "2.0",
             "certificationStatus": "Self-Certified",
             "familyComplete": true
+          },
+          {
+            "family": "accounts",
+            "version": "2.0",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": false
           }
         ],
-        "authServerCount": 1,
+        "authServerCount": 2,
         "isLive": true
       },
       {
@@ -738,7 +728,7 @@
     }
   },
   "sandbox": {
-    "timestamp": "2026-02-04T06:51:38.901Z",
+    "timestamp": "2026-02-05T06:58:12.158Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "sandbox",
@@ -779,12 +769,12 @@
         "redirect": 0
       },
       "byCertificationStatus": {
-        "Self-Certified": 42
+        "Self-Certified": 43
       },
       "byApiVersion": {
-        "1.2": 6,
-        "2.0": 8,
-        "1.2.0": 13,
+        "1.2": 7,
+        "2.0": 9,
+        "1.2.0": 12,
         "1.0.0": 12,
         "2.0.0": 3
       }
@@ -1686,7 +1676,7 @@
           },
           {
             "family": "payments",
-            "version": "1.2.0",
+            "version": "2.0",
             "certificationStatus": "Self-Certified",
             "familyComplete": false
           }
@@ -1782,6 +1772,7 @@
         "city": "Dubai",
         "registrationNumber": "01.01.01.005.1967.02",
         "apiFamilies": [
+          "accounts",
           "payments"
         ],
         "hasAuthServer": true,
@@ -1795,6 +1786,12 @@
           {
             "family": "payments",
             "version": "1.2.0",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": false
+          },
+          {
+            "family": "accounts",
+            "version": "1.2",
             "certificationStatus": "Self-Certified",
             "familyComplete": false
           }
@@ -2522,7 +2519,9 @@
       "newParticipants": [],
       "removedParticipants": [],
       "roleChanges": {},
-      "apiFamilyChanges": {}
+      "apiFamilyChanges": {
+        "accounts": 1
+      }
     }
   },
   "crossEnvironment": {
