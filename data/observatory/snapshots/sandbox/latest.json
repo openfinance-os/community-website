@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-02-05T06:58:12.158Z",
+  "timestamp": "2026-02-06T06:53:50.478Z",
   "source": "https://data.sandbox.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "sandbox",
@@ -1790,8 +1790,6 @@
     "newParticipants": [],
     "removedParticipants": [],
     "roleChanges": {},
-    "apiFamilyChanges": {
-      "accounts": 1
-    }
+    "apiFamilyChanges": {}
   }
 }
