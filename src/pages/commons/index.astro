@@ -480,11 +480,15 @@ function formatDate(date: Date): string {
                     </div>
                   )}
 
-                  {contribution.data.aiTool && contribution.data.aiTool.installCommands.length > 0 && (
-                    <div class="card-install">
-                      <InstallCommand commands={contribution.data.aiTool.installCommands} compact />
-                    </div>
-                  )}
+                  {contribution.data.aiTool &&
+                    contribution.data.aiTool.installCommands.length > 0 && (
+                      <div class="card-install">
+                        <InstallCommand
+                          commands={contribution.data.aiTool.installCommands}
+                          compact
+                        />
+                      </div>
+                    )}
 
                   <div class="card-meta">
                     <div class="meta-tags">

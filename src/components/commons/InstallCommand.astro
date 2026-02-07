@@ -43,11 +43,7 @@ const hasMultiple = resolvedCommands.length > 1;
       {hasMultiple && (
         <div class="install-tabs">
           {resolvedCommands.map((cmd, i) => (
-            <button
-              class:list={['install-tab', i === 0 && 'active']}
-              data-index={i}
-              type="button"
-            >
+            <button class:list={['install-tab', i === 0 && 'active']} data-index={i} type="button">
               {cmd.label}
             </button>
           ))}
