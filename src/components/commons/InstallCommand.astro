@@ -1,0 +1,234 @@
+---
+interface InstallCmd {
+  platform: string;
+  command: string;
+  label?: string;
+}
+
+interface Props {
+  commands: InstallCmd[];
+  compact?: boolean;
+}
+
+const { commands, compact = false } = Astro.props;
+
+const platformLabels: Record<string, string> = {
+  'claude-code': 'Claude Code',
+  cursor: 'Cursor',
+  copilot: 'Copilot',
+  windsurf: 'Windsurf',
+  'openai-codex': 'Codex',
+  'continue-dev': 'Continue',
+  aider: 'Aider',
+  mcp: 'MCP',
+  'platform-agnostic': 'Universal',
+};
+
+const resolvedCommands = commands.map((cmd) => ({
+  ...cmd,
+  label: cmd.label || platformLabels[cmd.platform] || cmd.platform,
+}));
+
+const firstCommand = resolvedCommands[0];
+const hasMultiple = resolvedCommands.length > 1;
+---
+
+{
+  compact ? (
+    <div class="install-compact">
+      <code class="install-code-compact">{firstCommand?.command}</code>
+    </div>
+  ) : (
+    <div class="install-command" data-commands={JSON.stringify(resolvedCommands)}>
+      {hasMultiple && (
+        <div class="install-tabs">
+          {resolvedCommands.map((cmd, i) => (
+            <button
+              class:list={['install-tab', i === 0 && 'active']}
+              data-index={i}
+              type="button"
+            >
+              {cmd.label}
+            </button>
+          ))}
+        </div>
+      )}
+      <div class="install-body">
+        <code class="install-code">{firstCommand?.command}</code>
+        <button class="copy-btn" type="button" title="Copy to clipboard" aria-label="Copy command">
+          <svg
+            class="copy-icon"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+          </svg>
+          <svg
+            class="check-icon"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            style="display:none"
+          >
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  )
+}
+
+<script>
+  document.querySelectorAll('.install-command').forEach((container) => {
+    const el = container as HTMLElement;
+    const commands = JSON.parse(el.dataset.commands || '[]');
+    const tabs = el.querySelectorAll('.install-tab');
+    const codeEl = el.querySelector('.install-code');
+    const copyBtn = el.querySelector('.copy-btn');
+    const copyIcon = el.querySelector('.copy-icon') as HTMLElement;
+    const checkIcon = el.querySelector('.check-icon') as HTMLElement;
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const index = Number((tab as HTMLElement).dataset.index);
+        tabs.forEach((t) => t.classList.remove('active'));
+        tab.classList.add('active');
+        if (codeEl && commands[index]) {
+          codeEl.textContent = commands[index].command;
+        }
+      });
+    });
+
+    copyBtn?.addEventListener('click', () => {
+      const text = codeEl?.textContent || '';
+      navigator.clipboard.writeText(text).then(() => {
+        if (copyIcon) copyIcon.style.display = 'none';
+        if (checkIcon) checkIcon.style.display = 'block';
+        setTimeout(() => {
+          if (copyIcon) copyIcon.style.display = 'block';
+          if (checkIcon) checkIcon.style.display = 'none';
+        }, 2000);
+      });
+    });
+  });
+</script>
+
+<style>
+  .install-compact {
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-gray-900);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .install-code-compact {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-gray-300);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    line-height: 1.5;
+  }
+
+  .install-code-compact::before {
+    content: '$ ';
+    color: var(--color-gray-500);
+  }
+
+  .install-command {
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--color-gray-900);
+  }
+
+  .install-tabs {
+    display: flex;
+    gap: 0;
+    background: var(--color-gray-800);
+    border-bottom: 1px solid var(--color-gray-700);
+    overflow-x: auto;
+  }
+
+  .install-tab {
+    padding: var(--space-2) var(--space-4);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: var(--color-gray-400);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all var(--transition-fast);
+  }
+
+  .install-tab:hover {
+    color: var(--color-gray-200);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .install-tab.active {
+    color: #818cf8;
+    border-bottom-color: #818cf8;
+  }
+
+  .install-body {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .install-code {
+    flex: 1;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-gray-100);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.5;
+  }
+
+  .install-code::before {
+    content: '$ ';
+    color: var(--color-gray-500);
+  }
+
+  .copy-btn {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: var(--color-gray-800);
+    border: 1px solid var(--color-gray-700);
+    border-radius: var(--radius-md);
+    color: var(--color-gray-400);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .copy-btn:hover {
+    background: var(--color-gray-700);
+    color: var(--color-gray-200);
+    border-color: var(--color-gray-600);
+  }
+
+  :global([data-theme='dark']) .install-command {
+    border-color: var(--color-gray-700);
+  }
+</style>
