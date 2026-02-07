@@ -1,464 +1,543 @@
-# Marketplace for Open Finance Skillet Sharing
+# Claude Code Marketplace for Open Finance — Sharing Skills, Plugins & MCP Servers
 
 > **Status:** Plan / RFC
 > **Date:** 2026-02-07
-> **Scope:** New `/marketplace` section on the community website
+> **Scope:** Extend the existing Commons section with Claude Code extensibility content
 
 ---
 
 ## 1. Overview
 
-A **Marketplace** section where the Open Finance community can discover, share, and evaluate reusable "skillets" — developer tools, API connectors, SDKs, compliance modules, testing harnesses, and integration accelerators built on top of the UAE Open Finance framework.
+Add a **Claude Code marketplace** to the community website where Open Finance practitioners can discover, share, and install **skills, plugins, MCP servers, and hooks** purpose-built for working with the UAE Open Finance ecosystem.
 
-This extends the existing **Commons** concept (insights, references, artifacts, utilities) into a more structured, discoverable, and evaluatable catalog specifically for executable, deployable, or integrable components.
+Everything is **open source**, listed under the existing **Commons** section — not a separate top-level route. This keeps the site's information architecture simple while giving Claude Code extensions the specialized metadata they need (install commands, plugin manifests, hook configurations).
 
-### What is a "Skillet"?
+### What Can Be Shared?
 
-A skillet is a packaged, reusable component built for the Open Finance ecosystem. Examples:
-
-| Category | Example |
-|---|---|
-| **Connector** | An API adapter that normalizes account-information responses across multiple ASPSPs |
-| **SDK / Library** | A TypeScript SDK for CBUAE consent management flows |
-| **Testing Tool** | A sandbox mock server that simulates ASPSP behavior for TPP integration testing |
-| **Compliance Module** | A PII-redaction utility that ensures PDPL compliance before data export |
-| **Template** | A Terraform/Pulumi module for deploying an Open Finance-ready API gateway |
-| **Integration** | A pre-built Postman collection covering all CBUAE standard API endpoints |
-| **Workflow** | A GitHub Actions pipeline for automated API conformance testing |
+| Component Type | What It Is | Example for Open Finance |
+|---|---|---|
+| **Skill** | A reusable SKILL.md that gives Claude specialized knowledge or workflow | A `/review-consent-flow` skill that audits CBUAE consent API implementations |
+| **Plugin** | A packaged bundle of skills, hooks, agents, and MCP servers | An `openfinance-dev` plugin with TPP onboarding workflows, API testing, and compliance checks |
+| **MCP Server** | A Model Context Protocol server that connects Claude to external tools/data | An MCP server that queries the Raidiam Trust Framework Directory or ASPSP sandbox APIs |
+| **Hook** | A shell command that runs at Claude Code lifecycle events | A `PostToolUse` hook that auto-formats generated CBUAE API request payloads |
+| **CLAUDE.md Rules** | Reusable project rules for Open Finance development patterns | A `.claude/rules/cbuae-api-style.md` that enforces CBUAE API naming conventions |
+| **Agent** | A custom agent definition for specialized workflows | An agent that walks through ASPSP registration step-by-step |
 
 ---
 
-## 2. How It Relates to Existing Architecture
+## 2. Why Under Commons (Not a Separate Section)
 
-### Current state
-
-The site is a **static Astro 5 site** deployed to Cloudflare Pages. Content lives in:
-- **Astro content collections** (markdown + frontmatter in `src/content/`)
-- **JSON data files** (`data/` directory)
-- **Automated scripts** that collect observatory data and curate news
-
-The existing **Commons** section (`/commons`) is the closest analog. It already supports:
-- Four content types (insight, reference, artifact, utility)
-- Taxonomy (use cases, audience, maturity, license)
+The existing Commons section already supports:
+- Four content types: **insight**, **reference**, **artifact**, **utility**
+- Taxonomy: use cases, audience, maturity, license
 - Contributor attribution
-- GitHub/demo/docs/article links
+- GitHub/demo/docs links
 - Client-side filtering
 
-### Why a separate Marketplace (not just expanding Commons)
+Claude Code extensions map naturally onto Commons types:
 
-| Concern | Commons | Marketplace |
+| Claude Code Component | Commons Type | Rationale |
 |---|---|---|
-| **Primary content** | Knowledge (articles, guides, analysis) | Executable components (code, configs, packages) |
-| **Evaluation** | Read and judge qualitatively | Install, run, test quantitatively |
-| **Metadata depth** | Summary + links | Version, dependencies, compatibility matrix, install instructions |
-| **Lifecycle** | Static once published | Versioned, updated, deprecated |
-| **Community signal** | Featured flag (editor pick) | Ratings, usage stats, compatibility reports |
-| **Discovery** | Filter by type/audience/use-case | Search by API family, runtime, ASPSP compatibility |
+| Skill (standalone SKILL.md) | **artifact** | A shareable template/file |
+| Plugin (full bundle) | **utility** | Forkable code & tools |
+| MCP Server | **utility** | Forkable service |
+| Hook configuration | **artifact** | A shareable config snippet |
+| CLAUDE.md rules | **reference** | Curated guidance |
+| Walkthrough/tutorial | **insight** | Original thinking on how to use these tools |
 
-The Marketplace warrants its own section because the data model, discovery UX, and community interaction patterns are meaningfully different from editorial content.
+Rather than building a parallel system, we **extend Commons** with optional Claude Code-specific metadata that activates richer display when present.
 
 ---
 
-## 3. Proposed Data Model
+## 3. Proposed Schema Changes
 
-### 3.1 Skillet Schema (Astro content collection)
+### 3.1 Extend the Commons Collection
+
+Add optional Claude Code fields to the existing `commonsCollection` schema in `src/content/config.ts`:
 
 ```typescript
-// Addition to src/content/config.ts
-
-const skilletCategories = [
-  'connector',
-  'sdk',
-  'testing',
-  'compliance',
-  'template',
-  'integration',
-  'workflow',
-  'library',
-  'other',
+// New enums for Claude Code extensions
+const claudeCodeComponentTypes = [
+  'skill',
+  'plugin',
+  'mcp-server',
+  'hook',
+  'rules',
+  'agent',
 ] as const;
 
-const runtimes = [
-  'node',
-  'python',
-  'java',
-  'go',
-  'dotnet',
-  'rust',
-  'browser',
-  'cli',
-  'terraform',
-  'docker',
-  'language-agnostic',
+const hookEvents = [
+  'SessionStart',
+  'UserPromptSubmit',
+  'PreToolUse',
+  'PostToolUse',
+  'PostToolUseFailure',
+  'Stop',
+  'Notification',
+  'PreCompact',
+  'SessionEnd',
 ] as const;
 
-const apiFamilies = [
-  'account-information',
-  'payment-initiation',
-  'confirmation-of-funds',
-  'event-notification',
-  'dynamic-client-registration',
-  'consent-management',
-  'multi-api',
-] as const;
-
-const skilletStatuses = [
-  'active',
-  'beta',
-  'deprecated',
-  'archived',
-] as const;
-
-const marketplaceCollection = defineCollection({
+// Add to the commonsCollection schema (all optional — existing entries unaffected)
+const commonsCollection = defineCollection({
   type: 'content',
   schema: z.object({
-    // ── Identity ──
+    // ── Existing fields (unchanged) ──
     title: z.string(),
-    slug: z.string().optional(),        // auto-derived if omitted
-    summary: z.string().max(280),       // short tagline
-    description: z.string(),            // longer explanation (rendered in detail page)
-    category: z.enum(skilletCategories),
-
-    // ── Versioning ──
-    version: z.string(),                // semver e.g. "1.2.0"
-    status: z.enum(skilletStatuses).default('active'),
-    datePublished: z.coerce.date(),
-    dateUpdated: z.coerce.date().optional(),
-
-    // ── Technical metadata ──
-    runtime: z.array(z.enum(runtimes)).min(1),
-    apiFamilies: z.array(z.enum(apiFamilies)).default([]),
-    aspspCompatibility: z.array(z.string()).default([]),  // e.g. ["ADCB", "FAB", "ENBD"]
-    openFinanceVersion: z.string().optional(),            // e.g. "1.0", "2.0-draft"
-
-    // ── Taxonomy (reuse existing where possible) ──
+    type: z.enum(commonsTypes),
+    summary: z.string(),
+    date: z.coerce.date(),
+    whyItMatters: z.string().optional(),
     useCases: z.array(z.enum(useCases)).default([]),
-    audience: z.array(z.enum(audiences)).default(['developer']),
+    audience: z.array(z.enum(audiences)).default(['all']),
     maturity: z.enum(maturityLevels).default('concept'),
-    license: z.enum(licenses),
-
-    // ── Installation / Usage ──
-    installCommand: z.string().optional(),       // e.g. "npm install @openfinance/consent-sdk"
-    packageRegistry: z.string().optional(),      // e.g. "npm", "pypi", "docker-hub"
-    minRequirements: z.string().optional(),      // e.g. "Node 18+, TypeScript 5+"
-
-    // ── Links ──
-    links: z.object({
-      github: z.string().url(),                  // required — must be open source or at least visible
-      demo: z.string().url().optional(),
-      docs: z.string().url().optional(),
-      package: z.string().url().optional(),      // npm/pypi/crates page
-      changelog: z.string().url().optional(),
-    }),
-
-    // ── Authorship ──
+    license: z.enum(licenses).optional(),
+    source: z.object({
+      platform: z.enum(sourcePlatforms),
+      url: z.string().url().optional(),
+    }).optional(),
+    authoredByContributor: z.boolean().default(true),
     contributor: z.string(),
     contributorUrl: z.string().url().optional(),
-    contributorOrg: z.string().optional(),       // e.g. "ADCB", "Lean Technologies"
-    authoredByContributor: z.boolean().default(true),
-
-    // ── Community signals (populated via data file, not frontmatter) ──
+    links: z.object({
+      github: z.string().url().optional(),
+      demo: z.string().url().optional(),
+      docs: z.string().url().optional(),
+      article: z.string().url().optional(),
+    }).optional(),
+    disclaimers: z.array(z.string()).default([]),
     featured: z.boolean().default(false),
 
-    // ── Governance ──
-    disclaimers: z.array(z.string()).default([]),
-    cbuaeCompliant: z.boolean().optional(),      // self-declared CBUAE alignment
-    securityReviewed: z.boolean().default(false),
+    // ── NEW: Claude Code extension metadata (all optional) ──
+    claudeCode: z.object({
+      // What kind of Claude Code component is this?
+      componentType: z.enum(claudeCodeComponentTypes),
+
+      // Install / usage command (displayed as copyable block)
+      // e.g. "claude plugin install openfinance-os/openfinance-dev"
+      // e.g. "claude mcp add --transport http openfinance-directory https://mcp.openfinance.ae/"
+      installCommand: z.string().optional(),
+
+      // For plugins: the plugin manifest fields
+      pluginName: z.string().optional(),        // e.g. "openfinance-dev"
+      version: z.string().optional(),           // semver
+
+      // For skills: the slash command name
+      skillCommand: z.string().optional(),      // e.g. "/review-consent-flow"
+
+      // For hooks: which lifecycle event(s)
+      hookEvents: z.array(z.enum(hookEvents)).default([]),
+
+      // For MCP servers: transport type and capabilities
+      mcpTransport: z.enum(['stdio', 'http', 'sse']).optional(),
+      mcpTools: z.array(z.string()).default([]),  // tool names the server provides
+
+      // Compatibility
+      minClaudeCodeVersion: z.string().optional(),  // e.g. "2.1.3"
+
+      // Inline snippet — for hooks/rules that are small enough to show directly
+      // (the full content is in the markdown body, but this gives a quick preview)
+      snippet: z.string().optional(),
+    }).optional(),
   }),
 });
 ```
 
-### 3.2 Community Signals (separate JSON data file)
+### 3.2 Key Design Decisions
 
-Because the site is static, dynamic community signals (ratings, usage counts) live in a JSON data file that can be updated via GitHub Actions or a lightweight API:
+1. **Fully backward compatible** — the `claudeCode` field is optional. All existing Commons entries continue to work unchanged.
+2. **No new content collection** — we reuse `commons`, so existing filters (type, audience, use case, maturity) work for Claude Code extensions too.
+3. **New filter dimension** — add a "Claude Code" filter chip to the Commons page that shows only entries with `claudeCode` metadata present. Optionally filter by `componentType`.
+4. **Rich display when present** — when a Commons entry has `claudeCode` data, the card and detail page render additional elements (install command, component type badge, snippet preview).
+
+---
+
+## 4. Content Examples
+
+### 4.1 A Skill
+
+```markdown
+---
+title: "Review CBUAE Consent Flow"
+type: artifact
+summary: "A Claude Code skill that audits your consent API implementation against CBUAE standards."
+date: 2026-02-01
+useCases: [compliance, identity]
+audience: [developer, tpp]
+maturity: demo
+license: mit
+contributor: "OpenFinance Community"
+contributorUrl: "https://github.com/openfinance-os"
+links:
+  github: "https://github.com/openfinance-os/claude-skills"
+claudeCode:
+  componentType: skill
+  skillCommand: "/review-consent-flow"
+  installCommand: "cp SKILL.md .claude/skills/review-consent-flow/SKILL.md"
+  minClaudeCodeVersion: "2.1.3"
+  snippet: |
+    Analyze the current project's consent API implementation.
+    Check against CBUAE Open Finance Standard v1.0:
+    - Consent lifecycle (create, authorize, revoke, expire)
+    - Required scopes and permissions model
+    - Token binding and FAPI compliance
+---
+
+## What It Does
+
+This skill teaches Claude how to review your consent flow implementation
+against the CBUAE Open Finance standard...
+
+## Usage
 
 ```
-data/marketplace/
-├── signals.json          # { "skillet-slug": { stars: 12, forks: 45, downloads: 230 } }
-├── reviews.json          # curated reviews (pulled from GitHub Discussions or submitted via PR)
-└── compatibility.json    # community-reported ASPSP compatibility matrix
+/review-consent-flow
 ```
 
-**`signals.json`** — populated by a GitHub Action that periodically fetches:
-- GitHub stars/forks for linked repos
-- npm/PyPI download counts (where applicable)
-- Issue count (open/closed ratio as a health signal)
+Claude will scan your project for consent-related endpoints and check them
+against the CBUAE specification.
+```
 
-**`reviews.json`** — structured reviews:
-```json
-{
-  "consent-sdk": [
+### 4.2 A Plugin
+
+```markdown
+---
+title: "Open Finance Developer Kit"
+type: utility
+summary: "A Claude Code plugin bundling skills, hooks, and MCP tools for UAE Open Finance development."
+date: 2026-01-15
+useCases: [payments, data, compliance, onboarding]
+audience: [developer, tpp, bank]
+maturity: production-ready
+license: apache-2.0
+contributor: "OpenFinance OS"
+contributorUrl: "https://github.com/openfinance-os"
+links:
+  github: "https://github.com/openfinance-os/claude-plugin-openfinance"
+  docs: "https://github.com/openfinance-os/claude-plugin-openfinance/wiki"
+claudeCode:
+  componentType: plugin
+  pluginName: "openfinance-dev"
+  version: "1.0.0"
+  installCommand: "claude plugin install openfinance-os/claude-plugin-openfinance"
+  minClaudeCodeVersion: "2.1.3"
+---
+
+## Included Skills
+
+- `/openfinance-dev:review-consent` — Audit consent API compliance
+- `/openfinance-dev:scaffold-tpp` — Generate a TPP project skeleton
+- `/openfinance-dev:test-sandbox` — Run integration tests against ASPSP sandboxes
+
+## Included Hooks
+
+- **PostToolUse (Write/Edit)**: Auto-validates generated API request schemas
+- **SessionStart**: Loads latest CBUAE API spec version
+
+## MCP Server
+
+Connects to the Raidiam Directory to look up participant details during development.
+```
+
+### 4.3 An MCP Server
+
+```markdown
+---
+title: "CBUAE Directory MCP Server"
+type: utility
+summary: "An MCP server that gives Claude access to the UAE Open Finance Trust Framework Directory."
+date: 2026-01-20
+useCases: [data, onboarding]
+audience: [developer]
+maturity: demo
+license: mit
+contributor: "Community Contributor"
+links:
+  github: "https://github.com/example/cbuae-directory-mcp"
+claudeCode:
+  componentType: mcp-server
+  mcpTransport: http
+  mcpTools: ["lookup_participant", "list_participants", "get_api_families", "check_status"]
+  installCommand: "claude mcp add --transport http cbuae-directory https://mcp.example.com/cbuae"
+  minClaudeCodeVersion: "2.1.0"
+---
+
+## What It Provides
+
+This MCP server connects Claude to the Raidiam Trust Framework Directory API,
+giving it real-time access to participant data during your development session...
+```
+
+### 4.4 A Hook Configuration
+
+```markdown
+---
+title: "Auto-format CBUAE API Payloads"
+type: artifact
+summary: "A PostToolUse hook that validates and formats CBUAE API request/response payloads."
+date: 2026-02-05
+useCases: [payments, compliance]
+audience: [developer]
+maturity: concept
+license: mit
+contributor: "Community Contributor"
+claudeCode:
+  componentType: hook
+  hookEvents: [PostToolUse]
+  snippet: |
     {
-      "author": "developer-handle",
-      "rating": 4,
-      "comment": "Works well with ADCB sandbox. Had to patch one edge case for FAB.",
-      "date": "2026-01-20",
-      "verified": true
+      "hooks": {
+        "PostToolUse": [{
+          "matcher": "Write|Edit",
+          "hooks": [{
+            "type": "command",
+            "command": "node scripts/validate-cbuae-payload.js $FILE_PATH"
+          }]
+        }]
+      }
     }
-  ]
-}
+---
+
+## Setup
+
+Add this to your `.claude/settings.json` or `.claude/settings.local.json`...
 ```
 
-**`compatibility.json`** — community-contributed ASPSP compatibility reports:
-```json
-{
-  "consent-sdk": {
-    "ADCB": { "status": "verified", "version": "1.2.0", "reportedBy": "contributor-x" },
-    "FAB": { "status": "partial", "version": "1.1.0", "notes": "Consent revocation not supported" },
-    "ENBD": { "status": "untested" }
-  }
-}
+### 4.5 Reusable CLAUDE.md Rules
+
+```markdown
+---
+title: "CBUAE API Development Rules"
+type: reference
+summary: "A set of .claude/rules/ files that enforce CBUAE API conventions in your project."
+date: 2026-01-25
+useCases: [compliance, payments, data]
+audience: [developer, tpp, bank]
+maturity: production-ready
+license: cc-by-4.0
+contributor: "OpenFinance Community"
+links:
+  github: "https://github.com/openfinance-os/claude-rules-cbuae"
+claudeCode:
+  componentType: rules
+  installCommand: "cp -r rules/* .claude/rules/"
+  snippet: |
+    # CBUAE API Style
+    - Use camelCase for JSON field names per CBUAE spec
+    - Always include x-fapi-interaction-id header
+    - Consent IDs must be UUIDv4
+    - All timestamps in ISO 8601 with timezone
+---
+
+## What's Included
+
+```
+.claude/rules/
+├── cbuae-api-style.md       # Naming and format conventions
+├── cbuae-security.md        # FAPI/mTLS requirements
+├── cbuae-consent.md         # Consent lifecycle rules
+└── cbuae-error-handling.md  # Standard error response format
+```
 ```
 
 ---
 
-## 4. Page Structure & Routes
+## 5. UI Changes to Commons
+
+### 5.1 New Filter: "Claude Code" Toggle
+
+Add a filter row to the existing Commons filter section:
 
 ```
-/marketplace                           → Main catalog (search, filter, browse)
-/marketplace/[slug]                    → Skillet detail page
-/marketplace/submit                    → Submission guide (links to GitHub PR workflow)
-/marketplace/compatibility             → Cross-skillet ASPSP compatibility matrix
+Platform    [All] [Claude Code]
 ```
 
-### 4.1 Marketplace Index (`/marketplace`)
+When "Claude Code" is active, only entries with `claudeCode` metadata are shown. Optionally expand to sub-filters:
 
-**Sections:**
-1. **Hero** — "Open Finance Marketplace" headline, subtitle, search bar
-2. **Stats bar** — Total skillets, production-ready count, active contributors, ASPSP coverage
-3. **Featured skillets** — Editor picks (2-3 cards, prominent)
-4. **Filter bar** — Category, runtime, API family, maturity, ASPSP compatibility
-5. **Search** — Client-side full-text search across title, summary, contributor, tags
-6. **Results grid** — Cards with: title, category badge, summary, runtime icons, maturity badge, star count, contributor, install command preview
+```
+Component   [All] [Skill] [Plugin] [MCP Server] [Hook] [Rules] [Agent]
+```
 
-**Card design:**
+### 5.2 Enhanced Card Display
+
+When a Commons entry has `claudeCode` metadata, the card shows additional elements:
+
 ```
 ┌──────────────────────────────────────┐
-│ [CONNECTOR]  [Active]    ★ 45       │
+│ [UTILITY]  [Claude Code: Plugin]    │
 │                                      │
-│ ASPSP Account Normalizer             │
-│ Normalizes account-information       │
-│ responses across UAE ASPSPs into     │
-│ a single consistent schema.          │
+│ Open Finance Developer Kit           │
+│ A Claude Code plugin bundling skills,│
+│ hooks, and MCP tools for UAE Open    │
+│ Finance development.                 │
 │                                      │
-│ [Node] [Python]   [Payments] [Data]  │
+│ ┌──────────────────────────────────┐ │
+│ │ $ claude plugin install          │ │
+│ │   openfinance-os/claude-plugin.. │ │
+│ └──────────────────────────────────┘ │
 │                                      │
-│ npm install @openfinance/acct-norm   │
+│ [Payments] [Data] [Compliance]       │
 │                                      │
-│ Lean Technologies  ·  Production Ready│
+│ OpenFinance OS  ·  Production Ready  │
 │ ─────────────────────────────────────│
-│ [GitHub] [Docs] [Demo]              │
+│ [GitHub] [Docs]                      │
 └──────────────────────────────────────┘
 ```
 
-### 4.2 Skillet Detail Page (`/marketplace/[slug]`)
+Key additions over a standard Commons card:
+- **Component type badge** — "Claude Code: Plugin" next to the existing type badge
+- **Install command preview** — monospace block with copy button
+- **Skill command name** — e.g., `/review-consent-flow` displayed prominently
 
-**Layout:**
-1. **Header** — Title, category, status badge, version, last updated
-2. **Quick install** — Copyable install command, package registry link
-3. **Description** — Full markdown body (rendered from content collection)
-4. **Technical details** sidebar:
-   - Runtime(s)
-   - API families supported
-   - Open Finance version compatibility
-   - Min requirements
-   - License
-   - CBUAE compliance self-declaration
-5. **ASPSP Compatibility table** — Pull from `compatibility.json`, show verified/partial/untested per bank
-6. **Community signals** — Stars, forks, downloads, open issues health
-7. **Reviews section** — Curated reviews from `reviews.json`
-8. **Links** — GitHub, docs, demo, package, changelog
-9. **Related skillets** — Same category or overlapping API families
-10. **Contributor info** — Name, org, link
+### 5.3 Enhanced Detail Page
 
-### 4.3 Compatibility Matrix (`/marketplace/compatibility`)
+When viewing a Commons entry that has `claudeCode` data, the detail page adds:
 
-A full-page table showing all skillets vs all known ASPSPs, with status indicators:
-- Verified (green)
-- Partial (amber)
-- Untested (grey)
-- Incompatible (red)
-
-This is a high-value page for TPP developers evaluating which tools work with their target banks.
-
-### 4.4 Submission Guide (`/marketplace/submit`)
-
-Step-by-step instructions for submitting a skillet via GitHub PR, similar to the existing `/commons/contribute` page:
-1. Fork the repo
-2. Create a markdown file in `src/content/marketplace/`
-3. Fill in the frontmatter schema
-4. Write the description body
-5. Open a PR — automated checks validate the schema
-6. Community review + merge
+1. **Install/Setup block** — prominent, copyable install command at the top
+2. **Component type indicator** — icon + label (Skill, Plugin, MCP Server, etc.)
+3. **Snippet preview** — syntax-highlighted code block showing the configuration or SKILL.md excerpt
+4. **Compatibility note** — minimum Claude Code version required
+5. **For plugins** — list of included skills, hooks, MCP servers
+6. **For MCP servers** — list of tools provided
+7. **For hooks** — lifecycle events and matcher patterns
 
 ---
 
-## 5. Implementation Phases
+## 6. Implementation Plan
 
-### Phase 1: Foundation (Static Catalog)
+### Phase 1: Schema Extension & Seed Content
 
-**Goal:** Ship a browsable, filterable marketplace with manually curated content.
+**Goal:** Extend Commons to support Claude Code metadata and publish initial entries.
 
-| Task | Files affected |
+| Task | Files Affected |
 |---|---|
-| Add `marketplace` content collection to schema | `src/content/config.ts` |
-| Create marketplace index page | `src/pages/marketplace/index.astro` |
-| Create skillet detail page | `src/pages/marketplace/[slug].astro` |
-| Create submission guide page | `src/pages/marketplace/submit.astro` |
-| Build `SkilletCard` component | `src/components/marketplace/SkilletCard.astro` |
-| Build `SkilletFilter` component | `src/components/marketplace/SkilletFilter.astro` |
-| Build `InstallCommand` component (copyable) | `src/components/marketplace/InstallCommand.astro` |
-| Build `CompatibilityBadge` component | `src/components/marketplace/CompatibilityBadge.astro` |
-| Add marketplace link to site navigation | `src/components/common/Header.astro` |
-| Seed 3-5 example skillets | `src/content/marketplace/*.md` |
-| Add marketplace styles | `src/styles/marketplace.css` (or scoped in components) |
-| Add JSON-LD structured data (SoftwareApplication schema) | Detail page |
-| Unit tests for any utility functions | `src/lib/__tests__/marketplace.test.ts` |
-| E2E smoke test | `e2e/marketplace.spec.ts` |
+| Add `claudeCodeComponentTypes` and `hookEvents` enums to config | `src/content/config.ts` |
+| Add optional `claudeCode` field to `commonsCollection` schema | `src/content/config.ts` |
+| Create 3-5 seed entries (one per component type) | `src/content/commons/*.md` |
+| Verify existing entries still build correctly | CI |
 
-### Phase 2: Community Signals
+### Phase 2: UI Enhancements
 
-**Goal:** Add automated data collection and community-reported compatibility.
+**Goal:** Make Claude Code entries discoverable and visually distinct.
 
-| Task | Files affected |
+| Task | Files Affected |
 |---|---|
-| Create `data/marketplace/` directory structure | `data/marketplace/` |
-| Build GitHub Action to collect repo stats (stars, forks, issues) | `.github/workflows/marketplace-signals.yml` |
-| Build script to fetch npm/PyPI download counts | `scripts/collect-marketplace-signals.ts` |
-| Display signals on skillet cards and detail pages | Components |
-| Add `compatibility.json` schema and seed data | `data/marketplace/compatibility.json` |
-| Build compatibility matrix page | `src/pages/marketplace/compatibility.astro` |
-| Build `CompatibilityMatrix` component | `src/components/marketplace/CompatibilityMatrix.astro` |
+| Add "Claude Code" filter toggle to Commons page | `src/pages/commons/index.astro` |
+| Add component type sub-filters | `src/pages/commons/index.astro` |
+| Build `InstallCommand` component (copyable code block) | `src/components/commons/InstallCommand.astro` |
+| Build `ComponentTypeBadge` component | `src/components/commons/ComponentTypeBadge.astro` |
+| Enhance card rendering when `claudeCode` is present | `src/pages/commons/index.astro` (card template) |
+| Enhance detail page with install block, snippet, compatibility | `src/pages/commons/[slug].astro` |
+| Add Claude Code icon/badge styles | Scoped CSS in components |
 
-### Phase 3: Reviews & Trust
+### Phase 3: Contribution Workflow
 
-**Goal:** Enable community reviews and trust indicators.
+**Goal:** Make it easy for the community to submit Claude Code extensions.
 
-| Task | Files affected |
+| Task | Files Affected |
 |---|---|
-| Define `reviews.json` schema | `data/marketplace/reviews.json` |
-| Build review display component | `src/components/marketplace/ReviewCard.astro` |
-| Create review submission workflow (via GitHub Discussion → PR) | Documentation + workflow |
-| Add "verified" badge for reviews from known ecosystem participants | Component logic |
-| Add "CBUAE Aligned" badge for self-declared compliance | Detail page |
-| Add "Security Reviewed" badge (requires manual community review process) | Detail page |
+| Update `/commons/contribute` page with Claude Code section | `src/pages/commons/contribute.astro` |
+| Add frontmatter templates for each component type | Documentation in contribute page |
+| Add CI validation for `claudeCode` schema in PRs | `.github/workflows/ci.yml` or new workflow |
+| Create a `CONTRIBUTING-CLAUDE-CODE.md` in the repo root | `CONTRIBUTING-CLAUDE-CODE.md` |
 
-### Phase 4: Advanced Discovery
+### Phase 4: Discovery & Cross-References
 
-**Goal:** Make the marketplace the go-to resource for Open Finance developer tooling.
+**Goal:** Deep integration with the rest of the community site.
 
 | Task | Description |
 |---|---|
-| Full-text search with index | Pre-built search index at build time (e.g., Pagefind or Fuse.js) |
-| "Getting Started" bundles | Curated sets of skillets for common workflows (e.g., "TPP Quick Start Kit") |
-| RSS feed for new skillets | `src/pages/marketplace/rss.xml.ts` |
-| Marketplace stats on homepage | Add preview component to home page |
-| Cross-reference with Observatory | Link skillets to Observatory participants that use them |
-| API family landing pages | `/marketplace/api/account-information` — all skillets for a given API family |
+| Add "Claude Code Tools" preview to homepage | Show 2-3 featured Claude Code entries on the home page |
+| Cross-reference with Learn section | Link to Claude Code extensions from TPP/Bank guides |
+| Add to RSS feed | Include Claude Code entries in the site RSS |
+| Dedicated landing at `/commons?filter=claude-code` | Deep-linkable filtered view |
+| Badge on Commons stats bar | "X Claude Code Extensions" counter |
 
 ---
 
-## 6. Technical Considerations
+## 7. Technical Notes
 
-### Static Site Constraints
+### Static Site Compatibility
 
-Since this is a static Astro site:
-- **No server-side API** — all "dynamic" data (signals, reviews, compatibility) must be pre-built from JSON files at build time, or loaded client-side from static JSON
-- **Submissions via GitHub PR** — this is consistent with the existing Commons contribution model and keeps the workflow familiar
-- **Scheduled updates** — GitHub Actions (like the existing observatory collector) can periodically refresh signals data and trigger rebuilds
+All of this works within the existing static Astro architecture:
+- Schema extension is build-time only (Zod validation at build)
+- Filtering is client-side JavaScript (extending existing filter logic)
+- No new API endpoints or data collection scripts needed for Phase 1-3
+- Content submitted via GitHub PR (same as existing Commons workflow)
 
-### Search Strategy
+### Snippet Rendering
 
-For Phase 1, client-side filtering (matching the existing Commons approach) is sufficient. For Phase 4, consider:
-- **Pagefind** (already compatible with Astro, zero-JS index generation) for full-text search
-- **Fuse.js** as a lightweight client-side fuzzy search alternative
+For the `snippet` field, render using Astro's built-in Shiki syntax highlighting (already configured with the `dark-plus` theme). Detect language from the component type:
+- Skills → `markdown`
+- Hooks → `json`
+- Rules → `markdown`
+- MCP Servers → `bash` (install command)
 
-### Schema.org Structured Data
+### Card Filtering Logic
 
-Each skillet detail page should include `SoftwareApplication` JSON-LD:
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "ASPSP Account Normalizer",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "Node.js",
-  "offers": { "@type": "Offer", "price": "0" },
-  "author": { "@type": "Organization", "name": "Lean Technologies" }
-}
+Extend the existing `applyFilters()` function in the Commons page:
+
+```javascript
+// Add to activeFilters
+const activeFilters = {
+  type: 'all',
+  audience: 'all',
+  useCase: 'all',
+  claudeCode: 'all',       // new: 'all' | 'claude-code'
+  componentType: 'all',    // new: 'all' | 'skill' | 'plugin' | 'mcp-server' | ...
+};
+
+// Add to filter matching logic
+const claudeCodeMatch =
+  activeFilters.claudeCode === 'all' ||
+  (activeFilters.claudeCode === 'claude-code' && cardEl.dataset.claudeCode === 'true');
+
+const componentTypeMatch =
+  activeFilters.componentType === 'all' ||
+  cardEl.dataset.componentType === activeFilters.componentType;
 ```
 
-### Relationship to Observatory
-
-The marketplace can cross-reference Observatory participants:
-- A skillet's `aspspCompatibility` array maps to participant `shortName` values from the Observatory
-- The compatibility matrix page can link ASPSP names to their Observatory profile pages
-- Participant detail pages (`/observatory/participant/[slug]`) could eventually show "Skillets compatible with this ASPSP"
-
 ---
 
-## 7. Content Governance
+## 8. Content Governance
 
 ### Submission Criteria
 
-A skillet must meet these minimum requirements to be listed:
-1. **Open source or source-available** — the GitHub repo must be publicly accessible
-2. **Relevant to UAE Open Finance** — must target CBUAE APIs, UAE ASPSP integrations, or the broader Open Finance framework
-3. **Minimum documentation** — at least a README with install instructions and basic usage
-4. **Active maintenance** — not abandoned (some commit activity in last 6 months, or declared stable)
-5. **No malware or credential harvesting** — community review before merge
+All Claude Code extensions must be:
+1. **Open source** — public GitHub repository with a recognized OSS license
+2. **Relevant to Open Finance** — targets CBUAE APIs, UAE ASPSP integrations, or Open Finance development workflows
+3. **Documented** — README with install instructions, what it does, and basic usage
+4. **Safe** — no credential harvesting, no destructive actions without confirmation, no data exfiltration
+5. **Reviewed** — at least one community maintainer reviews the PR before merge
 
-### Review Process
+### Security Considerations for Claude Code Extensions
 
-1. Contributor opens PR with new `.md` file in `src/content/marketplace/`
-2. CI validates the frontmatter schema
-3. At least one community maintainer reviews the PR
-4. Maintainer verifies the GitHub repo exists and matches the description
-5. Merge triggers build and deploy
-
-### Featured Criteria
-
-A skillet earns "featured" status based on:
-- Production usage by at least one known ecosystem participant
-- Active maintenance and responsive issue handling
-- Positive community reviews
-- Broad ASPSP compatibility
-
----
-
-## 8. Design Direction
-
-The marketplace should feel like a natural extension of the existing site:
-- **Same color system** — teal primary, amber accent, clean whites/grays
-- **Same typography** — DM Sans body, Fraunces headings, JetBrains Mono for code/install commands
-- **Card-based layout** — matching the Commons and Observatory grid patterns
-- **Dark mode support** — consistent with the rest of the site
-- **Category color coding** — each skillet category gets a subtle color treatment (similar to Commons type indicators)
-
-### New Visual Elements
-
-- **Install command block** — monospace, dark background, one-click copy button
-- **Runtime icons** — small icons for Node, Python, Go, etc.
-- **Compatibility indicators** — green/amber/gray/red dots in a compact row
-- **Star count** — small GitHub-style star counter on cards
-- **Version badge** — semver displayed near the title
+Claude Code extensions can execute arbitrary commands (especially hooks and MCP servers). The listing should:
+- Clearly label which components execute code vs. which are passive (rules, skills)
+- Encourage users to review the source before installing
+- Include a disclaimer on the detail page: "Review the source code before installing. Claude Code extensions can execute commands on your machine."
+- For hooks specifically, display the exact commands that will run
 
 ---
 
 ## 9. Open Questions
 
-1. **Naming**: Is "Marketplace" the right term given everything is free/open-source? Alternatives: "Toolkit", "Registry", "Catalog", "Forge". "Marketplace" implies commerce; "Registry" or "Catalog" may be more accurate.
+1. **Naming on the page**: Should we label the filter "Claude Code" or something more generic like "Developer Tools" in case other AI coding tools adopt similar patterns?
 
-2. **Scope boundary with Commons**: Should existing Commons artifacts/utilities that are code-heavy migrate to the Marketplace, or should both sections coexist with different purposes?
+2. **Hosting plugin repos**: Should the community website repo itself contain plugin source code, or only reference external repos? (Recommendation: reference only — keep plugins in their own repos.)
 
-3. **Private/commercial skillets**: Should the marketplace list commercial (paid) tools from ecosystem vendors, or remain strictly open-source? If commercial tools are included, what metadata changes are needed (pricing, trial links)?
+3. **Verification/testing**: Should we run a CI step that actually validates plugin manifests or SKILL.md files against Claude Code's expected format?
 
-4. **Verification depth**: How much verification should maintainers perform before listing? Just "repo exists" or actual build/test validation?
-
-5. **Observatory integration priority**: Should Phase 1 already link to Observatory participants, or defer to Phase 4?
+4. **Observatory integration**: Could we build an MCP server that wraps the Observatory's data and list it as a featured entry? This would be a compelling "first plugin" to seed the marketplace.
 
 ---
 
 ## 10. Summary
 
-The Marketplace adds a structured, searchable catalog of developer tools and integrations to the community website. It builds on existing patterns (content collections, GitHub-based contributions, static generation) while introducing new concepts (versioning, compatibility matrices, community signals). The phased approach lets us ship a useful catalog quickly and layer on community features over time.
+Instead of building a separate marketplace, we extend the existing **Commons** section with optional Claude Code metadata. This approach:
+
+- **Keeps it simple** — no new routes, no new content collections, no new navigation items
+- **Leverages existing infrastructure** — same filters, same cards, same contribution workflow, same CI
+- **Adds value progressively** — Claude Code entries get richer display (install commands, snippets, component badges) while non-Claude Code entries remain unchanged
+- **Stays open source** — everything submitted via GitHub PR, all entries must be OSS
+- **Scales naturally** — as more extensions are contributed, the "Claude Code" filter becomes more valuable; if it outgrows Commons, it can be promoted to its own section later
