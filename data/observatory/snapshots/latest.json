@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-02-11T06:59:40.141Z",
+  "timestamp": "2026-02-12T07:00:37.060Z",
   "version": "2.0.0",
   "production": {
-    "timestamp": "2026-02-11T06:59:38.373Z",
+    "timestamp": "2026-02-12T07:00:35.241Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "production",
@@ -12,8 +12,8 @@
         "Active": 17
       },
       "byRole": {
-        "BDSP": 13,
-        "BSIP": 12,
+        "BDSP": 14,
+        "BSIP": 13,
         "LFI": 10,
         "ISP": 3,
         "API Read_Write": 3,
@@ -33,7 +33,7 @@
       ],
       "liveInProduction": 9,
       "shariahCompliantCount": 2,
-      "multiRoleCount": 15,
+      "multiRoleCount": 16,
       "tppCount": 0,
       "byAuthCapabilities": {
         "ciba": 0,
@@ -189,6 +189,8 @@
         "shortName": "CBD",
         "status": "Active",
         "roles": [
+          "BDSP",
+          "BSIP",
           "LFI"
         ],
         "city": "Dubai",
@@ -720,12 +722,15 @@
       "participantChange": 0,
       "newParticipants": [],
       "removedParticipants": [],
-      "roleChanges": {},
+      "roleChanges": {
+        "BDSP": 1,
+        "BSIP": 1
+      },
       "apiFamilyChanges": {}
     }
   },
   "sandbox": {
-    "timestamp": "2026-02-11T06:59:40.138Z",
+    "timestamp": "2026-02-12T07:00:37.057Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "sandbox",
