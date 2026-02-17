@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-02-16T07:01:47.191Z",
+  "timestamp": "2026-02-17T06:57:57.908Z",
   "source": "https://data.sandbox.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "sandbox",
@@ -40,12 +40,12 @@
       "redirect": 0
     },
     "byCertificationStatus": {
-      "Self-Certified": 44
+      "Self-Certified": 45
     },
     "byApiVersion": {
-      "1.2": 7,
+      "1.2": 9,
       "2.0": 9,
-      "1.2.0": 12,
+      "1.2.0": 11,
       "1.0.0": 12,
       "2.0.0": 3,
       "2.1": 1
@@ -1045,7 +1045,8 @@
       "registrationNumber": "01.01.01.005.1967.02",
       "apiFamilies": [
         "accounts",
-        "payments"
+        "payments",
+        "products"
       ],
       "hasAuthServer": true,
       "isShariahCompliant": true,
@@ -1057,7 +1058,13 @@
       "apiResources": [
         {
           "family": "payments",
-          "version": "1.2.0",
+          "version": "1.2",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "products",
+          "version": "1.2",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
         },
@@ -1797,6 +1804,8 @@
     "newParticipants": [],
     "removedParticipants": [],
     "roleChanges": {},
-    "apiFamilyChanges": {}
+    "apiFamilyChanges": {
+      "products": 1
+    }
   }
 }
