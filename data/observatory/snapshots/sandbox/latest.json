@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-02-17T06:57:57.908Z",
+  "timestamp": "2026-02-18T07:00:04.999Z",
   "source": "https://data.sandbox.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "sandbox",
@@ -40,11 +40,11 @@
       "redirect": 0
     },
     "byCertificationStatus": {
-      "Self-Certified": 45
+      "Self-Certified": 46
     },
     "byApiVersion": {
+      "2.0": 10,
       "1.2": 9,
-      "2.0": 9,
       "1.2.0": 11,
       "1.0.0": 12,
       "2.0.0": 3,
@@ -117,7 +117,9 @@
       ],
       "city": "Abu Dhabi",
       "registrationNumber": "01.01.02.042.1997.01",
-      "apiFamilies": [],
+      "apiFamilies": [
+        "payments"
+      ],
       "hasAuthServer": true,
       "isShariahCompliant": true,
       "authCapabilities": {
@@ -125,7 +127,14 @@
         "supportsDCR": false,
         "supportsRedirect": false
       },
-      "apiResources": [],
+      "apiResources": [
+        {
+          "family": "payments",
+          "version": "2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        }
+      ],
       "authServerCount": 1,
       "isLive": true
     },
@@ -1805,7 +1814,7 @@
     "removedParticipants": [],
     "roleChanges": {},
     "apiFamilyChanges": {
-      "products": 1
+      "payments": 1
     }
   }
 }
