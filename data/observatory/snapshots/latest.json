@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-02-19T06:58:54.249Z",
+  "timestamp": "2026-02-20T06:55:20.544Z",
   "version": "2.0.0",
   "production": {
-    "timestamp": "2026-02-19T06:58:52.387Z",
+    "timestamp": "2026-02-20T06:55:18.860Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "production",
@@ -83,6 +83,12 @@
             "familyComplete": true
           },
           {
+            "family": "cop",
+            "version": "2.0",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": true
+          },
+          {
             "family": "payments",
             "version": "1.2",
             "certificationStatus": "Self-Certified",
@@ -90,18 +96,12 @@
           },
           {
             "family": "products",
-            "version": "2.0",
-            "certificationStatus": "Self-Certified",
-            "familyComplete": true
-          },
-          {
-            "family": "products",
             "version": "1.2",
             "certificationStatus": "Self-Certified",
             "familyComplete": true
           },
           {
-            "family": "cop",
+            "family": "products",
             "version": "2.0",
             "certificationStatus": "Self-Certified",
             "familyComplete": true
@@ -143,16 +143,16 @@
             "familyComplete": false
           },
           {
-            "family": "payments",
-            "version": "1.2",
-            "certificationStatus": "Self-Certified",
-            "familyComplete": false
-          },
-          {
             "family": "cop",
             "version": "1.2",
             "certificationStatus": "Self-Certified",
             "familyComplete": true
+          },
+          {
+            "family": "payments",
+            "version": "1.2",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": false
           }
         ],
         "authServerCount": 1,
@@ -210,12 +210,6 @@
         },
         "apiResources": [
           {
-            "family": "payments",
-            "version": "1.2",
-            "certificationStatus": "Self-Certified",
-            "familyComplete": false
-          },
-          {
             "family": "accounts",
             "version": "1.2",
             "certificationStatus": "Self-Certified",
@@ -226,6 +220,12 @@
             "version": "1.2",
             "certificationStatus": "Self-Certified",
             "familyComplete": true
+          },
+          {
+            "family": "payments",
+            "version": "1.2",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": false
           },
           {
             "family": "products",
@@ -266,10 +266,10 @@
         },
         "apiResources": [
           {
-            "family": "payments",
+            "family": "accounts",
             "version": "1.2",
             "certificationStatus": "Self-Certified",
-            "familyComplete": false
+            "familyComplete": true
           },
           {
             "family": "cop",
@@ -278,10 +278,10 @@
             "familyComplete": true
           },
           {
-            "family": "accounts",
+            "family": "payments",
             "version": "1.2",
             "certificationStatus": "Self-Certified",
-            "familyComplete": true
+            "familyComplete": false
           },
           {
             "family": "products",
@@ -321,7 +321,7 @@
         },
         "apiResources": [
           {
-            "family": "payments",
+            "family": "accounts",
             "version": "1.2",
             "certificationStatus": "Self-Certified",
             "familyComplete": false
@@ -333,7 +333,7 @@
             "familyComplete": true
           },
           {
-            "family": "accounts",
+            "family": "payments",
             "version": "1.2",
             "certificationStatus": "Self-Certified",
             "familyComplete": false
@@ -382,16 +382,16 @@
             "familyComplete": true
           },
           {
-            "family": "payments",
-            "version": "2.0",
-            "certificationStatus": "Self-Certified",
-            "familyComplete": false
-          },
-          {
             "family": "cop",
             "version": "2.0",
             "certificationStatus": "Self-Certified",
             "familyComplete": true
+          },
+          {
+            "family": "payments",
+            "version": "2.0",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": false
           },
           {
             "family": "products",
@@ -492,6 +492,12 @@
         },
         "apiResources": [
           {
+            "family": "accounts",
+            "version": "1.2",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": false
+          },
+          {
             "family": "cop",
             "version": "1.2",
             "certificationStatus": "Self-Certified",
@@ -499,12 +505,6 @@
           },
           {
             "family": "payments",
-            "version": "1.2",
-            "certificationStatus": "Self-Certified",
-            "familyComplete": false
-          },
-          {
-            "family": "accounts",
             "version": "1.2",
             "certificationStatus": "Self-Certified",
             "familyComplete": false
@@ -727,26 +727,26 @@
     }
   },
   "sandbox": {
-    "timestamp": "2026-02-19T06:58:54.244Z",
+    "timestamp": "2026-02-20T06:55:20.540Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "sandbox",
     "summary": {
-      "totalParticipants": 56,
+      "totalParticipants": 57,
       "byStatus": {
-        "Active": 56
+        "Active": 57
       },
       "byRole": {
-        "BDSP": 55,
-        "BSIP": 55,
-        "LFI": 38,
-        "ISP": 40,
-        "API Read_Write": 2,
-        "TSP": 2,
+        "BDSP": 56,
+        "BSIP": 56,
+        "LFI": 39,
+        "ISP": 41,
+        "API Read_Write": 3,
+        "TSP": 3,
         "pki-test-harness": 1
       },
       "byCity": {
-        "Unknown": 38,
+        "Unknown": 39,
         "Abu Dhabi": 5,
         "Dubai": 10,
         "London": 2,
@@ -760,7 +760,7 @@
       ],
       "liveInProduction": 18,
       "shariahCompliantCount": 10,
-      "multiRoleCount": 56,
+      "multiRoleCount": 57,
       "tppCount": 0,
       "byAuthCapabilities": {
         "ciba": 0,
@@ -1984,6 +1984,34 @@
         "isLive": false
       },
       {
+        "id": "Mercury",
+        "name": "Nebras (Registered Name)",
+        "legalName": "Nebras (Registered Name)",
+        "shortName": "Nebras (Registered Name)",
+        "status": "Active",
+        "roles": [
+          "API Read_Write",
+          "BDSP",
+          "BSIP",
+          "ISP",
+          "LFI",
+          "TSP"
+        ],
+        "city": "Unknown",
+        "registrationNumber": "N/A",
+        "apiFamilies": [],
+        "hasAuthServer": false,
+        "isShariahCompliant": false,
+        "authCapabilities": {
+          "supportsCiba": false,
+          "supportsDCR": false,
+          "supportsRedirect": false
+        },
+        "apiResources": [],
+        "authServerCount": 0,
+        "isLive": false
+      },
+      {
         "id": "d0b8c17e-c503-412d-bf95-b4969dc71088",
         "name": "Nomod",
         "legalName": "Nomod Billing LLC",
@@ -2537,10 +2565,19 @@
       }
     ],
     "trends": {
-      "participantChange": 0,
-      "newParticipants": [],
+      "participantChange": 1,
+      "newParticipants": [
+        "Mercury"
+      ],
       "removedParticipants": [],
-      "roleChanges": {},
+      "roleChanges": {
+        "BDSP": 1,
+        "BSIP": 1,
+        "LFI": 1,
+        "ISP": 1,
+        "API Read_Write": 1,
+        "TSP": 1
+      },
       "apiFamilyChanges": {}
     }
   },
@@ -2599,6 +2636,7 @@
       "8804ffec-cec7-4067-add0-00ed5efe1ef4",
       "8c21e663-1d34-45cd-91fa-86d7c2d240f4",
       "8c9881e0-f32e-49e9-984b-8b42708dec88",
+      "Mercury",
       "d0b8c17e-c503-412d-bf95-b4969dc71088",
       "1108d6f4-d50d-4bd6-9ab2-68b956b3cd26",
       "f2a91ec1-83bc-4048-838d-6e307d3a29be",
@@ -2610,6 +2648,6 @@
       "c8e1896a-9c6c-4d1d-8f98-1a771a1ccd85",
       "a90b2761-560d-45a9-9b32-67465c603059"
     ],
-    "totalUniqueParticipants": 59
+    "totalUniqueParticipants": 60
   }
 }

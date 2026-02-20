@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-02-19T06:58:52.387Z",
+  "timestamp": "2026-02-20T06:55:18.860Z",
   "source": "https://data.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "production",
@@ -80,6 +80,12 @@
           "familyComplete": true
         },
         {
+          "family": "cop",
+          "version": "2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
           "family": "payments",
           "version": "1.2",
           "certificationStatus": "Self-Certified",
@@ -87,18 +93,12 @@
         },
         {
           "family": "products",
-          "version": "2.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        },
-        {
-          "family": "products",
           "version": "1.2",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
-          "family": "cop",
+          "family": "products",
           "version": "2.0",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
@@ -140,16 +140,16 @@
           "familyComplete": false
         },
         {
-          "family": "payments",
-          "version": "1.2",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
           "family": "cop",
           "version": "1.2",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
+        },
+        {
+          "family": "payments",
+          "version": "1.2",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
         }
       ],
       "authServerCount": 1,
@@ -207,12 +207,6 @@
       },
       "apiResources": [
         {
-          "family": "payments",
-          "version": "1.2",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
           "family": "accounts",
           "version": "1.2",
           "certificationStatus": "Self-Certified",
@@ -223,6 +217,12 @@
           "version": "1.2",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
+        },
+        {
+          "family": "payments",
+          "version": "1.2",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
         },
         {
           "family": "products",
@@ -263,10 +263,10 @@
       },
       "apiResources": [
         {
-          "family": "payments",
+          "family": "accounts",
           "version": "1.2",
           "certificationStatus": "Self-Certified",
-          "familyComplete": false
+          "familyComplete": true
         },
         {
           "family": "cop",
@@ -275,10 +275,10 @@
           "familyComplete": true
         },
         {
-          "family": "accounts",
+          "family": "payments",
           "version": "1.2",
           "certificationStatus": "Self-Certified",
-          "familyComplete": true
+          "familyComplete": false
         },
         {
           "family": "products",
@@ -318,7 +318,7 @@
       },
       "apiResources": [
         {
-          "family": "payments",
+          "family": "accounts",
           "version": "1.2",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
@@ -330,7 +330,7 @@
           "familyComplete": true
         },
         {
-          "family": "accounts",
+          "family": "payments",
           "version": "1.2",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
@@ -379,16 +379,16 @@
           "familyComplete": true
         },
         {
-          "family": "payments",
-          "version": "2.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
           "family": "cop",
           "version": "2.0",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
+        },
+        {
+          "family": "payments",
+          "version": "2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
         },
         {
           "family": "products",
@@ -489,6 +489,12 @@
       },
       "apiResources": [
         {
+          "family": "accounts",
+          "version": "1.2",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
           "family": "cop",
           "version": "1.2",
           "certificationStatus": "Self-Certified",
@@ -496,12 +502,6 @@
         },
         {
           "family": "payments",
-          "version": "1.2",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
-          "family": "accounts",
           "version": "1.2",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
