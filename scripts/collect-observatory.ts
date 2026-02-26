@@ -145,12 +145,14 @@ function transformRole(raw: RawRole): TransformedParticipant {
     .map((claim) => claim.AuthorisationDomainRoleName)
     .filter((role, index, arr) => arr.indexOf(role) === index);
 
-  const displayName = getDisplayName(raw.RegisteredName);
+  // Use RegisteredName, falling back to ID-based lookup in name mappings
+  const rawName = raw.RegisteredName || nameMappings[raw.OrganisationId];
+  const displayName = getDisplayName(rawName);
 
   return {
     id: raw.OrganisationId,
     name: displayName,
-    legalName: raw.RegisteredName,
+    legalName: rawName,
     shortName: displayName,
     status: raw.Status,
     roles: roles.sort(),
@@ -223,13 +225,14 @@ function mergeParticipantsAndRoles(
       if (seenIds.has(role.OrganisationId)) duplicateCount++;
       continue;
     }
-    // Skip entries with no registered name (incomplete registrations)
-    if (!role.RegisteredName?.trim()) {
+    // Skip entries with no registered name AND no ID-based name mapping
+    if (!role.RegisteredName?.trim() && !nameMappings[role.OrganisationId]) {
       unnamedCount++;
       continue;
     }
     // Skip excluded test orgs
-    if (shouldExclude(role.RegisteredName)) {
+    const resolvedName = role.RegisteredName || nameMappings[role.OrganisationId];
+    if (shouldExclude(resolvedName)) {
       excludedCount++;
       continue;
     }
@@ -242,7 +245,7 @@ function mergeParticipantsAndRoles(
     console.log(`  Filtered out ${excludedCount} test/support organizations`);
   }
   if (unnamedCount > 0) {
-    console.log(`  Skipped ${unnamedCount} unnamed registrations (incomplete profiles)`);
+    console.log(`  Skipped ${unnamedCount} unnamed registrations (no name or ID mapping found)`);
   }
   if (duplicateCount > 0) {
     console.log(`  Removed ${duplicateCount} duplicate entries (by ID)`);
