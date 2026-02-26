@@ -163,23 +163,24 @@ const labels = { ...defaultLabels, ...typeLabels };
       pill.addEventListener('click', () => activateTab(pill));
 
       // Keyboard navigation for tabs
-      pill.addEventListener('keydown', (e) => {
+      pill.addEventListener('keydown', (e: Event) => {
         if (!pills) return;
+        const ke = e as KeyboardEvent;
         const pillsArray = Array.from(pills);
         const index = pillsArray.indexOf(pill);
         let newIndex = index;
 
-        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-          e.preventDefault();
+        if (ke.key === 'ArrowRight' || ke.key === 'ArrowDown') {
+          ke.preventDefault();
           newIndex = (index + 1) % pillsArray.length;
-        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-          e.preventDefault();
+        } else if (ke.key === 'ArrowLeft' || ke.key === 'ArrowUp') {
+          ke.preventDefault();
           newIndex = (index - 1 + pillsArray.length) % pillsArray.length;
-        } else if (e.key === 'Home') {
-          e.preventDefault();
+        } else if (ke.key === 'Home') {
+          ke.preventDefault();
           newIndex = 0;
-        } else if (e.key === 'End') {
-          e.preventDefault();
+        } else if (ke.key === 'End') {
+          ke.preventDefault();
           newIndex = pillsArray.length - 1;
         }
 

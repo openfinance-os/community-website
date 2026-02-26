@@ -43,7 +43,8 @@ const formatDate = (d: Date) => {
   });
 };
 
-const regionVariant = (region: string) => (region === 'global' ? 'region-global' : region);
+const regionVariant = (region: string) =>
+  (region === 'global' ? 'region-global' : region) as 'uae' | 'mena' | 'region-global';
 
 const getFeaturedHref = () => {
   if (!featuredArticle) return '#';

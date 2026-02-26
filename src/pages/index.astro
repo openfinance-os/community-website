@@ -9,11 +9,11 @@ import snapshot from '../../data/observatory/snapshots/latest.json';
 
 // Handle both old flat format and new dual-environment format
 const isDualFormat = 'production' in snapshot;
-const productionData = isDualFormat ? snapshot.production : snapshot;
-const sandboxData = isDualFormat ? snapshot.sandbox : null;
-const crossEnvironment = isDualFormat ? snapshot.crossEnvironment : null;
+const productionData = isDualFormat ? (snapshot as any).production : snapshot;
+const sandboxData = isDualFormat ? (snapshot as any).sandbox : null;
+const crossEnvironment = isDualFormat ? (snapshot as any).crossEnvironment : null;
 
-const { summary, timestamp, participants } = productionData;
+const { summary, timestamp } = productionData;
 const { totalParticipants, byStatus, liveInProduction } = summary;
 const activeCount = byStatus.Active || 0;
 

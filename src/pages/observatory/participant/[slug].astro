@@ -444,7 +444,7 @@ const structuredData = {
               <div class="related-section">
                 <h3 class="info-title">Related Participants</h3>
                 <ul class="related-list">
-                  {relatedParticipants.map((related) => (
+                  {relatedParticipants.map((related: any) => (
                     <li>
                       <a href={`/observatory/participant/${related.slug}`} class="related-link">
                         <span class="related-name">{related.shortName}</span>

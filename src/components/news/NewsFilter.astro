@@ -243,22 +243,23 @@ const { types, typeLabels, regions, regionLabels } = Astro.props;
     buttons.forEach((button) => {
       button.addEventListener('click', () => activateFn(button));
 
-      button.addEventListener('keydown', (e) => {
+      button.addEventListener('keydown', (e: Event) => {
+        const ke = e as KeyboardEvent;
         const btnArray = Array.from(buttons);
         const index = btnArray.indexOf(button);
         let newIndex = index;
 
-        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-          e.preventDefault();
+        if (ke.key === 'ArrowRight' || ke.key === 'ArrowDown') {
+          ke.preventDefault();
           newIndex = (index + 1) % btnArray.length;
-        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-          e.preventDefault();
+        } else if (ke.key === 'ArrowLeft' || ke.key === 'ArrowUp') {
+          ke.preventDefault();
           newIndex = (index - 1 + btnArray.length) % btnArray.length;
-        } else if (e.key === 'Home') {
-          e.preventDefault();
+        } else if (ke.key === 'Home') {
+          ke.preventDefault();
           newIndex = 0;
-        } else if (e.key === 'End') {
-          e.preventDefault();
+        } else if (ke.key === 'End') {
+          ke.preventDefault();
           newIndex = btnArray.length - 1;
         }
 
