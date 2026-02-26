@@ -35,7 +35,6 @@ const EXCLUDED_ORGANIZATIONS = new Set([
   'TEST ORG',
   'Ozone API Test 2',
   'Nebras Support',
-  'OpenID Foundation',
   'Test Organization',
   'Demo Organization',
 ]);
@@ -146,12 +145,14 @@ function transformRole(raw: RawRole): TransformedParticipant {
     .map((claim) => claim.AuthorisationDomainRoleName)
     .filter((role, index, arr) => arr.indexOf(role) === index);
 
-  const displayName = getDisplayName(raw.RegisteredName);
+  // Use registered name, falling back to org ID for unnamed registrations
+  const rawName = raw.RegisteredName || raw.OrganisationId;
+  const displayName = getDisplayName(rawName);
 
   return {
     id: raw.OrganisationId,
     name: displayName,
-    legalName: raw.RegisteredName,
+    legalName: rawName,
     shortName: displayName,
     status: raw.Status,
     roles: roles.sort(),
@@ -172,8 +173,8 @@ function transformRole(raw: RawRole): TransformedParticipant {
 }
 
 // Check if organization should be excluded (test/support orgs)
-function shouldExclude(name: string): boolean {
-  if (!name) return true;
+function shouldExclude(name: string | undefined | null): boolean {
+  if (!name) return false; // Missing names are real orgs, not excluded
   // Check exact match first
   if (EXCLUDED_ORGANIZATIONS.has(name)) return true;
   // Check case-insensitive match
@@ -183,22 +184,23 @@ function shouldExclude(name: string): boolean {
   }
   // Check for common test patterns
   if (nameLower.includes('test org') || nameLower.includes('demo org')) return true;
+  // Exclude Nebras support variants
+  if (nameLower.startsWith('nebras')) return true;
   return false;
 }
 
 // Merge participants (live) with roles (all registered)
+// Each unique OrganisationId is counted as a separate registration
 function mergeParticipantsAndRoles(
   participants: TransformedParticipant[],
   roles: RawRole[]
 ): TransformedParticipant[] {
   const seenIds = new Set<string>();
-  const seenNames = new Map<string, TransformedParticipant>(); // Track by name to merge duplicates
   const merged: TransformedParticipant[] = [];
   let excludedCount = 0;
   let duplicateCount = 0;
-  let mergedByNameCount = 0;
 
-  // Process participants first (live orgs)
+  // Process participants first (live orgs with auth servers)
   for (const p of participants) {
     // Skip excluded test orgs
     if (shouldExclude(p.legalName) || shouldExclude(p.name)) {
@@ -211,48 +213,14 @@ function mergeParticipantsAndRoles(
       continue;
     }
 
-    // Check if we've seen this name before (handle same org with different IDs)
-    const nameKey = p.legalName.toLowerCase().trim();
-    const existingByName = seenNames.get(nameKey);
-
-    if (existingByName) {
-      // Merge roles and other data from duplicate
-      mergedByNameCount++;
-      const mergedRoles = [...new Set([...existingByName.roles, ...p.roles])].sort();
-      const mergedApiFamilies = [
-        ...new Set([...existingByName.apiFamilies, ...p.apiFamilies]),
-      ].sort();
-      const mergedApiResources = [...existingByName.apiResources, ...p.apiResources];
-
-      existingByName.roles = mergedRoles;
-      existingByName.apiFamilies = mergedApiFamilies;
-      existingByName.apiResources = mergedApiResources;
-      existingByName.hasAuthServer = existingByName.hasAuthServer || p.hasAuthServer;
-      existingByName.isShariahCompliant = existingByName.isShariahCompliant || p.isShariahCompliant;
-      existingByName.authServerCount = existingByName.authServerCount + p.authServerCount;
-      existingByName.isLive = existingByName.isLive || p.isLive;
-      existingByName.authCapabilities = {
-        supportsCiba:
-          existingByName.authCapabilities.supportsCiba || p.authCapabilities.supportsCiba,
-        supportsDCR: existingByName.authCapabilities.supportsDCR || p.authCapabilities.supportsDCR,
-        supportsRedirect:
-          existingByName.authCapabilities.supportsRedirect || p.authCapabilities.supportsRedirect,
-      };
-      // Use the city that's not "Unknown" if available
-      if (existingByName.city === 'Unknown' && p.city !== 'Unknown') {
-        existingByName.city = p.city;
-      }
-    } else {
-      seenIds.add(p.id);
-      seenNames.set(nameKey, p);
-      merged.push(p);
-    }
+    seenIds.add(p.id);
+    merged.push(p);
   }
 
   // Add roles that aren't already in participants
   for (const role of roles) {
-    // Skip if already seen, not active, or missing required fields
-    if (seenIds.has(role.OrganisationId) || role.Status !== 'Active' || !role.RegisteredName) {
+    // Skip if already seen by ID or not active
+    if (seenIds.has(role.OrganisationId) || role.Status !== 'Active') {
       if (seenIds.has(role.OrganisationId)) duplicateCount++;
       continue;
     }
@@ -262,22 +230,8 @@ function mergeParticipantsAndRoles(
       continue;
     }
 
-    // Check if we've seen this name before
-    const nameKey = role.RegisteredName.toLowerCase().trim();
-    const existingByName = seenNames.get(nameKey);
-
-    if (existingByName) {
-      // Merge roles from this registration
-      mergedByNameCount++;
-      const transformedRole = transformRole(role);
-      const mergedRoles = [...new Set([...existingByName.roles, ...transformedRole.roles])].sort();
-      existingByName.roles = mergedRoles;
-    } else {
-      seenIds.add(role.OrganisationId);
-      const transformed = transformRole(role);
-      seenNames.set(nameKey, transformed);
-      merged.push(transformed);
-    }
+    seenIds.add(role.OrganisationId);
+    merged.push(transformRole(role));
   }
 
   if (excludedCount > 0) {
@@ -285,9 +239,6 @@ function mergeParticipantsAndRoles(
   }
   if (duplicateCount > 0) {
     console.log(`  Removed ${duplicateCount} duplicate entries (by ID)`);
-  }
-  if (mergedByNameCount > 0) {
-    console.log(`  Merged ${mergedByNameCount} duplicate entries (by name)`);
   }
 
   // Sort by name (with null safety)

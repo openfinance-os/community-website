@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-26T06:59:03.602Z",
+  "lastUpdated": "2026-02-26T19:42:52.546Z",
   "dataPoints": [
     {
       "date": "2025-12-26",
@@ -1542,7 +1542,7 @@
     },
     {
       "date": "2026-02-26",
-      "totalParticipants": 17,
+      "totalParticipants": 18,
       "liveInProduction": 9,
       "byRole": {
         "BDSP": 14,
@@ -1555,7 +1555,7 @@
       },
       "byCity": {
         "Abu Dhabi": 4,
-        "Unknown": 8,
+        "Unknown": 9,
         "Dubai": 5
       },
       "apiFamilyCoverage": {
@@ -3110,7 +3110,7 @@
     },
     {
       "date": "2026-02-26",
-      "totalParticipants": 17,
+      "totalParticipants": 18,
       "liveInProduction": 9,
       "byRole": {
         "BDSP": 14,
@@ -3123,7 +3123,7 @@
       },
       "byCity": {
         "Abu Dhabi": 4,
-        "Unknown": 8,
+        "Unknown": 9,
         "Dubai": 5
       },
       "apiFamilyCoverage": {
@@ -4792,19 +4792,19 @@
     },
     {
       "date": "2026-02-26",
-      "totalParticipants": 57,
+      "totalParticipants": 79,
       "liveInProduction": 18,
       "byRole": {
-        "BDSP": 56,
-        "BSIP": 56,
-        "LFI": 39,
-        "ISP": 41,
+        "ISP": 60,
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 54,
         "API Read_Write": 3,
-        "TSP": 3,
+        "TSP": 2,
         "pki-test-harness": 1
       },
       "byCity": {
-        "Unknown": 39,
+        "Unknown": 61,
         "Abu Dhabi": 5,
         "Dubai": 10,
         "London": 2,
@@ -5294,6 +5294,150 @@
       "event": "Nebras (Registered Name) joined sandbox",
       "participantId": "Mercury",
       "participantName": "Nebras (Registered Name)"
+    },
+    {
+      "date": "2026-02-26",
+      "event": "Mercury joined production",
+      "participantId": "94884086-b7c2-43a0-b4e7-a928b9fed0ac",
+      "participantName": "Mercury"
+    },
+    {
+      "date": "2026-02-26",
+      "event": "1e74e695-42a4-4591-b4b2-13b0c893cf35 joined sandbox",
+      "participantId": "1e74e695-42a4-4591-b4b2-13b0c893cf35",
+      "participantName": "1e74e695-42a4-4591-b4b2-13b0c893cf35"
+    },
+    {
+      "date": "2026-02-26",
+      "event": "1ee6f5b6-2fa4-48fd-bffa-d8771186c564 joined sandbox",
+      "participantId": "1ee6f5b6-2fa4-48fd-bffa-d8771186c564",
+      "participantName": "1ee6f5b6-2fa4-48fd-bffa-d8771186c564"
+    },
+    {
+      "date": "2026-02-26",
+      "event": "221bfab7-d564-4083-a9f5-277468aece4c joined sandbox",
+      "participantId": "221bfab7-d564-4083-a9f5-277468aece4c",
+      "participantName": "221bfab7-d564-4083-a9f5-277468aece4c"
+    },
+    {
+      "date": "2026-02-26",
+      "event": "26238620-f801-4d6f-95dd-92c22a5dba6c joined sandbox",
+      "participantId": "26238620-f801-4d6f-95dd-92c22a5dba6c",
+      "participantName": "26238620-f801-4d6f-95dd-92c22a5dba6c"
+    },
+    {
+      "date": "2026-02-26",
+      "event": "2e1f7ab3-347a-43bb-8841-0bfc380ad8f4 joined sandbox",
+      "participantId": "2e1f7ab3-347a-43bb-8841-0bfc380ad8f4",
+      "participantName": "2e1f7ab3-347a-43bb-8841-0bfc380ad8f4"
+    },
+    {
+      "date": "2026-02-26",
+      "event": "341a8d2e-ccc9-4512-acb3-8497c13c9b6c joined sandbox",
+      "participantId": "341a8d2e-ccc9-4512-acb3-8497c13c9b6c",
+      "participantName": "341a8d2e-ccc9-4512-acb3-8497c13c9b6c"
+    },
+    {
+      "date": "2026-02-26",
+      "event": "37f353bf-0f2a-48f2-8c5a-10b40b7bc7b3 joined sandbox",
+      "participantId": "37f353bf-0f2a-48f2-8c5a-10b40b7bc7b3",
+      "participantName": "37f353bf-0f2a-48f2-8c5a-10b40b7bc7b3"
+    },
+    {
+      "date": "2026-02-26",
+      "event": "3ae85b57-7a70-4be2-84fe-97fbb4d8ec45 joined sandbox",
+      "participantId": "3ae85b57-7a70-4be2-84fe-97fbb4d8ec45",
+      "participantName": "3ae85b57-7a70-4be2-84fe-97fbb4d8ec45"
+    },
+    {
+      "date": "2026-02-26",
+      "event": "46acbfc9-97f1-4c09-917c-7522af641b98 joined sandbox",
+      "participantId": "46acbfc9-97f1-4c09-917c-7522af641b98",
+      "participantName": "46acbfc9-97f1-4c09-917c-7522af641b98"
+    },
+    {
+      "date": "2026-02-26",
+      "event": "4c52000d-3db6-44db-8be3-8418cae0e2f1 joined sandbox",
+      "participantId": "4c52000d-3db6-44db-8be3-8418cae0e2f1",
+      "participantName": "4c52000d-3db6-44db-8be3-8418cae0e2f1"
+    },
+    {
+      "date": "2026-02-26",
+      "event": "521e38cb-a400-4114-9591-40d282d608fe joined sandbox",
+      "participantId": "521e38cb-a400-4114-9591-40d282d608fe",
+      "participantName": "521e38cb-a400-4114-9591-40d282d608fe"
+    },
+    {
+      "date": "2026-02-26",
+      "event": "60599f81-3502-4ff9-8eba-a6ad975ed9ac joined sandbox",
+      "participantId": "60599f81-3502-4ff9-8eba-a6ad975ed9ac",
+      "participantName": "60599f81-3502-4ff9-8eba-a6ad975ed9ac"
+    },
+    {
+      "date": "2026-02-26",
+      "event": "6207c397-4021-4381-a83a-1a37c657abf9 joined sandbox",
+      "participantId": "6207c397-4021-4381-a83a-1a37c657abf9",
+      "participantName": "6207c397-4021-4381-a83a-1a37c657abf9"
+    },
+    {
+      "date": "2026-02-26",
+      "event": "6bed8f06-6ae1-44e5-9059-ab0b9e91ff30 joined sandbox",
+      "participantId": "6bed8f06-6ae1-44e5-9059-ab0b9e91ff30",
+      "participantName": "6bed8f06-6ae1-44e5-9059-ab0b9e91ff30"
+    },
+    {
+      "date": "2026-02-26",
+      "event": "879f9b11-5905-41ae-9dbe-7cb151b16546 joined sandbox",
+      "participantId": "879f9b11-5905-41ae-9dbe-7cb151b16546",
+      "participantName": "879f9b11-5905-41ae-9dbe-7cb151b16546"
+    },
+    {
+      "date": "2026-02-26",
+      "event": "8bb52664-8391-4a20-8eb0-2deb0c782cf3 joined sandbox",
+      "participantId": "8bb52664-8391-4a20-8eb0-2deb0c782cf3",
+      "participantName": "8bb52664-8391-4a20-8eb0-2deb0c782cf3"
+    },
+    {
+      "date": "2026-02-26",
+      "event": "8e924742-96c7-45c3-961f-09a80ce1d991 joined sandbox",
+      "participantId": "8e924742-96c7-45c3-961f-09a80ce1d991",
+      "participantName": "8e924742-96c7-45c3-961f-09a80ce1d991"
+    },
+    {
+      "date": "2026-02-26",
+      "event": "9e02bfe5-afa5-45a9-a6fd-680452a07f98 joined sandbox",
+      "participantId": "9e02bfe5-afa5-45a9-a6fd-680452a07f98",
+      "participantName": "9e02bfe5-afa5-45a9-a6fd-680452a07f98"
+    },
+    {
+      "date": "2026-02-26",
+      "event": "a6bcdeac-5f93-40da-ad06-f7fb7a953058 joined sandbox",
+      "participantId": "a6bcdeac-5f93-40da-ad06-f7fb7a953058",
+      "participantName": "a6bcdeac-5f93-40da-ad06-f7fb7a953058"
+    },
+    {
+      "date": "2026-02-26",
+      "event": "c683c060-5649-4df7-9b9a-c845cbf13719 joined sandbox",
+      "participantId": "c683c060-5649-4df7-9b9a-c845cbf13719",
+      "participantName": "c683c060-5649-4df7-9b9a-c845cbf13719"
+    },
+    {
+      "date": "2026-02-26",
+      "event": "e7d13870-5780-4df3-8865-7534a513b4d3 joined sandbox",
+      "participantId": "e7d13870-5780-4df3-8865-7534a513b4d3",
+      "participantName": "e7d13870-5780-4df3-8865-7534a513b4d3"
+    },
+    {
+      "date": "2026-02-26",
+      "event": "f4649205-7273-4b7f-8d55-5ad95674a5f9 joined sandbox",
+      "participantId": "f4649205-7273-4b7f-8d55-5ad95674a5f9",
+      "participantName": "f4649205-7273-4b7f-8d55-5ad95674a5f9"
+    },
+    {
+      "date": "2026-02-26",
+      "event": "OpenID Foundation joined sandbox",
+      "participantId": "9bfa48bf-647e-4082-a6c2-25291e15c98c",
+      "participantName": "OpenID Foundation"
     }
   ]
 }
