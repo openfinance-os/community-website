@@ -582,6 +582,26 @@ function writeSnapshot(
 ): void {
   const envDir = join(DATA_DIR, environment);
 
+  // Validate: do not write empty snapshots
+  if (snapshot.participants.length === 0) {
+    console.warn(`WARNING: Skipping write for ${environment} - snapshot has 0 participants`);
+    return;
+  }
+
+  // Warn if participant count dropped significantly from previous snapshot
+  const previous = loadPreviousSnapshot(environment);
+  if (previous && previous.participants.length > 0) {
+    const dropPercent =
+      ((previous.participants.length - snapshot.participants.length) /
+        previous.participants.length) *
+      100;
+    if (dropPercent > 20) {
+      console.warn(
+        `WARNING: ${environment} participant count dropped by ${dropPercent.toFixed(1)}% (${previous.participants.length} → ${snapshot.participants.length})`
+      );
+    }
+  }
+
   if (!isDryRun) {
     if (!existsSync(envDir)) {
       mkdirSync(envDir, { recursive: true });
@@ -729,10 +749,31 @@ async function main() {
       }
     }
 
+    // Skip writing combined snapshot if no data was fetched from either environment
+    if (!productionSnapshot && !sandboxSnapshot) {
+      console.error(
+        '\nNo data fetched from any environment. Skipping snapshot write to preserve existing data.'
+      );
+      process.exit(1);
+    }
+
     // Create combined dual-environment snapshot
     if (!productionOnly && !sandboxOnly) {
+      // If one environment failed, fall back to its previous snapshot to avoid losing data
+      const effectiveProduction = productionSnapshot ?? loadPreviousSnapshot('production');
+      const effectiveSandbox = sandboxSnapshot ?? loadPreviousSnapshot('sandbox');
+
+      if (!productionSnapshot) {
+        console.warn(
+          '\nWARNING: Production fetch failed, using previous snapshot for combined data'
+        );
+      }
+      if (!sandboxSnapshot) {
+        console.warn('\nWARNING: Sandbox fetch failed, using previous snapshot for combined data');
+      }
+
       console.log('\nCreating combined snapshot...');
-      const dualSnapshot = createDualEnvironmentSnapshot(productionSnapshot, sandboxSnapshot);
+      const dualSnapshot = createDualEnvironmentSnapshot(effectiveProduction, effectiveSandbox);
 
       console.log('\nCross-Environment Analysis:');
       console.log(
