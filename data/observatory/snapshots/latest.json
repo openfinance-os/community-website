@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-02-26T19:42:52.547Z",
+  "timestamp": "2026-02-26T20:03:02.305Z",
   "version": "2.0.0",
   "production": {
-    "timestamp": "2026-02-26T19:42:52.268Z",
+    "timestamp": "2026-02-26T20:03:02.128Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "production",
@@ -777,36 +777,34 @@
       }
     ],
     "trends": {
-      "participantChange": 1,
-      "newParticipants": [
-        "94884086-b7c2-43a0-b4e7-a928b9fed0ac"
-      ],
+      "participantChange": 0,
+      "newParticipants": [],
       "removedParticipants": [],
       "roleChanges": {},
       "apiFamilyChanges": {}
     }
   },
   "sandbox": {
-    "timestamp": "2026-02-26T19:42:52.545Z",
+    "timestamp": "2026-02-26T20:03:02.303Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "sandbox",
     "summary": {
-      "totalParticipants": 79,
+      "totalParticipants": 57,
       "byStatus": {
-        "Active": 79
+        "Active": 57
       },
       "byRole": {
-        "ISP": 60,
-        "BDSP": 75,
-        "BSIP": 75,
-        "LFI": 54,
-        "API Read_Write": 3,
+        "BDSP": 56,
+        "BSIP": 56,
+        "LFI": 38,
+        "ISP": 41,
+        "API Read_Write": 2,
         "TSP": 2,
         "pki-test-harness": 1
       },
       "byCity": {
-        "Unknown": 61,
+        "Unknown": 39,
         "Abu Dhabi": 5,
         "Dubai": 10,
         "London": 2,
@@ -820,7 +818,7 @@
       ],
       "liveInProduction": 18,
       "shariahCompliantCount": 10,
-      "multiRoleCount": 76,
+      "multiRoleCount": 57,
       "tppCount": 0,
       "byAuthCapabilities": {
         "ciba": 0,
@@ -840,485 +838,6 @@
       }
     },
     "participants": [
-      {
-        "id": "1e74e695-42a4-4591-b4b2-13b0c893cf35",
-        "name": "1e74e695-42a4-4591-b4b2-13b0c893cf35",
-        "legalName": "1e74e695-42a4-4591-b4b2-13b0c893cf35",
-        "shortName": "1e74e695-42a4-4591-b4b2-13b0c893cf35",
-        "status": "Active",
-        "roles": [
-          "ISP"
-        ],
-        "city": "Unknown",
-        "registrationNumber": "IB-National-123",
-        "apiFamilies": [],
-        "hasAuthServer": false,
-        "isShariahCompliant": false,
-        "authCapabilities": {
-          "supportsCiba": false,
-          "supportsDCR": false,
-          "supportsRedirect": false
-        },
-        "apiResources": [],
-        "authServerCount": 0,
-        "isLive": false
-      },
-      {
-        "id": "1ee6f5b6-2fa4-48fd-bffa-d8771186c564",
-        "name": "1ee6f5b6-2fa4-48fd-bffa-d8771186c564",
-        "legalName": "1ee6f5b6-2fa4-48fd-bffa-d8771186c564",
-        "shortName": "1ee6f5b6-2fa4-48fd-bffa-d8771186c564",
-        "status": "Active",
-        "roles": [
-          "BDSP",
-          "BSIP",
-          "ISP",
-          "LFI"
-        ],
-        "city": "Unknown",
-        "registrationNumber": "01.01.01.027.1975.03",
-        "apiFamilies": [],
-        "hasAuthServer": false,
-        "isShariahCompliant": false,
-        "authCapabilities": {
-          "supportsCiba": false,
-          "supportsDCR": false,
-          "supportsRedirect": false
-        },
-        "apiResources": [],
-        "authServerCount": 0,
-        "isLive": false
-      },
-      {
-        "id": "221bfab7-d564-4083-a9f5-277468aece4c",
-        "name": "221bfab7-d564-4083-a9f5-277468aece4c",
-        "legalName": "221bfab7-d564-4083-a9f5-277468aece4c",
-        "shortName": "221bfab7-d564-4083-a9f5-277468aece4c",
-        "status": "Active",
-        "roles": [
-          "BDSP",
-          "BSIP",
-          "ISP",
-          "LFI"
-        ],
-        "city": "Unknown",
-        "registrationNumber": "Takaful017",
-        "apiFamilies": [],
-        "hasAuthServer": false,
-        "isShariahCompliant": false,
-        "authCapabilities": {
-          "supportsCiba": false,
-          "supportsDCR": false,
-          "supportsRedirect": false
-        },
-        "apiResources": [],
-        "authServerCount": 0,
-        "isLive": false
-      },
-      {
-        "id": "26238620-f801-4d6f-95dd-92c22a5dba6c",
-        "name": "26238620-f801-4d6f-95dd-92c22a5dba6c",
-        "legalName": "26238620-f801-4d6f-95dd-92c22a5dba6c",
-        "shortName": "26238620-f801-4d6f-95dd-92c22a5dba6c",
-        "status": "Active",
-        "roles": [
-          "BDSP",
-          "BSIP",
-          "ISP"
-        ],
-        "city": "Unknown",
-        "registrationNumber": "10969115",
-        "apiFamilies": [],
-        "hasAuthServer": false,
-        "isShariahCompliant": false,
-        "authCapabilities": {
-          "supportsCiba": false,
-          "supportsDCR": false,
-          "supportsRedirect": false
-        },
-        "apiResources": [],
-        "authServerCount": 0,
-        "isLive": false
-      },
-      {
-        "id": "2e1f7ab3-347a-43bb-8841-0bfc380ad8f4",
-        "name": "2e1f7ab3-347a-43bb-8841-0bfc380ad8f4",
-        "legalName": "2e1f7ab3-347a-43bb-8841-0bfc380ad8f4",
-        "shortName": "2e1f7ab3-347a-43bb-8841-0bfc380ad8f4",
-        "status": "Active",
-        "roles": [
-          "API Read_Write",
-          "BDSP",
-          "BSIP",
-          "ISP",
-          "LFI"
-        ],
-        "city": "Unknown",
-        "registrationNumber": "N/A",
-        "apiFamilies": [],
-        "hasAuthServer": false,
-        "isShariahCompliant": false,
-        "authCapabilities": {
-          "supportsCiba": false,
-          "supportsDCR": false,
-          "supportsRedirect": false
-        },
-        "apiResources": [],
-        "authServerCount": 0,
-        "isLive": false
-      },
-      {
-        "id": "341a8d2e-ccc9-4512-acb3-8497c13c9b6c",
-        "name": "341a8d2e-ccc9-4512-acb3-8497c13c9b6c",
-        "legalName": "341a8d2e-ccc9-4512-acb3-8497c13c9b6c",
-        "shortName": "341a8d2e-ccc9-4512-acb3-8497c13c9b6c",
-        "status": "Active",
-        "roles": [
-          "BDSP",
-          "BSIP",
-          "ISP",
-          "LFI"
-        ],
-        "city": "Unknown",
-        "registrationNumber": "National011",
-        "apiFamilies": [],
-        "hasAuthServer": false,
-        "isShariahCompliant": false,
-        "authCapabilities": {
-          "supportsCiba": false,
-          "supportsDCR": false,
-          "supportsRedirect": false
-        },
-        "apiResources": [],
-        "authServerCount": 0,
-        "isLive": false
-      },
-      {
-        "id": "37f353bf-0f2a-48f2-8c5a-10b40b7bc7b3",
-        "name": "37f353bf-0f2a-48f2-8c5a-10b40b7bc7b3",
-        "legalName": "37f353bf-0f2a-48f2-8c5a-10b40b7bc7b3",
-        "shortName": "37f353bf-0f2a-48f2-8c5a-10b40b7bc7b3",
-        "status": "Active",
-        "roles": [
-          "BDSP",
-          "BSIP",
-          "LFI"
-        ],
-        "city": "Unknown",
-        "registrationNumber": "01.01.02.031.1976.02",
-        "apiFamilies": [],
-        "hasAuthServer": false,
-        "isShariahCompliant": false,
-        "authCapabilities": {
-          "supportsCiba": false,
-          "supportsDCR": false,
-          "supportsRedirect": false
-        },
-        "apiResources": [],
-        "authServerCount": 0,
-        "isLive": false
-      },
-      {
-        "id": "3ae85b57-7a70-4be2-84fe-97fbb4d8ec45",
-        "name": "3ae85b57-7a70-4be2-84fe-97fbb4d8ec45",
-        "legalName": "3ae85b57-7a70-4be2-84fe-97fbb4d8ec45",
-        "shortName": "3ae85b57-7a70-4be2-84fe-97fbb4d8ec45",
-        "status": "Active",
-        "roles": [
-          "BDSP",
-          "BSIP",
-          "ISP",
-          "LFI"
-        ],
-        "city": "Unknown",
-        "registrationNumber": "03.01.01.001.1981.01",
-        "apiFamilies": [],
-        "hasAuthServer": false,
-        "isShariahCompliant": false,
-        "authCapabilities": {
-          "supportsCiba": false,
-          "supportsDCR": false,
-          "supportsRedirect": false
-        },
-        "apiResources": [],
-        "authServerCount": 0,
-        "isLive": false
-      },
-      {
-        "id": "46acbfc9-97f1-4c09-917c-7522af641b98",
-        "name": "46acbfc9-97f1-4c09-917c-7522af641b98",
-        "legalName": "46acbfc9-97f1-4c09-917c-7522af641b98",
-        "shortName": "46acbfc9-97f1-4c09-917c-7522af641b98",
-        "status": "Active",
-        "roles": [],
-        "city": "Unknown",
-        "registrationNumber": "1234",
-        "apiFamilies": [],
-        "hasAuthServer": false,
-        "isShariahCompliant": false,
-        "authCapabilities": {
-          "supportsCiba": false,
-          "supportsDCR": false,
-          "supportsRedirect": false
-        },
-        "apiResources": [],
-        "authServerCount": 0,
-        "isLive": false
-      },
-      {
-        "id": "4c52000d-3db6-44db-8be3-8418cae0e2f1",
-        "name": "4c52000d-3db6-44db-8be3-8418cae0e2f1",
-        "legalName": "4c52000d-3db6-44db-8be3-8418cae0e2f1",
-        "shortName": "4c52000d-3db6-44db-8be3-8418cae0e2f1",
-        "status": "Active",
-        "roles": [
-          "BDSP",
-          "BSIP",
-          "ISP"
-        ],
-        "city": "Unknown",
-        "registrationNumber": "05.01.01.009.2024.02",
-        "apiFamilies": [],
-        "hasAuthServer": false,
-        "isShariahCompliant": false,
-        "authCapabilities": {
-          "supportsCiba": false,
-          "supportsDCR": false,
-          "supportsRedirect": false
-        },
-        "apiResources": [],
-        "authServerCount": 0,
-        "isLive": false
-      },
-      {
-        "id": "521e38cb-a400-4114-9591-40d282d608fe",
-        "name": "521e38cb-a400-4114-9591-40d282d608fe",
-        "legalName": "521e38cb-a400-4114-9591-40d282d608fe",
-        "shortName": "521e38cb-a400-4114-9591-40d282d608fe",
-        "status": "Active",
-        "roles": [
-          "BDSP",
-          "BSIP",
-          "ISP",
-          "LFI"
-        ],
-        "city": "Unknown",
-        "registrationNumber": "01.01.01.032.1976.06",
-        "apiFamilies": [],
-        "hasAuthServer": false,
-        "isShariahCompliant": false,
-        "authCapabilities": {
-          "supportsCiba": false,
-          "supportsDCR": false,
-          "supportsRedirect": false
-        },
-        "apiResources": [],
-        "authServerCount": 0,
-        "isLive": false
-      },
-      {
-        "id": "60599f81-3502-4ff9-8eba-a6ad975ed9ac",
-        "name": "60599f81-3502-4ff9-8eba-a6ad975ed9ac",
-        "legalName": "60599f81-3502-4ff9-8eba-a6ad975ed9ac",
-        "shortName": "60599f81-3502-4ff9-8eba-a6ad975ed9ac",
-        "status": "Active",
-        "roles": [
-          "BDSP",
-          "BSIP",
-          "ISP",
-          "LFI"
-        ],
-        "city": "Unknown",
-        "registrationNumber": "01.02.01.023.1974.02",
-        "apiFamilies": [],
-        "hasAuthServer": false,
-        "isShariahCompliant": false,
-        "authCapabilities": {
-          "supportsCiba": false,
-          "supportsDCR": false,
-          "supportsRedirect": false
-        },
-        "apiResources": [],
-        "authServerCount": 0,
-        "isLive": false
-      },
-      {
-        "id": "6207c397-4021-4381-a83a-1a37c657abf9",
-        "name": "6207c397-4021-4381-a83a-1a37c657abf9",
-        "legalName": "6207c397-4021-4381-a83a-1a37c657abf9",
-        "shortName": "6207c397-4021-4381-a83a-1a37c657abf9",
-        "status": "Active",
-        "roles": [
-          "BDSP",
-          "BSIP"
-        ],
-        "city": "Unknown",
-        "registrationNumber": "05.01.01.001.2019.02",
-        "apiFamilies": [],
-        "hasAuthServer": false,
-        "isShariahCompliant": false,
-        "authCapabilities": {
-          "supportsCiba": false,
-          "supportsDCR": false,
-          "supportsRedirect": false
-        },
-        "apiResources": [],
-        "authServerCount": 0,
-        "isLive": false
-      },
-      {
-        "id": "6bed8f06-6ae1-44e5-9059-ab0b9e91ff30",
-        "name": "6bed8f06-6ae1-44e5-9059-ab0b9e91ff30",
-        "legalName": "6bed8f06-6ae1-44e5-9059-ab0b9e91ff30",
-        "shortName": "6bed8f06-6ae1-44e5-9059-ab0b9e91ff30",
-        "status": "Active",
-        "roles": [
-          "BDSP",
-          "BSIP",
-          "ISP",
-          "LFI"
-        ],
-        "city": "Unknown",
-        "registrationNumber": "Foreign022",
-        "apiFamilies": [],
-        "hasAuthServer": false,
-        "isShariahCompliant": false,
-        "authCapabilities": {
-          "supportsCiba": false,
-          "supportsDCR": false,
-          "supportsRedirect": false
-        },
-        "apiResources": [],
-        "authServerCount": 0,
-        "isLive": false
-      },
-      {
-        "id": "879f9b11-5905-41ae-9dbe-7cb151b16546",
-        "name": "879f9b11-5905-41ae-9dbe-7cb151b16546",
-        "legalName": "879f9b11-5905-41ae-9dbe-7cb151b16546",
-        "shortName": "879f9b11-5905-41ae-9dbe-7cb151b16546",
-        "status": "Active",
-        "roles": [
-          "BDSP",
-          "BSIP",
-          "ISP",
-          "LFI"
-        ],
-        "city": "Unknown",
-        "registrationNumber": "Foriegn065",
-        "apiFamilies": [],
-        "hasAuthServer": false,
-        "isShariahCompliant": false,
-        "authCapabilities": {
-          "supportsCiba": false,
-          "supportsDCR": false,
-          "supportsRedirect": false
-        },
-        "apiResources": [],
-        "authServerCount": 0,
-        "isLive": false
-      },
-      {
-        "id": "8bb52664-8391-4a20-8eb0-2deb0c782cf3",
-        "name": "8bb52664-8391-4a20-8eb0-2deb0c782cf3",
-        "legalName": "8bb52664-8391-4a20-8eb0-2deb0c782cf3",
-        "shortName": "8bb52664-8391-4a20-8eb0-2deb0c782cf3",
-        "status": "Active",
-        "roles": [
-          "ISP"
-        ],
-        "city": "Unknown",
-        "registrationNumber": "National085",
-        "apiFamilies": [],
-        "hasAuthServer": false,
-        "isShariahCompliant": false,
-        "authCapabilities": {
-          "supportsCiba": false,
-          "supportsDCR": false,
-          "supportsRedirect": false
-        },
-        "apiResources": [],
-        "authServerCount": 0,
-        "isLive": false
-      },
-      {
-        "id": "8e924742-96c7-45c3-961f-09a80ce1d991",
-        "name": "8e924742-96c7-45c3-961f-09a80ce1d991",
-        "legalName": "8e924742-96c7-45c3-961f-09a80ce1d991",
-        "shortName": "8e924742-96c7-45c3-961f-09a80ce1d991",
-        "status": "Active",
-        "roles": [
-          "BDSP",
-          "BSIP",
-          "ISP",
-          "LFI"
-        ],
-        "city": "Unknown",
-        "registrationNumber": "01.02.01.047.2007.02",
-        "apiFamilies": [],
-        "hasAuthServer": false,
-        "isShariahCompliant": false,
-        "authCapabilities": {
-          "supportsCiba": false,
-          "supportsDCR": false,
-          "supportsRedirect": false
-        },
-        "apiResources": [],
-        "authServerCount": 0,
-        "isLive": false
-      },
-      {
-        "id": "9e02bfe5-afa5-45a9-a6fd-680452a07f98",
-        "name": "9e02bfe5-afa5-45a9-a6fd-680452a07f98",
-        "legalName": "9e02bfe5-afa5-45a9-a6fd-680452a07f98",
-        "shortName": "9e02bfe5-afa5-45a9-a6fd-680452a07f98",
-        "status": "Active",
-        "roles": [
-          "BDSP",
-          "BSIP",
-          "ISP",
-          "LFI"
-        ],
-        "city": "Unknown",
-        "registrationNumber": "01.01.01.028.1975.03",
-        "apiFamilies": [],
-        "hasAuthServer": false,
-        "isShariahCompliant": false,
-        "authCapabilities": {
-          "supportsCiba": false,
-          "supportsDCR": false,
-          "supportsRedirect": false
-        },
-        "apiResources": [],
-        "authServerCount": 0,
-        "isLive": false
-      },
-      {
-        "id": "a6bcdeac-5f93-40da-ad06-f7fb7a953058",
-        "name": "a6bcdeac-5f93-40da-ad06-f7fb7a953058",
-        "legalName": "a6bcdeac-5f93-40da-ad06-f7fb7a953058",
-        "shortName": "a6bcdeac-5f93-40da-ad06-f7fb7a953058",
-        "status": "Active",
-        "roles": [
-          "BDSP",
-          "BSIP",
-          "ISP",
-          "LFI"
-        ],
-        "city": "Unknown",
-        "registrationNumber": "03.01.01.090.2008.01",
-        "apiFamilies": [],
-        "hasAuthServer": false,
-        "isShariahCompliant": false,
-        "authCapabilities": {
-          "supportsCiba": false,
-          "supportsDCR": false,
-          "supportsRedirect": false
-        },
-        "apiResources": [],
-        "authServerCount": 0,
-        "isLive": false
-      },
       {
         "id": "d8b3852e-502e-432f-9c40-ffdf0055b879",
         "name": "AAIB",
@@ -1841,32 +1360,6 @@
         "isLive": false
       },
       {
-        "id": "c683c060-5649-4df7-9b9a-c845cbf13719",
-        "name": "c683c060-5649-4df7-9b9a-c845cbf13719",
-        "legalName": "c683c060-5649-4df7-9b9a-c845cbf13719",
-        "shortName": "c683c060-5649-4df7-9b9a-c845cbf13719",
-        "status": "Active",
-        "roles": [
-          "BDSP",
-          "BSIP",
-          "ISP",
-          "LFI"
-        ],
-        "city": "Unknown",
-        "registrationNumber": "Foreign072",
-        "apiFamilies": [],
-        "hasAuthServer": false,
-        "isShariahCompliant": false,
-        "authCapabilities": {
-          "supportsCiba": false,
-          "supportsDCR": false,
-          "supportsRedirect": false
-        },
-        "apiResources": [],
-        "authServerCount": 0,
-        "isLive": false
-      },
-      {
         "id": "2f9981d9-47e6-4cd5-ba04-d6bdadf52591",
         "name": "CBD",
         "legalName": "COMMERCIAL BANK OF DUBAI",
@@ -2020,32 +1513,6 @@
         "isLive": false
       },
       {
-        "id": "e7d13870-5780-4df3-8865-7534a513b4d3",
-        "name": "e7d13870-5780-4df3-8865-7534a513b4d3",
-        "legalName": "e7d13870-5780-4df3-8865-7534a513b4d3",
-        "shortName": "e7d13870-5780-4df3-8865-7534a513b4d3",
-        "status": "Active",
-        "roles": [
-          "BDSP",
-          "BSIP",
-          "ISP",
-          "LFI"
-        ],
-        "city": "Unknown",
-        "registrationNumber": "National064",
-        "apiFamilies": [],
-        "hasAuthServer": false,
-        "isShariahCompliant": false,
-        "authCapabilities": {
-          "supportsCiba": false,
-          "supportsDCR": false,
-          "supportsRedirect": false
-        },
-        "apiResources": [],
-        "authServerCount": 0,
-        "isLive": false
-      },
-      {
         "id": "f18cef1c-2ea2-4501-a1e5-db2e911689f8",
         "name": "EIC",
         "legalName": "Emirates Insurance Company",
@@ -2131,32 +1598,6 @@
         ],
         "authServerCount": 2,
         "isLive": true
-      },
-      {
-        "id": "f4649205-7273-4b7f-8d55-5ad95674a5f9",
-        "name": "f4649205-7273-4b7f-8d55-5ad95674a5f9",
-        "legalName": "f4649205-7273-4b7f-8d55-5ad95674a5f9",
-        "shortName": "f4649205-7273-4b7f-8d55-5ad95674a5f9",
-        "status": "Active",
-        "roles": [
-          "BDSP",
-          "BSIP",
-          "ISP",
-          "LFI"
-        ],
-        "city": "Unknown",
-        "registrationNumber": "National014",
-        "apiFamilies": [],
-        "hasAuthServer": false,
-        "isShariahCompliant": false,
-        "authCapabilities": {
-          "supportsCiba": false,
-          "supportsDCR": false,
-          "supportsRedirect": false
-        },
-        "apiResources": [],
-        "authServerCount": 0,
-        "isLive": false
       },
       {
         "id": "8a37e74c-2827-496c-abf6-985bf177b5ea",
@@ -3179,8 +2620,9 @@
       }
     ],
     "trends": {
-      "participantChange": 22,
-      "newParticipants": [
+      "participantChange": -22,
+      "newParticipants": [],
+      "removedParticipants": [
         "1e74e695-42a4-4591-b4b2-13b0c893cf35",
         "1ee6f5b6-2fa4-48fd-bffa-d8771186c564",
         "221bfab7-d564-4083-a9f5-277468aece4c",
@@ -3202,18 +2644,14 @@
         "a6bcdeac-5f93-40da-ad06-f7fb7a953058",
         "c683c060-5649-4df7-9b9a-c845cbf13719",
         "e7d13870-5780-4df3-8865-7534a513b4d3",
-        "f4649205-7273-4b7f-8d55-5ad95674a5f9",
-        "9bfa48bf-647e-4082-a6c2-25291e15c98c"
-      ],
-      "removedParticipants": [
-        "Mercury"
+        "f4649205-7273-4b7f-8d55-5ad95674a5f9"
       ],
       "roleChanges": {
-        "ISP": 19,
-        "BDSP": 19,
-        "BSIP": 19,
-        "LFI": 15,
-        "TSP": -1
+        "BDSP": -19,
+        "BSIP": -19,
+        "LFI": -16,
+        "ISP": -19,
+        "API Read_Write": -1
       },
       "apiFamilyChanges": {}
     }
@@ -3242,25 +2680,6 @@
       "fd2d5f3f-7347-489a-904b-9af728386b9a"
     ],
     "sandboxOnly": [
-      "1e74e695-42a4-4591-b4b2-13b0c893cf35",
-      "1ee6f5b6-2fa4-48fd-bffa-d8771186c564",
-      "221bfab7-d564-4083-a9f5-277468aece4c",
-      "26238620-f801-4d6f-95dd-92c22a5dba6c",
-      "2e1f7ab3-347a-43bb-8841-0bfc380ad8f4",
-      "341a8d2e-ccc9-4512-acb3-8497c13c9b6c",
-      "37f353bf-0f2a-48f2-8c5a-10b40b7bc7b3",
-      "3ae85b57-7a70-4be2-84fe-97fbb4d8ec45",
-      "46acbfc9-97f1-4c09-917c-7522af641b98",
-      "4c52000d-3db6-44db-8be3-8418cae0e2f1",
-      "521e38cb-a400-4114-9591-40d282d608fe",
-      "60599f81-3502-4ff9-8eba-a6ad975ed9ac",
-      "6207c397-4021-4381-a83a-1a37c657abf9",
-      "6bed8f06-6ae1-44e5-9059-ab0b9e91ff30",
-      "879f9b11-5905-41ae-9dbe-7cb151b16546",
-      "8bb52664-8391-4a20-8eb0-2deb0c782cf3",
-      "8e924742-96c7-45c3-961f-09a80ce1d991",
-      "9e02bfe5-afa5-45a9-a6fd-680452a07f98",
-      "a6bcdeac-5f93-40da-ad06-f7fb7a953058",
       "d8b3852e-502e-432f-9c40-ffdf0055b879",
       "b1b75d1a-648e-4e88-8d1f-a2a3cf43de5c",
       "efc97cf6-2d7b-4b37-8a9a-ac9c1958b17a",
@@ -3277,14 +2696,11 @@
       "9803b615-62f0-4d8f-813f-ec20fd1cc46f",
       "d786af7f-4f7c-48cb-87ed-97bdb9c036ad",
       "d5ee7389-e521-4469-9387-f80ef15edc6f",
-      "c683c060-5649-4df7-9b9a-c845cbf13719",
       "5459391f-964f-4dba-a891-2ff95b9123be",
       "8c14e8a9-6dea-45ce-b6e4-6fbef7d23e64",
       "1b045d74-e76e-4dda-b302-e2c24ff1f718",
       "7c618e0b-0acc-4642-bdbb-180eb419be95",
-      "e7d13870-5780-4df3-8865-7534a513b4d3",
       "f18cef1c-2ea2-4501-a1e5-db2e911689f8",
-      "f4649205-7273-4b7f-8d55-5ad95674a5f9",
       "a2df4c56-b0d5-43e8-9e7d-685f722e8830",
       "768b9d9c-648e-4cc7-89d6-4b0dd0528be3",
       "25d5678a-99c6-4473-9911-b6a0b205cea7",
@@ -3307,6 +2723,6 @@
       "c8e1896a-9c6c-4d1d-8f98-1a771a1ccd85",
       "a90b2761-560d-45a9-9b32-67465c603059"
     ],
-    "totalUniqueParticipants": 82
+    "totalUniqueParticipants": 60
   }
 }

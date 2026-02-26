@@ -145,14 +145,12 @@ function transformRole(raw: RawRole): TransformedParticipant {
     .map((claim) => claim.AuthorisationDomainRoleName)
     .filter((role, index, arr) => arr.indexOf(role) === index);
 
-  // Use registered name, falling back to org ID for unnamed registrations
-  const rawName = raw.RegisteredName || raw.OrganisationId;
-  const displayName = getDisplayName(rawName);
+  const displayName = getDisplayName(raw.RegisteredName);
 
   return {
     id: raw.OrganisationId,
     name: displayName,
-    legalName: rawName,
+    legalName: raw.RegisteredName,
     shortName: displayName,
     status: raw.Status,
     roles: roles.sort(),
@@ -218,10 +216,16 @@ function mergeParticipantsAndRoles(
   }
 
   // Add roles that aren't already in participants
+  let unnamedCount = 0;
   for (const role of roles) {
     // Skip if already seen by ID or not active
     if (seenIds.has(role.OrganisationId) || role.Status !== 'Active') {
       if (seenIds.has(role.OrganisationId)) duplicateCount++;
+      continue;
+    }
+    // Skip entries with no registered name (incomplete registrations)
+    if (!role.RegisteredName?.trim()) {
+      unnamedCount++;
       continue;
     }
     // Skip excluded test orgs
@@ -236,6 +240,9 @@ function mergeParticipantsAndRoles(
 
   if (excludedCount > 0) {
     console.log(`  Filtered out ${excludedCount} test/support organizations`);
+  }
+  if (unnamedCount > 0) {
+    console.log(`  Skipped ${unnamedCount} unnamed registrations (incomplete profiles)`);
   }
   if (duplicateCount > 0) {
     console.log(`  Removed ${duplicateCount} duplicate entries (by ID)`);
