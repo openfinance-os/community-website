@@ -591,9 +591,14 @@ function writeSnapshot(
   // Warn if participant count dropped significantly from previous snapshot
   const previous = loadPreviousSnapshot(environment);
   if (previous && previous.participants.length > 0) {
-    const dropPercent = ((previous.participants.length - snapshot.participants.length) / previous.participants.length) * 100;
+    const dropPercent =
+      ((previous.participants.length - snapshot.participants.length) /
+        previous.participants.length) *
+      100;
     if (dropPercent > 20) {
-      console.warn(`WARNING: ${environment} participant count dropped by ${dropPercent.toFixed(1)}% (${previous.participants.length} → ${snapshot.participants.length})`);
+      console.warn(
+        `WARNING: ${environment} participant count dropped by ${dropPercent.toFixed(1)}% (${previous.participants.length} → ${snapshot.participants.length})`
+      );
     }
   }
 
@@ -746,7 +751,9 @@ async function main() {
 
     // Skip writing combined snapshot if no data was fetched from either environment
     if (!productionSnapshot && !sandboxSnapshot) {
-      console.error('\nNo data fetched from any environment. Skipping snapshot write to preserve existing data.');
+      console.error(
+        '\nNo data fetched from any environment. Skipping snapshot write to preserve existing data.'
+      );
       process.exit(1);
     }
 
@@ -757,7 +764,9 @@ async function main() {
       const effectiveSandbox = sandboxSnapshot ?? loadPreviousSnapshot('sandbox');
 
       if (!productionSnapshot) {
-        console.warn('\nWARNING: Production fetch failed, using previous snapshot for combined data');
+        console.warn(
+          '\nWARNING: Production fetch failed, using previous snapshot for combined data'
+        );
       }
       if (!sandboxSnapshot) {
         console.warn('\nWARNING: Sandbox fetch failed, using previous snapshot for combined data');
