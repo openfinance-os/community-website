@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-03-01T06:43:51.979Z",
+  "timestamp": "2026-03-02T06:56:32.713Z",
   "source": "https://data.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "production",
@@ -38,11 +38,11 @@
       "redirect": 0
     },
     "byCertificationStatus": {
-      "Self-Certified": 39
+      "Self-Certified": 36
     },
     "byApiVersion": {
       "2.0": 13,
-      "1.2": 26
+      "1.2": 23
     }
   },
   "participants": [
@@ -86,26 +86,8 @@
           "familyComplete": false
         },
         {
-          "family": "accounts",
-          "version": "1.2",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        },
-        {
           "family": "cop",
           "version": "2.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        },
-        {
-          "family": "payments",
-          "version": "1.2",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
-          "family": "products",
-          "version": "1.2",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
