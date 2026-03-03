@@ -1,28 +1,25 @@
 {
-  "timestamp": "2026-03-02T06:56:34.188Z",
+  "timestamp": "2026-03-03T06:51:06.489Z",
   "source": "https://data.sandbox.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "sandbox",
   "summary": {
-    "totalParticipants": 76,
+    "totalParticipants": 77,
     "byStatus": {
-      "Active": 76
+      "Active": 77
     },
     "byRole": {
-      "BDSP": 73,
-      "BSIP": 73,
-      "LFI": 53,
-      "ISP": 58,
-      "API Read_Write": 2,
-      "TSP": 2,
+      "BDSP": 74,
+      "BSIP": 74,
+      "LFI": 54,
+      "ISP": 59,
+      "API Read_Write": 3,
+      "TSP": 3,
       "pki-test-harness": 1
     },
     "byCity": {
       "Unknown": 58,
-      "Abu Dhabi": 5,
-      "Dubai": 10,
-      "London": 2,
-      "Sharjah": 1
+      "Org City": 19
     },
     "apiFamilies": [
       "accounts",
@@ -30,9 +27,9 @@
       "payments",
       "products"
     ],
-    "liveInProduction": 18,
+    "liveInProduction": 19,
     "shariahCompliantCount": 10,
-    "multiRoleCount": 74,
+    "multiRoleCount": 75,
     "tppCount": 0,
     "byAuthCapabilities": {
       "ciba": 0,
@@ -40,15 +37,15 @@
       "redirect": 0
     },
     "byCertificationStatus": {
-      "Self-Certified": 46
+      "Self-Certified": 50
     },
     "byApiVersion": {
-      "2.0": 10,
-      "1.2": 9,
+      "2.0": 11,
       "1.2.0": 11,
+      "1.2": 11,
       "1.0.0": 12,
       "2.0.0": 3,
-      "2.1": 1
+      "2.1": 2
     }
   },
   "participants": [
@@ -102,67 +99,6 @@
       "apiResources": [],
       "authServerCount": 0,
       "isLive": false
-    },
-    {
-      "id": "1b4f7317-8b67-4179-bdfb-8054f74c25d0",
-      "name": "ADIB",
-      "legalName": "Abu Dhabi Islamic Bank P.J.S.C",
-      "shortName": "ADIB",
-      "status": "Active",
-      "roles": [
-        "BDSP",
-        "BSIP",
-        "ISP",
-        "LFI"
-      ],
-      "city": "Abu Dhabi",
-      "registrationNumber": "01.01.02.042.1997.01",
-      "apiFamilies": [
-        "payments"
-      ],
-      "hasAuthServer": true,
-      "isShariahCompliant": true,
-      "authCapabilities": {
-        "supportsCiba": false,
-        "supportsDCR": false,
-        "supportsRedirect": false
-      },
-      "apiResources": [
-        {
-          "family": "payments",
-          "version": "2.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        }
-      ],
-      "authServerCount": 1,
-      "isLive": true
-    },
-    {
-      "id": "b1b75d1a-648e-4e88-8d1f-a2a3cf43de5c",
-      "name": "ADNIC",
-      "legalName": "ABU DHABI NATIONAL INSURANCE COMPANY PJSC",
-      "shortName": "ADNIC",
-      "status": "Active",
-      "roles": [
-        "BDSP",
-        "BSIP",
-        "ISP",
-        "LFI"
-      ],
-      "city": "Abu Dhabi",
-      "registrationNumber": "National001",
-      "apiFamilies": [],
-      "hasAuthServer": true,
-      "isShariahCompliant": true,
-      "authCapabilities": {
-        "supportsCiba": false,
-        "supportsDCR": false,
-        "supportsRedirect": false
-      },
-      "apiResources": [],
-      "authServerCount": 1,
-      "isLive": true
     },
     {
       "id": "efc97cf6-2d7b-4b37-8a9a-ac9c1958b17a",
@@ -423,32 +359,6 @@
       "isLive": false
     },
     {
-      "id": "1696c7b7-249f-48c3-9f21-7e26fac2c116",
-      "name": "ALAIN AHLIA INSURANCE COMPANY",
-      "legalName": "ALAIN AHLIA INSURANCE COMPANY",
-      "shortName": "ALAIN AHLIA INSURANCE COMPANY",
-      "status": "Active",
-      "roles": [
-        "BDSP",
-        "BSIP",
-        "ISP",
-        "LFI"
-      ],
-      "city": "Abu Dhabi",
-      "registrationNumber": "National003",
-      "apiFamilies": [],
-      "hasAuthServer": true,
-      "isShariahCompliant": false,
-      "authCapabilities": {
-        "supportsCiba": false,
-        "supportsDCR": false,
-        "supportsRedirect": false
-      },
-      "apiResources": [],
-      "authServerCount": 1,
-      "isLive": true
-    },
-    {
       "id": "a632a8ef-44d8-4331-856f-a0b9dc66241e",
       "name": "American Life Insurance Company (MetLife)",
       "legalName": "American Life Insurance Company (MetLife)",
@@ -473,82 +383,6 @@
       "apiResources": [],
       "authServerCount": 0,
       "isLive": false
-    },
-    {
-      "id": "239cb7d5-4dcb-4348-9964-d8872faadc1c",
-      "name": "Arab Bank PLC",
-      "legalName": "Arab Bank PLC",
-      "shortName": "Arab Bank PLC",
-      "status": "Active",
-      "roles": [
-        "BDSP",
-        "BSIP",
-        "ISP",
-        "LFI"
-      ],
-      "city": "Dubai",
-      "registrationNumber": "01.02.01.016.1973.01",
-      "apiFamilies": [
-        "accounts"
-      ],
-      "hasAuthServer": true,
-      "isShariahCompliant": false,
-      "authCapabilities": {
-        "supportsCiba": false,
-        "supportsDCR": false,
-        "supportsRedirect": false
-      },
-      "apiResources": [
-        {
-          "family": "accounts",
-          "version": "1.2",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        }
-      ],
-      "authServerCount": 1,
-      "isLive": true
-    },
-    {
-      "id": "d6f549cc-ff6f-4e21-844e-f26a2ee932cb",
-      "name": "Arab Financial Services LLC",
-      "legalName": "Arab Financial Services LLC",
-      "shortName": "Arab Financial Services LLC",
-      "status": "Active",
-      "roles": [
-        "BDSP",
-        "BSIP",
-        "ISP"
-      ],
-      "city": "Dubai",
-      "registrationNumber": "08.01.02.021.2024.02",
-      "apiFamilies": [
-        "cop",
-        "payments"
-      ],
-      "hasAuthServer": true,
-      "isShariahCompliant": false,
-      "authCapabilities": {
-        "supportsCiba": false,
-        "supportsDCR": false,
-        "supportsRedirect": false
-      },
-      "apiResources": [
-        {
-          "family": "cop",
-          "version": "2.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
-          "family": "payments",
-          "version": "2.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        }
-      ],
-      "authServerCount": 1,
-      "isLive": true
     },
     {
       "id": "9803b615-62f0-4d8f-813f-ec20fd1cc46f",
@@ -626,47 +460,6 @@
       "isLive": false
     },
     {
-      "id": "2f9981d9-47e6-4cd5-ba04-d6bdadf52591",
-      "name": "CBD",
-      "legalName": "COMMERCIAL BANK OF DUBAI",
-      "shortName": "CBD",
-      "status": "Active",
-      "roles": [
-        "BDSP",
-        "BSIP",
-        "ISP",
-        "LFI"
-      ],
-      "city": "Dubai",
-      "registrationNumber": "01.01.01.010.1969.02",
-      "apiFamilies": [
-        "payments"
-      ],
-      "hasAuthServer": true,
-      "isShariahCompliant": true,
-      "authCapabilities": {
-        "supportsCiba": false,
-        "supportsDCR": false,
-        "supportsRedirect": false
-      },
-      "apiResources": [
-        {
-          "family": "payments",
-          "version": "1.2.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
-          "family": "payments",
-          "version": "1.2",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        }
-      ],
-      "authServerCount": 2,
-      "isLive": true
-    },
-    {
       "id": "5459391f-964f-4dba-a891-2ff95b9123be",
       "name": "CBI",
       "legalName": "Commercial Bank International PJSC",
@@ -691,40 +484,6 @@
       "apiResources": [],
       "authServerCount": 0,
       "isLive": false
-    },
-    {
-      "id": "8c14e8a9-6dea-45ce-b6e4-6fbef7d23e64",
-      "name": "Citibank NA, UAE",
-      "legalName": "Citibank NA, UAE",
-      "shortName": "Citibank NA, UAE",
-      "status": "Active",
-      "roles": [
-        "BDSP",
-        "BSIP",
-        "LFI"
-      ],
-      "city": "Dubai",
-      "registrationNumber": "01.02.01.003.1958.02",
-      "apiFamilies": [
-        "payments"
-      ],
-      "hasAuthServer": true,
-      "isShariahCompliant": true,
-      "authCapabilities": {
-        "supportsCiba": false,
-        "supportsDCR": false,
-        "supportsRedirect": false
-      },
-      "apiResources": [
-        {
-          "family": "payments",
-          "version": "2.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        }
-      ],
-      "authServerCount": 1,
-      "isLive": true
     },
     {
       "id": "1b045d74-e76e-4dda-b302-e2c24ff1f718",
@@ -854,128 +613,6 @@
       "isLive": false
     },
     {
-      "id": "f18cef1c-2ea2-4501-a1e5-db2e911689f8",
-      "name": "EIC",
-      "legalName": "Emirates Insurance Company",
-      "shortName": "EIC",
-      "status": "Active",
-      "roles": [
-        "BDSP",
-        "BSIP",
-        "ISP",
-        "LFI"
-      ],
-      "city": "Dubai",
-      "registrationNumber": "National002",
-      "apiFamilies": [],
-      "hasAuthServer": true,
-      "isShariahCompliant": false,
-      "authCapabilities": {
-        "supportsCiba": false,
-        "supportsDCR": false,
-        "supportsRedirect": false
-      },
-      "apiResources": [],
-      "authServerCount": 1,
-      "isLive": true
-    },
-    {
-      "id": "64e5061d-437f-43c8-9f17-1df9a4600705",
-      "name": "ENBD",
-      "legalName": "EMIRATES NBD BANK PJSC",
-      "shortName": "ENBD",
-      "status": "Active",
-      "roles": [
-        "BDSP",
-        "BSIP",
-        "ISP",
-        "LFI"
-      ],
-      "city": "Dubai",
-      "registrationNumber": "01.01.01.003.1963.02",
-      "apiFamilies": [
-        "accounts",
-        "cop",
-        "payments"
-      ],
-      "hasAuthServer": true,
-      "isShariahCompliant": true,
-      "authCapabilities": {
-        "supportsCiba": false,
-        "supportsDCR": false,
-        "supportsRedirect": false
-      },
-      "apiResources": [
-        {
-          "family": "payments",
-          "version": "1.2.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
-          "family": "accounts",
-          "version": "1.2.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
-          "family": "cop",
-          "version": "1.2.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        },
-        {
-          "family": "accounts",
-          "version": "1.2.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
-          "family": "payments",
-          "version": "1.2.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        }
-      ],
-      "authServerCount": 2,
-      "isLive": true
-    },
-    {
-      "id": "8a37e74c-2827-496c-abf6-985bf177b5ea",
-      "name": "FAB",
-      "legalName": "First Abu Dhabi Islamic Finance PJSC",
-      "shortName": "FAB",
-      "status": "Active",
-      "roles": [
-        "BDSP",
-        "BSIP",
-        "ISP",
-        "LFI"
-      ],
-      "city": "Abu Dhabi",
-      "registrationNumber": "02.01.02.012.2007.01",
-      "apiFamilies": [
-        "payments"
-      ],
-      "hasAuthServer": true,
-      "isShariahCompliant": true,
-      "authCapabilities": {
-        "supportsCiba": false,
-        "supportsDCR": false,
-        "supportsRedirect": false
-      },
-      "apiResources": [
-        {
-          "family": "payments",
-          "version": "1.2.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        }
-      ],
-      "authServerCount": 1,
-      "isLive": true
-    },
-    {
       "id": "a2df4c56-b0d5-43e8-9e7d-685f722e8830",
       "name": "Fintech Galaxy",
       "legalName": "Fintech Galaxy FZE",
@@ -1075,48 +712,6 @@
       "apiResources": [],
       "authServerCount": 0,
       "isLive": false
-    },
-    {
-      "id": "db16163c-efb3-4ec2-aa3d-a3d4f466814e",
-      "name": "HSBC",
-      "legalName": "HSBC Bank Middle East Limited",
-      "shortName": "HSBC",
-      "status": "Active",
-      "roles": [
-        "BDSP",
-        "BSIP",
-        "ISP",
-        "LFI"
-      ],
-      "city": "Dubai",
-      "registrationNumber": "01.02.01.001.1946.02 / 12192377",
-      "apiFamilies": [
-        "cop",
-        "payments"
-      ],
-      "hasAuthServer": true,
-      "isShariahCompliant": false,
-      "authCapabilities": {
-        "supportsCiba": false,
-        "supportsDCR": false,
-        "supportsRedirect": false
-      },
-      "apiResources": [
-        {
-          "family": "cop",
-          "version": "1.2.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
-          "family": "payments",
-          "version": "2.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        }
-      ],
-      "authServerCount": 2,
-      "isLive": true
     },
     {
       "id": "8bb52664-8391-4a20-8eb0-2deb0c782cf3",
@@ -1319,96 +914,6 @@
       "isLive": false
     },
     {
-      "id": "4767786f-ab28-4d5c-8fdb-0f27e1c4eb9c",
-      "name": "Mashreq",
-      "legalName": "MASHREQBANK PSC",
-      "shortName": "Mashreq",
-      "status": "Active",
-      "roles": [
-        "BDSP",
-        "BSIP",
-        "ISP",
-        "LFI"
-      ],
-      "city": "Dubai",
-      "registrationNumber": "01.01.01.005.1967.02",
-      "apiFamilies": [
-        "accounts",
-        "payments",
-        "products"
-      ],
-      "hasAuthServer": true,
-      "isShariahCompliant": true,
-      "authCapabilities": {
-        "supportsCiba": false,
-        "supportsDCR": false,
-        "supportsRedirect": false
-      },
-      "apiResources": [
-        {
-          "family": "payments",
-          "version": "1.2",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
-          "family": "products",
-          "version": "1.2",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
-          "family": "accounts",
-          "version": "1.2",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        }
-      ],
-      "authServerCount": 1,
-      "isLive": true
-    },
-    {
-      "id": "94884086-b7c2-43a0-b4e7-a928b9fed0ac",
-      "name": "Mercury",
-      "legalName": "Mercury Payments Services LLC",
-      "shortName": "Mercury",
-      "status": "Active",
-      "roles": [
-        "BDSP",
-        "BSIP",
-        "ISP"
-      ],
-      "city": "Dubai",
-      "registrationNumber": "08.01.03.019.2024.02",
-      "apiFamilies": [
-        "payments",
-        "products"
-      ],
-      "hasAuthServer": true,
-      "isShariahCompliant": true,
-      "authCapabilities": {
-        "supportsCiba": false,
-        "supportsDCR": false,
-        "supportsRedirect": false
-      },
-      "apiResources": [
-        {
-          "family": "payments",
-          "version": "1.0.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
-          "family": "products",
-          "version": "1.0.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        }
-      ],
-      "authServerCount": 2,
-      "isLive": true
-    },
-    {
       "id": "c4d75ae0-6601-43ba-a2ac-33c666c4466d",
       "name": "myAlfred",
       "legalName": "myAlfred LLC",
@@ -1609,10 +1114,10 @@
       "isLive": false
     },
     {
-      "id": "f4649205-7273-4b7f-8d55-5ad95674a5f9",
-      "name": "Orient Insurance",
-      "legalName": "Orient Insurance",
-      "shortName": "Orient Insurance",
+      "id": "1696c7b7-249f-48c3-9f21-7e26fac2c116",
+      "name": "Organisation 1696c7b7-249f-48c3-9f21-7e26fac2c116",
+      "legalName": "Org Legal Name 1696c7b7-249f-48c3-9f21-7e26fac2c116",
+      "shortName": "Organisation 1696c7b7-249f-48c3-9f21-7e26fac2c116",
       "status": "Active",
       "roles": [
         "BDSP",
@@ -1620,10 +1125,10 @@
         "ISP",
         "LFI"
       ],
-      "city": "Unknown",
-      "registrationNumber": "National014",
+      "city": "Org City",
+      "registrationNumber": "National003",
       "apiFamilies": [],
-      "hasAuthServer": false,
+      "hasAuthServer": true,
       "isShariahCompliant": false,
       "authCapabilities": {
         "supportsCiba": false,
@@ -1631,14 +1136,74 @@
         "supportsRedirect": false
       },
       "apiResources": [],
-      "authServerCount": 0,
-      "isLive": false
+      "authServerCount": 1,
+      "isLive": true
+    },
+    {
+      "id": "16c610ed-9e4a-407d-90d0-64149ba96b45",
+      "name": "Organisation 16c610ed-9e4a-407d-90d0-64149ba96b45",
+      "legalName": "Org Legal Name 16c610ed-9e4a-407d-90d0-64149ba96b45",
+      "shortName": "Organisation 16c610ed-9e4a-407d-90d0-64149ba96b45",
+      "status": "Active",
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "LFI"
+      ],
+      "city": "Org City",
+      "registrationNumber": "01.02.01.002.1958.02",
+      "apiFamilies": [],
+      "hasAuthServer": true,
+      "isShariahCompliant": true,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 1,
+      "isLive": true
+    },
+    {
+      "id": "1b4f7317-8b67-4179-bdfb-8054f74c25d0",
+      "name": "Organisation 1b4f7317-8b67-4179-bdfb-8054f74c25d0",
+      "legalName": "Org Legal Name 1b4f7317-8b67-4179-bdfb-8054f74c25d0",
+      "shortName": "Organisation 1b4f7317-8b67-4179-bdfb-8054f74c25d0",
+      "status": "Active",
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
+      "city": "Org City",
+      "registrationNumber": "01.01.02.042.1997.01",
+      "apiFamilies": [
+        "payments"
+      ],
+      "hasAuthServer": true,
+      "isShariahCompliant": true,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [
+        {
+          "family": "payments",
+          "version": "2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        }
+      ],
+      "authServerCount": 1,
+      "isLive": true
     },
     {
       "id": "233bcd1d-4216-4b3c-a362-9e4a9282bba7",
-      "name": "Ozone API",
-      "legalName": "OZONE FINANCIAL TECHNOLOGY LIMITED",
-      "shortName": "Ozone API",
+      "name": "Organisation 233bcd1d-4216-4b3c-a362-9e4a9282bba7",
+      "legalName": "Org Legal Name 233bcd1d-4216-4b3c-a362-9e4a9282bba7",
+      "shortName": "Organisation 233bcd1d-4216-4b3c-a362-9e4a9282bba7",
       "status": "Active",
       "roles": [
         "API Read_Write",
@@ -1648,7 +1213,7 @@
         "LFI",
         "TSP"
       ],
-      "city": "London",
+      "city": "Org City",
       "registrationNumber": "10969115",
       "apiFamilies": [
         "accounts",
@@ -1684,6 +1249,751 @@
       ],
       "authServerCount": 3,
       "isLive": true
+    },
+    {
+      "id": "239cb7d5-4dcb-4348-9964-d8872faadc1c",
+      "name": "Organisation 239cb7d5-4dcb-4348-9964-d8872faadc1c",
+      "legalName": "Org Legal Name 239cb7d5-4dcb-4348-9964-d8872faadc1c",
+      "shortName": "Organisation 239cb7d5-4dcb-4348-9964-d8872faadc1c",
+      "status": "Active",
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
+      "city": "Org City",
+      "registrationNumber": "01.02.01.016.1973.01",
+      "apiFamilies": [
+        "accounts"
+      ],
+      "hasAuthServer": true,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [
+        {
+          "family": "accounts",
+          "version": "1.2",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        }
+      ],
+      "authServerCount": 1,
+      "isLive": true
+    },
+    {
+      "id": "29536048-fef2-423e-83c2-b333869677cc",
+      "name": "Organisation 29536048-fef2-423e-83c2-b333869677cc",
+      "legalName": "Org Legal Name 29536048-fef2-423e-83c2-b333869677cc",
+      "shortName": "Organisation 29536048-fef2-423e-83c2-b333869677cc",
+      "status": "Active",
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
+      "city": "Org City",
+      "registrationNumber": "01.01.02.026.1975.03",
+      "apiFamilies": [],
+      "hasAuthServer": true,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 1,
+      "isLive": true
+    },
+    {
+      "id": "2f9981d9-47e6-4cd5-ba04-d6bdadf52591",
+      "name": "Organisation 2f9981d9-47e6-4cd5-ba04-d6bdadf52591",
+      "legalName": "Org Legal Name 2f9981d9-47e6-4cd5-ba04-d6bdadf52591",
+      "shortName": "Organisation 2f9981d9-47e6-4cd5-ba04-d6bdadf52591",
+      "status": "Active",
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
+      "city": "Org City",
+      "registrationNumber": "01.01.01.010.1969.02",
+      "apiFamilies": [
+        "payments"
+      ],
+      "hasAuthServer": true,
+      "isShariahCompliant": true,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [
+        {
+          "family": "payments",
+          "version": "1.2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "payments",
+          "version": "1.2",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        }
+      ],
+      "authServerCount": 2,
+      "isLive": true
+    },
+    {
+      "id": "4767786f-ab28-4d5c-8fdb-0f27e1c4eb9c",
+      "name": "Organisation 4767786f-ab28-4d5c-8fdb-0f27e1c4eb9c",
+      "legalName": "Org Legal Name 4767786f-ab28-4d5c-8fdb-0f27e1c4eb9c",
+      "shortName": "Organisation 4767786f-ab28-4d5c-8fdb-0f27e1c4eb9c",
+      "status": "Active",
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
+      "city": "Org City",
+      "registrationNumber": "01.01.01.005.1967.02",
+      "apiFamilies": [
+        "accounts",
+        "payments",
+        "products"
+      ],
+      "hasAuthServer": true,
+      "isShariahCompliant": true,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [
+        {
+          "family": "payments",
+          "version": "1.2",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "products",
+          "version": "1.2",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "accounts",
+          "version": "1.2",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        }
+      ],
+      "authServerCount": 1,
+      "isLive": true
+    },
+    {
+      "id": "64e5061d-437f-43c8-9f17-1df9a4600705",
+      "name": "Organisation 64e5061d-437f-43c8-9f17-1df9a4600705",
+      "legalName": "Org Legal Name 64e5061d-437f-43c8-9f17-1df9a4600705",
+      "shortName": "Organisation 64e5061d-437f-43c8-9f17-1df9a4600705",
+      "status": "Active",
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
+      "city": "Org City",
+      "registrationNumber": "01.01.01.003.1963.02",
+      "apiFamilies": [
+        "accounts",
+        "cop",
+        "payments"
+      ],
+      "hasAuthServer": true,
+      "isShariahCompliant": true,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [
+        {
+          "family": "payments",
+          "version": "1.2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "accounts",
+          "version": "1.2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "cop",
+          "version": "1.2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "accounts",
+          "version": "1.2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "payments",
+          "version": "1.2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        }
+      ],
+      "authServerCount": 2,
+      "isLive": true
+    },
+    {
+      "id": "8a37e74c-2827-496c-abf6-985bf177b5ea",
+      "name": "Organisation 8a37e74c-2827-496c-abf6-985bf177b5ea",
+      "legalName": "Org Legal Name 8a37e74c-2827-496c-abf6-985bf177b5ea",
+      "shortName": "Organisation 8a37e74c-2827-496c-abf6-985bf177b5ea",
+      "status": "Active",
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
+      "city": "Org City",
+      "registrationNumber": "02.01.02.012.2007.01",
+      "apiFamilies": [
+        "payments"
+      ],
+      "hasAuthServer": true,
+      "isShariahCompliant": true,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [
+        {
+          "family": "payments",
+          "version": "1.2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        }
+      ],
+      "authServerCount": 1,
+      "isLive": true
+    },
+    {
+      "id": "8c14e8a9-6dea-45ce-b6e4-6fbef7d23e64",
+      "name": "Organisation 8c14e8a9-6dea-45ce-b6e4-6fbef7d23e64",
+      "legalName": "Org Legal Name 8c14e8a9-6dea-45ce-b6e4-6fbef7d23e64",
+      "shortName": "Organisation 8c14e8a9-6dea-45ce-b6e4-6fbef7d23e64",
+      "status": "Active",
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "LFI"
+      ],
+      "city": "Org City",
+      "registrationNumber": "01.02.01.003.1958.02",
+      "apiFamilies": [
+        "payments"
+      ],
+      "hasAuthServer": true,
+      "isShariahCompliant": true,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [
+        {
+          "family": "payments",
+          "version": "2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        }
+      ],
+      "authServerCount": 1,
+      "isLive": true
+    },
+    {
+      "id": "94884086-b7c2-43a0-b4e7-a928b9fed0ac",
+      "name": "Organisation 94884086-b7c2-43a0-b4e7-a928b9fed0ac",
+      "legalName": "Org Legal Name 94884086-b7c2-43a0-b4e7-a928b9fed0ac",
+      "shortName": "Organisation 94884086-b7c2-43a0-b4e7-a928b9fed0ac",
+      "status": "Active",
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP"
+      ],
+      "city": "Org City",
+      "registrationNumber": "08.01.03.019.2024.02",
+      "apiFamilies": [
+        "payments",
+        "products"
+      ],
+      "hasAuthServer": true,
+      "isShariahCompliant": true,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [
+        {
+          "family": "payments",
+          "version": "1.0.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "products",
+          "version": "1.0.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        }
+      ],
+      "authServerCount": 2,
+      "isLive": true
+    },
+    {
+      "id": "b1b75d1a-648e-4e88-8d1f-a2a3cf43de5c",
+      "name": "Organisation b1b75d1a-648e-4e88-8d1f-a2a3cf43de5c",
+      "legalName": "Org Legal Name b1b75d1a-648e-4e88-8d1f-a2a3cf43de5c",
+      "shortName": "Organisation b1b75d1a-648e-4e88-8d1f-a2a3cf43de5c",
+      "status": "Active",
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
+      "city": "Org City",
+      "registrationNumber": "National001",
+      "apiFamilies": [],
+      "hasAuthServer": true,
+      "isShariahCompliant": true,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 1,
+      "isLive": true
+    },
+    {
+      "id": "d6f549cc-ff6f-4e21-844e-f26a2ee932cb",
+      "name": "Organisation d6f549cc-ff6f-4e21-844e-f26a2ee932cb",
+      "legalName": "Org Legal Name d6f549cc-ff6f-4e21-844e-f26a2ee932cb",
+      "shortName": "Organisation d6f549cc-ff6f-4e21-844e-f26a2ee932cb",
+      "status": "Active",
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP"
+      ],
+      "city": "Org City",
+      "registrationNumber": "08.01.02.021.2024.02",
+      "apiFamilies": [
+        "cop",
+        "payments"
+      ],
+      "hasAuthServer": true,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [
+        {
+          "family": "cop",
+          "version": "2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "payments",
+          "version": "2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        }
+      ],
+      "authServerCount": 1,
+      "isLive": true
+    },
+    {
+      "id": "d86e6704-e92b-4368-a425-5a7ba230e986",
+      "name": "Organisation d86e6704-e92b-4368-a425-5a7ba230e986",
+      "legalName": "Org Legal Name d86e6704-e92b-4368-a425-5a7ba230e986",
+      "shortName": "Organisation d86e6704-e92b-4368-a425-5a7ba230e986",
+      "status": "Active",
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
+      "city": "Org City",
+      "registrationNumber": "01.01.01.063.2022.01",
+      "apiFamilies": [
+        "accounts",
+        "cop",
+        "payments",
+        "products"
+      ],
+      "hasAuthServer": true,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [
+        {
+          "family": "payments",
+          "version": "1.2",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "cop",
+          "version": "1.2",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "accounts",
+          "version": "1.2",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "products",
+          "version": "1.2",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "payments",
+          "version": "2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "cop",
+          "version": "2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "accounts",
+          "version": "2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "products",
+          "version": "2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        }
+      ],
+      "authServerCount": 1,
+      "isLive": true
+    },
+    {
+      "id": "db16163c-efb3-4ec2-aa3d-a3d4f466814e",
+      "name": "Organisation db16163c-efb3-4ec2-aa3d-a3d4f466814e",
+      "legalName": "Org Legal Name db16163c-efb3-4ec2-aa3d-a3d4f466814e",
+      "shortName": "Organisation db16163c-efb3-4ec2-aa3d-a3d4f466814e",
+      "status": "Active",
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
+      "city": "Org City",
+      "registrationNumber": "01.02.01.001.1946.02 / 12192377",
+      "apiFamilies": [
+        "cop",
+        "payments"
+      ],
+      "hasAuthServer": true,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [
+        {
+          "family": "cop",
+          "version": "1.2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "payments",
+          "version": "2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        }
+      ],
+      "authServerCount": 2,
+      "isLive": true
+    },
+    {
+      "id": "f18cef1c-2ea2-4501-a1e5-db2e911689f8",
+      "name": "Organisation f18cef1c-2ea2-4501-a1e5-db2e911689f8",
+      "legalName": "Org Legal Name f18cef1c-2ea2-4501-a1e5-db2e911689f8",
+      "shortName": "Organisation f18cef1c-2ea2-4501-a1e5-db2e911689f8",
+      "status": "Active",
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
+      "city": "Org City",
+      "registrationNumber": "National002",
+      "apiFamilies": [],
+      "hasAuthServer": true,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 1,
+      "isLive": true
+    },
+    {
+      "id": "f2a91ec1-83bc-4048-838d-6e307d3a29be",
+      "name": "Organisation f2a91ec1-83bc-4048-838d-6e307d3a29be",
+      "legalName": "Org Legal Name f2a91ec1-83bc-4048-838d-6e307d3a29be",
+      "shortName": "Organisation f2a91ec1-83bc-4048-838d-6e307d3a29be",
+      "status": "Active",
+      "roles": [
+        "API Read_Write",
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI",
+        "TSP",
+        "pki-test-harness"
+      ],
+      "city": "Org City",
+      "registrationNumber": "107428512",
+      "apiFamilies": [
+        "accounts",
+        "cop",
+        "payments",
+        "products"
+      ],
+      "hasAuthServer": true,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [
+        {
+          "family": "payments",
+          "version": "1.0.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "products",
+          "version": "1.0.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "cop",
+          "version": "2.0.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "cop",
+          "version": "1.0.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "payments",
+          "version": "1.0.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "cop",
+          "version": "1.0.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "payments",
+          "version": "1.0.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "payments",
+          "version": "1.0.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "cop",
+          "version": "1.0.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "cop",
+          "version": "1.0.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "payments",
+          "version": "1.0.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "payments",
+          "version": "2.0.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "accounts",
+          "version": "2.0.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "cop",
+          "version": "2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "accounts",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        }
+      ],
+      "authServerCount": 10,
+      "isLive": true
+    },
+    {
+      "id": "Mercury",
+      "name": "Organisation Mercury",
+      "legalName": "Org Legal Name Mercury",
+      "shortName": "Organisation Mercury",
+      "status": "Active",
+      "roles": [
+        "API Read_Write",
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI",
+        "TSP"
+      ],
+      "city": "Org City",
+      "registrationNumber": "N/A",
+      "apiFamilies": [
+        "accounts",
+        "payments",
+        "products"
+      ],
+      "hasAuthServer": true,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [
+        {
+          "family": "products",
+          "version": "1.2",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "payments",
+          "version": "2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "accounts",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "payments",
+          "version": "1.2",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        }
+      ],
+      "authServerCount": 1,
+      "isLive": true
+    },
+    {
+      "id": "f4649205-7273-4b7f-8d55-5ad95674a5f9",
+      "name": "Orient Insurance",
+      "legalName": "Orient Insurance",
+      "shortName": "Orient Insurance",
+      "status": "Active",
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
+      "city": "Unknown",
+      "registrationNumber": "National014",
+      "apiFamilies": [],
+      "hasAuthServer": false,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 0,
+      "isLive": false
     },
     {
       "id": "0016920f-c806-47fd-91d6-ce81b3fa7a1e",
@@ -1755,131 +2065,6 @@
       "apiResources": [],
       "authServerCount": 0,
       "isLive": false
-    },
-    {
-      "id": "f2a91ec1-83bc-4048-838d-6e307d3a29be",
-      "name": "Raidiam",
-      "legalName": "Raidiam Services Limited",
-      "shortName": "Raidiam",
-      "status": "Active",
-      "roles": [
-        "API Read_Write",
-        "BDSP",
-        "BSIP",
-        "ISP",
-        "LFI",
-        "TSP",
-        "pki-test-harness"
-      ],
-      "city": "London",
-      "registrationNumber": "107428512",
-      "apiFamilies": [
-        "accounts",
-        "cop",
-        "payments",
-        "products"
-      ],
-      "hasAuthServer": true,
-      "isShariahCompliant": false,
-      "authCapabilities": {
-        "supportsCiba": false,
-        "supportsDCR": false,
-        "supportsRedirect": false
-      },
-      "apiResources": [
-        {
-          "family": "payments",
-          "version": "1.0.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
-          "family": "products",
-          "version": "1.0.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
-          "family": "cop",
-          "version": "1.0.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        },
-        {
-          "family": "cop",
-          "version": "2.0.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
-          "family": "payments",
-          "version": "1.0.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        },
-        {
-          "family": "payments",
-          "version": "1.0.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        },
-        {
-          "family": "cop",
-          "version": "1.0.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
-          "family": "payments",
-          "version": "1.0.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
-          "family": "cop",
-          "version": "1.0.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        },
-        {
-          "family": "cop",
-          "version": "1.0.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
-          "family": "payments",
-          "version": "1.0.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
-          "family": "payments",
-          "version": "2.0.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        },
-        {
-          "family": "accounts",
-          "version": "2.0.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        },
-        {
-          "family": "cop",
-          "version": "2.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
-          "family": "accounts",
-          "version": "2.1",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        }
-      ],
-      "authServerCount": 10,
-      "isLive": true
     },
     {
       "id": "521e38cb-a400-4114-9591-40d282d608fe",
@@ -1985,32 +2170,6 @@
       "isLive": false
     },
     {
-      "id": "29536048-fef2-423e-83c2-b333869677cc",
-      "name": "Sharjah Islamic Bank",
-      "legalName": "Sharjah Islamic Bank",
-      "shortName": "Sharjah Islamic Bank",
-      "status": "Active",
-      "roles": [
-        "BDSP",
-        "BSIP",
-        "ISP",
-        "LFI"
-      ],
-      "city": "Sharjah",
-      "registrationNumber": "01.01.02.026.1975.03",
-      "apiFamilies": [],
-      "hasAuthServer": true,
-      "isShariahCompliant": false,
-      "authCapabilities": {
-        "supportsCiba": false,
-        "supportsDCR": false,
-        "supportsRedirect": false
-      },
-      "apiResources": [],
-      "authServerCount": 1,
-      "isLive": true
-    },
-    {
       "id": "8e924742-96c7-45c3-961f-09a80ce1d991",
       "name": "SNB",
       "legalName": "SNB",
@@ -2083,31 +2242,6 @@
       "apiResources": [],
       "authServerCount": 0,
       "isLive": false
-    },
-    {
-      "id": "16c610ed-9e4a-407d-90d0-64149ba96b45",
-      "name": "Standard Chartered",
-      "legalName": "Standard Chartered Bank",
-      "shortName": "Standard Chartered",
-      "status": "Active",
-      "roles": [
-        "BDSP",
-        "BSIP",
-        "LFI"
-      ],
-      "city": "Dubai",
-      "registrationNumber": "01.02.01.002.1958.02",
-      "apiFamilies": [],
-      "hasAuthServer": true,
-      "isShariahCompliant": true,
-      "authCapabilities": {
-        "supportsCiba": false,
-        "supportsDCR": false,
-        "supportsRedirect": false
-      },
-      "apiResources": [],
-      "authServerCount": 1,
-      "isLive": true
     },
     {
       "id": "a41e437b-306a-4763-a42b-c4de302eee0b",
@@ -2186,86 +2320,6 @@
       "isLive": false
     },
     {
-      "id": "d86e6704-e92b-4368-a425-5a7ba230e986",
-      "name": "WIO Bank",
-      "legalName": "WIO Bank",
-      "shortName": "WIO Bank",
-      "status": "Active",
-      "roles": [
-        "BDSP",
-        "BSIP",
-        "ISP",
-        "LFI"
-      ],
-      "city": "Abu Dhabi",
-      "registrationNumber": "01.01.01.063.2022.01",
-      "apiFamilies": [
-        "accounts",
-        "cop",
-        "payments",
-        "products"
-      ],
-      "hasAuthServer": true,
-      "isShariahCompliant": false,
-      "authCapabilities": {
-        "supportsCiba": false,
-        "supportsDCR": false,
-        "supportsRedirect": false
-      },
-      "apiResources": [
-        {
-          "family": "payments",
-          "version": "1.2",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        },
-        {
-          "family": "cop",
-          "version": "1.2",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        },
-        {
-          "family": "accounts",
-          "version": "1.2",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        },
-        {
-          "family": "products",
-          "version": "1.2",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        },
-        {
-          "family": "payments",
-          "version": "2.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        },
-        {
-          "family": "cop",
-          "version": "2.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        },
-        {
-          "family": "accounts",
-          "version": "2.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        },
-        {
-          "family": "products",
-          "version": "2.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        }
-      ],
-      "authServerCount": 1,
-      "isLive": true
-    },
-    {
       "id": "4c52000d-3db6-44db-8be3-8418cae0e2f1",
       "name": "Ziina",
       "legalName": "Ziina",
@@ -2318,10 +2372,23 @@
     }
   ],
   "trends": {
-    "participantChange": 0,
-    "newParticipants": [],
+    "participantChange": 1,
+    "newParticipants": [
+      "Mercury"
+    ],
     "removedParticipants": [],
-    "roleChanges": {},
-    "apiFamilyChanges": {}
+    "roleChanges": {
+      "BDSP": 1,
+      "BSIP": 1,
+      "LFI": 1,
+      "ISP": 1,
+      "API Read_Write": 1,
+      "TSP": 1
+    },
+    "apiFamilyChanges": {
+      "accounts": 1,
+      "payments": 1,
+      "products": 1
+    }
   }
 }

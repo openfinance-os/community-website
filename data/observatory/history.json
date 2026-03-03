@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-02T06:56:34.190Z",
+  "lastUpdated": "2026-03-03T06:51:06.492Z",
   "dataPoints": [
     {
       "date": "2025-12-26",
@@ -1665,6 +1665,32 @@
         "Abu Dhabi": 4,
         "Unknown": 9,
         "Dubai": 5
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 8,
+        "payments": 8,
+        "products": 6
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 2
+    },
+    {
+      "date": "2026-03-03",
+      "totalParticipants": 18,
+      "liveInProduction": 9,
+      "byRole": {
+        "ISP": 3,
+        "LFI": 10,
+        "BDSP": 14,
+        "BSIP": 13,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 9,
+        "Org City": 9
       },
       "apiFamilyCoverage": {
         "accounts": 9,
@@ -3350,6 +3376,32 @@
       },
       "tppCount": 0,
       "shariahCompliantCount": 2
+    },
+    {
+      "date": "2026-03-03",
+      "totalParticipants": 18,
+      "liveInProduction": 9,
+      "byRole": {
+        "ISP": 3,
+        "LFI": 10,
+        "BDSP": 14,
+        "BSIP": 13,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 9,
+        "Org City": 9
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 8,
+        "payments": 8,
+        "products": 6
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 2
     }
   ],
   "sandboxHistory": [
@@ -3494,6 +3546,32 @@
         "cop": 6,
         "payments": 12,
         "products": 4
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 10
+    },
+    {
+      "date": "2026-03-03",
+      "totalParticipants": 77,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 74,
+        "BSIP": 74,
+        "LFI": 54,
+        "ISP": 59,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 58,
+        "Org City": 19
+      },
+      "apiFamilyCoverage": {
+        "accounts": 7,
+        "cop": 6,
+        "payments": 13,
+        "products": 5
       },
       "tppCount": 0,
       "shariahCompliantCount": 10
@@ -3727,6 +3805,12 @@
       "event": "Ziina joined sandbox",
       "participantId": "4c52000d-3db6-44db-8be3-8418cae0e2f1",
       "participantName": "Ziina"
+    },
+    {
+      "date": "2026-03-03",
+      "event": "Organisation Mercury joined sandbox",
+      "participantId": "Mercury",
+      "participantName": "Organisation Mercury"
     }
   ]
 }
