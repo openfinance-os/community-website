@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-03T06:51:06.492Z",
+  "lastUpdated": "2026-03-04T06:45:17.173Z",
   "dataPoints": [
     {
       "date": "2025-12-26",
@@ -1691,6 +1691,33 @@
       "byCity": {
         "Unknown": 9,
         "Org City": 9
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 8,
+        "payments": 8,
+        "products": 6
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 2
+    },
+    {
+      "date": "2026-03-04",
+      "totalParticipants": 18,
+      "liveInProduction": 9,
+      "byRole": {
+        "BDSP": 14,
+        "BSIP": 13,
+        "LFI": 10,
+        "ISP": 3,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 4,
+        "Unknown": 9,
+        "Dubai": 5
       },
       "apiFamilyCoverage": {
         "accounts": 9,
@@ -3402,6 +3429,33 @@
       },
       "tppCount": 0,
       "shariahCompliantCount": 2
+    },
+    {
+      "date": "2026-03-04",
+      "totalParticipants": 18,
+      "liveInProduction": 9,
+      "byRole": {
+        "BDSP": 14,
+        "BSIP": 13,
+        "LFI": 10,
+        "ISP": 3,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 4,
+        "Unknown": 9,
+        "Dubai": 5
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 8,
+        "payments": 8,
+        "products": 6
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 2
     }
   ],
   "sandboxHistory": [
@@ -3572,6 +3626,35 @@
         "cop": 6,
         "payments": 13,
         "products": 5
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 10
+    },
+    {
+      "date": "2026-03-04",
+      "totalParticipants": 76,
+      "liveInProduction": 18,
+      "byRole": {
+        "BDSP": 73,
+        "BSIP": 73,
+        "LFI": 53,
+        "ISP": 58,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 58,
+        "Abu Dhabi": 5,
+        "Dubai": 10,
+        "London": 2,
+        "Sharjah": 1
+      },
+      "apiFamilyCoverage": {
+        "accounts": 6,
+        "cop": 6,
+        "payments": 12,
+        "products": 4
       },
       "tppCount": 0,
       "shariahCompliantCount": 10
