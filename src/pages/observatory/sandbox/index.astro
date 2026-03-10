@@ -12,7 +12,28 @@ import dualSnapshot from '../../../../data/observatory/snapshots/latest.json';
 
 // Import historical data
 import historyDataRaw from '../../../../data/observatory/history.json';
-const historyData = historyDataRaw || { dataPoints: [], milestones: [] };
+interface DataPoint {
+  date: string;
+  totalParticipants: number;
+  liveInProduction: number;
+  byRole: Record<string, number>;
+  byCity: Record<string, number>;
+  apiFamilyCoverage: Record<string, number>;
+  tppCount: number;
+  shariahCompliantCount: number;
+}
+
+interface HistoryData {
+  dataPoints: DataPoint[];
+  milestones: Array<{ date: string; event: string; participantName?: string }>;
+  productionHistory?: DataPoint[];
+  sandboxHistory?: DataPoint[];
+}
+
+const historyData = (historyDataRaw || {
+  dataPoints: [],
+  milestones: [],
+}) as unknown as HistoryData;
 
 // Import participant profiles for enriched data
 import participantProfiles from '../../../../data/participants/profiles.json';
@@ -60,7 +81,6 @@ const { summary, participants, timestamp, trends } = snapshot;
 
 // Handle both old and new summary format
 const totalParticipants = summary.totalParticipants || 0;
-const byStatus = summary.byStatus || {};
 const byRole = summary.byRole || {};
 const apiFamilies = summary.apiFamilies || [];
 
@@ -102,8 +122,6 @@ const multiRoleCount =
   summary.multiRoleCount ?? participants.filter((p: any) => p.roles?.length > 1).length;
 const tppCount = summary.tppCount ?? (byRole.TPP || 0);
 const byAuthCapabilities = summary.byAuthCapabilities || { ciba: 0, dcr: 0, redirect: 0 };
-
-const activeCount = byStatus.Active || 0;
 
 // Aggregate by Company Type using profile data
 const byType: Record<string, number> = {};

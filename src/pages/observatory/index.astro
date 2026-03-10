@@ -6,7 +6,6 @@ import ParticipantCard from '@components/observatory/ParticipantCard.astro';
 import EnvironmentToggle from '@components/observatory/EnvironmentToggle.astro';
 import AuthCapabilitiesChart from '@components/observatory/AuthCapabilitiesChart.astro';
 import HistoricalTrendsChart from '@components/observatory/HistoricalTrendsChart.astro';
-import Badge from '@components/common/Badge.astro';
 import { calculateCityDistribution, findProfile } from '@lib/city-utils';
 import type { ProfilesMap } from '@lib/types';
 
@@ -18,7 +17,28 @@ import historyDataRaw from '../../../data/observatory/history.json';
 
 // Import participant profiles
 import participantProfiles from '../../../data/participants/profiles.json';
-const historyData = historyDataRaw || { dataPoints: [], milestones: [] };
+interface DataPoint {
+  date: string;
+  totalParticipants: number;
+  liveInProduction: number;
+  byRole: Record<string, number>;
+  byCity: Record<string, number>;
+  apiFamilyCoverage: Record<string, number>;
+  tppCount: number;
+  shariahCompliantCount: number;
+}
+
+interface HistoryData {
+  dataPoints: DataPoint[];
+  milestones: Array<{ date: string; event: string; participantName?: string }>;
+  productionHistory?: DataPoint[];
+  sandboxHistory?: DataPoint[];
+}
+
+const historyData = (historyDataRaw || {
+  dataPoints: [],
+  milestones: [],
+}) as unknown as HistoryData;
 
 // This page always shows PRODUCTION environment
 // For sandbox, see /observatory/sandbox
@@ -28,14 +48,12 @@ const currentEnv = 'production';
 const isDualFormat = 'production' in dualSnapshot && 'crossEnvironment' in dualSnapshot;
 
 let snapshot: any;
-let crossEnvironment: any = null;
 let productionSnapshot: any = null;
 let sandboxSnapshot: any = null;
 
 if (isDualFormat) {
   productionSnapshot = dualSnapshot.production;
   sandboxSnapshot = dualSnapshot.sandbox;
-  crossEnvironment = dualSnapshot.crossEnvironment;
   snapshot = productionSnapshot;
 } else {
   // Old format - single environment
@@ -66,7 +84,6 @@ const { summary, participants, timestamp, trends } = snapshot;
 
 // Handle both old and new summary format
 const totalParticipants = summary.totalParticipants || 0;
-const byStatus = summary.byStatus || {};
 const byRole = summary.byRole || {};
 const apiFamilies = summary.apiFamilies || [];
 
@@ -83,8 +100,6 @@ const multiRoleCount =
   summary.multiRoleCount ?? participants.filter((p: any) => p.roles?.length > 1).length;
 const tppCount = summary.tppCount ?? (byRole.TPP || 0);
 const byAuthCapabilities = summary.byAuthCapabilities || { ciba: 0, dcr: 0, redirect: 0 };
-
-const activeCount = byStatus.Active || 0;
 
 // Aggregate by Company Type using profile data
 const byType: Record<string, number> = {};

@@ -4,14 +4,6 @@ import Breadcrumb from '@components/common/Breadcrumb.astro';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-// Helper to create URL-friendly slugs
-function createSlug(name: string): string {
-  return name
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '');
-}
-
 // Load participant data
 const snapshotPath = join(process.cwd(), 'data/observatory/snapshots/production/latest.json');
 const snapshot = JSON.parse(readFileSync(snapshotPath, 'utf-8'));
@@ -111,29 +103,30 @@ const currentType = profile?.type || 'unknown';
 const currentCity = profile?.headquarters?.city || participant.city;
 
 // Get all participants from snapshot for related section
-const relatedParticipants = snapshot.participants
-  .filter((p: any) => {
-    if (p.name === participant.name) return false;
-    const pProfile = profiles[p.name] || profiles[p.shortName] || null;
-    const pType = pProfile?.type || 'unknown';
-    const pCity = pProfile?.headquarters?.city || p.city;
+const relatedParticipants: Array<{ name: string; shortName: string; type: string; slug: string }> =
+  snapshot.participants
+    .filter((p: any) => {
+      if (p.name === participant.name) return false;
+      const pProfile = profiles[p.name] || profiles[p.shortName] || null;
+      const pType = pProfile?.type || 'unknown';
+      const pCity = pProfile?.headquarters?.city || p.city;
 
-    // Match by type or city
-    return pType === currentType || pCity === currentCity;
-  })
-  .slice(0, 4)
-  .map((p: any) => {
-    const pProfile = profiles[p.name] || profiles[p.shortName] || null;
-    return {
-      name: p.name,
-      shortName: p.shortName || p.name,
-      type: pProfile?.typeLabel || pProfile?.type || 'Participant',
-      slug: (p.shortName || p.name)
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/^-|-$/g, ''),
-    };
-  });
+      // Match by type or city
+      return pType === currentType || pCity === currentCity;
+    })
+    .slice(0, 4)
+    .map((p: any) => {
+      const pProfile = profiles[p.name] || profiles[p.shortName] || null;
+      return {
+        name: p.name,
+        shortName: p.shortName || p.name,
+        type: pProfile?.typeLabel || pProfile?.type || 'Participant',
+        slug: (p.shortName || p.name)
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-|-$/g, ''),
+      };
+    });
 
 // API families configuration
 const allApiFamilies = [
@@ -444,14 +437,16 @@ const structuredData = {
               <div class="related-section">
                 <h3 class="info-title">Related Participants</h3>
                 <ul class="related-list">
-                  {relatedParticipants.map((related) => (
-                    <li>
-                      <a href={`/observatory/participant/${related.slug}`} class="related-link">
-                        <span class="related-name">{related.shortName}</span>
-                        <span class="related-type">{related.type}</span>
-                      </a>
-                    </li>
-                  ))}
+                  {relatedParticipants.map(
+                    (related: { name: string; shortName: string; type: string; slug: string }) => (
+                      <li>
+                        <a href={`/observatory/participant/${related.slug}`} class="related-link">
+                          <span class="related-name">{related.shortName}</span>
+                          <span class="related-type">{related.type}</span>
+                        </a>
+                      </li>
+                    )
+                  )}
                 </ul>
               </div>
             )
