@@ -43,9 +43,7 @@ const formatDate = (d: Date) => {
   });
 };
 
-const regionVariant = (
-  region: string
-):
+type BadgeVariant =
   | 'active'
   | 'inactive'
   | 'official'
@@ -60,7 +58,10 @@ const regionVariant = (
   | 'TPP'
   | 'uae'
   | 'mena'
-  | 'region-global' => (region === 'global' ? 'region-global' : region) as any;
+  | 'region-global';
+
+const regionVariant = (region: string): BadgeVariant =>
+  (region === 'global' ? 'region-global' : region) as BadgeVariant;
 
 const getFeaturedHref = () => {
   if (!featuredArticle) return '#';

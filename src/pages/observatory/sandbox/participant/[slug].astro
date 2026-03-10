@@ -111,29 +111,30 @@ const currentType = profile?.type || 'unknown';
 const currentCity = profile?.headquarters?.city || participant.city;
 
 // Get all participants from snapshot for related section
-const relatedParticipants = snapshot.participants
-  .filter((p: any) => {
-    if (p.name === participant.name) return false;
-    const pProfile = profiles[p.name] || profiles[p.shortName] || null;
-    const pType = pProfile?.type || 'unknown';
-    const pCity = pProfile?.headquarters?.city || p.city;
+const relatedParticipants: Array<{ name: string; shortName: string; type: string; slug: string }> =
+  snapshot.participants
+    .filter((p: any) => {
+      if (p.name === participant.name) return false;
+      const pProfile = profiles[p.name] || profiles[p.shortName] || null;
+      const pType = pProfile?.type || 'unknown';
+      const pCity = pProfile?.headquarters?.city || p.city;
 
-    // Match by type or city
-    return pType === currentType || pCity === currentCity;
-  })
-  .slice(0, 4)
-  .map((p: any) => {
-    const pProfile = profiles[p.name] || profiles[p.shortName] || null;
-    return {
-      name: p.name,
-      shortName: p.shortName || p.name,
-      type: pProfile?.typeLabel || pProfile?.type || 'Participant',
-      slug: (p.shortName || p.name)
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/^-|-$/g, ''),
-    };
-  });
+      // Match by type or city
+      return pType === currentType || pCity === currentCity;
+    })
+    .slice(0, 4)
+    .map((p: any) => {
+      const pProfile = profiles[p.name] || profiles[p.shortName] || null;
+      return {
+        name: p.name,
+        shortName: p.shortName || p.name,
+        type: pProfile?.typeLabel || pProfile?.type || 'Participant',
+        slug: (p.shortName || p.name)
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-|-$/g, ''),
+      };
+    });
 
 // API families configuration
 const allApiFamilies = [

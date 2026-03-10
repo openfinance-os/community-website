@@ -12,7 +12,28 @@ import dualSnapshot from '../../../../data/observatory/snapshots/latest.json';
 
 // Import historical data
 import historyDataRaw from '../../../../data/observatory/history.json';
-const historyData = historyDataRaw || { dataPoints: [], milestones: [] };
+interface DataPoint {
+  date: string;
+  totalParticipants: number;
+  liveInProduction: number;
+  byRole: Record<string, number>;
+  byCity: Record<string, number>;
+  apiFamilyCoverage: Record<string, number>;
+  tppCount: number;
+  shariahCompliantCount: number;
+}
+
+interface HistoryData {
+  dataPoints: DataPoint[];
+  milestones: Array<{ date: string; event: string; participantName?: string }>;
+  productionHistory?: DataPoint[];
+  sandboxHistory?: DataPoint[];
+}
+
+const historyData = (historyDataRaw || {
+  dataPoints: [],
+  milestones: [],
+}) as unknown as HistoryData;
 
 // Import participant profiles for enriched data
 import participantProfiles from '../../../../data/participants/profiles.json';
@@ -510,16 +531,7 @@ const formatDate = (dateStr: string) => {
         />
 
         <HistoricalTrendsChart
-          dataPoints={(historyData.sandboxHistory || []) as unknown as {
-            date: string;
-            totalParticipants: number;
-            liveInProduction: number;
-            byRole: Record<string, number>;
-            byCity: Record<string, number>;
-            apiFamilyCoverage: Record<string, number>;
-            tppCount: number;
-            shariahCompliantCount: number;
-          }[]}
+          dataPoints={historyData.sandboxHistory || []}
           milestones={(historyData.milestones || []).filter((m: any) =>
             m.event?.includes('sandbox')
           )}

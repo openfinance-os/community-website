@@ -18,7 +18,28 @@ import historyDataRaw from '../../../data/observatory/history.json';
 
 // Import participant profiles
 import participantProfiles from '../../../data/participants/profiles.json';
-const historyData = historyDataRaw || { dataPoints: [], milestones: [] };
+interface DataPoint {
+  date: string;
+  totalParticipants: number;
+  liveInProduction: number;
+  byRole: Record<string, number>;
+  byCity: Record<string, number>;
+  apiFamilyCoverage: Record<string, number>;
+  tppCount: number;
+  shariahCompliantCount: number;
+}
+
+interface HistoryData {
+  dataPoints: DataPoint[];
+  milestones: Array<{ date: string; event: string; participantName?: string }>;
+  productionHistory?: DataPoint[];
+  sandboxHistory?: DataPoint[];
+}
+
+const historyData = (historyDataRaw || {
+  dataPoints: [],
+  milestones: [],
+}) as unknown as HistoryData;
 
 // This page always shows PRODUCTION environment
 // For sandbox, see /observatory/sandbox
@@ -488,16 +509,7 @@ const displayParticipants = participants;
         />
 
         <HistoricalTrendsChart
-          dataPoints={(historyData.productionHistory || []) as unknown as {
-            date: string;
-            totalParticipants: number;
-            liveInProduction: number;
-            byRole: Record<string, number>;
-            byCity: Record<string, number>;
-            apiFamilyCoverage: Record<string, number>;
-            tppCount: number;
-            shariahCompliantCount: number;
-          }[]}
+          dataPoints={historyData.productionHistory || []}
           milestones={(historyData.milestones || []).filter((m: any) =>
             m.event?.includes('production')
           )}
