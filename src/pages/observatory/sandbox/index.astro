@@ -510,7 +510,16 @@ const formatDate = (dateStr: string) => {
         />
 
         <HistoricalTrendsChart
-          dataPoints={historyData.sandboxHistory || []}
+          dataPoints={(historyData.sandboxHistory || []) as unknown as {
+            date: string;
+            totalParticipants: number;
+            liveInProduction: number;
+            byRole: Record<string, number>;
+            byCity: Record<string, number>;
+            apiFamilyCoverage: Record<string, number>;
+            tppCount: number;
+            shariahCompliantCount: number;
+          }[]}
           milestones={(historyData.milestones || []).filter((m: any) =>
             m.event?.includes('sandbox')
           )}

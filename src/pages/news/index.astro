@@ -43,7 +43,24 @@ const formatDate = (d: Date) => {
   });
 };
 
-const regionVariant = (region: string) => (region === 'global' ? 'region-global' : region);
+const regionVariant = (
+  region: string
+):
+  | 'active'
+  | 'inactive'
+  | 'official'
+  | 'milestone'
+  | 'community'
+  | 'global'
+  | 'opinion'
+  | 'LFI'
+  | 'BDSP'
+  | 'BSIP'
+  | 'ISP'
+  | 'TPP'
+  | 'uae'
+  | 'mena'
+  | 'region-global' => (region === 'global' ? 'region-global' : region) as any;
 
 const getFeaturedHref = () => {
   if (!featuredArticle) return '#';

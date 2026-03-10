@@ -29,6 +29,7 @@
     "astro": "^5.0.0"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.6",
     "@playwright/test": "^1.57.0",
     "@types/node": "^22.0.0",
     "@vitest/coverage-v8": "^2.1.0",

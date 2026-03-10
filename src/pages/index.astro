@@ -4,13 +4,18 @@ import Hero from '@components/home/Hero.astro';
 import ObservatoryPreview from '@components/home/ObservatoryPreview.astro';
 import LatestNews from '@components/home/LatestNews.astro';
 import Card from '@components/common/Card.astro';
+import type { ObservatorySnapshot } from '@lib/types';
 // Import observatory data
 import snapshot from '../../data/observatory/snapshots/latest.json';
 
 // Handle both old flat format and new dual-environment format
 const isDualFormat = 'production' in snapshot;
-const productionData = isDualFormat ? snapshot.production : snapshot;
-const sandboxData = isDualFormat ? snapshot.sandbox : null;
+const productionData = (isDualFormat
+  ? snapshot.production
+  : snapshot) as unknown as ObservatorySnapshot;
+const sandboxData = (isDualFormat
+  ? snapshot.sandbox
+  : null) as unknown as ObservatorySnapshot | null;
 const crossEnvironment = isDualFormat ? snapshot.crossEnvironment : null;
 
 const { summary, timestamp, participants } = productionData;

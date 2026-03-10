@@ -460,17 +460,19 @@ const structuredData = {
               <div class="related-section">
                 <h3 class="info-title">Related Participants</h3>
                 <ul class="related-list">
-                  {relatedParticipants.map((related) => (
-                    <li>
-                      <a
-                        href={`/observatory/sandbox/participant/${related.slug}`}
-                        class="related-link"
-                      >
-                        <span class="related-name">{related.shortName}</span>
-                        <span class="related-type">{related.type}</span>
-                      </a>
-                    </li>
-                  ))}
+                  {relatedParticipants.map(
+                    (related: { name: string; shortName: string; type: string; slug: string }) => (
+                      <li>
+                        <a
+                          href={`/observatory/sandbox/participant/${related.slug}`}
+                          class="related-link"
+                        >
+                          <span class="related-name">{related.shortName}</span>
+                          <span class="related-type">{related.type}</span>
+                        </a>
+                      </li>
+                    )
+                  )}
                 </ul>
               </div>
             )
