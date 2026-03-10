@@ -4,14 +4,6 @@ import Breadcrumb from '@components/common/Breadcrumb.astro';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-// Helper to create URL-friendly slugs
-function createSlug(name: string): string {
-  return name
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '');
-}
-
 // Load participant data
 const snapshotPath = join(process.cwd(), 'data/observatory/snapshots/production/latest.json');
 const snapshot = JSON.parse(readFileSync(snapshotPath, 'utf-8'));
