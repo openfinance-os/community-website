@@ -1,53 +1,53 @@
 /* OpenFinance-OS Design Tokens */
-/* Brand colors from /brand/logo-preview.html */
+/* Soft & Pastel Feminine palette */
 :root {
-  /* Primary palette - Brand Deep Teal */
-  --color-primary: #0d4f4f;
-  --color-primary-light: #1a6b6b;
-  --color-primary-50: #f0f7f7;
-  --color-primary-100: #d1e5e5;
-  --color-primary-200: #a3cccc;
-  --color-primary-300: #75b3b3;
-  --color-primary-400: #479999;
-  --color-primary-500: #1a6b6b;
-  --color-primary-600: #0d4f4f;
-  --color-primary-700: #0a3d3d;
-  --color-primary-800: #072b2b;
-  --color-primary-900: #041919;
+  /* Primary palette - Soft Rose */
+  --color-primary: #c75b7a;
+  --color-primary-light: #d4748a;
+  --color-primary-50: #fdf2f4;
+  --color-primary-100: #fce7eb;
+  --color-primary-200: #f9c4d0;
+  --color-primary-300: #f2a1b5;
+  --color-primary-400: #e8809e;
+  --color-primary-500: #d4748a;
+  --color-primary-600: #c75b7a;
+  --color-primary-700: #a84868;
+  --color-primary-800: #8a3755;
+  --color-primary-900: #6b2743;
 
-  /* Accent - Brand Warm Amber */
-  --color-accent: #e8a85c;
-  --color-accent-light: #f5c989;
-  --color-accent-300: #f5c989;
-  --color-accent-400: #eebb72;
-  --color-accent-500: #e8a85c;
-  --color-accent-600: #d4944a;
+  /* Accent - Soft Lavender */
+  --color-accent: #b399d4;
+  --color-accent-light: #cdb8e4;
+  --color-accent-300: #cdb8e4;
+  --color-accent-400: #c0a8dc;
+  --color-accent-500: #b399d4;
+  --color-accent-600: #9a7ec0;
 
-  /* Neutral - Brand values */
-  --color-surface: #fafbfc;
-  --color-dark: #0f1419;
-  --color-text: #1a1d21;
-  --color-text-secondary: #5a6169;
-  --color-gray-50: #fafbfc;
-  --color-gray-100: #f3f4f6;
-  --color-gray-200: #e5e7eb;
-  --color-gray-300: #d1d5db;
-  --color-gray-400: #9ca3af;
-  --color-gray-500: #5a6169;
-  --color-gray-600: #4b5563;
-  --color-gray-700: #374151;
-  --color-gray-800: #1f2937;
-  --color-gray-900: #1a1d21;
+  /* Neutral - Warm rose-tinted grays */
+  --color-surface: #fef7f8;
+  --color-dark: #2d2028;
+  --color-text: #2d2028;
+  --color-text-secondary: #8a7580;
+  --color-gray-50: #fef7f8;
+  --color-gray-100: #f9f0f2;
+  --color-gray-200: #f0e0e5;
+  --color-gray-300: #e0cdd4;
+  --color-gray-400: #b5a0aa;
+  --color-gray-500: #8a7580;
+  --color-gray-600: #6e5a66;
+  --color-gray-700: #54414c;
+  --color-gray-800: #3a2a33;
+  --color-gray-900: #2d2028;
 
   /* Semantic */
   --color-success: #10b981;
-  --color-warning: #e8a85c;
+  --color-warning: #d4a05c;
   --color-error: #ef4444;
 
-  /* Typography - Brand fonts */
+  /* Typography - Soft, rounded fonts */
   --font-sans:
-    'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-display: 'Fraunces', Georgia, serif;
+    'Nunito', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Playfair Display', Georgia, serif;
   --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', ui-monospace, monospace;
 
   /* Spacing */
@@ -65,28 +65,28 @@
   --space-20: 5rem;
   --space-24: 6rem;
 
-  /* Border radius */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.375rem;
-  --radius-lg: 0.5rem;
-  --radius-xl: 0.75rem;
-  --radius-2xl: 1rem;
+  /* Border radius - softer, rounder */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.875rem;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.5rem;
   --radius-full: 9999px;
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  /* Shadows - rose-tinted for warmth */
+  --shadow-sm: 0 1px 3px 0 rgb(199 91 122 / 0.06);
+  --shadow-md: 0 4px 8px -1px rgb(199 91 122 / 0.08), 0 2px 4px -2px rgb(199 91 122 / 0.06);
+  --shadow-lg: 0 12px 20px -3px rgb(199 91 122 / 0.08), 0 4px 8px -4px rgb(199 91 122 / 0.06);
+  --shadow-xl: 0 24px 32px -5px rgb(199 91 122 / 0.08), 0 10px 12px -6px rgb(199 91 122 / 0.06);
 
   /* Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* Grid pattern for observatory aesthetic - using brand primary */
-  --grid-pattern: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%230D4F4F' fill-opacity='0.03'%3E%3Ccircle cx='20' cy='20' r='1'/%3E%3C/g%3E%3C/svg%3E");
-  --grid-pattern-dark: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%231A6B6B' fill-opacity='0.08'%3E%3Ccircle cx='20' cy='20' r='1'/%3E%3C/g%3E%3C/svg%3E");
+  /* Grid pattern for observatory aesthetic - using brand rose */
+  --grid-pattern: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23c75b7a' fill-opacity='0.03'%3E%3Ccircle cx='20' cy='20' r='1'/%3E%3C/g%3E%3C/svg%3E");
+  --grid-pattern-dark: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d4748a' fill-opacity='0.08'%3E%3Ccircle cx='20' cy='20' r='1'/%3E%3C/g%3E%3C/svg%3E");
 
   /* Color scheme for system preference detection */
   color-scheme: light dark;
@@ -94,44 +94,44 @@
 
 /* Dark mode variables */
 [data-theme='dark'] {
-  /* Primary - adjusted for dark backgrounds */
-  --color-primary-50: #0a2e2e;
-  --color-primary-100: #0d3d3d;
-  --color-primary-200: #115252;
-  --color-primary-300: #1a6b6b;
-  --color-primary-400: #2d8a8a;
-  --color-primary-500: #3da8a8;
-  --color-primary-600: #4fc4c4;
-  --color-primary-700: #7dd4d4;
-  --color-primary-800: #abe4e4;
-  --color-primary-900: #d9f2f2;
+  /* Primary - rose tones adjusted for dark backgrounds */
+  --color-primary-50: #2e0a18;
+  --color-primary-100: #3d0d22;
+  --color-primary-200: #52112e;
+  --color-primary-300: #6b1a3d;
+  --color-primary-400: #8a2d52;
+  --color-primary-500: #d47490;
+  --color-primary-600: #e8809e;
+  --color-primary-700: #f2a1b5;
+  --color-primary-800: #f9c4d0;
+  --color-primary-900: #fce7eb;
 
   /* Surface and backgrounds */
-  --color-surface: #0f1419;
-  --color-dark: #fafbfc;
+  --color-surface: #1a1014;
+  --color-dark: #fef7f8;
 
   /* Text colors - inverted */
-  --color-text: #e4e7eb;
-  --color-text-secondary: #9ca3af;
+  --color-text: #ede4e7;
+  --color-text-secondary: #b5a0aa;
 
-  /* Gray scale - inverted for dark mode */
-  --color-gray-50: #1a1f26;
-  --color-gray-100: #1f2937;
-  --color-gray-200: #2d3748;
-  --color-gray-300: #3d4a5c;
-  --color-gray-400: #5a6777;
-  --color-gray-500: #8b95a5;
-  --color-gray-600: #a8b2c1;
-  --color-gray-700: #c5ccd6;
-  --color-gray-800: #e2e6ec;
-  --color-gray-900: #f3f5f7;
+  /* Gray scale - warm-tinted dark mode */
+  --color-gray-50: #221a1e;
+  --color-gray-100: #2d2028;
+  --color-gray-200: #3d2e36;
+  --color-gray-300: #54414c;
+  --color-gray-400: #6e5a66;
+  --color-gray-500: #9a8690;
+  --color-gray-600: #b5a0aa;
+  --color-gray-700: #d4c5cc;
+  --color-gray-800: #ede4e7;
+  --color-gray-900: #f9f0f2;
 
   /* Keep semantic colors but adjust for visibility */
   --color-success: #34d399;
   --color-warning: #fbbf24;
   --color-error: #f87171;
 
-  /* Shadows - more subtle in dark mode */
+  /* Shadows - dark mode */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
@@ -144,30 +144,30 @@
 /* System preference dark mode (when no explicit theme set) */
 @media (prefers-color-scheme: dark) {
   html:not([data-theme='light']) {
-    --color-primary-50: #0a2e2e;
-    --color-primary-100: #0d3d3d;
-    --color-primary-200: #115252;
-    --color-primary-300: #1a6b6b;
-    --color-primary-400: #2d8a8a;
-    --color-primary-500: #3da8a8;
-    --color-primary-600: #4fc4c4;
-    --color-primary-700: #7dd4d4;
-    --color-primary-800: #abe4e4;
-    --color-primary-900: #d9f2f2;
-    --color-surface: #0f1419;
-    --color-dark: #fafbfc;
-    --color-text: #e4e7eb;
-    --color-text-secondary: #9ca3af;
-    --color-gray-50: #1a1f26;
-    --color-gray-100: #1f2937;
-    --color-gray-200: #2d3748;
-    --color-gray-300: #3d4a5c;
-    --color-gray-400: #5a6777;
-    --color-gray-500: #8b95a5;
-    --color-gray-600: #a8b2c1;
-    --color-gray-700: #c5ccd6;
-    --color-gray-800: #e2e6ec;
-    --color-gray-900: #f3f5f7;
+    --color-primary-50: #2e0a18;
+    --color-primary-100: #3d0d22;
+    --color-primary-200: #52112e;
+    --color-primary-300: #6b1a3d;
+    --color-primary-400: #8a2d52;
+    --color-primary-500: #d47490;
+    --color-primary-600: #e8809e;
+    --color-primary-700: #f2a1b5;
+    --color-primary-800: #f9c4d0;
+    --color-primary-900: #fce7eb;
+    --color-surface: #1a1014;
+    --color-dark: #fef7f8;
+    --color-text: #ede4e7;
+    --color-text-secondary: #b5a0aa;
+    --color-gray-50: #221a1e;
+    --color-gray-100: #2d2028;
+    --color-gray-200: #3d2e36;
+    --color-gray-300: #54414c;
+    --color-gray-400: #6e5a66;
+    --color-gray-500: #9a8690;
+    --color-gray-600: #b5a0aa;
+    --color-gray-700: #d4c5cc;
+    --color-gray-800: #ede4e7;
+    --color-gray-900: #f9f0f2;
     --color-success: #34d399;
     --color-warning: #fbbf24;
     --color-error: #f87171;
@@ -175,7 +175,7 @@
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
     --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.3);
-    --grid-pattern: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%231A6B6B' fill-opacity='0.08'%3E%3Ccircle cx='20' cy='20' r='1'/%3E%3C/g%3E%3C/svg%3E");
+    --grid-pattern: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d4748a' fill-opacity='0.08'%3E%3Ccircle cx='20' cy='20' r='1'/%3E%3C/g%3E%3C/svg%3E");
   }
 }
 
