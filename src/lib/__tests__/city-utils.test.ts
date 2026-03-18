@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { findProfile, getDisplayCity, calculateCityDistribution } from '../city-utils';
-import type { ProfilesMap, ParticipantProfile } from '../types';
+import type { ProfilesMap } from '../types';
 
 // Test fixtures
 const mockProfiles: ProfilesMap = {

@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import PageLayout from '@layouts/PageLayout.astro';
-import Badge from '@components/common/Badge.astro';
 
 const allContributions = await getCollection('commons');
 const contributions = allContributions.sort(
@@ -9,9 +8,6 @@ const contributions = allContributions.sort(
 );
 
 const featuredContributions = contributions.filter((c) => c.data.featured);
-
-// Non-featured contributions for the main grid
-const nonFeaturedContributions = contributions.filter((c) => !c.data.featured);
 
 // Contribution statistics
 const stats = {
@@ -47,14 +43,6 @@ const useCaseLabels: Record<string, string> = {
   compliance: 'Compliance',
   identity: 'Identity',
   onboarding: 'Onboarding',
-};
-
-const audienceLabels: Record<string, string> = {
-  bank: 'Banks',
-  tpp: 'TPPs',
-  developer: 'Developers',
-  regulator: 'Regulators',
-  all: 'All',
 };
 
 const maturityLabels: Record<string, string> = {

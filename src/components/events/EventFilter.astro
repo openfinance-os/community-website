@@ -20,7 +20,7 @@ const labels = { ...defaultLabels, ...typeLabels };
 
 <div class="event-filter" role="tablist" aria-label="Filter events by type">
   {
-    types.map((type, index) => (
+    types.map((type) => (
       <button
         class:list={['filter-pill', { active: type === 'all' }]}
         data-filter={type}

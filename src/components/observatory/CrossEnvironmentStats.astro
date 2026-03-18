@@ -16,8 +16,6 @@ const {
   sandboxOnlyCount,
   totalUnique,
 } = Astro.props;
-
-const graduationRate = sandboxCount > 0 ? Math.round((inBothCount / sandboxCount) * 100) : 0;
 ---
 
 <div class="cross-env-stats">

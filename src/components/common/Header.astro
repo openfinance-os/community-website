@@ -206,15 +206,12 @@ const currentPath = Astro.url.pathname;
   });
 
   // Sticky header with shadow on scroll
-  let lastScrollY = 0;
   window.addEventListener('scroll', () => {
-    const scrollY = window.scrollY;
-    if (scrollY > 10) {
+    if (window.scrollY > 10) {
       header?.classList.add('scrolled');
     } else {
       header?.classList.remove('scrolled');
     }
-    lastScrollY = scrollY;
   });
 
   // Theme toggle functionality
