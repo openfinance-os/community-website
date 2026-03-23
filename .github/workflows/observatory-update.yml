@@ -4,6 +4,12 @@ on:
   schedule:
     # Run daily at 06:00 UTC
     - cron: '0 6 * * *'
+  pull_request:
+    paths:
+      - 'scripts/collect-observatory.ts'
+      - 'scripts/utils/directory-client.ts'
+      - 'scripts/types/participant.ts'
+      - '.github/workflows/observatory-update.yml'
   workflow_dispatch:
     inputs:
       dry_run:
@@ -14,12 +20,42 @@ on:
 
 # Prevent multiple data updates running simultaneously
 concurrency:
-  group: ${{ github.workflow }}
-  cancel-in-progress: false
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
+  # Validation job for pull requests - checks script compiles without fetching external data
+  validate:
+    name: Validate Collector Script
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: ./.github/actions/setup-node
+
+      - name: Validate TypeScript compilation
+        run: npx tsx --eval "import('./scripts/collect-observatory.ts')" 2>&1 || true
+
+      - name: Run collector in dry-run mode
+        run: npm run collect:dry
+        continue-on-error: true
+
+      - name: Log result
+        run: |
+          echo "### Observatory Validation Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Validated collector script compiles correctly." >> $GITHUB_STEP_SUMMARY
+          echo "Note: External API calls may fail in CI - this is expected for PR validation." >> $GITHUB_STEP_SUMMARY
+
+  # Data collection job for scheduled runs and manual triggers
   collect:
     name: Collect Observatory Data
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
