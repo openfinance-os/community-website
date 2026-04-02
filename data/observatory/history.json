@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-01T07:19:11.775Z",
+  "lastUpdated": "2026-04-02T07:11:38.932Z",
   "dataPoints": [
     {
       "date": "2025-12-26",
@@ -3889,6 +3889,35 @@
     },
     {
       "date": "2026-04-01",
+      "totalParticipants": 76,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 73,
+        "BSIP": 73,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 57,
+        "Abu Dhabi": 5,
+        "Dubai": 11,
+        "London": 2,
+        "Sharjah": 1
+      },
+      "apiFamilyCoverage": {
+        "accounts": 6,
+        "cop": 6,
+        "payments": 12,
+        "products": 5
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 10
+    },
+    {
+      "date": "2026-04-02",
       "totalParticipants": 76,
       "liveInProduction": 19,
       "byRole": {
