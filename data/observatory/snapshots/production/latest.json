@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-03T07:06:39.353Z",
+  "timestamp": "2026-04-04T06:59:46.681Z",
   "source": "https://data.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "production",
@@ -38,11 +38,11 @@
       "redirect": 0
     },
     "byCertificationStatus": {
-      "Self-Certified": 35
+      "Self-Certified": 36
     },
     "byApiVersion": {
       "2.0": 17,
-      "1.2": 14,
+      "1.2": 15,
       "2.1": 4
     }
   },
@@ -544,7 +544,8 @@
       "apiFamilies": [
         "accounts",
         "cop",
-        "payments"
+        "payments",
+        "products"
       ],
       "hasAuthServer": true,
       "isShariahCompliant": true,
@@ -568,6 +569,12 @@
         },
         {
           "family": "payments",
+          "version": "1.2",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "products",
           "version": "1.2",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
@@ -804,20 +811,11 @@
     }
   ],
   "trends": {
-    "participantChange": 2,
-    "newParticipants": [
-      "b1b75d1a-648e-4e88-8d1f-a2a3cf43de5c",
-      "879f9b11-5905-41ae-9dbe-7cb151b16546"
-    ],
+    "participantChange": 0,
+    "newParticipants": [],
     "removedParticipants": [],
-    "roleChanges": {
-      "BDSP": 2,
-      "BSIP": 2,
-      "LFI": 2
-    },
+    "roleChanges": {},
     "apiFamilyChanges": {
-      "cop": 1,
-      "payments": 1,
       "products": 1
     }
   }
