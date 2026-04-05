@@ -16,6 +16,9 @@ on:
       - 'package-lock.json'
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 # Prevent multiple security scans running simultaneously
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
