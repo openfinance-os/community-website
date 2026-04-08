@@ -1,27 +1,27 @@
 {
-  "timestamp": "2026-04-07T07:15:14.546Z",
+  "timestamp": "2026-04-08T07:18:01.599Z",
   "version": "2.0.0",
   "production": {
-    "timestamp": "2026-04-07T07:15:11.551Z",
+    "timestamp": "2026-04-08T07:18:00.069Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "production",
     "summary": {
-      "totalParticipants": 20,
+      "totalParticipants": 21,
       "byStatus": {
-        "Active": 20
+        "Active": 21
       },
       "byRole": {
         "BDSP": 16,
         "BSIP": 15,
-        "LFI": 12,
+        "LFI": 13,
         "ISP": 3,
         "API Read_Write": 3,
         "TSP": 3,
         "pki-test-harness": 1
       },
       "byCity": {
-        "Unknown": 11,
+        "Unknown": 12,
         "Abu Dhabi": 4,
         "Dubai": 5
       },
@@ -659,6 +659,29 @@
         "isLive": false
       },
       {
+        "id": "f4649205-7273-4b7f-8d55-5ad95674a5f9",
+        "name": "Orient Insurance",
+        "legalName": "Orient Insurance",
+        "shortName": "Orient Insurance",
+        "status": "Active",
+        "roles": [
+          "LFI"
+        ],
+        "city": "Unknown",
+        "registrationNumber": "National014",
+        "apiFamilies": [],
+        "hasAuthServer": false,
+        "isShariahCompliant": false,
+        "authCapabilities": {
+          "supportsCiba": false,
+          "supportsDCR": false,
+          "supportsRedirect": false
+        },
+        "apiResources": [],
+        "authServerCount": 0,
+        "isLive": false
+      },
+      {
         "id": "233bcd1d-4216-4b3c-a362-9e4a9282bba7",
         "name": "Ozone API",
         "legalName": "Ozone API",
@@ -814,15 +837,19 @@
       }
     ],
     "trends": {
-      "participantChange": 0,
-      "newParticipants": [],
+      "participantChange": 1,
+      "newParticipants": [
+        "f4649205-7273-4b7f-8d55-5ad95674a5f9"
+      ],
       "removedParticipants": [],
-      "roleChanges": {},
+      "roleChanges": {
+        "LFI": 1
+      },
       "apiFamilyChanges": {}
     }
   },
   "sandbox": {
-    "timestamp": "2026-04-07T07:15:14.542Z",
+    "timestamp": "2026-04-08T07:18:01.596Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "sandbox",
@@ -3193,6 +3220,7 @@
       "4767786f-ab28-4d5c-8fdb-0f27e1c4eb9c",
       "94884086-b7c2-43a0-b4e7-a928b9fed0ac",
       "7336c529-f6ad-4d98-b9f6-183316fd0a68",
+      "f4649205-7273-4b7f-8d55-5ad95674a5f9",
       "233bcd1d-4216-4b3c-a362-9e4a9282bba7",
       "0016920f-c806-47fd-91d6-ce81b3fa7a1e",
       "daa9716b-d6c3-4211-9f87-53a630bdb9f6",
@@ -3246,7 +3274,6 @@
       "8c9881e0-f32e-49e9-984b-8b42708dec88",
       "d0b8c17e-c503-412d-bf95-b4969dc71088",
       "9bfa48bf-647e-4082-a6c2-25291e15c98c",
-      "f4649205-7273-4b7f-8d55-5ad95674a5f9",
       "1108d6f4-d50d-4bd6-9ab2-68b956b3cd26",
       "1e74e695-42a4-4591-b4b2-13b0c893cf35",
       "f2a91ec1-83bc-4048-838d-6e307d3a29be",

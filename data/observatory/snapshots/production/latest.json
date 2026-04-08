@@ -1,24 +1,24 @@
 {
-  "timestamp": "2026-04-07T07:15:11.551Z",
+  "timestamp": "2026-04-08T07:18:00.069Z",
   "source": "https://data.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "production",
   "summary": {
-    "totalParticipants": 20,
+    "totalParticipants": 21,
     "byStatus": {
-      "Active": 20
+      "Active": 21
     },
     "byRole": {
       "BDSP": 16,
       "BSIP": 15,
-      "LFI": 12,
+      "LFI": 13,
       "ISP": 3,
       "API Read_Write": 3,
       "TSP": 3,
       "pki-test-harness": 1
     },
     "byCity": {
-      "Unknown": 11,
+      "Unknown": 12,
       "Abu Dhabi": 4,
       "Dubai": 5
     },
@@ -656,6 +656,29 @@
       "isLive": false
     },
     {
+      "id": "f4649205-7273-4b7f-8d55-5ad95674a5f9",
+      "name": "Orient Insurance",
+      "legalName": "Orient Insurance",
+      "shortName": "Orient Insurance",
+      "status": "Active",
+      "roles": [
+        "LFI"
+      ],
+      "city": "Unknown",
+      "registrationNumber": "National014",
+      "apiFamilies": [],
+      "hasAuthServer": false,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 0,
+      "isLive": false
+    },
+    {
       "id": "233bcd1d-4216-4b3c-a362-9e4a9282bba7",
       "name": "Ozone API",
       "legalName": "Ozone API",
@@ -811,10 +834,14 @@
     }
   ],
   "trends": {
-    "participantChange": 0,
-    "newParticipants": [],
+    "participantChange": 1,
+    "newParticipants": [
+      "f4649205-7273-4b7f-8d55-5ad95674a5f9"
+    ],
     "removedParticipants": [],
-    "roleChanges": {},
+    "roleChanges": {
+      "LFI": 1
+    },
     "apiFamilyChanges": {}
   }
 }
