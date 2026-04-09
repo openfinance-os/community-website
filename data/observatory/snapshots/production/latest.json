@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-08T07:18:00.069Z",
+  "timestamp": "2026-04-09T07:20:55.809Z",
   "source": "https://data.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "production",
@@ -9,10 +9,10 @@
       "Active": 21
     },
     "byRole": {
-      "BDSP": 16,
-      "BSIP": 15,
       "LFI": 13,
-      "ISP": 3,
+      "BDSP": 15,
+      "BSIP": 14,
+      "ISP": 2,
       "API Read_Write": 3,
       "TSP": 3,
       "pki-test-harness": 1
@@ -30,7 +30,7 @@
     ],
     "liveInProduction": 9,
     "shariahCompliantCount": 2,
-    "multiRoleCount": 19,
+    "multiRoleCount": 18,
     "tppCount": 0,
     "byAuthCapabilities": {
       "ciba": 0,
@@ -54,8 +54,6 @@
       "shortName": "ABU DHABI NATIONAL INSURANCE COMPANY PJSC",
       "status": "Active",
       "roles": [
-        "BDSP",
-        "BSIP",
         "LFI"
       ],
       "city": "Unknown",
@@ -263,7 +261,6 @@
       "roles": [
         "BDSP",
         "BSIP",
-        "ISP",
         "LFI"
       ],
       "city": "Dubai",
@@ -312,9 +309,9 @@
     },
     {
       "id": "64e5061d-437f-43c8-9f17-1df9a4600705",
-      "name": "EMIRATES NBD",
+      "name": "Emirates NBD",
       "legalName": "EMIRATES NBD BANK PJSC",
-      "shortName": "EMIRATES NBD",
+      "shortName": "Emirates NBD",
       "status": "Active",
       "roles": [
         "BDSP",
@@ -350,13 +347,13 @@
           "familyComplete": true
         },
         {
-          "family": "accounts",
+          "family": "payments",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
         },
         {
-          "family": "payments",
+          "family": "accounts",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
@@ -834,13 +831,13 @@
     }
   ],
   "trends": {
-    "participantChange": 1,
-    "newParticipants": [
-      "f4649205-7273-4b7f-8d55-5ad95674a5f9"
-    ],
+    "participantChange": 0,
+    "newParticipants": [],
     "removedParticipants": [],
     "roleChanges": {
-      "LFI": 1
+      "BDSP": -1,
+      "BSIP": -1,
+      "ISP": -1
     },
     "apiFamilyChanges": {}
   }

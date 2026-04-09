@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-08T07:18:01.596Z",
+  "timestamp": "2026-04-09T07:20:57.596Z",
   "source": "https://data.sandbox.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "sandbox",
@@ -881,9 +881,9 @@
     },
     {
       "id": "64e5061d-437f-43c8-9f17-1df9a4600705",
-      "name": "EMIRATES NBD",
+      "name": "Emirates NBD",
       "legalName": "EMIRATES NBD BANK PJSC",
-      "shortName": "EMIRATES NBD",
+      "shortName": "Emirates NBD",
       "status": "Active",
       "roles": [
         "BDSP",
