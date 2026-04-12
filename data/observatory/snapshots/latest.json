@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-04-11T06:59:47.334Z",
+  "timestamp": "2026-04-12T07:12:46.110Z",
   "version": "2.0.0",
   "production": {
-    "timestamp": "2026-04-11T06:59:45.348Z",
+    "timestamp": "2026-04-12T07:12:44.377Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "production",
@@ -41,12 +41,12 @@
         "redirect": 0
       },
       "byCertificationStatus": {
-        "Self-Certified": 36
+        "Self-Certified": 40
       },
       "byApiVersion": {
         "2.0": 17,
         "1.2": 15,
-        "2.1": 4
+        "2.1": 8
       }
     },
     "participants": [
@@ -360,9 +360,33 @@
             "version": "2.1",
             "certificationStatus": "Self-Certified",
             "familyComplete": false
+          },
+          {
+            "family": "accounts",
+            "version": "2.1",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": false
+          },
+          {
+            "family": "payments",
+            "version": "2.1",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": false
+          },
+          {
+            "family": "products",
+            "version": "2.1",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": true
+          },
+          {
+            "family": "cop",
+            "version": "2.1",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": true
           }
         ],
-        "authServerCount": 1,
+        "authServerCount": 2,
         "isLive": true
       },
       {
@@ -842,7 +866,7 @@
     }
   },
   "sandbox": {
-    "timestamp": "2026-04-11T06:59:47.330Z",
+    "timestamp": "2026-04-12T07:12:46.106Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "sandbox",
@@ -3216,11 +3240,7 @@
       "newParticipants": [],
       "removedParticipants": [],
       "roleChanges": {},
-      "apiFamilyChanges": {
-        "accounts": 1,
-        "cop": 1,
-        "products": 1
-      }
+      "apiFamilyChanges": {}
     }
   },
   "crossEnvironment": {
