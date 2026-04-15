@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-14T07:43:44.936Z",
+  "timestamp": "2026-04-15T07:43:31.765Z",
   "source": "https://data.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "production",
@@ -38,10 +38,10 @@
       "redirect": 0
     },
     "byCertificationStatus": {
-      "Self-Certified": 40
+      "Self-Certified": 41
     },
     "byApiVersion": {
-      "2.0": 17,
+      "2.0": 18,
       "1.2": 15,
       "2.1": 8
     }
@@ -497,6 +497,12 @@
           "version": "2.0",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
+        },
+        {
+          "family": "accounts",
+          "version": "2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
         }
       ],
       "authServerCount": 2,
