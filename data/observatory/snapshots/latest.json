@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-04-17T07:44:50.640Z",
+  "timestamp": "2026-04-18T07:05:55.150Z",
   "version": "2.0.0",
   "production": {
-    "timestamp": "2026-04-17T07:44:49.146Z",
+    "timestamp": "2026-04-18T07:05:53.431Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "production",
@@ -15,7 +15,7 @@
         "LFI": 13,
         "BDSP": 15,
         "BSIP": 14,
-        "ISP": 2,
+        "ISP": 1,
         "API Read_Write": 3,
         "TSP": 3,
         "pki-test-harness": 1
@@ -815,7 +815,6 @@
         "roles": [
           "BDSP",
           "BSIP",
-          "ISP",
           "LFI"
         ],
         "city": "Abu Dhabi",
@@ -867,12 +866,14 @@
       "participantChange": 0,
       "newParticipants": [],
       "removedParticipants": [],
-      "roleChanges": {},
+      "roleChanges": {
+        "ISP": -1
+      },
       "apiFamilyChanges": {}
     }
   },
   "sandbox": {
-    "timestamp": "2026-04-17T07:44:50.636Z",
+    "timestamp": "2026-04-18T07:05:55.127Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "sandbox",
