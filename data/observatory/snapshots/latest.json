@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-04-20T08:05:37.605Z",
+  "timestamp": "2026-04-21T07:48:22.580Z",
   "version": "2.0.0",
   "production": {
-    "timestamp": "2026-04-20T08:05:36.023Z",
+    "timestamp": "2026-04-21T07:48:20.824Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "production",
@@ -478,12 +478,6 @@
         },
         "apiResources": [
           {
-            "family": "accounts",
-            "version": "2.0",
-            "certificationStatus": "Self-Certified",
-            "familyComplete": true
-          },
-          {
             "family": "products",
             "version": "2.0",
             "certificationStatus": "Self-Certified",
@@ -497,6 +491,12 @@
           },
           {
             "family": "cop",
+            "version": "2.0",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": true
+          },
+          {
+            "family": "accounts",
             "version": "2.0",
             "certificationStatus": "Self-Certified",
             "familyComplete": true
@@ -871,7 +871,7 @@
     }
   },
   "sandbox": {
-    "timestamp": "2026-04-20T08:05:37.600Z",
+    "timestamp": "2026-04-21T07:48:22.576Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "sandbox",
