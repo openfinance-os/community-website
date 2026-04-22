@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-21T07:48:22.576Z",
+  "timestamp": "2026-04-22T07:45:02.830Z",
   "source": "https://data.sandbox.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "sandbox",
@@ -1385,12 +1385,6 @@
       },
       "apiResources": [
         {
-          "family": "payments",
-          "version": "1.2",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
           "family": "products",
           "version": "1.2",
           "certificationStatus": "Self-Certified",
@@ -1398,6 +1392,12 @@
         },
         {
           "family": "accounts",
+          "version": "1.2",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "payments",
           "version": "1.2",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
