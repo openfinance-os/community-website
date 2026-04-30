@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-29T08:14:55.013Z",
+  "timestamp": "2026-04-30T08:20:23.075Z",
   "source": "https://data.sandbox.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "sandbox",
@@ -2313,7 +2313,7 @@
           "familyComplete": true
         }
       ],
-      "authServerCount": 1,
+      "authServerCount": 2,
       "isLive": true
     },
     {
