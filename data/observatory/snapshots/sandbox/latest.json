@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-04T08:27:45.634Z",
+  "timestamp": "2026-05-05T08:07:28.702Z",
   "source": "https://data.sandbox.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "sandbox",
@@ -18,9 +18,9 @@
       "pki-test-harness": 1
     },
     "byCity": {
-      "Unknown": 57,
+      "Unknown": 56,
       "Abu Dhabi": 5,
-      "Dubai": 11,
+      "Dubai": 12,
       "London": 2,
       "Sharjah": 1
     },
@@ -30,7 +30,7 @@
       "payments",
       "products"
     ],
-    "liveInProduction": 19,
+    "liveInProduction": 20,
     "shariahCompliantCount": 10,
     "multiRoleCount": 74,
     "tppCount": 0,
@@ -40,12 +40,12 @@
       "redirect": 0
     },
     "byCertificationStatus": {
-      "Self-Certified": 54
+      "Self-Certified": 58
     },
     "byApiVersion": {
       "2.0": 10,
       "1.2": 9,
-      "2.1": 15,
+      "2.1": 19,
       "1.2.0": 5,
       "1.0.0": 12,
       "2.0.0": 3
@@ -850,31 +850,6 @@
       "isLive": false
     },
     {
-      "id": "37f353bf-0f2a-48f2-8c5a-10b40b7bc7b3",
-      "name": "EIB",
-      "legalName": "EIB",
-      "shortName": "EIB",
-      "status": "Active",
-      "roles": [
-        "BDSP",
-        "BSIP",
-        "LFI"
-      ],
-      "city": "Unknown",
-      "registrationNumber": "01.01.02.031.1976.02",
-      "apiFamilies": [],
-      "hasAuthServer": false,
-      "isShariahCompliant": false,
-      "authCapabilities": {
-        "supportsCiba": false,
-        "supportsDCR": false,
-        "supportsRedirect": false
-      },
-      "apiResources": [],
-      "authServerCount": 0,
-      "isLive": false
-    },
-    {
       "id": "f18cef1c-2ea2-4501-a1e5-db2e911689f8",
       "name": "EIC",
       "legalName": "Emirates Insurance Company",
@@ -897,6 +872,61 @@
         "supportsRedirect": false
       },
       "apiResources": [],
+      "authServerCount": 1,
+      "isLive": true
+    },
+    {
+      "id": "37f353bf-0f2a-48f2-8c5a-10b40b7bc7b3",
+      "name": "Emirates Islamic",
+      "legalName": "Emirates Islamic Bank PJSC",
+      "shortName": "Emirates Islamic",
+      "status": "Active",
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "LFI"
+      ],
+      "city": "Dubai",
+      "registrationNumber": "01.01.02.031.1976.02",
+      "apiFamilies": [
+        "accounts",
+        "cop",
+        "payments",
+        "products"
+      ],
+      "hasAuthServer": true,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [
+        {
+          "family": "payments",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "products",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "accounts",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "cop",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        }
+      ],
       "authServerCount": 1,
       "isLive": true
     },
@@ -2373,6 +2403,11 @@
     "newParticipants": [],
     "removedParticipants": [],
     "roleChanges": {},
-    "apiFamilyChanges": {}
+    "apiFamilyChanges": {
+      "accounts": 1,
+      "cop": 1,
+      "payments": 1,
+      "products": 1
+    }
   }
 }
