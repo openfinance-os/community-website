@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-05-13T08:42:32.133Z",
+  "timestamp": "2026-05-14T08:35:32.143Z",
   "version": "2.0.0",
   "production": {
-    "timestamp": "2026-05-13T08:42:30.168Z",
+    "timestamp": "2026-05-14T08:35:30.526Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "production",
@@ -878,26 +878,26 @@
     }
   },
   "sandbox": {
-    "timestamp": "2026-05-13T08:42:32.128Z",
+    "timestamp": "2026-05-14T08:35:32.138Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "sandbox",
     "summary": {
-      "totalParticipants": 76,
+      "totalParticipants": 77,
       "byStatus": {
-        "Active": 76
+        "Active": 77
       },
       "byRole": {
         "BDSP": 73,
         "BSIP": 73,
         "LFI": 53,
-        "ISP": 57,
+        "ISP": 58,
         "API Read_Write": 2,
         "TSP": 2,
         "pki-test-harness": 1
       },
       "byCity": {
-        "Unknown": 56,
+        "Unknown": 57,
         "Abu Dhabi": 5,
         "Dubai": 12,
         "London": 2,
@@ -2705,6 +2705,29 @@
         "isLive": false
       },
       {
+        "id": "4bdd53d6-b93c-4a2d-aedb-ef04aa6a8281",
+        "name": "Protego Insurance Brokers LLC",
+        "legalName": "Protego Insurance Brokers LLC",
+        "shortName": "Protego Insurance Brokers LLC",
+        "status": "Active",
+        "roles": [
+          "ISP"
+        ],
+        "city": "Unknown",
+        "registrationNumber": "288",
+        "apiFamilies": [],
+        "hasAuthServer": false,
+        "isShariahCompliant": false,
+        "authCapabilities": {
+          "supportsCiba": false,
+          "supportsDCR": false,
+          "supportsRedirect": false
+        },
+        "apiResources": [],
+        "authServerCount": 0,
+        "isLive": false
+      },
+      {
         "id": "f2a91ec1-83bc-4048-838d-6e307d3a29be",
         "name": "Raidiam",
         "legalName": "Raidiam Services Limited",
@@ -3278,10 +3301,14 @@
       }
     ],
     "trends": {
-      "participantChange": 0,
-      "newParticipants": [],
+      "participantChange": 1,
+      "newParticipants": [
+        "4bdd53d6-b93c-4a2d-aedb-ef04aa6a8281"
+      ],
       "removedParticipants": [],
-      "roleChanges": {},
+      "roleChanges": {
+        "ISP": 1
+      },
       "apiFamilyChanges": {}
     }
   },
@@ -3356,6 +3383,7 @@
       "9bfa48bf-647e-4082-a6c2-25291e15c98c",
       "1108d6f4-d50d-4bd6-9ab2-68b956b3cd26",
       "1e74e695-42a4-4591-b4b2-13b0c893cf35",
+      "4bdd53d6-b93c-4a2d-aedb-ef04aa6a8281",
       "f2a91ec1-83bc-4048-838d-6e307d3a29be",
       "521e38cb-a400-4114-9591-40d282d608fe",
       "221bfab7-d564-4083-a9f5-277468aece4c",
@@ -3371,6 +3399,6 @@
       "4c52000d-3db6-44db-8be3-8418cae0e2f1",
       "a90b2761-560d-45a9-9b32-67465c603059"
     ],
-    "totalUniqueParticipants": 79
+    "totalUniqueParticipants": 80
   }
 }

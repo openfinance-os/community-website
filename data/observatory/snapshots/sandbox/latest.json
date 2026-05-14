@@ -1,24 +1,24 @@
 {
-  "timestamp": "2026-05-13T08:42:32.128Z",
+  "timestamp": "2026-05-14T08:35:32.138Z",
   "source": "https://data.sandbox.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "sandbox",
   "summary": {
-    "totalParticipants": 76,
+    "totalParticipants": 77,
     "byStatus": {
-      "Active": 76
+      "Active": 77
     },
     "byRole": {
       "BDSP": 73,
       "BSIP": 73,
       "LFI": 53,
-      "ISP": 57,
+      "ISP": 58,
       "API Read_Write": 2,
       "TSP": 2,
       "pki-test-harness": 1
     },
     "byCity": {
-      "Unknown": 56,
+      "Unknown": 57,
       "Abu Dhabi": 5,
       "Dubai": 12,
       "London": 2,
@@ -1826,6 +1826,29 @@
       "isLive": false
     },
     {
+      "id": "4bdd53d6-b93c-4a2d-aedb-ef04aa6a8281",
+      "name": "Protego Insurance Brokers LLC",
+      "legalName": "Protego Insurance Brokers LLC",
+      "shortName": "Protego Insurance Brokers LLC",
+      "status": "Active",
+      "roles": [
+        "ISP"
+      ],
+      "city": "Unknown",
+      "registrationNumber": "288",
+      "apiFamilies": [],
+      "hasAuthServer": false,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 0,
+      "isLive": false
+    },
+    {
       "id": "f2a91ec1-83bc-4048-838d-6e307d3a29be",
       "name": "Raidiam",
       "legalName": "Raidiam Services Limited",
@@ -2399,10 +2422,14 @@
     }
   ],
   "trends": {
-    "participantChange": 0,
-    "newParticipants": [],
+    "participantChange": 1,
+    "newParticipants": [
+      "4bdd53d6-b93c-4a2d-aedb-ef04aa6a8281"
+    ],
     "removedParticipants": [],
-    "roleChanges": {},
+    "roleChanges": {
+      "ISP": 1
+    },
     "apiFamilyChanges": {}
   }
 }
