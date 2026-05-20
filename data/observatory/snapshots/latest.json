@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-05-19T09:40:09.620Z",
+  "timestamp": "2026-05-20T09:30:30.111Z",
   "version": "2.0.0",
   "production": {
-    "timestamp": "2026-05-19T09:40:08.046Z",
+    "timestamp": "2026-05-20T09:30:28.556Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "production",
@@ -874,14 +874,12 @@
       "participantChange": 0,
       "newParticipants": [],
       "removedParticipants": [],
-      "roleChanges": {
-        "ISP": 1
-      },
+      "roleChanges": {},
       "apiFamilyChanges": {}
     }
   },
   "sandbox": {
-    "timestamp": "2026-05-19T09:40:09.615Z",
+    "timestamp": "2026-05-20T09:30:30.106Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "sandbox",
