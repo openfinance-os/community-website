@@ -1,18 +1,18 @@
 {
-  "timestamp": "2026-05-20T09:30:30.106Z",
+  "timestamp": "2026-05-21T09:38:08.388Z",
   "source": "https://data.sandbox.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "sandbox",
   "summary": {
-    "totalParticipants": 77,
+    "totalParticipants": 75,
     "byStatus": {
-      "Active": 77
+      "Active": 75
     },
     "byRole": {
-      "BDSP": 73,
-      "BSIP": 73,
-      "LFI": 53,
-      "ISP": 58,
+      "BDSP": 71,
+      "BSIP": 71,
+      "LFI": 51,
+      "ISP": 56,
       "API Read_Write": 2,
       "TSP": 2,
       "pki-test-harness": 1
@@ -20,9 +20,8 @@
     "byCity": {
       "Unknown": 57,
       "Abu Dhabi": 5,
-      "Dubai": 12,
-      "London": 2,
-      "Sharjah": 1
+      "Dubai": 11,
+      "London": 2
     },
     "apiFamilies": [
       "accounts",
@@ -30,9 +29,9 @@
       "payments",
       "products"
     ],
-    "liveInProduction": 20,
+    "liveInProduction": 18,
     "shariahCompliantCount": 10,
-    "multiRoleCount": 74,
+    "multiRoleCount": 72,
     "tppCount": 0,
     "byAuthCapabilities": {
       "ciba": 0,
@@ -44,9 +43,9 @@
     },
     "byApiVersion": {
       "2.0": 10,
-      "1.2": 9,
-      "2.1": 19,
-      "1.2.0": 5,
+      "2.1": 23,
+      "1.2": 8,
+      "1.2.0": 2,
       "1.0.0": 12,
       "2.0.0": 3
     }
@@ -473,41 +472,6 @@
       "apiResources": [],
       "authServerCount": 0,
       "isLive": false
-    },
-    {
-      "id": "239cb7d5-4dcb-4348-9964-d8872faadc1c",
-      "name": "Arab Bank PLC",
-      "legalName": "Arab Bank PLC",
-      "shortName": "Arab Bank PLC",
-      "status": "Active",
-      "roles": [
-        "BDSP",
-        "BSIP",
-        "ISP",
-        "LFI"
-      ],
-      "city": "Dubai",
-      "registrationNumber": "01.02.01.016.1973.01",
-      "apiFamilies": [
-        "accounts"
-      ],
-      "hasAuthServer": true,
-      "isShariahCompliant": false,
-      "authCapabilities": {
-        "supportsCiba": false,
-        "supportsDCR": false,
-        "supportsRedirect": false
-      },
-      "apiResources": [
-        {
-          "family": "accounts",
-          "version": "1.2",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        }
-      ],
-      "authServerCount": 1,
-      "isLive": true
     },
     {
       "id": "d6f549cc-ff6f-4e21-844e-f26a2ee932cb",
@@ -1722,7 +1686,8 @@
       "apiFamilies": [
         "accounts",
         "cop",
-        "payments"
+        "payments",
+        "products"
       ],
       "hasAuthServer": true,
       "isShariahCompliant": true,
@@ -1734,19 +1699,25 @@
       "apiResources": [
         {
           "family": "cop",
-          "version": "1.2.0",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "products",
+          "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "accounts",
-          "version": "1.2.0",
+          "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "payments",
-          "version": "1.2.0",
+          "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         }
@@ -2089,32 +2060,6 @@
       "isLive": false
     },
     {
-      "id": "29536048-fef2-423e-83c2-b333869677cc",
-      "name": "Sharjah Islamic Bank",
-      "legalName": "Sharjah Islamic Bank",
-      "shortName": "Sharjah Islamic Bank",
-      "status": "Active",
-      "roles": [
-        "BDSP",
-        "BSIP",
-        "ISP",
-        "LFI"
-      ],
-      "city": "Sharjah",
-      "registrationNumber": "01.01.02.026.1975.03",
-      "apiFamilies": [],
-      "hasAuthServer": true,
-      "isShariahCompliant": false,
-      "authCapabilities": {
-        "supportsCiba": false,
-        "supportsDCR": false,
-        "supportsRedirect": false
-      },
-      "apiResources": [],
-      "authServerCount": 1,
-      "isLive": true
-    },
-    {
       "id": "8e924742-96c7-45c3-961f-09a80ce1d991",
       "name": "SNB",
       "legalName": "SNB",
@@ -2422,10 +2367,21 @@
     }
   ],
   "trends": {
-    "participantChange": 0,
+    "participantChange": -2,
     "newParticipants": [],
-    "removedParticipants": [],
-    "roleChanges": {},
-    "apiFamilyChanges": {}
+    "removedParticipants": [
+      "239cb7d5-4dcb-4348-9964-d8872faadc1c",
+      "29536048-fef2-423e-83c2-b333869677cc"
+    ],
+    "roleChanges": {
+      "BDSP": -2,
+      "BSIP": -2,
+      "LFI": -2,
+      "ISP": -2
+    },
+    "apiFamilyChanges": {
+      "accounts": -1,
+      "products": 1
+    }
   }
 }
