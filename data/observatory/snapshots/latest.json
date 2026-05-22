@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-05-21T09:38:08.550Z",
+  "timestamp": "2026-05-22T09:20:07.902Z",
   "version": "2.0.0",
   "production": {
-    "timestamp": "2026-05-21T09:38:06.749Z",
+    "timestamp": "2026-05-22T09:20:06.383Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "production",
@@ -879,7 +879,7 @@
     }
   },
   "sandbox": {
-    "timestamp": "2026-05-21T09:38:08.388Z",
+    "timestamp": "2026-05-22T09:20:07.897Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "sandbox",
@@ -3247,22 +3247,11 @@
       }
     ],
     "trends": {
-      "participantChange": -2,
+      "participantChange": 0,
       "newParticipants": [],
-      "removedParticipants": [
-        "239cb7d5-4dcb-4348-9964-d8872faadc1c",
-        "29536048-fef2-423e-83c2-b333869677cc"
-      ],
-      "roleChanges": {
-        "BDSP": -2,
-        "BSIP": -2,
-        "LFI": -2,
-        "ISP": -2
-      },
-      "apiFamilyChanges": {
-        "accounts": -1,
-        "products": 1
-      }
+      "removedParticipants": [],
+      "roleChanges": {},
+      "apiFamilyChanges": {}
     }
   },
   "crossEnvironment": {
