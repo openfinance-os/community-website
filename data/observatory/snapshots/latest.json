@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-06-04T09:53:59.472Z",
+  "timestamp": "2026-06-05T09:45:57.026Z",
   "version": "2.0.0",
   "production": {
-    "timestamp": "2026-06-04T09:53:57.831Z",
+    "timestamp": "2026-06-05T09:45:55.453Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "production",
@@ -903,7 +903,7 @@
     }
   },
   "sandbox": {
-    "timestamp": "2026-06-04T09:53:59.466Z",
+    "timestamp": "2026-06-05T09:45:57.021Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "sandbox",
@@ -2319,7 +2319,7 @@
             "familyComplete": false
           }
         ],
-        "authServerCount": 1,
+        "authServerCount": 2,
         "isLive": true
       },
       {
