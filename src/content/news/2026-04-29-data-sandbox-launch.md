@@ -4,9 +4,11 @@ date: 2026-04-29
 type: community
 region: uae
 author: Community
-description: "A zero-setup, browser-based explorer for UAE Open Finance Bank Data Sharing API payloads — 10 synthetic personas, every v2.1 AISP endpoint, and three populate-rate profiles, with no sandbox credentials required."
-featured: true
+description: "A zero-setup, browser-based explorer for UAE Open Finance Bank Data Sharing API payloads — launched with 10 synthetic personas, every v2.1 AISP endpoint, and three populate-rate profiles; since grown to 38 personas across banking and insurance."
+featured: false
 ---
+
+> **Update (June 2026):** The sandbox has grown well beyond this launch announcement — 38 synthetic personas across Bank Data Sharing and all seven Insurance Data Sharing lines, an ATM Locator directory, multi-bank personas, an MCP server for AI agents, and pinnable fixture packages. See the [June 2026 update](/news/2026-06-09-data-sandbox-insurance-ga-mcp) or the [Commons overview](/commons/data-sandbox) for current numbers.
 
 The OpenFinance-OS community is releasing the **Open Finance Data Sandbox** — an interactive, client-side explorer that shows what UAE Open Finance Bank Data Sharing payloads actually look like. Open it in a browser and start exploring. No registration, no credentials, no install.
 
@@ -18,7 +20,7 @@ The Data Sandbox closes that gap with realistic, validated payloads across diver
 
 ## What's In It
 
-- **10 synthetic UAE personas** — salaried expatriates, gig workers, retirees, high-net-worth individuals, and distressed accounts.
+- **10 synthetic UAE personas** *(38 as of June 2026 — see update above)* — salaried expatriates, gig workers, retirees, high-net-worth individuals, and distressed accounts.
 - **All 12 v2.1 Account Information endpoints**, with payloads validated against the upstream OpenAPI schema.
 - **Three LFI populate-rate profiles** — Rich, Median, and Sparse — for testing how your application behaves against varying data completeness.
 - **LFI comparison view** showing the same persona's data side-by-side across profiles.
