@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-06-10T09:57:14.302Z",
+  "timestamp": "2026-06-11T10:20:55.142Z",
   "version": "2.0.0",
   "production": {
-    "timestamp": "2026-06-10T09:57:12.580Z",
+    "timestamp": "2026-06-11T10:20:53.304Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "production",
@@ -503,28 +503,28 @@
         },
         "apiResources": [
           {
-            "family": "products",
-            "version": "2.0",
-            "certificationStatus": "Self-Certified",
-            "familyComplete": false
-          },
-          {
-            "family": "payments",
-            "version": "2.0",
-            "certificationStatus": "Self-Certified",
-            "familyComplete": false
-          },
-          {
             "family": "cop",
             "version": "2.0",
             "certificationStatus": "Self-Certified",
             "familyComplete": true
           },
           {
+            "family": "products",
+            "version": "2.0",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": false
+          },
+          {
             "family": "accounts",
             "version": "2.0",
             "certificationStatus": "Self-Certified",
             "familyComplete": true
+          },
+          {
+            "family": "payments",
+            "version": "2.0",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": false
           },
           {
             "family": "payments",
@@ -903,26 +903,26 @@
     }
   },
   "sandbox": {
-    "timestamp": "2026-06-10T09:57:14.296Z",
+    "timestamp": "2026-06-11T10:20:55.137Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "sandbox",
     "summary": {
-      "totalParticipants": 75,
+      "totalParticipants": 77,
       "byStatus": {
-        "Active": 75
+        "Active": 77
       },
       "byRole": {
-        "BDSP": 71,
-        "BSIP": 71,
-        "LFI": 51,
-        "ISP": 56,
+        "BDSP": 73,
+        "BSIP": 73,
+        "LFI": 52,
+        "ISP": 57,
         "API Read_Write": 2,
         "TSP": 2,
         "pki-test-harness": 1
       },
       "byCity": {
-        "Unknown": 57,
+        "Unknown": 59,
         "Abu Dhabi": 5,
         "Dubai": 11,
         "London": 2
@@ -935,7 +935,7 @@
       ],
       "liveInProduction": 18,
       "shariahCompliantCount": 10,
-      "multiRoleCount": 72,
+      "multiRoleCount": 74,
       "tppCount": 0,
       "byAuthCapabilities": {
         "ciba": 0,
@@ -1456,6 +1456,32 @@
         ],
         "city": "Unknown",
         "registrationNumber": "01.02.03.055.2014.01",
+        "apiFamilies": [],
+        "hasAuthServer": false,
+        "isShariahCompliant": false,
+        "authCapabilities": {
+          "supportsCiba": false,
+          "supportsDCR": false,
+          "supportsRedirect": false
+        },
+        "apiResources": [],
+        "authServerCount": 0,
+        "isLive": false
+      },
+      {
+        "id": "5b10d9f1-d356-46cd-8bea-346bcca80722",
+        "name": "BANQUE BANORIENT FRANCE",
+        "legalName": "BANQUE BANORIENT FRANCE",
+        "shortName": "BANQUE BANORIENT FRANCE",
+        "status": "Active",
+        "roles": [
+          "BDSP",
+          "BSIP",
+          "ISP",
+          "LFI"
+        ],
+        "city": "Unknown",
+        "registrationNumber": "01.02.01.024.1974.02",
         "apiFamilies": [],
         "hasAuthServer": false,
         "isShariahCompliant": false,
@@ -2527,6 +2553,30 @@
         "isLive": false
       },
       {
+        "id": "7bcf7684-2ec6-441e-8eb2-247fea8a951a",
+        "name": "Numi Technologies Ltd",
+        "legalName": "Numi Technologies Ltd",
+        "shortName": "Numi Technologies Ltd",
+        "status": "Active",
+        "roles": [
+          "BDSP",
+          "BSIP"
+        ],
+        "city": "Unknown",
+        "registrationNumber": "NA",
+        "apiFamilies": [],
+        "hasAuthServer": false,
+        "isShariahCompliant": false,
+        "authCapabilities": {
+          "supportsCiba": false,
+          "supportsDCR": false,
+          "supportsRedirect": false
+        },
+        "apiResources": [],
+        "authServerCount": 0,
+        "isLive": false
+      },
+      {
         "id": "7336c529-f6ad-4d98-b9f6-183316fd0a68",
         "name": "NymCard Payment Services L.L.C.",
         "legalName": "NymCard Payment Services L.L.C.",
@@ -3301,10 +3351,18 @@
       }
     ],
     "trends": {
-      "participantChange": 0,
-      "newParticipants": [],
+      "participantChange": 2,
+      "newParticipants": [
+        "5b10d9f1-d356-46cd-8bea-346bcca80722",
+        "7bcf7684-2ec6-441e-8eb2-247fea8a951a"
+      ],
       "removedParticipants": [],
-      "roleChanges": {},
+      "roleChanges": {
+        "BDSP": 2,
+        "BSIP": 2,
+        "LFI": 1,
+        "ISP": 1
+      },
       "apiFamilyChanges": {}
     }
   },
@@ -3350,6 +3408,7 @@
       "d6f549cc-ff6f-4e21-844e-f26a2ee932cb",
       "9803b615-62f0-4d8f-813f-ec20fd1cc46f",
       "d786af7f-4f7c-48cb-87ed-97bdb9c036ad",
+      "5b10d9f1-d356-46cd-8bea-346bcca80722",
       "d5ee7389-e521-4469-9387-f80ef15edc6f",
       "5459391f-964f-4dba-a891-2ff95b9123be",
       "8c14e8a9-6dea-45ce-b6e4-6fbef7d23e64",
@@ -3375,6 +3434,7 @@
       "8c21e663-1d34-45cd-91fa-86d7c2d240f4",
       "8c9881e0-f32e-49e9-984b-8b42708dec88",
       "d0b8c17e-c503-412d-bf95-b4969dc71088",
+      "7bcf7684-2ec6-441e-8eb2-247fea8a951a",
       "9bfa48bf-647e-4082-a6c2-25291e15c98c",
       "1108d6f4-d50d-4bd6-9ab2-68b956b3cd26",
       "1e74e695-42a4-4591-b4b2-13b0c893cf35",
@@ -3393,6 +3453,6 @@
       "4c52000d-3db6-44db-8be3-8418cae0e2f1",
       "a90b2761-560d-45a9-9b32-67465c603059"
     ],
-    "totalUniqueParticipants": 78
+    "totalUniqueParticipants": 80
   }
 }

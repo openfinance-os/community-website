@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-10T09:57:14.300Z",
+  "lastUpdated": "2026-06-11T10:20:55.141Z",
   "dataPoints": [
     {
       "date": "2025-12-26",
@@ -3566,6 +3566,33 @@
     },
     {
       "date": "2026-06-10",
+      "totalParticipants": 21,
+      "liveInProduction": 9,
+      "byRole": {
+        "ISP": 3,
+        "LFI": 13,
+        "BDSP": 15,
+        "BSIP": 14,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 12,
+        "Abu Dhabi": 4,
+        "Dubai": 5
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 2
+    },
+    {
+      "date": "2026-06-11",
       "totalParticipants": 21,
       "liveInProduction": 9,
       "byRole": {
@@ -7182,6 +7209,33 @@
       },
       "tppCount": 0,
       "shariahCompliantCount": 2
+    },
+    {
+      "date": "2026-06-11",
+      "totalParticipants": 21,
+      "liveInProduction": 9,
+      "byRole": {
+        "ISP": 3,
+        "LFI": 13,
+        "BDSP": 15,
+        "BSIP": 14,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 12,
+        "Abu Dhabi": 4,
+        "Dubai": 5
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 2
     }
   ],
   "sandboxHistory": [
@@ -9567,6 +9621,34 @@
       },
       "tppCount": 0,
       "shariahCompliantCount": 10
+    },
+    {
+      "date": "2026-06-11",
+      "totalParticipants": 77,
+      "liveInProduction": 18,
+      "byRole": {
+        "BDSP": 73,
+        "BSIP": 73,
+        "LFI": 52,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 59,
+        "Abu Dhabi": 5,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 7,
+        "cop": 8,
+        "payments": 13,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 10
     }
   ],
   "milestones": [
@@ -9827,6 +9909,18 @@
       "event": "Protego Insurance Brokers LLC joined sandbox",
       "participantId": "4bdd53d6-b93c-4a2d-aedb-ef04aa6a8281",
       "participantName": "Protego Insurance Brokers LLC"
+    },
+    {
+      "date": "2026-06-11",
+      "event": "BANQUE BANORIENT FRANCE joined sandbox",
+      "participantId": "5b10d9f1-d356-46cd-8bea-346bcca80722",
+      "participantName": "BANQUE BANORIENT FRANCE"
+    },
+    {
+      "date": "2026-06-11",
+      "event": "Numi Technologies Ltd joined sandbox",
+      "participantId": "7bcf7684-2ec6-441e-8eb2-247fea8a951a",
+      "participantName": "Numi Technologies Ltd"
     }
   ]
 }

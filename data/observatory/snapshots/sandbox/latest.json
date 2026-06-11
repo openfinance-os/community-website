@@ -1,24 +1,24 @@
 {
-  "timestamp": "2026-06-10T09:57:14.296Z",
+  "timestamp": "2026-06-11T10:20:55.137Z",
   "source": "https://data.sandbox.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "sandbox",
   "summary": {
-    "totalParticipants": 75,
+    "totalParticipants": 77,
     "byStatus": {
-      "Active": 75
+      "Active": 77
     },
     "byRole": {
-      "BDSP": 71,
-      "BSIP": 71,
-      "LFI": 51,
-      "ISP": 56,
+      "BDSP": 73,
+      "BSIP": 73,
+      "LFI": 52,
+      "ISP": 57,
       "API Read_Write": 2,
       "TSP": 2,
       "pki-test-harness": 1
     },
     "byCity": {
-      "Unknown": 57,
+      "Unknown": 59,
       "Abu Dhabi": 5,
       "Dubai": 11,
       "London": 2
@@ -31,7 +31,7 @@
     ],
     "liveInProduction": 18,
     "shariahCompliantCount": 10,
-    "multiRoleCount": 72,
+    "multiRoleCount": 74,
     "tppCount": 0,
     "byAuthCapabilities": {
       "ciba": 0,
@@ -552,6 +552,32 @@
       ],
       "city": "Unknown",
       "registrationNumber": "01.02.03.055.2014.01",
+      "apiFamilies": [],
+      "hasAuthServer": false,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 0,
+      "isLive": false
+    },
+    {
+      "id": "5b10d9f1-d356-46cd-8bea-346bcca80722",
+      "name": "BANQUE BANORIENT FRANCE",
+      "legalName": "BANQUE BANORIENT FRANCE",
+      "shortName": "BANQUE BANORIENT FRANCE",
+      "status": "Active",
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "ISP",
+        "LFI"
+      ],
+      "city": "Unknown",
+      "registrationNumber": "01.02.01.024.1974.02",
       "apiFamilies": [],
       "hasAuthServer": false,
       "isShariahCompliant": false,
@@ -1623,6 +1649,30 @@
       "isLive": false
     },
     {
+      "id": "7bcf7684-2ec6-441e-8eb2-247fea8a951a",
+      "name": "Numi Technologies Ltd",
+      "legalName": "Numi Technologies Ltd",
+      "shortName": "Numi Technologies Ltd",
+      "status": "Active",
+      "roles": [
+        "BDSP",
+        "BSIP"
+      ],
+      "city": "Unknown",
+      "registrationNumber": "NA",
+      "apiFamilies": [],
+      "hasAuthServer": false,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 0,
+      "isLive": false
+    },
+    {
       "id": "7336c529-f6ad-4d98-b9f6-183316fd0a68",
       "name": "NymCard Payment Services L.L.C.",
       "legalName": "NymCard Payment Services L.L.C.",
@@ -2397,10 +2447,18 @@
     }
   ],
   "trends": {
-    "participantChange": 0,
-    "newParticipants": [],
+    "participantChange": 2,
+    "newParticipants": [
+      "5b10d9f1-d356-46cd-8bea-346bcca80722",
+      "7bcf7684-2ec6-441e-8eb2-247fea8a951a"
+    ],
     "removedParticipants": [],
-    "roleChanges": {},
+    "roleChanges": {
+      "BDSP": 2,
+      "BSIP": 2,
+      "LFI": 1,
+      "ISP": 1
+    },
     "apiFamilyChanges": {}
   }
 }
