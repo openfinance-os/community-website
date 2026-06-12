@@ -1,16 +1,16 @@
 {
-  "timestamp": "2026-06-11T10:20:53.304Z",
+  "timestamp": "2026-06-12T10:10:12.191Z",
   "source": "https://data.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "production",
   "summary": {
-    "totalParticipants": 21,
+    "totalParticipants": 22,
     "byStatus": {
-      "Active": 21
+      "Active": 22
     },
     "byRole": {
-      "ISP": 3,
-      "LFI": 13,
+      "ISP": 4,
+      "LFI": 14,
       "BDSP": 15,
       "BSIP": 14,
       "API Read_Write": 3,
@@ -18,7 +18,7 @@
       "pki-test-harness": 1
     },
     "byCity": {
-      "Unknown": 12,
+      "Unknown": 13,
       "Abu Dhabi": 4,
       "Dubai": 5
     },
@@ -30,7 +30,7 @@
     ],
     "liveInProduction": 9,
     "shariahCompliantCount": 2,
-    "multiRoleCount": 20,
+    "multiRoleCount": 21,
     "tppCount": 0,
     "byAuthCapabilities": {
       "ciba": 0,
@@ -41,9 +41,9 @@
       "Self-Certified": 46
     },
     "byApiVersion": {
-      "2.0": 19,
+      "2.0": 15,
       "1.2": 7,
-      "2.1": 20
+      "2.1": 24
     }
   },
   "participants": [
@@ -501,25 +501,25 @@
       "apiResources": [
         {
           "family": "cop",
-          "version": "2.0",
+          "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "products",
-          "version": "2.0",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "payments",
+          "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
         },
         {
           "family": "accounts",
-          "version": "2.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        },
-        {
-          "family": "payments",
-          "version": "2.0",
+          "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
         },
@@ -836,6 +836,30 @@
       "isLive": false
     },
     {
+      "id": "c8e1896a-9c6c-4d1d-8f98-1a771a1ccd85",
+      "name": "Union Insurance",
+      "legalName": "Union Insurance",
+      "shortName": "Union Insurance",
+      "status": "Active",
+      "roles": [
+        "ISP",
+        "LFI"
+      ],
+      "city": "Unknown",
+      "registrationNumber": "National067",
+      "apiFamilies": [],
+      "hasAuthServer": false,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 0,
+      "isLive": false
+    },
+    {
       "id": "d86e6704-e92b-4368-a425-5a7ba230e986",
       "name": "WIO Bank",
       "legalName": "WIO Bank",
@@ -892,10 +916,15 @@
     }
   ],
   "trends": {
-    "participantChange": 0,
-    "newParticipants": [],
+    "participantChange": 1,
+    "newParticipants": [
+      "c8e1896a-9c6c-4d1d-8f98-1a771a1ccd85"
+    ],
     "removedParticipants": [],
-    "roleChanges": {},
+    "roleChanges": {
+      "ISP": 1,
+      "LFI": 1
+    },
     "apiFamilyChanges": {}
   }
 }
