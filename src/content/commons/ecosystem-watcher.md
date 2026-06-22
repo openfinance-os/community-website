@@ -30,7 +30,7 @@ disclaimers:
   - "Adoption status is inferred from observed API traffic and may lag real-world changes"
   - "Not an official CBUAE or Nebras source — provided for situational awareness"
   - "Coverage reflects what is observable and may not capture every institution or release"
-featured: false
+featured: true
 ---
 
 ## Overview
