@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-06-15T12:10:09.048Z",
+  "timestamp": "2026-07-01T09:42:41.444Z",
   "source": "https://data.sandbox.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "sandbox",
@@ -30,7 +30,7 @@
       "products"
     ],
     "liveInProduction": 18,
-    "shariahCompliantCount": 10,
+    "shariahCompliantCount": 7,
     "multiRoleCount": 74,
     "tppCount": 0,
     "byAuthCapabilities": {
@@ -39,11 +39,11 @@
       "redirect": 0
     },
     "byCertificationStatus": {
-      "Self-Certified": 63
+      "Self-Certified": 66
     },
     "byApiVersion": {
       "2.0": 6,
-      "2.1": 33,
+      "2.1": 36,
       "1.2.0": 2,
       "1.2": 7,
       "1.0.0": 12,
@@ -120,7 +120,7 @@
         "payments"
       ],
       "hasAuthServer": true,
-      "isShariahCompliant": true,
+      "isShariahCompliant": false,
       "authCapabilities": {
         "supportsCiba": false,
         "supportsDCR": false,
@@ -153,7 +153,7 @@
       "registrationNumber": "National001",
       "apiFamilies": [],
       "hasAuthServer": true,
-      "isShariahCompliant": true,
+      "isShariahCompliant": false,
       "authCapabilities": {
         "supportsCiba": false,
         "supportsDCR": false,
@@ -1012,9 +1012,21 @@
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
+        },
+        {
+          "family": "accounts",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "payments",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
         }
       ],
-      "authServerCount": 2,
+      "authServerCount": 3,
       "isLive": true
     },
     {
@@ -2228,7 +2240,7 @@
       "registrationNumber": "01.02.01.002.1958.02",
       "apiFamilies": [],
       "hasAuthServer": true,
-      "isShariahCompliant": true,
+      "isShariahCompliant": false,
       "authCapabilities": {
         "supportsCiba": false,
         "supportsDCR": false,
@@ -2386,6 +2398,12 @@
         },
         {
           "family": "cop",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "accounts",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true

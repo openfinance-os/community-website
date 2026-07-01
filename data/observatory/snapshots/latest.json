@@ -1,19 +1,19 @@
 {
-  "timestamp": "2026-06-15T12:10:09.092Z",
+  "timestamp": "2026-07-01T09:42:41.450Z",
   "version": "2.0.0",
   "production": {
-    "timestamp": "2026-06-15T12:10:07.363Z",
+    "timestamp": "2026-07-01T09:42:39.924Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "production",
     "summary": {
-      "totalParticipants": 22,
+      "totalParticipants": 23,
       "byStatus": {
-        "Active": 22
+        "Active": 23
       },
       "byRole": {
-        "ISP": 4,
-        "LFI": 14,
+        "ISP": 6,
+        "LFI": 15,
         "BDSP": 15,
         "BSIP": 14,
         "API Read_Write": 3,
@@ -23,7 +23,7 @@
       "byCity": {
         "Unknown": 13,
         "Abu Dhabi": 4,
-        "Dubai": 5
+        "Dubai": 6
       },
       "apiFamilies": [
         "accounts",
@@ -31,9 +31,9 @@
         "payments",
         "products"
       ],
-      "liveInProduction": 9,
-      "shariahCompliantCount": 2,
-      "multiRoleCount": 21,
+      "liveInProduction": 10,
+      "shariahCompliantCount": 1,
+      "multiRoleCount": 23,
       "tppCount": 0,
       "byAuthCapabilities": {
         "ciba": 0,
@@ -44,9 +44,9 @@
         "Self-Certified": 46
       },
       "byApiVersion": {
-        "2.0": 15,
+        "2.0": 11,
         "1.2": 7,
-        "2.1": 24
+        "2.1": 28
       }
     },
     "participants": [
@@ -253,16 +253,16 @@
             "familyComplete": true
           },
           {
-            "family": "accounts",
-            "version": "2.1",
-            "certificationStatus": "Self-Certified",
-            "familyComplete": true
-          },
-          {
             "family": "payments",
             "version": "2.1",
             "certificationStatus": "Self-Certified",
             "familyComplete": false
+          },
+          {
+            "family": "accounts",
+            "version": "2.1",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": true
           },
           {
             "family": "cop",
@@ -495,25 +495,13 @@
           "products"
         ],
         "hasAuthServer": true,
-        "isShariahCompliant": true,
+        "isShariahCompliant": false,
         "authCapabilities": {
           "supportsCiba": false,
           "supportsDCR": false,
           "supportsRedirect": false
         },
         "apiResources": [
-          {
-            "family": "cop",
-            "version": "2.1",
-            "certificationStatus": "Self-Certified",
-            "familyComplete": true
-          },
-          {
-            "family": "products",
-            "version": "2.1",
-            "certificationStatus": "Self-Certified",
-            "familyComplete": false
-          },
           {
             "family": "payments",
             "version": "2.1",
@@ -522,6 +510,18 @@
           },
           {
             "family": "accounts",
+            "version": "2.1",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": false
+          },
+          {
+            "family": "cop",
+            "version": "2.1",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": true
+          },
+          {
+            "family": "products",
             "version": "2.1",
             "certificationStatus": "Self-Certified",
             "familyComplete": false
@@ -569,17 +569,17 @@
       {
         "id": "879f9b11-5905-41ae-9dbe-7cb151b16546",
         "name": "LIVA",
-        "legalName": "LIVA",
+        "legalName": "Liva Insurance BSC (c)",
         "shortName": "LIVA",
         "status": "Active",
         "roles": [
           "ISP",
           "LFI"
         ],
-        "city": "Unknown",
+        "city": "Dubai",
         "registrationNumber": "Foriegn065",
         "apiFamilies": [],
-        "hasAuthServer": false,
+        "hasAuthServer": true,
         "isShariahCompliant": false,
         "authCapabilities": {
           "supportsCiba": false,
@@ -587,8 +587,8 @@
           "supportsRedirect": false
         },
         "apiResources": [],
-        "authServerCount": 0,
-        "isLive": false
+        "authServerCount": 1,
+        "isLive": true
       },
       {
         "id": "4767786f-ab28-4d5c-8fdb-0f27e1c4eb9c",
@@ -630,16 +630,16 @@
             "familyComplete": false
           },
           {
-            "family": "payments",
-            "version": "2.1",
-            "certificationStatus": "Self-Certified",
-            "familyComplete": false
-          },
-          {
             "family": "cop",
             "version": "2.1",
             "certificationStatus": "Self-Certified",
             "familyComplete": true
+          },
+          {
+            "family": "payments",
+            "version": "2.1",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": false
           }
         ],
         "authServerCount": 1,
@@ -724,6 +724,7 @@
         "shortName": "Orient Insurance",
         "status": "Active",
         "roles": [
+          "ISP",
           "LFI"
         ],
         "city": "Unknown",
@@ -815,6 +816,30 @@
         "isLive": false
       },
       {
+        "id": "221bfab7-d564-4083-a9f5-277468aece4c",
+        "name": "Salama",
+        "legalName": "Salama",
+        "shortName": "Salama",
+        "status": "Active",
+        "roles": [
+          "ISP",
+          "LFI"
+        ],
+        "city": "Unknown",
+        "registrationNumber": "Takaful017",
+        "apiFamilies": [],
+        "hasAuthServer": false,
+        "isShariahCompliant": false,
+        "authCapabilities": {
+          "supportsCiba": false,
+          "supportsDCR": false,
+          "supportsRedirect": false
+        },
+        "apiResources": [],
+        "authServerCount": 0,
+        "isLive": false
+      },
+      {
         "id": "daa9716b-d6c3-4211-9f87-53a630bdb9f6",
         "name": "Spare Digital Technologies LLC S.O.C",
         "legalName": "Spare Digital Technologies LLC S.O.C",
@@ -890,28 +915,28 @@
         },
         "apiResources": [
           {
-            "family": "products",
-            "version": "2.0",
+            "family": "accounts",
+            "version": "2.1",
             "certificationStatus": "Self-Certified",
             "familyComplete": true
           },
           {
             "family": "cop",
-            "version": "2.0",
+            "version": "2.1",
             "certificationStatus": "Self-Certified",
             "familyComplete": true
           },
           {
-            "family": "accounts",
-            "version": "2.0",
+            "family": "products",
+            "version": "2.1",
             "certificationStatus": "Self-Certified",
             "familyComplete": true
           },
           {
             "family": "payments",
-            "version": "2.0",
+            "version": "2.1",
             "certificationStatus": "Self-Certified",
-            "familyComplete": false
+            "familyComplete": true
           }
         ],
         "authServerCount": 1,
@@ -919,15 +944,20 @@
       }
     ],
     "trends": {
-      "participantChange": 0,
-      "newParticipants": [],
+      "participantChange": 1,
+      "newParticipants": [
+        "221bfab7-d564-4083-a9f5-277468aece4c"
+      ],
       "removedParticipants": [],
-      "roleChanges": {},
+      "roleChanges": {
+        "ISP": 2,
+        "LFI": 1
+      },
       "apiFamilyChanges": {}
     }
   },
   "sandbox": {
-    "timestamp": "2026-06-15T12:10:09.048Z",
+    "timestamp": "2026-07-01T09:42:41.444Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "sandbox",
@@ -958,7 +988,7 @@
         "products"
       ],
       "liveInProduction": 18,
-      "shariahCompliantCount": 10,
+      "shariahCompliantCount": 7,
       "multiRoleCount": 74,
       "tppCount": 0,
       "byAuthCapabilities": {
@@ -967,11 +997,11 @@
         "redirect": 0
       },
       "byCertificationStatus": {
-        "Self-Certified": 63
+        "Self-Certified": 66
       },
       "byApiVersion": {
         "2.0": 6,
-        "2.1": 33,
+        "2.1": 36,
         "1.2.0": 2,
         "1.2": 7,
         "1.0.0": 12,
@@ -1048,7 +1078,7 @@
           "payments"
         ],
         "hasAuthServer": true,
-        "isShariahCompliant": true,
+        "isShariahCompliant": false,
         "authCapabilities": {
           "supportsCiba": false,
           "supportsDCR": false,
@@ -1081,7 +1111,7 @@
         "registrationNumber": "National001",
         "apiFamilies": [],
         "hasAuthServer": true,
-        "isShariahCompliant": true,
+        "isShariahCompliant": false,
         "authCapabilities": {
           "supportsCiba": false,
           "supportsDCR": false,
@@ -1940,9 +1970,21 @@
             "version": "2.1",
             "certificationStatus": "Self-Certified",
             "familyComplete": true
+          },
+          {
+            "family": "accounts",
+            "version": "2.1",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": false
+          },
+          {
+            "family": "payments",
+            "version": "2.1",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": false
           }
         ],
-        "authServerCount": 2,
+        "authServerCount": 3,
         "isLive": true
       },
       {
@@ -3156,7 +3198,7 @@
         "registrationNumber": "01.02.01.002.1958.02",
         "apiFamilies": [],
         "hasAuthServer": true,
-        "isShariahCompliant": true,
+        "isShariahCompliant": false,
         "authCapabilities": {
           "supportsCiba": false,
           "supportsDCR": false,
@@ -3317,6 +3359,12 @@
             "version": "2.1",
             "certificationStatus": "Self-Certified",
             "familyComplete": true
+          },
+          {
+            "family": "accounts",
+            "version": "2.1",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": true
           }
         ],
         "authServerCount": 2,
@@ -3400,6 +3448,7 @@
       "f4649205-7273-4b7f-8d55-5ad95674a5f9",
       "233bcd1d-4216-4b3c-a362-9e4a9282bba7",
       "0016920f-c806-47fd-91d6-ce81b3fa7a1e",
+      "221bfab7-d564-4083-a9f5-277468aece4c",
       "daa9716b-d6c3-4211-9f87-53a630bdb9f6",
       "c8e1896a-9c6c-4d1d-8f98-1a771a1ccd85",
       "d86e6704-e92b-4368-a425-5a7ba230e986"
@@ -3458,7 +3507,6 @@
       "4bdd53d6-b93c-4a2d-aedb-ef04aa6a8281",
       "f2a91ec1-83bc-4048-838d-6e307d3a29be",
       "521e38cb-a400-4114-9591-40d282d608fe",
-      "221bfab7-d564-4083-a9f5-277468aece4c",
       "6bed8f06-6ae1-44e5-9059-ab0b9e91ff30",
       "18c1db8f-a463-4158-84ca-cd0d2bf1682e",
       "8e924742-96c7-45c3-961f-09a80ce1d991",

@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-15T12:10:09.089Z",
+  "lastUpdated": "2026-07-01T09:42:41.448Z",
   "dataPoints": [
     {
       "date": "2025-12-26",
@@ -3725,6 +3725,33 @@
       },
       "tppCount": 0,
       "shariahCompliantCount": 2
+    },
+    {
+      "date": "2026-07-01",
+      "totalParticipants": 23,
+      "liveInProduction": 10,
+      "byRole": {
+        "ISP": 6,
+        "LFI": 15,
+        "BDSP": 15,
+        "BSIP": 14,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 13,
+        "Abu Dhabi": 4,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
     }
   ],
   "productionHistory": [
@@ -7452,6 +7479,33 @@
       },
       "tppCount": 0,
       "shariahCompliantCount": 2
+    },
+    {
+      "date": "2026-07-01",
+      "totalParticipants": 23,
+      "liveInProduction": 10,
+      "byRole": {
+        "ISP": 6,
+        "LFI": 15,
+        "BDSP": 15,
+        "BSIP": 14,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 13,
+        "Abu Dhabi": 4,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
     }
   ],
   "sandboxHistory": [
@@ -9977,6 +10031,34 @@
       },
       "tppCount": 0,
       "shariahCompliantCount": 10
+    },
+    {
+      "date": "2026-07-01",
+      "totalParticipants": 77,
+      "liveInProduction": 18,
+      "byRole": {
+        "BDSP": 73,
+        "BSIP": 73,
+        "LFI": 52,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 59,
+        "Abu Dhabi": 5,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 7,
+        "cop": 8,
+        "payments": 13,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 7
     }
   ],
   "milestones": [
@@ -10255,6 +10337,12 @@
       "event": "Union Insurance joined production",
       "participantId": "c8e1896a-9c6c-4d1d-8f98-1a771a1ccd85",
       "participantName": "Union Insurance"
+    },
+    {
+      "date": "2026-07-01",
+      "event": "Salama joined production",
+      "participantId": "221bfab7-d564-4083-a9f5-277468aece4c",
+      "participantName": "Salama"
     }
   ]
 }
