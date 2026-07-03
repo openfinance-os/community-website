@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-07-02T08:53:43.645Z",
+  "timestamp": "2026-07-03T09:15:34.876Z",
   "source": "https://data.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "production",
@@ -9,17 +9,17 @@
       "Active": 23
     },
     "byRole": {
-      "ISP": 6,
-      "LFI": 15,
       "BDSP": 15,
       "BSIP": 14,
+      "LFI": 15,
+      "ISP": 6,
       "API Read_Write": 3,
       "TSP": 3,
       "pki-test-harness": 1
     },
     "byCity": {
-      "Unknown": 13,
-      "Abu Dhabi": 4,
+      "Abu Dhabi": 5,
+      "Unknown": 12,
       "Dubai": 6
     },
     "apiFamilies": [
@@ -28,7 +28,7 @@
       "payments",
       "products"
     ],
-    "liveInProduction": 10,
+    "liveInProduction": 11,
     "shariahCompliantCount": 1,
     "multiRoleCount": 23,
     "tppCount": 0,
@@ -47,30 +47,6 @@
     }
   },
   "participants": [
-    {
-      "id": "b1b75d1a-648e-4e88-8d1f-a2a3cf43de5c",
-      "name": "ABU DHABI NATIONAL INSURANCE COMPANY PJSC",
-      "legalName": "ABU DHABI NATIONAL INSURANCE COMPANY PJSC",
-      "shortName": "ABU DHABI NATIONAL INSURANCE COMPANY PJSC",
-      "status": "Active",
-      "roles": [
-        "ISP",
-        "LFI"
-      ],
-      "city": "Unknown",
-      "registrationNumber": "National001",
-      "apiFamilies": [],
-      "hasAuthServer": false,
-      "isShariahCompliant": false,
-      "authCapabilities": {
-        "supportsCiba": false,
-        "supportsDCR": false,
-        "supportsRedirect": false
-      },
-      "apiResources": [],
-      "authServerCount": 0,
-      "isLive": false
-    },
     {
       "id": "36b067c3-8017-4144-bb7e-49cf794089c9",
       "name": "ADCB",
@@ -171,6 +147,30 @@
           "familyComplete": false
         }
       ],
+      "authServerCount": 1,
+      "isLive": true
+    },
+    {
+      "id": "b1b75d1a-648e-4e88-8d1f-a2a3cf43de5c",
+      "name": "ADNIC",
+      "legalName": "ABU DHABI NATIONAL INSURANCE COMPANY PJSC",
+      "shortName": "ADNIC",
+      "status": "Active",
+      "roles": [
+        "ISP",
+        "LFI"
+      ],
+      "city": "Abu Dhabi",
+      "registrationNumber": "National001",
+      "apiFamilies": [],
+      "hasAuthServer": true,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
       "authServerCount": 1,
       "isLive": true
     },
