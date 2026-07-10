@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-07-09T09:41:07.618Z",
+  "timestamp": "2026-07-10T09:32:07.385Z",
   "source": "https://data.sandbox.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "sandbox",
@@ -18,8 +18,8 @@
       "pki-test-harness": 1
     },
     "byCity": {
-      "Unknown": 59,
-      "Abu Dhabi": 5,
+      "Unknown": 58,
+      "Abu Dhabi": 6,
       "Dubai": 11,
       "London": 2
     },
@@ -29,8 +29,8 @@
       "payments",
       "products"
     ],
-    "liveInProduction": 18,
-    "shariahCompliantCount": 7,
+    "liveInProduction": 19,
+    "shariahCompliantCount": 8,
     "multiRoleCount": 74,
     "tppCount": 0,
     "byAuthCapabilities": {
@@ -39,11 +39,11 @@
       "redirect": 0
     },
     "byCertificationStatus": {
-      "Self-Certified": 66
+      "Self-Certified": 68
     },
     "byApiVersion": {
       "2.0": 6,
-      "2.1": 36,
+      "2.1": 38,
       "1.2.0": 2,
       "1.2": 7,
       "1.0.0": 12,
@@ -295,9 +295,9 @@
     },
     {
       "id": "9b16b09b-fde8-4a15-89d0-b376e8a55ef7",
-      "name": "Al Hilal Bank",
+      "name": "AL Hilal Bank",
       "legalName": "Al Hilal Bank P.J.S.C",
-      "shortName": "Al Hilal Bank",
+      "shortName": "AL Hilal Bank",
       "status": "Active",
       "roles": [
         "BDSP",
@@ -305,19 +305,35 @@
         "ISP",
         "LFI"
       ],
-      "city": "Unknown",
+      "city": "Abu Dhabi",
       "registrationNumber": "01.01.02.045.2007.01",
-      "apiFamilies": [],
-      "hasAuthServer": false,
-      "isShariahCompliant": false,
+      "apiFamilies": [
+        "accounts",
+        "products"
+      ],
+      "hasAuthServer": true,
+      "isShariahCompliant": true,
       "authCapabilities": {
         "supportsCiba": false,
         "supportsDCR": false,
         "supportsRedirect": false
       },
-      "apiResources": [],
-      "authServerCount": 0,
-      "isLive": false
+      "apiResources": [
+        {
+          "family": "accounts",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "products",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        }
+      ],
+      "authServerCount": 1,
+      "isLive": true
     },
     {
       "id": "30303fd5-70a9-4cfc-a08e-d927572e9a8d",
@@ -2469,6 +2485,9 @@
     "newParticipants": [],
     "removedParticipants": [],
     "roleChanges": {},
-    "apiFamilyChanges": {}
+    "apiFamilyChanges": {
+      "accounts": 1,
+      "products": 1
+    }
   }
 }
