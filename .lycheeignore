@@ -1,20 +1,13 @@
 # Link-check ignore list (regex per line) for the "Check Links" workflow.
-# lychee auto-loads this file. Keep entries documented so they can be revisited.
+# lychee auto-loads this file. The workflow ALSO appends every participant
+# homepage from data/participants/profiles.json at runtime (those third-party
+# bank/insurer/fintech sites are bot-hostile and fail intermittently in CI
+# while loading fine in a browser). Keep only non-participant special cases here.
 
 # Private repo: exists but is not public, so anonymous lychee gets a 404.
 github\.com/openfinance-os/velox
 
-# Bot-hostile external sites: these load fine in a browser but fail in lychee
-# (TLS SNI "UnrecognisedName", HTTP/2 protocol errors, connection resets,
-# 415 responses, or aggressive bot-blocking). Reviewed 2026-07-12.
-^https://www\.cbi\.ae
-^https://www\.cbd\.ae
-^https://www\.almaryahbank\.ae
-^https://www\.tameen\.ae
-^https://www\.almasraf\.ae
-^https://www\.aaaic\.ae
-^https://www\.bancify\.io
-^https://www\.myalfred\.io
-^https://www\.cdr\.gov\.au
-^https://www\.openbankingeurope\.eu
-^https://www\.aaib\.com
+# Non-participant reference sites that reject the CI checker (HTTP/2 protocol
+# errors, connection resets) but load fine in a browser. Reviewed 2026-07-12.
+://www\.cdr\.gov\.au
+://www\.openbankingeurope\.eu
