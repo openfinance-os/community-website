@@ -6,6 +6,14 @@ export default defineConfig({
 
   output: 'static',
 
+  // Preserve old URLs after content consolidation (see docs/plans/repositioning.md).
+  redirects: {
+    '/learn/global': '/global',
+    '/learn/global/eu': '/global/eu',
+    '/learn/global/uk': '/global/uk',
+    '/learn/global/gcc': '/global/gcc',
+  },
+
   build: {
     assets: '_astro',
     inlineStylesheets: 'auto',

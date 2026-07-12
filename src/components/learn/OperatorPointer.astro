@@ -1,0 +1,111 @@
+---
+/**
+ * Operator-docs pointer — used on the Learn integration-guide stubs.
+ * The conceptual "what is X" stays on this site; the procedural how-to
+ * lives with the Al Tareq operator (Nebras), which we link rather than
+ * mirror. The weekly link-check watches these outbound links.
+ */
+interface Link {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  heading?: string;
+  intro: string;
+  links: Link[];
+}
+
+const { heading = 'Building or integrating?', intro, links } = Astro.props;
+---
+
+<aside class="operator-pointer">
+  <span class="op-eyebrow">{heading}</span>
+  <p class="op-intro" set:html={intro} />
+  <ul class="op-links">
+    {
+      links.map((l) => (
+        <li>
+          <a href={l.href} rel="noopener">
+            {l.label}
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M7 17L17 7M17 7H7M17 7v10" />
+            </svg>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+  <p class="op-note">
+    We link to the operator's canonical docs rather than mirror them — so what you read is always
+    current.
+  </p>
+</aside>
+
+<style>
+  .operator-pointer {
+    border: 1px solid var(--color-accent-500);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    background: var(--color-gray-50);
+    margin: var(--space-8) 0;
+  }
+  .op-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--color-accent-600);
+  }
+  .op-intro {
+    margin: var(--space-3) 0 var(--space-4);
+    color: var(--color-gray-700);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+  .op-links {
+    list-style: none;
+    margin: 0 0 var(--space-4);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .op-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--color-primary-600);
+    text-decoration: none;
+  }
+  .op-links a:hover {
+    text-decoration: underline;
+  }
+  .op-note {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--color-gray-500);
+  }
+
+  :global([data-theme='dark']) .operator-pointer {
+    background: var(--color-gray-100);
+  }
+  :global([data-theme='dark']) .op-intro {
+    color: var(--color-gray-300);
+  }
+  :global([data-theme='dark']) .op-links a {
+    color: var(--color-primary-300);
+  }
+</style>
