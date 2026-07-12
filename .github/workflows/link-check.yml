@@ -54,7 +54,9 @@ jobs:
           args: >-
             --verbose
             --no-progress
+            --root-dir ${{ github.workspace }}/dist
             --accept 200,204,301,302,403
+            --max-retries 2
             --timeout 30
             './dist/**/*.html'
           fail: true
