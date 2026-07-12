@@ -1,0 +1,299 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import history from '../../../../data/observatory/history.json';
+import latest from '../../../../data/observatory/snapshots/production/latest.json';
+import { getRegistryChangelog, getTrackingSince, getSnapshotCount } from '@lib/registry-changelog';
+
+const trackingSince = getTrackingSince();
+const snapshotCount = getSnapshotCount();
+const changelogCount = getRegistryChangelog().length;
+const historyPoints = history.dataPoints.length;
+const participantCount = latest.summary.totalParticipants;
+
+const datasets = [
+  {
+    name: 'Registry — latest snapshot',
+    path: '/observatory/data/registry-latest.json',
+    what: `Current production registry: summary statistics and all ${participantCount} participants with roles, API families and live status.`,
+    fields: 'dataset, source, observedAt, summary, participants[]',
+    updated: 'daily',
+  },
+  {
+    name: 'Registry — history',
+    path: '/observatory/data/registry-history.json',
+    what: `Daily time series (${historyPoints} points) of participant and live counts, with breakdowns by role, city and API family, plus named milestones.`,
+    fields: 'dataset, trackingSince, dataPoints[], milestones[]',
+    updated: 'daily',
+  },
+  {
+    name: 'Registry — changelog',
+    path: '/observatory/data/registry-changelog.json',
+    what: `Every dated registry change (${changelogCount} events): joins, departures, go-lives, role and API-family additions, derived by diffing snapshots.`,
+    fields: 'dataset, trackingSince, count, events[]',
+    updated: 'daily',
+  },
+];
+
+const citation = `OpenFinance-OS, "UAE Open Finance Registry" (dataset), openfinance-os.org/observatory/data, accessed ${latest.timestamp.slice(0, 10)}.`;
+---
+
+<PageLayout
+  title="Data & datasets"
+  description="Open, citable datasets tracking the UAE Open Finance ecosystem — registry snapshots, daily history, and a derived changelog."
+  lastUpdated={latest.timestamp}
+>
+  <div class="data-page">
+    <div class="container">
+      <header class="page-header">
+        <a href="/observatory" class="back-link">← Observatory</a>
+        <h1>Data &amp; datasets</h1>
+        <p class="lede">
+          The record behind the Observatory, published as open data you can cite, download and build
+          on. Everything is derived from the public UAE Open Finance trust-framework directory and
+          committed to this site daily — tracking since {trackingSince} across {snapshotCount} snapshots.
+        </p>
+      </header>
+
+      <section class="datasets">
+        {
+          datasets.map((d) => (
+            <article class="dataset-card">
+              <div class="dataset-head">
+                <h2>{d.name}</h2>
+                <span class="cadence">updated {d.updated}</span>
+              </div>
+              <p class="dataset-what">{d.what}</p>
+              <p class="dataset-fields">
+                <span class="k">fields</span>
+                <code>{d.fields}</code>
+              </p>
+              <div class="dataset-actions">
+                <a class="download" href={d.path}>
+                  Download JSON
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                  </svg>
+                </a>
+                <code class="url">{d.path}</code>
+              </div>
+            </article>
+          ))
+        }
+      </section>
+
+      <section class="content-section">
+        <h2>Using this data</h2>
+        <ul class="usage">
+          <li>
+            <strong>Licence.</strong> Published under
+            <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener">CC-BY-4.0</a> — free
+            to use with attribution.
+          </li>
+          <li>
+            <strong>Not official.</strong> OpenFinance-OS is an independent, community-run project, not
+            affiliated with CBUAE or Nebras. These are our observations of the public directory, not official
+            statistics.
+          </li>
+          <li>
+            <strong>Provenance.</strong> All figures come from the public
+            <a href="https://data.directory.openfinance.ae" rel="noopener"
+              >trust-framework directory</a
+            >. See the <a href="/observatory/methodology">methodology</a> for how status and counts are
+            derived.
+          </li>
+          <li>
+            <strong>Dates.</strong> Because collection is daily, changelog dates are
+            <em>observation</em> dates and may lag a real-world change by up to a collection gap.
+          </li>
+        </ul>
+
+        <h3>How to cite</h3>
+        <div class="citation">
+          <code>{citation}</code>
+        </div>
+
+        <p class="footnote">
+          Looking for operational metrics (API call volumes, payment flows, reliability)? See the
+          <a href="/observatory/watch/">weekly Ecosystem Watch</a>. Building or integrating? The
+          operator's developer hub is at
+          <a href="https://nebras-open-finance.com/" rel="noopener">nebras-open-finance.com</a>.
+        </p>
+      </section>
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .data-page {
+    padding: var(--space-12) var(--space-4) var(--space-16);
+  }
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .back-link {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--color-gray-500);
+    text-decoration: none;
+    margin-bottom: var(--space-4);
+  }
+  .page-header h1 {
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 4vw, 2.5rem);
+    font-weight: 700;
+    margin: 0 0 var(--space-3);
+    color: var(--color-gray-900);
+    letter-spacing: -0.02em;
+  }
+  .lede {
+    margin: 0;
+    max-width: 66ch;
+    color: var(--color-gray-600);
+    font-size: 1.02rem;
+  }
+
+  .datasets {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin: var(--space-10) 0;
+  }
+  .dataset-card {
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+  }
+  .dataset-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+  .dataset-head h2 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    margin: 0;
+    color: var(--color-gray-900);
+  }
+  .cadence {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-primary-500);
+  }
+  .dataset-what {
+    margin: var(--space-3) 0;
+    color: var(--color-gray-600);
+    font-size: 0.92rem;
+  }
+  .dataset-fields {
+    margin: 0 0 var(--space-4);
+    font-size: 0.82rem;
+    color: var(--color-gray-500);
+  }
+  .dataset-fields .k {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-right: var(--space-2);
+  }
+  .dataset-fields code {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-gray-600);
+  }
+  .dataset-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+  .download {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--color-primary-600);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.88rem;
+    padding: 8px 16px;
+    border-radius: var(--radius-lg);
+  }
+  .download:hover {
+    background: var(--color-primary-700);
+    text-decoration: none;
+  }
+  .url {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--color-gray-500);
+    word-break: break-all;
+  }
+
+  .content-section {
+    margin-top: var(--space-10);
+  }
+  .content-section h2 {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: var(--color-gray-900);
+    margin: 0 0 var(--space-4);
+  }
+  .content-section h3 {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    color: var(--color-gray-900);
+    margin: var(--space-8) 0 var(--space-3);
+  }
+  .usage {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .usage li {
+    font-size: 0.92rem;
+    color: var(--color-gray-600);
+    padding-left: var(--space-4);
+    border-left: 2px solid var(--color-gray-200);
+  }
+  .usage strong {
+    color: var(--color-gray-900);
+  }
+  .citation {
+    background: var(--color-gray-100);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+  }
+  .citation code {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--color-gray-700);
+    line-height: 1.6;
+  }
+  .footnote {
+    margin-top: var(--space-8);
+    font-size: 0.88rem;
+    color: var(--color-gray-500);
+  }
+</style>
