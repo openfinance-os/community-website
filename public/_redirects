@@ -12,15 +12,19 @@ https://www.openfinance-os.org/* https://openfinance-os.org/:splat 301
 /docs/* /learn/:splat 301
 /dashboard/* /observatory/:splat 301
 
-# News & Events consolidated into Updates (Updates is news-only; events removed)
+# News & Events consolidated into Updates (Updates is news-only; events removed).
+# Match both with and without the trailing slash (Astro emits trailing slashes).
 /news /updates 301
+/news/ /updates 301
 /events /updates 301
+/events/ /updates 301
 
 # Links page dissolved into Learn
 /links /learn 301
+/links/ /learn 301
 
-# Global promoted to a top-level section (was nested under /learn)
+# Global promoted to a top-level section (was nested under /learn).
+# The splat covers /learn/global/, /learn/global/eu, /learn/global/eu/, etc.;
+# the bare rule covers /learn/global with no trailing slash.
 /learn/global /global 301
-/learn/global/eu /global/eu 301
-/learn/global/uk /global/uk 301
-/learn/global/gcc /global/gcc 301
+/learn/global/* /global/:splat 301
