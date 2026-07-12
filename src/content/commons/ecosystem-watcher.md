@@ -15,14 +15,14 @@ maturity: production-ready
 
 source:
   platform: other
-  url: https://ecosystem-watcher.openfinance-os.org
+  url: https://openfinance-os.org/observatory/watch/
 
 authoredByContributor: true
 contributor: "OpenFinance-OS Community"
 contributorUrl: https://github.com/openfinance-os
 
 links:
-  demo: https://ecosystem-watcher.openfinance-os.org
+  demo: https://openfinance-os.org/observatory/watch/
 
 whyItMatters: "The regulatory calendar tells you who is supposed to be live, but not who actually is. Ecosystem Watcher turns the CBUAE mandate timeline and on-the-ground adoption into a single at-a-glance view, giving practitioners an objective, evidence-based read on rollout progress rather than relying on self-reported status."
 
@@ -59,4 +59,4 @@ Get an objective, evidence-based read on adoption progress across the ecosystem 
 
 ## Try It Now
 
-Visit [ecosystem-watcher.openfinance-os.org](https://ecosystem-watcher.openfinance-os.org) to explore the live dashboard.
+Visit [openfinance-os.org/observatory/watch](https://openfinance-os.org/observatory/watch/) to explore the live dashboard. (The former ecosystem-watcher.openfinance-os.org address redirects here.)

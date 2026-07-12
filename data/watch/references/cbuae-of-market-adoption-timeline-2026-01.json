@@ -1,0 +1,35 @@
+{
+  "source": "CBUAE Annexure 1 — Timelines for Market Adoption of Open Finance",
+  "updatedAsOf": "2026-01",
+  "captured": "2026-06-22",
+  "authority": "authoritative CBUAE mandate calendar + LFI tier list; supersedes approximate dates/tiers in the watch tooling",
+  "legend": {"M": "Mandatory", "O": "Optional (per LFI policy)", "N/A": "Not Applicable"},
+  "openBanking": {
+    "timeline": [
+      {"req": "Retail Payments & Data – R1", "scope": ["Consent Management", "Single Instant Payments", "Confirmation of Payee", "Balance Data", "Customer Data", "Product Data"], "individual": "M", "sme": "N/A", "corporate": "N/A", "merchant": "N/A", "tier1": "2025-09", "tier2": "2026-09"},
+      {"req": "Retail Product Quotes – R1+", "scope": ["Current Accounts", "Savings Accounts", "Credit Cards", "Loans", "Mortgages"], "individual": "M", "sme": "N/A", "corporate": "N/A", "merchant": "N/A", "tier1": "2025-09", "tier2": "2026-09"},
+      {"req": "Retail Payments & Data – R2", "scope": ["Transactional Data", "Variable Recurring Payments", "Fixed Recurring Payments", "Refunds", "Future Dated Payments", "Request to Pay", "Delegated SCA"], "individual": "M", "sme": "N/A", "corporate": "N/A", "merchant": "N/A", "tier1": "2025-10", "tier2": "2026-09"},
+      {"req": "Retail, SME and Corporate", "scope": ["International Payments", "Extended Transactional Data", "Future Dated Payments (if not by Sep 2025)"], "individual": "M", "sme": "O", "corporate": "O", "merchant": "N/A", "tier1": "2025-12", "tier2": "2026-09"},
+      {"req": "For SME (core)", "scope": ["Consent Management", "Single Instant Payments", "Customer Data", "Balance Data", "Transactional Data", "Product Data", "Variable Recurring Payments", "Fixed Recurring Payments", "Refunds", "Future Dated Payments", "Request to Pay", "Delegated SCA"], "individual": "N/A", "sme": "M", "corporate": "N/A", "merchant": "N/A", "tier1": "2025-12", "tier2": "2026-09"},
+      {"req": "For SME (bulk/intl)", "scope": ["Future Dated Payments", "Bulk / Batch Payments", "International Payments"], "note": "if not already delivered by December 2025", "individual": "N/A", "sme": "M", "corporate": "N/A", "merchant": "N/A", "tier1": "2026-03", "tier2": "2026-09"},
+      {"req": "For Corporates", "scope": ["Consent Management", "Corporate Data (Customer, Product, Transactional)", "Corporate Payments (all Single, Recurring, Variable, Delegated, Bulk)", "International Payments", "Future Dated Payments"], "individual": "N/A", "sme": "N/A", "corporate": "M", "merchant": "N/A", "tier1": "2026-09", "tier2": "2026-09"},
+      {"req": "Retail Extended Data Sharing", "scope": ["Credit Cards", "Loans", "Mortgages", "ATM Locations"], "individual": "M", "sme": "M", "corporate": "N/A", "merchant": "N/A", "tier1": "2026-04", "tier2": "2026-09"},
+      {"req": "Standards Alignment – Uplift to V2.1 (v2.0 + errata)", "scope": ["V2.1 Standards uplift"], "individual": "M", "sme": "N/A", "corporate": "N/A", "merchant": "N/A", "tier1": "2026-04", "tier2": "2026-09"},
+      {"req": "Standards Alignment – Uplift to V2.2 Final", "scope": ["V2.2 Final Standards uplift"], "note": "to be published shortly", "individual": "M", "sme": "M", "corporate": "M", "merchant": "M", "tier1": "2026-12", "tier2": "2027-02"}
+    ],
+    "tier1": ["First Abu Dhabi Bank", "Emirates NBD Bank", "Abu Dhabi Commercial Bank", "Dubai Islamic Bank", "Mashreq Bank", "Abu Dhabi Islamic Bank", "HSBC Bank Middle East Limited", "Commercial Bank of Dubai"],
+    "tier2": ["Emirates Islamic Bank", "National Bank of Ras Al-Khaimah", "Sharjah Islamic Bank", "Standard Chartered Bank", "National Bank Of Fujairah", "Citibank", "Bank of Sharjah", "Al Masraf", "Commercial Bank International", "Ajman Bank", "Bank of Baroda", "Banque Misr", "Arab Bank", "Invest Bank", "United Arab Bank", "National Bank Of Umm Al Qaiwain", "Habib Bank AG Zurich", "Al Hilal Bank", "Al Ahli Bank Of Kuwait K.S.C.", "BNP Paribas", "Arab African International Bank", "Barclays Bank", "National Bank Of Kuwait", "United Bank Ltd.", "The Saudi National Bank (previously Samba Financial Group)", "Banque Banorient France (previously Blom Bank France)", "Agricultural Bank of China", "Wio Bank", "Al Maryah Community Bank", "Zand Bank"]
+  },
+  "openInsurance": {
+    "timeline": [
+      {"req": "For Individuals — Insurance across 7 in-scope products", "scope": ["Home", "Health", "Renter", "Motor", "Life Assurance", "Travel", "Employment (ILoE)", "Data Sharing", "Near-Real-Time Quotes"], "individual": "M", "sme": "N/A", "corporate": "N/A", "merchant": "N/A", "tier1": "2026-02", "tier2": "2027-03"},
+      {"req": "Standards Alignment – Uplift to V2.1 Final", "scope": ["V2.1 Final Standards uplift"], "individual": "M", "sme": "N/A", "corporate": "N/A", "merchant": "M", "tier1": "2026-04", "tier2": "N/A"},
+      {"req": "Standards Alignment – Uplift to V2.2 Final", "scope": ["V2.2 Final Standards uplift"], "note": "to be published shortly", "individual": "M", "sme": "M", "corporate": "M", "merchant": "M", "tier1": "2026-12", "tier2": "2027-03"}
+    ],
+    "tier1": ["Zurich Life Insurance Company Limited", "Orient Insurance Company", "Abu Dhabi National Insurance Company", "Sukoon Insurance Dubai Islamic Bank PJSC", "The National Health Insurance Company (Daman) PJS", "American Life Insurance Company", "Friends Provident International Limited", "Life Insurance Corporation (International) B.S.C", "Islamic Arab Insurance Company 'SALAMA'", "Emirates Insurance Company (PSC)", "Al Ain Ahlia Insurance Company", "Dubai Insurance Company (PSC)", "Al Buhaira National Insurance Company P.S.C", "Union Insurance", "LIVA Insurance B.S.C.", "Al Wathba National Insurance Company"],
+    "tier2": ["Qatar Insurance Company", "Alliance Insurance", "National General Insurance CO", "Gulf Insurance Group (Gulf) B.S.C Closed", "Abu Dhabi National Takaful Company - P S C – Takaful", "Watania Takaful Family PJSC", "Dubai Islamic Insurance & Reinsurance Company (Aman) P.S.C", "Orient Takaful PJSC", "Cigna Insurance Middle East S.A.L", "Dubai National Insurance & Reinsurance P.S.C", "American Home Insurance Company (Dubai Br.)", "Al Sagr National Insurance Company", "Al Dhafra Insurance Company P.S.C", "Methaq Takaful Insurance", "Takaful Emarat – Insurance (P.S.C.)", "United Fidelity Insurance Company", "YAS TAKAFUL", "Watania Takaful General PJSC", "Ras Al Khaimah National Insurance Company P.S.C (RAKINSURANCE)", "Al Fujairah National Insurance Company P.S.C. (AFNIC)", "State Life Insurance Corporation of Pakistan", "Sukoon Takaful PJSC", "Arabia Insurance Company S.A.L", "The New India Assurance Company Limited", "Insurance House", "Al Ittihad Al Watani - General Insurance Company for the Near East", "Tokio Marine & Nichido Fire Insurance Co. Ltd", "Saudi Arabian Insurance Company B.S.C. (DAMANA)"]
+  },
+  "logKeyToTier": {
+    "uae-fabretail": "T1", "uae-enbdx": "T1", "uae-adcbrt": "T1", "uae-dibrt": "T1", "uae-mashrt": "T1", "uae-adibrt": "T1", "uae-hsbcrt": "T1", "uae-hsbcws": "T1", "uae-cbdrt": "T1", "uae-wioretail": "T2"
+  }
+}
