@@ -14,6 +14,8 @@ export default defineConfig({
     '/learn/global/gcc': '/global/gcc',
     // Events feature removed (may return later); point old URLs at Updates.
     '/events': '/updates',
+    // Links page dissolved into Learn.
+    '/links': '/learn',
   },
 
   build: {
