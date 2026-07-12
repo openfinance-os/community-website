@@ -189,7 +189,8 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
             stroke-linecap="round"
             stroke-linejoin="round"
           >
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+            ></path>
             <polyline points="22,6 12,13 2,6"></polyline>
           </svg>
         </span>
@@ -200,13 +201,18 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
         <span class="stat-label">API Families</span>
       </div>
       <div class="api-breakdown">
-        {stats.apiFamilies.map((family) => (
-          <div class="api-item">
-            <span class="api-dot" style={`background: ${apiFamilyColors[family] || 'var(--color-gray-400)'}`}></span>
-            <span class="api-label">{apiFamilyLabels[family] || family}</span>
-            <span class="api-value">{stats.apiFamilyCoverage[family] || 0}</span>
-          </div>
-        ))}
+        {
+          stats.apiFamilies.map((family) => (
+            <div class="api-item">
+              <span
+                class="api-dot"
+                style={`background: ${apiFamilyColors[family] || 'var(--color-gray-400)'}`}
+              />
+              <span class="api-label">{apiFamilyLabels[family] || family}</span>
+              <span class="api-value">{stats.apiFamilyCoverage[family] || 0}</span>
+            </div>
+          ))
+        }
       </div>
     </div>
 

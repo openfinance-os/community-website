@@ -24,9 +24,7 @@ const activeCount = byStatus.Active || 0;
 // Calculate API family coverage - count participants supporting each API family
 const apiFamilyCoverage: Record<string, number> = {};
 for (const family of apiFamilies || []) {
-  apiFamilyCoverage[family] = participants.filter((p) =>
-    p.apiFamilies?.includes(family)
-  ).length;
+  apiFamilyCoverage[family] = participants.filter((p) => p.apiFamilies?.includes(family)).length;
 }
 
 // Calculate ecosystem engagement stats
