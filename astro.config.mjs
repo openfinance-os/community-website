@@ -12,6 +12,8 @@ export default defineConfig({
     '/learn/global/eu': '/global/eu',
     '/learn/global/uk': '/global/uk',
     '/learn/global/gcc': '/global/gcc',
+    // Events feature removed (may return later); point old URLs at Updates.
+    '/events': '/updates',
   },
 
   build: {

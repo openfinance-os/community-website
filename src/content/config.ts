@@ -2,7 +2,6 @@ import { defineCollection, z } from 'astro:content';
 
 const newsTypes = ['official', 'milestone', 'community', 'global', 'opinion'] as const;
 const newsRegions = ['uae', 'mena', 'global'] as const;
-const eventTypes = ['meetup', 'hackathon', 'webinar', 'conference', 'workshop'] as const;
 
 // Commons taxonomy
 const commonsTypes = ['insight', 'reference', 'artifact', 'utility'] as const;
@@ -33,23 +32,6 @@ const newsCollection = defineCollection({
     description: z.string().optional(),
     featured: z.boolean().default(false),
     external: z.boolean().default(false),
-  }),
-});
-
-const eventsCollection = defineCollection({
-  type: 'content',
-  schema: z.object({
-    title: z.string(),
-    date: z.coerce.date(),
-    endDate: z.coerce.date().optional(),
-    type: z.enum(eventTypes),
-    location: z.string(),
-    isOnline: z.boolean().default(false),
-    organizer: z.string(),
-    url: z.string().url().optional(),
-    lumaEventId: z.string().optional(),
-    description: z.string(),
-    featured: z.boolean().default(false),
   }),
 });
 
@@ -102,6 +84,5 @@ const commonsCollection = defineCollection({
 
 export const collections = {
   news: newsCollection,
-  events: eventsCollection,
   commons: commonsCollection,
 };
