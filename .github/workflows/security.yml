@@ -42,15 +42,19 @@ jobs:
           echo "### Dependency Audit Report" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
-          # Run audit and capture output
-          npm audit --json > audit.json 2>&1 || true
+          # Scope to PRODUCTION dependencies — dev-only tooling (test runner,
+          # linters, dev server) is not shipped to users. See scripts/check-audit.mjs
+          # for the documented allowlist of advisories not reachable on this
+          # static-output site.
+          npm audit --omit=dev --json > audit.json 2>&1 || true
 
-          # Parse and summarize results
           critical=$(jq '.metadata.vulnerabilities.critical // 0' audit.json)
           high=$(jq '.metadata.vulnerabilities.high // 0' audit.json)
           moderate=$(jq '.metadata.vulnerabilities.moderate // 0' audit.json)
           low=$(jq '.metadata.vulnerabilities.low // 0' audit.json)
 
+          echo "Production dependencies (critical/high fail the build unless allowlisted):" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
           echo "| Severity | Count |" >> $GITHUB_STEP_SUMMARY
           echo "|----------|-------|" >> $GITHUB_STEP_SUMMARY
           echo "| Critical | $critical |" >> $GITHUB_STEP_SUMMARY
@@ -58,16 +62,8 @@ jobs:
           echo "| Moderate | $moderate |" >> $GITHUB_STEP_SUMMARY
           echo "| Low | $low |" >> $GITHUB_STEP_SUMMARY
 
-          # Fail on critical or high vulnerabilities
-          if [ "$critical" -gt 0 ] || [ "$high" -gt 0 ]; then
-            echo ""
-            echo "::error::Found $critical critical and $high high severity vulnerabilities"
-            npm audit --audit-level=high
-            exit 1
-          fi
-
-          echo ""
-          echo "No critical or high severity vulnerabilities found"
+          # Fail only on non-allowlisted critical/high in production deps.
+          node scripts/check-audit.mjs audit.json
 
       - name: Check for outdated packages
         run: |
