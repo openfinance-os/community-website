@@ -6,6 +6,7 @@ import ParticipantCard from '@components/observatory/ParticipantCard.astro';
 import EnvironmentToggle from '@components/observatory/EnvironmentToggle.astro';
 import AuthCapabilitiesChart from '@components/observatory/AuthCapabilitiesChart.astro';
 import HistoricalTrendsChart from '@components/observatory/HistoricalTrendsChart.astro';
+import RegistryChangelog from '@components/observatory/RegistryChangelog.astro';
 import { calculateCityDistribution, findProfile } from '@lib/city-utils';
 import type { ProfilesMap } from '@lib/types';
 
@@ -511,6 +512,8 @@ const displayParticipants = participants;
         />
       </div>
     </section>
+
+    <RegistryChangelog />
 
     <section class="participants-section">
       <header class="section-header">

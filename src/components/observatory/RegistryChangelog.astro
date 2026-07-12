@@ -1,0 +1,223 @@
+---
+/**
+ * Registry changelog — the full record of production-registry changes,
+ * grouped by month, derived from the daily snapshots.
+ * Rendered on /observatory (anchor #changelog).
+ */
+import {
+  getRegistryChangelog,
+  getTrackingSince,
+  type ChangelogEvent,
+} from '@lib/registry-changelog';
+
+const all = getRegistryChangelog();
+const trackingSince = getTrackingSince();
+
+// Group by calendar month, preserving newest-first order.
+const groups: { key: string; label: string; events: ChangelogEvent[] }[] = [];
+for (const e of all) {
+  const key = e.date.slice(0, 7);
+  let g = groups.find((x) => x.key === key);
+  if (!g) {
+    g = {
+      key,
+      label: new Date(`${key}-01T00:00:00Z`).toLocaleDateString('en-GB', {
+        month: 'long',
+        year: 'numeric',
+        timeZone: 'UTC',
+      }),
+      events: [],
+    };
+    groups.push(g);
+  }
+  g.events.push(e);
+}
+
+const eventLabels: Record<ChangelogEvent['type'], { label: string; cls: string }> = {
+  went_live: { label: 'Went live', cls: 'live' },
+  joined: { label: 'Joined', cls: 'join' },
+  role_added: { label: 'New role', cls: 'role' },
+  api_family_added: { label: 'New APIs', cls: 'role' },
+  went_offline: { label: 'Offline', cls: 'role' },
+  left: { label: 'Left', cls: 'role' },
+};
+
+function fmtDate(iso: string): string {
+  return new Date(iso).toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    timeZone: 'UTC',
+  });
+}
+---
+
+<section class="changelog-section" id="changelog" aria-labelledby="changelog-title">
+  <header class="changelog-header">
+    <h2 id="changelog-title">Registry changelog</h2>
+    <p class="changelog-sub">
+      Every join, go-live and role change in the production registry — {all.length} events observed by
+      diffing daily snapshots since {trackingSince}. Dates are when a change was observed, not
+      necessarily when it took effect.
+    </p>
+  </header>
+
+  {
+    all.length === 0 ? (
+      <p class="changelog-empty">No registry changes recorded yet.</p>
+    ) : (
+      <div class="changelog-groups">
+        {groups.map((g) => (
+          <div class="changelog-group">
+            <h3 class="group-label">{g.label}</h3>
+            <ol class="group-events">
+              {g.events.map((e) => (
+                <li class="cl-entry">
+                  <span class="cl-date">{fmtDate(e.date)}</span>
+                  <span class={`cl-chip ${eventLabels[e.type].cls}`}>
+                    {eventLabels[e.type].label}
+                  </span>
+                  <span class="cl-what">
+                    <b>{e.name}</b>
+                    {e.detail && <span class="cl-detail"> — {e.detail}</span>}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        ))}
+      </div>
+    )
+  }
+</section>
+
+<style>
+  .changelog-section {
+    --chip-join-bg: rgba(18, 163, 133, 0.12);
+    --chip-join-ink: #0b6b57;
+    --chip-live-bg: rgba(176, 110, 29, 0.12);
+    --chip-live-ink: #8a5510;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-12) var(--space-4);
+    scroll-margin-top: var(--space-16);
+  }
+  :global([data-theme='dark']) .changelog-section {
+    --chip-join-ink: #5fd4b6;
+    --chip-live-ink: #e5ae45;
+    --chip-join-bg: rgba(23, 162, 132, 0.18);
+    --chip-live-bg: rgba(201, 133, 0, 0.18);
+  }
+  @media (prefers-color-scheme: dark) {
+    :global(html:not([data-theme='light'])) .changelog-section {
+      --chip-join-ink: #5fd4b6;
+      --chip-live-ink: #e5ae45;
+      --chip-join-bg: rgba(23, 162, 132, 0.18);
+      --chip-live-bg: rgba(201, 133, 0, 0.18);
+    }
+  }
+
+  .changelog-header {
+    margin-bottom: var(--space-8);
+  }
+  .changelog-header h2 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 var(--space-2);
+    color: var(--color-gray-900);
+  }
+  .changelog-sub {
+    margin: 0;
+    max-width: 68ch;
+    font-size: 0.9rem;
+    color: var(--color-gray-600);
+  }
+  .changelog-empty {
+    color: var(--color-gray-500);
+  }
+
+  .changelog-groups {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+  .group-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-gray-500);
+    margin: 0 0 var(--space-3);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+  .group-events {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .cl-entry {
+    display: grid;
+    grid-template-columns: 56px 92px 1fr;
+    gap: var(--space-3);
+    align-items: baseline;
+    padding: var(--space-2) 0;
+  }
+  @media (max-width: 560px) {
+    .cl-entry {
+      grid-template-columns: 52px 1fr;
+      row-gap: 2px;
+    }
+    .cl-chip {
+      grid-column: 2;
+      justify-self: start;
+    }
+    .cl-what {
+      grid-column: 1 / -1;
+    }
+  }
+  .cl-date {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--color-gray-500);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .cl-chip {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    white-space: nowrap;
+    justify-self: start;
+  }
+  .cl-chip.join {
+    background: var(--chip-join-bg);
+    color: var(--chip-join-ink);
+  }
+  .cl-chip.live {
+    background: var(--chip-live-bg);
+    color: var(--chip-live-ink);
+  }
+  .cl-chip.role {
+    background: var(--color-gray-100);
+    color: var(--color-gray-600);
+  }
+  .cl-what {
+    font-size: 0.9rem;
+    color: var(--color-gray-600);
+  }
+  .cl-what b {
+    color: var(--color-gray-900);
+    font-weight: 600;
+  }
+  .cl-detail {
+    color: var(--color-gray-500);
+  }
+</style>
