@@ -17,9 +17,17 @@ const sandboxData = (isDualFormat
   : null) as unknown as ObservatorySnapshot | null;
 const crossEnvironment = isDualFormat ? snapshot.crossEnvironment : null;
 
-const { summary, timestamp } = productionData;
-const { totalParticipants, byStatus, liveInProduction } = summary;
+const { summary, timestamp, participants } = productionData;
+const { totalParticipants, byStatus, liveInProduction, apiFamilies } = summary;
 const activeCount = byStatus.Active || 0;
+
+// Calculate API family coverage - count participants supporting each API family
+const apiFamilyCoverage: Record<string, number> = {};
+for (const family of apiFamilies || []) {
+  apiFamilyCoverage[family] = participants.filter((p) =>
+    p.apiFamilies?.includes(family)
+  ).length;
+}
 
 // Calculate ecosystem engagement stats
 const ecosystemStats = {
@@ -39,6 +47,9 @@ const ecosystemStats = {
   inBoth: crossEnvironment?.inBothEnvironments?.length || 0,
   productionOnly: crossEnvironment?.productionOnly?.length || 0,
   sandboxOnly: crossEnvironment?.sandboxOnly?.length || 0,
+  // API Family coverage
+  apiFamilies: apiFamilies || [],
+  apiFamilyCoverage,
 };
 
 const quickLinks = [
