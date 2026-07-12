@@ -1,0 +1,57 @@
+name: Weekly Digest
+
+on:
+  schedule:
+    # Mondays at 07:00 UTC (11:00 AM UAE) — after the daily observatory
+    # snapshot and the Monday Ecosystem Watch run, so the digest reflects both.
+    - cron: '0 7 * * 1'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (no PR created)'
+        required: false
+        default: 'false'
+        type: boolean
+
+# Prevent overlapping digest runs
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+jobs:
+  digest:
+    name: Generate Weekly Digest
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          token: ${{ github.token }}
+
+      - name: Setup Node.js
+        uses: ./.github/actions/setup-node
+
+      - name: Generate weekly digest
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          if [ "$DRY_RUN" = "true" ]; then
+            npm run weekly-digest:dry
+          else
+            npm run weekly-digest
+          fi
+
+      - name: Log result
+        if: always()
+        run: |
+          echo "### Weekly Digest" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Digest job completed. If changes were found, a review PR was opened." >> $GITHUB_STEP_SUMMARY
