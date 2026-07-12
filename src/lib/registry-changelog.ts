@@ -14,12 +14,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 export type ChangelogEventType =
-  | 'joined'
-  | 'left'
-  | 'went_live'
-  | 'went_offline'
-  | 'role_added'
-  | 'api_family_added';
+  'joined' | 'left' | 'went_live' | 'went_offline' | 'role_added' | 'api_family_added';
 
 export interface ChangelogEvent {
   /** ISO date (YYYY-MM-DD) the change was observed */
