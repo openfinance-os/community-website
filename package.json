@@ -21,7 +21,9 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui"
+    "test:e2e:ui": "playwright test --ui",
+    "weekly-digest": "tsx scripts/weekly-digest.ts",
+    "weekly-digest:dry": "tsx scripts/weekly-digest.ts --dry-run"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",

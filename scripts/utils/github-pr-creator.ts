@@ -122,117 +122,124 @@ async function githubRequest<T>(
   return response.json();
 }
 
+export interface FilePRInput {
+  /** Branch to create/update (e.g. `news/slug` or `digest/2026-07-12`) */
+  branchName: string;
+  /** Repo-relative path of the file to add/replace */
+  filePath: string;
+  /** Full file contents */
+  content: string;
+  /** Commit message */
+  commitMessage: string;
+  /** Pull request title */
+  prTitle: string;
+  /** Pull request body (markdown) */
+  prBody: string;
+  /** Optional labels; failures to apply are non-fatal */
+  labels?: string[];
+}
+
+/**
+ * Generic single-file PR: commits `content` to `filePath` on a fresh branch
+ * off the base branch and opens a PR. Used by both news curation and the
+ * weekly digest so the GitHub plumbing lives in one place.
+ */
+export async function createFilePR(
+  input: FilePRInput,
+  options: GitHubOptions
+): Promise<{ number: number; url: string; branch: string }> {
+  const { owner, repo, baseBranch = 'main' } = options;
+  const { branchName, filePath, content, commitMessage, prTitle, prBody, labels } = input;
+
+  // 1. Base branch SHA
+  const baseRef = await githubRequest<GitHubRefResponse>(
+    `/repos/${owner}/${repo}/git/ref/heads/${baseBranch}`,
+    options
+  );
+  const baseSha = baseRef.object.sha;
+
+  // 2. Blob
+  const blob = await githubRequest<GitHubBlobResponse>(
+    `/repos/${owner}/${repo}/git/blobs`,
+    options,
+    'POST',
+    { content: Buffer.from(content).toString('base64'), encoding: 'base64' }
+  );
+
+  // 3. Tree
+  const tree = await githubRequest<GitHubTreeResponse>(
+    `/repos/${owner}/${repo}/git/trees`,
+    options,
+    'POST',
+    {
+      base_tree: baseSha,
+      tree: [{ path: filePath, mode: '100644', type: 'blob', sha: blob.sha }],
+    }
+  );
+
+  // 4. Commit
+  const commit = await githubRequest<GitHubCommitResponse>(
+    `/repos/${owner}/${repo}/git/commits`,
+    options,
+    'POST',
+    { message: commitMessage, tree: tree.sha, parents: [baseSha] }
+  );
+
+  // 5. Branch (create, or force-update if it exists)
+  try {
+    await githubRequest(`/repos/${owner}/${repo}/git/refs`, options, 'POST', {
+      ref: `refs/heads/${branchName}`,
+      sha: commit.sha,
+    });
+  } catch {
+    await githubRequest(`/repos/${owner}/${repo}/git/refs/heads/${branchName}`, options, 'PATCH', {
+      sha: commit.sha,
+      force: true,
+    });
+  }
+
+  // 6. Pull request
+  const pr = await githubRequest<GitHubPRResponse>(
+    `/repos/${owner}/${repo}/pulls`,
+    options,
+    'POST',
+    { title: prTitle, head: branchName, base: baseBranch, body: prBody, draft: false }
+  );
+
+  // 7. Labels (non-fatal)
+  if (labels && labels.length > 0) {
+    try {
+      await githubRequest(`/repos/${owner}/${repo}/issues/${pr.number}/labels`, options, 'POST', {
+        labels,
+      });
+    } catch {
+      console.warn('Could not add labels to PR (labels may not exist)');
+    }
+  }
+
+  console.log(`  Created PR #${pr.number}: ${pr.html_url}`);
+  return { number: pr.number, url: pr.html_url, branch: branchName };
+}
+
 export async function createArticlePR(
   article: CuratedArticle,
   options: GitHubOptions
 ): Promise<GitHubPR> {
-  const { owner, repo, baseBranch = 'main' } = options;
-  const branchName = `news/${article.slug}`;
-  const filePath = `src/content/news/${article.slug}.md`;
-
   console.log(`Creating PR for: ${article.title.substring(0, 50)}...`);
-
   try {
-    // 1. Get the SHA of the base branch
-    const baseRef = await githubRequest<GitHubRefResponse>(
-      `/repos/${owner}/${repo}/git/ref/heads/${baseBranch}`,
+    const pr = await createFilePR(
+      {
+        branchName: `news/${article.slug}`,
+        filePath: `src/content/news/${article.slug}.md`,
+        content: generateMarkdownContent(article),
+        commitMessage: `feat(news): add "${article.title.substring(0, 50)}..."`,
+        prTitle: `[News] ${article.title}`,
+        prBody: generatePRBody(article),
+        labels: ['news-curation', 'auto-generated'],
+      },
       options
     );
-    const baseSha = baseRef.object.sha;
-
-    // 2. Create a blob with the markdown content
-    const content = generateMarkdownContent(article);
-    const blob = await githubRequest<GitHubBlobResponse>(
-      `/repos/${owner}/${repo}/git/blobs`,
-      options,
-      'POST',
-      {
-        content: Buffer.from(content).toString('base64'),
-        encoding: 'base64',
-      }
-    );
-
-    // 3. Create a tree with the new file
-    const tree = await githubRequest<GitHubTreeResponse>(
-      `/repos/${owner}/${repo}/git/trees`,
-      options,
-      'POST',
-      {
-        base_tree: baseSha,
-        tree: [
-          {
-            path: filePath,
-            mode: '100644',
-            type: 'blob',
-            sha: blob.sha,
-          },
-        ],
-      }
-    );
-
-    // 4. Create a commit
-    const commit = await githubRequest<GitHubCommitResponse>(
-      `/repos/${owner}/${repo}/git/commits`,
-      options,
-      'POST',
-      {
-        message: `feat(news): add "${article.title.substring(0, 50)}..."`,
-        tree: tree.sha,
-        parents: [baseSha],
-      }
-    );
-
-    // 5. Create a new branch
-    try {
-      await githubRequest(`/repos/${owner}/${repo}/git/refs`, options, 'POST', {
-        ref: `refs/heads/${branchName}`,
-        sha: commit.sha,
-      });
-    } catch (error) {
-      // Branch might already exist, try to update it
-      await githubRequest(
-        `/repos/${owner}/${repo}/git/refs/heads/${branchName}`,
-        options,
-        'PATCH',
-        {
-          sha: commit.sha,
-          force: true,
-        }
-      );
-    }
-
-    // 6. Create a draft pull request
-    const pr = await githubRequest<GitHubPRResponse>(
-      `/repos/${owner}/${repo}/pulls`,
-      options,
-      'POST',
-      {
-        title: `[News] ${article.title}`,
-        head: branchName,
-        base: baseBranch,
-        body: generatePRBody(article),
-        draft: false, // Not draft so it can be easily merged
-      }
-    );
-
-    // 7. Add labels to the PR
-    try {
-      await githubRequest(`/repos/${owner}/${repo}/issues/${pr.number}/labels`, options, 'POST', {
-        labels: ['news-curation', 'auto-generated'],
-      });
-    } catch {
-      // Labels might not exist, that's okay
-      console.warn('Could not add labels to PR (labels may not exist)');
-    }
-
-    console.log(`  Created PR #${pr.number}: ${pr.html_url}`);
-
-    return {
-      number: pr.number,
-      url: pr.html_url,
-      title: article.title,
-      branch: branchName,
-    };
+    return { number: pr.number, url: pr.url, title: article.title, branch: pr.branch };
   } catch (error) {
     console.error(`Failed to create PR for article: ${article.title}`, error);
     throw error;
