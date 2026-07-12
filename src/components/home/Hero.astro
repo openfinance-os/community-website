@@ -26,12 +26,13 @@ const { participantCount, activeCount } = Astro.props;
     </h1>
 
     <p class="hero-tagline">
-      Building transparency in <span class="highlight">UAE's financial ecosystem</span> — together
+      The independent record of <span class="highlight">UAE Open Finance</span> — the data, the global
+      context, the community.
     </p>
 
     <p class="hero-mission">
-      We are not official. We are not affiliated. We are contributors.<br />
-      <span class="mission-emphasis">By the community, for the community.</span>
+      Not official, not affiliated — <span class="mission-emphasis">independent by design,</span> so the
+      view stays neutral.
     </p>
 
     <div class="hero-stat">
@@ -100,7 +101,11 @@ const { participantCount, activeCount } = Astro.props;
     </div>
 
     <p class="hero-footer">
-      Visibility · Education · Community — Independent voices for an open financial future
+      Building or integrating on Al Tareq? The operator's developer hub has the API specs,
+      certification and service desk —
+      <a href="https://nebras-open-finance.com/" rel="noopener" class="hero-handoff-link"
+        >head to Nebras →</a
+      >
     </p>
   </div>
 </section>
@@ -435,8 +440,25 @@ const { participantCount, activeCount } = Astro.props;
     font-family: var(--font-mono);
     font-size: 0.8125rem;
     color: var(--color-gray-500);
+    max-width: 54ch;
+    margin-inline: auto;
     animation: fadeInUp 0.6s ease-out backwards;
     animation-delay: 0.7s;
+  }
+
+  .hero-handoff-link {
+    color: var(--color-primary-600);
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .hero-handoff-link:hover {
+    text-decoration: underline;
+  }
+
+  :global([data-theme='dark']) .hero-handoff-link {
+    color: var(--color-primary-300);
   }
 
   @media (max-width: 640px) {
