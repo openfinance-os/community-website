@@ -6,17 +6,10 @@ export default defineConfig({
 
   output: 'static',
 
-  // Preserve old URLs after content consolidation (see docs/plans/repositioning.md).
-  redirects: {
-    '/learn/global': '/global',
-    '/learn/global/eu': '/global/eu',
-    '/learn/global/uk': '/global/uk',
-    '/learn/global/gcc': '/global/gcc',
-    // Events feature removed (may return later); point old URLs at Updates.
-    '/events': '/updates',
-    // Links page dissolved into Learn.
-    '/links': '/learn',
-  },
+  // Production redirects live in public/_redirects (Cloudflare, server-side
+  // 301s) — see that file. astro.config redirects are intentionally NOT used:
+  // on Cloudflare they generate meta-refresh pages that get served instead of
+  // the 301, and conflicting rules caused a redirect loop (/global <-> /learn/global).
 
   build: {
     assets: '_astro',

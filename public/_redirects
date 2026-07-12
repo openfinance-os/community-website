@@ -1,26 +1,26 @@
-# Redirect www to non-www (canonical URL)
+# Cloudflare Pages redirects — the source of truth for production redirects.
+# Server-side 301s (fast, SEO-friendly). Keep in sync with the IA; do NOT also
+# declare these in astro.config redirects (that generates conflicting
+# meta-refresh pages that Cloudflare would serve instead).
+
+# Canonical host: www -> non-www
 https://www.openfinance-os.org/* https://openfinance-os.org/:splat 301
 
-# Common legacy URL patterns (add as needed)
-/blog/* /updates?tab=news 301
-/articles/* /updates?tab=news 301
+# Legacy URL patterns
+/blog/* /updates 301
+/articles/* /updates 301
 /docs/* /learn/:splat 301
 /dashboard/* /observatory/:splat 301
 
-# Menu consolidation redirects (2024)
-# News and Events merged into Updates
-/news /updates?tab=news 301
-/events /updates?tab=events 301
+# News & Events consolidated into Updates (Updates is news-only; events removed)
+/news /updates 301
+/events /updates 301
 
-# Links merged into Learn
-/links /learn#resources 301
+# Links page dissolved into Learn
+/links /learn 301
 
-# Global moved under Learn
-/global /learn/global 301
-/global/uk /learn/global/uk 301
-/global/eu /learn/global/eu 301
-/global/gcc /learn/global/gcc 301
-
-# Handle trailing slashes consistently (Astro default includes them)
-# Uncomment if needed:
-# /path /path/ 301
+# Global promoted to a top-level section (was nested under /learn)
+/learn/global /global 301
+/learn/global/eu /global/eu 301
+/learn/global/uk /global/uk 301
+/learn/global/gcc /global/gcc 301
