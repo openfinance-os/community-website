@@ -41,6 +41,29 @@ jobs:
     timeout-minutes: 30
 
     steps:
+      # Checkout so lychee picks up .lycheeignore from the repo root.
+      # Runs before the artifact download; checkout cleans the workspace first.
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Participant homepages (third-party bank/insurer/fintech sites) are
+      # bot-hostile and fail intermittently in CI though they load fine in a
+      # browser. Append them to .lycheeignore from their single source of truth
+      # so the list never needs manual upkeep as participants change.
+      - name: Append participant homepages to lychee ignore
+        run: |
+          node -e '
+            const d = require("./data/participants/profiles.json");
+            const hosts = new Set();
+            JSON.stringify(d).replace(/https?:\/\/[^"\\ ]+/g, (u) => {
+              try { hosts.add(new URL(u).host); } catch {}
+              return u;
+            });
+            const lines = [...hosts].sort().map((h) => "://" + h.replace(/\./g, "\\."));
+            require("fs").appendFileSync(".lycheeignore", "\n# --- participant homepages (auto-generated) ---\n" + lines.join("\n") + "\n");
+            console.log("Appended " + lines.length + " participant hosts to .lycheeignore");
+          '
+
       - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
@@ -54,7 +77,9 @@ jobs:
           args: >-
             --verbose
             --no-progress
+            --root-dir ${{ github.workspace }}/dist
             --accept 200,204,301,302,403
+            --max-retries 2
             --timeout 30
             './dist/**/*.html'
           fail: true
