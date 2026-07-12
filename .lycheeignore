@@ -4,9 +4,6 @@
 # bank/insurer/fintech sites are bot-hostile and fail intermittently in CI
 # while loading fine in a browser). Keep only non-participant special cases here.
 
-# Private repo: exists but is not public, so anonymous lychee gets a 404.
-github\.com/openfinance-os/velox
-
 # Non-participant reference sites that reject the CI checker (HTTP/2 protocol
 # errors, connection resets) but load fine in a browser. Reviewed 2026-07-12.
 ://www\.cdr\.gov\.au
