@@ -1,9 +1,9 @@
 {
- "runDate": "2026-07-08",
- "asOfData": "2026-07-01",
+ "runDate": "2026-07-12",
+ "asOfData": "2026-07-07",
  "basis": "full-months-only (excl. partial 2026-07)",
- "status": "MAJOR run: June crossed into a full month, materially resetting every headline figure (total 378,779\u2192482,964 full-months calls; error rate 44.2%\u219236.6%; v2.1 share 1.6%\u21926.0%). 3 NEW LFI/insurer participants entered the sandbox logs for the first time (uae-aaic = Alain Ahlia Insurance Company, uae-orient = Orient Insurance PJSC, uae-livx = unconfirmed/likely LIVA), lifting live LFIs 10\u219213 and active TPPs 11\u219213 \u2014 the first-ever Insurance-domain 2xx traffic in the sandbox (aaic). Production directory grew 10\u219211 orgs: NEW org ADNIC (Abu Dhabi National Insurance Company, Open Insurance Tier-1 insurer) registered Active for the insurance v2.1 family (3 Jul) \u2014 Insurance production registration now 2/16 Tier-1 insurers (LIVA + ADNIC). GitHub: api-specs main advanced ee4f158d\u2192ad5bb21d (PR#19 creditor-pii-sr2026 merged) \u2014 a SWIFT SR2026-driven restructuring of the international Creditor/Creditor-Agent PII across 5 specs (Consent Manager, Ozone Connect bank-service-initiation + consent-events-actions, Standards authorization-endpoints + bank-initiation), with 2 breaking-changes register entries updated (authorization-endpoints, bank-initiation). Separately, Governance proposal OFP-003 (\u2018Define an allowed character set for Debtor and Creditor References\u2019) was APPROVED 1 Jul 2026 (decision DR-2026-003) \u2014 SWIFT \u201cx\u201d character set only, Arabic block dropped after LFI/TPP feedback on SWIFT MT/MX + UAEFTS rail support \u2014 effective \u201cV2.1 errata\u201d but NOT yet merged to api-specs main (staged on branch creditor-debtor-reference-charset). websiteSpecBranch unchanged at main.",
- "scope": "Ecosystem overview \u2014 UAE Open Finance (Al Tareq / Nebras): all LFIs, all TPPs, standards & specs, CBUAE calendar.",
+ "status": "QUIET metrics week: full-months figures unchanged from last run (June remains the latest full month; total 482,964 calls, error rate 36.6%, v2.1 share 6.0%, live LFIs 13, live TPPs 13, payment success 94.7%, auth 2xx 53.4%, LEAN TECH 83.8% share/HHI 7099) — no new sandbox LFI/TPP and no new (tpp,lfi) pairing this run. SELF-CONSISTENCY CATCH: last run's headline payments.valueAED (AED 55,612,127.42) did not match its own per-LFI/per-TPP breakdown (both sum to AED 53,894,830.61, confirmed by two independent aggregations this run); corrected here — no underlying full-months data changed, the prior headline figure was simply wrong. STANDARDS: api-specs main advanced 634b325 (PR#23 'errata-3' + PR#24 merged, 8 Jul) — the SWIFT SR2026 international-payment PII restructuring (Creditor oneOf Individual/Organization, unified international CreditorAgent address) was pulled OUT of v2.1-errata2 (authorization-endpoints, bank-initiation — both revert to their pre-SR2026 domestic-style Creditor refs) and moved into a NEW v2.1-errata3 tier for those same 2 specs. This completes the reconciliation Confluence had already declared as 'Errata 3' last week: the website (nebras-open-finance.com) now also declares v2.1-errata3 as the latest errata, and Confluence's 'Consolidated Errata' page bumped v4→v5 (8 Jul) — all three layers (GitHub / Confluence / website) are now consistent on errata3. api-specs PR#22 (OFP-003 character-set implementation) opened 1 Jul, still unmerged. GOVERNANCE: NEW proposal OFP-005 'Confirm data deletion when a consent is revoked' (Proposed, voting 16–30 Jul 2026) — adds an append-only `audit` sub-resource (Deleted/Planned/NotDeleted attestations) to all consent types. RELEASE NOTES: NEW API Hub 2026.22.0 (6 Jul) — paymentId field restored on GET /payment-log, consent-revocation-in-non-revocable-state now HTTP 400, a PATCH /consents HTTP 500 bug fixed, OAuth error_description aligned to RFC 6749. Trust Framework 2.3.0 moved from 'Planned' to 'Released' (8 Jun, 17 changes); NEW 2.4.0 'Released' (7 Jul, 20 changes: CA management, org audit trail) and NEW 2.5.0 'Planned' (12 changes: search/filtering, cross-client app scope). GITHUB: community-standards main advanced 520e243f→7fc3b1d (7 commits, 8–10 Jul): metrics/erratas refresh, 2 OFP-005 placeholder commits, 3 new 'functional certification' (Bank Data Sharing) pages. PRODUCTION DIRECTORY: unchanged 11 orgs, Tier-1 compliance counts unchanged (R1 8/8, R2 8/8, Product Quotes 7/8, v2.1 uplift 4/8, Insurance 2/16). Minor depth-only change: HSBC's Retail authorisation server (uae-hsbcrt) now separately shows account-information + payment registered at v2.1 alongside its existing atm/confirmation/product v2.1 families; its separate Corporate/Wholesale server (uae-hsbcws) still registers those two families at v2.0. Does not move HSBC's Tier-1 status (already counted in the v2.1-uplift cohort).",
+ "scope": "Ecosystem overview — UAE Open Finance (Al Tareq / Nebras): all LFIs, all TPPs, standards & specs, CBUAE calendar.",
  "months": [
   "2025-11",
   "2025-12",
@@ -16,7 +16,7 @@
  ],
  "curPartial": "2026-07",
  "headline": {
-  "totalAll": 484807,
+  "totalAll": 514906,
   "totalFull": 482964,
   "errPct": 36.6,
   "byVersion": [
@@ -79,7 +79,7 @@
   ],
   [
    "Jul",
-   1843,
+   31942,
    true
   ]
  ],
@@ -259,36 +259,44 @@
  "unattributed": 105844,
  "unattBreakdown": [
   [
-   "Dubai Islamic Bank \u00b7 payment",
+   "Dubai Islamic Bank · payment",
    78625
   ],
   [
-   "Mashreq \u00b7 payment",
+   "Mashreq · payment",
    16455
   ],
   [
-   "Mashreq \u00b7 account-information",
+   "Mashreq · account-information",
    5375
   ],
   [
-   "WIO Bank \u00b7 account-information",
+   "WIO · account-information",
    1865
   ],
   [
-   "Emirates NBD \u00b7 account-information",
+   "Emirates NBD · account-information",
    1459
   ],
   [
-   "ADIB \u00b7 account-information",
+   "ADIB · account-information",
    628
   ],
   [
-   "Commercial Bank of Dubai \u00b7 account-information",
+   "Commercial Bank of Dubai · account-information",
    592
   ],
   [
-   "HSBC (Retail) \u00b7 account-information",
+   "HSBC retail · account-information",
    310
+  ],
+  [
+   "ADCB · account-information",
+   174
+  ],
+  [
+   "WIO · payment",
+   120
   ]
  ],
  "payments": {
@@ -319,7 +327,7 @@
    ]
   ],
   "successPct": 94.7,
-  "valueAED": 55612127.42
+  "valueAED": 53894830.61
  },
  "authPct": 53.4,
  "eco": {
@@ -353,252 +361,262 @@
     2
    ]
   ],
-  "goLiveRadar": "3 NEW (lfi,tpp) participants this run: Alain Ahlia Insurance Company and Orient Insurance PJSC entered as both new LFI (insurer) and new TPP; uae-livx (unconfirmed, likely LIVA) entered as a new LFI paired with Emirates NBD Bank PJSC as TPP \u2014 the first cross-institution Open Insurance-adjacent traffic observed in the sandbox.",
-  "note": "LEAN TECH handles 83.8% of attributed traffic across the live banks (HHI 7099; anything over 2,500 is \u201chighly concentrated\u201d). Because there is no second aggregator at scale, a Lean outage would stall most Open Finance activity market-wide. Unattributed: 105,844 calls."
+  "goLiveRadar": "No new sandbox participants or (tpp,lfi) pairings this run — quiet metrics week.",
+  "note": "LEAN TECH handles 83.8% of attributed traffic across the live banks (HHI 7099; anything over 2,500 is “highly concentrated”). Because there is no second aggregator at scale, a Lean outage would stall most Open Finance activity market-wide. Unattributed: 105,844 calls."
  },
  "impact": {
-  "headline": "api-specs main advanced ee4f158d\u2192ad5bb21d (PR#19 creditor-pii-sr2026 + PR#21 ozone merged, 30 Jun\u20131 Jul) \u2014 SWIFT SR2026 international-payment PII restructuring now on main under v2.1-errata2 / api-hub v2.1.x / ozone-connect v2.1.x.",
+  "headline": "api-specs main advanced ad5bb21d→634b325 (PR#23 'errata-3' + PR#24 merged, 8 Jul) — the SWIFT SR2026 international-payment PII restructuring is RELOCATED from v2.1-errata2 into a NEW v2.1-errata3 tier for authorization-endpoints + bank-initiation; errata2 reverts to its pre-SR2026 domestic-style Creditor refs.",
   "rows": [
    [
-    "POST /token (Authorization Endpoints)",
+    "POST /par — international Creditor (errata2, REVERTED)",
     "v2.1-errata2",
-    "Response remodelled as oneOf across 3 grant-type schemas (auth-code / refresh-token / client-credentials); doc-alignment only \u2014 matches live API Hub wire shape.",
-    "No TPP action \u2014 align parsers to the documented oneOf; no behaviour change.",
-    "https://github.com/Nebras-Open-Finance/api-specs/blob/main/dist/standards/v2.1-errata2/uae-authorization-endpoints-openapi.yaml"
-   ],
-   [
-    "POST /par + POST /payments \u2014 Risk.CreditorIndicators.AccountType",
-    "v2.1-errata2",
-    "Enum unified to [Retail, SME, Corporate] across PAR and Payments (was [CurrentAccount,Savings,CreditCard,Mortgage,Finance] on PAR vs [Retail,Corporate] on Payments).",
-    "TPPs must send the new customer-segment enum; old product-category values removed.",
+    "authorization-endpoints + bank-initiation errata2 files revert the international Creditor back to the pre-SR2026 shape (references the domestic AECreditorProperties/AECreditorAgentProperties, no oneOf Individual/Organization).",
+    "TPPs building to the errata2 international Creditor contract: the SR2026 restructuring is no longer part of errata2 — move to errata3 to get it.",
     "https://github.com/Nebras-Open-Finance/api-specs/blob/main/dist/standards/v2.1-errata2/uae-bank-initiation-openapi.yaml"
    ],
    [
-    "POST /par + POST /payments \u2014 international Creditor",
-    "v2.1-errata2",
-    "International Creditor restructured from flat object to oneOf(Individual/Organization) discriminated by IdentityType \u2014 adds name parts, DOB, nationality, source of funds/income, LEI/BIC, identity Evidence.",
-    "TPPs sending cross-border payments must populate the new Individual/Organization variant and set IdentityType.",
-    "https://github.com/Nebras-Open-Finance/api-specs/blob/main/dist/standards/v2.1-errata2/uae-authorization-endpoints-openapi.yaml"
+    "POST /par + POST /payments — international Creditor (NEW errata3)",
+    "v2.1-errata3 (NEW)",
+    "International Creditor restructured to oneOf(Individual/Organization) discriminated by IdentityType, adding name parts, DOB, nationality, source of funds/income, LEI/BIC, identity Evidence — now scoped under a dedicated v2.1-errata3 spec tier rather than inside errata2.",
+    "TPPs sending cross-border payments must build to the NEW v2.1-errata3 authorization-endpoints/bank-initiation specs (not errata2) to get the SR2026 international Creditor shape.",
+    "https://github.com/Nebras-Open-Finance/api-specs/blob/main/dist/standards/v2.1-errata3/uae-bank-initiation-openapi.yaml"
    ],
    [
-    "POST /par + POST /payments \u2014 international CreditorAgent.PostalAddress",
-    "v2.1-errata2",
-    "CreditorAgent address unified onto shared AEInternationalAddress; TownName becomes required, maxLength cut 140\u219270.",
-    "TPPs supplying an international Creditor Agent address must include TownName (\u226470 chars).",
-    "https://github.com/Nebras-Open-Finance/api-specs/blob/main/dist/standards/v2.1-errata2/uae-bank-initiation-openapi.yaml"
+    "POST /par + POST /payments — international CreditorAgent.PostalAddress (NEW errata3)",
+    "v2.1-errata3 (NEW)",
+    "CreditorAgent address unified onto shared AEInternationalAddress (renamed from AEInternationalCreditorAddress); TownName becomes required, maxLength cut 140→70 — now scoped to errata3 only.",
+    "TPPs supplying an international Creditor Agent address under errata3 must include TownName (≤70 chars).",
+    "https://github.com/Nebras-Open-Finance/api-specs/blob/main/dist/standards/v2.1-errata3/uae-authorization-endpoints-openapi.yaml"
    ],
    [
-    "POST /par + POST /payments \u2014 Risk object",
-    "v2.1-errata2",
-    "Risk tree (AERisk, DebtorIndicators, TransactionIndicators, CreditorIndicators, DestinationDeliveryAddress) now closed with additionalProperties:false on the Payments side, matching PAR (SupplementaryData blocks remain open).",
-    "TPPs sending undeclared Risk properties to /payments, /file-payments or /payment-consents now get validation errors.",
-    "https://github.com/Nebras-Open-Finance/api-specs/blob/main/dist/standards/v2.1-errata2/uae-bank-initiation-openapi.yaml"
-   ],
-   [
-    "Consent Manager + Ozone Connect (bank-service-initiation, consent-events-actions)",
-    "v2.1.8\u2192v2.1.9 / v2.1.6\u2192v2.1.7 / v2.1.5\u2192v2.1.6",
-    "Same SWIFT SR2026 Creditor/address restructuring mirrored across the API Hub Consent Manager and the two Ozone Connect LFI-facing specs (no breaking-changes register found for these two Ozone files \u2014 open question for next run).",
-    "LFIs implementing Ozone Connect must serve the restructured international Creditor/Address shape.",
-    "https://github.com/Nebras-Open-Finance/api-specs/compare/ee4f158d...main"
+    "Website + Confluence declared errata level",
+    "v2.1-errata2 → v2.1-errata3",
+    "nebras-open-finance.com/tech/release-notes-and-erratas now declares v2.1-errata3 as the latest errata (2 items: international Creditor restructuring, CreditorAgent address alignment); Confluence 'Standards V2.1 & API Hub V8 — Consolidated Errata' bumped v4→v5 (8 Jul) to match.",
+    "All three publication layers (GitHub main, Confluence, website) are now consistent on v2.1-errata3 — no cross-layer divergence.",
+    "https://nebras-open-finance.com/tech/release-notes-and-erratas/erratas/v2.1/"
    ]
   ],
-  "crossLayer": "api-specs main v2.1.9/v2.1.7/v2.1.6 (SR2026 merged) \u00b7 website spec branch still main (no .specs-branch pin) \u00b7 Confluence \u2018Standards V2.1 & API Hub V8 \u2014 Consolidated Errata\u2019 page (NEW, v4, 1 Jul) documents the same SR2026 PII change as Errata 3, plus 14 new/updated attachments (30 Jun) mirroring the 5 changed YAML files. All 3 layers now consistent on SR2026; OFP-003 (character-set) is NOT yet reflected on any layer (still branch-only).",
-  "compareUrl": "https://github.com/Nebras-Open-Finance/api-specs/compare/ee4f158d...main"
+  "crossLayer": "api-specs main now v2.1-errata3 (authorization-endpoints, bank-initiation) · website spec branch still main (no .specs-branch pin) · website declares errata3 · Confluence Consolidated Errata page v5 (8 Jul) documents errata3. All layers consistent. OFP-003 (character-set) remains branch-only (PR#22, open since 1 Jul) — not reflected in any layer's normative content yet.",
+  "compareUrl": "https://github.com/Nebras-Open-Finance/api-specs/compare/ad5bb21d...634b325"
  },
  "breaking": {
-  "headline": "12 enforced/live breaking changes \u2014 16 TPP-facing, 3 LFI/API-Hub",
-  "asOf": "api-specs main \u00b7 current errata register",
+  "headline": "15 enforced/live breaking changes — 18 TPP-facing, 4 LFI/API-Hub",
+  "asOf": "api-specs main · current errata register",
   "tpp": [
    [
-    "Account Information (uae-account-information) \u2014 GET /parties, GET /accounts/{AccountId}/parties",
-    "v2.1-errata2 \u00b7 merged",
-    "response enum value(s) removed \u2014 This change updates the `TrustFrameworkCode` enum (used by `VerifiedClaimVerification.TrustFramework` on both `GET /parties` and `GET /accounts/{AccountId}/parties`).",
+    "Account Information (uae-account-information) — GET /parties, GET /accounts/{AccountId}/parties",
+    "v2.1-errata2 · merged",
+    "response enum value(s) removed — This change updates the `TrustFrameworkCode` enum (used by `VerifiedClaimVerification.TrustFramework` on both `GET /parties` and `GET /accounts/{AccountId}/parties`).",
     "Align your parser to the documented (live-wire) shape; no behaviour change.",
     "doc",
     "https://github.com/Nebras-Open-Finance/api-specs/blob/main/supporting/breaking-changes/standards/v2.1-errata2/uae-account-information-openapi/breaking-changes.yaml"
    ],
    [
-    "Account Information (uae-account-information) \u2014 GET /account-access-consents, GET /account-access-consents/{ConsentId}",
-    "v2.1-errata2 \u00b7 merged",
-    "response property type changed \u2014 This change corrects a long-standing modelling error in v2.1.",
+    "Account Information (uae-account-information) — GET /account-access-consents, GET /account-access-consents/{ConsentId}",
+    "v2.1-errata2 · merged",
+    "response property type changed — This change corrects a long-standing modelling error in v2.1.",
     "No action for live integrations; align before the feature goes live.",
     "low",
     "https://github.com/Nebras-Open-Finance/api-specs/blob/main/supporting/breaking-changes/standards/v2.1-errata2/uae-account-information-openapi/breaking-changes.yaml"
    ],
    [
-    "Authorization Endpoints (uae-authorization-endpoints) \u2014 POST /token",
-    "v2.1-errata2 \u00b7 merged",
-    "response remodelled as oneOf per variant; response body type changed; top-level required property moved into subschemas \u2014 This change aligns the specification with the actual behaviour of the API Hub implementation.",
+    "Authorization Endpoints (uae-authorization-endpoints) — POST /token",
+    "v2.1-errata2 · merged",
+    "response remodelled as oneOf per variant; response body type changed; top-level required property moved into subschemas — This change aligns the specification with the actual behaviour of the API Hub implementation.",
     "Align your parser to the documented (live-wire) shape; no behaviour change.",
     "doc",
     "https://github.com/Nebras-Open-Finance/api-specs/blob/main/supporting/breaking-changes/standards/v2.1-errata2/uae-authorization-endpoints-openapi/breaking-changes.yaml"
    ],
    [
-    "Authorization Endpoints (uae-authorization-endpoints) \u2014 POST /par",
-    "v2.1-errata2 \u00b7 merged",
-    "request enum value(s) removed \u2014 This change aligns the `CreditorIndicators.AccountType` enum inside the Bank Service Initiation Rich Authorization Request (RAR) Risk object with the equivalent field in the Payments spec and with the api-hub's `AEAccountTypeCode` schema, a",
+    "Authorization Endpoints (uae-authorization-endpoints) — POST /par",
+    "v2.1-errata2 · merged",
+    "request enum value(s) removed — This change aligns the `CreditorIndicators.AccountType` enum inside the Bank Service Initiation Rich Authorization Request (RAR) Risk object with the equivalent field in the Payments spec and with the api-hub's `AEAccountTypeCode` schema, a",
     "Consumers should use the customer-segment values going forward.",
     "live",
     "https://github.com/Nebras-Open-Finance/api-specs/blob/main/supporting/breaking-changes/standards/v2.1-errata2/uae-authorization-endpoints-openapi/breaking-changes.yaml"
    ],
    [
-    "Authorization Endpoints (uae-authorization-endpoints) \u2014 POST /par",
-    "v2.1-errata2 \u00b7 merged",
-    "request-property-min-length-increased \u2014 `AddressLine.items` on the PAR side now carries `minLength: 1`, matching the constraint already present on the Payments side.",
+    "Authorization Endpoints (uae-authorization-endpoints) — POST /par",
+    "v2.1-errata2 · merged",
+    "request-property-min-length-increased — `AddressLine.items` on the PAR side now carries `minLength: 1`, matching the constraint already present on the Payments side.",
     "Remedy is to omit the empty line.",
     "live",
     "https://github.com/Nebras-Open-Finance/api-specs/blob/main/supporting/breaking-changes/standards/v2.1-errata2/uae-authorization-endpoints-openapi/breaking-changes.yaml"
    ],
    [
-    "Authorization Endpoints (uae-authorization-endpoints) \u2014 POST /par",
-    "v2.1-errata2 \u00b7 merged",
-    "request property type changed \u2014 The international Creditor party (`PersonalIdentifiableInformation.Initiation.Creditor[*].Creditor` in the International Payment PII variant) changes from a single flat `object` to a `oneOf` of an Individual and an Organization variant, dis",
-    "Update the integration to the corrected contract.",
-    "live",
-    "https://github.com/Nebras-Open-Finance/api-specs/blob/main/supporting/breaking-changes/standards/v2.1-errata2/uae-authorization-endpoints-openapi/breaking-changes.yaml"
-   ],
-   [
-    "Authorization Endpoints (uae-authorization-endpoints) \u2014 POST /par",
-    "v2.1-errata2 \u00b7 merged",
-    "request-property-became-required; request max-length decreased \u2014 The international Creditor Agent's `PostalAddress` (`PersonalIdentifiableInformation.Initiation.Creditor[*].CreditorAgent.PostalAddress` in the International Payment PII variant) is aligned onto the same address schema as the internati",
-    "Update the integration to the corrected contract.",
-    "live",
-    "https://github.com/Nebras-Open-Finance/api-specs/blob/main/supporting/breaking-changes/standards/v2.1-errata2/uae-authorization-endpoints-openapi/breaking-changes.yaml"
-   ],
-   [
-    "Bank Service Initiation (uae-bank-initiation) \u2014 POST /payment-consents, POST /payments, POST /file-payments",
-    "v2.1-errata2 \u00b7 merged",
-    "object closed to undeclared properties (additionalProperties:false); nested object(s) closed to undeclared properties \u2014 This change tightens the `Risk` object's nested object schemas by adding `additionalProperties: false` throughout the Risk tree on the Payments side, mirroring the strictness alrea",
+    "Bank Service Initiation (uae-bank-initiation) — POST /payment-consents, POST /payments, POST /file-payments",
+    "v2.1-errata2 · merged",
+    "object closed to undeclared properties (additionalProperties:false); nested object(s) closed to undeclared properties — This change tightens the `Risk` object's nested object schemas by adding `additionalProperties: false` throughout the Risk tree on the Payments side, mirroring the strictness alrea",
     "Remedy is to remove the extra properties or, where appropriate, place them under the relevant `supplementarydata` block.",
     "live",
     "https://github.com/Nebras-Open-Finance/api-specs/blob/main/supporting/breaking-changes/standards/v2.1-errata2/uae-bank-initiation-openapi/breaking-changes.yaml"
    ],
    [
-    "Bank Service Initiation (uae-bank-initiation) \u2014 POST /payment-consents, POST /payments, POST /file-payments",
-    "v2.1-errata2 \u00b7 merged",
-    "request enum value(s) removed \u2014 `AEAccountTypeCode` (used by `Risk.CreditorIndicators.AccountType`) previously declared `[Retail, Corporate]`.",
+    "Bank Service Initiation (uae-bank-initiation) — POST /payment-consents, POST /payments, POST /file-payments",
+    "v2.1-errata2 · merged",
+    "request enum value(s) removed — `AEAccountTypeCode` (used by `Risk.CreditorIndicators.AccountType`) previously declared `[Retail, Corporate]`.",
     "Update the integration to the corrected contract.",
     "live",
     "https://github.com/Nebras-Open-Finance/api-specs/blob/main/supporting/breaking-changes/standards/v2.1-errata2/uae-bank-initiation-openapi/breaking-changes.yaml"
    ],
    [
-    "Bank Service Initiation (uae-bank-initiation) \u2014 POST /payment-consents, POST /payments, POST /file-payments",
-    "v2.1-errata2 \u00b7 merged",
-    "request min-length now enforced; request max-length now enforced \u2014 `Risk.DestinationDeliveryAddress.NationalAddress.AddressLine.items` on the PAR side now carries `minLength: 1` / `maxLength: 70`, matching the constraints already present on the Payments side.",
+    "Bank Service Initiation (uae-bank-initiation) — POST /payment-consents, POST /payments, POST /file-payments",
+    "v2.1-errata2 · merged",
+    "request min-length now enforced; request max-length now enforced — `Risk.DestinationDeliveryAddress.NationalAddress.AddressLine.items` on the PAR side now carries `minLength: 1` / `maxLength: 70`, matching the constraints already present on the Payments side.",
     "Update the integration to the corrected contract.",
     "live",
     "https://github.com/Nebras-Open-Finance/api-specs/blob/main/supporting/breaking-changes/standards/v2.1-errata2/uae-bank-initiation-openapi/breaking-changes.yaml"
    ],
    [
-    "Bank Service Initiation (uae-bank-initiation) \u2014 POST /payment-consents, POST /payments, POST /file-payments",
-    "v2.1-errata2 \u00b7 merged",
-    "request-property-removed \u2014 Recorded for completeness and traceability.",
-    "Update the integration to the corrected contract.",
-    "live",
-    "https://github.com/Nebras-Open-Finance/api-specs/blob/main/supporting/breaking-changes/standards/v2.1-errata2/uae-bank-initiation-openapi/breaking-changes.yaml"
-   ],
-   [
-    "Bank Service Initiation (uae-bank-initiation) \u2014 POST /payment-consents, POST /payments, POST /file-payments",
-    "v2.1-errata2 \u00b7 merged",
-    "request-property-became-required; request max-length decreased \u2014 The international Creditor Agent's `PostalAddress` (`PersonalIdentifiableInformation.Initiation.CreditorAgent.PostalAddress` in the International Payment PII variant) is aligned onto the same address schema as the international Credito",
-    "Update the integration to the corrected contract.",
-    "live",
-    "https://github.com/Nebras-Open-Finance/api-specs/blob/main/supporting/breaking-changes/standards/v2.1-errata2/uae-bank-initiation-openapi/breaking-changes.yaml"
-   ],
-   [
-    "Confirmation of Payee (uae-confirmation-of-payee) \u2014 POST /confirmation, POST /discovery",
-    "v2.1-errata2 \u00b7 merged",
-    "response property type changed \u2014 This change aligns the specification with the actual behaviour of the signed-message payloads exchanged on this API.",
+    "Confirmation of Payee (uae-confirmation-of-payee) — POST /confirmation, POST /discovery",
+    "v2.1-errata2 · merged",
+    "response property type changed — This change aligns the specification with the actual behaviour of the signed-message payloads exchanged on this API.",
     "Align your parser to the documented (live-wire) shape; no behaviour change.",
     "doc",
     "https://github.com/Nebras-Open-Finance/api-specs/blob/main/supporting/breaking-changes/standards/v2.1-errata2/uae-confirmation-of-payee-openapi/breaking-changes.yaml"
    ],
    [
-    "Webhook Template (uae-webhook-template) \u2014 POST /",
-    "v2.1-errata2 \u00b7 merged",
-    "request property became an enum; request property type changed; response property type changed \u2014 This change corrects a long-standing modelling error in v2.1.",
+    "Webhook Template (uae-webhook-template) — POST /",
+    "v2.1-errata2 · merged",
+    "request property became an enum; request property type changed; response property type changed — This change corrects a long-standing modelling error in v2.1.",
     "No action for live integrations; align before the feature goes live.",
     "low",
     "https://github.com/Nebras-Open-Finance/api-specs/blob/main/supporting/breaking-changes/standards/v2.1-errata2/uae-webhook-template-openapi/breaking-changes.yaml"
    ],
    [
-    "API Hub \u2014 Product API endpoints  (2026.19.0 (live 9 Jun))",
-    "API Hub v8 \u00b7 behaviour",
+    "Authorization Endpoints (uae-authorization-endpoints) — POST /par",
+    "v2.1-errata3 · merged",
+    "request property type changed — The international Creditor party (`PersonalIdentifiableInformation.Initiation.Creditor[*].Creditor` in the International Payment PII variant) changes from a single flat `object` to a `oneOf` of an Individual and an Organization variant, dis",
+    "Update the integration to the corrected contract.",
+    "live",
+    "https://github.com/Nebras-Open-Finance/api-specs/blob/main/supporting/breaking-changes/standards/v2.1-errata3/uae-authorization-endpoints-openapi/breaking-changes.yaml"
+   ],
+   [
+    "Authorization Endpoints (uae-authorization-endpoints) — POST /par",
+    "v2.1-errata3 · merged",
+    "request-property-became-required; request max-length decreased — The international Creditor Agent's `PostalAddress` (`PersonalIdentifiableInformation.Initiation.Creditor[*].CreditorAgent.PostalAddress` in the International Payment PII variant) is aligned onto the same address schema as the internati",
+    "Update the integration to the corrected contract.",
+    "live",
+    "https://github.com/Nebras-Open-Finance/api-specs/blob/main/supporting/breaking-changes/standards/v2.1-errata3/uae-authorization-endpoints-openapi/breaking-changes.yaml"
+   ],
+   [
+    "Bank Service Initiation (uae-bank-initiation) — POST /payment-consents, POST /payments, POST /file-payments",
+    "v2.1-errata3 · merged",
+    "request-property-removed — Recorded for completeness and traceability.",
+    "Update the integration to the corrected contract.",
+    "live",
+    "https://github.com/Nebras-Open-Finance/api-specs/blob/main/supporting/breaking-changes/standards/v2.1-errata3/uae-bank-initiation-openapi/breaking-changes.yaml"
+   ],
+   [
+    "Bank Service Initiation (uae-bank-initiation) — POST /payment-consents, POST /payments, POST /file-payments",
+    "v2.1-errata3 · merged",
+    "request-property-became-required; request max-length decreased — The international Creditor Agent's `PostalAddress` (`PersonalIdentifiableInformation.Initiation.CreditorAgent.PostalAddress` in the International Payment PII variant) is aligned onto the same address schema as the international Credito",
+    "Update the integration to the corrected contract.",
+    "live",
+    "https://github.com/Nebras-Open-Finance/api-specs/blob/main/supporting/breaking-changes/standards/v2.1-errata3/uae-bank-initiation-openapi/breaking-changes.yaml"
+   ],
+   [
+    "API Hub — Product API endpoints  (2026.19.0 (live 9 Jun))",
+    "API Hub v8 · behaviour",
     "x-fapi-customer-ip-address request header is now MANDATORY on Product API endpoints",
     "Send x-fapi-customer-ip-address on every Product API call, or requests are rejected",
     "behaviour",
     "https://nebras-open-finance.com/tech/release-notes-and-erratas/"
    ],
    [
-    "API Hub \u2014 authorization (FAPI 2.0)  (2026.19.0 (live 9 Jun))",
-    "API Hub v8 \u00b7 behaviour",
+    "API Hub — authorization (FAPI 2.0)  (2026.19.0 (live 9 Jun))",
+    "API Hub v8 · behaviour",
     "Authorization-code lifetime cut to 60 seconds for FAPI 2.0 profiles",
     "Exchange the auth code for a token within 60s of issuance",
+    "behaviour",
+    "https://nebras-open-finance.com/tech/release-notes-and-erratas/"
+   ],
+   [
+    "API Hub — consent revocation  (2026.22.0 (live 6 Jul))",
+    "API Hub v8 · behaviour",
+    "Consent revocation in a non-revocable state now returns HTTP 400 (previously inconsistent/undocumented)",
+    "Treat HTTP 400 on revoke-of-non-revocable-consent as expected; do not retry.",
+    "behaviour",
+    "https://nebras-open-finance.com/tech/release-notes-and-erratas/"
+   ],
+   [
+    "API Hub — OAuth token endpoint  (2026.22.0 (live 6 Jul))",
+    "API Hub v8 · behaviour",
+    "error_description values on token-endpoint error responses now contain only RFC 6749-permitted characters",
+    "No TPP action — parsers expecting the RFC 6749 charset are unaffected; free-text error copy is now constrained.",
     "behaviour",
     "https://nebras-open-finance.com/tech/release-notes-and-erratas/"
    ]
   ],
   "lfi": [
    [
-    "API Hub Consent Manager (uae-api-hub-consent-manager) \u2014 POST /consents",
-    "v2.1.x \u00b7 merged",
-    "request enum value(s) removed \u2014 The `PersonalLoan` value was removed from the `AccountSubType` enum on the account-access consent request.",
+    "API Hub Consent Manager (uae-api-hub-consent-manager) — POST /consents",
+    "v2.1.x · merged",
+    "request enum value(s) removed — The `PersonalLoan` value was removed from the `AccountSubType` enum on the account-access consent request.",
     "No action for live integrations; align before the feature goes live.",
     "low",
     "https://github.com/Nebras-Open-Finance/api-specs/blob/main/supporting/breaking-changes/api-hub/v2.1.x/uae-api-hub-consent-manager-openapi/breaking-changes.yaml"
    ],
    [
-    "API Hub Consent Manager (uae-api-hub-consent-manager) \u2014 POST /consents",
-    "v2.1.x \u00b7 merged",
-    "request max-length decreased \u2014 The `maxLength` of `ControlParameters/ConsentSchedule/FilePayment/FileReference` was decreased to 35.",
+    "API Hub Consent Manager (uae-api-hub-consent-manager) — POST /consents",
+    "v2.1.x · merged",
+    "request max-length decreased — The `maxLength` of `ControlParameters/ConsentSchedule/FilePayment/FileReference` was decreased to 35.",
     "No action for live integrations; align before the feature goes live.",
     "low",
     "https://github.com/Nebras-Open-Finance/api-specs/blob/main/supporting/breaking-changes/api-hub/v2.1.x/uae-api-hub-consent-manager-openapi/breaking-changes.yaml"
    ],
    [
-    "API Hub Consent Manager (uae-api-hub-consent-manager) \u2014 PATCH /consents/{consentId}",
-    "v2.1.x \u00b7 merged",
-    "request body schema restructured \u2014 The `PATCH /consents/{consentId}` request body was remodelled from the single permissive `cbuaePatchBody` object into `ConsentManager.AEConsentUpdateProperties`, an `anyOf` of one schema per consent type (Bank Data Sharing, Bank Service Ini",
+    "API Hub Consent Manager (uae-api-hub-consent-manager) — PATCH /consents/{consentId}",
+    "v2.1.x · merged",
+    "request body schema restructured — The `PATCH /consents/{consentId}` request body was remodelled from the single permissive `cbuaePatchBody` object into `ConsentManager.AEConsentUpdateProperties`, an `anyOf` of one schema per consent type (Bank Data Sharing, Bank Service Ini",
     "Update the integration to the corrected contract.",
     "live",
     "https://github.com/Nebras-Open-Finance/api-specs/blob/main/supporting/breaking-changes/api-hub/v2.1.x/uae-api-hub-consent-manager-openapi/breaking-changes.yaml"
+   ],
+   [
+    "API Hub — Consent Manager GET /payment-log  (2026.22.0 (live 6 Jul))",
+    "API Hub v8 · behaviour",
+    "Mandatory paymentId field restored on Consent Manager GET /payment-log responses",
+    "No TPP action; LFIs/API Hub consumers relying on the field's prior absence should re-check parsing.",
+    "behaviour",
+    "https://nebras-open-finance.com/tech/release-notes-and-erratas/"
    ]
   ],
   "pending": [
    [
-    "api-specs branch creditor-debtor-reference-charset (NOT on main)",
-    "staging \u00b7 +1 ahead, 4 behind main",
-    "Implements OFP-003 (approved 1 Jul 2026, decision DR-2026-003): adds a `pattern` regex (ISO 20022 / SWIFT \u201cx\u201d set \u2014 Latin letters, digits, space, and / - ? : ( ) . , \u2019 +; the Arabic block proposed originally was dropped) to AECreditorReference / AEDebtorReference across the API Hub Consent Manager, Ozone Connect bank-service-initiation + consent-events-actions, and the standards authorization-endpoints + bank-initiation specs, plus prepared breaking-changes register entries.",
-    "A further payment-reference-format breaking change is staged \u2014 watch for merge to main under v2.1-errata2/3",
+    "api-specs PR#22 'proposal ofp-003, define a set of characters for Creditor and Debtor…' (branch creditor-debtor-reference-charset, NOT yet merged)",
+    "staging · open PR, opened 1 Jul",
+    "Implements OFP-003 (approved 1 Jul 2026, decision DR-2026-003): adds a `pattern` regex (ISO 20022 / SWIFT “x” set) to AECreditorReference / AEDebtorReference across the API Hub Consent Manager, Ozone Connect bank-service-initiation + consent-events-actions, and the standards authorization-endpoints + bank-initiation specs, plus prepared breaking-changes register entries.",
+    "A further payment-reference-format breaking change is staged — watch for merge to main",
     "staging",
-    "https://github.com/Nebras-Open-Finance/api-specs/compare/main...creditor-debtor-reference-charset"
+    "https://github.com/Nebras-Open-Finance/api-specs/pull/22"
    ]
   ],
   "note": "Parsed from api-specs supporting/breaking-changes/** (each entry oasdiff-signed-off by Nebras) plus API Hub release-note behaviour changes. Standards-spec breaks are TPP-facing (the contract TPPs build to); api-hub / Ozone-Connect breaks are LFI / API-Hub-facing. SupplementaryData blocks stay open as extension points. Status: Enforced now = merged to main under the current errata; Live behaviour = deployed API Hub release; Doc-align = spec now matches live wire; Staging = on a branch."
  },
  "standards": {
   "version": "v2.1-final",
-  "errata": "v2.1-errata2",
+  "errata": "v2.1-errata3",
   "apiHub": "v8"
  },
  "websiteSpecBranch": "main",
  "repos": [
   [
    "community-standards",
-   "520e243f",
-   "main advanced b50ce9f8\u2192520e243f (9 commits, 29 Jun\u20137 Jul): OFP-003 outcome+feedback pages, whats-live rework, metrics refresh, search-modal fix. 4 stale feature/patch branches removed (merged or closed without merge).",
+   "7fc3b1d",
+   "main advanced 520e243f→7fc3b1d (7 commits, 8–10 Jul): metrics/erratas refresh (170f80d), 2 OFP-005 governance placeholder commits, 3 new Bank Data Sharing functional-certification pages (lfi cert bds v1, data sharing v0.1 functional cert, CoP + BDS cert improvements). internal branch unchanged (26 May).",
    "https://github.com/Nebras-Open-Finance/community-standards"
   ],
   [
    "api-specs",
-   "ad5bb21d",
-   "main advanced ee4f158d\u2192ad5bb21d (PR#19 creditor-pii-sr2026 + PR#21 ozone merged). Branch creditor-pii-sr2026 deleted post-merge; NEW branch creditor-debtor-reference-charset (dcabaf0a, OFP-003 implementation, staged). ozone branch advanced be52d87\u21920383c8b3. caap-refactor branch removed (already merged).",
+   "634b325",
+   "main advanced ad5bb21d→634b325 (PR#23 'errata-3' + PR#24 merged, 8 Jul): SR2026 international-PII restructuring relocated from errata2 into a NEW v2.1-errata3 tier. Branch creditor-debtor-reference-charset advanced (dcabaf0a→…, updated 9 Jul) and now has an open PR (#22, opened 1 Jul, OFP-003 implementation). Branch ozone still active (updated 8 Jul, post PR#21 merge — content not yet diffed, watch next run). sync-auth-server-authorization-details branch unchanged (12 Jun).",
    "https://github.com/Nebras-Open-Finance/api-specs"
   ],
   [
    "postman",
    "089cd0ad",
-   "unchanged \u2014 main + branch updated-insurance-postman-colelction static.",
+   "unchanged — main + branch updated-insurance-postman-colelction static.",
    "https://github.com/Nebras-Open-Finance/postman"
   ],
   [
@@ -610,55 +628,55 @@
   [
    "agentic-toolkit",
    "58bb146b",
-   "main advanced (prior tracked head 1ee6845/f2668ac \u2192 58bb146b) \u2014 continued development of the official uae-open-finance Agent Skill.",
+   "unchanged — main static since 3 Jul.",
    "https://github.com/Nebras-Open-Finance/agentic-toolkit"
   ]
  ],
  "commits": [
   [
    "community-standards (main)",
-   "f44aeb56 'proposal outcome' \u2014 ships the OFP-003 decision record (outcome.vue + feedback.vue + reference-schema.yaml), reworks whats-live.vue (+346/-68) and edits ofp-001/002/004 pages.",
-   "2026-07-01",
-   "https://github.com/Nebras-Open-Finance/community-standards/commit/f44aeb566e120889ed369e622de8018d2a1f5466"
+   "170f80d 'erratas and release notes and metrics' — refreshes the public api-log/auth-log/payments-log JSON through 2026-07-07 (source for this run) and the site's errata/release-notes content to v2.1-errata3.",
+   "2026-07-09",
+   "https://github.com/Nebras-Open-Finance/community-standards/commit/170f80d"
   ],
   [
    "community-standards (main)",
-   "6d86b839 'add metrics' \u2014 refreshes the public api-log/auth-log/payments-log JSON through 2026-07-01 (source for this run).",
-   "2026-07-02",
-   "https://github.com/Nebras-Open-Finance/community-standards/commit/6d86b83995dd80a2277259b8025577ef49d65e2a"
+   "a14058b + f8d97a9 'placeholder ofp-005' — ships the new OFP-005 governance proposal ('Confirm data deletion when a consent is revoked').",
+   "2026-07-09",
+   "https://github.com/Nebras-Open-Finance/community-standards/commit/a14058b"
   ],
   [
    "community-standards (main)",
-   "1a6eb6fa 'tweak proposal ofp-004' + PR#11 'fix search modal input autofocus' merged.",
-   "2026-07-06\u20137",
-   "https://github.com/Nebras-Open-Finance/community-standards/commit/1a6eb6fa0d182fc0858f81132410f612fa9797f5"
+   "1c9973f 'lfi functional certification bds v1', eb1bf83 'data sharing v0.1 functional certification', 7fc3b1d 'cop and improvements to bds functional certs' — new Bank Data Sharing functional-certification content.",
+   "2026-07-10",
+   "https://github.com/Nebras-Open-Finance/community-standards/commit/7fc3b1d"
   ],
   [
-   "api-specs (main, PR#19)",
-   "0383c8b3 'Merge pull request #19 from creditor-pii-sr2026' (+20c3e9d6 'address Chris's comments') \u2014 SWIFT SR2026 international PII restructuring across 5 specs, 2 breaking-changes registers updated, new pii-contract.test.js conformance test.",
-   "2026-06-29\u201330",
-   "https://github.com/Nebras-Open-Finance/api-specs/commit/0383c8b3"
+   "api-specs (main, PR#23)",
+   "b209638 'move changes to errata-3 to align with consolidated errata table' + PR#23 merge (7344eec) — authorization-endpoints/bank-initiation errata2 files revert to pre-SR2026 domestic Creditor refs; the SR2026 restructuring is carved out.",
+   "2026-07-08",
+   "https://github.com/Nebras-Open-Finance/api-specs/commit/7344eec"
   ],
   [
-   "api-specs (main, PR#21)",
-   "ad5bb21d 'Merge pull request #21 from ozone'.",
-   "2026-06-30",
-   "https://github.com/Nebras-Open-Finance/api-specs/commit/ad5bb21d"
+   "api-specs (main, PR#24)",
+   "634b325 'Merge pull request #24 from ozone' — NEW v2.1-errata3 tier created for authorization-endpoints + bank-initiation, carrying the SR2026 international Creditor/CreditorAgent restructuring + 2 new breaking-changes registers.",
+   "2026-07-08",
+   "https://github.com/Nebras-Open-Finance/api-specs/commit/634b325"
   ],
   [
-   "api-specs (NEW branch creditor-debtor-reference-charset)",
-   "dcabaf0a 'proposal ofp-003, define a set of characters for Creditor and Debtor References' \u2014 implements the approved OFP-003 pattern (SWIFT \u201cx\u201d set) on AECreditorReference/AEDebtorReference across 5 specs + prepares 2 breaking-changes entries. Branch only (1 ahead, 4 behind main); NOT yet merged.",
-   "2026-06-26 (branch date; 1 ahead of pre-SR2026 main)",
-   "https://github.com/Nebras-Open-Finance/api-specs/compare/main...creditor-debtor-reference-charset"
+   "api-specs (open PR#22)",
+   "PR#22 'proposal ofp-003, define a set of characters for Creditor and Debtor…' opened against branch creditor-debtor-reference-charset — implements the approved OFP-003 character-set pattern. Not yet merged.",
+   "2026-07-01 (opened)",
+   "https://github.com/Nebras-Open-Finance/api-specs/pull/22"
   ]
  ],
  "board": [
   {
    "rel": "Retail R1",
-   "scope": "Consent \u00b7 Single Instant Pay \u00b7 CoP \u00b7 Balance \u00b7 Customer \u00b7 Product",
+   "scope": "Consent · Single Instant Pay · CoP · Balance · Customer · Product",
    "t1Due": "2025-09",
    "t2Due": "2026-09",
-   "t1DaysLeft": -310,
+   "t1DaysLeft": -314,
    "applic": "Individual",
    "obs": true,
    "t1Now": 8,
@@ -666,15 +684,15 @@
    "t1Ever": 8,
    "t2Early": 1,
    "band": "past",
-   "note": "Unchanged: all 8 Tier-1 banks registered LIVE in the production directory (account-information + payment + confirmation, Active) + WIO (Tier-2). Sandbox: 8/8 also actively serving 2xx (excl. ADCB, which is registered but quiet in sandbox this window).",
+   "note": "Unchanged: all 8 Tier-1 banks registered LIVE in the production directory (account-information + payment + confirmation, Active) + WIO (Tier-2). Sandbox: 8/8 also actively serving 2xx this window (excl. ADCB, quiet in sandbox).",
    "url": "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation"
   },
   {
    "rel": "Retail Product Quotes R1+",
-   "scope": "Current \u00b7 Savings \u00b7 Credit Cards \u00b7 Loans \u00b7 Mortgages",
+   "scope": "Current · Savings · Credit Cards · Loans · Mortgages",
    "t1Due": "2025-09",
    "t2Due": "2026-09",
-   "t1DaysLeft": -310,
+   "t1DaysLeft": -314,
    "applic": "Individual",
    "obs": true,
    "t1Now": 7,
@@ -687,10 +705,10 @@
   },
   {
    "rel": "Retail R2",
-   "scope": "Transactions \u00b7 VRP \u00b7 FRP \u00b7 Refunds \u00b7 Future-Dated \u00b7 Request to Pay \u00b7 Delegated SCA",
+   "scope": "Transactions · VRP · FRP · Refunds · Future-Dated · Request to Pay · Delegated SCA",
    "t1Due": "2025-10",
    "t2Due": "2026-09",
-   "t1DaysLeft": -280,
+   "t1DaysLeft": -284,
    "applic": "Individual",
    "obs": true,
    "t1Now": 8,
@@ -698,31 +716,31 @@
    "t1Ever": 8,
    "t2Early": 1,
    "band": "past",
-   "note": "Unchanged in production (8/8). Sandbox MOVED: 8/8 now actively serving transaction 2xx (was 6/8) \u2014 Emirates NBD crossed the R2 threshold for the first time this window.",
+   "note": "Unchanged in production (8/8) and in sandbox (8/8 actively serving transaction 2xx).",
    "url": "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation"
   },
   {
-   "rel": "Retail/SME/Corporate \u2014 International",
-   "scope": "Intl Payments \u00b7 Extended Transactional \u00b7 Future-Dated",
+   "rel": "Retail/SME/Corporate — International",
+   "scope": "Intl Payments · Extended Transactional · Future-Dated",
    "t1Due": "2025-12",
    "t2Due": "2026-09",
-   "t1DaysLeft": -219,
-   "applic": "Indiv M \u00b7 SME O \u00b7 Corp O",
+   "t1DaysLeft": -223,
+   "applic": "Indiv M · SME O · Corp O",
    "obs": false,
    "t1Now": null,
    "t1Of": 8,
    "t1Ever": null,
    "t2Early": null,
    "band": "past",
-   "note": "n/obs \u2014 international is a payment TYPE inside /payments, not a separately registered endpoint. All 8 Tier-1 have base payment live; international sub-type not isolable.",
+   "note": "n/obs — international is a payment TYPE inside /payments, not a separately registered endpoint. All 8 Tier-1 have base payment live; international sub-type not isolable.",
    "url": "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation"
   },
   {
-   "rel": "SME \u2014 Core",
-   "scope": "Consent \u00b7 SIP \u00b7 Customer/Balance/Transactional/Product \u00b7 VRP/FRP \u00b7 Refunds \u00b7 Request to Pay \u00b7 Delegated SCA",
+   "rel": "SME — Core",
+   "scope": "Consent · SIP · Customer/Balance/Transactional/Product · VRP/FRP · Refunds · Request to Pay · Delegated SCA",
    "t1Due": "2025-12",
    "t2Due": "2026-09",
-   "t1DaysLeft": -219,
+   "t1DaysLeft": -223,
    "applic": "SME",
    "obs": false,
    "t1Now": null,
@@ -730,15 +748,15 @@
    "t1Ever": null,
    "t2Early": null,
    "band": "past",
-   "note": "n/obs \u2014 SME uses the same APIs as Retail; no SME-specific family or endpoint in directory or logs.",
+   "note": "n/obs — SME uses the same APIs as Retail; no SME-specific family or endpoint in directory or logs.",
    "url": "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation"
   },
   {
-   "rel": "SME \u2014 Bulk / Intl",
-   "scope": "Future-Dated \u00b7 Bulk/Batch \u00b7 International",
+   "rel": "SME — Bulk / Intl",
+   "scope": "Future-Dated · Bulk/Batch · International",
    "t1Due": "2026-03",
    "t2Due": "2026-09",
-   "t1DaysLeft": -129,
+   "t1DaysLeft": -133,
    "applic": "SME",
    "obs": true,
    "t1Now": 0,
@@ -751,26 +769,26 @@
   },
   {
    "rel": "Retail Extended Data Sharing",
-   "scope": "Credit Cards \u00b7 Loans \u00b7 Mortgages \u00b7 ATM Locations",
+   "scope": "Credit Cards · Loans · Mortgages · ATM Locations",
    "t1Due": "2026-04",
    "t2Due": "2026-09",
-   "t1DaysLeft": -98,
-   "applic": "Indiv M \u00b7 SME M",
+   "t1DaysLeft": -102,
+   "applic": "Indiv M · SME M",
    "obs": false,
    "t1Now": null,
    "t1Of": 8,
    "t1Ever": null,
    "t2Early": null,
    "band": "past",
-   "note": "Unchanged \u2014 extended-data not cleanly isolable; ATM domain (HSBC only) is the sole observable slice.",
+   "note": "Unchanged — extended-data not cleanly isolable; ATM domain (HSBC only) is the sole observable slice.",
    "url": "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation"
   },
   {
-   "rel": "Standards uplift \u2192 V2.1 (v2.0+errata)",
+   "rel": "Standards uplift → V2.1 (v2.0+errata)",
    "scope": "V2.1 Standards alignment",
    "t1Due": "2026-04",
    "t2Due": "2026-09",
-   "t1DaysLeft": -98,
+   "t1DaysLeft": -102,
    "applic": "Individual",
    "obs": true,
    "t1Now": 4,
@@ -778,15 +796,15 @@
    "t1Ever": 4,
    "t2Early": 1,
    "band": "past",
-   "note": "Unchanged in production (4/8: Mashreq, Emirates NBD, CBD, HSBC) + WIO. Sandbox MOVED sharply: 6/8 now show \u2265100 v2.1 2xx calls in-window (was 2/8: ENBD, CBD) \u2014 HSBC, Mashreq, WIO and uae-livx newly crossed the threshold.",
+   "note": "Unchanged in production (4/8: Mashreq, Emirates NBD, CBD, HSBC) + WIO. Sandbox unchanged: 6/8 show ≥100 v2.1 2xx calls in-window. Minor depth-only change: HSBC's retail auth server now also shows account-information+payment registered at v2.1 in the directory (previously only atm/confirmation/product); does not move the Tier-1 count.",
    "url": "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation"
   },
   {
-   "rel": "Corporates \u2014 Full Suite",
-   "scope": "Consent \u00b7 Corporate Data \u00b7 All corporate payments \u00b7 Intl \u00b7 Future-Dated",
+   "rel": "Corporates — Full Suite",
+   "scope": "Consent · Corporate Data · All corporate payments · Intl · Future-Dated",
    "t1Due": "2026-09",
    "t2Due": "2026-09",
-   "t1DaysLeft": 55,
+   "t1DaysLeft": 51,
    "applic": "Corporate",
    "obs": false,
    "t1Now": null,
@@ -794,31 +812,31 @@
    "t1Ever": null,
    "t2Early": null,
    "band": "soon",
-   "note": "Unchanged \u2014 no separate corporate family registered in the production directory; n/obs.",
+   "note": "Unchanged — no separate corporate family registered in the production directory; n/obs.",
    "url": "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation"
   },
   {
-   "rel": "Standards uplift \u2192 V2.2 Final",
+   "rel": "Standards uplift → V2.2 Final",
    "scope": "V2.2 Standards alignment (to be published shortly)",
    "t1Due": "2026-12",
    "t2Due": "2027-02",
-   "t1DaysLeft": 146,
-   "applic": "Indiv\u00b7SME\u00b7Corp\u00b7Merchant",
+   "t1DaysLeft": 142,
+   "applic": "Indiv·SME·Corp·Merchant",
    "obs": true,
    "t1Now": 0,
    "t1Of": 8,
    "t1Ever": 0,
    "t2Early": 0,
    "band": "upcoming",
-   "note": "Unchanged \u2014 V2.2 not yet published; no v2.2 traffic.",
+   "note": "Unchanged — V2.2 not yet published; no v2.2 traffic.",
    "url": "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation"
   },
   {
-   "rel": "Open Insurance \u2014 Data + Quotes",
-   "scope": "7 products: Home\u00b7Health\u00b7Renter\u00b7Motor\u00b7Life\u00b7Travel\u00b7ILoE; data sharing + near-real-time quotes",
+   "rel": "Open Insurance — Data + Quotes",
+   "scope": "7 products: Home·Health·Renter·Motor·Life·Travel·ILoE; data sharing + near-real-time quotes",
    "t1Due": "2026-02",
    "t2Due": "2027-03",
-   "t1DaysLeft": -157,
+   "t1DaysLeft": -161,
    "applic": "Individual",
    "obs": true,
    "t1Now": 2,
@@ -826,47 +844,47 @@
    "t1Ever": 2,
    "t2Early": 0,
    "band": "past",
-   "note": "MOVED: 2/16 Tier-1 insurers now registered live in production (LIVA + NEW ADNIC, 3 Jul). Sandbox also moved: first-ever insurance-domain 2xx traffic observed (Alain Ahlia Insurance Company, both a Tier-1 insurer per Annexure D and a brand-new sandbox participant); Orient Insurance PJSC also appeared but 4xx-only so far.",
+   "note": "Unchanged: 2/16 Tier-1 insurers registered live in production (LIVA + ADNIC). Sandbox unchanged: Alain Ahlia Insurance Company (first-ever insurance-domain 2xx) + Orient Insurance PJSC (4xx-only) still the only insurance-domain sandbox participants.",
    "url": "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation"
   },
   {
-   "rel": "Open Insurance \u2014 V2.1 uplift",
+   "rel": "Open Insurance — V2.1 uplift",
    "scope": "V2.1 Standards alignment (insurance)",
    "t1Due": "2026-04",
    "t2Due": "2026-09",
-   "t1DaysLeft": -98,
-   "applic": "Indiv M \u00b7 Merchant M",
+   "t1DaysLeft": -102,
+   "applic": "Indiv M · Merchant M",
    "obs": true,
    "t1Now": 2,
    "t1Of": 16,
    "t1Ever": 2,
    "t2Early": 0,
    "band": "past",
-   "note": "MOVED: LIVA + NEW ADNIC both registered on insurance v2.1 in production \u2014 2/16 Tier-1 insurers (was 1/16). T2 = N/A in annexure.",
+   "note": "Unchanged: LIVA + ADNIC both registered on insurance v2.1 in production — 2/16 Tier-1 insurers. T2 = N/A in annexure.",
    "url": "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation"
   },
   {
-   "rel": "Open Insurance \u2014 V2.2 uplift",
+   "rel": "Open Insurance — V2.2 uplift",
    "scope": "V2.2 Standards alignment (insurance)",
    "t1Due": "2026-12",
    "t2Due": "2027-03",
-   "t1DaysLeft": 146,
-   "applic": "Indiv\u00b7SME\u00b7Corp\u00b7Merchant",
+   "t1DaysLeft": 142,
+   "applic": "Indiv·SME·Corp·Merchant",
    "obs": true,
    "t1Now": 0,
    "t1Of": 16,
    "t1Ever": 0,
    "t2Early": 0,
    "band": "upcoming",
-   "note": "Unchanged \u2014 no insurance v2.2 traffic; future milestone.",
+   "note": "Unchanged — no insurance v2.2 traffic; future milestone.",
    "url": "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation"
   }
  ],
  "tiers": {
-  "note": "Tiers & deadlines per CBUAE Annexure 1 (Jan 2026) \u2014 references/cbuae-of-market-adoption-timeline-2026-01.md.",
-  "t1": "Tier 1 \u2014 8 banks: FAB, Emirates NBD, ADCB, DIB, Mashreq, ADIB, HSBC ME, CBD. All 8 appear in the sandbox.",
-  "t2": "Tier 2 \u2014 30 banks (incl. WIO, Al Hilal, Emirates Islamic, Standard Chartered\u2026). Only WIO Bank is in the logs so far \u2014 a Tier-2 bank running ahead of its Sep-2026 deadline.",
-  "ins": "Open Insurance \u2014 16 Tier-1 + 28 Tier-2 insurers. NOW 2 Tier-1 insurers registered live in production (LIVA, NEW ADNIC) and 2 first seen in the sandbox logs this run (Alain Ahlia Insurance Company, Orient Insurance PJSC) \u2014 Tier-1 data+quotes deadline (Feb-2026) already passed.",
+  "note": "Tiers & deadlines per CBUAE Annexure 1 (Jan 2026) — references/cbuae-of-market-adoption-timeline-2026-01.md.",
+  "t1": "Tier 1 — 8 banks: FAB, Emirates NBD, ADCB, DIB, Mashreq, ADIB, HSBC ME, CBD. All 8 appear in the sandbox.",
+  "t2": "Tier 2 — 30 banks (incl. WIO, Al Hilal, Emirates Islamic, Standard Chartered…). Only WIO Bank is in the logs so far — a Tier-2 bank running ahead of its Sep-2026 deadline.",
+  "ins": "Open Insurance — 16 Tier-1 + 28 Tier-2 insurers. NOW 2 Tier-1 insurers registered live in production (LIVA, NEW ADNIC) and 2 first seen in the sandbox logs this run (Alain Ahlia Insurance Company, Orient Insurance PJSC) — Tier-1 data+quotes deadline (Feb-2026) already passed.",
   "url": "https://openfinanceuae.atlassian.net/wiki/spaces/OF/pages/6259008/Roadmap"
  },
  "fillBasisNote": "Compliance fill is counted over the 8 Tier-1 banks / 16 Tier-1 insurers present in the roster (the cohort whose deadline binds first); Tier-2 early movers shown separately. Production-directory registration is authoritative; sandbox traffic is secondary demand-side evidence.",
@@ -896,7 +914,8 @@
      1,
      0,
      0
-    ]
+    ],
+    true
    ],
    [
     "Emirates NBD",
@@ -911,7 +930,8 @@
      2,
      0,
      0
-    ]
+    ],
+    true
    ],
    [
     "ADCB",
@@ -926,7 +946,8 @@
      0,
      0,
      0
-    ]
+    ],
+    true
    ],
    [
     "Dubai Islamic Bank",
@@ -941,7 +962,8 @@
      0,
      0,
      0
-    ]
+    ],
+    true
    ],
    [
     "Mashreq",
@@ -956,7 +978,8 @@
      2,
      0,
      0
-    ]
+    ],
+    true
    ],
    [
     "ADIB",
@@ -971,7 +994,8 @@
      1,
      0,
      0
-    ]
+    ],
+    true
    ],
    [
     "HSBC (Retail)",
@@ -986,7 +1010,8 @@
      2,
      0,
      0
-    ]
+    ],
+    true
    ],
    [
     "Commercial Bank of Dubai",
@@ -1001,7 +1026,8 @@
      2,
      0,
      0
-    ]
+    ],
+    true
    ]
   ],
   "t2": [
@@ -1018,7 +1044,8 @@
      2,
      0,
      0
-    ]
+    ],
+    true
    ]
   ],
   "ins": [
@@ -1253,13 +1280,13 @@
     "green": 57,
     "blue": 8
    },
-   "window": "2xx in May\u2013Jun 2026 (last 2 full months)",
+   "window": "2xx in May–Jun 2026 (last 2 full months)",
    "source": "https://data.directory.openfinance.ae/participants",
    "trafficSource": "https://nebras-open-finance.com/api/api-log.json",
    "note": "Green = capability exposed in the production Trust Framework directory AND carrying live 2xx traffic in the public logs. Blue = exposed in production but no live 2xx traffic in the window. Hatched = not exposed for that capability in the production directory. Exposure is unambiguously production (production directory); Nebras publishes no per-environment volumes, so 'live' means observed successful traffic on the capability. Payments traffic is measured on initiation, so a 5xx-only initiation flow shows blue, not green."
   }
  },
- "adoptionNote": "LFIs live = banks/insurers with working (2xx) traffic in May\u2013Jun 2026 (last 2 full months) on the release's observable surfaces in the public Nebras logs (R1: consent + payments + CoP + balances + parties; R2: R1 + transactions; Retail R4+: \u2265100 v2.1 2xx calls; Insurance/FX: domain traffic). Demand-side evidence only \u2014 absence of TPP calls does not prove an LFI is not certified. Intl, SME and bulk scopes are not URL-observable (n/obs). uae-livx is an unconfirmed sandbox LFI key (likely LIVA Insurance B.S.C. by naming pattern) showing atypical AIS/PIS-shaped traffic for an insurer \u2014 flagged for verification, not asserted.",
+ "adoptionNote": "LFIs live = banks/insurers with working (2xx) traffic in May–Jun 2026 (last 2 full months) on the release's observable surfaces in the public Nebras logs (R1: consent + payments + CoP + balances + parties; R2: R1 + transactions; Retail R4+: ≥100 v2.1 2xx calls; Insurance/FX: domain traffic). Demand-side evidence only — absence of TPP calls does not prove an LFI is not certified. Intl, SME and bulk scopes are not URL-observable (n/obs). uae-livx is an unconfirmed sandbox LFI key (likely LIVA Insurance B.S.C. by naming pattern) showing atypical AIS/PIS-shaped traffic for an insurer — flagged for verification, not asserted.",
  "ribbon": [
   {
    "label": "Standards",
@@ -1268,7 +1295,7 @@
   },
   {
    "label": "Errata",
-   "val": "errata2",
+   "val": "errata3",
    "state": "live"
   },
   {
@@ -1322,71 +1349,102 @@
  "changeLog": [
   [
    "Metrics / headline",
-   "CHANGED",
-   "June became a full month: full-months total 378,779\u2192482,964 calls; error rate 44.2%\u219236.6%; v2.1 share 1.6%\u21926.0%; live LFIs 10\u219213; active TPPs 11\u219213. Payment success 92.5%\u219294.7%; auth 2xx 54.0%\u219253.4%.",
+   "No change",
+   "Full-months figures unchanged (June still latest full month): total 482,964 calls; error rate 36.6%; v2.1 share 6.0%; live LFIs 13; active TPPs 13. Payment success 94.7%; auth 2xx 53.4%. No new sandbox participant or (tpp,lfi) pairing.",
    "https://nebras-open-finance.com/metrics"
   ],
   [
-   "Sandbox / new participants",
-   "NEW",
-   "3 new LFI keys entered the logs for the first time: uae-aaic (Alain Ahlia Insurance Company, Open Insurance Tier-1), uae-orient (Orient Insurance PJSC, Open Insurance Tier-1), uae-livx (unconfirmed, likely LIVA) paired with Emirates NBD as TPP on AIS/PIS-shaped traffic.",
-   "https://nebras-open-finance.com/api/api-log.json"
-  ],
-  [
-   "Production directory",
-   "NEW",
-   "NEW org ADNIC (Abu Dhabi National Insurance Company PJSC, Open Insurance Tier-1) registered Active, insurance family v2.1 (AuthServer created 3 Jul) \u2014 production directory now 11 orgs; Insurance registration 1/16\u21922/16 Tier-1 insurers.",
-   "https://data.directory.openfinance.ae/participants"
+   "Self-consistency correction",
+   "FIXED",
+   "Prior run's headline payments.valueAED (AED 55,612,127.42) did not match its own per-LFI/per-TPP breakdown sum; two independent recomputations this run both total AED 53,894,830.61. Corrected here; no underlying data changed.",
+   "https://nebras-open-finance.com/api/payments-log.json"
   ],
   [
    "Spec (api-specs main)",
    "CHANGED",
-   "PR#19 creditor-pii-sr2026 + PR#21 ozone merged to main (ee4f158d\u2192ad5bb21d): SWIFT SR2026 international-payment PII restructuring across 5 specs; 2 breaking-changes registers updated (authorization-endpoints, bank-initiation, both v2.1-errata2).",
-   "https://github.com/Nebras-Open-Finance/api-specs/compare/ee4f158d...main"
+   "PR#23 'errata-3' + PR#24 merged (ad5bb21d→634b325, 8 Jul): the SWIFT SR2026 international-PII restructuring is relocated OUT of v2.1-errata2 into a NEW v2.1-errata3 tier (authorization-endpoints, bank-initiation); errata2 reverts to its pre-SR2026 domestic Creditor refs.",
+   "https://github.com/Nebras-Open-Finance/api-specs/compare/ad5bb21d...634b325"
   ],
   [
-   "Spec (staging branch)",
-   "NEW",
-   "NEW branch creditor-debtor-reference-charset implements the approved OFP-003 character-set pattern on AECreditorReference/AEDebtorReference across 5 specs. Branch only \u2014 NOT yet on main.",
-   "https://github.com/Nebras-Open-Finance/api-specs/compare/main...creditor-debtor-reference-charset"
+   "Standards / errata (cross-layer)",
+   "CHANGED",
+   "Website (nebras-open-finance.com) now declares v2.1-errata3 as the latest errata (was errata2); Confluence 'Consolidated Errata' page bumped v4→v5 (8 Jul) to match. All 3 layers (GitHub/Confluence/website) now consistent on errata3.",
+   "https://nebras-open-finance.com/tech/release-notes-and-erratas/erratas/v2.1/"
+  ],
+  [
+   "Spec (staging PR)",
+   "CHANGED",
+   "api-specs PR#22 'proposal ofp-003…' opened (1 Jul) against branch creditor-debtor-reference-charset — implements the approved OFP-003 character-set decision. Still unmerged.",
+   "https://github.com/Nebras-Open-Finance/api-specs/pull/22"
   ],
   [
    "Governance / proposals",
-   "CHANGED",
-   "OFP-003 (\u2018Define an allowed character set for Debtor and Creditor References\u2019) APPROVED 1 Jul 2026 (decision DR-2026-003) \u2014 SWIFT \u201cx\u201d set only, Arabic block dropped after LFI/TPP feedback. Effective \u201cV2.1 errata\u201d; not yet implemented in the normative spec.",
-   "https://nebras-open-finance.com/proposals/ofp-003"
+   "NEW",
+   "NEW proposal OFP-005 'Confirm data deletion when a consent is revoked' (Proposed, voting 16–30 Jul 2026) — adds an append-only `audit` sub-resource (Deleted/Planned/NotDeleted attestations) to all consent types across Bank Data Sharing, Bank Service Initiation and Insurance.",
+   "https://nebras-open-finance.com/proposals/ofp-005"
   ],
   [
    "Website / governance",
    "CHANGED",
-   "community-standards main advanced b50ce9f8\u2192520e243f (9 commits): OFP-003 outcome/feedback pages shipped, whats-live.vue reworked, metrics refreshed through 1 Jul, search-modal fix merged (PR#11). 4 stale feature/patch branches removed.",
-   "https://github.com/Nebras-Open-Finance/community-standards/commit/520e243f"
+   "community-standards main advanced 520e243f→7fc3b1d (7 commits, 8–10 Jul): metrics/erratas refresh, OFP-005 placeholder pages, 3 new Bank Data Sharing functional-certification pages.",
+   "https://github.com/Nebras-Open-Finance/community-standards/commit/7fc3b1d"
+  ],
+  [
+   "Release notes — API Hub",
+   "NEW",
+   "NEW release 2026.22.0 (6 Jul): mandatory paymentId field restored on Consent Manager GET /payment-log; consent revocation in a non-revocable state now returns HTTP 400; a PATCH /consents HTTP 500 bug fixed; OAuth token-endpoint error_description aligned to RFC 6749.",
+   "https://nebras-open-finance.com/tech/release-notes-and-erratas/release-notes/api-hub/2026"
+  ],
+  [
+   "Release notes — Trust Framework",
+   "CHANGED",
+   "2.3.0 moved from 'Planned' to 'Released' (8 Jun, 17 changes); NEW 2.4.0 'Released' (7 Jul, 20 changes: certificate-authority management, organisation audit trail) deployed to the Trust Framework directory; NEW 2.5.0 'Planned' (12 changes: expanded search/filtering, cross-client application scope).",
+   "https://nebras-open-finance.com/tech/release-notes-and-erratas/release-notes/trust-framework/2026"
+  ],
+  [
+   "Errata (item-level)",
+   "CHANGED",
+   "v2.1-errata2 now 17 items (international-PII items removed); NEW v2.1-errata3 (2 items): international Creditor restructuring into Individual/Organization variants; international Creditor Agent address alignment (TownName required, ≤70 chars).",
+   "https://nebras-open-finance.com/tech/release-notes-and-erratas/erratas/v2.1/"
   ],
   [
    "Confluence",
    "CHANGED",
-   "NEW page 'Standards V2.1 & API Hub V8 \u2014 Consolidated Errata' (v4, 1 Jul) consolidates Errata 1/2/3 onto one page; 'Standards v2.1-final-errata2' bumped v8\u2192v9 (30 Jun); 14 new/updated attachments (30 Jun) mirror the SR2026 spec change; 'Open Finance Platform' page v23 (29 Jun); 'Nebras Interaction Guide' v9 + new v5.0 PDF (29 Jun).",
+   "'Standards V2.1 & API Hub V8 — Consolidated Errata' bumped v4→v5 (8 Jul), matching the GitHub errata3 merge. All other tracked pages unchanged this week.",
    "https://openfinanceuae.atlassian.net/wiki/spaces/OF/pages/1366294554"
   ],
   [
-   "Release notes / errata",
+   "Production directory",
    "No change",
-   "API Hub still 3 releases (2026.19.0 newest, 9 Jun); no new release this week. Trust Framework NEW: 2.3.0 changelog populated (17 changes: 3 new features, 5 enhancements, 9 bug fixes) \u2014 still 'Planned', no firm date.",
-   "https://nebras-open-finance.com/tech/release-notes-and-erratas/release-notes/trust-framework/2026"
+   "Still 11 orgs; Tier-1 compliance counts unchanged (R1 8/8, R2 8/8, Product Quotes 7/8, v2.1 uplift 4/8, Insurance 2/16). Depth-only: HSBC's retail auth server now separately shows account-information+payment registered at v2.1 (previously only atm/confirmation/product); its wholesale/corporate server stays on v2.0 for those two families.",
+   "https://data.directory.openfinance.ae/participants"
+  ],
+  [
+   "Sandbox adoption",
+   "No change",
+   "Adoption sets unchanged (Retail R1 8/8 now·9 ever; R2 8/8·9; v2.1 R4+ 6/8; Insurance 1). No new LFI/TPP key and no new (tpp,lfi) pairing in the raw logs (checked across all data including the partial July window).",
+   "https://nebras-open-finance.com/api/api-log.json"
   ],
   [
    "GitHub org",
    "No change",
-   "Still 5 public repos \u2014 no new repo this run.",
+   "Still 5 public repos — no new repo this run.",
    "https://github.com/orgs/Nebras-Open-Finance/repositories"
+  ],
+  [
+   "CBUAE / ecosystem news",
+   "No change",
+   "No new dated CBUAE or market go-live items found beyond the existing baseline.",
+   "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation"
   ]
  ],
  "alerts": [
-  "NEW-ORG: ADNIC (Abu Dhabi National Insurance Company PJSC) registered Active in the production Trust Framework directory \u2014 insurance v2.1 family, multi-line (health/motor/travel/home). Open Insurance Tier-1 production registration now 2/16 (LIVA + ADNIC). https://data.directory.openfinance.ae/participants",
-  "NEW-SANDBOX-LFI: 3 new LFI keys first seen in the public logs \u2014 uae-aaic (Alain Ahlia Insurance Company, first-ever Insurance-domain 2xx in the sandbox), uae-orient (Orient Insurance PJSC, 4xx-only so far), uae-livx (unconfirmed/likely LIVA, AIS/PIS-shaped traffic with Emirates NBD as TPP \u2014 flagged for verification, not confirmed). https://nebras-open-finance.com/api/api-log.json",
-  "SPEC-MERGE: api-specs main merged the SWIFT SR2026 international-PII restructuring (creditor-pii-sr2026, PR#19) \u2014 5 specs changed, 2 breaking-changes registers updated. See Standards section impact map. https://github.com/Nebras-Open-Finance/api-specs/compare/ee4f158d...main",
-  "GOVERNANCE: OFP-003 (Debtor/Creditor Reference character set) APPROVED 1 Jul 2026 \u2014 implementation staged on branch creditor-debtor-reference-charset, NOT yet on main; watch for merge next run. https://nebras-open-finance.com/proposals/ofp-003",
-  "STANDING: websiteSpecBranch unchanged at main. Corporate full suite now 55 days out (1 Sep 2026). Insurance V2.2 / Standards V2.2 uplift not yet published. SME Bulk/Intl still 0/8 Tier-1 in production (WIO Tier-2 only)."
+  "STRUCTURAL-SPEC-CHANGE: api-specs main relocated the SWIFT SR2026 international-PII restructuring OUT of v2.1-errata2 into a NEW v2.1-errata3 tier (authorization-endpoints, bank-initiation) — PR#23+PR#24, 8 Jul. errata2 reverts to pre-SR2026 domestic Creditor refs. https://github.com/Nebras-Open-Finance/api-specs/compare/ad5bb21d...634b325",
+  "STANDARDS-VERSION: website + Confluence now both declare v2.1-errata3 as the latest errata (was errata2) — all 3 layers consistent. https://nebras-open-finance.com/tech/release-notes-and-erratas/erratas/v2.1/",
+  "SELF-CONSISTENCY-CATCH: prior run's headline payments.valueAED (55,612,127.42) did not match its own per-LFI/per-TPP breakdown (both independently sum to 53,894,830.61); corrected this run — no underlying data changed.",
+  "GOVERNANCE: NEW proposal OFP-005 ('Confirm data deletion when a consent is revoked') opened for vote 16–30 Jul 2026. https://nebras-open-finance.com/proposals/ofp-005",
+  "RELEASE: NEW API Hub 2026.22.0 (6 Jul) and Trust Framework 2.4.0 (7 Jul, deployed) + 2.5.0 (Planned) — see Release Notes section.",
+  "STANDING: production-directory Tier-1 compliance counts unchanged (R1 8/8, R2 8/8, Product Quotes 7/8, v2.1 uplift 4/8, Insurance 2/16 of 16). Corporate full suite due in 51 days (1 Sep 2026), still n/obs. SME Bulk/Intl still 0/8 Tier-1 in production (WIO Tier-2 only). No new (tpp,lfi) pairing or sandbox participant this run."
  ],
  "activity": {
   "months": [
@@ -1419,7 +1477,7 @@
    52935,
    103748,
    104185,
-   1843
+   31942
   ],
   "partialIdx": 8,
   "lastFullLabel": "Jun",
@@ -1428,10 +1486,10 @@
   "peakLabel": "Jun",
   "peakVal": 104185,
   "avg3": 86956,
-  "allTime": 484807,
+  "allTime": 514906,
   "fullTotal": 482964,
   "partialLabel": "Jul",
-  "partialVal": 1843
+  "partialVal": 31942
  },
  "payActivity": {
   "months": [
@@ -1446,32 +1504,32 @@
    "Jul"
   ],
   "vals": [
-   5110.94,
-   2197.75,
-   3217.07,
-   192029.72,
-   486539.35,
-   2089683.33,
-   20722430.74,
-   32110918.52,
-   646872.45
+   4584.02,
+   1883.91,
+   2886.75,
+   137199.02,
+   441214.36,
+   1882146.49,
+   19790359.05,
+   31634557.01,
+   8587388.8
   ],
   "partialIdx": 8,
   "lastFullLabel": "Jun",
-  "lastFullVal": 32110918.52,
-  "momPct": 55.0,
+  "lastFullVal": 31634557.01,
+  "momPct": 59.8,
   "peakLabel": "Jun",
-  "peakVal": 32110918.52,
-  "allTime": 56258999.87,
-  "fullTotal": 55612127.42,
+  "peakVal": 31634557.01,
+  "allTime": 62482219.41,
+  "fullTotal": 53894830.61,
   "partialLabel": "Jul",
-  "partialVal": 646872.45,
+  "partialVal": 8587388.8,
   "ccy": "AED"
  },
  "movers": {
   "lfiUp": [
    [
-    "HSBC (Retail)",
+    "HSBC retail",
     1813,
     9167,
     405.6
@@ -1491,7 +1549,7 @@
   ],
   "lfiDown": [
    [
-    "First Abu Dhabi Bank",
+    "FAB",
     5265,
     2627,
     -50.1
@@ -1509,7 +1567,7 @@
     -32.2
    ],
    [
-    "WIO Bank",
+    "WIO",
     39819,
     32663,
     -18.0
@@ -1698,6 +1756,18 @@
    "liveLFIs": 13,
    "liveTPPs": 13,
    "websiteSpecBranch": "main"
+  },
+  {
+   "runDate": "2026-07-12",
+   "totalFull": 482964,
+   "errPct": 36.6,
+   "paySucc": 94.7,
+   "authPct": 53.4,
+   "top1Share": 83.8,
+   "hhi": 7099,
+   "liveLFIs": 13,
+   "liveTPPs": 13,
+   "websiteSpecBranch": "main"
   }
  ],
  "payWho": {
@@ -1755,7 +1825,7 @@
   ]
  },
  "economics": {
-  "basis": "Full-months 2xx (data/Hub, simplified \u2014 flat 2.5 fils per chargeable call with a same-day balance/CoP-with-payment discount proxy for the real <2h pairing rule) and accepted (payments) flows, priced on the regulated AlTareq Commercial & Pricing Model v1.0. fils = 0.01 AED. Pre-live sandbox volumes \u2014 illustrative, not a production bill.",
+  "basis": "Full-months 2xx (data/Hub, simplified — flat 2.5 fils per chargeable call with a same-day balance/CoP-with-payment discount proxy for the real <2h pairing rule) and accepted (payments) flows, priced on the regulated AlTareq Commercial & Pricing Model v1.0. fils = 0.01 AED. Pre-live sandbox volumes — illustrative, not a production bill.",
   "hubTotal": 7648.65,
   "hubFloor": 7403.01,
   "hubByTpp": [
@@ -1938,28 +2008,28 @@
   },
   "schedule": [
    [
-    "Nebras API Hub (TPP\u2192Nebras)",
-    "2.5 fils / successful data or payment call; balance & CoP drop to 0.5 fils if paired with a payment within 2h; quotes 5\u201312.5 fils tiered."
+    "Nebras API Hub (TPP→Nebras)",
+    "2.5 fils / successful data or payment call; balance & CoP drop to 0.5 fils if paired with a payment within 2h; quotes 5–12.5 fils tiered."
    ],
    [
-    "Payments TPP\u2192LFI \u2014 Merchant Collections",
-    "38 bps of value (Yr1\u219225 bps by Yr5), capped 50 AED/txn; first 200 AED/merchant/day free."
+    "Payments TPP→LFI — Merchant Collections",
+    "38 bps of value (Yr1→25 bps by Yr5), capped 50 AED/txn; first 200 AED/merchant/day free."
    ],
    [
-    "Payments TPP\u2192LFI \u2014 P2P / SME-to-SME",
+    "Payments TPP→LFI — P2P / SME-to-SME",
     "25 fils/txn flat."
    ],
    [
-    "Payments TPP\u2192LFI \u2014 Me-to-Me / Bulk",
+    "Payments TPP→LFI — Me-to-Me / Bulk",
     "20 fils (me-to-me); 25 fils/txn & 250 fils/batch (SME bulk)."
    ],
    [
-    "Data sharing TPP\u2192LFI (retail/SME)",
-    "FREE \u226415 attended / \u22645 unattended pages per customer/day; CoP/Balance/Product/Customer always free. (Corporate data 40 fils/page.)"
+    "Data sharing TPP→LFI (retail/SME)",
+    "FREE ≤15 attended / ≤5 unattended pages per customer/day; CoP/Balance/Product/Customer always free. (Corporate data 40 fils/page.)"
    ],
    [
     "Quotes & Insurance/FX data",
-    "TPP\u2192LFI free; insurance referral commissions LFI\u2192TPP (5\u201315%) \u2014 not URL-observable."
+    "TPP→LFI free; insurance referral commissions LFI→TPP (5–15%) — not URL-observable."
    ]
   ],
   "sourceUrl": "https://openfinanceuae.atlassian.net/wiki/spaces/OF/pages/124846096/Commercial+and+Pricing+Model"
