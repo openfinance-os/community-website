@@ -36,6 +36,10 @@ A scheduled Claude job runs every Monday morning (Dubai time). Each run it:
    `state.json`, and commits the three files to this repo. The site rebuild
    does the rest.
 
+The job's full prompt lives at [`routine-prompt.md`](./routine-prompt.md) — it is
+the instruction set pasted into the scheduled Claude Code routine
+(claude.ai/code/routines) that fires every Monday.
+
 ## Files
 
 | Path | Purpose |
