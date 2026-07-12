@@ -41,6 +41,11 @@ jobs:
     timeout-minutes: 30
 
     steps:
+      # Checkout so lychee picks up .lycheeignore from the repo root.
+      # Runs before the artifact download; checkout cleans the workspace first.
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
