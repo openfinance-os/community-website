@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Node.js
         uses: ./.github/actions/setup-node
@@ -44,7 +44,7 @@ jobs:
       # Checkout so lychee picks up .lycheeignore from the repo root.
       # Runs before the artifact download; checkout cleans the workspace first.
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       # Participant homepages (third-party bank/insurer/fintech sites) are
       # bot-hostile and fail intermittently in CI though they load fine in a
