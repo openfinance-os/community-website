@@ -1,67 +1,12 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
 import Breadcrumb from '@components/common/Breadcrumb.astro';
-
-const steps = [
-  {
-    number: 1,
-    title: 'Understand the Framework',
-    description: 'Learn about the UAE Open Finance regulatory framework and key participants.',
-    items: [
-      'Review the CBUAE Open Finance guidelines',
-      'Understand the difference between TPPs and ASPSPs',
-      'Familiarize yourself with participant roles (LFI, BDSP, BSIP, ISP)',
-    ],
-  },
-  {
-    number: 2,
-    title: 'Choose Your Role',
-    description: 'Determine which participant type applies to your organization.',
-    items: [
-      'TPP: Building apps that access bank data or initiate payments',
-      'ASPSP: Banks providing APIs to TPPs',
-      'Technology Provider: Supporting infrastructure providers',
-    ],
-  },
-  {
-    number: 3,
-    title: 'Register on Al Tareq',
-    description: 'Create an account on the official platform.',
-    items: [
-      'Visit openfinanceuae.atlassian.net',
-      'Complete the registration form',
-      'Submit required documentation',
-      'Await approval from Nebras',
-    ],
-  },
-  {
-    number: 4,
-    title: 'Access the Sandbox',
-    description: 'Start testing in the sandbox environment.',
-    items: [
-      'Obtain sandbox credentials',
-      'Review API documentation',
-      'Test authentication flows',
-      'Implement consent management',
-    ],
-  },
-  {
-    number: 5,
-    title: 'Go Live',
-    description: 'Complete certification and launch in production.',
-    items: [
-      'Pass conformance testing',
-      'Complete security assessment',
-      'Obtain production credentials',
-      'Start processing real transactions',
-    ],
-  },
-];
+import OperatorPointer from '@components/learn/OperatorPointer.astro';
 ---
 
 <PageLayout
   title="Getting Started"
-  description="Everything you need to start building on UAE Open Finance."
+  description="Understand the UAE Open Finance ecosystem — what it is, the API families, and where to go to build."
 >
   <div class="guide-page">
     <div class="container">
@@ -71,7 +16,8 @@ const steps = [
         <span class="badge">Start Here</span>
         <h1>Getting Started with UAE Open Finance</h1>
         <p class="subtitle">
-          A step-by-step guide to understanding and participating in the UAE Open Finance ecosystem.
+          Understand the UAE Open Finance ecosystem — what it is and the API families — then head to
+          the operator's docs to build.
         </p>
       </header>
 
@@ -108,27 +54,21 @@ const steps = [
         </div>
       </section>
 
-      <section class="steps-section">
-        <h2>Your Journey to Going Live</h2>
-        <div class="steps-timeline">
+      <OperatorPointer
+        heading="Ready to build or go live?"
+        intro="Choosing your role, registering on Al Tareq, sandbox access, certification and the path to production are operated by Nebras — the steps change with each release, so follow them at the source:"
+        links={[
           {
-            steps.map((step) => (
-              <div class="step">
-                <div class="step-number">{step.number}</div>
-                <div class="step-content">
-                  <h3>{step.title}</h3>
-                  <p>{step.description}</p>
-                  <ul>
-                    {step.items.map((item) => (
-                      <li>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            ))
-          }
-        </div>
-      </section>
+            label: 'TPP registration & standards',
+            href: 'https://nebras-open-finance.com/tech/tpp-standards',
+          },
+          {
+            label: 'LFI API Hub — getting started',
+            href: 'https://nebras-open-finance.com/tech/lfi-api-hub/getting-started/',
+          },
+          { label: 'Program overview', href: 'https://nebras-open-finance.com/program/whats-live' },
+        ]}
+      />
 
       <section class="apis-section">
         <h2>Available API Families</h2>
