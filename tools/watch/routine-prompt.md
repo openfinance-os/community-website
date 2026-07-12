@@ -1,0 +1,116 @@
+# Weekly Ecosystem Watch — routine prompt
+
+This is the prompt for the scheduled Claude Code **routine** (claude.ai/code/routines)
+that refreshes the UAE Open Finance Ecosystem Watch at `/observatory/watch/` every
+Monday. Paste the **Instructions** section below into the routine.
+
+## Routine settings
+
+- **Repository:** `openfinance-os/community-website`
+- **Trigger:** Schedule — weekly, Monday ~07:30 Asia/Dubai
+- **Branch pushes:** enable **"Allow unrestricted branch pushes"** for this repo — the job
+  commits to `main` so Cloudflare Pages rebuilds the site. (A `claude/…` branch would not
+  trigger the production deploy.)
+- **Environment:** must have `python3` (3.11+), `pip install pyyaml` (used by
+  `tools/watch/of_watch_breaking.py` and the §3b OpenAPI diff), `git`, and network egress to:
+  `nebras-open-finance.com`, `data.directory.openfinance.ae`, `raw.githubusercontent.com`,
+  `api.github.com`, `github.com`, `openfinanceuae.atlassian.net`, `rulebook.centralbank.ae`.
+  Node/npm optional (only for `npm run build` validation). **No Cloudflare token needed** —
+  publishing is a `git push`, not a Wrangler deploy.
+- **Secrets:** none.
+
+## What changed from the old `woven` desktop task
+
+This routine replaces the desktop "Weekly of regulatory watch" task. Differences:
+
+- **Paths** are repo-relative to `community-website`, not `~/Documents/GitHub/woven/…`.
+- **Metrics source** is `nebras-open-finance.com/api/{api,auth,payments}-log.json` (the live
+  logs the migrated code and `state.json` already reference), not the old
+  `community-standards` raw path. Both hosts serve the same three logs; if you deliberately
+  want the git-committed `community-standards` snapshot instead, change §1 back.
+- **Publishing** is a `git commit + push` of the three `data/watch/` files to `main`
+  (Cloudflare Pages rebuilds). The old Cowork artifact refresh, the standalone
+  `ecosystem-watcher` Cloudflare deploy (`deploy-cloudflare.sh` / §7e), and the
+  `open-finance-tracker.html` SEED refresh are all **retired** — the subdomain now redirects
+  to `/observatory/watch/`.
+- The **skill-patch-drop** step is dropped (it targeted the `woven` skill folder, which this
+  routine has no access to). Skill maintenance stays a separate manual concern.
+- The **Teams digest** stays a draft in the run output only — the routine never sends it.
+
+---
+
+## Instructions
+
+You are running the weekly UAE Open Finance ecosystem monitoring sweep — a NEUTRAL regulatory-oversight watch of the whole UAE Open Finance ecosystem (Al Tareq / Nebras / CBUAE). Autonomous run — user not present. Make reasonable choices, do not ask questions, and do NOT take any write/send actions on external systems. The ONE permitted publish is committing the refreshed watch data to THIS repository (`openfinance-os/community-website`) and pushing to `main` (§7). No other send/post: the Teams digest stays a draft; never post to Confluence, Jira, Cloudflare, Magic Patterns, or any external host. Output = chat report + updated `data/watch/state.json`, `data/watch/history.json`, `data/watch/payload.json`, committed and pushed to `main` (Cloudflare Pages then rebuilds `/observatory/watch/`). Use roles, never personal names. Always include source links.
+
+== SCOPE: ECOSYSTEM-NEUTRAL ONLY ==
+This watch is neutral regulatory oversight of the UAE Open Finance ecosystem. It singles out NO individual institution. It must contain NO institution-specific delivery analysis, internal-programme references, channel/product plans, or "why it matters to <bank>" framing for ANY bank. Every licensed institution (LFI) and TPP is treated identically: each appears ONLY as a row in the league tables / adoption lists / heatmaps, exactly like its peers (e.g. ADCB is just `uae-adcbrt` among the LFI keys, no different from FAB, Mashreq, etc.). There is a SINGLE output — the neutral ecosystem watch page at `/observatory/watch/`, rendered from `data/watch/payload.json`. Do NOT build or publish any institution-specific artifact.
+
+== RECOMPUTE & VERIFY (every run — never copy numbers forward) ==
+Recompute EVERY figure in the payload from the freshly downloaded logs each run — headline, per-LFI, TPP, payments, adoption, AND the partial-month / all-data fields (activity.vals, activity.allTime, activity.partialVal, trend, headline.totalAll, payActivity.vals/allTime/partialVal). NEVER copy a number forward from last week's payload, even when full-months metrics are unchanged — copy-forward is exactly how stale figures crept in. Full-months figures may legitimately be identical week-to-week; the partial month and all-data totals almost never are.
+After building the payload, run a SELF-CONSISTENCY CHECK and, if any assertion fails, FIX the payload and re-run before publishing, and note the catch under ALERTS (do not publish a payload that fails the check). Assertions: (a) headline.totalAll == activity.allTime == sum(activity.vals); (b) headline.totalFull == activity.fullTotal == sum of the full-month vals; (c) re-aggregate the headline + per-LFI + concentration numbers a SECOND time independently and confirm they match the payload to the digit; (d) payActivity.allTime == sum(payActivity.vals) and fullTotal == sum of full-month pay vals; (e) every radar/board daysLeft equals (mandate date − today). Print the check results (PASS/FAIL per assertion) in the run output.
+
+== LINK REQUIREMENT (apply throughout) ==
+EVERY change you mention — in the chat report AND in the artifact payload — MUST carry a clickable source URL. Each commit → its GitHub commit/PR URL; each changed spec surface → the file at github.com/Nebras-Open-Finance/api-specs/blob/<ref>/<path> and the overall diff → /compare/<oldref>...<newref>; standards/errata/release-note items → the matching nebras-open-finance.com page; Confluence pages → their page URL; CBUAE items → the rulebook URL (rulebook.centralbank.ae/en/rulebook/open-finance-regulation); production-directory / compliance claims → https://data.directory.openfinance.ae/participants; metrics claims → nebras-open-finance.com/metrics. Payload fields: commits[i][3]=url, impact.rows[i][4]=url, impact.compareUrl, changeLog[i][3]=url, repos[i][3]=url, each radar[i].url, board[i].url, eco.links{standards,errata,apiHub,specBranch}. Templates render these when present — populate them.
+
+GOAL: Report ONLY what CHANGED since the last run, by diffing against the stored state file — plus fire threshold ALERTS. Don't pad with unchanged context. Always answer crisply: (A) HOW are the standards changing — field level in the OpenAPI specs, across the three layers (GitHub / Confluence / website); (B) HOW are operations going — who (TPPs and LFIs) is most active and which way the trend moves; (C) HOW is ADOPTION going — how many LFIs are REGISTERED LIVE in the production directory for each CBUAE-mandated release scope (authoritative), and how many of those are also actively serving traffic (secondary), vs when the mandate fell due. Lead with what it means for the ecosystem and the regulatory calendar.
+
+== STATE + HISTORY FILES ==
+State (diff basis): `data/watch/state.json` — read at START (if missing, baseline; note "baseline"); overwrite at END. Preserve the `artifacts` block (it documents this publish model).
+History (WoW): `data/watch/history.json` — APPEND one compact entry each run (runDate,totalFull,errPct,paySucc,authPct,top1Share,hhi,liveLFIs,liveTPPs,websiteSpecBranch); trim ~26.
+Basis: all headline + per-entity figures FULL-MONTHS-ONLY (exclude current partial month). Keep metrics.basis; never silently switch.
+State schema: { runDate, metrics_basis, artifacts, historyFile, websiteSpecBranch, standards:{version,errata,apiHub}, repos:{...}, specFiles:{...}, confluence:{...}, metrics:{...}, adoption:{ basis, rules, counts, lfisNow, lfisEver, v21recent2xx }, production:{ directoryFamilies, complianceBasis } }
+
+== 1. METRICS — EXACT + TREND + ECOSYSTEM MAP + PRODUCTION DIRECTORY (sandbox + prod) ==
+Public dashboard is JS-rendered; download the raw logs via bash:
+  curl -sL https://nebras-open-finance.com/api/api-log.json -o /tmp/api.json   (also auth-log.json, payments-log.json at the same host)
+Rows: date, lfinamekey, tppname, httpmethod, url (version vX.Y; family = 2nd path segment), tppresponsecodegroup (2xx|4xx|5xx), totalapicalls, executiontime. NOTE: unattributed traffic may appear as tppname=null (map null → "(Unattributed)"). LFI map: uae-mashrt=Mashreq, uae-dibrt=Dubai Islamic Bank, uae-wioretail=WIO, uae-adibrt=ADIB, uae-enbdx=Emirates NBD, uae-cbdrt=Commercial Bank of Dubai, uae-fabretail=FAB, uae-adcbrt=ADCB, uae-hsbcrt=HSBC retail, uae-hsbcws=HSBC wholesale. Weight by totalapicalls. Do NOT report executiontime — link to the dashboard for response times.
+Compute, full-months-only unless noted:
+  a) Headline: total calls; errors (4xx/5xx); error rate %; version share %; live LFI count (>0 calls); active TPP count.
+  b) Per LFI: calls + error rate %, split 4xx vs 5xx — all LFIs treated alike, ranked by volume.
+  c) TPP leaderboard: calls (exclude "(Unattributed)" but report its size + break it down by lfinamekey + family).
+  d) MoM TREND per LFI and per TPP; two most recent FULL months. Persist lfiMonthly + tppMonthly.
+  e) TPP×LFI MATRIX; NEW pairing vs state. Persist tppByLfi.
+  f) Payments: status counts; success = Accepted* vs Rejected/Pending (overall + per LFI); total value. auth 2xx share.
+  g) lfiKeysSeen + tppKeysSeen distinct sets.
+  h) ECOSYSTEM RISK: top-1 TPP share of ATTRIBUTED traffic + HHI (>2500 highly concentrated); per-TPP LFI reach; new (tpp,lfi) pairing vs state.
+  i) ADOPTION-VS-MANDATE — SANDBOX (demand-side, feeds the Adoption Heatmap only): parse url as open-finance/<domain>/vX.Y/<rest>; per LFI build a 2xx matrix per functionality per version (Consent:data-sharing, AIS:<sub>, PIS:payments, CoP, Product, insurance, fx, atm). "Active now" = 2xx in the two most recent FULL months; "ever" = any 2xx. This is SECONDARY evidence — clearly label it demand-side. Persist state.adoption.
+  k) PRODUCTION DIRECTORY — AUTHORITATIVE COMPLIANCE BASIS (feeds the Release Compliance board + deadline radar): fetch https://data.directory.openfinance.ae/participants (production Trust Framework directory). Per org, collect AuthorisationServers[].ApiResources[] where Status=="Active": {ApiFamilyType, ApiVersion, FamilyComplete, CertificationStatus}. Family→release map: account-information (the whole AIS family — balances, transactions, parties) + payment + confirmation ⇒ Retail R1; account-information also satisfies Retail R2 (transactions); product ⇒ Product Quotes R1+; ApiVersion "2.1" on any family ⇒ v2.1 uplift; insurance ⇒ Open Insurance (insurers only); fx ⇒ FX; atm ⇒ ATM. Count Tier-1 banks (of 8: FAB, Emirates NBD, ADCB, DIB, Mashreq, ADIB, HSBC, CBD) registered Active per release; track WIO (Tier-2) separately as "T2 early". This production registration is the GO-LIVE authority (self-certified, Status=Active); sandbox 2xx is SECONDARY. Persist state.production.directoryFamilies. DIFF vs state each run: a new family or new ApiVersion going Active for an LFI, a new org appearing in the production directory, or a release crossing a new Tier-1 count = ALERT + changeLog item (with the directory URL). You may annotate the production block of an existing payload with `python3 tools/watch/of_watch_production.py --payload data/watch/payload.json --out data/watch/payload.json`, but recompute the underlying counts yourself.
+Report metric CHANGES vs state (new full month; err >3pp; v2.1 share; rank/volume shift; new pairing; payment success; concentration shift; production-registration changes; sandbox adoption-set changes).
+
+== 2. THRESHOLD ALERTS ==
+NEW standards version/errata; NEW repo, or websiteSpecBranch change (§3b); NEW LFI/TPP live; NEW (tpp,lfi) pairing; PRODUCTION-DIRECTORY change (§1k: new Active family/version, new org, release Tier-1 count moves); sandbox adoption change (§1i); any LFI err>50% or overall err moved >5pp; any single-month volume swing >50%; STRUCTURAL spec change on main OR website branch (§3b); a self-consistency check failure (RECOMPUTE & VERIFY); a CBUAE mandatory date crossing <30 days with the production-registered Tier-1 count still short of the cohort (§2b).
+
+== 2b. DEADLINE RADAR (CBUAE mandatory calendar) ==
+Countdown (days vs today) + RAG per release; each row a CBUAE rulebook url. Each radar row's `live` = the PRODUCTION-registered count (§1k) of LFIs live now for that release (e.g. "8/8" Tier-1, or "1 insurer" for insurance), with `liveNames` listing them; add the secondary sandbox-traffic count in the note. Non-observable scopes (intl, SME, bulk, corporate sub-scopes — not separable in the directory or the URL logs) get live=null (renders n/obs). The payload carries `adoptionNote` distinguishing the two bases. The point of the radar is the GAP between the mandate date and the count actually live — the watch judges no single bank.
+Dates (AUTHORITATIVE source: CBUAE Annexure 1 — saved at `data/watch/references/cbuae-of-market-adoption-timeline-2026-01.md` + `.json`; REFRESH if a newer annexure appears). Tiers: Open Banking Tier 1 = 8 banks (FAB, Emirates NBD, ADCB, DIB, Mashreq, ADIB, HSBC ME, CBD); Tier 2 = 30 banks incl. WIO + Al Hilal. Open Insurance Tier 1 = 16 insurers, Tier 2 = 28. Per-release Tier-1 / Tier-2 deadlines: Retail R1 Sep-2025 / Sep-2026; Retail Product Quotes R1+ Sep-2025 / Sep-2026; Retail R2 Oct-2025 / Sep-2026; Intl (Retail/SME/Corp) Dec-2025 / Sep-2026; SME core Dec-2025 / Sep-2026; SME bulk/intl Mar-2026 / Sep-2026; Retail Extended Data Sharing Apr-2026 / Sep-2026; Standards V2.1 uplift Apr-2026 / Sep-2026; Corporate full suite Sep-2026 / Sep-2026; Standards V2.2 uplift Dec-2026 / Feb-2027; Open Insurance data+quotes Feb-2026 / Mar-2027; Insurance V2.1 uplift Apr-2026 / N-A; Insurance V2.2 uplift Dec-2026 / Mar-2027. (No standalone FX milestone — FX/intl folds into International Payments.) SLAs (reference): 99.5% uptime, 500ms API, 3s payment, 5s FX.
+
+== 3a. GITHUB — EVERY REPO, EVERY BRANCH ==
+ENUMERATE the org each run: curl api.github.com/orgs/Nebras-Open-Finance/repos?per_page=100&type=public&sort=updated. Known: community-standards (WEBSITE source + metrics logs), api-specs (NORMATIVE OpenAPI truth), postman, .github, agentic-toolkit (official 'uae-open-finance' Agent Skill). A repo NOT in state.repos = NEW-REPO ALERT. For EACH repo: default-branch HEAD sha+date; commits since state.repos[repo].headDate (carry each commit URL); ALL branch heads + pushed_at (if a non-main api-specs branch is ahead, run compare/main...<branch> and report ahead_by + files). Tags/releases + open PRs + recently-updated issues (with URLs). Persist repos:{<repo>:{headSha,headDate,pushedAt,branches}}.
+
+== 3b. OPENAPI STRUCTURAL DIFF — MAIN *AND* THE WEBSITE BRANCH ==
+community-standards may pin the site's spec branch in .specs-branch (raw .../community-standards/main/.specs-branch). FIRST read it → websiteSpecBranch; if the file is ABSENT the site builds from main (websiteSpecBranch=main); if its value differs from state.websiteSpecBranch = ALERT. Diff specs from BOTH api-specs main (governance truth) and the website branch (if pinned and != main). Discover paths via the tree api, fetch raw. Per file: sha256 vs state.specFiles (prefix website-branch keys "site:"); if changed parse with pyyaml and diff info.version, path:method set, required/enum sets. Report added/removed/renamed endpoints/fields/enums; NEW/RENAMED file = a finding. Persist both refs. You may rebuild the `breaking` payload block with `python3 tools/watch/of_watch_breaking.py --ref main --state data/watch/state.json --out /tmp/breaking.json` and fold it in. IMPACT MAP (keep the impact column ECOSYSTEM-NEUTRAL — what LFIs/integrators must change, the same for every institution): each row = surface + version delta + what changed + neutral impact + blob URL; plus compareUrl. CROSS-LAYER CHECK: main vs website-branch vs Confluence-attached YAML (§5) vs website-declared (§4); report divergence.
+
+== 4. RELEASE NOTES vs ERRATA ==
+WebFetch nebras-open-finance.com/tech/release-notes-and-erratas/ + children (release-notes/api-hub/<year>, /trust-framework/<year>, erratas/v2.1/). Report new Release Notes and new Errata SEPARATELY, errata at ITEM granularity, mapping each item to its §3b spec change, with the page URL. Baseline: v2.1-final, errata2, API Hub v8.
+
+== 5. CONFLUENCE (OF space — public; Atlassian MCP does NOT cover it) ==
+WebFetch https://openfinanceuae.atlassian.net/wiki/rest/api/content/search?cql=space%3DOF%20order%20by%20lastmodified%20desc&limit=25&expand=version . Report pages changed in last ~7 days (or vs state.confluence), each with its page URL. Bodies are anonymously readable via curl .../content/{id}?expand=body.storage — use for substance; a re-save with zero text change is cosmetic, not a finding. Confluence MIRRORS the OpenAPI YAMLs as attachments and lags GitHub. Watch: Catalogue/errata pages, attached *-openapi yaml, Commercial and Pricing Model (docVersion past 1.0), Testing & Certification, Platform Assurance (405307393), AML & Fraud (124747798), Limitation of Liability (124944402), API Hub Docs, Roadmap (6259008 — the public deadline source the page cites).
+
+== 6. CBUAE + ECOSYSTEM + GO-LIVE + WEBSITE ==
+WebSearch CBUAE rulebook / OF regulation + UAE OF news (LFI go-lives, TPP licensing, competitor moves, insurance). WebFetch nebras-open-finance.com/program/whats-live (JS-rendered — fall back to §1g/§1k participant sets and say so). Surface only genuine dated changes WITH links. If a source can't be fetched, note it and move on.
+
+== 7. UPDATE + COMMIT (the single permitted publish) ==
+  - Append this run's entry to `data/watch/history.json` (trim ~26).
+  - Rebuild `data/watch/payload.json` in full from the current logs + the production directory (RECOMPUTE everything; populate ALL url fields). The payload schema is exactly what `tools/watch/watch.template.html` consumes via `var D=__DATA__`, rendered by `src/pages/observatory/watch/index.html.ts`. The template renders: hero (transaction + payment-value, partial month striped), version ribbon, RELEASE COMPLIANCE board (driven by §1k PRODUCTION-directory registration — t1Now = Tier-1 banks registered Active for the release's families; insurance rows use t1Of=16 insurers; each card note adds the secondary sandbox-traffic count; intl/SME/bulk/corporate = n/obs), ADOPTION HEATMAP (two sub-grids — sandbox §1i demand-side 2xx, and the production-directory overlay — sharing ONE legend: Live / Exposed-no-traffic / Seen-earlier / No-evidence / Not-observed), Operations & Reliability, Economics. Every institution is just a row. Deadline source link = Confluence Roadmap page 6259008.
+  - Overwrite `data/watch/state.json` (specFiles both refs, lfiMonthly, tppMonthly, tppByLfi, tppKeysSeen, repos+branches, websiteSpecBranch, adoption, production.directoryFamilies). Preserve the `artifacts` block.
+  - VALIDATE before committing: run `python3 tools/watch/build_watch_page.py tools/watch/watch.template.html data/watch/payload.json /tmp/watch.html` (or `npm run build` if node is available) and confirm it renders without error and `__DATA__` is fully replaced. If validation fails, FIX and re-run — do not commit a broken payload.
+  - COMMIT + PUSH — the ONLY permitted external write:
+        git add data/watch/payload.json data/watch/state.json data/watch/history.json
+        git commit -m "chore(watch): weekly ecosystem watch <runDate>"
+        git push origin main
+      Cloudflare Pages rebuilds the community-website project on push and the page goes live at https://openfinance-os.org/observatory/watch/. Commit ONLY those three files — never anything else. If the push fails (auth, protected branch, conflict), capture the error, note it under ALERTS, and CONTINUE (do not force-push, do not retry destructively).
+  - ALERT DIGEST (draft only, NEVER send): if §2 alerts tripped, compose a 3-5 line plain-text digest for the Teams "Open Finance Support" channel at the TOP of the chat output under "DRAFT DIGEST (not sent)". A STANDING alert unchanged from the prior run does not re-trigger the digest — note under ALERTS. Do not call any send/post tool.
+
+== OUTPUT ==
+Concise chat summary; EVERY change cited carries a source link. Lead with the RECOMPUTE & VERIFY check result (PASS, or which assertion failed + fix). If a NEW alert tripped, then DRAFT DIGEST (not sent). Then ALERTS; then the neutral ECOSYSTEM report — (1) headline deltas incl WoW, operations trend, concentration; (1k) production-directory compliance moves + (1i) sandbox adoption moves; (2) spec changes (main AND website branch) + impact map + cross-layer; (2b) deadline radar moves; (3) GitHub (every repo); (4) Release Notes; (5) Errata item-level; (6) Confluence; (7) CBUAE/Go-live. One line per change: what, why it matters to the ecosystem / regulatory calendar, a link. Treat every institution identically — no single-institution spotlight. "No change." where nothing moved. Confirm in one line that `data/watch/{payload,state,history}.json` were recomputed, validated, committed, and pushed to `main` (with the commit URL), so Cloudflare rebuilds `/observatory/watch/`.
