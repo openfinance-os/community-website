@@ -327,7 +327,7 @@
    ]
   ],
   "successPct": 94.7,
-  "valueAED": 53894839.61
+  "valueAED": 53894830.61
  },
  "authPct": 53.4,
  "eco": {
@@ -1553,7 +1553,7 @@
    "Jul"
   ],
   "vals": [
-   4593.02,
+   4584.02,
    1883.91,
    2886.75,
    137199.02,
@@ -1569,8 +1569,8 @@
   "momPct": 59.8,
   "peakLabel": "Jun",
   "peakVal": 31634557.01,
-  "allTime": 62482228.41,
-  "fullTotal": 53894839.61,
+  "allTime": 62482219.41,
+  "fullTotal": 53894830.61,
   "partialLabel": "Jul",
   "partialVal": 8587388.8,
   "ccy": "AED"

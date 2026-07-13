@@ -26,9 +26,19 @@ Cloudflare Pages ──▶ openfinance-os.org/observatory/watch/
 
 A scheduled Claude job runs every Monday morning (Dubai time). Each run it:
 
+0. Runs `of_watch_metrics.py guard` first. If the source data has not advanced
+   since the last run (same `asOfData`, no headline signal moved), the run is a
+   no-op beyond the daily deadline-radar re-stamp: it skips the heavy recompute,
+   the commit, and the `history.json` append. This keeps frozen-data weeks from
+   minting duplicate history rows and empty-signal commits.
 1. Recomputes every figure from the freshly downloaded Nebras metrics logs
    and the production Trust Framework directory (never copies numbers
-   forward), and runs a self-consistency check before publishing.
+   forward). The log-derived block is produced by `of_watch_metrics.py compute`
+   (money summed in integer fils, not float AED), and `of_watch_metrics.py
+   verify` re-derives it from source and checks the payload to the digit before
+   publishing — catching both internal-consistency failures **and** drift from
+   the raw logs (an internally-consistent hand edit that no longer matches the
+   source passes the old assertions but fails `verify`).
 2. Diffs standards/specs (api-specs main **and** the website spec branch),
    release notes & errata, Confluence (OF space), GitHub org activity, and
    CBUAE news against `data/watch/state.json`.
@@ -46,6 +56,8 @@ the instruction set pasted into the scheduled Claude Code routine
 | --- | --- |
 | `watch.template.html` | Self-contained dashboard template; consumes the payload via `var D=__DATA__` |
 | `build_watch_page.py` | Standalone preview builder (the site build uses the Astro endpoint instead) |
+| `of_watch_metrics.py` | Deterministic recompute of the log-derived metrics (money in integer fils) + `verify` (source-fidelity self-check) + `guard` (early-exit when data hasn't advanced) |
+| `test_of_watch_metrics.py` | No-network unit tests for `of_watch_metrics.compute` (`python3 tools/watch/test_of_watch_metrics.py`) |
 | `of_watch_breaking.py` | Builds the `breaking` payload block from the api-specs breaking-changes registers |
 | `of_watch_production.py` | Builds the production adoption grid from the Trust Framework directory + metrics logs |
 | `../../data/watch/payload.json` | Latest weekly payload (rendered by the page) |
@@ -62,6 +74,25 @@ open /tmp/watch.html
 ```
 
 Or just `npm run build` — the page lands in `dist/observatory/watch/index.html`.
+
+## Metrics recompute & verification
+
+```bash
+# recompute the log-derived block from the live feeds (money in integer fils)
+python3 tools/watch/of_watch_metrics.py compute
+
+# gate the current payload against a fresh recompute (exit 1 on any mismatch)
+python3 tools/watch/of_watch_metrics.py verify --payload data/watch/payload.json
+
+# did the source data advance since the last run? (exit 3 = unchanged, skip)
+python3 tools/watch/of_watch_metrics.py guard --state data/watch/state.json
+
+# unit tests (no network)
+python3 tools/watch/test_of_watch_metrics.py
+```
+
+`compute`/`verify`/`guard` fetch the live logs by default; pass `--api/--auth/--pay`
+with local snapshots for offline runs.
 
 ## Editorial stance
 
