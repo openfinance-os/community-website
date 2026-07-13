@@ -34,7 +34,7 @@ disclaimers:
   - "Synthetic data only — not connected to any live bank or sandbox"
   - "Generated payloads are illustrative and may not capture every edge case"
   - "For exploration, design, and testing purposes"
-featured: false
+featured: true
 ---
 
 ## Overview
