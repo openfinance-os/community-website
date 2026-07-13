@@ -1,8 +1,8 @@
 {
- "runDate": "2026-07-12",
+ "runDate": "2026-07-13",
  "asOfData": "2026-07-07",
  "basis": "full-months-only (excl. partial 2026-07)",
- "status": "QUIET metrics week: full-months figures unchanged from last run (June remains the latest full month; total 482,964 calls, error rate 36.6%, v2.1 share 6.0%, live LFIs 13, live TPPs 13, payment success 94.7%, auth 2xx 53.4%, LEAN TECH 83.8% share/HHI 7099) — no new sandbox LFI/TPP and no new (tpp,lfi) pairing this run. SELF-CONSISTENCY CATCH: last run's headline payments.valueAED (AED 55,612,127.42) did not match its own per-LFI/per-TPP breakdown (both sum to AED 53,894,830.61, confirmed by two independent aggregations this run); corrected here — no underlying full-months data changed, the prior headline figure was simply wrong. STANDARDS: api-specs main advanced 634b325 (PR#23 'errata-3' + PR#24 merged, 8 Jul) — the SWIFT SR2026 international-payment PII restructuring (Creditor oneOf Individual/Organization, unified international CreditorAgent address) was pulled OUT of v2.1-errata2 (authorization-endpoints, bank-initiation — both revert to their pre-SR2026 domestic-style Creditor refs) and moved into a NEW v2.1-errata3 tier for those same 2 specs. This completes the reconciliation Confluence had already declared as 'Errata 3' last week: the website (nebras-open-finance.com) now also declares v2.1-errata3 as the latest errata, and Confluence's 'Consolidated Errata' page bumped v4→v5 (8 Jul) — all three layers (GitHub / Confluence / website) are now consistent on errata3. api-specs PR#22 (OFP-003 character-set implementation) opened 1 Jul, still unmerged. GOVERNANCE: NEW proposal OFP-005 'Confirm data deletion when a consent is revoked' (Proposed, voting 16–30 Jul 2026) — adds an append-only `audit` sub-resource (Deleted/Planned/NotDeleted attestations) to all consent types. RELEASE NOTES: NEW API Hub 2026.22.0 (6 Jul) — paymentId field restored on GET /payment-log, consent-revocation-in-non-revocable-state now HTTP 400, a PATCH /consents HTTP 500 bug fixed, OAuth error_description aligned to RFC 6749. Trust Framework 2.3.0 moved from 'Planned' to 'Released' (8 Jun, 17 changes); NEW 2.4.0 'Released' (7 Jul, 20 changes: CA management, org audit trail) and NEW 2.5.0 'Planned' (12 changes: search/filtering, cross-client app scope). GITHUB: community-standards main advanced 520e243f→7fc3b1d (7 commits, 8–10 Jul): metrics/erratas refresh, 2 OFP-005 placeholder commits, 3 new 'functional certification' (Bank Data Sharing) pages. PRODUCTION DIRECTORY: unchanged 11 orgs, Tier-1 compliance counts unchanged (R1 8/8, R2 8/8, Product Quotes 7/8, v2.1 uplift 4/8, Insurance 2/16). Minor depth-only change: HSBC's Retail authorisation server (uae-hsbcrt) now separately shows account-information + payment registered at v2.1 alongside its existing atm/confirmation/product v2.1 families; its separate Corporate/Wholesale server (uae-hsbcws) still registers those two families at v2.0. Does not move HSBC's Tier-1 status (already counted in the v2.1-uplift cohort).",
+ "status": "QUIET metrics week (3rd in a row): full-months figures unchanged from last run (June remains the latest full month; source logs at nebras-open-finance.com/api/*.json still cut off at 2026-07-07, unchanged since the 2026-07-08 run) — total 482,964 calls, error rate 36.6%, v2.1 share 6.0%, live LFIs 13, live TPPs 13, payment success 94.7%, auth 2xx 53.4%, LEAN TECH 83.8% share/HHI 7099. No new sandbox LFI/TPP and no new (tpp,lfi) pairing this run (58/58 pairs unchanged). Minor recompute refinement: payments.valueAED re-aggregated to AED 53,894,839.61 (was 53,894,830.61 — a $9.00/0.00002% difference: the November-2025 monthly bucket was under-recorded by AED 9.00 in the prior run's payActivity series; both totals are internally self-consistent to the cent against their own per-LFI/per-TPP breakdowns, so this is a precision refinement, not a data change). GITHUB: no default-branch HEAD moved on any of the 5 org repos. The only activity was a single commit (4372c0f, 9 Jul) pushed to api-specs PR#22's still-open, still-unmerged branch (creditor-debtor-reference-charset), addressing reviewer feedback on the OFP-003 character-set proposal. SPECS: api-specs main HEAD unchanged at 634b325; all 29 tracked spec files and all 3 breaking-changes registers confirmed byte-stable via fresh git-blob-sha1 refetch; website .specs-branch pin file remains absent (site still builds from main). RELEASE NOTES / ERRATA: no change — API Hub 2026.22.0 (6 Jul) and Trust Framework 2.4.0 (7 Jul, Released) / 2.5.0 (Planned) remain latest; v2.1-errata3 remains latest errata, item-level content identical. CONFLUENCE: no change — all 9 tracked OF-space pages stable at their prior version numbers. PRODUCTION DIRECTORY: unchanged 11 orgs, Tier-1 compliance counts unchanged (R1 8/8, R2 8/8, Product Quotes 7/8, v2.1 uplift 4/8, Insurance 2/16); directoryFamilies byte-identical to last run. CBUAE/ECOSYSTEM: no new dated news in the window; the CBUAE rulebook page returned HTTP 403 to direct fetch this run (proxy/site block, not a content change) and nebras-open-finance.com/program/whats-live remains an empty JS-rendered shell with no extractable data — both are fetch-limitation notes, not findings.",
  "scope": "Ecosystem overview — UAE Open Finance (Al Tareq / Nebras): all LFIs, all TPPs, standards & specs, CBUAE calendar.",
  "months": [
   "2025-11",
@@ -327,7 +327,7 @@
    ]
   ],
   "successPct": 94.7,
-  "valueAED": 53894830.61
+  "valueAED": 53894839.61
  },
  "authPct": 53.4,
  "eco": {
@@ -676,7 +676,7 @@
    "scope": "Consent · Single Instant Pay · CoP · Balance · Customer · Product",
    "t1Due": "2025-09",
    "t2Due": "2026-09",
-   "t1DaysLeft": -314,
+   "t1DaysLeft": -315,
    "applic": "Individual",
    "obs": true,
    "t1Now": 8,
@@ -692,7 +692,7 @@
    "scope": "Current · Savings · Credit Cards · Loans · Mortgages",
    "t1Due": "2025-09",
    "t2Due": "2026-09",
-   "t1DaysLeft": -314,
+   "t1DaysLeft": -315,
    "applic": "Individual",
    "obs": true,
    "t1Now": 7,
@@ -708,7 +708,7 @@
    "scope": "Transactions · VRP · FRP · Refunds · Future-Dated · Request to Pay · Delegated SCA",
    "t1Due": "2025-10",
    "t2Due": "2026-09",
-   "t1DaysLeft": -284,
+   "t1DaysLeft": -285,
    "applic": "Individual",
    "obs": true,
    "t1Now": 8,
@@ -724,7 +724,7 @@
    "scope": "Intl Payments · Extended Transactional · Future-Dated",
    "t1Due": "2025-12",
    "t2Due": "2026-09",
-   "t1DaysLeft": -223,
+   "t1DaysLeft": -224,
    "applic": "Indiv M · SME O · Corp O",
    "obs": false,
    "t1Now": null,
@@ -740,7 +740,7 @@
    "scope": "Consent · SIP · Customer/Balance/Transactional/Product · VRP/FRP · Refunds · Request to Pay · Delegated SCA",
    "t1Due": "2025-12",
    "t2Due": "2026-09",
-   "t1DaysLeft": -223,
+   "t1DaysLeft": -224,
    "applic": "SME",
    "obs": false,
    "t1Now": null,
@@ -756,7 +756,7 @@
    "scope": "Future-Dated · Bulk/Batch · International",
    "t1Due": "2026-03",
    "t2Due": "2026-09",
-   "t1DaysLeft": -133,
+   "t1DaysLeft": -134,
    "applic": "SME",
    "obs": true,
    "t1Now": 0,
@@ -772,7 +772,7 @@
    "scope": "Credit Cards · Loans · Mortgages · ATM Locations",
    "t1Due": "2026-04",
    "t2Due": "2026-09",
-   "t1DaysLeft": -102,
+   "t1DaysLeft": -103,
    "applic": "Indiv M · SME M",
    "obs": false,
    "t1Now": null,
@@ -788,7 +788,7 @@
    "scope": "V2.1 Standards alignment",
    "t1Due": "2026-04",
    "t2Due": "2026-09",
-   "t1DaysLeft": -102,
+   "t1DaysLeft": -103,
    "applic": "Individual",
    "obs": true,
    "t1Now": 4,
@@ -804,7 +804,7 @@
    "scope": "Consent · Corporate Data · All corporate payments · Intl · Future-Dated",
    "t1Due": "2026-09",
    "t2Due": "2026-09",
-   "t1DaysLeft": 51,
+   "t1DaysLeft": 50,
    "applic": "Corporate",
    "obs": false,
    "t1Now": null,
@@ -820,7 +820,7 @@
    "scope": "V2.2 Standards alignment (to be published shortly)",
    "t1Due": "2026-12",
    "t2Due": "2027-02",
-   "t1DaysLeft": 142,
+   "t1DaysLeft": 141,
    "applic": "Indiv·SME·Corp·Merchant",
    "obs": true,
    "t1Now": 0,
@@ -836,7 +836,7 @@
    "scope": "7 products: Home·Health·Renter·Motor·Life·Travel·ILoE; data sharing + near-real-time quotes",
    "t1Due": "2026-02",
    "t2Due": "2027-03",
-   "t1DaysLeft": -161,
+   "t1DaysLeft": -162,
    "applic": "Individual",
    "obs": true,
    "t1Now": 2,
@@ -852,7 +852,7 @@
    "scope": "V2.1 Standards alignment (insurance)",
    "t1Due": "2026-04",
    "t2Due": "2026-09",
-   "t1DaysLeft": -102,
+   "t1DaysLeft": -103,
    "applic": "Indiv M · Merchant M",
    "obs": true,
    "t1Now": 2,
@@ -868,7 +868,7 @@
    "scope": "V2.2 Standards alignment (insurance)",
    "t1Due": "2026-12",
    "t2Due": "2027-03",
-   "t1DaysLeft": 142,
+   "t1DaysLeft": 141,
    "applic": "Indiv·SME·Corp·Merchant",
    "obs": true,
    "t1Now": 0,
@@ -1350,6 +1350,60 @@
   [
    "Metrics / headline",
    "No change",
+   "Full-months figures unchanged for the 3rd straight run (June still latest full month; source logs unchanged since 2026-07-07): total 482,964 calls; error rate 36.6%; v2.1 share 6.0%; live LFIs 13; active TPPs 13. Payment success 94.7%; auth 2xx 53.4%. No new sandbox participant or (tpp,lfi) pairing (58/58 unchanged).",
+   "https://nebras-open-finance.com/metrics"
+  ],
+  [
+   "Recompute refinement",
+   "MINOR",
+   "payments.valueAED re-aggregated to AED 53,894,839.61 (was AED 53,894,830.61, a $9.00 / 0.00002% difference) — both totals are internally self-consistent (sum of per-LFI/per-TPP breakdown matches the headline to the cent); traced to a rounding difference on Emirates NBD's per-LFI figure in the prior run. No underlying transaction data changed.",
+   "https://nebras-open-finance.com/api/payments-log.json"
+  ],
+  [
+   "Spec (api-specs main)",
+   "No change",
+   "api-specs main HEAD unchanged at 634b325 (8 Jul). All 29 tracked spec files and all 3 breaking-changes registers reconfirmed byte-stable via fresh git-blob-sha1 refetch — full digest match, no content or info.version changes on any file.",
+   "https://github.com/Nebras-Open-Finance/api-specs/blob/main/dist/standards/v2.1/uae-account-opening-service-initiation-openapi.yaml"
+  ],
+  [
+   "Spec (staging PR)",
+   "IN PROGRESS",
+   "api-specs PR#22 'proposal ofp-003, define a set of characters for Creditor and Debtor…' (still open, unmerged, branch creditor-debtor-reference-charset) received a new commit (4372c0f, 9 Jul) addressing reviewer feedback on regex escaping and length constraints.",
+   "https://github.com/Nebras-Open-Finance/api-specs/pull/22"
+  ],
+  [
+   "Website spec branch",
+   "No change",
+   "community-standards `.specs-branch` pin file remains absent — the site continues to build specs from api-specs `main` (websiteSpecBranch = main).",
+   "https://raw.githubusercontent.com/Nebras-Open-Finance/community-standards/main/.specs-branch"
+  ],
+  [
+   "Release Notes / Errata",
+   "No change",
+   "API Hub 2026.22.0 (6 Jul) and Trust Framework 2.4.0 (7 Jul, Released) / 2.5.0 (Planned, 12 changes) remain the latest release notes. v2.1-errata3 remains the latest errata tier; both item-level entries (international-Creditor restructuring, Creditor-Agent address alignment) unchanged.",
+   "https://nebras-open-finance.com/tech/release-notes-and-erratas/"
+  ],
+  [
+   "Confluence (OF space)",
+   "No change",
+   "All 9 tracked pages stable at their prior version numbers (Consolidated Errata v5, errata2 v9, errata1 v7, Open Finance Platform v23, Nebras Interaction Guide v9, Platform Assurance v5, Commercial and Pricing Model v31, Testing & Certification v46). Roadmap page (v31) mandate dates unchanged.",
+   "https://openfinanceuae.atlassian.net/wiki/spaces/OF/pages/6259008"
+  ],
+  [
+   "Production directory",
+   "No change",
+   "Still 11 registered organisations; Tier-1 compliance counts unchanged (R1 8/8, R2 8/8, Product Quotes 7/8, v2.1 uplift 4/8, Insurance 2/16 of 16 insurers); directoryFamilies confirmed byte-identical via fresh fetch.",
+   "https://data.directory.openfinance.ae/participants"
+  ],
+  [
+   "CBUAE / ecosystem",
+   "No change",
+   "No new dated CBUAE circulars or ecosystem go-live/licensing news found in the window. Direct rulebook fetch returned HTTP 403 this run (site/proxy block, not a content change); nebras-open-finance.com/program/whats-live remains an empty JS-rendered shell.",
+   "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation"
+  ],
+  [
+   "Metrics / headline",
+   "No change",
    "Full-months figures unchanged (June still latest full month): total 482,964 calls; error rate 36.6%; v2.1 share 6.0%; live LFIs 13; active TPPs 13. Payment success 94.7%; auth 2xx 53.4%. No new sandbox participant or (tpp,lfi) pairing.",
    "https://nebras-open-finance.com/metrics"
   ],
@@ -1439,12 +1493,7 @@
   ]
  ],
  "alerts": [
-  "STRUCTURAL-SPEC-CHANGE: api-specs main relocated the SWIFT SR2026 international-PII restructuring OUT of v2.1-errata2 into a NEW v2.1-errata3 tier (authorization-endpoints, bank-initiation) — PR#23+PR#24, 8 Jul. errata2 reverts to pre-SR2026 domestic Creditor refs. https://github.com/Nebras-Open-Finance/api-specs/compare/ad5bb21d...634b325",
-  "STANDARDS-VERSION: website + Confluence now both declare v2.1-errata3 as the latest errata (was errata2) — all 3 layers consistent. https://nebras-open-finance.com/tech/release-notes-and-erratas/erratas/v2.1/",
-  "SELF-CONSISTENCY-CATCH: prior run's headline payments.valueAED (55,612,127.42) did not match its own per-LFI/per-TPP breakdown (both independently sum to 53,894,830.61); corrected this run — no underlying data changed.",
-  "GOVERNANCE: NEW proposal OFP-005 ('Confirm data deletion when a consent is revoked') opened for vote 16–30 Jul 2026. https://nebras-open-finance.com/proposals/ofp-005",
-  "RELEASE: NEW API Hub 2026.22.0 (6 Jul) and Trust Framework 2.4.0 (7 Jul, deployed) + 2.5.0 (Planned) — see Release Notes section.",
-  "STANDING: production-directory Tier-1 compliance counts unchanged (R1 8/8, R2 8/8, Product Quotes 7/8, v2.1 uplift 4/8, Insurance 2/16 of 16). Corporate full suite due in 51 days (1 Sep 2026), still n/obs. SME Bulk/Intl still 0/8 Tier-1 in production (WIO Tier-2 only). No new (tpp,lfi) pairing or sandbox participant this run."
+  "STANDING (no new alert this run — unchanged from 2026-07-12): production-directory Tier-1 compliance counts unchanged (R1 8/8, R2 8/8, Product Quotes 7/8, v2.1 uplift 4/8, Insurance 2/16 of 16). Corporate full suite due in 50 days (1 Sep 2026 Tier-1 deadline), still n/obs in the directory. SME Bulk/Intl still 0/8 Tier-1 in production (WIO Tier-2 only). No new (tpp,lfi) pairing or sandbox participant. api-specs PR#22 (OFP-003 charset) still open/unmerged, standard governance-in-progress item, not re-alerted."
  ],
  "activity": {
   "months": [
@@ -1504,7 +1553,7 @@
    "Jul"
   ],
   "vals": [
-   4584.02,
+   4593.02,
    1883.91,
    2886.75,
    137199.02,
@@ -1520,8 +1569,8 @@
   "momPct": 59.8,
   "peakLabel": "Jun",
   "peakVal": 31634557.01,
-  "allTime": 62482219.41,
-  "fullTotal": 53894830.61,
+  "allTime": 62482228.41,
+  "fullTotal": 53894839.61,
   "partialLabel": "Jul",
   "partialVal": 8587388.8,
   "ccy": "AED"
