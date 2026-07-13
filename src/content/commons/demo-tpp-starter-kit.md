@@ -28,7 +28,7 @@ links:
 disclaimers:
   - "Hackathon documentation for sandbox environment"
   - "APIs and examples are for hackathon participants"
-featured: true
+featured: false
 ---
 
 ## Overview
