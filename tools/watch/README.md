@@ -57,7 +57,8 @@ the instruction set pasted into the scheduled Claude Code routine
 | `watch.template.html` | Self-contained dashboard template; consumes the payload via `var D=__DATA__` |
 | `build_watch_page.py` | Standalone preview builder (the site build uses the Astro endpoint instead) |
 | `of_watch_metrics.py` | Deterministic recompute of the log-derived metrics (money in integer fils) + `verify` (source-fidelity self-check) + `guard` (early-exit when data hasn't advanced) |
-| `test_of_watch_metrics.py` | No-network unit tests for `of_watch_metrics.compute` (`python3 tools/watch/test_of_watch_metrics.py`) |
+| `of_watch_specdiff.py` | Field-level OpenAPI diff of the tracked spec surface via `raw.githubusercontent.com` — works with no GitHub API (see "Degraded GitHub scope") |
+| `test_of_watch_metrics.py` / `test_of_watch_specdiff.py` | No-network unit tests (`python3 tools/watch/test_of_watch_*.py`) |
 | `of_watch_breaking.py` | Builds the `breaking` payload block from the api-specs breaking-changes registers |
 | `of_watch_production.py` | Builds the production adoption grid from the Trust Framework directory + metrics logs |
 | `../../data/watch/payload.json` | Latest weekly payload (rendered by the page) |
@@ -93,6 +94,33 @@ python3 tools/watch/test_of_watch_metrics.py
 
 `compute`/`verify`/`guard` fetch the live logs by default; pass `--api/--auth/--pay`
 with local snapshots for offline runs.
+
+## Degraded GitHub scope
+
+The spec/standards layer (§3a/§3b) reads the `Nebras-Open-Finance` org, which is
+separate from this repo. If the routine's session is scoped only to
+`openfinance-os/community-website`, the GitHub integration returns **403** for
+`api.github.com`, `github.com`, and `codeload` — so org repo enumeration, branch
+heads, commit/PR history, and compare diffs are unavailable.
+
+- **Full fix:** widen the session's GitHub scope (on claude.ai/code, the
+  environment's repository configuration — not the network egress list) to
+  include the `Nebras-Open-Finance` public repos (`api-specs`,
+  `community-standards`, `postman`, `.github`, `agentic-toolkit`). Requires the
+  Claude Code GitHub App to be authorized on that org.
+- **Partial fix (works with no config):** `raw.githubusercontent.com` stays
+  reachable, and `state.specFiles` stores each tracked file's **git blob SHA-1**,
+  so the field-level OpenAPI diff needs no API. `of_watch_specdiff.py` fetches
+  every tracked path via raw, recomputes the blob SHA-1, and reports changed /
+  missing files with version + endpoint-count deltas and blob URLs:
+
+  ```bash
+  python3 tools/watch/of_watch_specdiff.py --state data/watch/state.json --ref main
+  ```
+
+  What raw **cannot** recover: discovery of brand-new spec files, new branches,
+  and commit/PR history — those still need the API. The tool prints the tree URL
+  for a manual eyeball and the routine flags the gap under ALERTS.
 
 ## Editorial stance
 
