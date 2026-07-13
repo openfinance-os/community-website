@@ -118,9 +118,18 @@ heads, commit/PR history, and compare diffs are unavailable.
   python3 tools/watch/of_watch_specdiff.py --state data/watch/state.json --ref main
   ```
 
-  What raw **cannot** recover: discovery of brand-new spec files, new branches,
-  and commit/PR history — those still need the API. The tool prints the tree URL
-  for a manual eyeball and the routine flags the gap under ALERTS.
+  `--probe` closes most of the new-file gap without the API: it checks
+  convention-derived successor folders (next minor / major version, next errata —
+  e.g. `v2.2.x`, `v2.1-errata4`) for the families already tracked, so a new
+  version line appearing (e.g. the Dec-2026 V2.2 uplift) is caught early.
+
+  **Residual gap** (no host can recover it here — the egress allowlist blocks
+  `github.com` / `codeload` / third-party mirrors, and `api.github.com` is
+  repo-scoped): a brand-new *family* filename or non-conventional path, new
+  branches, and commit/PR history. The `Nebras-Open-Finance` org is separate and
+  cannot be added to this session's scope, so §3a enumeration stays unavailable
+  as a standing limitation — the release-notes (§4) and Confluence attachments
+  (§5), both reachable, remain the authoritative "new standard" signal.
 
 ## Editorial stance
 

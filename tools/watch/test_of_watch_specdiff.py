@@ -79,6 +79,24 @@ def main():
 
     eq("missing.path", r["missing"][0]["path"], p_gone)
 
+    # --- discovery probe: a new file at a convention-derived successor folder ---
+    p_v21 = "dist/standards/v2.1/uae-account-information-openapi.yaml"
+    p_v22 = "dist/standards/v2.2/uae-account-information-openapi.yaml"   # successor, untracked
+    for rel in (p_v21, p_v22):
+        full = os.path.join(d, rel)
+        os.makedirs(os.path.dirname(full), exist_ok=True)
+        open(full, "wb").write(UNCHANGED_YAML)
+    dstate = {"specFiles": {p_v21: sd._blob_sha1(UNCHANGED_YAML)}, "specActiveInventory": {}}
+    dsc = sd.discover(dstate, ref="main", fixture_dir=d)
+    eq("discovery.newCandidates count", len(dsc["newCandidates"]), 1)
+    eq("discovery.newCandidates path", dsc["newCandidates"][0]["path"], p_v22)
+    assert dsc["probed"] >= 1, dsc
+    print(f"  ok  discovery probed {dsc['probed']} successor path(s), found {p_v22}")
+
+    # successor-folder name generation
+    eq("succ v2.1.x", sd._successor_folders("v2.1.x"), ["v2.2.x", "v3.0.x"])
+    eq("succ v2.1-errata2", sd._successor_folders("v2.1-errata2"), ["v2.1-errata3"])
+
     # blob-sha1 framing must equal `git hash-object` (empty blob is the canonical check)
     eq("empty-blob sha1", sd._blob_sha1(b""),
        "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391")

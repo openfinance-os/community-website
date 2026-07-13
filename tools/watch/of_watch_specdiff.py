@@ -99,6 +99,76 @@ def _parse(raw_bytes):
     return version, _operations(doc)
 
 
+def _split(path):
+    """dist/<category>/<versionFolder>/<basename> -> (category, folder, base) or None."""
+    parts = path.split("/")
+    if len(parts) == 4 and parts[0] == "dist" and parts[3].endswith(".yaml"):
+        return parts[1], parts[2], parts[3]
+    return None
+
+
+def _successor_folders(folder):
+    """Deterministic next-version folder names for a known version folder.
+
+    v2.1.x -> v2.2.x, v3.0.x ;  v2.1 -> v2.2, v3.0 ;  v2.1-errata2 -> v2.1-errata3.
+    Only these convention-based successors are probed — no wild guessing.
+    """
+    m = re.match(r"^v(\d+)\.(\d+)(\.x)?$", folder)
+    if m:
+        maj, mn, suf = int(m.group(1)), int(m.group(2)), m.group(3) or ""
+        return [f"v{maj}.{mn + 1}{suf}", f"v{maj + 1}.0{suf}"]
+    m = re.match(r"^v(\d+)\.(\d+)-errata(\d+)$", folder)
+    if m:
+        maj, mn, n = m.group(1), m.group(2), int(m.group(3))
+        return [f"v{maj}.{mn}-errata{n + 1}"]
+    return []
+
+
+def discover(state, ref, repo=REPO, fixture_dir=None, workers=8):
+    """Convention-based probe for NEW spec files raw cannot enumerate.
+
+    Derives (category -> known basenames) and (category -> version folders) from
+    the tracked paths, then probes each category's successor version/errata
+    folders for its known basenames. A 200 on a path absent from state.specFiles
+    is a NEW-FILE candidate. This is deterministic (reuses real basenames in
+    successor folders), not exhaustive — a brand-new *family* filename or a
+    non-conventional path won't be found; §4 release-notes / §5 Confluence remain
+    the authoritative 'new standard' signal.
+    """
+    spec_files = state.get("specFiles", {})
+    tracked = {k for k in spec_files if not k.startswith("site:")}
+    bases, folders = {}, {}
+    for path in tracked:
+        s = _split(path)
+        if not s:
+            continue
+        cat, folder, base = s
+        bases.setdefault(cat, set()).add(base)
+        folders.setdefault(cat, set()).add(folder)
+
+    candidates = []
+    for cat, flds in folders.items():
+        succ = {sf for f in flds for sf in _successor_folders(f)} - flds
+        for folder in succ:
+            for base in bases.get(cat, ()):
+                p = f"dist/{cat}/{folder}/{base}"
+                if p not in spec_files:
+                    candidates.append(p)
+
+    def probe(path):
+        raw = _fetch(repo, ref, path, fixture_dir)
+        return path if raw is not None else None
+
+    found = []
+    if candidates:
+        with ThreadPoolExecutor(max_workers=workers) as ex:
+            for hit in ex.map(probe, candidates):
+                if hit:
+                    found.append({"path": hit, "blobUrl": BLOB.format(repo=repo, ref=ref, path=hit),
+                                  "note": "new spec file at a convention-derived successor version/errata folder"})
+    return {"probed": len(candidates), "newCandidates": sorted(found, key=lambda c: c["path"])}
+
+
 def diff(state, ref, repo=REPO, fixture_dir=None, workers=8):
     spec_files = state.get("specFiles", {})
     inv = state.get("specActiveInventory", {})
@@ -166,11 +236,15 @@ def main():
     ap.add_argument("--ref", default="main")
     ap.add_argument("--repo", default=REPO)
     ap.add_argument("--fixture-dir", help="read specs from a local dir (offline test)")
+    ap.add_argument("--probe", action="store_true",
+                    help="also probe convention-derived successor folders for NEW spec files")
     ap.add_argument("--out")
     a = ap.parse_args()
 
     state = json.load(open(a.state))
     result = diff(state, a.ref, a.repo, a.fixture_dir)
+    if a.probe:
+        result["discovery"] = discover(state, a.ref, a.repo, a.fixture_dir)
 
     text = json.dumps(result, ensure_ascii=False, indent=1)
     if a.out:
@@ -188,6 +262,12 @@ def main():
                          f"endpoints {c['prevEndpointCount']} -> {c['newEndpointCount']}\n")
     for mss in result["missing"]:
         sys.stderr.write(f"  MISSING {mss['path']}\n")
+    if "discovery" in result:
+        dsc = result["discovery"]
+        sys.stderr.write(f"  probe: {len(dsc['newCandidates'])} new candidate(s) "
+                         f"from {dsc['probed']} convention-derived path(s)\n")
+        for c in dsc["newCandidates"]:
+            sys.stderr.write(f"  NEW-FILE {c['path']}\n")
 
 
 if __name__ == "__main__":
