@@ -1,6 +1,6 @@
 {
- "runDate": "2026-07-13",
- "note": "Run 2026-07-13: QUIET metrics week (3rd in a row) — source logs at nebras-open-finance.com/api/*.json still cut off at 2026-07-07 (unchanged since the 2026-07-08 run), so full-months figures are byte-identical (June still latest full month; total 482,964 calls; err 36.6%; v1.2/v2.0/v2.1=69.7/24.2/6.0; paySucc 94.7%; auth 53.4%; top1 LEAN TECH 83.8%/HHI 7099; liveLFIs 13; liveTPPs 13; 58/58 tpp-lfi pairs unchanged). RECOMPUTE REFINEMENT: payments.valueAED (accepted+received-only, full-months) re-aggregated from raw payments-log.json to AED 53,894,839.61 (was 53,894,830.61 last run, a $9.00 / 0.00002% difference traced to Emirates NBD's per-LFI rounding); self-consistency check PASSED — sum of fresh per-LFI/per-TPP breakdown matches the fresh headline total to the cent. PRODUCTION DIRECTORY: unchanged 11 orgs; directoryFamilies re-fetched from data.directory.openfinance.ae/participants and confirmed byte-identical; Tier-1 counts unchanged (R1 8/8, R2 8/8, ProductQuotes 7/8, v2.1uplift 4/8, Insurance 2/16). SPECS: api-specs main HEAD unchanged at 634b325; all 29 tracked spec files + 3 breaking-changes registers re-fetched via raw.githubusercontent.com and confirmed byte-stable (git blob sha1). website `.specs-branch` pin file still absent (websiteSpecBranch=main, unchanged). GITHUB: no default-branch HEAD moved on any of the 5 public org repos (community-standards 7fc3b1d, api-specs 634b325, postman 089cd0ad, .github 315d6541, agentic-toolkit 58bb146b — all unchanged). Only activity: commit 4372c0f (9 Jul) pushed to api-specs PR#22's still-open, still-unmerged branch (creditor-debtor-reference-charset), addressing reviewer feedback on the OFP-003 character-set proposal; PR#22 remains open. No new repo (still 5), no new/merged/closed PR elsewhere, no new branch, no tag/release activity, no issue activity in the last 7 days in any repo. RELEASE NOTES: no change — API Hub 2026.22.0 (6 Jul) and Trust Framework 2.4.0 (7 Jul, Released, deployed) / 2.5.0 (Planned, 12 changes) remain latest; confirmed via fresh WebFetch of nebras-open-finance.com/tech/release-notes-and-erratas/. ERRATA: v2.1-errata3 remains latest, item-level content confirmed unchanged (2 items: international-Creditor restructuring + Creditor-Agent address alignment). CONFLUENCE: all 9 tracked OF-space pages re-fetched via the public REST API and confirmed at their prior version numbers (Consolidated Errata v5, errata2 v9, errata1 v7, Open Finance Platform v23, Nebras Interaction Guide v9 +PDF v5.0, Platform Assurance v5, ISO cert v1 [not independently re-verified this run — presumed unchanged, flagged for a content-ID lookup next cycle], Commercial and Pricing Model v31/docVersion 1.0, Testing & Certification v46). Roadmap page (v31, content id 6259008) mandate-date content unchanged. CBUAE/ECOSYSTEM: WebSearch found no new dated CBUAE circulars or ecosystem go-live/licensing news in the window (searched broadly, back several weeks, nothing new beyond what was already known 2026-07-12). Direct fetch of rulebook.centralbank.ae/en/rulebook/open-finance-regulation returned HTTP 403 this run (site/proxy block, noted as a fetch limitation, not a content finding). nebras-open-finance.com/program/whats-live remains an empty JS-rendered shell (all counters show 0, 'Loading live data…') — confirmed client-side-only, no usable data extractable via plain fetch. ALERTS: none new this run — all prior conditions are STANDING (production compliance gaps, api-specs PR#22 still open) and were already alerted in prior runs; see payload.alerts for the STANDING summary line.",
+ "runDate": "2026-07-20",
+ "note": "Run 2026-07-20: PRODUCTION-DIRECTORY CHANGE — ADCB's registration moved from v2.0 to v2.1 across all 4 families (account-information, payment, confirmation, product), self-certified Active. This crosses the 'Standards uplift -> V2.1' Tier-1 count from 4/8 to 5/8 (Mashreq, CBD, Emirates NBD, HSBC, ADCB). No sandbox 2xx traffic yet on ADCB's v2.1 endpoints in the last 2 full months (exposed, not yet live). All other directoryFamilies unchanged (still 11 orgs); R1 8/8, R2 8/8, ProductQuotes 7/8, Insurance 2/16 unchanged. METRICS: 5th consecutive QUIET week — source logs at nebras-open-finance.com/api/*.json still cut off at 2026-07-07 (unchanged since the 2026-07-08 run), so full-months figures are byte-identical (June still latest full month; total 482,964 calls; err 36.6%; v1.2/v2.0/v2.1=69.7/24.2/6.0; paySucc 94.7%; auth 53.4%; top1 LEAN TECH 83.8%/HHI 7099; liveLFIs 13; liveTPPs 13; 58/58 tpp-lfi pairs unchanged; payments.valueAED (full months) AED 53,894,839.61 unchanged). Self-consistency check PASSED: headline/activity/payActivity totals independently re-aggregated a second time and matched to the digit; adoption sandbox classification (Retail R1/R2/R4+v2.1/Insurance now+ever lists) independently re-derived from raw logs using a >=10-2xx-call-in-window threshold per functionality/version and reproduced the stored lists exactly (including ADCB's exclusion from Retail R1 'now' -- its sandbox payment-domain 2xx trickle is 1-2 calls/month, below the meaningful-adoption threshold, despite having some 2xx on account-information/CoP). SPECS: api-specs main HEAD unchanged at 634b325; PR#22 (OFP-003 charset, branch creditor-debtor-reference-charset) unchanged since 9 Jul, still open/unmerged, still 1 commit ahead of main. website `.specs-branch` pin file still absent (websiteSpecBranch=main, unchanged; confirmed via fresh 404 on raw.githubusercontent.com). GITHUB: community-standards (website source) advanced 7fc3b1d->6e18b5d (2 commits, 15-18 Jul: 1288dd9 'functional payments and ofp-005' -- functional-certification payment/insurance portals, delegated-SCA explainers, sitemap/SEO infra; 6e18b5d 'ofp-006 & ofp-007 and cache breaking on deploy' -- 2 new governance proposal pages + stale-deploy cache-recovery script). Website content/infra only, no spec files touched. api-specs, postman, .github, agentic-toolkit repos all unchanged (still 5 public org repos, no new repo). No new/merged/closed PR, no new branch, no tag/release, no issue activity beyond the known PR#22. RELEASE NOTES: no change -- API Hub 2026.22.0 (6 Jul) and Trust Framework 2.4.0 (7 Jul, Released) / 2.5.0 (Planned) remain latest. ERRATA: v2.1-errata3 remains latest, item-level content unchanged (2 items). CONFLUENCE: all tracked OF-space pages re-fetched and confirmed at their prior version numbers (Consolidated Errata v5, errata2 v9, errata1 v7, Open Finance Platform v23, Nebras Interaction Guide v9, Platform Assurance v5); Roadmap page (v31, content id 6259008) mandate-date content unchanged (last modified 25 Mar 2026). CBUAE/ECOSYSTEM: WebSearch found no new dated CBUAE circulars or ecosystem go-live/licensing news affecting the mandate calendar this window; noted (not alerted, not a mandate change) CBUAE's BIS-led cross-border 'Project Aperta' interoperability pilot, completed 17 Jun 2026 -- an international research pilot, not a domestic mandate item. Direct fetch of rulebook.centralbank.ae/en/rulebook/open-finance-regulation returned HTTP 403 again this run (site/proxy block, not a content finding); nebras-open-finance.com/program/whats-live remains an empty JS-rendered shell. ALERTS: ONE NEW alert this run (production-directory Tier-1 count crossing for v2.1 uplift, 4/8->5/8); all other conditions STANDING (unchanged) from 2026-07-13.",
  "metrics_basis": "full-months-only (excludes the current partial month)",
  "artifacts": {
   "refreshedEachRun": true,
@@ -20,9 +20,9 @@
  "repoOrgEnumerated": "github.com/orgs/Nebras-Open-Finance/repositories (via WebFetch; api.github.com org-listing blocked for this session's proxy scope) — 5 public repos as of 2026-07-12 (unchanged: community-standards, api-specs, postman, .github, agentic-toolkit). A further new repo appearing = NEW-REPO ALERT.",
  "repos": {
   "community-standards": {
-   "headSha": "7fc3b1d",
-   "headDate": "2026-07-10",
-   "pushedAt": "2026-07-10",
+   "headSha": "6e18b5d",
+   "headDate": "2026-07-18",
+   "pushedAt": "2026-07-18",
    "role": "WEBSITE source (Vite app -> nebras-open-finance.com) + public metrics logs (refreshed through 2026-07-07); OFP-005 placeholder + BDS functional-certification pages shipped here",
    "branches": {
     "main": "7fc3b1d",
@@ -946,7 +946,8 @@
     "AIS:transactions",
     "CoP",
     "Consent",
-    "PIS:payments"
+    "PIS:payments",
+    "v2.1 uplift"
    ],
    "HSBC": [
     "AIS:balances",
@@ -1100,17 +1101,17 @@
    ]
   },
   "greenCells": 54,
-  "blueCells": 8,
+  "blueCells": 9,
   "note": "Diff `exposed` (production-directory capability registration) and `live` (2xx traffic) each run. A new entry in `exposed` = a production capability go-live (blue); a capability moving from exposed-only to having traffic = it went live (blue->green). Feeds the Adoption Heatmap Production sub-grid via tools/of_watch_production.py. NOTE: the public api-log has no environment field, so the green/live half is observed successful traffic on a production-exposed capability, not an env-tagged production volume.",
   "directoryFamilies": {
    "ADCB": {
     "size": "LFI",
     "status": "Active",
     "families": {
-     "confirmation": "2.0",
-     "product": "2.0",
-     "payment": "2.0",
-     "account-information": "2.0"
+     "product": "2.1",
+     "confirmation": "2.1",
+     "payment": "2.1",
+     "account-information": "2.1"
     }
    },
    "Mashreq": {
@@ -1208,7 +1209,7 @@
     }
    }
   },
-  "complianceBasis": "Release Compliance board driven by production-directory registration (Status=Active families). R1 8/8, R2 8/8, ProductQuotes 7/8, v2.1 4/8 Tier-1 (unchanged). Insurance unchanged: 2/16 Tier-1 insurers (LIVA + ADNIC).",
+  "complianceBasis": "Release Compliance board driven by production-directory registration (Status=Active families). R1 8/8, R2 8/8, ProductQuotes 7/8, v2.1 5/8 Tier-1 (CHANGED this run: ADCB moved v2.0->v2.1 across all 4 families, +1 vs last run's 4/8). Insurance unchanged: 2/16 Tier-1 insurers (LIVA + ADNIC).",
   "paymentFamilyEndpoints": "Per-bank payment ApiDiscoveryEndpoints checked: all 8 Tier-1 register only base payments + payment-consents + refund (FamilyComplete=False). Bulk = file-payments registered by WIO only (Tier-2, FamilyComplete=True). No international/multi endpoints registered by anyone; international is a payment-type within /payments (not a separate endpoint). Board: International + SME-Core = n/obs (not separable); SME Bulk = obs, 0/8 Tier-1 + WIO."
  },
  "asOfData": "2026-07-07"
