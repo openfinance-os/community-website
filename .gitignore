@@ -35,3 +35,7 @@ coverage/
 # playwright
 playwright-report/
 test-results/
+
+# python
+__pycache__/
+*.pyc
