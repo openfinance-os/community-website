@@ -1,20 +1,20 @@
 {
-  "timestamp": "2026-07-12T08:14:03.953Z",
+  "timestamp": "2026-07-24T08:24:38.250Z",
   "version": "2.0.0",
   "production": {
-    "timestamp": "2026-07-12T08:14:02.300Z",
+    "timestamp": "2026-07-24T08:24:32.632Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "production",
     "summary": {
-      "totalParticipants": 23,
+      "totalParticipants": 24,
       "byStatus": {
-        "Active": 23
+        "Active": 24
       },
       "byRole": {
-        "BDSP": 15,
-        "BSIP": 14,
-        "LFI": 15,
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 16,
         "ISP": 6,
         "API Read_Write": 3,
         "TSP": 3,
@@ -22,7 +22,7 @@
       },
       "byCity": {
         "Abu Dhabi": 5,
-        "Unknown": 12,
+        "Unknown": 13,
         "Dubai": 6
       },
       "apiFamilies": [
@@ -33,7 +33,7 @@
       ],
       "liveInProduction": 11,
       "shariahCompliantCount": 1,
-      "multiRoleCount": 23,
+      "multiRoleCount": 24,
       "tppCount": 0,
       "byAuthCapabilities": {
         "ciba": 0,
@@ -44,9 +44,9 @@
         "Self-Certified": 46
       },
       "byApiVersion": {
-        "2.0": 11,
+        "2.1": 32,
         "1.2": 7,
-        "2.1": 28
+        "2.0": 7
       }
     },
     "participants": [
@@ -78,28 +78,28 @@
         },
         "apiResources": [
           {
-            "family": "cop",
-            "version": "2.0",
+            "family": "products",
+            "version": "2.1",
             "certificationStatus": "Self-Certified",
             "familyComplete": true
           },
           {
-            "family": "products",
-            "version": "2.0",
+            "family": "cop",
+            "version": "2.1",
             "certificationStatus": "Self-Certified",
             "familyComplete": true
           },
           {
             "family": "payments",
-            "version": "2.0",
+            "version": "2.1",
             "certificationStatus": "Self-Certified",
             "familyComplete": false
           },
           {
             "family": "accounts",
-            "version": "2.0",
+            "version": "2.1",
             "certificationStatus": "Self-Certified",
-            "familyComplete": true
+            "familyComplete": false
           }
         ],
         "authServerCount": 1,
@@ -694,6 +694,31 @@
         "isLive": false
       },
       {
+        "id": "8c21e663-1d34-45cd-91fa-86d7c2d240f4",
+        "name": "NBF",
+        "legalName": "National Bank of Fujairah PJSC",
+        "shortName": "NBF",
+        "status": "Active",
+        "roles": [
+          "BDSP",
+          "BSIP",
+          "LFI"
+        ],
+        "city": "Unknown",
+        "registrationNumber": "01.01.01.039.1984.07",
+        "apiFamilies": [],
+        "hasAuthServer": false,
+        "isShariahCompliant": false,
+        "authCapabilities": {
+          "supportsCiba": false,
+          "supportsDCR": false,
+          "supportsRedirect": false
+        },
+        "apiResources": [],
+        "authServerCount": 0,
+        "isLive": false
+      },
+      {
         "id": "7336c529-f6ad-4d98-b9f6-183316fd0a68",
         "name": "NymCard Payment Services L.L.C.",
         "legalName": "NymCard Payment Services L.L.C.",
@@ -944,15 +969,21 @@
       }
     ],
     "trends": {
-      "participantChange": 0,
-      "newParticipants": [],
+      "participantChange": 1,
+      "newParticipants": [
+        "8c21e663-1d34-45cd-91fa-86d7c2d240f4"
+      ],
       "removedParticipants": [],
-      "roleChanges": {},
+      "roleChanges": {
+        "BDSP": 1,
+        "BSIP": 1,
+        "LFI": 1
+      },
       "apiFamilyChanges": {}
     }
   },
   "sandbox": {
-    "timestamp": "2026-07-12T08:14:03.900Z",
+    "timestamp": "2026-07-24T08:24:38.245Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "sandbox",
@@ -3455,6 +3486,7 @@
       "879f9b11-5905-41ae-9dbe-7cb151b16546",
       "4767786f-ab28-4d5c-8fdb-0f27e1c4eb9c",
       "94884086-b7c2-43a0-b4e7-a928b9fed0ac",
+      "8c21e663-1d34-45cd-91fa-86d7c2d240f4",
       "7336c529-f6ad-4d98-b9f6-183316fd0a68",
       "f4649205-7273-4b7f-8d55-5ad95674a5f9",
       "233bcd1d-4216-4b3c-a362-9e4a9282bba7",
@@ -3508,7 +3540,6 @@
       "c4d75ae0-6601-43ba-a2ac-33c666c4466d",
       "f004039c-1827-4851-800a-19b7a5e9f329",
       "8804ffec-cec7-4067-add0-00ed5efe1ef4",
-      "8c21e663-1d34-45cd-91fa-86d7c2d240f4",
       "8c9881e0-f32e-49e9-984b-8b42708dec88",
       "d0b8c17e-c503-412d-bf95-b4969dc71088",
       "7bcf7684-2ec6-441e-8eb2-247fea8a951a",
