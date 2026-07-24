@@ -137,6 +137,16 @@ export interface FilePRInput {
   prBody: string;
   /** Optional labels; failures to apply are non-fatal */
   labels?: string[];
+  /**
+   * When true, merge the PR immediately after creation instead of leaving it
+   * open for manual review. Use only for deterministic, no-judgment-call
+   * content (e.g. the weekly digest, computed entirely from data already
+   * committed to the repo) — not for anything requiring editorial review
+   * (e.g. curated external news articles).
+   */
+  autoMerge?: boolean;
+  /** Merge method used when autoMerge is true. Defaults to 'squash'. */
+  mergeMethod?: 'merge' | 'squash' | 'rebase';
 }
 
 /**
@@ -149,7 +159,8 @@ export async function createFilePR(
   options: GitHubOptions
 ): Promise<{ number: number; url: string; branch: string }> {
   const { owner, repo, baseBranch = 'main' } = options;
-  const { branchName, filePath, content, commitMessage, prTitle, prBody, labels } = input;
+  const { branchName, filePath, content, commitMessage, prTitle, prBody, labels, autoMerge, mergeMethod } =
+    input;
 
   // 1. Base branch SHA
   const baseRef = await githubRequest<GitHubRefResponse>(
@@ -218,6 +229,19 @@ export async function createFilePR(
   }
 
   console.log(`  Created PR #${pr.number}: ${pr.html_url}`);
+
+  // 8. Auto-merge (opt-in, deterministic content only — see FilePRInput.autoMerge)
+  if (autoMerge) {
+    try {
+      await githubRequest(`/repos/${owner}/${repo}/pulls/${pr.number}/merge`, options, 'PUT', {
+        merge_method: mergeMethod || 'squash',
+      });
+      console.log(`  Auto-merged PR #${pr.number}`);
+    } catch (err) {
+      console.warn(`  Could not auto-merge PR #${pr.number} (left open for manual review):`, err);
+    }
+  }
+
   return { number: pr.number, url: pr.html_url, branch: branchName };
 }
 

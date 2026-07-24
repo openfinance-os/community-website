@@ -6,8 +6,12 @@
  * Ecosystem Watch history (week-over-week metrics). No LLM, no external
  * calls — so the independent record can't hallucinate.
  *
- * Like news curation, it opens a PR adding a post to src/content/news/ for
- * a human to review and merge. Reuses createFilePR from the news pipeline.
+ * Opens a PR adding a post to src/content/news/, then merges it immediately —
+ * every figure is computed deterministically from data already committed to
+ * the repo (registry snapshots + Ecosystem Watch history), so there is no
+ * editorial judgment call to gate on; the PR exists purely as an audit trail.
+ * Reuses createFilePR from the news pipeline (unlike news curation, which
+ * still gates external articles on manual review).
  *
  * Usage:
  *   tsx scripts/weekly-digest.ts            # open a PR (needs GH_TOKEN)
@@ -218,12 +222,13 @@ async function main() {
       content: markdown,
       commitMessage: `feat(news): weekly digest ${slug}`,
       prTitle: `[Digest] ${title}`,
-      prBody: `Auto-generated weekly ecosystem digest.\n\n> ${description}\n\nMerge to publish, or close to skip this week. All figures are computed deterministically from committed data (registry snapshots + Ecosystem Watch history).`,
+      prBody: `Auto-generated weekly ecosystem digest.\n\n> ${description}\n\nAll figures are computed deterministically from committed data (registry snapshots + Ecosystem Watch history) — auto-merged on creation, no manual review needed.`,
       labels: ['weekly-digest', 'auto-generated'],
+      autoMerge: true,
     },
     { token, owner, repo }
   );
-  console.log(`Opened digest PR #${pr.number}: ${pr.url}`);
+  console.log(`Published digest PR #${pr.number}: ${pr.url}`);
 }
 
 main().catch((err) => {
