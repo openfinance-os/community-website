@@ -1,6 +1,6 @@
 {
- "runDate": "2026-07-24",
- "note": "Run 2026-07-24: GITHUB ACCESS BLOCKED this session — all requests to Nebras-Open-Finance repos (api.github.com, github.com web pages, and the GitHub MCP tools) returned HTTP 403 ('sessions are bound to their configured repositories'); this session's GitHub scope covers only openfinance-os/community-website. Commit/branch/PR/tag/issue activity across community-standards, api-specs, postman, .github, agentic-toolkit could NOT be verified this run — repos block below is carried forward UNVERIFIED from 2026-07-20, not reasserted as current. Likewise nebras-open-finance.com's release-notes/errata/whats-live pages are JS-rendered SPA routes; both a plain fetch and a headless-Chromium render attempt (browser egress was itself blocked in this sandbox, even via the configured proxy) returned nothing usable — releaseNotes/standards blocks carried forward unverified. What COULD be verified this run, via raw.githubusercontent.com (not blocked) and public JSON/REST endpoints: METRICS — the public logs at nebras-open-finance.com/api/*.json RESUMED after being stuck at 2026-07-07 for 5 consecutive runs; they now extend through 2026-07-19. Full-months figures unchanged (June remains the latest full month): total 482,964 calls; err 36.6%; v1.2/v2.0/v2.1=69.7/24.2/6.0; paySucc 94.7%; auth 53.4%; top1 LEAN TECH 83.8%/HHI 7099; liveLFIs 13; liveTPPs 13; 46/46 attributed tpp-lfi pairs (full months) unchanged; payments.valueAED (full months) AED 53,894,830.61 (vs 53,894,839.61 last run — a 9.00 AED immaterial revision to the 2025-11 accepted-payment total, not alert-worthy). Self-consistency check PASSED: headline/activity/payActivity totals independently re-aggregated a second time and matched to the digit; adoption sandbox classification (Retail R1/R2 8 now/9 ever, v2.1 R4+ 6/6, Insurance 1 now) independently re-derived from raw logs using the documented functionality/version thresholds and reproduced the stored lists exactly, including ADCB's exclusion from Retail R1 'now' (payment-domain 2xx trickle of only 3 calls in May+Jun, below the >=10-call threshold, despite 54+287 2xx calls on account-information/CoP). All-time totals recomputed fresh (never copied forward): totalAll 592,098 (was 514,906); partial-July calls 109,134 (was 31,942, now covering through 07-19 instead of 07-07); payActivity partial-July value AED 30,222,185.75 (was 8,587,388.80); payActivity.allTime AED 84,117,016.36. PRODUCTION DIRECTORY: re-fetched (data.directory.openfinance.ae) and re-derived via tools/watch/of_watch_production.py — unchanged: 11 orgs; R1 8/8, R2 8/8, Product Quotes 7/8, Standards uplift -> V2.1 5/8 Tier-1 (Mashreq, CBD, Emirates NBD, HSBC, ADCB), Insurance 2/16; production grid 57 green/9 blue cells, identical to last run. (Noted, not alerted: HSBC's directory entry carries a second, long-standing 'HSBC-Server-Corporate' AuthorisationServer registered on payment/account-information v2.0 alongside its primary v2.1 registrations — both AuthorisationServers show CreatedAt 2025-07-09, i.e. pre-existing, not a new registration event this run; does not change any compliance count.) SPECS: all 90 tracked api-specs main OpenAPI files re-hashed (git-blob SHA-1, via raw.githubusercontent.com) — byte-identical to the stored digests; the 8 tracked breaking-changes registers also unchanged (SHA-256 match). Cannot rule out a wholly NEW or renamed file appearing on main this run (GitHub tree-API access is blocked — see above). website `.specs-branch` pin file confirmed still absent (fresh 404 via raw.githubusercontent.com) -> websiteSpecBranch unchanged at main. CONFLUENCE: re-fetched via the public OF space REST search (openfinanceuae.atlassian.net) — confirmed NO page in the space modified since 2026-07-08T08:58 (the latest lastmodified timestamp returned), which predates the 2026-07-20 run; all tracked pages remain at their prior version numbers. CBUAE/ECOSYSTEM: rulebook.centralbank.ae returned HTTP 403 to direct fetch again (proxy/site block, consistent with every prior run). WebSearch found no new dated CBUAE circular or ecosystem go-live/licensing news affecting the mandate calendar this window (only already-known items: ADIB TPP license Apr 2026; CBD's earlier full Open Finance activation; the 20-Jul-2026 launch of 'Jaywan', a national card-scheme initiative outside Open Finance's regulatory scope). ALERTS: TWO NEW coverage-gap alerts this run (GitHub org access blocked; release-notes/errata pages unreachable) — both operational/access alerts, not content changes. No new content-level alert (production directory, specs, Confluence, adoption all independently re-verified unchanged). Recommend the routine maintainer extend this session's GitHub scope to include github.com/Nebras-Open-Finance, or run that sub-check from an unscoped session.",
+ "runDate": "2026-08-03",
+ "note": "Run 2026-08-03: metrics logs advanced to 2026-07-28 (were 2026-07-19). Full-months figures (Nov 2025-Jun 2026) unchanged byte-for-byte -- independently re-aggregated twice and matched to the digit. 3 new (tpp,lfi) sandbox pairings appeared in the all-time tppByLfi matrix (ABU DHABI ISLAMIC BANK P.J.S.C x WIO, EMIRATES NBD BANK PJSC x WIO, WIO BANK x Commercial Bank of Dubai) -- no new LFI/TPP key. ADCB emitted its first-ever non-zero v2.1 sandbox traffic (24 calls, all in the partial month) -- still below the >=100 'now' threshold. Production directory unchanged (11 orgs; R1 8/8, R2 8/8, Product Quotes 7/8, v2.1 uplift 5/8 Tier-1, Insurance 2/16). api-specs main unchanged (90/90 tracked files + 8 breaking-changes registers byte-identical); website .specs-branch pin still absent (websiteSpecBranch=main). Confluence OF space unchanged since 2026-07-08T08:58. GitHub org access remains scoped out of this session (403 on all Nebras-Open-Finance requests, standing limitation) -- repos block carried forward unverified from 2026-07-20. Release-notes/errata page now returns HTTP 200 but is still the pre-hydration SPA shell with no content -- standards/errata levels carried forward unverified. rulebook.centralbank.ae still 403. Corporates -- Full Suite Tier-1 deadline crossed under 30 days (29 left), scope still n/obs.",
  "metrics_basis": "full-months-only (excludes the current partial month)",
  "artifacts": {
   "refreshedEachRun": true,
@@ -374,7 +374,7 @@
  },
  "metrics": {
   "basis": "full-months-only",
-  "asOfDataThrough": "2026-07-19 (July partial excluded from full-months basis)",
+  "asOfDataThrough": "2026-07-28 (July partial excluded from full-months basis)",
   "monthsSeen": [
    "2025-11",
    "2025-12",
@@ -385,7 +385,7 @@
    "2026-05",
    "2026-06"
   ],
-  "totalCalls": 592098,
+  "totalCalls": 669021,
   "totalCallsFullMonthsOnly": 482964,
   "errorRatePct": 36.6,
   "byVersionPct": {
@@ -470,7 +470,7 @@
     "2026-04": 1475.0,
     "2026-05": 624.0,
     "2026-06": 1279.0,
-    "2026-07": 311.0
+    "2026-07": 392.0
    },
    "uae-hsbcrt": {
     "2025-11": 1349.0,
@@ -481,7 +481,7 @@
     "2026-04": 825.0,
     "2026-05": 1813.0,
     "2026-06": 9167.0,
-    "2026-07": 842.0
+    "2026-07": 6860.0
    },
    "uae-dibrt": {
     "2025-11": 4545.0,
@@ -492,7 +492,7 @@
     "2026-04": 3051.0,
     "2026-05": 3926.0,
     "2026-06": 2663.0,
-    "2026-07": 1498.0
+    "2026-07": 2345.0
    },
    "uae-adibrt": {
     "2025-11": 5343.0,
@@ -503,7 +503,7 @@
     "2026-04": 6033.0,
     "2026-05": 13075.0,
     "2026-06": 21407.0,
-    "2026-07": 18470.0
+    "2026-07": 33193.0
    },
    "uae-mashrt": {
     "2025-11": 8914.0,
@@ -514,7 +514,7 @@
     "2026-04": 17353.0,
     "2026-05": 28366.0,
     "2026-06": 25435.0,
-    "2026-07": 33461.0
+    "2026-07": 56624.0
    },
    "uae-cbdrt": {
     "2025-11": 2241.0,
@@ -525,7 +525,7 @@
     "2026-04": 2823.0,
     "2026-05": 4560.0,
     "2026-06": 2576.0,
-    "2026-07": 821.0
+    "2026-07": 1816.0
    },
    "uae-fabretail": {
     "2025-11": 196.0,
@@ -536,7 +536,7 @@
     "2026-04": 1904.0,
     "2026-05": 5265.0,
     "2026-06": 2627.0,
-    "2026-07": 627.0
+    "2026-07": 2212.0
    },
    "uae-enbdx": {
     "2025-11": 139.0,
@@ -547,7 +547,7 @@
     "2026-04": 8017.0,
     "2026-05": 6300.0,
     "2026-06": 6056.0,
-    "2026-07": 4799.0
+    "2026-07": 5896.0
    },
    "uae-wioretail": {
     "2025-12": 176.0,
@@ -557,7 +557,7 @@
     "2026-04": 11451.0,
     "2026-05": 39819.0,
     "2026-06": 32663.0,
-    "2026-07": 45887.0
+    "2026-07": 73022.0
    },
    "uae-hsbcws": {
     "2026-02": 1.0,
@@ -568,7 +568,7 @@
    },
    "uae-livx": {
     "2026-06": 169.0,
-    "2026-07": 2137.0
+    "2026-07": 3416.0
    },
    "uae-aaic": {
     "2026-06": 116.0,
@@ -589,7 +589,7 @@
     "2026-04": 40497.0,
     "2026-05": 79659.0,
     "2026-06": 81042.0,
-    "2026-07": 93402.0
+    "2026-07": 161553.0
    },
    "(Unattributed)": {
     "2025-11": 6596.0,
@@ -600,7 +600,7 @@
     "2026-04": 2316.0,
     "2026-05": 3241.0,
     "2026-06": 3468.0,
-    "2026-07": 1997.0
+    "2026-07": 3702.0
    },
    "NYMCARD": {
     "2025-11": 696.0,
@@ -611,7 +611,7 @@
     "2026-04": 145.0,
     "2026-05": 776.0,
     "2026-06": 1.0,
-    "2026-07": 13.0
+    "2026-07": 389.0
    },
    "PAY TEN PAYMENT SERVICES PROVIDER LLC": {
     "2025-11": 542.0,
@@ -622,7 +622,7 @@
     "2026-04": 1200.0,
     "2026-05": 687.0,
     "2026-06": 989.0,
-    "2026-07": 1363.0
+    "2026-07": 1630.0
    },
    "MASHREQ BANK PSC": {
     "2025-11": 9.0
@@ -636,7 +636,7 @@
     "2026-04": 12.0,
     "2026-05": 48.0,
     "2026-06": 88.0,
-    "2026-07": 134.0
+    "2026-07": 184.0
    },
    "ABU DHABI COMMERCIAL BANK PBJC": {
     "2025-11": 35.0,
@@ -646,7 +646,8 @@
     "2026-03": 1.0,
     "2026-04": 66.0,
     "2026-05": 1.0,
-    "2026-06": 6.0
+    "2026-06": 6.0,
+    "2026-07": 3.0
    },
    "FIRST ABU DHABI BANK PJSC": {
     "2025-11": 23.0
@@ -657,7 +658,7 @@
     "2026-04": 1971.0,
     "2026-05": 3665.0,
     "2026-06": 2406.0,
-    "2026-07": 5563.0
+    "2026-07": 7398.0
    },
    "ABU DHABI ISLAMIC BANK P.J.S.C": {
     "2026-02": 385.0,
@@ -665,7 +666,7 @@
     "2026-04": 6619.0,
     "2026-05": 14597.0,
     "2026-06": 5332.0,
-    "2026-07": 5172.0
+    "2026-07": 9399.0
    },
    "HSBC BANK MIDDLE EAST LIMITED": {
     "2026-02": 22.0,
@@ -673,12 +674,12 @@
     "2026-04": 109.0,
     "2026-05": 46.0,
     "2026-06": 7791.0,
-    "2026-07": 401.0
+    "2026-07": 419.0
    },
    "WIO BANK": {
     "2026-05": 1028.0,
     "2026-06": 2940.0,
-    "2026-07": 863.0
+    "2026-07": 1154.0
    },
    "ALAIN AHLIA INSURANCE COMPANY": {
     "2026-06": 109.0,
@@ -691,29 +692,30 @@
   },
   "tppByLfi": {
    "LEAN TECH": {
-    "uae-adcbrt": 15497.0,
-    "uae-hsbcrt": 8687.0,
-    "uae-dibrt": 19270.0,
-    "uae-adibrt": 54125.0,
-    "uae-mashrt": 83887.0,
-    "uae-cbdrt": 16076.0,
-    "uae-fabretail": 19045.0,
-    "uae-enbdx": 13827.0,
-    "uae-wioretail": 85783.0
+    "uae-adcbrt": 15756.0,
+    "uae-hsbcrt": 15112.0,
+    "uae-dibrt": 21206.0,
+    "uae-adibrt": 87064.0,
+    "uae-mashrt": 128716.0,
+    "uae-cbdrt": 16701.0,
+    "uae-fabretail": 21151.0,
+    "uae-enbdx": 14458.0,
+    "uae-wioretail": 157586.0
    },
    "(Unattributed)": {
-    "uae-mashrt": 21831.0,
+    "uae-mashrt": 24562.0,
     "uae-adcbrt": 223.0,
-    "uae-cbdrt": 598.0,
-    "uae-fabretail": 67.0,
-    "uae-enbdx": 1466.0,
+    "uae-cbdrt": 825.0,
+    "uae-fabretail": 73.0,
+    "uae-enbdx": 1907.0,
     "uae-dibrt": 78676.0,
-    "uae-adibrt": 631.0,
-    "uae-hsbcrt": 324.0,
-    "uae-wioretail": 2000.0,
+    "uae-adibrt": 747.0,
+    "uae-hsbcrt": 329.0,
+    "uae-wioretail": 2167.0,
     "uae-hsbcws": 13.0,
-    "uae-aaic": 7.0,
-    "uae-orient": 8.0
+    "uae-aaic": 13.0,
+    "uae-orient": 10.0,
+    "uae-livx": 1.0
    },
    "NYMCARD": {
     "uae-cbdrt": 778.0,
@@ -722,59 +724,62 @@
     "uae-hsbcrt": 287.0,
     "uae-fabretail": 1506.0,
     "uae-adcbrt": 68.0,
-    "uae-dibrt": 757.0
+    "uae-dibrt": 1146.0
    },
    "PAY TEN PAYMENT SERVICES PROVIDER LLC": {
-    "uae-adcbrt": 1172.0,
-    "uae-enbdx": 353.0,
-    "uae-adibrt": 1055.0,
-    "uae-cbdrt": 584.0,
-    "uae-fabretail": 1311.0,
-    "uae-mashrt": 2337.0,
-    "uae-wioretail": 833.0,
-    "uae-hsbcrt": 31.0,
-    "uae-dibrt": 33.0
+    "uae-adcbrt": 1302.0,
+    "uae-enbdx": 379.0,
+    "uae-adibrt": 1191.0,
+    "uae-cbdrt": 615.0,
+    "uae-fabretail": 1411.0,
+    "uae-mashrt": 2839.0,
+    "uae-wioretail": 1491.0,
+    "uae-hsbcrt": 58.0,
+    "uae-dibrt": 53.0
    },
    "MASHREQ BANK PSC": {
     "uae-mashrt": 9.0
    },
    "SPARE DIGITAL TECHNOLOGIES LLC S.O.C": {
-    "uae-mashrt": 183.0,
-    "uae-adibrt": 74.0,
-    "uae-wioretail": 142.0,
+    "uae-mashrt": 258.0,
+    "uae-adibrt": 76.0,
+    "uae-wioretail": 206.0,
     "uae-cbdrt": 9.0,
-    "uae-enbdx": 67.0,
+    "uae-enbdx": 79.0,
     "uae-fabretail": 16.0,
-    "uae-hsbcws": 5.0
+    "uae-hsbcws": 36.0
    },
    "ABU DHABI COMMERCIAL BANK PBJC": {
-    "uae-adcbrt": 218.0
+    "uae-adcbrt": 221.0
    },
    "FIRST ABU DHABI BANK PJSC": {
     "uae-fabretail": 23.0
    },
    "EMIRATES NBD BANK PJSC": {
-    "uae-enbdx": 9045.0,
-    "uae-livx": 169.0
+    "uae-enbdx": 12969.0,
+    "uae-livx": 3584.0,
+    "uae-wioretail": 59.0
    },
    "ABU DHABI ISLAMIC BANK P.J.S.C": {
     "uae-adibrt": 385.0,
-    "uae-mashrt": 22381.0,
-    "uae-cbdrt": 4409.0
+    "uae-mashrt": 30868.0,
+    "uae-cbdrt": 5295.0,
+    "uae-wioretail": 26.0
    },
    "HSBC BANK MIDDLE EAST LIMITED": {
-    "uae-hsbcrt": 8139.0,
-    "uae-hsbcws": 52.0
+    "uae-hsbcrt": 8542.0,
+    "uae-hsbcws": 68.0
    },
    "WIO BANK": {
-    "uae-wioretail": 2776.0,
-    "uae-enbdx": 1192.0
+    "uae-wioretail": 3021.0,
+    "uae-enbdx": 2054.0,
+    "uae-cbdrt": 47.0
    },
    "ALAIN AHLIA INSURANCE COMPANY": {
-    "uae-aaic": 109.0
+    "uae-aaic": 270.0
    },
    "ORIENT INSURANCE PJSC": {
-    "uae-orient": 13.0
+    "uae-orient": 78.0
    }
   },
   "payments": {
@@ -1215,7 +1220,7 @@
   "complianceBasis": "Release Compliance board driven by production-directory registration (Status=Active families). R1 8/8, R2 8/8, ProductQuotes 7/8, v2.1 5/8 Tier-1 (CHANGED this run: ADCB moved v2.0->v2.1 across all 4 families, +1 vs last run's 4/8). Insurance unchanged: 2/16 Tier-1 insurers (LIVA + ADNIC).",
   "paymentFamilyEndpoints": "Per-bank payment ApiDiscoveryEndpoints checked: all 8 Tier-1 register only base payments + payment-consents + refund (FamilyComplete=False). Bulk = file-payments registered by WIO only (Tier-2, FamilyComplete=True). No international/multi endpoints registered by anyone; international is a payment-type within /payments (not a separate endpoint). Board: International + SME-Core = n/obs (not separable); SME Bulk = obs, 0/8 Tier-1 + WIO."
  },
- "asOfData": "2026-07-19",
+ "asOfData": "2026-07-28",
  "lfiKeysSeen": [
   "uae-aaic",
   "uae-adcbrt",
