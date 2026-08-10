@@ -51,10 +51,14 @@ from collections import defaultdict
 from decimal import Decimal
 
 API_URL = "https://nebras-open-finance.com/api/api-log.json"
+API_INDEX_URL = "https://nebras-open-finance.com/api/api-log-index.json"
+API_SHARD_BASE = "https://nebras-open-finance.com/api/"
 AUTH_URL = "https://nebras-open-finance.com/api/auth-log.json"
 PAY_URL = "https://nebras-open-finance.com/api/payments-log.json"
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
       "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36")
+API_FIELDS = ["date", "lfinamekey", "tppname", "httpmethod", "url",
+              "tppresponsecodegroup", "totalapicalls", "executiontime"]
 
 MONTH_ABBR = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
               "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -68,8 +72,56 @@ def _get(url):
     return json.loads(urllib.request.urlopen(req, timeout=60).read())
 
 
+def _decode_shard(doc):
+    """Decode a {v,fields,dicts,rows} dictionary-encoded shard into a flat
+    list of row dicts. `dicts` maps a subset of `fields` to their distinct
+    values (referenced by index in `rows`); fields absent from `dicts`
+    (e.g. totalapicalls, executiontime) are stored as raw values."""
+    fields = doc["fields"]
+    dicts = doc["dicts"]
+    out = []
+    for row in doc["rows"]:
+        rec = {}
+        for i, fname in enumerate(fields):
+            v = row[i]
+            rec[fname] = dicts[fname][v] if fname in dicts and v is not None else v
+        out.append(rec)
+    return out
+
+
+def _is_shard_doc(obj):
+    return isinstance(obj, dict) and "rows" in obj and "fields" in obj
+
+
+def _fetch_api_log():
+    """nebras-open-finance.com retired the flat /api/api-log.json feed (it now
+    serves the SPA shell) in favour of /api/api-log-index.json — a shard list
+    — plus per-shard dictionary-encoded {v,fields,dicts,rows} files. Fetch the
+    index, decode every shard, and flatten to the row-dict schema the rest of
+    this module expects. Falls back to the legacy flat-array endpoint first,
+    in case it is ever restored, before trying the sharded index."""
+    try:
+        doc = _get(API_URL)
+        if isinstance(doc, list):
+            return doc
+    except (json.JSONDecodeError, OSError):
+        pass
+    index = _get(API_INDEX_URL)
+    out = []
+    for shard in index["shards"]:
+        out.extend(_decode_shard(_get(API_SHARD_BASE + shard)))
+    return out
+
+
 def _load(path, url):
-    return json.load(open(path)) if path else _get(url)
+    if path:
+        obj = json.load(open(path))
+        if _is_shard_doc(obj):
+            return _decode_shard(obj)
+        return obj
+    if url == API_URL:
+        return _fetch_api_log()
+    return _get(url)
 
 
 def _fils(amount):

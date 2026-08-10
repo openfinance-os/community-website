@@ -90,5 +90,45 @@ def main():
     print("\nall metrics tests passed")
 
 
+def test_shard_decode():
+    """nebras-open-finance.com/api/api-log.json was retired in favour of a
+    shard index + dictionary-encoded {v,fields,dicts,rows} shards (2026-08).
+    Pin the decoder against a tiny synthetic shard shaped like the real ones."""
+    shard = {
+        "v": 1,
+        "fields": m.API_FIELDS,
+        "dicts": {
+            "date": ["2026-01-05", "2026-01-06", "2026-02-01"],
+            "lfinamekey": ["uae-mashrt"],
+            "tppname": ["T1"],
+            "httpmethod": ["GET"],
+            "url": ["open-finance/aisp/v1.2/accounts"],
+            "tppresponsecodegroup": ["2xx", "4xx"],
+        },
+        "rows": [
+            [0, 0, 0, 0, 0, 0, 100, 250],   # date=Jan-05, 2xx, 100 calls
+            [1, 0, None, 0, 0, 1, 10, 300],  # date=Jan-06, unattributed, 4xx, 10 calls
+            [2, 0, 0, 0, 0, 0, 5, 200],      # date=Feb-01 (partial month), 2xx, 5 calls
+        ],
+    }
+    assert m._is_shard_doc(shard)
+    assert not m._is_shard_doc(API)
+    rows = m._decode_shard(shard)
+    eq("decoded row count", len(rows), 3)
+    eq("decoded row[0]", rows[0], {
+        "date": "2026-01-05", "lfinamekey": "uae-mashrt", "tppname": "T1",
+        "httpmethod": "GET", "url": "open-finance/aisp/v1.2/accounts",
+        "tppresponsecodegroup": "2xx", "totalapicalls": 100, "executiontime": 250,
+    })
+    eq("decoded row[1].tppname (unattributed -> None)", rows[1]["tppname"], None)
+    eq("decoded row[1].tppresponsecodegroup", rows[1]["tppresponsecodegroup"], "4xx")
+    # compute() must run identically over decoded shard rows as over a flat feed
+    c = m.compute(rows, [], [])
+    eq("shard-decoded headline.totalAll", c["headline"]["totalAll"], 115)
+    eq("shard-decoded headline.totalFull", c["headline"]["totalFull"], 110)
+    print("\nshard decoder tests passed")
+
+
 if __name__ == "__main__":
     main()
+    test_shard_decode()
