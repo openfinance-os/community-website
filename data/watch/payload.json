@@ -1,8 +1,8 @@
 {
- "runDate": "2026-08-03",
- "asOfData": "2026-07-28",
- "basis": "full-months-only (excl. partial 2026-07)",
- "status": "GitHub org scope: this session's GitHub access remains scoped only to openfinance-os/community-website; the GitHub MCP tools and api.github.com/github.com web requests to Nebras-Open-Finance return 403 by design of the session's repository configuration, consistent with every prior run — commit/branch/PR/tag/issue activity across community-standards, api-specs, postman, .github and agentic-toolkit could NOT be verified this run and is carried forward UNVERIFIED (last confirmed 2026-07-20). This does NOT block the content-level spec diff: raw.githubusercontent.com stays reachable and all 90 tracked api-specs main OpenAPI files were re-hashed (git-blob SHA-1) and are byte-identical to state, plus a --probe sweep of 141 convention-derived successor paths found no new spec file. The 8 tracked breaking-changes registers were independently re-hashed (SHA-256) and are unchanged. nebras-open-finance.com's release-notes/errata page now returns HTTP 200 to a plain fetch (previously blocked for several runs), but the payload is still the empty client shell before its JS hydrates — no article content is present in the raw HTML, so API Hub/Trust Framework/errata levels are still carried forward unverified from the last content-confirmed snapshot (API Hub 2026.22.0, Trust Framework 2.4.0/2.5.0, v2.1-errata3). What WAS fully verified this run: METRICS — the public logs (nebras-open-finance.com/api/*.json) now extend through 2026-07-28 (were through 2026-07-19). Full-months figures are unchanged byte-for-byte (June remains the latest full month: total 482,964 calls, error rate 36.6%, v2.1 share 6.0%, live LFIs 13, live TPPs 13, payment success 94.7%, auth 2xx 53.4%, LEAN TECH 83.8% share/HHI 7099) — independently re-aggregated a second time from the freshly downloaded logs and matched to the digit (self-consistency check PASSED). All-time totals (never copied forward) rose as expected from 9 more days of partial-July data: totalAll 592,098->669,021; partial-July calls 109,134->186,057; payActivity.allTime AED 84,117,016.36->104,692,192.77; partial-July payment value AED 30,222,185.75->50,797,362.16. NEW this run: 3 previously-unseen (tpp,lfi) sandbox pairings appeared in the all-time tppByLfi matrix (all in the newly-covered July window) — ABU DHABI ISLAMIC BANK P.J.S.C x WIO (26 calls), EMIRATES NBD BANK PJSC x WIO (59 calls), and WIO BANK x Commercial Bank of Dubai (47 calls) — three TPPs beginning to route through a bank they had not previously touched in the public logs. No new LFI or TPP key appeared (lfiKeysSeen / tppKeysSeen unchanged at 13/13). Also newly observable: ADCB emitted its first-ever non-zero v2.1 sandbox 2xx traffic (24 calls across accounts/balances/payments/products, all in July) — still far below the >=100-call 'meaningful adoption' threshold and entirely outside the May-Jun 'now' window used by the Adoption Heatmap, so it does not move any now/ever count, but it is the first live-wire evidence that ADCB's production-registered v2.1 endpoints (see below) are starting to carry sandbox traffic. PRODUCTION DIRECTORY: re-fetched and re-derived from data.directory.openfinance.ae — unchanged (11 orgs; R1 8/8, R2 8/8, Product Quotes 7/8, Standards uplift -> V2.1 5/8 Tier-1, Insurance 2/16; production grid 57 green/9 blue cells, identical to last run). SANDBOX ADOPTION SETS: independently re-derived from the raw logs on the documented thresholds (payment/transactions >=10 calls for R1/R2, >=100 v2.1 calls for R4+) and reproduced the stored lists exactly: Retail R1 8 now/9 ever, R2 8/9, v2.1 R4+ 6/6, Insurance 1 now -- no change. CONFLUENCE: re-fetched via the public OF-space REST search -- confirmed no page in the space modified since 2026-07-08T08:58, which predates this run; no change. CBUAE: rulebook.centralbank.ae returned HTTP 403 to direct fetch again (proxy/site block, consistent with every prior run). WebSearch found no new dated CBUAE circular or ecosystem go-live/licensing news this window.",
+ "runDate": "2026-08-11",
+ "asOfData": "2026-08-09",
+ "basis": "full-months-only (excl. partial 2026-08)",
+ "status": "GitHub org scope: this session's GitHub access remains scoped only to openfinance-os/community-website; api.github.com/github.com requests to Nebras-Open-Finance return 403 (standing limitation, unchanged since every prior run). raw.githubusercontent.com stayed reachable: all 90 tracked api-specs main OpenAPI files were re-hashed (git-blob SHA-1) and are byte-identical to state; a --probe sweep of 141 convention-derived successor paths found no new spec file; the 8 tracked breaking-changes registers were independently re-hashed (SHA-256) and are unchanged. A NEW partial signal: nebras-open-finance.com now serves /api/github-stats.json (an org-level rollup, not full API access) showing 5 repos (unchanged), 4 open PRs (was 1 tracked -- PR#22 OFP-003 charset -- so 3 more are open somewhere in the org that this session cannot enumerate by number/title), 0 open issues, 6 contributors, 32 recent commits -- carried as a secondary signal, not a replacement for full enumeration. MAJOR FINDING THIS RUN: nebras-open-finance.com resharded its primary metrics feed -- GET /api/api-log.json (previously a single flat JSON array) now 200s with the SPA HTML shell instead of data. The site's app bundle (/assets/app-BPiSQikJ.js) references the new path: /api/api-log-index.json, an index of 4 quarterly shards (api-log-q4-25.json .. api-log-q3-26.json) in a columnar dictionary-encoded format ({v,fields,dicts,rows}) rather than a flat array of objects. auth-log.json and payments-log.json are unaffected (still flat arrays at their original paths). All 4 shards were fetched, decoded, and merged (147,886 rows, 2025-11-01..2026-08-09) into the same row shape the existing tooling expects, and of_watch_metrics.py compute/verify ran cleanly against the merged set. This is a website-layer change worth tracking: a future re-shard or path change would silently break the routine's log fetch again. METRICS: logs now extend through 2026-08-09 (were through 2026-07-28) -- July is now a FULL month. Full-months figures moved materially: total 482,964->704,387 calls, error rate 36.6%->26.8%, v2.1 share 6.0%->19.6%, live LFIs 13, live TPPs 13, payment success 94.7%->95.5%, auth 2xx 53.4% (unchanged), LEAN TECH share 83.8%->85.6%/HHI 7099->7391 -- independently re-aggregated a second time from the freshly downloaded/decoded logs and matched to the digit. PRODUCTION DIRECTORY: re-fetched and re-derived from data.directory.openfinance.ae -- two Tier-1 banks (Dubai Islamic Bank, First Abu Dhabi Bank) completed the v2.1 uplift in production this run (all 4 families: account-information, payment, confirmation, product), moving Standards v2.1 uplift from 5/8 to 7/8 Tier-1 (only ADIB remains, still on v1.2). FAB also newly registered a 'file-payments' (bulk) endpoint in production -- the first Tier-1 bank to do so (previously only WIO/Tier-2); SME Bulk moves from 0/8 to 1/8 Tier-1. Production grid: 58 green / 10 blue cells (was 57/9). Insurance unchanged: 2/16 Tier-1 insurers (LIVA, ADNIC). SANDBOX ADOPTION: re-derived on the documented thresholds. Retail R1 8 now/9 ever, R2 8/9 -- unchanged. Retail R4+ v2.1: 6->7 now/ever -- Alain Ahlia Insurance Company (uae-aaic) crossed the >=100-call v2.1 threshold (168 calls); flagged as an insurer crossing a Retail-labelled threshold, same caveat as the existing uae-livx flag. Insurance: 1->2 now/ever -- Orient Insurance PJSC produced its first-ever successful (2xx) insurance-domain traffic (20 calls; was 4xx-only in every prior run). NEW ENTITY: 'COMMERCIAL BANK OF DUBAI' appeared as a TPP name for the first time (CBD itself acting as a data consumer, not just an LFI) -- 47 calls, 2026-08-03 to 08-08, querying WIO/Mashreq/Emirates NBD as an LFI. 5 new (tpp,lfi) sandbox pairings this run: COMMERCIAL BANK OF DUBAI x {WIO, Mashreq, Emirates NBD} (the new entity), plus MASHREQ BANK PSC x WIO and EMIRATES NBD BANK PJSC x Commercial Bank of Dubai. No new LFI key. CONFLUENCE: re-fetched via the public OF-space REST search -- no page/attachment modified since 2026-07-08T08:58:08.489Z, which predates this run's window; unchanged. CBUAE: rulebook.centralbank.ae returned HTTP 403 again (unchanged). WebSearch found no new dated CBUAE circular or ecosystem go-live/licensing news this window beyond previously-known 2026 milestones (CBD, FAB go-lives already reflected in the production directory).",
  "scope": "Ecosystem overview — UAE Open Finance (Al Tareq / Nebras): all LFIs, all TPPs, standards & specs, CBUAE calendar.",
  "months": [
   "2025-11",
@@ -12,25 +12,26 @@
   "2026-03",
   "2026-04",
   "2026-05",
-  "2026-06"
+  "2026-06",
+  "2026-07"
  ],
- "curPartial": "2026-07",
+ "curPartial": "2026-08",
  "headline": {
-  "totalAll": 669021,
-  "totalFull": 482964,
-  "errPct": 36.6,
+  "totalAll": 762447,
+  "totalFull": 704387,
+  "errPct": 26.8,
   "byVersion": [
    [
     "v1.2",
-    69.7
+    54.7
    ],
    [
     "v2.0",
-    24.2
+    25.7
    ],
    [
     "v2.1",
-    6.0
+    19.6
    ]
   ],
   "liveLFIs": 13,
@@ -79,184 +80,189 @@
   ],
   [
    "Jul",
-   186057,
+   221423,
+   false
+  ],
+  [
+   "Aug",
+   58060,
    true
   ]
  ],
  "families": [
   [
    "payment",
-   267433
+   356281
   ],
   [
    "account-information",
-   188215
+   316657
   ],
   [
    "confirmation-of-payee",
-   26768
+   30624
   ],
   [
    "product",
-   407
+   411
   ],
   [
    "insurance",
-   137
+   409
   ],
   [
    "atm",
-   4
+   5
   ]
  ],
  "lfi": [
   [
    "Mashreq",
-   130738,
-   39.6,
-   17.5,
-   22.1
-  ],
-  [
-   "Dubai Islamic Bank",
-   98736,
-   87.1,
-   80.3,
-   6.8
+   198082,
+   28.9,
+   14.0,
+   14.9
   ],
   [
    "WIO",
-   91534,
-   3.2,
-   2.2,
-   1.0
+   175368,
+   2.0,
+   1.3,
+   0.7
+  ],
+  [
+   "Dubai Islamic Bank",
+   101303,
+   85.7,
+   78.3,
+   7.4
   ],
   [
    "ADIB",
-   56270,
-   10.1,
-   1.2,
-   8.9
+   98416,
+   6.5,
+   0.7,
+   5.8
   ],
   [
    "Emirates NBD",
-   26242,
-   57.0,
-   6.6,
-   50.4
-  ],
-  [
-   "Commercial Bank of Dubai",
-   22454,
-   14.8,
-   3.3,
-   11.6
-  ],
-  [
-   "FAB",
-   21968,
-   20.8,
-   3.7,
-   17.1
+   32660,
+   48.6,
+   6.8,
+   41.8
   ],
   [
    "HSBC retail",
-   17468,
-   19.0,
-   2.6,
-   16.4
+   26440,
+   13.1,
+   1.7,
+   11.4
+  ],
+  [
+   "FAB",
+   25228,
+   25.7,
+   3.3,
+   22.4
+  ],
+  [
+   "Commercial Bank of Dubai",
+   24537,
+   15.9,
+   4.8,
+   11.0
   ],
   [
    "ADCB",
-   17178,
+   17612,
    25.2,
    4.4,
    20.8
   ],
   [
    "uae-livx (unmapped/unconfirmed)",
-   169,
-   1.8,
+   4215,
+   4.4,
    0.0,
-   1.8
+   4.4
   ],
   [
    "Alain Ahlia Insurance Company",
-   116,
-   63.8,
-   63.8,
-   0.0
+   321,
+   47.7,
+   46.4,
+   1.2
   ],
   [
    "HSBC wholesale",
-   70,
-   61.4,
-   28.6,
-   32.9
+   117,
+   48.7,
+   20.5,
+   28.2
   ],
   [
    "Orient Insurance PJSC",
-   21,
-   100.0,
-   100.0,
-   0.0
+   88,
+   77.3,
+   72.7,
+   4.5
   ]
  ],
  "tpp": [
   [
    "LEAN TECH",
-   316197
+   508827
   ],
   [
    "ABU DHABI ISLAMIC BANK P.J.S.C",
-   27175
+   38495
   ],
   [
    "EMIRATES NBD BANK PJSC",
-   9214
-  ],
-  [
-   "HSBC BANK MIDDLE EAST LIMITED",
-   8191
+   17574
   ],
   [
    "PAY TEN PAYMENT SERVICES PROVIDER LLC",
-   7709
+   9596
+  ],
+  [
+   "HSBC BANK MIDDLE EAST LIMITED",
+   8827
   ],
   [
    "WIO BANK",
-   3968
+   5230
   ],
   [
    "NYMCARD",
-   3798
+   4187
   ],
   [
    "SPARE DIGITAL TECHNOLOGIES LLC S.O.C",
-   496
-  ],
-  [
-   "ABU DHABI COMMERCIAL BANK PBJC",
-   218
+   763
   ],
   [
    "ALAIN AHLIA INSURANCE COMPANY",
-   109
+   307
+  ],
+  [
+   "ABU DHABI COMMERCIAL BANK PBJC",
+   221
+  ],
+  [
+   "ORIENT INSURANCE PJSC",
+   78
   ],
   [
    "FIRST ABU DHABI BANK PJSC",
    23
   ],
   [
-   "ORIENT INSURANCE PJSC",
-   13
-  ],
-  [
    "MASHREQ BANK PSC",
    9
   ]
  ],
- "unattributed": 105844,
+ "unattributed": 110250,
  "unattBreakdown": [
   [
    "Dubai Islamic Bank · payment",
@@ -264,31 +270,31 @@
   ],
   [
    "Mashreq · payment",
-   16455
+   16471
   ],
   [
    "Mashreq · account-information",
-   5375
+   8722
   ],
   [
    "WIO · account-information",
-   1865
+   2012
   ],
   [
    "Emirates NBD · account-information",
-   1459
-  ],
-  [
-   "ADIB · account-information",
-   628
+   1933
   ],
   [
    "Commercial Bank of Dubai · account-information",
-   592
+   856
+  ],
+  [
+   "ADIB · account-information",
+   652
   ],
   [
    "HSBC retail · account-information",
-   310
+   314
   ],
   [
    "ADCB · account-information",
@@ -296,45 +302,45 @@
   ],
   [
    "WIO · payment",
-   120
+   140
   ]
  ],
  "payments": {
   "rows": [
    [
     "AcceptedWithoutPosting",
-    11690
+    22851
    ],
    [
     "AcceptedSettlementCompleted",
-    2694
+    2862
    ],
    [
     "Pending",
-    496
-   ],
-   [
-    "AcceptedCreditSettlementCompleted",
-    428
+    750
    ],
    [
     "Rejected",
-    327
+    482
+   ],
+   [
+    "AcceptedCreditSettlementCompleted",
+    429
    ],
    [
     "Received",
     9
    ]
   ],
-  "successPct": 94.7,
-  "valueAED": 53894830.61
+  "successPct": 95.5,
+  "valueAED": 116022712.01
  },
  "authPct": 53.4,
  "eco": {
   "top1": "LEAN TECH",
-  "top1share": 83.8,
-  "hhi": 7099,
-  "attributed": 377120.0,
+  "top1share": 85.6,
+  "hhi": 7391,
+  "attributed": 594137.0,
   "multibank": [
    [
     "LEAN TECH",
@@ -353,27 +359,27 @@
     7
    ],
    [
-    "ABU DHABI ISLAMIC BANK P.J.S.C",
-    3
+    "EMIRATES NBD BANK PJSC",
+    4
    ],
    [
-    "EMIRATES NBD BANK PJSC",
-    2
+    "ABU DHABI ISLAMIC BANK P.J.S.C",
+    4
+   ],
+   [
+    "WIO BANK",
+    3
    ],
    [
     "HSBC BANK MIDDLE EAST LIMITED",
     2
-   ],
-   [
-    "WIO BANK",
-    2
    ]
   ],
-  "goLiveRadar": "No new sandbox participants or (tpp,lfi) pairings this run. The two most recent FULL months (May/Jun 2026) that adoption + concentration are derived from are unchanged, so the attributed set, top-1 share/HHI, and multibank reach are all byte-identical to the prior run — independently re-aggregated a second time from the freshly downloaded logs and confirmed to match.",
-  "note": "LEAN TECH handles 83.8% of attributed traffic across the live banks (HHI 7099; anything over 2,500 is “highly concentrated”). Because there is no second aggregator at scale, a Lean outage would stall most Open Finance activity market-wide. Unattributed: 105,844 calls."
+  "goLiveRadar": "5 new (tpp,lfi) pairings this run (see status) -- the largest weekly jump in reach observed to date -- driven mostly by the new 'COMMERCIAL BANK OF DUBAI' entity. Concentration ROSE this run: LEAN TECH's share of attributed traffic moved 83.8%->85.6% and HHI 7099->7391 (both up, and further into 'highly concentrated' territory), because LEAN TECH's own volume grew faster (+61% May/Jun->Jun/Jul... see movers) than the smaller TPPs entering new pairings.",
+  "note": "LEAN TECH handles 85.6% of attributed traffic across the live banks (HHI 7391; anything over 2,500 is “highly concentrated”). Because there is no second aggregator at scale, a Lean outage would stall most Open Finance activity market-wide. Unattributed: 110,250 calls."
  },
  "impact": {
-  "headline": "api-specs main advanced ad5bb21d→634b325 (PR#23 'errata-3' + PR#24 merged, 8 Jul) — the SWIFT SR2026 international-payment PII restructuring is RELOCATED from v2.1-errata2 into a NEW v2.1-errata3 tier for authorization-endpoints + bank-initiation; errata2 reverts to its pre-SR2026 domestic-style Creditor refs.",
+  "headline": "api-specs main unchanged this run (all 90 tracked files + 8 breaking-changes registers byte-identical to state, content-verified via raw.githubusercontent.com). The v2.1-errata3 SWIFT SR2026 international-payment PII restructuring reported last run remains the latest structural change.",
   "rows": [
    [
     "POST /par — international Creditor (errata2, REVERTED)",
@@ -404,11 +410,11 @@
     "https://nebras-open-finance.com/tech/release-notes-and-erratas/erratas/v2.1/"
    ]
   ],
-  "crossLayer": "api-specs main now v2.1-errata3 (authorization-endpoints, bank-initiation) · website spec branch still main (no .specs-branch pin) · website declares errata3 · Confluence Consolidated Errata page v5 (8 Jul) documents errata3. All layers consistent. OFP-003 (character-set) remains branch-only (PR#22, open since 1 Jul) — not reflected in any layer's normative content yet.",
+  "crossLayer": "api-specs main unchanged (content-verified) · website spec branch still main (no .specs-branch pin, 404 confirmed again) · Confluence Consolidated Errata page unchanged at v5 (8 Jul). All layers remain consistent on v2.1-errata3 -- no cross-layer divergence this run.",
   "compareUrl": "https://github.com/Nebras-Open-Finance/api-specs/compare/ad5bb21d...634b325"
  },
  "breaking": {
-  "headline": "15 enforced/live breaking changes — 18 TPP-facing, 4 LFI/API-Hub",
+  "headline": "12 enforced/live breaking changes — 16 TPP-facing, 3 LFI/API-Hub",
   "asOf": "api-specs main · current errata register",
   "tpp": [
    [
@@ -538,22 +544,6 @@
     "Exchange the auth code for a token within 60s of issuance",
     "behaviour",
     "https://nebras-open-finance.com/tech/release-notes-and-erratas/"
-   ],
-   [
-    "API Hub — consent revocation  (2026.22.0 (live 6 Jul))",
-    "API Hub v8 · behaviour",
-    "Consent revocation in a non-revocable state now returns HTTP 400 (previously inconsistent/undocumented)",
-    "Treat HTTP 400 on revoke-of-non-revocable-consent as expected; do not retry.",
-    "behaviour",
-    "https://nebras-open-finance.com/tech/release-notes-and-erratas/"
-   ],
-   [
-    "API Hub — OAuth token endpoint  (2026.22.0 (live 6 Jul))",
-    "API Hub v8 · behaviour",
-    "error_description values on token-endpoint error responses now contain only RFC 6749-permitted characters",
-    "No TPP action — parsers expecting the RFC 6749 charset are unaffected; free-text error copy is now constrained.",
-    "behaviour",
-    "https://nebras-open-finance.com/tech/release-notes-and-erratas/"
    ]
   ],
   "lfi": [
@@ -580,24 +570,16 @@
     "Update the integration to the corrected contract.",
     "live",
     "https://github.com/Nebras-Open-Finance/api-specs/blob/main/supporting/breaking-changes/api-hub/v2.1.x/uae-api-hub-consent-manager-openapi/breaking-changes.yaml"
-   ],
-   [
-    "API Hub — Consent Manager GET /payment-log  (2026.22.0 (live 6 Jul))",
-    "API Hub v8 · behaviour",
-    "Mandatory paymentId field restored on Consent Manager GET /payment-log responses",
-    "No TPP action; LFIs/API Hub consumers relying on the field's prior absence should re-check parsing.",
-    "behaviour",
-    "https://nebras-open-finance.com/tech/release-notes-and-erratas/"
    ]
   ],
   "pending": [
    [
-    "api-specs PR#22 'proposal ofp-003, define a set of characters for Creditor and Debtor…' (branch creditor-debtor-reference-charset, NOT yet merged)",
-    "staging · open PR, opened 1 Jul",
-    "Implements OFP-003 (approved 1 Jul 2026, decision DR-2026-003): adds a `pattern` regex (ISO 20022 / SWIFT “x” set) to AECreditorReference / AEDebtorReference across the API Hub Consent Manager, Ozone Connect bank-service-initiation + consent-events-actions, and the standards authorization-endpoints + bank-initiation specs, plus prepared breaking-changes register entries.",
-    "A further payment-reference-format breaking change is staged — watch for merge to main",
+    "api-specs branch creditor-debtor-reference-charset (NOT on main)",
+    "staging · +1 ahead, 4 behind main",
+    "Implements OFP-003 (approved 1 Jul 2026, decision DR-2026-003): adds a `pattern` regex (ISO 20022 / SWIFT “x” set — Latin letters, digits, space, and / - ? : ( ) . , ’ +; the Arabic block proposed originally was dropped) to AECreditorReference / AEDebtorReference across the API Hub Consent Manager, Ozone Connect bank-service-initiation + consent-events-actions, and the standards authorization-endpoints + bank-initiation specs, plus prepared breaking-changes register entries.",
+    "A further payment-reference-format breaking change is staged — watch for merge to main under v2.1-errata2/3",
     "staging",
-    "https://github.com/Nebras-Open-Finance/api-specs/pull/22"
+    "https://github.com/Nebras-Open-Finance/api-specs/compare/main...creditor-debtor-reference-charset"
    ]
   ],
   "note": "Parsed from api-specs supporting/breaking-changes/** (each entry oasdiff-signed-off by Nebras) plus API Hub release-note behaviour changes. Standards-spec breaks are TPP-facing (the contract TPPs build to); api-hub / Ozone-Connect breaks are LFI / API-Hub-facing. SupplementaryData blocks stay open as extension points. Status: Enforced now = merged to main under the current errata; Live behaviour = deployed API Hub release; Doc-align = spec now matches live wire; Staging = on a branch."
@@ -612,31 +594,31 @@
   [
    "community-standards",
    "6e18b5d",
-   "UNVERIFIED this run (GitHub access blocked — see status). Last confirmed 2026-07-20: main advanced 7fc3b1d→6e18b5d (2 commits, 15-18 Jul): 1288dd9 'functional payments and ofp-005' (65 files — functional-certification payment portals, delegated-SCA explainers, insurance data-sharing components, sitemap/SEO infra) and 6e18b5d 'ofp-006 & ofp-007 and cache breaking on deploy' (2 new governance proposal pages + stale-deploy cache-recovery script). Website content/infra only — no OpenAPI spec files touched, .specs-branch pin file still absent. internal branch not re-checked this run.",
+   "UNVERIFIED this run (GitHub access blocked — see status). Last confirmed 2026-07-20 (still unconfirmed this run): main advanced 7fc3b1d→6e18b5d (2 commits, 15-18 Jul): 1288dd9 'functional payments and ofp-005' (65 files — functional-certification payment portals, delegated-SCA explainers, insurance data-sharing components, sitemap/SEO infra) and 6e18b5d 'ofp-006 & ofp-007 and cache breaking on deploy' (2 new governance proposal pages + stale-deploy cache-recovery script). Website content/infra only — no OpenAPI spec files touched, .specs-branch pin file still absent. internal branch not re-checked this run.",
    "https://github.com/Nebras-Open-Finance/community-standards"
   ],
   [
    "api-specs",
    "634b325",
-   "UNVERIFIED this run (GitHub access blocked — see status). Last confirmed 2026-07-20: unchanged at 634b325 (8 Jul) — no new commits to main this run. Branch creditor-debtor-reference-charset (PR#22, OFP-003 charset) unchanged since 9 Jul, still 1 commit ahead of main, still open/unmerged. Branch ozone unchanged (8 Jul). sync-auth-server-authorization-details unchanged (12 Jun).",
+   "UNVERIFIED this run (GitHub access blocked — see status). Last confirmed 2026-07-20 (still unconfirmed this run): unchanged at 634b325 (8 Jul) — no new commits to main this run. Branch creditor-debtor-reference-charset (PR#22, OFP-003 charset) unchanged since 9 Jul, still 1 commit ahead of main, still open/unmerged. Branch ozone unchanged (8 Jul). sync-auth-server-authorization-details unchanged (12 Jun).",
    "https://github.com/Nebras-Open-Finance/api-specs"
   ],
   [
    "postman",
    "089cd0ad",
-   "UNVERIFIED this run (GitHub access blocked — see status). Last confirmed 2026-07-20: unchanged — main + branch updated-insurance-postman-colelction static.",
+   "UNVERIFIED this run (GitHub access blocked — see status). Last confirmed 2026-07-20 (still unconfirmed this run): unchanged — main + branch updated-insurance-postman-colelction static.",
    "https://github.com/Nebras-Open-Finance/postman"
   ],
   [
    ".github",
    "315d6541",
-   "UNVERIFIED this run (GitHub access blocked — see status). Last confirmed 2026-07-20: unchanged.",
+   "UNVERIFIED this run (GitHub access blocked — see status). Last confirmed 2026-07-20 (still unconfirmed this run): unchanged.",
    "https://github.com/Nebras-Open-Finance/.github"
   ],
   [
    "agentic-toolkit",
    "58bb146b",
-   "UNVERIFIED this run (GitHub access blocked — see status). Last confirmed 2026-07-20: unchanged — main static since 3 Jul.",
+   "UNVERIFIED this run (GitHub access blocked — see status). Last confirmed 2026-07-20 (still unconfirmed this run): unchanged — main static since 3 Jul.",
    "https://github.com/Nebras-Open-Finance/agentic-toolkit"
   ]
  ],
@@ -647,7 +629,7 @@
    "scope": "Consent · Single Instant Pay · CoP · Balance · Customer · Product",
    "t1Due": "2025-09",
    "t2Due": "2026-09",
-   "t1DaysLeft": -336,
+   "t1DaysLeft": -344,
    "applic": "Individual",
    "obs": true,
    "t1Now": 8,
@@ -663,7 +645,7 @@
    "scope": "Current · Savings · Credit Cards · Loans · Mortgages",
    "t1Due": "2025-09",
    "t2Due": "2026-09",
-   "t1DaysLeft": -336,
+   "t1DaysLeft": -344,
    "applic": "Individual",
    "obs": true,
    "t1Now": 7,
@@ -679,7 +661,7 @@
    "scope": "Transactions · VRP · FRP · Refunds · Future-Dated · Request to Pay · Delegated SCA",
    "t1Due": "2025-10",
    "t2Due": "2026-09",
-   "t1DaysLeft": -306,
+   "t1DaysLeft": -314,
    "applic": "Individual",
    "obs": true,
    "t1Now": 8,
@@ -695,7 +677,7 @@
    "scope": "Intl Payments · Extended Transactional · Future-Dated",
    "t1Due": "2025-12",
    "t2Due": "2026-09",
-   "t1DaysLeft": -245,
+   "t1DaysLeft": -253,
    "applic": "Indiv M · SME O · Corp O",
    "obs": false,
    "t1Now": null,
@@ -711,7 +693,7 @@
    "scope": "Consent · SIP · Customer/Balance/Transactional/Product · VRP/FRP · Refunds · Request to Pay · Delegated SCA",
    "t1Due": "2025-12",
    "t2Due": "2026-09",
-   "t1DaysLeft": -245,
+   "t1DaysLeft": -253,
    "applic": "SME",
    "obs": false,
    "t1Now": null,
@@ -727,15 +709,15 @@
    "scope": "Future-Dated · Bulk/Batch · International",
    "t1Due": "2026-03",
    "t2Due": "2026-09",
-   "t1DaysLeft": -155,
+   "t1DaysLeft": -163,
    "applic": "SME",
    "obs": true,
-   "t1Now": 0,
+   "t1Now": 1,
    "t1Of": 8,
-   "t1Ever": 0,
+   "t1Ever": 1,
    "t2Early": 1,
    "band": "past",
-   "note": "Unchanged: 0/8 Tier-1 register bulk (file-payments) in production; only WIO Bank (Tier-2) does. No bulk traffic in sandbox.",
+   "note": "CHANGED: FAB became the first Tier-1 bank to register a 'file-payments' (bulk) endpoint Active in the production directory (was 0/8 Tier-1 -- WIO/Tier-2 only). Now 1/8 Tier-1 + WIO (Tier-2). No bulk traffic in sandbox yet (2xx logs show no /file-payments calls).",
    "url": "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation"
   },
   {
@@ -743,7 +725,7 @@
    "scope": "Credit Cards · Loans · Mortgages · ATM Locations",
    "t1Due": "2026-04",
    "t2Due": "2026-09",
-   "t1DaysLeft": -124,
+   "t1DaysLeft": -132,
    "applic": "Indiv M · SME M",
    "obs": false,
    "t1Now": null,
@@ -751,7 +733,7 @@
    "t1Ever": null,
    "t2Early": null,
    "band": "past",
-   "note": "Unchanged — extended-data not cleanly isolable; ATM domain (HSBC only) is the sole observable slice.",
+   "note": "Unchanged -- extended-data not cleanly isolable; ATM domain (HSBC only) is the sole observable slice.",
    "url": "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation"
   },
   {
@@ -759,15 +741,15 @@
    "scope": "V2.1 Standards alignment",
    "t1Due": "2026-04",
    "t2Due": "2026-09",
-   "t1DaysLeft": -124,
+   "t1DaysLeft": -132,
    "applic": "Individual",
    "obs": true,
-   "t1Now": 5,
+   "t1Now": 7,
    "t1Of": 8,
-   "t1Ever": 5,
+   "t1Ever": 7,
    "t2Early": 1,
    "band": "past",
-   "note": "CHANGED: ADCB's production-directory registration moved from v2.0 to v2.1 across all 4 families (account-information, payment, confirmation, product) — now 5/8 Tier-1 banks registered on v2.1 in production (Mashreq, CBD, Emirates NBD, HSBC, ADCB) + WIO (Tier-2). Sandbox: still 6/8 showing ≥meaningful v2.1 2xx traffic in-window — ADCB's v2.1 endpoints are registered but not yet carrying live traffic (exposed-no-traffic).",
+   "note": "CHANGED: Dubai Islamic Bank and First Abu Dhabi Bank both completed the v2.1 uplift in the production directory this run (all 4 families -- account-information, payment, confirmation, product -- moved to ApiVersion 2.1) -- now 7/8 Tier-1 banks on v2.1 in production (only ADIB remains on v1.2) + WIO (Tier-2). Sandbox: DIB shows zero v2.1 sandbox traffic yet (exposed-no-traffic, consistent with a same-day production cutover); FAB shows early v2.1 sandbox traffic (4 calls, below the 'now' threshold).",
    "url": "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation"
   },
   {
@@ -775,7 +757,7 @@
    "scope": "Consent · Corporate Data · All corporate payments · Intl · Future-Dated",
    "t1Due": "2026-09",
    "t2Due": "2026-09",
-   "t1DaysLeft": 29,
+   "t1DaysLeft": 21,
    "applic": "Corporate",
    "obs": false,
    "t1Now": null,
@@ -783,7 +765,7 @@
    "t1Ever": null,
    "t2Early": null,
    "band": "soon",
-   "note": "Unchanged — no separate corporate family registered in the production directory; n/obs.",
+   "note": "Unchanged -- no separate corporate family registered in the production directory; n/obs. Standing <30-day alert continues (21 days left, was 29 at the last run).",
    "url": "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation"
   },
   {
@@ -791,7 +773,7 @@
    "scope": "V2.2 Standards alignment (to be published shortly)",
    "t1Due": "2026-12",
    "t2Due": "2027-02",
-   "t1DaysLeft": 120,
+   "t1DaysLeft": 112,
    "applic": "Indiv·SME·Corp·Merchant",
    "obs": true,
    "t1Now": 0,
@@ -807,7 +789,7 @@
    "scope": "7 products: Home·Health·Renter·Motor·Life·Travel·ILoE; data sharing + near-real-time quotes",
    "t1Due": "2026-02",
    "t2Due": "2027-03",
-   "t1DaysLeft": -183,
+   "t1DaysLeft": -191,
    "applic": "Individual",
    "obs": true,
    "t1Now": 2,
@@ -815,7 +797,7 @@
    "t1Ever": 2,
    "t2Early": 0,
    "band": "past",
-   "note": "Unchanged: 2/16 Tier-1 insurers registered live in production (LIVA + ADNIC). Sandbox unchanged: Alain Ahlia Insurance Company (first-ever insurance-domain 2xx) + Orient Insurance PJSC (4xx-only) still the only insurance-domain sandbox participants.",
+   "note": "Unchanged in production: 2/16 Tier-1 insurers registered live (LIVA + ADNIC). Sandbox CHANGED: Orient Insurance PJSC produced its first-ever successful (2xx) insurance-domain traffic this run (was 4xx-only every prior run) -- now 2 insurance-domain sandbox participants (Alain Ahlia Insurance Company + Orient Insurance PJSC).",
    "url": "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation"
   },
   {
@@ -823,7 +805,7 @@
    "scope": "V2.1 Standards alignment (insurance)",
    "t1Due": "2026-04",
    "t2Due": "2026-09",
-   "t1DaysLeft": -124,
+   "t1DaysLeft": -132,
    "applic": "Indiv M · Merchant M",
    "obs": true,
    "t1Now": 2,
@@ -831,7 +813,7 @@
    "t1Ever": 2,
    "t2Early": 0,
    "band": "past",
-   "note": "Unchanged: LIVA + ADNIC both registered on insurance v2.1 in production — 2/16 Tier-1 insurers. T2 = N/A in annexure.",
+   "note": "Unchanged: LIVA + ADNIC both registered on insurance v2.1 in production -- 2/16 Tier-1 insurers. T2 = N/A in annexure.",
    "url": "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation"
   },
   {
@@ -839,7 +821,7 @@
    "scope": "V2.2 Standards alignment (insurance)",
    "t1Due": "2026-12",
    "t2Due": "2027-03",
-   "t1DaysLeft": 120,
+   "t1DaysLeft": 112,
    "applic": "Indiv·SME·Corp·Merchant",
    "obs": true,
    "t1Now": 0,
@@ -909,12 +891,12 @@
     "T1",
     [
      2,
-     1,
      2,
      2,
-     1,
      2,
-     0,
+     2,
+     2,
+     2,
      0,
      0
     ],
@@ -1030,7 +1012,7 @@
      0,
      0,
      0,
-     1,
+     2,
      2,
      0
     ]
@@ -1045,8 +1027,8 @@
      0,
      0,
      0,
-     0,
-     0,
+     2,
+     2,
      0
     ]
    ],
@@ -1056,7 +1038,7 @@
     [
      2,
      2,
-     0,
+     2,
      2,
      2,
      0,
@@ -1093,7 +1075,7 @@
       "green",
       "green",
       "green",
-      "none",
+      "green",
       "none",
       "none"
      ]
@@ -1135,7 +1117,7 @@
       "green",
       "green",
       "green",
-      "none",
+      "blue",
       "none",
       "none"
      ]
@@ -1248,16 +1230,16 @@
     "prodOrgs": 11,
     "banks": 9,
     "t1": 8,
-    "green": 57,
-    "blue": 9
+    "green": 58,
+    "blue": 10
    },
-   "window": "2xx in May–Jun 2026 (last 2 full months)",
+   "window": "2xx in Jun-Jul 2026 (last 2 full months)",
    "source": "https://data.directory.openfinance.ae/participants",
    "trafficSource": "https://nebras-open-finance.com/api/api-log.json",
    "note": "Green = capability exposed in the production Trust Framework directory AND carrying live 2xx traffic in the public logs. Blue = exposed in production but no live 2xx traffic in the window. Hatched = not exposed for that capability in the production directory. Exposure is unambiguously production (production directory); Nebras publishes no per-environment volumes, so 'live' means observed successful traffic on the capability. Payments traffic is measured on initiation, so a 5xx-only initiation flow shows blue, not green."
   }
  },
- "adoptionNote": "LFIs live = banks/insurers with working (2xx) traffic in May-Jun 2026 (last 2 full months) on the release's observable surfaces in the public Nebras logs (R1: consent + payments + CoP + balances + parties, payments >=10 calls; R2: R1 + transactions, >=10 calls; Retail R4+: >=100 v2.1 2xx calls; Insurance/FX: domain traffic). Demand-side evidence only -- absence of TPP calls does not prove an LFI is not certified. Intl, SME and bulk scopes are not URL-observable (n/obs). uae-livx is an unconfirmed sandbox LFI key (likely LIVA Insurance B.S.C. by naming pattern) showing atypical AIS/PIS-shaped traffic for an insurer -- flagged for verification, not asserted. ADCB's first non-zero v2.1 sandbox traffic (24 calls, all in the current partial month) is below the >=100 'now' threshold and does not move any count this run.",
+ "adoptionNote": "LFIs live = banks/insurers with working (2xx) traffic in Jun-Jul 2026 (last 2 full months) on the release's observable surfaces in the public Nebras logs (R1: consent + payments + CoP + balances + parties, payments >=10 calls; R2: R1 + transactions, >=10 calls; Retail R4+: >=100 v2.1 2xx calls; Insurance/FX: domain traffic). Demand-side evidence only -- absence of TPP calls does not prove an LFI is not certified. Intl, SME and bulk scopes are not URL-observable (n/obs) except where a bulk endpoint is directly registered in the production directory (see SME Bulk row). uae-livx is an unconfirmed sandbox LFI key (likely LIVA Insurance B.S.C. by naming pattern) showing atypical AIS/PIS-shaped traffic for an insurer -- flagged for verification, not asserted. Alain Ahlia Insurance Company newly crossed the >=100-call v2.1 threshold this run (168 calls) and is counted in Retail R4+ v2.1 purely by the mechanical rule -- it is an insurer, not a retail bank; treat that count with the same caveat as uae-livx.",
  "ribbon": [
   {
    "label": "Standards",
@@ -1319,84 +1301,104 @@
  },
  "changeLog": [
   [
-   "Metrics source logs",
+   "Metrics source resharded",
+   "NEW ALERT",
+   "nebras-open-finance.com replaced GET /api/api-log.json with a sharded/dictionary-encoded feed (/api/api-log-index.json -> 4 quarterly shards). Decoded and merged this run; logs now extend through 2026-08-09 (were 2026-07-28).",
+   "https://nebras-open-finance.com/api/api-log-index.json"
+  ],
+  [
+   "Metrics — full-months figures",
    "ADVANCED",
-   "The public logs (nebras-open-finance.com/api/*.json) now extend through 2026-07-28 (were through 2026-07-19). Full-months figures are unchanged (June remains the latest full month; total 482,964 calls, err 36.6%, v2.1 6.0%, live LFIs 13, live TPPs 13) -- independently re-aggregated a second time and matched to the digit. All-time and partial-July totals rose as expected from 9 more days of data (see status).",
+   "July is now a full month. Total 482,964->704,387 calls, error rate 36.6%->26.8%, v2.1 share 6.0%->19.6%, payment success 94.7%->95.5%, LEAN TECH share 83.8%->85.6%/HHI 7099->7391 -- independently re-aggregated twice and matched to the digit.",
    "https://nebras-open-finance.com/metrics"
+  ],
+  [
+   "LFI volume ranking",
+   "CHANGED",
+   "WIO overtook Dubai Islamic Bank for #2 by full-months call volume (WIO 175,368 vs DIB 101,303; Mashreq remains #1 at 198,082). DIB's error rate remains the highest of any live LFI (85.7%).",
+   "https://nebras-open-finance.com/metrics"
+  ],
+  [
+   "New TPP entity: Commercial Bank of Dubai",
+   "NEW ALERT",
+   "CBD (an LFI) began appearing as a TPP name for the first time -- 47 calls, 2026-08-03 to 08-08, querying WIO/Mashreq/Emirates NBD as a data consumer. A bank acting as a TPP against its peers.",
+   "https://nebras-open-finance.com/api/api-log-index.json"
   ],
   [
    "New (tpp,lfi) sandbox pairings",
    "NEW ALERT",
-   "3 previously-unseen pairings appeared in the all-time TPP×LFI matrix, all inside the newly-covered July window: ABU DHABI ISLAMIC BANK P.J.S.C × WIO (26 calls), EMIRATES NBD BANK PJSC × WIO (59 calls), WIO BANK × Commercial Bank of Dubai (47 calls). No new LFI or TPP key -- these are existing participants routing through a bank they had not previously touched. Below the volumes needed to move any adoption count.",
-   "https://nebras-open-finance.com/api/api-log.json"
+   "5 new pairings this run: COMMERCIAL BANK OF DUBAI x {WIO, Mashreq, Emirates NBD} (the new entity above), MASHREQ BANK PSC x WIO, EMIRATES NBD BANK PJSC x Commercial Bank of Dubai.",
+   "https://nebras-open-finance.com/api/api-log-index.json"
   ],
   [
-   "ADCB v2.1 sandbox traffic",
-   "Informational (not alert-worthy)",
-   "ADCB emitted its first-ever non-zero v2.1 sandbox 2xx traffic this run: 24 calls across account-information/accounts, /balances, payment/payments, and product/products -- all dated in the current partial month (16-27 Jul). Still far below the >=100-call 'meaningful adoption' threshold and outside the May-Jun window used by the Adoption Heatmap 'now' count, so no board/heatmap cell moves. First live-wire signal that ADCB's production-registered v2.1 endpoints (registered since the prior run) are beginning to carry sandbox traffic.",
-   "https://nebras-open-finance.com/api/api-log.json"
-  ],
-  [
-   "Corporates -- Full Suite deadline",
-   "NEW ALERT -- <30 days",
-   "Tier-1 deadline (1 Sep 2026) is now 29 days away (was 39 last run). Corporate scope remains n/obs -- no separate corporate API family is registered in the production directory or separable in the sandbox logs, so the Tier-1 cohort's readiness cannot be confirmed as this deadline approaches.",
-   "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation"
-  ],
-  [
-   "Production directory",
-   "No change",
-   "Re-fetched and re-derived from data.directory.openfinance.ae: still 11 orgs; R1 8/8, R2 8/8, Product Quotes 7/8, Standards uplift -> V2.1 5/8 Tier-1 (Mashreq, CBD, Emirates NBD, HSBC, ADCB), Insurance 2/16. Production grid unchanged at 57 green / 9 blue cells. (HSBC's directory entry still carries its long-standing 'HSBC-Server-Corporate' AuthorisationServer on payment/account-information v2.0 alongside the primary v2.1 registrations -- pre-existing since 2025-07-09, not a new event; the max-version aggregation correctly keeps HSBC counted on v2.1.)",
+   "Production directory — Standards V2.1 uplift",
+   "NEW ALERT",
+   "Dubai Islamic Bank and First Abu Dhabi Bank both completed the v2.1 uplift in production (all 4 families moved to ApiVersion 2.1) -- Tier-1 count moves 5/8 -> 7/8 (only ADIB remains on v1.2).",
    "https://data.directory.openfinance.ae/participants"
+  ],
+  [
+   "Production directory — SME Bulk",
+   "NEW ALERT",
+   "FAB registered a 'file-payments' (bulk) endpoint Active in production -- the first Tier-1 bank to do so (previously only WIO/Tier-2). SME Bulk board row moves 0/8 -> 1/8 Tier-1.",
+   "https://data.directory.openfinance.ae/participants"
+  ],
+  [
+   "Sandbox adoption — Retail R4+ v2.1 and Insurance",
+   "CHANGED",
+   "Alain Ahlia Insurance Company crossed the >=100-call v2.1 threshold (168 calls) -- Retail R4+ v2.1 now/ever moves 6 -> 7 (mechanical rule; it is an insurer, treat like uae-livx). Orient Insurance PJSC produced its first-ever 2xx insurance traffic (20 calls, was 4xx-only) -- Insurance now/ever moves 1 -> 2.",
+   "https://nebras-open-finance.com/api/api-log-index.json"
+  ],
+  [
+   "Corporates — Full Suite deadline",
+   "STANDING — <30 days",
+   "Tier-1 deadline (1 Sep 2026) is now 21 days away (was 29 last run). Corporate scope remains n/obs -- no separate corporate API family is registered in the production directory.",
+   "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation"
   ],
   [
    "Spec (api-specs main)",
    "No change (content-verified)",
-   "All 90 tracked OpenAPI files re-hashed (git-blob SHA-1) via raw.githubusercontent.com against api-specs main -- byte-identical to state. The 8 tracked breaking-changes registers also unchanged (SHA-256 match). A --probe sweep of 141 convention-derived successor paths (next minor/major version, next errata) found no new file.",
+   "All 90 tracked OpenAPI files re-hashed (git-blob SHA-1) via raw.githubusercontent.com -- byte-identical to state. The 8 tracked breaking-changes registers also unchanged (SHA-256 match). A --probe sweep of 141 convention-derived successor paths found no new file.",
    "https://github.com/Nebras-Open-Finance/api-specs/tree/main/dist"
   ],
   [
    "Website spec branch",
    "No change (verified)",
-   "community-standards `.specs-branch` pin file remains absent (404) -- the site continues to build specs from api-specs `main` (websiteSpecBranch = main).",
+   "community-standards `.specs-branch` pin file remains absent (404) -- the site continues to build specs from api-specs `main`.",
    "https://raw.githubusercontent.com/Nebras-Open-Finance/community-standards/main/.specs-branch"
   ],
   [
    "Confluence (OF space)",
    "No change (verified)",
-   "Re-fetched via the public OF-space REST search -- no page in the space modified since 2026-07-08T08:58, which predates this run's window. All tracked pages remain at their prior version numbers (Consolidated Errata v5, errata2 v9, errata1 v7, Open Finance Platform v23, Nebras Interaction Guide v9, Platform Assurance v5).",
+   "Re-fetched via the public OF-space REST search -- no page/attachment modified since 2026-07-08T08:58:08.489Z, which predates this run's window.",
    "https://openfinanceuae.atlassian.net/wiki/spaces/OF/pages/6259008"
   ],
   [
    "GitHub org access",
-   "STANDING -- coverage gap",
-   "This session's GitHub access is scoped only to openfinance-os/community-website; every request to Nebras-Open-Finance (api.github.com, github.com web, and the GitHub MCP tools) returns 403 by design. Commit/branch/PR/tag/issue activity across all 5 org repos could not be verified this run -- carried forward unverified from 2026-07-20 (last confirmed run).",
+   "STANDING — coverage gap",
+   "api.github.com/github.com requests to Nebras-Open-Finance return 403 again this run. Partial new signal: nebras-open-finance.com/api/github-stats.json (an org rollup) shows 4 open PRs (was 1 tracked) and 32 recent commits, but does not identify them -- full enumeration remains unavailable.",
    "https://github.com/Nebras-Open-Finance"
   ],
   [
    "Release Notes / Errata / whats-live",
-   "STANDING -- coverage gap",
-   "nebras-open-finance.com's release-notes/errata page now returns HTTP 200 to a plain fetch (previously blocked), but the response is still the pre-hydration client shell with no article content -- it is a JS-rendered SPA and this sandbox cannot execute its JS. API Hub/Trust Framework/errata levels remain carried forward unverified from the last content-confirmed snapshot (API Hub 2026.22.0, Trust Framework 2.4.0/2.5.0, v2.1-errata3).",
+   "STANDING — coverage gap",
+   "nebras-open-finance.com's release-notes/errata page is still the pre-hydration client shell -- no article content in raw HTML. API Hub/Trust Framework/errata levels remain carried forward unverified from the last content-confirmed snapshot (API Hub 2026.22.0, v2.1-errata3).",
    "https://nebras-open-finance.com/tech/release-notes-and-erratas/"
-  ],
-  [
-   "Sandbox adoption sets",
-   "No change (re-derived)",
-   "Independently re-derived from the raw logs using the documented functionality/version/threshold rules and reproduced exactly: Retail R1 8 now/9 ever, R2 8/9, v2.1 R4+ 6/6, Insurance 1 now. No LFI moved in or out of any release's now/ever set.",
-   "https://nebras-open-finance.com/api/api-log.json"
   ],
   [
    "CBUAE / ecosystem news",
    "No change",
-   "rulebook.centralbank.ae returned HTTP 403 again (proxy/site block, consistent with every prior run). WebSearch found no new dated CBUAE circular or mandate-relevant ecosystem news this window.",
+   "rulebook.centralbank.ae returned HTTP 403 again. WebSearch found no new dated CBUAE circular or mandate-relevant ecosystem news this window beyond previously-known 2026 go-lives already reflected in the production directory.",
    "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation"
   ]
  ],
  "alerts": [
-  "NEW: 3 previously-unseen (tpp,lfi) sandbox pairings this run -- ABU DHABI ISLAMIC BANK P.J.S.C x WIO, EMIRATES NBD BANK PJSC x WIO, WIO BANK x Commercial Bank of Dubai. No new LFI/TPP key; existing participants extending reach. See changeLog.",
-  "NEW: Corporates -- Full Suite Tier-1 deadline (1 Sep 2026) crossed inside 30 days (29 days left) with the scope still n/obs (not separable in the production directory or sandbox logs) -- Tier-1 corporate readiness cannot be confirmed as the deadline approaches.",
-  "STANDING: GitHub org coverage gap -- this session's GitHub access is scoped only to openfinance-os/community-website; all requests to Nebras-Open-Finance repos returned HTTP 403 this run (unchanged from every prior run). Commit/PR/branch/tag/issue activity, and open PR#22 (OFP-003 charset) status, could not be verified -- carried forward unverified from 2026-07-20.",
-  "STANDING: release-notes/errata/whats-live pages on nebras-open-finance.com are JS-rendered; the page now returns HTTP 200 but only the pre-hydration shell -- API Hub/Trust Framework/errata levels carried forward unverified.",
-  "STANDING (unchanged, content-verified this run): production-directory compliance -- Retail R1 8/8, R2 8/8, Product Quotes 7/8 (ADIB not registered), Standards uplift -> V2.1 5/8 Tier-1, Insurance 2/16 of 16 Tier-1 insurers. SME Bulk/Intl still 0/8 Tier-1 in production (WIO Tier-2 only)."
+  "NEW: nebras-open-finance.com resharded its primary metrics feed (api-log.json -> api-log-index.json + 4 quarterly shards, columnar dict-encoded). Decoded and merged successfully this run; flag for future runs in case of further format changes.",
+  "NEW: 'COMMERCIAL BANK OF DUBAI' appeared as a TPP entity for the first time (CBD acting as a data consumer against WIO/Mashreq/Emirates NBD, 47 calls) -- 5 new (tpp,lfi) pairings total this run.",
+  "NEW: Production-directory Standards V2.1 uplift crossed a new Tier-1 count -- Dubai Islamic Bank and First Abu Dhabi Bank both completed the uplift, moving 5/8 -> 7/8 Tier-1 (only ADIB remains on v1.2).",
+  "NEW: Production-directory SME Bulk crossed a new Tier-1 count -- FAB registered a file-payments endpoint, moving 0/8 -> 1/8 Tier-1 (previously WIO/Tier-2 only).",
+  "STANDING: Corporates -- Full Suite Tier-1 deadline (1 Sep 2026) is now 21 days away (scope still n/obs) -- Tier-1 corporate readiness cannot be confirmed as the deadline approaches.",
+  "STANDING: GitHub org coverage gap -- session's GitHub access is scoped only to openfinance-os/community-website; all requests to Nebras-Open-Finance repos returned HTTP 403 this run (unchanged). A new partial signal (github-stats.json) shows 4 open PRs vs 1 previously tracked, but cannot identify them.",
+  "STANDING: release-notes/errata/whats-live pages on nebras-open-finance.com remain JS-rendered with no content in raw HTML -- API Hub/Trust Framework/errata levels carried forward unverified."
  ],
  "activity": {
   "months": [
@@ -1408,7 +1410,8 @@
    "Apr",
    "May",
    "Jun",
-   "Jul"
+   "Jul",
+   "Aug"
   ],
   "vals": [
    27038,
@@ -1419,18 +1422,19 @@
    52935,
    103748,
    104185,
-   186057
+   221423,
+   58060
   ],
-  "partialIdx": 8,
-  "lastFullLabel": "Jun",
-  "lastFullVal": 104185,
-  "momPct": 0.4,
-  "peakLabel": "Jun",
-  "peakVal": 104185,
-  "allTime": 669021,
-  "fullTotal": 482964,
-  "partialLabel": "Jul",
-  "partialVal": 186057,
+  "partialIdx": 9,
+  "lastFullLabel": "Jul",
+  "lastFullVal": 221423,
+  "momPct": 112.5,
+  "peakLabel": "Jul",
+  "peakVal": 221423,
+  "allTime": 762447,
+  "fullTotal": 704387,
+  "partialLabel": "Aug",
+  "partialVal": 58060,
   "monthsFull": [
    "2025-11",
    "2025-12",
@@ -1439,9 +1443,10 @@
    "2026-03",
    "2026-04",
    "2026-05",
-   "2026-06"
+   "2026-06",
+   "2026-07"
   ],
-  "avg3": 86956
+  "avg3": 143118
  },
  "payActivity": {
   "months": [
@@ -1453,7 +1458,8 @@
    "Apr",
    "May",
    "Jun",
-   "Jul"
+   "Jul",
+   "Aug"
   ],
   "vals": [
    4584.02,
@@ -1464,135 +1470,142 @@
    1882146.49,
    19790359.05,
    31634557.01,
-   50797362.16
+   62127881.4,
+   18582943.2
   ],
-  "partialIdx": 8,
-  "lastFullLabel": "Jun",
-  "lastFullVal": 31634557.01,
-  "momPct": 59.8,
-  "peakLabel": "Jun",
-  "peakVal": 31634557.01,
-  "allTime": 104692192.77,
-  "fullTotal": 53894830.61,
-  "partialLabel": "Jul",
-  "partialVal": 50797362.16,
+  "partialIdx": 9,
+  "lastFullLabel": "Jul",
+  "lastFullVal": 62127881.4,
+  "momPct": 96.4,
+  "peakLabel": "Jul",
+  "peakVal": 62127881.4,
+  "allTime": 134605655.21,
+  "fullTotal": 116022712.01,
+  "partialLabel": "Aug",
+  "partialVal": 18582943.2,
   "ccy": "AED"
  },
  "movers": {
   "lfiUp": [
    [
-    "HSBC retail",
-    1813,
-    9167,
-    405.6
+    "uae-livx (unmapped/unconfirmed)",
+    169,
+    4046,
+    2294.1
    ],
    [
-    "ADCB",
-    624,
-    1279,
-    105.0
+    "HSBC wholesale",
+    6,
+    47,
+    683.3
+   ],
+   [
+    "Orient Insurance PJSC",
+    21,
+    67,
+    219.0
+   ],
+   [
+    "Mashreq",
+    25435,
+    67344,
+    164.8
+   ],
+   [
+    "WIO",
+    32663,
+    83834,
+    156.7
    ],
    [
     "ADIB",
-    13075,
     21407,
-    63.7
+    42146,
+    96.9
    ]
   ],
   "lfiDown": [
    [
-    "FAB",
-    5265,
-    2627,
-    -50.1
+    "ADCB",
+    1279,
+    434,
+    -66.1
    ],
    [
     "Commercial Bank of Dubai",
-    4560,
     2576,
-    -43.5
+    2083,
+    -19.1
    ],
    [
     "Dubai Islamic Bank",
-    3926,
     2663,
-    -32.2
+    2567,
+    -3.6
    ],
    [
-    "WIO",
-    39819,
-    32663,
-    -18.0
-   ],
-   [
-    "Mashreq",
-    28366,
-    25435,
-    -10.3
-   ],
-   [
-    "Emirates NBD",
-    6300,
-    6056,
-    -3.9
+    "HSBC retail",
+    9167,
+    8972,
+    -2.1
    ]
   ],
   "tppUp": [
    [
-    "HSBC BANK MIDDLE EAST LIMITED",
-    46,
-    7791,
-    16837.0
-   ],
-   [
-    "ABU DHABI COMMERCIAL BANK PBJC",
+    "NYMCARD",
     1,
-    6,
-    500.0
+    389,
+    38800.0
    ],
    [
-    "WIO BANK",
-    1028,
-    2940,
-    186.0
+    "ORIENT INSURANCE PJSC",
+    13,
+    65,
+    400.0
+   ],
+   [
+    "EMIRATES NBD BANK PJSC",
+    2406,
+    8360,
+    247.5
    ],
    [
     "SPARE DIGITAL TECHNOLOGIES LLC S.O.C",
-    48,
     88,
-    83.3
-   ],
-   [
-    "PAY TEN PAYMENT SERVICES PROVIDER LLC",
-    687,
-    989,
-    44.0
+    267,
+    203.4
    ],
    [
     "LEAN TECH",
-    79659,
     81042,
-    1.7
+    192630,
+    137.7
+   ],
+   [
+    "ABU DHABI ISLAMIC BANK P.J.S.C",
+    5332,
+    11320,
+    112.3
    ]
   ],
   "tppDown": [
    [
-    "NYMCARD",
-    776,
-    1,
-    -99.9
+    "HSBC BANK MIDDLE EAST LIMITED",
+    7791,
+    636,
+    -91.8
    ],
    [
-    "ABU DHABI ISLAMIC BANK P.J.S.C",
-    14597,
-    5332,
-    -63.5
+    "WIO BANK",
+    2940,
+    1262,
+    -57.1
    ],
    [
-    "EMIRATES NBD BANK PJSC",
-    3665,
-    2406,
-    -34.4
+    "ABU DHABI COMMERCIAL BANK PBJC",
+    6,
+    3,
+    -50.0
    ]
   ]
  },
@@ -1776,47 +1789,59 @@
    "liveLFIs": 13,
    "liveTPPs": 13,
    "websiteSpecBranch": "main"
+  },
+  {
+   "runDate": "2026-08-11",
+   "totalFull": 704387,
+   "errPct": 26.8,
+   "paySucc": 95.5,
+   "authPct": 53.4,
+   "top1Share": 85.6,
+   "hhi": 7391,
+   "liveLFIs": 13,
+   "liveTPPs": 13,
+   "websiteSpecBranch": "main"
   }
  ],
  "payWho": {
   "lfi": [
    [
-    "WIO Bank",
-    36712255.88
+    "WIO",
+    74611325.81
    ],
    [
     "Mashreq",
-    16272779.07
+    40069776.33
    ],
    [
     "ADIB",
-    612322.25
+    962028.91
    ],
    [
-    "First Abu Dhabi Bank",
-    171446.13
+    "FAB",
+    177270.53
    ],
    [
     "Commercial Bank of Dubai",
-    117100.95
+    160965.2
    ],
    [
-    "ADCB",
-    5571.01
+    "HSBC retail",
+    32825.5
    ]
   ],
   "tpp": [
    [
     "LEAN TECH",
-    53767729.33
+    115851093.73
    ],
    [
     "PAY TEN PAYMENT SERVICES PROVIDER LLC",
-    107103.53
+    151538.91
    ],
    [
     "(Unattributed)",
-    18260
+    18260.0
    ],
    [
     "EMIRATES NBD BANK PJSC",
@@ -1824,88 +1849,102 @@
    ],
    [
     "SPARE DIGITAL TECHNOLOGIES LLC S.O.C",
-    450.5
+    478.33
    ],
    [
-    "NYMCARD",
-    129
+    "HSBC BANK MIDDLE EAST LIMITED",
+    136.83
    ]
   ]
  },
  "economics": {
-  "basis": "Full-months 2xx (data/Hub, simplified — flat 2.5 fils per chargeable call with a same-day balance/CoP-with-payment discount proxy for the real <2h pairing rule) and accepted (payments) flows, priced on the regulated AlTareq Commercial & Pricing Model v1.0. fils = 0.01 AED. Pre-live sandbox volumes — illustrative, not a production bill.",
-  "hubTotal": 7648.65,
-  "hubFloor": 7403.01,
+  "basis": "Full-months 2xx (Hub fee) and accepted (payment scheme fee) flows, priced on the regulated AlTareq Commercial & Pricing Model v1.0. Hub fee: 2.5 fils per successful chargeable data/payment call (account-information sub-resources incl. transactions/standing-orders/direct-debits/scheduled-payments, confirmation-of-payee, payment initiation); balances & CoP drop to 0.5 fils when the same (date, LFI, TPP) also has an accepted payment that day (same-day pairing proxy for the '<2h' rule -- exact timestamps are not in the public aggregated logs). Payment scheme fee 'point' estimate: SingleInstantPayment -> 25 fils flat/txn, VariableOnDemand -> 38 bps of value, other schedule types default to the 25-fils flat P2P rate. fils = 0.01 AED. Pre-live sandbox volumes -- illustrative, not a production bill.",
+  "hubTotal": 9528.95,
+  "hubFloor": 8963.33,
   "hubByTpp": [
    [
     "LEAN TECH",
-    6256.78,
-    250271
+    8570.43,
+    364971
    ],
    [
     "ABU DHABI ISLAMIC BANK P.J.S.C",
-    677.85,
-    27114
-   ],
-   [
-    "EMIRATES NBD BANK PJSC",
-    212.05,
-    8482
-   ],
-   [
-    "HSBC BANK MIDDLE EAST LIMITED",
-    201.48,
-    8059
+    353.07,
+    14123
    ],
    [
     "PAY TEN PAYMENT SERVICES PROVIDER LLC",
-    174.73,
-    6989
+    161.01,
+    7105
+   ],
+   [
+    "EMIRATES NBD BANK PJSC",
+    156.72,
+    7080
+   ],
+   [
+    "HSBC BANK MIDDLE EAST LIMITED",
+    141.5,
+    6019
    ],
    [
     "WIO BANK",
-    84.15,
-    3366
+    108.83,
+    4353
    ],
    [
     "NYMCARD",
-    30.28,
-    1211
+    25.53,
+    1047
    ],
    [
     "SPARE DIGITAL TECHNOLOGIES LLC S.O.C",
-    10.08,
-    403
+    11.37,
+    585
    ]
   ],
   "lfiIncome": [
    [
-    "WIO Bank",
-    2261.84,
-    1517.5,
-    139093.14,
-    36712255.88
+    "WIO",
+    4357.93,
+    2836.75,
+    283523.04,
+    74611325.81
    ],
    [
     "Mashreq",
-    1457.96,
-    1235.75,
-    61836.56,
-    16272779.07
+    2862.54,
+    2479.75,
+    152265.15,
+    40069776.33
    ],
    [
     "ADIB",
-    511.55,
-    409.75,
-    2326.82,
-    612322.25
+    1530.45,
+    631.75,
+    3655.71,
+    962028.91
    ],
    [
     "First Abu Dhabi Bank",
-    198.59,
-    160.5,
-    651.5,
-    171446.13
+    225.82,
+    168.5,
+    673.63,
+    177270.53
+   ],
+   [
+    "Commercial Bank of Dubai",
+    58.87,
+    117.25,
+    611.67,
+    160965.2
+   ],
+   [
+    "HSBC (Retail)",
+    73.25,
+    73.25,
+    124.74,
+    32825.5
    ],
    [
     "ADCB",
@@ -1916,130 +1955,73 @@
    ],
    [
     "Dubai Islamic Bank",
-    59.11,
-    91.25,
-    5.94,
-    1563.93
-   ],
-   [
-    "Commercial Bank of Dubai",
-    51.84,
-    110.0,
-    444.98,
-    117100.95
-   ],
-   [
-    "HSBC (Retail)",
-    48.0,
-    52.25,
-    2.72,
-    716.07
+    70.62,
+    94.25,
+    6.21,
+    1633.39
    ],
    [
     "Emirates NBD",
-    13.53,
-    15.25,
-    4.08,
-    1074.32
+    19.05,
+    22.25,
+    4.98,
+    1310.33
    ]
   ],
   "tppCost": [
    [
     "LEAN TECH",
-    6256.78,
-    4153.65,
-    3322.5,
-    203903.94
+    8570.43,
+    8542.18
    ],
    [
     "ABU DHABI ISLAMIC BANK P.J.S.C",
-    677.85,
-    0,
-    0,
+    353.07,
     0
    ],
    [
+    "PAY TEN PAYMENT SERVICES PROVIDER LLC",
+    161.01,
+    621.08
+   ],
+   [
     "EMIRATES NBD BANK PJSC",
-    212.05,
-    7.25,
-    7.25,
-    3.95
+    156.72,
+    7.25
    ],
    [
     "HSBC BANK MIDDLE EAST LIMITED",
-    201.48,
-    36.0,
-    40.25,
-    0.42
-   ],
-   [
-    "PAY TEN PAYMENT SERVICES PROVIDER LLC",
-    174.73,
-    449.5,
-    287.75,
-    406.99
+    141.5,
+    48.25
    ],
    [
     "WIO BANK",
-    84.15,
-    0,
-    0,
+    108.83,
     0
    ],
    [
     "NYMCARD",
-    30.28,
-    16.99,
-    32.25,
-    0.49
+    25.53,
+    32.25
    ],
    [
     "SPARE DIGITAL TECHNOLOGIES LLC S.O.C",
-    10.08,
-    10.26,
-    10.5,
-    1.71
+    11.37,
+    15.0
    ]
   ],
   "head": {
-   "leanHub": 6256.78,
-   "leanPay": 4153.65,
-   "leanPayLo": 3322.5,
-   "leanPayHi": 203903.94,
-   "leanTotal": 10410.43,
-   "mashreq": 1457.96,
-   "mashreqHi": 61836.56,
-   "mashreqVal": 16272779.07,
-   "wio": 2261.84,
-   "wioHi": 139093.14,
-   "wioVal": 36712255.88
-  },
-  "schedule": [
-   [
-    "Nebras API Hub (TPP→Nebras)",
-    "2.5 fils / successful data or payment call; balance & CoP drop to 0.5 fils if paired with a payment within 2h; quotes 5–12.5 fils tiered."
-   ],
-   [
-    "Payments TPP→LFI — Merchant Collections",
-    "38 bps of value (Yr1→25 bps by Yr5), capped 50 AED/txn; first 200 AED/merchant/day free."
-   ],
-   [
-    "Payments TPP→LFI — P2P / SME-to-SME",
-    "25 fils/txn flat."
-   ],
-   [
-    "Payments TPP→LFI — Me-to-Me / Bulk",
-    "20 fils (me-to-me); 25 fils/txn & 250 fils/batch (SME bulk)."
-   ],
-   [
-    "Data sharing TPP→LFI (retail/SME)",
-    "FREE ≤15 attended / ≤5 unattended pages per customer/day; CoP/Balance/Product/Customer always free. (Corporate data 40 fils/page.)"
-   ],
-   [
-    "Quotes & Insurance/FX data",
-    "TPP→LFI free; insurance referral commissions LFI→TPP (5–15%) — not URL-observable."
-   ]
-  ],
-  "sourceUrl": "https://openfinanceuae.atlassian.net/wiki/spaces/OF/pages/124846096/Commercial+and+Pricing+Model"
+   "leanHub": 8570.43,
+   "leanPay": 8542.18,
+   "leanPayLo": 6067.25,
+   "leanPayHi": 440234.16,
+   "leanTotal": 17112.61,
+   "mashreq": 2862.54,
+   "mashreqHi": 152265.15,
+   "mashreqVal": 40069776.33,
+   "wio": 4357.93,
+   "wioHi": 283523.04,
+   "wioVal": 74611325.81
+  }
  }
 }
