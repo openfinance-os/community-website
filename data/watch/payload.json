@@ -2022,6 +2022,33 @@
    "wio": 4357.93,
    "wioHi": 283523.04,
    "wioVal": 74611325.81
-  }
+  },
+  "schedule": [
+   [
+    "Nebras API Hub (TPP→Nebras)",
+    "2.5 fils / successful data or payment call; balance & CoP drop to 0.5 fils if paired with a payment within 2h; quotes 5–12.5 fils tiered."
+   ],
+   [
+    "Payments TPP→LFI — Merchant Collections",
+    "38 bps of value (Yr1→25 bps by Yr5), capped 50 AED/txn; first 200 AED/merchant/day free."
+   ],
+   [
+    "Payments TPP→LFI — P2P / SME-to-SME",
+    "25 fils/txn flat."
+   ],
+   [
+    "Payments TPP→LFI — Me-to-Me / Bulk",
+    "20 fils (me-to-me); 25 fils/txn & 250 fils/batch (SME bulk)."
+   ],
+   [
+    "Data sharing TPP→LFI (retail/SME)",
+    "FREE ≤15 attended / ≤5 unattended pages per customer/day; CoP/Balance/Product/Customer always free. (Corporate data 40 fils/page.)"
+   ],
+   [
+    "Quotes & Insurance/FX data",
+    "TPP→LFI free; insurance referral commissions LFI→TPP (5–15%) — not URL-observable."
+   ]
+  ],
+  "sourceUrl": "https://openfinanceuae.atlassian.net/wiki/spaces/OF/pages/124846096/Commercial+and+Pricing+Model"
  }
 }
