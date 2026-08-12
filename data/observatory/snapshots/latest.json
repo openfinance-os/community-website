@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-08-11T07:03:52.208Z",
+  "timestamp": "2026-08-12T07:21:20.207Z",
   "version": "2.0.0",
   "production": {
-    "timestamp": "2026-08-11T07:03:50.412Z",
+    "timestamp": "2026-08-12T07:21:18.164Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "production",
@@ -41,10 +41,10 @@
         "redirect": 0
       },
       "byCertificationStatus": {
-        "Self-Certified": 42
+        "Self-Certified": 46
       },
       "byApiVersion": {
-        "2.1": 32,
+        "2.1": 36,
         "1.2": 7,
         "2.0": 3
       }
@@ -296,14 +296,38 @@
             "familyComplete": false
           },
           {
+            "family": "payments",
+            "version": "1.2",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": false
+          },
+          {
             "family": "accounts",
             "version": "1.2",
             "certificationStatus": "Self-Certified",
             "familyComplete": true
           },
           {
+            "family": "products",
+            "version": "2.1",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": false
+          },
+          {
+            "family": "cop",
+            "version": "2.1",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": true
+          },
+          {
+            "family": "accounts",
+            "version": "2.1",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": false
+          },
+          {
             "family": "payments",
-            "version": "1.2",
+            "version": "2.1",
             "certificationStatus": "Self-Certified",
             "familyComplete": false
           }
@@ -387,18 +411,6 @@
             "familyComplete": false
           },
           {
-            "family": "accounts",
-            "version": "2.1",
-            "certificationStatus": "Self-Certified",
-            "familyComplete": false
-          },
-          {
-            "family": "payments",
-            "version": "2.1",
-            "certificationStatus": "Self-Certified",
-            "familyComplete": false
-          },
-          {
             "family": "products",
             "version": "2.1",
             "certificationStatus": "Self-Certified",
@@ -409,6 +421,18 @@
             "version": "2.1",
             "certificationStatus": "Self-Certified",
             "familyComplete": true
+          },
+          {
+            "family": "accounts",
+            "version": "2.1",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": false
+          },
+          {
+            "family": "payments",
+            "version": "2.1",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": false
           }
         ],
         "authServerCount": 2,
@@ -977,7 +1001,7 @@
     }
   },
   "sandbox": {
-    "timestamp": "2026-08-11T07:03:52.201Z",
+    "timestamp": "2026-08-12T07:21:20.177Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "sandbox",
