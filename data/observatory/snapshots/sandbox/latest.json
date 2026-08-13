@@ -1,16 +1,16 @@
 {
-  "timestamp": "2026-08-12T07:21:20.177Z",
+  "timestamp": "2026-08-13T07:23:33.994Z",
   "source": "https://data.sandbox.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "sandbox",
   "summary": {
-    "totalParticipants": 77,
+    "totalParticipants": 78,
     "byStatus": {
-      "Active": 77
+      "Active": 78
     },
     "byRole": {
-      "BDSP": 73,
-      "BSIP": 73,
+      "BDSP": 74,
+      "BSIP": 74,
       "LFI": 52,
       "ISP": 57,
       "API Read_Write": 2,
@@ -18,7 +18,7 @@
       "pki-test-harness": 1
     },
     "byCity": {
-      "Unknown": 58,
+      "Unknown": 59,
       "Abu Dhabi": 6,
       "Dubai": 11,
       "London": 2
@@ -31,7 +31,7 @@
     ],
     "liveInProduction": 19,
     "shariahCompliantCount": 8,
-    "multiRoleCount": 74,
+    "multiRoleCount": 75,
     "tppCount": 0,
     "byAuthCapabilities": {
       "ciba": 0,
@@ -542,6 +542,30 @@
       ],
       "city": "Unknown",
       "registrationNumber": "NA",
+      "apiFamilies": [],
+      "hasAuthServer": false,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 0,
+      "isLive": false
+    },
+    {
+      "id": "854f1680-ab8e-46f4-be6c-70461dbc38ba",
+      "name": "Bank Mal Al Mahali Al Islami - L.L.C - S.P.C",
+      "legalName": "Bank Mal Al Mahali Al Islami - L.L.C - S.P.C",
+      "shortName": "Bank Mal Al Mahali Al Islami - L.L.C - S.P.C",
+      "status": "Active",
+      "roles": [
+        "BDSP",
+        "BSIP"
+      ],
+      "city": "Unknown",
+      "registrationNumber": "289",
       "apiFamilies": [],
       "hasAuthServer": false,
       "isShariahCompliant": false,
@@ -2481,10 +2505,15 @@
     }
   ],
   "trends": {
-    "participantChange": 0,
-    "newParticipants": [],
+    "participantChange": 1,
+    "newParticipants": [
+      "854f1680-ab8e-46f4-be6c-70461dbc38ba"
+    ],
     "removedParticipants": [],
-    "roleChanges": {},
+    "roleChanges": {
+      "BDSP": 1,
+      "BSIP": 1
+    },
     "apiFamilyChanges": {}
   }
 }

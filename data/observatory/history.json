@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-12T07:21:20.204Z",
+  "lastUpdated": "2026-08-13T07:23:33.999Z",
   "dataPoints": [
     {
       "date": "2025-12-26",
@@ -4862,6 +4862,33 @@
     },
     {
       "date": "2026-08-12",
+      "totalParticipants": 25,
+      "liveInProduction": 11,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 17,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-13",
       "totalParticipants": 25,
       "liveInProduction": 11,
       "byRole": {
@@ -9774,6 +9801,33 @@
       },
       "tppCount": 0,
       "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-13",
+      "totalParticipants": 25,
+      "liveInProduction": 11,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 17,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
     }
   ],
   "sandboxHistory": [
@@ -13503,6 +13557,34 @@
       },
       "tppCount": 0,
       "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-08-13",
+      "totalParticipants": 78,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 74,
+        "BSIP": 74,
+        "LFI": 52,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 59,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
     }
   ],
   "milestones": [
@@ -13799,6 +13881,12 @@
       "event": "Emirates Insurance Company joined production",
       "participantId": "f18cef1c-2ea2-4501-a1e5-db2e911689f8",
       "participantName": "Emirates Insurance Company"
+    },
+    {
+      "date": "2026-08-13",
+      "event": "Bank Mal Al Mahali Al Islami - L.L.C - S.P.C joined sandbox",
+      "participantId": "854f1680-ab8e-46f4-be6c-70461dbc38ba",
+      "participantName": "Bank Mal Al Mahali Al Islami - L.L.C - S.P.C"
     }
   ]
 }

@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-08-12T07:21:20.207Z",
+  "timestamp": "2026-08-13T07:23:34.002Z",
   "version": "2.0.0",
   "production": {
-    "timestamp": "2026-08-12T07:21:18.164Z",
+    "timestamp": "2026-08-13T07:23:32.098Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "production",
@@ -1001,18 +1001,18 @@
     }
   },
   "sandbox": {
-    "timestamp": "2026-08-12T07:21:20.177Z",
+    "timestamp": "2026-08-13T07:23:33.994Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "sandbox",
     "summary": {
-      "totalParticipants": 77,
+      "totalParticipants": 78,
       "byStatus": {
-        "Active": 77
+        "Active": 78
       },
       "byRole": {
-        "BDSP": 73,
-        "BSIP": 73,
+        "BDSP": 74,
+        "BSIP": 74,
         "LFI": 52,
         "ISP": 57,
         "API Read_Write": 2,
@@ -1020,7 +1020,7 @@
         "pki-test-harness": 1
       },
       "byCity": {
-        "Unknown": 58,
+        "Unknown": 59,
         "Abu Dhabi": 6,
         "Dubai": 11,
         "London": 2
@@ -1033,7 +1033,7 @@
       ],
       "liveInProduction": 19,
       "shariahCompliantCount": 8,
-      "multiRoleCount": 74,
+      "multiRoleCount": 75,
       "tppCount": 0,
       "byAuthCapabilities": {
         "ciba": 0,
@@ -1544,6 +1544,30 @@
         ],
         "city": "Unknown",
         "registrationNumber": "NA",
+        "apiFamilies": [],
+        "hasAuthServer": false,
+        "isShariahCompliant": false,
+        "authCapabilities": {
+          "supportsCiba": false,
+          "supportsDCR": false,
+          "supportsRedirect": false
+        },
+        "apiResources": [],
+        "authServerCount": 0,
+        "isLive": false
+      },
+      {
+        "id": "854f1680-ab8e-46f4-be6c-70461dbc38ba",
+        "name": "Bank Mal Al Mahali Al Islami - L.L.C - S.P.C",
+        "legalName": "Bank Mal Al Mahali Al Islami - L.L.C - S.P.C",
+        "shortName": "Bank Mal Al Mahali Al Islami - L.L.C - S.P.C",
+        "status": "Active",
+        "roles": [
+          "BDSP",
+          "BSIP"
+        ],
+        "city": "Unknown",
+        "registrationNumber": "289",
         "apiFamilies": [],
         "hasAuthServer": false,
         "isShariahCompliant": false,
@@ -3483,10 +3507,15 @@
       }
     ],
     "trends": {
-      "participantChange": 0,
-      "newParticipants": [],
+      "participantChange": 1,
+      "newParticipants": [
+        "854f1680-ab8e-46f4-be6c-70461dbc38ba"
+      ],
       "removedParticipants": [],
-      "roleChanges": {},
+      "roleChanges": {
+        "BDSP": 1,
+        "BSIP": 1
+      },
       "apiFamilyChanges": {}
     }
   },
@@ -3535,6 +3564,7 @@
       "a632a8ef-44d8-4331-856f-a0b9dc66241e",
       "d6f549cc-ff6f-4e21-844e-f26a2ee932cb",
       "9803b615-62f0-4d8f-813f-ec20fd1cc46f",
+      "854f1680-ab8e-46f4-be6c-70461dbc38ba",
       "d786af7f-4f7c-48cb-87ed-97bdb9c036ad",
       "5b10d9f1-d356-46cd-8bea-346bcca80722",
       "d5ee7389-e521-4469-9387-f80ef15edc6f",
@@ -3577,6 +3607,6 @@
       "4c52000d-3db6-44db-8be3-8418cae0e2f1",
       "a90b2761-560d-45a9-9b32-67465c603059"
     ],
-    "totalUniqueParticipants": 80
+    "totalUniqueParticipants": 81
   }
 }
