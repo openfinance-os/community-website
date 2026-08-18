@@ -1,17 +1,17 @@
 {
-  "timestamp": "2026-08-17T06:51:15.284Z",
+  "timestamp": "2026-08-18T06:38:52.485Z",
   "source": "https://data.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "production",
   "summary": {
-    "totalParticipants": 25,
+    "totalParticipants": 26,
     "byStatus": {
-      "Active": 25
+      "Active": 26
     },
     "byRole": {
       "BDSP": 16,
       "BSIP": 15,
-      "LFI": 17,
+      "LFI": 18,
       "ISP": 7,
       "API Read_Write": 3,
       "TSP": 3,
@@ -19,7 +19,7 @@
     },
     "byCity": {
       "Abu Dhabi": 5,
-      "Unknown": 14,
+      "Unknown": 15,
       "Dubai": 6
     },
     "apiFamilies": [
@@ -333,6 +333,29 @@
       "isLive": true
     },
     {
+      "id": "7c618e0b-0acc-4642-bdbb-180eb419be95",
+      "name": "Dubai Insurance Company",
+      "legalName": "Dubai Insurance Company",
+      "shortName": "Dubai Insurance Company",
+      "status": "Active",
+      "roles": [
+        "LFI"
+      ],
+      "city": "Unknown",
+      "registrationNumber": "National004",
+      "apiFamilies": [],
+      "hasAuthServer": false,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 0,
+      "isLive": false
+    },
+    {
       "id": "f18cef1c-2ea2-4501-a1e5-db2e911689f8",
       "name": "Emirates Insurance Company",
       "legalName": "Emirates Insurance Company",
@@ -463,25 +486,25 @@
       },
       "apiResources": [
         {
-          "family": "cop",
-          "version": "2.1",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        },
-        {
           "family": "payments",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
-          "family": "accounts",
+          "family": "cop",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "products",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "accounts",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
@@ -990,10 +1013,14 @@
     }
   ],
   "trends": {
-    "participantChange": 0,
-    "newParticipants": [],
+    "participantChange": 1,
+    "newParticipants": [
+      "7c618e0b-0acc-4642-bdbb-180eb419be95"
+    ],
     "removedParticipants": [],
-    "roleChanges": {},
+    "roleChanges": {
+      "LFI": 1
+    },
     "apiFamilyChanges": {}
   }
 }
