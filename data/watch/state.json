@@ -1,6 +1,6 @@
 {
- "runDate": "2026-08-17",
- "note": "Run 2026-08-17: full-months basis UNCHANGED (July remains latest full month); every full-months figure independently re-aggregated (twice, plus a third spot-check) from freshly decoded logs and matched to the digit -- self-consistency PASSED 33/33 + assertions (c)/(e) also PASS. Only partial-month (Aug) and all-time totals advanced: asOfData 2026-08-09->2026-08-16, calls 762,447->823,008, partial payment value ~18.58M->~33.82M AED. Production directory: unchanged (11 orgs, identical family/version registrations, 58 green/10 blue cells). Sandbox adoption: unchanged (R1 8/9, R2 8/9, R4+v2.1 7/7, Insurance 2/2). NEW: unconfirmed LFI key 'uae-fabbusiness' appeared (8 calls, all 4xx, 10-13 Aug) -- early/pre-live, not counted in any adoption set. NEW (tpp,lfi) pairing: WIO BANK x uae-fabretail (6 calls, 2xx, 11 Aug). Spec (api-specs main): unchanged, 90/90 files byte-identical, 141-path probe found nothing new. Breaking changes: unchanged (12 enforced/live). Confluence: unchanged (last modified 2026-07-08, predates window). GitHub org access still 403 (standing); partial github-stats.json signal: openPRs 4->2, recentCommits 32->36. CBUAE rulebook still 403 (standing); no new dated ecosystem news found. Corporates Full Suite deadline 21->15 days (standing <30-day alert).",
+ "runDate": "2026-08-24",
+ "note": "Run 2026-08-24: full-months basis UNCHANGED (July remains latest full month); every full-months figure independently re-aggregated (twice) from freshly decoded logs and matched to the digit -- self-consistency PASSED. Only partial-month (Aug) and all-time totals advanced: asOfData 2026-08-16->2026-08-20, calls 823,008->859,088, partial payment value ~33.82M->~42.64M AED. MAJOR: 9 new spec files discovered at v2.2-rc1/v2.2.x on api-specs main (first V2.2 draft sighting), corroborated by a new website 'Version Changelog v2.1->v2.2-draft' page. OFP-003 payment-reference charset MERGED to main under v2.1-errata3 (was staged/unmerged). Production directory: FAB + HSBC each added an additional Active ApiResource at v2.0 alongside their unchanged v2.1 registrations (additive, board counts unaffected: 58 green/10 blue, 11 orgs). Sandbox adoption unchanged (R1 8/9, R2 8/9, R4+v2.1 7/7, Insurance 2/2). NEW unconfirmed LFI key 'uae-awnic' appeared (10 calls, all 4xx, self-paired with AL WATHBA NATIONAL INSURANCE CO -- a named CBUAE Tier-1 insurer) -- early/pre-live, not counted in any adoption set. uae-fabbusiness continued (15 calls now, still 4xx-only). NEW (tpp,lfi) pairing: MASHREQ BANK PSC x uae-cbdrt (8 calls). GitHub org access still 403 (standing); github-stats.json: openPRs 2->3, recentCommits 36->33 (rolling window), repos 5 (unchanged). API Hub/Trust Framework release notes pages now readable (previously JS-blocked) -- both unchanged (API Hub 2026.22.0 latest; Trust Framework 2.5.0 still Planned). Confluence unchanged (last modified 2026-07-08). CBUAE rulebook still 403; no new dated ecosystem news. Corporates Full Suite deadline 15->8 days (standing <30-day alert, escalating).",
  "metrics_basis": "full-months-only (excludes the current partial month)",
  "artifacts": {
   "refreshedEachRun": true,
@@ -75,7 +75,7 @@
   "dist/api-hub/v2.0.x/uae-api-hub-authorisation-server-openapi.yaml": "d48662066d44d5cfc394d0feaf16672944114f61",
   "dist/api-hub/v2.0.x/uae-api-hub-consent-manager-openapi.yaml": "e0c599e83ee1592152c4aec58cfff242f6d10ccc",
   "dist/api-hub/v2.1.x/uae-api-hub-authorisation-server-openapi.yaml": "ea1549738638657d91169f9a1ecc77c3f1117582",
-  "dist/api-hub/v2.1.x/uae-api-hub-consent-manager-openapi.yaml": "4b8cd62073e7c10e943bc0431496c0e8c94d48c4",
+  "dist/api-hub/v2.1.x/uae-api-hub-consent-manager-openapi.yaml": "cb6f1ab8e515f00b6dc89e891bd66374b7a181a0",
   "dist/api-hub/v2.1.x/uae-api-hub-tpp-onboarding-openapi.yaml": "f070445780e35a9d8ac0f3d3dab35876e16a9836",
   "dist/api-hub/v2.1.x/uae-api-hub-tpp-reports-openapi.yaml": "f44bb3c0797daf99a47d94329b748807f186f1f5",
   "dist/ozone-connect/v1.2.x/cbuae-ozone-connect-consent-events-actions-openapi.yaml": "78848c7fecf5b051198d0e962a48347134d3e80c",
@@ -95,10 +95,10 @@
   "dist/ozone-connect/v2.1.x/uae-ozone-connect-bank-data-sharing-openapi.yaml": "a73018b3aa8bafe163a8d82158c06ae016363f7f",
   "dist/ozone-connect/v2.1.x/uae-ozone-connect-bank-open-data-openapi.yaml": "98583ad71aadbacac974cc9b354596496f241966",
   "dist/ozone-connect/v2.1.x/uae-ozone-connect-bank-products-data-openapi.yaml": "9c647c290d8579a5b3d1848899e6c5448a257306",
-  "dist/ozone-connect/v2.1.x/uae-ozone-connect-bank-service-initiation-openapi.yaml": "8cc1f55f0fc3ad1f139ba2123cec65aba4d69da8",
-  "dist/ozone-connect/v2.1.x/uae-ozone-connect-consent-events-actions-openapi.yaml": "6d86e3bb2c9a901223f688c0e4210ccb401d4686",
+  "dist/ozone-connect/v2.1.x/uae-ozone-connect-bank-service-initiation-openapi.yaml": "cfcf1c2e80c2371c6d2cfb6a3880f31458ea2e58",
+  "dist/ozone-connect/v2.1.x/uae-ozone-connect-consent-events-actions-openapi.yaml": "e8872b4f821f6756b77abff5c8f4a29a2b7bfe6c",
   "dist/ozone-connect/v2.1.x/uae-ozone-connect-health-check-openapi.yaml": "c12cd54935292b2e07834cbcc2f968abcdd97a02",
-  "dist/ozone-connect/v2.1.x/uae-ozone-connect-insurance-openapi.yaml": "69b457b9b30b20732b35af4eea2eeaec0512ee82",
+  "dist/ozone-connect/v2.1.x/uae-ozone-connect-insurance-openapi.yaml": "4ed60459acbef3fcee44d637a87a475c01e5c7a5",
   "dist/standards/v1.2-errata1/uae-account-information-openapi.yaml": "72021cff8304f693c101dad8abea14d80877b495",
   "dist/standards/v1.2-errata1/uae-authorization-endpoints-openapi.yaml": "916519a861d941029b7996561bb4d3ec3f35842e",
   "dist/standards/v1.2-errata1/uae-bank-initiation-openapi.yaml": "cd172f0a0fda5832213aa4fa321476d91a073471",
@@ -157,9 +157,18 @@
   "dist/standards/v2.1/uae-insurance-openapi.yaml": "63a24af985b57b957f7527fce5135cd820f7b16f",
   "dist/standards/v2.1/uae-product-openapi.yaml": "a1abffe296806fea6b2a3b97e0dfc437af5e01cd",
   "dist/standards/v2.1/uae-webhook-template-openapi.yaml": "68c7849e510656643b6c2b895d480d3c9efcc7a5",
-  "dist/ozone-connect/v2.1.x/uae-ozone-connect-caap-operations-openapi.yaml": "8c3ab3b7f6dcd88233a0f890d49c4fcfa3c12ec6",
-  "dist/standards/v2.1-errata3/uae-authorization-endpoints-openapi.yaml": "8f7dcbd9452df4ef2354b5c8fa1df190c37783a6",
-  "dist/standards/v2.1-errata3/uae-bank-initiation-openapi.yaml": "e3a45d6adf486f737555f278bbba8b0a4b2a5434"
+  "dist/ozone-connect/v2.1.x/uae-ozone-connect-caap-operations-openapi.yaml": "f21804029e74455a2ac53faaf8beab25476e6304",
+  "dist/standards/v2.1-errata3/uae-authorization-endpoints-openapi.yaml": "4031e309ef69b3c17774d92487761fd136c13f19",
+  "dist/standards/v2.1-errata3/uae-bank-initiation-openapi.yaml": "4577097fe582ae548a085231e870b88f1de351c6",
+  "dist/standards/v2.2-rc1/uae-account-information-openapi.yaml": "895d389b37e971c6f4e869e0626a11689abb7acc",
+  "dist/standards/v2.2-rc1/uae-bank-initiation-openapi.yaml": "3050b5f737e7ee669037cf38da7818a14bd78e8f",
+  "dist/standards/v2.2-rc1/uae-insurance-openapi.yaml": "7adcbf87d6f4959094629c72ee2cbb07c586d8c7",
+  "dist/standards/v2.2-rc1/uae-product-openapi.yaml": "504311b8594539174a351e187b5b89bc6ba956fb",
+  "dist/standards/v2.2-rc1/uae-webhook-template-openapi.yaml": "99d1fb6d2e4391bf8490fca46089a0ab32485030",
+  "dist/api-hub/v2.2.x/uae-api-hub-consent-manager-openapi.yaml": "18e771e64e48be1588f3f1758ed5a4cf314469f4",
+  "dist/ozone-connect/v2.2.x/uae-ozone-connect-bank-data-sharing-openapi.yaml": "62e24e0ad33303db0a4cc7c59cdc24a1f2abbf89",
+  "dist/ozone-connect/v2.2.x/uae-ozone-connect-bank-products-data-openapi.yaml": "42dc157739de4a0ff97fb56b77e905bd157ab098",
+  "dist/ozone-connect/v2.2.x/uae-ozone-connect-insurance-openapi.yaml": "120adff4822e7b9defa3b0942f60086315f77b1d"
  },
  "specActiveInventory": {
   "dist/api-hub/v2.1.x/uae-api-hub-authorisation-server-openapi.yaml": {
@@ -169,7 +178,7 @@
   },
   "dist/api-hub/v2.1.x/uae-api-hub-consent-manager-openapi.yaml": {
    "sha256": "git:4b8cd620",
-   "specVersion": "v2.1.9",
+   "specVersion": "v2.1.10",
    "endpointCount": 16
   },
   "dist/api-hub/v2.1.x/uae-api-hub-tpp-onboarding-openapi.yaml": {
@@ -199,12 +208,12 @@
   },
   "dist/ozone-connect/v2.1.x/uae-ozone-connect-bank-service-initiation-openapi.yaml": {
    "sha256": "git:8cc1f55f",
-   "specVersion": "v2.1.7",
+   "specVersion": "v2.1.8",
    "endpointCount": 11
   },
   "dist/ozone-connect/v2.1.x/uae-ozone-connect-consent-events-actions-openapi.yaml": {
    "sha256": "git:6d86e3bb",
-   "specVersion": "v2.1.6",
+   "specVersion": "v2.1.7",
    "endpointCount": 3
   },
   "dist/ozone-connect/v2.1.x/uae-ozone-connect-health-check-openapi.yaml": {
@@ -294,8 +303,63 @@
   },
   "dist/ozone-connect/v2.1.x/uae-ozone-connect-caap-operations-openapi.yaml": {
    "sha256": "git:8c3ab3b7",
-   "specVersion": "v2.1.4",
+   "specVersion": "v2.1.5",
    "endpointCount": 18
+  },
+  "dist/standards/v2.1-errata3/uae-authorization-endpoints-openapi.yaml": {
+   "sha256": "git:4031e309",
+   "specVersion": "v2.1-errata3",
+   "endpointCount": 2
+  },
+  "dist/standards/v2.1-errata3/uae-bank-initiation-openapi.yaml": {
+   "sha256": "git:4577097f",
+   "specVersion": "v2.1-errata3",
+   "endpointCount": 12
+  },
+  "dist/standards/v2.2-rc1/uae-account-information-openapi.yaml": {
+   "sha256": "git:895d389b",
+   "specVersion": "v2.2-rc1",
+   "endpointCount": 17
+  },
+  "dist/standards/v2.2-rc1/uae-bank-initiation-openapi.yaml": {
+   "sha256": "git:3050b5f7",
+   "specVersion": "v2.2-rc1",
+   "endpointCount": 14
+  },
+  "dist/standards/v2.2-rc1/uae-insurance-openapi.yaml": {
+   "sha256": "git:7adcbf87",
+   "specVersion": "v2.2-rc1",
+   "endpointCount": 54
+  },
+  "dist/standards/v2.2-rc1/uae-product-openapi.yaml": {
+   "sha256": "git:504311b8",
+   "specVersion": "v2.2-rc1",
+   "endpointCount": 2
+  },
+  "dist/standards/v2.2-rc1/uae-webhook-template-openapi.yaml": {
+   "sha256": "git:99d1fb6d",
+   "specVersion": "v2.2-rc1",
+   "endpointCount": 1
+  },
+  "dist/api-hub/v2.2.x/uae-api-hub-consent-manager-openapi.yaml": {
+   "sha256": "git:18e771e6",
+   "specVersion": "v2.2.1",
+   "endpointCount": 16
+  },
+  "dist/ozone-connect/v2.2.x/uae-ozone-connect-bank-data-sharing-openapi.yaml": {
+   "sha256": "git:62e24e0a",
+   "specVersion": "v2.2.1",
+   "endpointCount": 13
+  },
+  "dist/ozone-connect/v2.2.x/uae-ozone-connect-bank-products-data-openapi.yaml": {
+   "sha256": "git:42dc1577",
+   "specVersion": "v2.2.1",
+   "endpointCount": 2
+  },
+  "dist/ozone-connect/v2.2.x/uae-ozone-connect-insurance-openapi.yaml": {
+   "sha256": "git:120adff4",
+   "specVersion": "v2.2.1",
+   "endpointCount": 49
   }
  },
  "specForwardSignals": {
@@ -320,10 +384,10 @@
    "supporting/breaking-changes/standards/v2.1-errata2/uae-bank-initiation-openapi/breaking-changes.yaml": "2291f0070dca",
    "supporting/breaking-changes/standards/v2.1-errata2/uae-confirmation-of-payee-openapi/breaking-changes.yaml": "057c3d932779",
    "supporting/breaking-changes/standards/v2.1-errata2/uae-webhook-template-openapi/breaking-changes.yaml": "bdc78d7b3e7f",
-   "supporting/breaking-changes/standards/v2.1-errata3/uae-authorization-endpoints-openapi/breaking-changes.yaml": "8694108e8ce1",
-   "supporting/breaking-changes/standards/v2.1-errata3/uae-bank-initiation-openapi/breaking-changes.yaml": "915e2c9f9cb6"
+   "supporting/breaking-changes/standards/v2.1-errata3/uae-authorization-endpoints-openapi/breaking-changes.yaml": "b3256a68a0f0",
+   "supporting/breaking-changes/standards/v2.1-errata3/uae-bank-initiation-openapi/breaking-changes.yaml": "d4df55ed7724"
   },
-  "breakingChangesNote": "Per-register SHA-256 (first 12) of the breaking-changes YAML *contents* on api-specs main. Diff these each run: a change here means an accepted breaking change shipped INSIDE an existing errata label (the errata version may not bump and the tracked main SHA may be static). On any digest change, run tools/of_watch_breaking.py to rebuild the `breaking` payload block (TPP-facing vs LFI/API-Hub) and raise an alert. [2026-07-08: authorization-endpoints + bank-initiation digests changed — SWIFT SR2026 restructuring; of_watch_breaking.py rebuilt.] [2026-07-12: errata2 authorization-endpoints/bank-initiation digests changed again (SR2026 content removed, reverted to pre-SR2026 baseline); NEW v2.1-errata3 registers added for the same 2 specs, carrying the SR2026 restructuring. of_watch_breaking.py rebuilt with the errata3 registers.]"
+  "breakingChangesNote": "Per-register SHA-256 (first 12) of the breaking-changes YAML *contents* on api-specs main. Diff these each run: a change here means an accepted breaking change shipped INSIDE an existing errata label (the errata version may not bump and the tracked main SHA may be static). On any digest change, run tools/of_watch_breaking.py to rebuild the `breaking` payload block (TPP-facing vs LFI/API-Hub) and raise an alert. [2026-07-08: authorization-endpoints + bank-initiation digests changed — SWIFT SR2026 restructuring; of_watch_breaking.py rebuilt.] [2026-07-12: errata2 authorization-endpoints/bank-initiation digests changed again (SR2026 content removed, reverted to pre-SR2026 baseline); NEW v2.1-errata3 registers added for the same 2 specs, carrying the SR2026 restructuring. of_watch_breaking.py rebuilt with the errata3 registers.] [2026-08-24: errata3 authorization-endpoints/bank-initiation digests changed again -- OFP-003 payment-reference charset pattern merged into these registers (previously staged on an unmerged branch), plus a doc-only fix repointing the GET /payments,/file-payments idempotency-key response onto the standard signed envelope. of_watch_breaking.py rebuilt (14 enforced/live, 19 TPP-facing + 3 LFI/API-Hub, was 12/16+3). Also: 9 new spec files discovered at v2.2-rc1/v2.2.x (first V2.2 draft sighting) -- not yet tracked in specFiles' diff-basis role since they are new, but their blob SHAs are now seeded for next-run diffing.]"
  },
  "confluence": {
   "Standards V2.1 & API Hub V8 - Consolidated Errata": {
@@ -369,7 +433,7 @@
  },
  "metrics": {
   "basis": "full-months-only",
-  "asOfDataThrough": "2026-08-16 (August partial excluded from full-months basis)",
+  "asOfDataThrough": "2026-08-20 (August partial excluded from full-months basis)",
   "monthsSeen": [
    "2025-11",
    "2025-12",
@@ -382,7 +446,7 @@
    "2026-07",
    "2026-08"
   ],
-  "totalCalls": 823008,
+  "totalCalls": 859088,
   "totalCallsFullMonthsOnly": 704387,
   "errorRatePct": 26.8,
   "byVersionPct": {
@@ -468,7 +532,7 @@
     "2026-05": 624,
     "2026-06": 1279,
     "2026-07": 434,
-    "2026-08": 315
+    "2026-08": 337
    },
    "uae-hsbcrt": {
     "2025-11": 1349,
@@ -480,7 +544,7 @@
     "2026-05": 1813,
     "2026-06": 9167,
     "2026-07": 8972,
-    "2026-08": 2387
+    "2026-08": 2526
    },
    "uae-dibrt": {
     "2025-11": 4545,
@@ -492,7 +556,7 @@
     "2026-05": 3926,
     "2026-06": 2663,
     "2026-07": 2567,
-    "2026-08": 1253
+    "2026-08": 1620
    },
    "uae-adibrt": {
     "2025-11": 5343,
@@ -504,7 +568,7 @@
     "2026-05": 13075,
     "2026-06": 21407,
     "2026-07": 42146,
-    "2026-08": 30822
+    "2026-08": 37516
    },
    "uae-mashrt": {
     "2025-11": 8914,
@@ -516,7 +580,7 @@
     "2026-05": 28366,
     "2026-06": 25435,
     "2026-07": 67344,
-    "2026-08": 31285
+    "2026-08": 38751
    },
    "uae-cbdrt": {
     "2025-11": 2241,
@@ -528,7 +592,7 @@
     "2026-05": 4560,
     "2026-06": 2576,
     "2026-07": 2083,
-    "2026-08": 1138
+    "2026-08": 1760
    },
    "uae-fabretail": {
     "2025-11": 196,
@@ -540,7 +604,7 @@
     "2026-05": 5265,
     "2026-06": 2627,
     "2026-07": 3260,
-    "2026-08": 15135
+    "2026-08": 25738
    },
    "uae-enbdx": {
     "2025-11": 139,
@@ -552,7 +616,7 @@
     "2026-05": 6300,
     "2026-06": 6056,
     "2026-07": 6418,
-    "2026-08": 3291
+    "2026-08": 4174
    },
    "uae-wioretail": {
     "2025-12": 176,
@@ -563,7 +627,7 @@
     "2026-05": 39819,
     "2026-06": 32663,
     "2026-07": 83834,
-    "2026-08": 28785
+    "2026-08": 37395
    },
    "uae-hsbcws": {
     "2026-02": 1,
@@ -576,7 +640,7 @@
    "uae-livx": {
     "2026-06": 169,
     "2026-07": 4046,
-    "2026-08": 4162
+    "2026-08": 4816
    },
    "uae-aaic": {
     "2026-06": 116,
@@ -585,10 +649,13 @@
    "uae-orient": {
     "2026-06": 21,
     "2026-07": 67,
-    "2026-08": 10
+    "2026-08": 13
    },
    "uae-fabbusiness": {
-    "2026-08": 8
+    "2026-08": 15
+   },
+   "uae-awnic": {
+    "2026-08": 10
    }
   },
   "tppMonthly": {
@@ -602,7 +669,7 @@
     "2026-05": 79659,
     "2026-06": 81042,
     "2026-07": 192630,
-    "2026-08": 96801
+    "2026-08": 127627
    },
    "(Unattributed)": {
     "2025-11": 6596,
@@ -614,7 +681,7 @@
     "2026-05": 3241,
     "2026-06": 3468,
     "2026-07": 4406,
-    "2026-08": 3074
+    "2026-08": 3942
    },
    "NYMCARD": {
     "2025-11": 696,
@@ -638,11 +705,11 @@
     "2026-05": 687,
     "2026-06": 989,
     "2026-07": 1887,
-    "2026-08": 565
+    "2026-08": 703
    },
    "MASHREQ BANK PSC": {
     "2025-11": 9,
-    "2026-08": 59
+    "2026-08": 75
    },
    "SPARE DIGITAL TECHNOLOGIES LLC S.O.C": {
     "2025-11": 9,
@@ -654,7 +721,7 @@
     "2026-05": 48,
     "2026-06": 88,
     "2026-07": 267,
-    "2026-08": 201
+    "2026-08": 228
    },
    "ABU DHABI COMMERCIAL BANK PBJC": {
     "2025-11": 35,
@@ -677,7 +744,7 @@
     "2026-05": 3665,
     "2026-06": 2406,
     "2026-07": 8360,
-    "2026-08": 7046
+    "2026-08": 8288
    },
    "ABU DHABI ISLAMIC BANK P.J.S.C": {
     "2026-02": 385,
@@ -686,7 +753,7 @@
     "2026-05": 14597,
     "2026-06": 5332,
     "2026-07": 11320,
-    "2026-08": 6331
+    "2026-08": 7805
    },
    "HSBC BANK MIDDLE EAST LIMITED": {
     "2026-02": 22,
@@ -695,13 +762,13 @@
     "2026-05": 46,
     "2026-06": 7791,
     "2026-07": 636,
-    "2026-08": 2078
+    "2026-08": 2175
    },
    "WIO BANK": {
     "2026-05": 1028,
     "2026-06": 2940,
     "2026-07": 1262,
-    "2026-08": 1862
+    "2026-08": 2376
    },
    "ALAIN AHLIA INSURANCE COMPANY": {
     "2026-06": 109,
@@ -710,39 +777,43 @@
    "ORIENT INSURANCE PJSC": {
     "2026-06": 13,
     "2026-07": 65,
-    "2026-08": 10
+    "2026-08": 13
    },
    "COMMERCIAL BANK OF DUBAI": {
-    "2026-08": 591
+    "2026-08": 1457
+   },
+   "AL WATHBA NATIONAL INSURANCE CO": {
+    "2026-08": 9
    }
   },
   "tppByLfi": {
    "LEAN TECH": {
-    "uae-adcbrt": 16072,
-    "uae-hsbcrt": 17339,
-    "uae-dibrt": 22626,
-    "uae-adibrt": 126757,
-    "uae-mashrt": 159878,
-    "uae-cbdrt": 17222,
-    "uae-fabretail": 37063,
-    "uae-enbdx": 14866,
-    "uae-wioretail": 193805
+    "uae-adcbrt": 16093,
+    "uae-hsbcrt": 17381,
+    "uae-dibrt": 22993,
+    "uae-adibrt": 133442,
+    "uae-mashrt": 165222,
+    "uae-cbdrt": 17674,
+    "uae-fabretail": 47642,
+    "uae-enbdx": 15010,
+    "uae-wioretail": 200997
    },
    "(Unattributed)": {
-    "uae-mashrt": 27328,
+    "uae-mashrt": 27880,
     "uae-adcbrt": 224,
-    "uae-cbdrt": 1025,
+    "uae-cbdrt": 1057,
     "uae-fabretail": 73,
-    "uae-enbdx": 2525,
+    "uae-enbdx": 2705,
     "uae-dibrt": 78676,
     "uae-adibrt": 751,
     "uae-hsbcrt": 329,
-    "uae-wioretail": 2341,
+    "uae-wioretail": 2437,
     "uae-hsbcws": 15,
     "uae-aaic": 14,
     "uae-orient": 10,
     "uae-livx": 5,
-    "uae-fabbusiness": 8
+    "uae-fabbusiness": 15,
+    "uae-awnic": 1
    },
    "NYMCARD": {
     "uae-cbdrt": 778,
@@ -754,24 +825,25 @@
     "uae-dibrt": 1149
    },
    "PAY TEN PAYMENT SERVICES PROVIDER LLC": {
-    "uae-adcbrt": 1342,
-    "uae-enbdx": 425,
-    "uae-adibrt": 1244,
+    "uae-adcbrt": 1343,
+    "uae-enbdx": 432,
+    "uae-adibrt": 1253,
     "uae-cbdrt": 620,
-    "uae-fabretail": 1667,
-    "uae-mashrt": 3003,
-    "uae-wioretail": 1692,
+    "uae-fabretail": 1691,
+    "uae-mashrt": 3048,
+    "uae-wioretail": 1744,
     "uae-hsbcrt": 63,
     "uae-dibrt": 105
    },
    "MASHREQ BANK PSC": {
     "uae-mashrt": 9,
-    "uae-wioretail": 59
+    "uae-wioretail": 67,
+    "uae-cbdrt": 8
    },
    "SPARE DIGITAL TECHNOLOGIES LLC S.O.C": {
-    "uae-mashrt": 370,
+    "uae-mashrt": 374,
     "uae-adibrt": 101,
-    "uae-wioretail": 273,
+    "uae-wioretail": 296,
     "uae-cbdrt": 41,
     "uae-enbdx": 118,
     "uae-fabretail": 25,
@@ -784,37 +856,40 @@
     "uae-fabretail": 23
    },
    "EMIRATES NBD BANK PJSC": {
-    "uae-enbdx": 14158,
-    "uae-livx": 8372,
-    "uae-wioretail": 2067,
-    "uae-cbdrt": 23
+    "uae-enbdx": 14322,
+    "uae-livx": 9026,
+    "uae-wioretail": 2479,
+    "uae-cbdrt": 35
    },
    "ABU DHABI ISLAMIC BANK P.J.S.C": {
     "uae-adibrt": 385,
-    "uae-mashrt": 38448,
-    "uae-cbdrt": 5885,
-    "uae-wioretail": 108
+    "uae-mashrt": 39719,
+    "uae-cbdrt": 6000,
+    "uae-wioretail": 196
    },
    "HSBC BANK MIDDLE EAST LIMITED": {
-    "uae-hsbcrt": 10809,
+    "uae-hsbcrt": 10906,
     "uae-hsbcws": 96
    },
    "WIO BANK": {
-    "uae-wioretail": 3452,
-    "uae-enbdx": 3553,
-    "uae-cbdrt": 81,
+    "uae-wioretail": 3575,
+    "uae-enbdx": 3941,
+    "uae-cbdrt": 84,
     "uae-fabretail": 6
    },
    "ALAIN AHLIA INSURANCE COMPANY": {
     "uae-aaic": 307
    },
    "ORIENT INSURANCE PJSC": {
-    "uae-orient": 88
+    "uae-orient": 91
    },
    "COMMERCIAL BANK OF DUBAI": {
-    "uae-wioretail": 356,
-    "uae-mashrt": 221,
+    "uae-wioretail": 972,
+    "uae-mashrt": 471,
     "uae-enbdx": 14
+   },
+   "AL WATHBA NATIONAL INSURANCE CO": {
+    "uae-awnic": 9
    }
   },
   "payments": {
@@ -833,6 +908,7 @@
    "uae-aaic",
    "uae-adcbrt",
    "uae-adibrt",
+   "uae-awnic",
    "uae-cbdrt",
    "uae-dibrt",
    "uae-enbdx",
@@ -849,6 +925,7 @@
    "(Unattributed)",
    "ABU DHABI COMMERCIAL BANK PBJC",
    "ABU DHABI ISLAMIC BANK P.J.S.C",
+   "AL WATHBA NATIONAL INSURANCE CO",
    "ALAIN AHLIA INSURANCE COMPANY",
    "COMMERCIAL BANK OF DUBAI",
    "EMIRATES NBD BANK PJSC",
@@ -987,7 +1064,7 @@
   "banks": 9,
   "greenCells": 58,
   "blueCells": 10,
-  "note": "Diff `exposed` (production-directory capability registration) and `live` (2xx traffic) each run. A new entry in `exposed` = a production capability go-live (blue); a capability moving from exposed-only to having traffic = it went live (blue->green). Feeds the Adoption Heatmap Production sub-grid via tools/of_watch_production.py. NOTE: the public api-log has no environment field, so the green/live half is observed successful traffic on a production-exposed capability, not an env-tagged production volume.",
+  "note": "Diff `exposed` (production-directory capability registration) and `live` (2xx traffic) each run. A new entry in `exposed` = a production capability go-live (blue); a capability moving from exposed-only to having traffic = it went live (blue->green). Feeds the Adoption Heatmap Production sub-grid via tools/of_watch_production.py. NOTE: the public api-log has no environment field, so the green/live half is observed successful traffic on a production-exposed capability, not an env-tagged production volume. [2026-08-24: FAB and HSBC each additionally register an Active ApiResource at ApiVersion 2.0 for families already Active at 2.1 (FAB: account-information; HSBC: payment, account-information) -- additive dual-version exposure; directoryFamilies here retains the HIGHEST version per family for continuity, so this file alone does not show the coexisting 2.0 registration -- see payload.board / changeLog for the full detail.]",
   "directoryFamilies": {
    "ADCB": {
     "size": "LFI",
@@ -1059,10 +1136,10 @@
     "size": "LFI",
     "status": "Active",
     "families": {
-     "confirmation": "2.1",
      "payment": "2.1",
-     "account-information": "2.1",
-     "product": "2.1"
+     "confirmation": "2.1",
+     "product": "2.1",
+     "account-information": "2.1"
     }
    },
    "HSBC": {
@@ -1097,11 +1174,12 @@
   "complianceBasis": "Release Compliance board driven by production-directory registration (Status=Active families). UNCHANGED this run (re-fetched and re-derived, byte-identical to prior state): R1 8/8, R2 8/8, ProductQuotes 7/8, v2.1 7/8 Tier-1 (only ADIB remains on v1.2). SME Bulk 1/8 (FAB + WIO Bank register file-payments). Insurance unchanged: 2/16 Tier-1 insurers (LIVA + ADNIC).",
   "paymentFamilyEndpoints": "FAB and WIO Bank now both register file-payments (bulk) Active in production (FamilyComplete=True); the other 7 Tier-1 banks register only base payments + payment-consents + refund (FamilyComplete=False). No international/multi endpoint registered by anyone; international is a payment-type within /payments, not a separate endpoint."
  },
- "asOfData": "2026-08-16",
+ "asOfData": "2026-08-20",
  "lfiKeysSeen": [
   "uae-aaic",
   "uae-adcbrt",
   "uae-adibrt",
+  "uae-awnic",
   "uae-cbdrt",
   "uae-dibrt",
   "uae-enbdx",
