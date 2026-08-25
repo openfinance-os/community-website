@@ -1,24 +1,24 @@
 {
-  "timestamp": "2026-08-24T06:53:55.320Z",
+  "timestamp": "2026-08-25T06:42:14.558Z",
   "source": "https://data.sandbox.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "sandbox",
   "summary": {
-    "totalParticipants": 78,
+    "totalParticipants": 79,
     "byStatus": {
-      "Active": 78
+      "Active": 79
     },
     "byRole": {
-      "BDSP": 74,
-      "BSIP": 74,
-      "LFI": 52,
+      "BDSP": 75,
+      "BSIP": 75,
+      "LFI": 53,
       "ISP": 57,
       "API Read_Write": 2,
       "TSP": 2,
       "pki-test-harness": 1
     },
     "byCity": {
-      "Unknown": 59,
+      "Unknown": 60,
       "Abu Dhabi": 6,
       "Dubai": 11,
       "London": 2
@@ -31,7 +31,7 @@
     ],
     "liveInProduction": 19,
     "shariahCompliantCount": 8,
-    "multiRoleCount": 75,
+    "multiRoleCount": 76,
     "tppCount": 0,
     "byAuthCapabilities": {
       "ciba": 0,
@@ -177,6 +177,31 @@
       ],
       "city": "Unknown",
       "registrationNumber": "01.01.02.048.2008.04",
+      "apiFamilies": [],
+      "hasAuthServer": false,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 0,
+      "isLive": false
+    },
+    {
+      "id": "a9d14b51-08f0-4a5a-8603-e284670e0015",
+      "name": "Al Ahli Bank of Kuwait K.S.C.P",
+      "legalName": "Al Ahli Bank of Kuwait K.S.C.P",
+      "shortName": "Al Ahli Bank of Kuwait K.S.C.P",
+      "status": "Active",
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "LFI"
+      ],
+      "city": "Unknown",
+      "registrationNumber": "01.02.01.011.1969.02",
       "apiFamilies": [],
       "hasAuthServer": false,
       "isShariahCompliant": false,
@@ -2505,10 +2530,16 @@
     }
   ],
   "trends": {
-    "participantChange": 0,
-    "newParticipants": [],
+    "participantChange": 1,
+    "newParticipants": [
+      "a9d14b51-08f0-4a5a-8603-e284670e0015"
+    ],
     "removedParticipants": [],
-    "roleChanges": {},
+    "roleChanges": {
+      "BDSP": 1,
+      "BSIP": 1,
+      "LFI": 1
+    },
     "apiFamilyChanges": {}
   }
 }

@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-08-24T06:53:55.326Z",
+  "timestamp": "2026-08-25T06:42:14.563Z",
   "version": "2.0.0",
   "production": {
-    "timestamp": "2026-08-24T06:53:53.719Z",
+    "timestamp": "2026-08-25T06:42:13.411Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "production",
@@ -1024,26 +1024,26 @@
     }
   },
   "sandbox": {
-    "timestamp": "2026-08-24T06:53:55.320Z",
+    "timestamp": "2026-08-25T06:42:14.558Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "sandbox",
     "summary": {
-      "totalParticipants": 78,
+      "totalParticipants": 79,
       "byStatus": {
-        "Active": 78
+        "Active": 79
       },
       "byRole": {
-        "BDSP": 74,
-        "BSIP": 74,
-        "LFI": 52,
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
         "ISP": 57,
         "API Read_Write": 2,
         "TSP": 2,
         "pki-test-harness": 1
       },
       "byCity": {
-        "Unknown": 59,
+        "Unknown": 60,
         "Abu Dhabi": 6,
         "Dubai": 11,
         "London": 2
@@ -1056,7 +1056,7 @@
       ],
       "liveInProduction": 19,
       "shariahCompliantCount": 8,
-      "multiRoleCount": 75,
+      "multiRoleCount": 76,
       "tppCount": 0,
       "byAuthCapabilities": {
         "ciba": 0,
@@ -1202,6 +1202,31 @@
         ],
         "city": "Unknown",
         "registrationNumber": "01.01.02.048.2008.04",
+        "apiFamilies": [],
+        "hasAuthServer": false,
+        "isShariahCompliant": false,
+        "authCapabilities": {
+          "supportsCiba": false,
+          "supportsDCR": false,
+          "supportsRedirect": false
+        },
+        "apiResources": [],
+        "authServerCount": 0,
+        "isLive": false
+      },
+      {
+        "id": "a9d14b51-08f0-4a5a-8603-e284670e0015",
+        "name": "Al Ahli Bank of Kuwait K.S.C.P",
+        "legalName": "Al Ahli Bank of Kuwait K.S.C.P",
+        "shortName": "Al Ahli Bank of Kuwait K.S.C.P",
+        "status": "Active",
+        "roles": [
+          "BDSP",
+          "BSIP",
+          "LFI"
+        ],
+        "city": "Unknown",
+        "registrationNumber": "01.02.01.011.1969.02",
         "apiFamilies": [],
         "hasAuthServer": false,
         "isShariahCompliant": false,
@@ -3530,10 +3555,16 @@
       }
     ],
     "trends": {
-      "participantChange": 0,
-      "newParticipants": [],
+      "participantChange": 1,
+      "newParticipants": [
+        "a9d14b51-08f0-4a5a-8603-e284670e0015"
+      ],
       "removedParticipants": [],
-      "roleChanges": {},
+      "roleChanges": {
+        "BDSP": 1,
+        "BSIP": 1,
+        "LFI": 1
+      },
       "apiFamilyChanges": {}
     }
   },
@@ -3571,6 +3602,7 @@
     "sandboxOnly": [
       "d8b3852e-502e-432f-9c40-ffdf0055b879",
       "efc97cf6-2d7b-4b37-8a9a-ac9c1958b17a",
+      "a9d14b51-08f0-4a5a-8603-e284670e0015",
       "176874d6-e4db-48cb-935c-e9bc11193a8f",
       "f8655450-519d-48ce-ba63-29a3547929f5",
       "3ae85b57-7a70-4be2-84fe-97fbb4d8ec45",
@@ -3625,6 +3657,6 @@
       "4c52000d-3db6-44db-8be3-8418cae0e2f1",
       "a90b2761-560d-45a9-9b32-67465c603059"
     ],
-    "totalUniqueParticipants": 81
+    "totalUniqueParticipants": 82
   }
 }
