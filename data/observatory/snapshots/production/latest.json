@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-26T06:44:33.095Z",
+  "timestamp": "2026-08-27T17:20:07.945Z",
   "source": "https://data.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "production",
@@ -19,8 +19,8 @@
     },
     "byCity": {
       "Abu Dhabi": 5,
-      "Unknown": 15,
-      "Dubai": 6
+      "Unknown": 14,
+      "Dubai": 7
     },
     "apiFamilies": [
       "accounts",
@@ -28,7 +28,7 @@
       "payments",
       "products"
     ],
-    "liveInProduction": 11,
+    "liveInProduction": 12,
     "shariahCompliantCount": 1,
     "multiRoleCount": 25,
     "tppCount": 0,
@@ -38,10 +38,10 @@
       "redirect": 0
     },
     "byCertificationStatus": {
-      "Self-Certified": 46
+      "Self-Certified": 47
     },
     "byApiVersion": {
-      "2.1": 36,
+      "2.1": 37,
       "1.2": 7,
       "2.0": 3
     }
@@ -748,19 +748,28 @@
         "BSIP",
         "LFI"
       ],
-      "city": "Unknown",
+      "city": "Dubai",
       "registrationNumber": "01.01.01.039.1984.07",
-      "apiFamilies": [],
-      "hasAuthServer": false,
+      "apiFamilies": [
+        "accounts"
+      ],
+      "hasAuthServer": true,
       "isShariahCompliant": false,
       "authCapabilities": {
         "supportsCiba": false,
         "supportsDCR": false,
         "supportsRedirect": false
       },
-      "apiResources": [],
-      "authServerCount": 0,
-      "isLive": false
+      "apiResources": [
+        {
+          "family": "accounts",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        }
+      ],
+      "authServerCount": 1,
+      "isLive": true
     },
     {
       "id": "7336c529-f6ad-4d98-b9f6-183316fd0a68",
@@ -1017,6 +1026,8 @@
     "newParticipants": [],
     "removedParticipants": [],
     "roleChanges": {},
-    "apiFamilyChanges": {}
+    "apiFamilyChanges": {
+      "accounts": 1
+    }
   }
 }
