@@ -159,8 +159,17 @@ export async function createFilePR(
   options: GitHubOptions
 ): Promise<{ number: number; url: string; branch: string }> {
   const { owner, repo, baseBranch = 'main' } = options;
-  const { branchName, filePath, content, commitMessage, prTitle, prBody, labels, autoMerge, mergeMethod } =
-    input;
+  const {
+    branchName,
+    filePath,
+    content,
+    commitMessage,
+    prTitle,
+    prBody,
+    labels,
+    autoMerge,
+    mergeMethod,
+  } = input;
 
   // 1. Base branch SHA
   const baseRef = await githubRequest<GitHubRefResponse>(
