@@ -89,6 +89,36 @@ def main():
 
     print("\nall metrics tests passed")
 
+    # ---------------------------------------------------------------- guard
+    # advanced: asOfData moved -> stale_days is None regardless of today
+    advanced, reasons, stale = m.guard({"asOfData": "2026-02-05"}, c, today="2026-03-10")
+    assert advanced and stale is None, (advanced, reasons, stale)
+    print("  ok  guard: advanced when asOfData moves, stale_days is None")
+
+    # unchanged, under threshold: same asOfData, only 5 days since asOfDataSince,
+    # default threshold 10 -> not stale
+    state = {"asOfData": _asof(c), "asOfDataSince": "2026-03-01"}
+    advanced, reasons, stale = m.guard(state, c, today="2026-03-06")
+    assert not advanced and stale == 5, (advanced, reasons, stale)
+    print("  ok  guard: unchanged + 5 days since asOfDataSince -> stale_days=5, under default threshold")
+
+    # unchanged, at/over threshold -> caller should alert
+    advanced, reasons, stale = m.guard(state, c, today="2026-03-11", stale_days_threshold=10)
+    assert not advanced and stale == 10, (advanced, reasons, stale)
+    print("  ok  guard: unchanged + 10 days since asOfDataSince -> stale_days=10, meets threshold")
+
+    # falls back to asOfData itself when asOfDataSince is absent (state written
+    # before this field existed)
+    advanced, reasons, stale = m.guard({"asOfData": _asof(c)}, c, today="2026-03-06")
+    assert not advanced and stale == 5, (advanced, reasons, stale)
+    print("  ok  guard: falls back to asOfData when asOfDataSince is missing from state")
+
+    print("\nall guard tests passed")
+
+
+def _asof(computed):
+    return computed["asOfData"]
+
 
 if __name__ == "__main__":
     main()

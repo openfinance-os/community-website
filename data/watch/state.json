@@ -1182,6 +1182,7 @@
   "paymentFamilyEndpoints": "FAB and WIO Bank now both register file-payments (bulk) Active in production (FamilyComplete=True); the other 7 Tier-1 banks register only base payments + payment-consents + refund (FamilyComplete=False). No international/multi endpoint registered by anyone; international is a payment-type within /payments, not a separate endpoint."
  },
  "asOfData": "2026-08-20",
+ "asOfDataSince": "2026-08-24",
  "lfiKeysSeen": [
   "uae-aaic",
   "uae-adcbrt",

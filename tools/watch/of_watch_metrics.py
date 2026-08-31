@@ -39,8 +39,19 @@ USAGE
 
     # has the source data advanced since the last run? drives the early-exit
     python3 tools/watch/of_watch_metrics.py guard --state data/watch/state.json
-        exit 0 = data advanced (do the full recompute + commit + history append)
-        exit 3 = unchanged (skip the heavy recompute/commit; only daysLeft moves)
+        exit 0 = data advanced (do the full recompute + commit + history append;
+                 also reset state["asOfDataSince"] to today when you write state.json)
+        exit 3 = unchanged, and not stale (skip the heavy recompute/commit;
+                 only daysLeft moves)
+        exit 4 = unchanged AND stale — asOfData has not advanced in
+                 --stale-days days (default 10) since state["asOfDataSince"].
+                 Same skip behaviour as exit 3, but the caller should also
+                 raise this as its own §2 alert (new the run it first crosses
+                 the threshold; standing/escalating every run after, until
+                 asOfData next advances) — it means the upstream Nebras log
+                 feed itself may have stalled, not just that this run landed
+                 on a quiet day. Use --today/--stale-days to override the
+                 clock/threshold (e.g. for testing).
 """
 import argparse
 import json
@@ -48,6 +59,7 @@ import re
 import sys
 import urllib.request
 from collections import defaultdict
+from datetime import date
 from decimal import Decimal
 
 API_URL = "https://nebras-open-finance.com/api/api-log.json"
@@ -292,11 +304,22 @@ def _dig(d, path):
     return d
 
 
-def guard(state, computed):
-    """(advanced: bool, reasons: list[str]). advanced=True if the source data
-    moved since the stored state. asOfData (a new data cutoff) is the primary,
+def guard(state, computed, today=None, stale_days_threshold=10):
+    """(advanced, reasons, stale_days). advanced=True if the source data moved
+    since the stored state. asOfData (a new data cutoff) is the primary,
     authoritative signal; the headline metrics are a secondary safety net for
-    the case where the feed is corrected in place without advancing the date."""
+    the case where the feed is corrected in place without advancing the date.
+
+    stale_days is None when advanced (the caller should reset
+    state["asOfDataSince"] to `today`) or when staleness can't be computed
+    (no `today` given, or state has no asOfDataSince/asOfData to anchor on).
+    Otherwise it is the number of days since the CURRENT asOfData value was
+    first observed (state["asOfDataSince"], falling back to state["asOfData"]
+    for state written before this field existed) — i.e. how long the upstream
+    Nebras log feed itself has gone without posting a new date, as opposed to
+    just this run happening to land on a quiet day. A caller should treat
+    stale_days >= stale_days_threshold as its own alert (the feed may have
+    stalled upstream), independent of whether any other §2 alert fired."""
     reasons = []
     prev_asof = state.get("asOfData")
     if prev_asof != computed["asOfData"]:
@@ -305,7 +328,13 @@ def guard(state, computed):
         pv, cv = _dig(state, spath), _dig(computed, cpath)
         if pv is not None and pv != cv:
             reasons.append(f"{label} {pv} -> {cv}")
-    return (bool(reasons), reasons)
+    advanced = bool(reasons)
+    stale_days = None
+    if not advanced and today:
+        since = state.get("asOfDataSince") or state.get("asOfData")
+        if since:
+            stale_days = (date.fromisoformat(today) - date.fromisoformat(since)).days
+    return (advanced, reasons, stale_days)
 
 
 # --------------------------------------------------------------------- main
@@ -324,6 +353,9 @@ def main():
             s.add_argument("--payload", required=True)
         else:
             s.add_argument("--state", required=True)
+            s.add_argument("--today", help="ISO date to compute staleness against (default: today)")
+            s.add_argument("--stale-days", type=int, default=10,
+                            help="alert if asOfData hasn't advanced in this many days (default: 10)")
     a = ap.parse_args()
 
     api = _load(a.api, API_URL)
@@ -342,14 +374,25 @@ def main():
 
     if a.cmd == "guard":
         state = json.load(open(a.state))
-        advanced, reasons = guard(state, computed)
+        today = a.today or date.today().isoformat()
+        advanced, reasons, stale_days = guard(state, computed, today=today,
+                                               stale_days_threshold=a.stale_days)
         if advanced:
             print("ADVANCED — full recompute + commit + history append:")
             for r in reasons:
                 print(f"  - {r}")
+            print(f"  (reset asOfDataSince -> {today} in state.json)")
             return
         print(f"UNCHANGED since state (asOfData={computed['asOfData']}); "
               "skip heavy recompute/commit and history append — only daysLeft moves.")
+        if stale_days is not None and stale_days >= a.stale_days:
+            print(f"STALE SOURCE: asOfData has not advanced in {stale_days} day(s) "
+                  f"(>= {a.stale_days}-day threshold as of {today}) -- the upstream "
+                  "Nebras log feed itself may have stalled, not just been quiet this "
+                  "run. Surface this as its own alert (new the first run it crosses "
+                  "the threshold, standing/escalating on every run after that until "
+                  "asOfData next advances).")
+            sys.exit(4)
         sys.exit(3)
 
     payload = json.load(open(a.payload))
