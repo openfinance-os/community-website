@@ -1,6 +1,6 @@
 {
- "runDate": "2026-08-24",
- "note": "Run 2026-08-24: full-months basis UNCHANGED (July remains latest full month); every full-months figure independently re-aggregated (twice) from freshly decoded logs and matched to the digit -- self-consistency PASSED. Only partial-month (Aug) and all-time totals advanced: asOfData 2026-08-16->2026-08-20, calls 823,008->859,088, partial payment value ~33.82M->~42.64M AED. MAJOR: 9 new spec files discovered at v2.2-rc1/v2.2.x on api-specs main (first V2.2 draft sighting), corroborated by a new website 'Version Changelog v2.1->v2.2-draft' page. OFP-003 payment-reference charset MERGED to main under v2.1-errata3 (was staged/unmerged). Production directory: FAB + HSBC each added an additional Active ApiResource at v2.0 alongside their unchanged v2.1 registrations (additive, board counts unaffected: 58 green/10 blue, 11 orgs). Sandbox adoption unchanged (R1 8/9, R2 8/9, R4+v2.1 7/7, Insurance 2/2). NEW unconfirmed LFI key 'uae-awnic' appeared (10 calls, all 4xx, self-paired with AL WATHBA NATIONAL INSURANCE CO -- a named CBUAE Tier-1 insurer) -- early/pre-live, not counted in any adoption set. uae-fabbusiness continued (15 calls now, still 4xx-only). NEW (tpp,lfi) pairing: MASHREQ BANK PSC x uae-cbdrt (8 calls). GitHub org access still 403 (standing); github-stats.json: openPRs 2->3, recentCommits 36->33 (rolling window), repos 5 (unchanged). API Hub/Trust Framework release notes pages now readable (previously JS-blocked) -- both unchanged (API Hub 2026.22.0 latest; Trust Framework 2.5.0 still Planned). Confluence unchanged (last modified 2026-07-08). CBUAE rulebook still 403; no new dated ecosystem news. Corporates Full Suite deadline 15->8 days (standing <30-day alert, escalating).",
+ "runDate": "2026-08-31",
+ "note": "Run 2026-08-31: guard confirmed the source metrics feed has NOT advanced since 2026-08-24 (asOfData still 2026-08-20) -- per policy, no history.json row appended, full-months basis unchanged (July remains latest full month). Every full-months figure was still independently recomputed from freshly re-downloaded logs (now sharded at api-log-index.json -> 4 quarterly dict-encoded shards, decoded locally) via of_watch_metrics.py compute and verified to the digit via of_watch_metrics.py verify (33/33 PASS) plus a second independent hand-aggregation (assertion c) -- nothing copied forward blind. api-specs main: of_watch_specdiff.py re-hashed all 99 tracked files, 0 changed, 0 missing, --probe found 0 new files -- no spec movement since the 2026-08-24 V2.2-draft-sighting/OFP-003-merge run. Confluence, Release Notes/Errata, CBUAE: all unchanged, no new dated items. MAJOR: National Bank of Fujairah PJSC (a named CBUAE Tier-2 bank) appears for the first time in the production Trust Framework directory (AuthorisationServer created 2026-08-26) -- registers the full account-information family Active at v2.1, FamilyComplete=True, no sandbox traffic yet -- prodOrgs 11->12; lifts Retail R2 and Standards-uplift-V2.1 board Tier-2-early counts 1->2. SELF-CONSISTENCY CATCH: tools/watch/of_watch_production.py's traffic window was hardcoded to a stale May-Jun 2026 pair instead of the documented last-two-full-months (Jun-Jul 2026) basis -- re-deriving on the correct window flips FAB's v2.1-uplift cell green->blue and ADCB's row mostly-blue->mostly-green (no board t1Now count affected); net green 58->60 / blue 10->8 across the original 11 orgs, then green 60/blue 13 with NBF's 5 blue cells added. TOOL FIX STILL PENDING: of_watch_production.py's LAST2 constant needs to be computed dynamically (or updated each run) instead of hardcoded -- not fixed in this commit since only payload/state/history are in scope to commit; a future run (or a manual maintenance commit) should replace the hardcoded LAST2 = {'2026-05','2026-06'} with a computation from the two most recent full months. Corporates -- Full Suite Tier-1 deadline now 1 day away (was 8), scope still n/obs -- standing <30-day alert at its most critical point.",
  "metrics_basis": "full-months-only (excludes the current partial month)",
  "artifacts": {
   "refreshedEachRun": true,
@@ -1060,11 +1060,11 @@
   "directory": "https://data.directory.openfinance.ae/participants",
   "trafficSource": "https://nebras-open-finance.com/api/api-log-index.json (resharded this run; was api-log.json)",
   "window": "2xx in Jun-Jul 2026 (last 2 full months)",
-  "prodOrgs": 11,
-  "banks": 9,
-  "greenCells": 58,
-  "blueCells": 10,
-  "note": "Diff `exposed` (production-directory capability registration) and `live` (2xx traffic) each run. A new entry in `exposed` = a production capability go-live (blue); a capability moving from exposed-only to having traffic = it went live (blue->green). Feeds the Adoption Heatmap Production sub-grid via tools/of_watch_production.py. NOTE: the public api-log has no environment field, so the green/live half is observed successful traffic on a production-exposed capability, not an env-tagged production volume. [2026-08-24: FAB and HSBC each additionally register an Active ApiResource at ApiVersion 2.0 for families already Active at 2.1 (FAB: account-information; HSBC: payment, account-information) -- additive dual-version exposure; directoryFamilies here retains the HIGHEST version per family for continuity, so this file alone does not show the coexisting 2.0 registration -- see payload.board / changeLog for the full detail.]",
+  "prodOrgs": 12,
+  "banks": 10,
+  "greenCells": 60,
+  "blueCells": 13,
+  "note": "Diff `exposed` (production-directory capability registration) and `live` (2xx traffic) each run. A new entry in `exposed` = a production capability go-live (blue); a capability moving from exposed-only to having traffic = it went live (blue->green). Feeds the Adoption Heatmap Production sub-grid via tools/of_watch_production.py. NOTE: the public api-log has no environment field, so the green/live half is observed successful traffic on a production-exposed capability, not an env-tagged production volume. [2026-08-24: FAB and HSBC each additionally register an Active ApiResource at ApiVersion 2.0 for families already Active at 2.1 (FAB: account-information; HSBC: payment, account-information) -- additive dual-version exposure; directoryFamilies here retains the HIGHEST version per family for continuity, so this file alone does not show the coexisting 2.0 registration -- see payload.board / changeLog for the full detail.] [2026-08-31: National Bank of Fujairah PJSC (Tier-2) newly Active in the production directory -- account-information v2.1, FamilyComplete=True, no sandbox traffic. Also: of_watch_production.py's traffic window was found hardcoded to a stale May-Jun basis instead of the correct Jun-Jul (last-2-full-months); corrected in this run's payload computation (FAB v2.1-uplift green->blue, ADCB mostly-blue->mostly-green) but the tool source itself was not committed this run (data-only commit scope) -- needs a follow-up maintenance commit to make LAST2 dynamic.]",
   "directoryFamilies": {
    "ADCB": {
     "size": "LFI",
@@ -1169,9 +1169,16 @@
     "families": {
      "insurance": "2.1"
     }
+   },
+   "National Bank of Fujairah": {
+    "size": "LFI",
+    "status": "Active",
+    "families": {
+     "account-information": "2.1"
+    }
    }
   },
-  "complianceBasis": "Release Compliance board driven by production-directory registration (Status=Active families). UNCHANGED this run (re-fetched and re-derived, byte-identical to prior state): R1 8/8, R2 8/8, ProductQuotes 7/8, v2.1 7/8 Tier-1 (only ADIB remains on v1.2). SME Bulk 1/8 (FAB + WIO Bank register file-payments). Insurance unchanged: 2/16 Tier-1 insurers (LIVA + ADNIC).",
+  "complianceBasis": "Release Compliance board driven by production-directory registration (Status=Active families). Tier-1 counts UNCHANGED this run: R1 8/8, R2 8/8, ProductQuotes 7/8, v2.1 7/8 Tier-1 (only ADIB remains on v1.2). SME Bulk 1/8 (FAB + WIO Bank register file-payments). Insurance unchanged: 2/16 Tier-1 insurers (LIVA + ADNIC). Tier-2-early movers: National Bank of Fujairah PJSC newly joins WIO Bank on Retail R2 and the v2.1 uplift (2 Tier-2 movers each, was 1).",
   "paymentFamilyEndpoints": "FAB and WIO Bank now both register file-payments (bulk) Active in production (FamilyComplete=True); the other 7 Tier-1 banks register only base payments + payment-consents + refund (FamilyComplete=False). No international/multi endpoint registered by anyone; international is a payment-type within /payments, not a separate endpoint."
  },
  "asOfData": "2026-08-20",
