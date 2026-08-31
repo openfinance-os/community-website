@@ -85,7 +85,14 @@ python3 tools/watch/of_watch_metrics.py compute
 # gate the current payload against a fresh recompute (exit 1 on any mismatch)
 python3 tools/watch/of_watch_metrics.py verify --payload data/watch/payload.json
 
-# did the source data advance since the last run? (exit 3 = unchanged, skip)
+# did the source data advance since the last run?
+#   exit 0 = advanced (full recompute + commit + history append)
+#   exit 3 = unchanged, not stale (skip the heavy recompute/commit)
+#   exit 4 = unchanged AND stale — asOfData hasn't advanced in --stale-days
+#            days (default 10) since state["asOfDataSince"]; same skip
+#            behaviour as exit 3, but treat it as its own §2 alert (the
+#            upstream Nebras log feed may itself have stalled, not just
+#            gone quiet for this one run)
 python3 tools/watch/of_watch_metrics.py guard --state data/watch/state.json
 
 # unit tests (no network)
@@ -94,6 +101,11 @@ python3 tools/watch/test_of_watch_metrics.py
 
 `compute`/`verify`/`guard` fetch the live logs by default; pass `--api/--auth/--pay`
 with local snapshots for offline runs.
+
+On an ADVANCED run (exit 0), reset `state["asOfDataSince"]` to that run's date
+when state.json is rewritten — it anchors the exit-4 staleness clock for future
+runs. `guard` also accepts `--today` (default: today) and `--stale-days`
+(default: 10) to override the clock/threshold, e.g. for testing.
 
 ## Degraded GitHub scope
 
