@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-01T11:07:28.589Z",
+  "lastUpdated": "2026-09-02T10:39:59.576Z",
   "dataPoints": [
     {
       "date": "2025-12-26",
@@ -5294,6 +5294,33 @@
     },
     {
       "date": "2026-09-01",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-02",
       "totalParticipants": 26,
       "liveInProduction": 12,
       "byRole": {
@@ -10638,6 +10665,33 @@
       },
       "tppCount": 0,
       "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-02",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
     }
   ],
   "sandboxHistory": [
@@ -14790,6 +14844,34 @@
     },
     {
       "date": "2026-09-01",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-09-02",
       "totalParticipants": 79,
       "liveInProduction": 19,
       "byRole": {
