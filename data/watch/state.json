@@ -1,6 +1,6 @@
 {
- "runDate": "2026-08-31",
- "note": "Run 2026-08-31: guard confirmed the source metrics feed has NOT advanced since 2026-08-24 (asOfData still 2026-08-20) -- per policy, no history.json row appended, full-months basis unchanged (July remains latest full month). Every full-months figure was still independently recomputed from freshly re-downloaded logs (now sharded at api-log-index.json -> 4 quarterly dict-encoded shards, decoded locally) via of_watch_metrics.py compute and verified to the digit via of_watch_metrics.py verify (33/33 PASS) plus a second independent hand-aggregation (assertion c) -- nothing copied forward blind. api-specs main: of_watch_specdiff.py re-hashed all 99 tracked files, 0 changed, 0 missing, --probe found 0 new files -- no spec movement since the 2026-08-24 V2.2-draft-sighting/OFP-003-merge run. Confluence, Release Notes/Errata, CBUAE: all unchanged, no new dated items. MAJOR: National Bank of Fujairah PJSC (a named CBUAE Tier-2 bank) appears for the first time in the production Trust Framework directory (AuthorisationServer created 2026-08-26) -- registers the full account-information family Active at v2.1, FamilyComplete=True, no sandbox traffic yet -- prodOrgs 11->12; lifts Retail R2 and Standards-uplift-V2.1 board Tier-2-early counts 1->2. SELF-CONSISTENCY CATCH: tools/watch/of_watch_production.py's traffic window was hardcoded to a stale May-Jun 2026 pair instead of the documented last-two-full-months (Jun-Jul 2026) basis -- re-deriving on the correct window flips FAB's v2.1-uplift cell green->blue and ADCB's row mostly-blue->mostly-green (no board t1Now count affected); net green 58->60 / blue 10->8 across the original 11 orgs, then green 60/blue 13 with NBF's 5 blue cells added. TOOL FIX STILL PENDING: of_watch_production.py's LAST2 constant needs to be computed dynamically (or updated each run) instead of hardcoded -- not fixed in this commit since only payload/state/history are in scope to commit; a future run (or a manual maintenance commit) should replace the hardcoded LAST2 = {'2026-05','2026-06'} with a computation from the two most recent full months. Corporates -- Full Suite Tier-1 deadline now 1 day away (was 8), scope still n/obs -- standing <30-day alert at its most critical point.",
+ "runDate": "2026-09-07",
+ "note": "Run 2026-09-07: guard confirmed the source metrics feed ADVANCED for the first time in three runs (asOfData 2026-08-20 -> 2026-09-02; August is now a complete full month). Every full-months figure was independently recomputed from freshly re-downloaded logs (of_watch_metrics.py compute) and verified byte-for-byte via of_watch_metrics.py verify (33/33 PASS incl. assertions a/b/d) plus an independent second hand-aggregation and assertion (e) (all 13 board daysLeft == mandate date - today, verified). headline.totalFull 704,387 -> 1,011,579; errPct 26.8% -> 23.5%. api-specs main: of_watch_specdiff.py re-hashed all 99 tracked files, 0 changed, 0 missing, --probe found 0 new files -- no spec revision this run, but 2 previously-untracked breaking-changes registers were discovered on the still-draft V2.2 line (webhook-template v2.2-rc1; api-hub consent-manager v2.2.x), now seeded into specForwardSignals for future diffing. Website: v2.1->v2.2 changelog slug moved from 'v2.2-draft' to 'v2.2-rc1' (maturity signal, still pre-final). PRODUCTION DIRECTORY: re-fetched -- NO CHANGE (same 12 orgs, same families/versions/FamilyComplete as last run); all board t1Now counts unchanged. PRODUCTION/SANDBOX TRAFFIC OVERLAY: window rolled forward Jun-Jul -> Jul-Aug 2026 -- FAB's v2.1-uplift cell flips blue->green; net green 60->61, blue 13->12 across the same 12 orgs. SANDBOX ADOPTION (§1i) improved: Retail R1 and R2 both reach 9/9 (ADCB's Jul-Aug traffic now clears every threshold, closing the prior 8/9 gap). NEW (tpp,lfi) pairing: WIO BANK x Mashreq (87 calls), WIO BANK's LFI reach 4->5. Confluence, Release Notes/Errata: unchanged (one cosmetic Confluence comment noted, not a version bump). CBUAE: rulebook still 403; WebSearch surfaced (for the first time in this watch) the Federal Decree-Law No.6/2025 transition deadline (16-Sep-2026, distinct from the OF API mandate calendar) and the Fintech Galaxy CBUAE In-Principle-Approval licensing milestone (~19-20 Aug). DEADLINE RADAR: Corporates -- Full Suite Tier-1 mandate date (1 Sep 2026) has now PASSED (6 days ago) -- band moves 'soon'->'past', scope still n/obs. TOOL NOTE STILL PENDING: tools/watch/of_watch_production.py's LAST2 constant remains hardcoded (still reads 2026-05/2026-06 in the committed source) -- this run's production/sandbox overlay was computed by an ad-hoc script using the correct dynamic Jul-Aug window rather than the committed tool, since only payload/state/history are in scope to commit; a future maintenance commit should make LAST2 dynamic.",
  "metrics_basis": "full-months-only (excludes the current partial month)",
  "artifacts": {
   "refreshedEachRun": true,
@@ -375,7 +375,9 @@
    "supporting/breaking-changes/standards/v2.1-errata2/uae-confirmation-of-payee-openapi/breaking-changes.yaml",
    "supporting/breaking-changes/standards/v2.1-errata2/uae-webhook-template-openapi/breaking-changes.yaml",
    "supporting/breaking-changes/standards/v2.1-errata3/uae-authorization-endpoints-openapi/breaking-changes.yaml",
-   "supporting/breaking-changes/standards/v2.1-errata3/uae-bank-initiation-openapi/breaking-changes.yaml"
+   "supporting/breaking-changes/standards/v2.1-errata3/uae-bank-initiation-openapi/breaking-changes.yaml",
+   "supporting/breaking-changes/standards/v2.2-rc1/uae-webhook-template-openapi/breaking-changes.yaml",
+   "supporting/breaking-changes/api-hub/v2.2.x/uae-api-hub-consent-manager-openapi/breaking-changes.yaml"
   ],
   "breakingChangesDigest": {
    "supporting/breaking-changes/api-hub/v2.1.x/uae-api-hub-consent-manager-openapi/breaking-changes.yaml": "5b7220bce7e4",
@@ -385,9 +387,11 @@
    "supporting/breaking-changes/standards/v2.1-errata2/uae-confirmation-of-payee-openapi/breaking-changes.yaml": "057c3d932779",
    "supporting/breaking-changes/standards/v2.1-errata2/uae-webhook-template-openapi/breaking-changes.yaml": "bdc78d7b3e7f",
    "supporting/breaking-changes/standards/v2.1-errata3/uae-authorization-endpoints-openapi/breaking-changes.yaml": "b3256a68a0f0",
-   "supporting/breaking-changes/standards/v2.1-errata3/uae-bank-initiation-openapi/breaking-changes.yaml": "d4df55ed7724"
+   "supporting/breaking-changes/standards/v2.1-errata3/uae-bank-initiation-openapi/breaking-changes.yaml": "d4df55ed7724",
+   "supporting/breaking-changes/standards/v2.2-rc1/uae-webhook-template-openapi/breaking-changes.yaml": "208e58f15479",
+   "supporting/breaking-changes/api-hub/v2.2.x/uae-api-hub-consent-manager-openapi/breaking-changes.yaml": "01f77caaefa4"
   },
-  "breakingChangesNote": "Per-register SHA-256 (first 12) of the breaking-changes YAML *contents* on api-specs main. Diff these each run: a change here means an accepted breaking change shipped INSIDE an existing errata label (the errata version may not bump and the tracked main SHA may be static). On any digest change, run tools/of_watch_breaking.py to rebuild the `breaking` payload block (TPP-facing vs LFI/API-Hub) and raise an alert. [2026-07-08: authorization-endpoints + bank-initiation digests changed — SWIFT SR2026 restructuring; of_watch_breaking.py rebuilt.] [2026-07-12: errata2 authorization-endpoints/bank-initiation digests changed again (SR2026 content removed, reverted to pre-SR2026 baseline); NEW v2.1-errata3 registers added for the same 2 specs, carrying the SR2026 restructuring. of_watch_breaking.py rebuilt with the errata3 registers.] [2026-08-24: errata3 authorization-endpoints/bank-initiation digests changed again -- OFP-003 payment-reference charset pattern merged into these registers (previously staged on an unmerged branch), plus a doc-only fix repointing the GET /payments,/file-payments idempotency-key response onto the standard signed envelope. of_watch_breaking.py rebuilt (14 enforced/live, 19 TPP-facing + 3 LFI/API-Hub, was 12/16+3). Also: 9 new spec files discovered at v2.2-rc1/v2.2.x (first V2.2 draft sighting) -- not yet tracked in specFiles' diff-basis role since they are new, but their blob SHAs are now seeded for next-run diffing.]"
+  "breakingChangesNote": "Per-register SHA-256 (first 12) of the breaking-changes YAML *contents* on api-specs main. Diff these each run: a change here means an accepted breaking change shipped INSIDE an existing errata label (the errata version may not bump and the tracked main SHA may be static). On any digest change, run tools/of_watch_breaking.py to rebuild the `breaking` payload block (TPP-facing vs LFI/API-Hub) and raise an alert. [2026-07-08: authorization-endpoints + bank-initiation digests changed — SWIFT SR2026 restructuring; of_watch_breaking.py rebuilt.] [2026-07-12: errata2 authorization-endpoints/bank-initiation digests changed again (SR2026 content removed, reverted to pre-SR2026 baseline); NEW v2.1-errata3 registers added for the same 2 specs, carrying the SR2026 restructuring. of_watch_breaking.py rebuilt with the errata3 registers.] [2026-08-24: errata3 authorization-endpoints/bank-initiation digests changed again -- OFP-003 payment-reference charset pattern merged into these registers (previously staged on an unmerged branch), plus a doc-only fix repointing the GET /payments,/file-payments idempotency-key response onto the standard signed envelope. of_watch_breaking.py rebuilt (14 enforced/live, 19 TPP-facing + 3 LFI/API-Hub, was 12/16+3). Also: 9 new spec files discovered at v2.2-rc1/v2.2.x (first V2.2 draft sighting) -- not yet tracked in specFiles' diff-basis role since they are new, but their blob SHAs are now seeded for next-run diffing.] [2026-09-07: seeded 2 newly-discovered v2.2-line breaking-changes registers (webhook-template v2.2-rc1 digest 208e58f15479; api-hub consent-manager v2.2.x digest 01f77caaefa4) into the diff basis -- both document already-published, unchanged spec files; the other 8 tracked registers' digests are unchanged this run.]"
  },
  "confluence": {
   "Standards V2.1 & API Hub V8 - Consolidated Errata": {
@@ -433,7 +437,7 @@
  },
  "metrics": {
   "basis": "full-months-only",
-  "asOfDataThrough": "2026-08-20 (August partial excluded from full-months basis)",
+  "asOfDataThrough": "2026-09-02 (September partial excluded from full-months basis)",
   "monthsSeen": [
    "2025-11",
    "2025-12",
@@ -444,81 +448,92 @@
    "2026-05",
    "2026-06",
    "2026-07",
-   "2026-08"
+   "2026-08",
+   "2026-09"
   ],
-  "totalCalls": 859088,
-  "totalCallsFullMonthsOnly": 704387,
-  "errorRatePct": 26.8,
+  "totalCalls": 1035036,
+  "totalCallsFullMonthsOnly": 1011579,
+  "errorRatePct": 23.5,
   "byVersionPct": {
-   "v1.2": 54.7,
-   "v2.0": 25.7,
-   "v2.1": 19.6
+   "v1.2": 45.6,
+   "v2.1": 36.3,
+   "v2.0": 18.1
   },
   "lfis": {
    "uae-mashrt": {
     "name": "Mashreq",
-    "calls": 198082,
-    "errPct": 28.9
+    "calls": 269040,
+    "errPct": 23.1
    },
    "uae-wioretail": {
     "name": "WIO",
-    "calls": 175368,
+    "calls": 245739,
     "errPct": 2.0
-   },
-   "uae-dibrt": {
-    "name": "Dubai Islamic Bank",
-    "calls": 101303,
-    "errPct": 85.7
    },
    "uae-adibrt": {
     "name": "ADIB",
-    "calls": 98416,
-    "errPct": 6.5
+    "calls": 167444,
+    "errPct": 4.1
    },
-   "uae-enbdx": {
-    "name": "Emirates NBD",
-    "calls": 32660,
-    "errPct": 48.6
-   },
-   "uae-hsbcrt": {
-    "name": "HSBC retail",
-    "calls": 26440,
-    "errPct": 13.1
+   "uae-dibrt": {
+    "name": "Dubai Islamic Bank",
+    "calls": 103508,
+    "errPct": 84.4
    },
    "uae-fabretail": {
     "name": "FAB",
-    "calls": 25228,
-    "errPct": 25.7
+    "calls": 95823,
+    "errPct": 46.1
+   },
+   "uae-enbdx": {
+    "name": "Emirates NBD",
+    "calls": 42343,
+    "errPct": 42.2
+   },
+   "uae-hsbcrt": {
+    "name": "HSBC retail",
+    "calls": 29828,
+    "errPct": 13.2
    },
    "uae-cbdrt": {
     "name": "Commercial Bank of Dubai",
-    "calls": 24537,
-    "errPct": 15.9
+    "calls": 27896,
+    "errPct": 15.8
    },
    "uae-adcbrt": {
     "name": "ADCB",
-    "calls": 17612,
-    "errPct": 25.2
+    "calls": 18431,
+    "errPct": 24.1
    },
    "uae-livx": {
     "name": "uae-livx (unmapped/unconfirmed)",
-    "calls": 4215,
-    "errPct": 4.4
+    "calls": 10882,
+    "errPct": 13.6
    },
    "uae-aaic": {
     "name": "Alain Ahlia Insurance Company",
     "calls": 321,
-    "errPct": 47.7
+    "errPct": 47.6
    },
    "uae-hsbcws": {
     "name": "HSBC wholesale",
-    "calls": 117,
-    "errPct": 48.7
+    "calls": 180,
+    "errPct": 40.5
    },
    "uae-orient": {
     "name": "Orient Insurance PJSC",
-    "calls": 88,
-    "errPct": 77.3
+    "calls": 101,
+    "errPct": 74.2
+   },
+   "uae-fabbusiness": {
+    "name": "uae-fabbusiness (unconfirmed)",
+    "calls": 26,
+    "errPct": 100.0
+   },
+   "uae-awnic": {
+    "name": "Al Wathba National Insurance Co (unconfirmed)",
+    "calls": 17,
+    "errPct": 100.0
    }
   },
   "lfiMonthly": {
@@ -532,7 +547,8 @@
     "2026-05": 624,
     "2026-06": 1279,
     "2026-07": 434,
-    "2026-08": 337
+    "2026-08": 819,
+    "2026-09": 672
    },
    "uae-hsbcrt": {
     "2025-11": 1349,
@@ -544,7 +560,8 @@
     "2026-05": 1813,
     "2026-06": 9167,
     "2026-07": 8972,
-    "2026-08": 2526
+    "2026-08": 3388,
+    "2026-09": 1976
    },
    "uae-dibrt": {
     "2025-11": 4545,
@@ -556,7 +573,8 @@
     "2026-05": 3926,
     "2026-06": 2663,
     "2026-07": 2567,
-    "2026-08": 1620
+    "2026-08": 2205,
+    "2026-09": 115
    },
    "uae-adibrt": {
     "2025-11": 5343,
@@ -568,7 +586,8 @@
     "2026-05": 13075,
     "2026-06": 21407,
     "2026-07": 42146,
-    "2026-08": 37516
+    "2026-08": 69028,
+    "2026-09": 3239
    },
    "uae-mashrt": {
     "2025-11": 8914,
@@ -580,7 +599,8 @@
     "2026-05": 28366,
     "2026-06": 25435,
     "2026-07": 67344,
-    "2026-08": 38751
+    "2026-08": 70958,
+    "2026-09": 4897
    },
    "uae-cbdrt": {
     "2025-11": 2241,
@@ -592,7 +612,8 @@
     "2026-05": 4560,
     "2026-06": 2576,
     "2026-07": 2083,
-    "2026-08": 1760
+    "2026-08": 3359,
+    "2026-09": 275
    },
    "uae-fabretail": {
     "2025-11": 196,
@@ -604,7 +625,8 @@
     "2026-05": 5265,
     "2026-06": 2627,
     "2026-07": 3260,
-    "2026-08": 25738
+    "2026-08": 70595,
+    "2026-09": 5918
    },
    "uae-enbdx": {
     "2025-11": 139,
@@ -616,7 +638,8 @@
     "2026-05": 6300,
     "2026-06": 6056,
     "2026-07": 6418,
-    "2026-08": 4174
+    "2026-08": 9683,
+    "2026-09": 400
    },
    "uae-wioretail": {
     "2025-12": 176,
@@ -627,7 +650,8 @@
     "2026-05": 39819,
     "2026-06": 32663,
     "2026-07": 83834,
-    "2026-08": 37395
+    "2026-08": 70371,
+    "2026-09": 5757
    },
    "uae-hsbcws": {
     "2026-02": 1,
@@ -635,12 +659,13 @@
     "2026-04": 3,
     "2026-06": 6,
     "2026-07": 47,
-    "2026-08": 30
+    "2026-08": 63
    },
    "uae-livx": {
     "2026-06": 169,
     "2026-07": 4046,
-    "2026-08": 4816
+    "2026-08": 6667,
+    "2026-09": 207
    },
    "uae-aaic": {
     "2026-06": 116,
@@ -652,10 +677,11 @@
     "2026-08": 13
    },
    "uae-fabbusiness": {
-    "2026-08": 15
+    "2026-08": 26
    },
    "uae-awnic": {
-    "2026-08": 10
+    "2026-08": 17,
+    "2026-09": 1
    }
   },
   "tppMonthly": {
@@ -669,7 +695,8 @@
     "2026-05": 79659,
     "2026-06": 81042,
     "2026-07": 192630,
-    "2026-08": 127627
+    "2026-08": 259950,
+    "2026-09": 20198
    },
    "(Unattributed)": {
     "2025-11": 6596,
@@ -681,7 +708,8 @@
     "2026-05": 3241,
     "2026-06": 3468,
     "2026-07": 4406,
-    "2026-08": 3942
+    "2026-08": 7536,
+    "2026-09": 1350
    },
    "NYMCARD": {
     "2025-11": 696,
@@ -705,11 +733,12 @@
     "2026-05": 687,
     "2026-06": 989,
     "2026-07": 1887,
-    "2026-08": 703
+    "2026-08": 1000,
+    "2026-09": 39
    },
    "MASHREQ BANK PSC": {
     "2025-11": 9,
-    "2026-08": 75
+    "2026-08": 93
    },
    "SPARE DIGITAL TECHNOLOGIES LLC S.O.C": {
     "2025-11": 9,
@@ -721,7 +750,7 @@
     "2026-05": 48,
     "2026-06": 88,
     "2026-07": 267,
-    "2026-08": 228
+    "2026-08": 322
    },
    "ABU DHABI COMMERCIAL BANK PBJC": {
     "2025-11": 35,
@@ -732,7 +761,9 @@
     "2026-04": 66,
     "2026-05": 1,
     "2026-06": 6,
-    "2026-07": 3
+    "2026-07": 3,
+    "2026-08": 3,
+    "2026-09": 31
    },
    "FIRST ABU DHABI BANK PJSC": {
     "2025-11": 23
@@ -744,7 +775,8 @@
     "2026-05": 3665,
     "2026-06": 2406,
     "2026-07": 8360,
-    "2026-08": 8288
+    "2026-08": 13360,
+    "2026-09": 269
    },
    "ABU DHABI ISLAMIC BANK P.J.S.C": {
     "2026-02": 385,
@@ -753,7 +785,8 @@
     "2026-05": 14597,
     "2026-06": 5332,
     "2026-07": 11320,
-    "2026-08": 7805
+    "2026-08": 14275,
+    "2026-09": 935
    },
    "HSBC BANK MIDDLE EAST LIMITED": {
     "2026-02": 22,
@@ -762,13 +795,15 @@
     "2026-05": 46,
     "2026-06": 7791,
     "2026-07": 636,
-    "2026-08": 2175
+    "2026-08": 2260,
+    "2026-09": 23
    },
    "WIO BANK": {
     "2026-05": 1028,
     "2026-06": 2940,
     "2026-07": 1262,
-    "2026-08": 2376
+    "2026-08": 4722,
+    "2026-09": 223
    },
    "ALAIN AHLIA INSURANCE COMPANY": {
     "2026-06": 109,
@@ -780,39 +815,41 @@
     "2026-08": 13
    },
    "COMMERCIAL BANK OF DUBAI": {
-    "2026-08": 1457
+    "2026-08": 3639,
+    "2026-09": 388
    },
    "AL WATHBA NATIONAL INSURANCE CO": {
-    "2026-08": 9
+    "2026-08": 16,
+    "2026-09": 1
    }
   },
   "tppByLfi": {
    "LEAN TECH": {
-    "uae-adcbrt": 16093,
-    "uae-hsbcrt": 17381,
-    "uae-dibrt": 22993,
-    "uae-adibrt": 133442,
-    "uae-mashrt": 165222,
-    "uae-cbdrt": 17674,
-    "uae-fabretail": 47642,
-    "uae-enbdx": 15010,
-    "uae-wioretail": 200997
+    "uae-adcbrt": 17129,
+    "uae-hsbcrt": 18829,
+    "uae-dibrt": 23692,
+    "uae-adibrt": 168089,
+    "uae-mashrt": 194444,
+    "uae-cbdrt": 18849,
+    "uae-fabretail": 98368,
+    "uae-enbdx": 15822,
+    "uae-wioretail": 233753
    },
    "(Unattributed)": {
-    "uae-mashrt": 27880,
-    "uae-adcbrt": 224,
-    "uae-cbdrt": 1057,
+    "uae-mashrt": 29777,
+    "uae-adcbrt": 266,
+    "uae-cbdrt": 1259,
     "uae-fabretail": 73,
-    "uae-enbdx": 2705,
+    "uae-enbdx": 3559,
     "uae-dibrt": 78676,
-    "uae-adibrt": 751,
-    "uae-hsbcrt": 329,
-    "uae-wioretail": 2437,
+    "uae-adibrt": 772,
+    "uae-hsbcrt": 1622,
+    "uae-wioretail": 3061,
     "uae-hsbcws": 15,
     "uae-aaic": 14,
     "uae-orient": 10,
     "uae-livx": 5,
-    "uae-fabbusiness": 15,
+    "uae-fabbusiness": 26,
     "uae-awnic": 1
    },
    "NYMCARD": {
@@ -825,57 +862,58 @@
     "uae-dibrt": 1149
    },
    "PAY TEN PAYMENT SERVICES PROVIDER LLC": {
-    "uae-adcbrt": 1343,
-    "uae-enbdx": 432,
-    "uae-adibrt": 1253,
+    "uae-adcbrt": 1385,
+    "uae-enbdx": 438,
+    "uae-adibrt": 1332,
     "uae-cbdrt": 620,
-    "uae-fabretail": 1691,
-    "uae-mashrt": 3048,
-    "uae-wioretail": 1744,
-    "uae-hsbcrt": 63,
-    "uae-dibrt": 105
+    "uae-fabretail": 1734,
+    "uae-mashrt": 3151,
+    "uae-wioretail": 1804,
+    "uae-hsbcrt": 65,
+    "uae-dibrt": 106
    },
    "MASHREQ BANK PSC": {
     "uae-mashrt": 9,
-    "uae-wioretail": 67,
-    "uae-cbdrt": 8
+    "uae-wioretail": 83,
+    "uae-cbdrt": 10
    },
    "SPARE DIGITAL TECHNOLOGIES LLC S.O.C": {
-    "uae-mashrt": 374,
-    "uae-adibrt": 101,
-    "uae-wioretail": 296,
-    "uae-cbdrt": 41,
-    "uae-enbdx": 118,
+    "uae-mashrt": 392,
+    "uae-adibrt": 105,
+    "uae-wioretail": 307,
+    "uae-cbdrt": 78,
+    "uae-enbdx": 122,
     "uae-fabretail": 25,
-    "uae-hsbcws": 36
+    "uae-hsbcws": 56
    },
    "ABU DHABI COMMERCIAL BANK PBJC": {
-    "uae-adcbrt": 221
+    "uae-adcbrt": 255
    },
    "FIRST ABU DHABI BANK PJSC": {
     "uae-fabretail": 23
    },
    "EMIRATES NBD BANK PJSC": {
-    "uae-enbdx": 14322,
-    "uae-livx": 9026,
-    "uae-wioretail": 2479,
+    "uae-enbdx": 16602,
+    "uae-livx": 11084,
+    "uae-wioretail": 3482,
     "uae-cbdrt": 35
    },
    "ABU DHABI ISLAMIC BANK P.J.S.C": {
     "uae-adibrt": 385,
-    "uae-mashrt": 39719,
-    "uae-cbdrt": 6000,
-    "uae-wioretail": 196
+    "uae-mashrt": 44688,
+    "uae-cbdrt": 6457,
+    "uae-wioretail": 2175
    },
    "HSBC BANK MIDDLE EAST LIMITED": {
-    "uae-hsbcrt": 10906,
-    "uae-hsbcws": 96
+    "uae-hsbcrt": 11001,
+    "uae-hsbcws": 109
    },
    "WIO BANK": {
-    "uae-wioretail": 3575,
-    "uae-enbdx": 3941,
-    "uae-cbdrt": 84,
-    "uae-fabretail": 6
+    "uae-wioretail": 4097,
+    "uae-enbdx": 5894,
+    "uae-cbdrt": 85,
+    "uae-fabretail": 12,
+    "uae-mashrt": 87
    },
    "ALAIN AHLIA INSURANCE COMPANY": {
     "uae-aaic": 307
@@ -884,26 +922,26 @@
     "uae-orient": 91
    },
    "COMMERCIAL BANK OF DUBAI": {
-    "uae-wioretail": 972,
-    "uae-mashrt": 471,
+    "uae-wioretail": 2734,
+    "uae-mashrt": 1279,
     "uae-enbdx": 14
    },
    "AL WATHBA NATIONAL INSURANCE CO": {
-    "uae-awnic": 9
+    "uae-awnic": 17
    }
   },
   "payments": {
-   "AcceptedWithoutPosting": 22851,
-   "AcceptedSettlementCompleted": 2862,
-   "Pending": 750,
-   "Rejected": 482,
+   "AcceptedWithoutPosting": 37115,
+   "AcceptedSettlementCompleted": 3090,
+   "Pending": 1000,
+   "Rejected": 683,
    "AcceptedCreditSettlementCompleted": 429,
    "Received": 9
   },
-  "paymentSuccessRatePct": 95.5,
-  "authSuccess2xxPct": 53.4,
+  "paymentSuccessRatePct": 96.0,
+  "authSuccess2xxPct": 53.3,
   "topTpp": "LEAN TECH",
-  "tppUnattributedCalls": 110250,
+  "tppUnattributedCalls": 117786,
   "lfiKeysSeen": [
    "uae-aaic",
    "uae-adcbrt",
@@ -922,7 +960,6 @@
    "uae-wioretail"
   ],
   "tppKeysSeen": [
-   "(Unattributed)",
    "ABU DHABI COMMERCIAL BANK PBJC",
    "ABU DHABI ISLAMIC BANK P.J.S.C",
    "AL WATHBA NATIONAL INSURANCE CO",
@@ -956,7 +993,7 @@
    "2.5.0 (Planned)"
   ],
   "url": "https://nebras-open-finance.com/tech/release-notes-and-erratas/",
-  "_unverifiedNote": "Could not verify this run — release-notes/errata pages are JS-rendered and unreachable (plain fetch + headless-Chromium both failed in this sandbox)."
+  "_unverifiedNote": "2026-09-07: the top-level release-notes-and-erratas index and its api-hub/trust-framework listing pages remain JS-rendered (plain fetch returns homepage shell only), but the dated /2026/ subpages (release-notes/api-hub/2026/, release-notes/trust-framework/2026/) and erratas/v2.1/ fetched fully and confirmed the lists below are unchanged. changelog/v2.2-draft/ no longer resolves (superseded by changelog/v2.2-rc1/, which does resolve, same 6-change/12-area content)."
  },
  "openPRs": {
   "api-specs": [
@@ -966,14 +1003,14 @@
   "_unverifiedNote": "Could not fully verify this run — GitHub access blocked (see repos._unverifiedNote). github-stats.json gives an aggregate count only."
  },
  "adoption": {
-  "basis": "2xx traffic in last two full months (2026-06 + 2026-07), public Nebras logs; demand-side evidence",
+  "basis": "2xx traffic in last two full months (2026-07 + 2026-08), public Nebras logs; demand-side evidence",
   "counts": {
    "Retail R1": {
-    "now": 8,
+    "now": 9,
     "ever": 9
    },
    "Retail R2": {
-    "now": 8,
+    "now": 9,
     "ever": 9
    },
    "Retail R4+ v2.1": {
@@ -987,6 +1024,7 @@
   },
   "lfisNow": {
    "Retail R1": [
+    "uae-adcbrt",
     "uae-adibrt",
     "uae-cbdrt",
     "uae-dibrt",
@@ -997,6 +1035,7 @@
     "uae-wioretail"
    ],
    "Retail R2": [
+    "uae-adcbrt",
     "uae-adibrt",
     "uae-cbdrt",
     "uae-dibrt",
@@ -1007,11 +1046,11 @@
     "uae-wioretail"
    ],
    "Retail R4+ v2.1": [
-    "uae-aaic",
+    "uae-adcbrt",
     "uae-cbdrt",
     "uae-enbdx",
+    "uae-fabretail",
     "uae-hsbcrt",
-    "uae-livx",
     "uae-mashrt",
     "uae-wioretail"
    ]
@@ -1040,11 +1079,11 @@
     "uae-wioretail"
    ],
    "Retail R4+ v2.1": [
-    "uae-aaic",
+    "uae-adcbrt",
     "uae-cbdrt",
     "uae-enbdx",
+    "uae-fabretail",
     "uae-hsbcrt",
-    "uae-livx",
     "uae-mashrt",
     "uae-wioretail"
    ]
@@ -1059,12 +1098,12 @@
   "model": "v3 (2026-06-25): dual-source — production directory EXPOSURE (blue) + 2xx LIVE traffic (green).",
   "directory": "https://data.directory.openfinance.ae/participants",
   "trafficSource": "https://nebras-open-finance.com/api/api-log-index.json (resharded this run; was api-log.json)",
-  "window": "2xx in Jun-Jul 2026 (last 2 full months)",
+  "window": "2xx in Jul-Aug 2026 (last 2 full months)",
   "prodOrgs": 12,
   "banks": 10,
-  "greenCells": 60,
-  "blueCells": 13,
-  "note": "Diff `exposed` (production-directory capability registration) and `live` (2xx traffic) each run. A new entry in `exposed` = a production capability go-live (blue); a capability moving from exposed-only to having traffic = it went live (blue->green). Feeds the Adoption Heatmap Production sub-grid via tools/of_watch_production.py. NOTE: the public api-log has no environment field, so the green/live half is observed successful traffic on a production-exposed capability, not an env-tagged production volume. [2026-08-24: FAB and HSBC each additionally register an Active ApiResource at ApiVersion 2.0 for families already Active at 2.1 (FAB: account-information; HSBC: payment, account-information) -- additive dual-version exposure; directoryFamilies here retains the HIGHEST version per family for continuity, so this file alone does not show the coexisting 2.0 registration -- see payload.board / changeLog for the full detail.] [2026-08-31: National Bank of Fujairah PJSC (Tier-2) newly Active in the production directory -- account-information v2.1, FamilyComplete=True, no sandbox traffic. Also: of_watch_production.py's traffic window was found hardcoded to a stale May-Jun basis instead of the correct Jun-Jul (last-2-full-months); corrected in this run's payload computation (FAB v2.1-uplift green->blue, ADCB mostly-blue->mostly-green) but the tool source itself was not committed this run (data-only commit scope) -- needs a follow-up maintenance commit to make LAST2 dynamic.]",
+  "greenCells": 61,
+  "blueCells": 12,
+  "note": "Diff `exposed` (production-directory capability registration) and `live` (2xx traffic) each run. [2026-09-07: production directory UNCHANGED (same 12 orgs, same families/versions) -- no board t1Now count affected. Traffic overlay window rolled forward to Jul-Aug (from Jun-Jul): FAB's v2.1-uplift cell flips blue->green; net green 60->61, blue 13->12 across the same 12 orgs. Computed via an ad-hoc script using the correct dynamic window since tools/watch/of_watch_production.py's LAST2 constant is still hardcoded in the committed source (maintenance fix still pending, out of this run's commit scope).]",
   "directoryFamilies": {
    "ADCB": {
     "size": "LFI",
@@ -1181,8 +1220,8 @@
   "complianceBasis": "Release Compliance board driven by production-directory registration (Status=Active families). Tier-1 counts UNCHANGED this run: R1 8/8, R2 8/8, ProductQuotes 7/8, v2.1 7/8 Tier-1 (only ADIB remains on v1.2). SME Bulk 1/8 (FAB + WIO Bank register file-payments). Insurance unchanged: 2/16 Tier-1 insurers (LIVA + ADNIC). Tier-2-early movers: National Bank of Fujairah PJSC newly joins WIO Bank on Retail R2 and the v2.1 uplift (2 Tier-2 movers each, was 1).",
   "paymentFamilyEndpoints": "FAB and WIO Bank now both register file-payments (bulk) Active in production (FamilyComplete=True); the other 7 Tier-1 banks register only base payments + payment-consents + refund (FamilyComplete=False). No international/multi endpoint registered by anyone; international is a payment-type within /payments, not a separate endpoint."
  },
- "asOfData": "2026-08-20",
- "asOfDataSince": "2026-08-24",
+ "asOfData": "2026-09-02",
+ "asOfDataSince": "2026-09-07",
  "lfiKeysSeen": [
   "uae-aaic",
   "uae-adcbrt",
