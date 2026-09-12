@@ -253,13 +253,25 @@ const breadcrumbSchema =
       });
     </script>
 
-    <!-- Theme initialization - prevent flash of wrong theme -->
+    <!-- Theme initialization - prevent flash of wrong theme.
+         Always resolve to an explicit data-theme (stored choice, else the
+         system preference) so component-level [data-theme='dark'] rules
+         apply in system-dark mode too, not only after the toggle is used. -->
     <script is:inline>
       (function () {
-        const theme = localStorage.getItem('theme');
-        if (theme === 'dark' || theme === 'light') {
-          document.documentElement.setAttribute('data-theme', theme);
+        var theme = null;
+        try {
+          theme = localStorage.getItem('theme');
+        } catch (e) {
+          theme = null;
         }
+        if (theme !== 'dark' && theme !== 'light') {
+          theme =
+            window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', theme);
       })();
     </script>
   </head>
