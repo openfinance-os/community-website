@@ -361,7 +361,7 @@ const { participantCount, activeCount } = Astro.props;
   }
 
   .btn-primary {
-    background: var(--color-primary-600);
+    background: var(--color-primary-fill);
     color: white;
     box-shadow: 0 4px 14px 0 rgba(15, 118, 110, 0.3);
   }
@@ -371,7 +371,7 @@ const { participantCount, activeCount } = Astro.props;
   }
 
   .btn-primary:hover {
-    background: var(--color-primary-700);
+    background: var(--color-primary-fill-strong);
     box-shadow: 0 6px 20px 0 rgba(15, 118, 110, 0.4);
   }
 
@@ -487,7 +487,7 @@ const { participantCount, activeCount } = Astro.props;
   :global([data-theme='dark']) .hero-badge {
     background: var(--color-gray-100);
     border-color: var(--color-gray-200);
-    color: var(--color-gray-300);
+    color: var(--color-gray-600);
   }
 
   :global([data-theme='dark']) .hero-title {
@@ -504,15 +504,15 @@ const { participantCount, activeCount } = Astro.props;
   }
 
   :global([data-theme='dark']) .hero-tagline {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .highlight {
-    color: var(--color-gray-200);
+    color: var(--color-gray-700);
   }
 
   :global([data-theme='dark']) .hero-mission {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .mission-emphasis {
@@ -526,17 +526,17 @@ const { participantCount, activeCount } = Astro.props;
   }
 
   :global([data-theme='dark']) .stat-label {
-    color: var(--color-gray-200);
+    color: var(--color-gray-700);
   }
 
   :global([data-theme='dark']) .stat-sublabel {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .btn-secondary {
     background: var(--color-gray-100);
     border-color: rgba(77, 196, 196, 0.3);
-    color: var(--color-gray-200);
+    color: var(--color-gray-700);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   }
 
@@ -548,7 +548,7 @@ const { participantCount, activeCount } = Astro.props;
   }
 
   :global([data-theme='dark']) .hero-footer {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .gradient-orb-1 {

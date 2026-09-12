@@ -672,12 +672,12 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   .btn-accent {
-    background: var(--color-primary-600);
+    background: var(--color-primary-fill);
     color: white;
   }
 
   .btn-accent:hover {
-    background: var(--color-primary-700);
+    background: var(--color-primary-fill-strong);
     text-decoration: none;
   }
 
@@ -903,7 +903,7 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   :global([data-theme='dark']) .nongoals-intro {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .routing-link {
@@ -1065,7 +1065,11 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   .cta-card {
-    background: linear-gradient(135deg, var(--color-primary-600) 0%, var(--color-primary-700) 100%);
+    background: linear-gradient(
+      135deg,
+      var(--color-primary-fill) 0%,
+      var(--color-primary-fill-strong) 100%
+    );
     border-radius: var(--radius-2xl);
     padding: var(--space-12) var(--space-8);
     text-align: center;
@@ -1138,7 +1142,7 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   :global([data-theme='dark']) .hero-description {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .btn-primary {
@@ -1153,7 +1157,7 @@ import PageLayout from '@layouts/PageLayout.astro';
   :global([data-theme='dark']) .btn-secondary {
     background: var(--color-gray-100);
     border-color: var(--color-gray-300);
-    color: var(--color-gray-200);
+    color: var(--color-gray-700);
   }
 
   :global([data-theme='dark']) .btn-secondary:hover {
@@ -1166,7 +1170,7 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   :global([data-theme='dark']) .section-intro {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .value-card {
@@ -1189,7 +1193,7 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   :global([data-theme='dark']) .value-card p {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .callout-box {
@@ -1224,11 +1228,11 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   :global([data-theme='dark']) .not-item span {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .governance-text p {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .governance-text a {
@@ -1273,7 +1277,7 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   :global([data-theme='dark']) .doc-link span {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .arrow-icon {

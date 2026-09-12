@@ -1,40 +1,38 @@
 {
+  "_comment": "NewsAPI keywords are quoted phrases: broad single words ('SCA', 'digital banking', 'premium API') returned hundreds of off-topic articles per run and burned the free-tier quota. Each entry is one NewsAPI request.",
   "keywords": [
-    "open banking",
-    "open finance",
-    "PSD2",
-    "PSD3",
-    "banking API",
-    "fintech regulation",
-    "digital banking",
-    "neobank",
-    "embedded finance",
-    "payment API",
-    "account aggregation",
+    "\"open banking\"",
+    "\"open finance\"",
+    "\"open finance\" UAE",
+    "\"open banking\" UAE",
     "CBUAE",
-    "UAE fintech",
-    "financial data operating",
-    "FDO UAE",
-    "variable recurring payments",
-    "VRP",
-    "premium API",
-    "consent management",
-    "strong customer authentication",
-    "SCA",
-    "payment initiation service",
-    "account information service",
-    "AISP",
-    "PISP"
+    "\"Al Tareq\"",
+    "Nebras \"open finance\"",
+    "\"pay by bank\" UAE",
+    "Tarabut",
+    "\"Lean Technologies\"",
+    "\"variable recurring payments\"",
+    "PSD3",
+    "\"account-to-account\" payments",
+    "\"open banking\" Saudi",
+    "\"open banking\" Bahrain"
   ],
   "excludeDomains": [
     "youtube.com",
     "facebook.com",
     "twitter.com",
+    "x.com",
     "linkedin.com",
     "instagram.com",
     "tiktok.com",
     "reddit.com",
-    "pinterest.com"
+    "pinterest.com",
+    "medium.com",
+    "prnewswire.com",
+    "globenewswire.com",
+    "businesswire.com",
+    "einpresswire.com",
+    "openpr.com"
   ],
   "excludedKeywords": [
     "crypto",
@@ -47,7 +45,63 @@
     "passive income",
     "investment opportunity",
     "sponsored content",
-    "advertorial"
+    "advertorial",
+    "market size",
+    "market report",
+    "market research",
+    "cagr",
+    "forecast to 20"
+  ],
+  "eventUrlPatterns": [
+    "/event-info/",
+    "/events/",
+    "/event/",
+    "/webinar",
+    "/whitepaper",
+    "/white-paper",
+    "/research/",
+    "/reports/",
+    "/report/",
+    "/ebook",
+    "/e-book",
+    "/podcast",
+    "/register",
+    "/sponsored",
+    "/partner-content",
+    "/press-release",
+    "/jobs/",
+    "/careers/"
+  ],
+  "eventTitlePatterns": [
+    "webinar",
+    "register now",
+    "register today",
+    "join us",
+    "join our",
+    "save the date",
+    "live event",
+    "virtual event",
+    "in-person event",
+    "on-demand",
+    "on demand",
+    "watch now",
+    "download the report",
+    "download now",
+    "download our",
+    "whitepaper",
+    "white paper",
+    "ebook",
+    "e-book",
+    "roundtable",
+    "fireside chat",
+    "panel discussion",
+    "keynote",
+    "summit 20",
+    "conference 20",
+    "expo 20",
+    "sponsored",
+    "advertorial",
+    "press release"
   ],
   "preferredSources": [
     "Finextra",
@@ -65,23 +119,77 @@
     "Arabian Business",
     "The National",
     "Khaleej Times",
-    "TechCrunch",
-    "Wired",
-    "Open Banking Excellence",
-    "Fintech News Middle East",
+    "Gulf News",
     "Zawya",
-    "Gulf News"
+    "WAM",
+    "Emirates News Agency",
+    "Fintech News Middle East",
+    "Fintechnews Middle East",
+    "Wamda",
+    "MAGNiTT",
+    "Open Banking Excellence",
+    "TechCrunch",
+    "Wired"
   ],
   "rssFeeds": [
     {
-      "name": "Finextra",
-      "url": "https://www.finextra.com/rss/headlines.aspx",
-      "priority": 1
+      "name": "Google News - Open Finance UAE",
+      "url": "https://news.google.com/rss/search?q=%22open+finance%22+UAE&hl=en-AE&gl=AE&ceid=AE:en",
+      "priority": 1,
+      "category": "regional",
+      "format": "google-news"
+    },
+    {
+      "name": "Google News - Open Banking UAE",
+      "url": "https://news.google.com/rss/search?q=%22open+banking%22+UAE&hl=en-AE&gl=AE&ceid=AE:en",
+      "priority": 1,
+      "category": "regional",
+      "format": "google-news"
+    },
+    {
+      "name": "Google News - CBUAE Open Finance",
+      "url": "https://news.google.com/rss/search?q=CBUAE+%22open+finance%22&hl=en-AE&gl=AE&ceid=AE:en",
+      "priority": 1,
+      "category": "regulatory",
+      "format": "google-news"
+    },
+    {
+      "name": "Google News - Al Tareq / Nebras",
+      "url": "https://news.google.com/rss/search?q=%22Al+Tareq%22+OR+Nebras+%22open+finance%22&hl=en-AE&gl=AE&ceid=AE:en",
+      "priority": 1,
+      "category": "regional",
+      "format": "google-news"
+    },
+    {
+      "name": "Google News - Pay by Bank UAE",
+      "url": "https://news.google.com/rss/search?q=%22pay+by+bank%22+UAE&hl=en-AE&gl=AE&ceid=AE:en",
+      "priority": 1,
+      "category": "regional",
+      "format": "google-news"
+    },
+    {
+      "name": "Google News - UAE Open Finance TPPs",
+      "url": "https://news.google.com/rss/search?q=(Tarabut+OR+%22Lean+Technologies%22+OR+Spare+OR+Pay10)+UAE+%22open+finance%22&hl=en-AE&gl=AE&ceid=AE:en",
+      "priority": 1,
+      "category": "regional",
+      "format": "google-news"
+    },
+    {
+      "name": "Google News - Open Banking GCC",
+      "url": "https://news.google.com/rss/search?q=%22open+banking%22+(Saudi+OR+Bahrain+OR+Qatar+OR+Kuwait+OR+Oman)&hl=en-AE&gl=AE&ceid=AE:en",
+      "priority": 2,
+      "category": "regional",
+      "format": "google-news"
     },
     {
       "name": "Finextra - Open Banking",
       "url": "https://www.finextra.com/rss/channel.aspx?channel=openbanking",
       "priority": 1
+    },
+    {
+      "name": "Finextra",
+      "url": "https://www.finextra.com/rss/headlines.aspx",
+      "priority": 2
     },
     {
       "name": "FinTech Futures",
@@ -154,100 +262,55 @@
     }
   ],
   "keyCompanies": [
-    {
-      "name": "Lean Technologies",
-      "region": "uae",
-      "weight": 15
-    },
-    {
-      "name": "Tarabut Gateway",
-      "region": "uae",
-      "weight": 15
-    },
-    {
-      "name": "NymCard",
-      "region": "uae",
-      "weight": 12
-    },
-    {
-      "name": "Plaid",
-      "region": "global",
-      "weight": 10
-    },
-    {
-      "name": "TrueLayer",
-      "region": "global",
-      "weight": 10
-    },
-    {
-      "name": "Tink",
-      "region": "global",
-      "weight": 10
-    },
-    {
-      "name": "Yapily",
-      "region": "global",
-      "weight": 10
-    },
-    {
-      "name": "Volt",
-      "region": "global",
-      "weight": 8
-    },
-    {
-      "name": "Token.io",
-      "region": "global",
-      "weight": 8
-    }
+    { "name": "Lean Technologies", "region": "uae", "weight": 15 },
+    { "name": "Tarabut", "region": "uae", "weight": 15 },
+    { "name": "Nebras", "region": "uae", "weight": 20 },
+    { "name": "Al Tareq", "region": "uae", "weight": 20 },
+    { "name": "Spare", "region": "uae", "weight": 12 },
+    { "name": "Pay10", "region": "uae", "weight": 12 },
+    { "name": "Ziina", "region": "uae", "weight": 10 },
+    { "name": "NymCard", "region": "uae", "weight": 10 },
+    { "name": "Wio", "region": "uae", "weight": 8 },
+    { "name": "Zand", "region": "uae", "weight": 8 },
+    { "name": "Ozone API", "region": "global", "weight": 10 },
+    { "name": "Raidiam", "region": "global", "weight": 10 },
+    { "name": "Plaid", "region": "global", "weight": 8 },
+    { "name": "TrueLayer", "region": "global", "weight": 8 },
+    { "name": "Tink", "region": "global", "weight": 6 },
+    { "name": "Yapily", "region": "global", "weight": 8 },
+    { "name": "Volt", "region": "global", "weight": 6 },
+    { "name": "Token.io", "region": "global", "weight": 6 }
   ],
   "regulatoryBodies": [
-    {
-      "name": "CBUAE",
-      "fullName": "Central Bank of the UAE",
-      "region": "uae",
-      "weight": 20
-    },
-    {
-      "name": "FCA",
-      "fullName": "Financial Conduct Authority",
-      "region": "uk",
-      "weight": 15
-    },
-    {
-      "name": "EBA",
-      "fullName": "European Banking Authority",
-      "region": "europe",
-      "weight": 12
-    },
-    {
-      "name": "OBIE",
-      "fullName": "Open Banking Implementation Entity",
-      "region": "uk",
-      "weight": 15
-    },
-    {
-      "name": "SAMA",
-      "fullName": "Saudi Arabian Monetary Authority",
-      "region": "mena",
-      "weight": 12
-    },
-    {
-      "name": "CBB",
-      "fullName": "Central Bank of Bahrain",
-      "region": "mena",
-      "weight": 12
-    },
+    { "name": "CBUAE", "fullName": "Central Bank of the UAE", "region": "uae", "weight": 20 },
     {
       "name": "DIFC",
       "fullName": "Dubai International Financial Centre",
       "region": "uae",
       "weight": 15
     },
+    { "name": "ADGM", "fullName": "Abu Dhabi Global Market", "region": "uae", "weight": 15 },
     {
-      "name": "ADGM",
-      "fullName": "Abu Dhabi Global Market",
+      "name": "DFSA",
+      "fullName": "Dubai Financial Services Authority",
       "region": "uae",
-      "weight": 15
+      "weight": 12
+    },
+    {
+      "name": "FSRA",
+      "fullName": "Financial Services Regulatory Authority",
+      "region": "uae",
+      "weight": 12
+    },
+    { "name": "SAMA", "fullName": "Saudi Central Bank", "region": "mena", "weight": 12 },
+    { "name": "CBB", "fullName": "Central Bank of Bahrain", "region": "mena", "weight": 12 },
+    { "name": "FCA", "fullName": "Financial Conduct Authority", "region": "uk", "weight": 10 },
+    { "name": "EBA", "fullName": "European Banking Authority", "region": "europe", "weight": 10 },
+    {
+      "name": "OBIE",
+      "fullName": "Open Banking Implementation Entity",
+      "region": "uk",
+      "weight": 10
     }
   ],
   "breakingNewsSignals": [
@@ -256,6 +319,7 @@
     "just in:",
     "announced today",
     "first of its kind",
+    "goes live",
     "launches",
     "unveils",
     "signs agreement",
@@ -265,7 +329,14 @@
   ],
   "maxArticlesPerRun": 5,
   "lookbackHours": 168,
-  "minRelevanceScore": 8,
+  "futureToleranceHours": 6,
+  "minRelevanceScore": 20,
+  "regionThresholds": {
+    "uae": 20,
+    "mena": 35,
+    "global": 60
+  },
+  "requireCoreTermForGlobal": true,
   "breakingNewsBonus": 20,
   "contentQualityWeight": 0.2,
   "minDescriptionLength": 50,

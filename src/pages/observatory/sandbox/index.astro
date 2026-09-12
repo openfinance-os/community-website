@@ -682,8 +682,10 @@ const formatDate = (dateStr: string) => {
     padding-bottom: var(--space-16);
   }
 
+  /* Always-dark banner: literal colours so the inverted dark-mode primary
+     scale cannot turn it light behind white text. */
   .page-header {
-    background: linear-gradient(180deg, var(--color-primary-900) 0%, var(--color-primary-800) 100%);
+    background: linear-gradient(180deg, #041919 0%, #072b2b 100%);
     color: white;
     padding: var(--space-12) var(--space-4);
     position: relative;
@@ -1286,7 +1288,7 @@ const formatDate = (dateStr: string) => {
   }
 
   :global([data-theme='dark']) .filter-label {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .filter-dropdown {
@@ -1310,7 +1312,7 @@ const formatDate = (dateStr: string) => {
   }
 
   :global([data-theme='dark']) .chart-description {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .role-legend {
@@ -1318,15 +1320,15 @@ const formatDate = (dateStr: string) => {
   }
 
   :global([data-theme='dark']) .role-item {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .role-item strong {
-    color: var(--color-gray-300);
+    color: var(--color-gray-600);
   }
 
   :global([data-theme='dark']) .api-name {
-    color: var(--color-gray-300);
+    color: var(--color-gray-600);
   }
 
   :global([data-theme='dark']) .api-bar-container {
@@ -1334,7 +1336,7 @@ const formatDate = (dateStr: string) => {
   }
 
   :global([data-theme='dark']) .api-count {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .section-header h2 {
@@ -1342,7 +1344,7 @@ const formatDate = (dateStr: string) => {
   }
 
   :global([data-theme='dark']) .section-header p {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .disclaimer {
@@ -1360,7 +1362,7 @@ const formatDate = (dateStr: string) => {
   }
 
   :global([data-theme='dark']) .disclaimer p {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 </style>
 
