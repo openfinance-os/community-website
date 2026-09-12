@@ -6,6 +6,13 @@ import type {
   ContentQualityScore,
   ArticleScoreBreakdown,
 } from '../types/news-curation.js';
+import {
+  inferRegion,
+  normalizeUrl,
+  preFilterArticle,
+  summarizeRejections,
+  type RejectionReason,
+} from './article-filters.js';
 
 const NEWSAPI_BASE_URL = 'https://newsapi.org/v2';
 
@@ -98,9 +105,10 @@ export async function fetchNewsArticles(options: FetchNewsOptions): Promise<News
 
       if (data.status === 'ok' && data.articles) {
         for (const article of data.articles) {
-          // Skip duplicates
-          if (seenUrls.has(article.url)) continue;
-          seenUrls.add(article.url);
+          // Skip duplicates (ignoring tracking parameters)
+          const canonical = normalizeUrl(article.url);
+          if (seenUrls.has(canonical)) continue;
+          seenUrls.add(canonical);
 
           // Skip articles without required fields
           if (!article.title || !article.url || !article.description) continue;
@@ -125,6 +133,77 @@ export async function fetchNewsArticles(options: FetchNewsOptions): Promise<News
 export interface ScoreOptions {
   rssSourceBonus?: number; // Bonus points for articles from RSS feeds
   verbose?: boolean; // Log detailed score breakdown
+  now?: Date; // Reference time for recency (defaults to Date.now())
+}
+
+/**
+ * Core open banking / open finance vocabulary. An article that mentions none
+ * of these is, at best, adjacent fintech news.
+ */
+export const CORE_TERMS: ReadonlyArray<{ term: string; weight: number }> = [
+  { term: 'open banking', weight: 25 },
+  { term: 'open finance', weight: 25 },
+  { term: 'openbanking', weight: 25 },
+  { term: 'openfinance', weight: 25 },
+  { term: 'al tareq', weight: 25 },
+  { term: 'altareq', weight: 25 },
+  { term: 'nebras', weight: 22 },
+  { term: 'open finance framework', weight: 22 },
+  { term: 'psd2', weight: 20 },
+  { term: 'psd3', weight: 20 },
+  { term: 'financial data operating', weight: 20 },
+  { term: 'account aggregation', weight: 18 },
+  { term: 'banking api', weight: 18 },
+  { term: 'payment initiation', weight: 18 },
+  { term: 'account information service', weight: 18 },
+  { term: 'variable recurring payment', weight: 18 },
+  { term: 'pay by bank', weight: 15 },
+  { term: 'pay-by-bank', weight: 15 },
+  { term: 'aisp', weight: 15 },
+  { term: 'pisp', weight: 15 },
+  { term: 'third party provider', weight: 15 },
+  { term: 'third-party provider', weight: 15 },
+  { term: 'tpp regulation', weight: 15 },
+  { term: 'vrp', weight: 15 },
+  { term: 'fdo', weight: 15 },
+  { term: 'strong customer authentication', weight: 15 },
+  { term: 'screen scraping', weight: 12 },
+  { term: 'data sharing banking', weight: 12 },
+  { term: 'consumer data right', weight: 12 },
+  { term: 'fdata', weight: 12 },
+  { term: 'premium api', weight: 12 },
+  { term: 'consent management', weight: 12 },
+  { term: 'sca', weight: 10 },
+];
+
+/**
+ * Whole-word match. Short acronyms such as "sca", "vrp" and "fdo" otherwise
+ * match inside unrelated words ("scale", "escalate"), which is one of the
+ * ways off-topic articles were reaching the top of the ranking.
+ */
+export function matchesTerm(text: string, term: string): boolean {
+  if (term.length > 4 || term.includes(' ') || term.includes('-')) {
+    return text.includes(term);
+  }
+  const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp(`(^|[^a-z0-9])${escaped}([^a-z0-9]|$)`, 'i').test(text);
+}
+
+/** True when the article mentions at least one core term anywhere. */
+export function hasCoreTerm(article: NewsApiArticle): boolean {
+  const text =
+    `${article.title} ${article.description || ''} ${article.content || ''}`.toLowerCase();
+  return CORE_TERMS.some(({ term }) => matchesTerm(text, term));
+}
+
+/** Resolve the minimum score for an article's region. */
+export function thresholdForRegion(
+  region: 'uae' | 'mena' | 'global',
+  config: NewsSourceConfig
+): number {
+  const base = config.minRelevanceScore || 0;
+  const tiered = config.regionThresholds?.[region];
+  return typeof tiered === 'number' ? tiered : base;
 }
 
 /**
@@ -204,8 +283,13 @@ export function isBreakingNews(article: NewsApiArticle, config: NewsSourceConfig
   const publishedDate = new Date(article.publishedAt);
   const hoursAgo = (Date.now() - publishedDate.getTime()) / (1000 * 60 * 60);
 
-  // Breaking news must be recent (within 24 hours) and have a breaking signal
-  return hoursAgo < 24 && breakingSignals.some((signal) => title.includes(signal.toLowerCase()));
+  // Breaking news must be recent (within 24 hours, not in the future) and
+  // have a breaking signal
+  return (
+    hoursAgo >= -1 &&
+    hoursAgo < 24 &&
+    breakingSignals.some((signal) => title.includes(signal.toLowerCase()))
+  );
 }
 
 export function scoreArticle(
@@ -239,41 +323,10 @@ export function scoreArticle(
   }
 
   // === CORE OPEN BANKING/FINANCE TERMS (highest weight) ===
-  const coreTerms = [
-    { term: 'open banking', weight: 25 },
-    { term: 'open finance', weight: 25 },
-    { term: 'openbanking', weight: 25 },
-    { term: 'openfinance', weight: 25 },
-    { term: 'psd2', weight: 20 },
-    { term: 'psd3', weight: 20 },
-    { term: 'account aggregation', weight: 18 },
-    { term: 'banking api', weight: 18 },
-    { term: 'payment initiation', weight: 18 },
-    { term: 'account information service', weight: 18 },
-    { term: 'aisp', weight: 15 },
-    { term: 'pisp', weight: 15 },
-    { term: 'third party provider', weight: 15 },
-    { term: 'third-party provider', weight: 15 },
-    { term: 'tpp regulation', weight: 15 },
-    { term: 'screen scraping', weight: 12 },
-    { term: 'data sharing banking', weight: 12 },
-    { term: 'consumer data right', weight: 12 },
-    { term: 'fdata', weight: 12 },
-    // New terms
-    { term: 'variable recurring payment', weight: 18 },
-    { term: 'vrp', weight: 15 },
-    { term: 'financial data operating', weight: 20 },
-    { term: 'fdo', weight: 15 },
-    { term: 'premium api', weight: 12 },
-    { term: 'consent management', weight: 12 },
-    { term: 'strong customer authentication', weight: 15 },
-    { term: 'sca', weight: 10 },
-  ];
-
-  for (const { term, weight } of coreTerms) {
-    if (titleLower.includes(term)) {
+  for (const { term, weight } of CORE_TERMS) {
+    if (matchesTerm(titleLower, term)) {
       breakdown.coreTerms += weight * 2; // Double weight for title matches
-    } else if (combinedText.includes(term)) {
+    } else if (matchesTerm(combinedText, term)) {
       breakdown.coreTerms += weight;
     }
   }
@@ -289,9 +342,9 @@ export function scoreArticle(
   for (const body of regulatoryBodies) {
     const nameLower = body.name.toLowerCase();
     const fullNameLower = body.fullName.toLowerCase();
-    if (titleLower.includes(nameLower) || titleLower.includes(fullNameLower)) {
+    if (matchesTerm(titleLower, nameLower) || matchesTerm(titleLower, fullNameLower)) {
       breakdown.regulatory += body.weight * 1.5; // Bonus for title mention
-    } else if (combinedText.includes(nameLower) || combinedText.includes(fullNameLower)) {
+    } else if (matchesTerm(combinedText, nameLower) || matchesTerm(combinedText, fullNameLower)) {
       breakdown.regulatory += body.weight;
     }
   }
@@ -322,10 +375,13 @@ export function scoreArticle(
   ];
 
   for (const company of keyCompanies) {
+    // Whole-word matching for short names: "Tink" must not match "thinking",
+    // "Spare" must not match "spare capacity" mid-sentence any more than the
+    // scorer can help, and "Volt" must not match "Revolut".
     const nameLower = company.name.toLowerCase();
-    if (titleLower.includes(nameLower)) {
+    if (matchesTerm(titleLower, nameLower)) {
       breakdown.companies += company.weight * 1.5; // Bonus for title mention
-    } else if (combinedText.includes(nameLower)) {
+    } else if (matchesTerm(combinedText, nameLower)) {
       breakdown.companies += company.weight;
     }
   }
@@ -390,9 +446,14 @@ export function scoreArticle(
 
   // === RECENCY BONUS (smoother decay) ===
   const publishedDate = new Date(article.publishedAt);
-  const hoursAgo = (Date.now() - publishedDate.getTime()) / (1000 * 60 * 60);
+  const nowMs = (options.now || new Date()).getTime();
+  // Future-dated items (event listings) previously produced a negative
+  // "hours ago" and an unbounded bonus; clamp so the bonus never exceeds 10.
+  const hoursAgo = isNaN(publishedDate.getTime())
+    ? 72
+    : Math.max(0, (nowMs - publishedDate.getTime()) / (1000 * 60 * 60));
   // Smooth decay: starts at 10 points, decays over 72 hours
-  breakdown.recency = Math.max(0, Math.round(10 - hoursAgo / 7.2));
+  breakdown.recency = Math.max(0, Math.min(10, Math.round(10 - hoursAgo / 7.2)));
 
   // === BREAKING NEWS BONUS ===
   if (isBreakingNews(article, config)) {
@@ -492,6 +553,7 @@ export function getScoreBreakdown(
 export interface RankOptions {
   getRssBonus?: (sourceName: string) => number;
   verbose?: boolean;
+  now?: Date;
 }
 
 export function rankArticles(
@@ -500,36 +562,75 @@ export function rankArticles(
   limit: number = 5,
   options: RankOptions = {}
 ): NewsApiArticle[] {
-  const minScore = config.minRelevanceScore || 0;
   const minDescLength = config.minDescriptionLength || 50;
+  const now = options.now || new Date();
+  const rejections: RejectionReason[] = [];
+  let shortDescriptions = 0;
+  let promotional = 0;
 
-  // Pre-filter articles by content quality
+  // Pre-filter: editorial rules first (events, promos, dates, domains),
+  // then content quality.
   const qualityFiltered = articles.filter((article) => {
+    const editorial = preFilterArticle(article, config, now);
+    if (!editorial.keep) {
+      if (editorial.reason) rejections.push(editorial.reason);
+      if (options.verbose) {
+        console.log(`  Rejected (${editorial.reason}): ${article.title.substring(0, 60)}`);
+      }
+      return false;
+    }
+
     // Skip articles with very short descriptions
     if ((article.description?.length || 0) < minDescLength) {
+      shortDescriptions++;
       return false;
     }
 
     // Skip promotional content
     const quality = assessContentQuality(article, config);
     if (quality.isPromotional) {
+      promotional++;
       return false;
+    }
+
+    // Global stories must at least be about open banking / open finance.
+    if (config.requireCoreTermForGlobal && inferRegion(article) === 'global') {
+      if (!hasCoreTerm(article)) {
+        rejections.push('no-core-term');
+        if (options.verbose) {
+          console.log(`  Rejected (no-core-term): ${article.title.substring(0, 60)}`);
+        }
+        return false;
+      }
     }
 
     return true;
   });
 
-  console.log(
-    `Pre-filtered ${articles.length} articles to ${qualityFiltered.length} based on content quality`
-  );
+  console.log(`Pre-filtered ${articles.length} articles to ${qualityFiltered.length}`);
+  if (rejections.length > 0) {
+    console.log(`  Editorial rejections: ${summarizeRejections(rejections)}`);
+  }
+  if (shortDescriptions > 0 || promotional > 0) {
+    console.log(
+      `  Quality rejections: short-description=${shortDescriptions}, promotional=${promotional}`
+    );
+  }
 
   // Score all articles
   const scoredArticles = qualityFiltered.map((article) => {
     const rssBonus = options.getRssBonus ? options.getRssBonus(article.source.name) : 0;
+    const region = inferRegion(article);
     return {
       article,
-      score: scoreArticle(article, config, { rssSourceBonus: rssBonus, verbose: options.verbose }),
+      region,
+      score: scoreArticle(article, config, {
+        rssSourceBonus: rssBonus,
+        verbose: options.verbose,
+        now,
+      }),
       isBreaking: isBreakingNews(article, config),
+      threshold: thresholdForRegion(region, config),
     };
   });
 
@@ -549,11 +650,15 @@ export function rankArticles(
     console.log(`Breaking news articles: ${breakingCount}`);
   }
 
-  // Filter by minimum score
-  const relevantArticles = scoredArticles.filter((item) => item.score >= minScore);
+  // Filter by minimum score for the article's region (UAE stories need a
+  // lower bar than global ones on a UAE community site).
+  const relevantArticles = scoredArticles.filter((item) => item.score >= item.threshold);
 
+  const thresholdSummary = (['uae', 'mena', 'global'] as const)
+    .map((region) => `${region}>=${thresholdForRegion(region, config)}`)
+    .join(', ');
   console.log(
-    `Filtered ${scoredArticles.length} articles to ${relevantArticles.length} with score >= ${minScore}`
+    `Filtered ${scoredArticles.length} articles to ${relevantArticles.length} above region thresholds (${thresholdSummary})`
   );
 
   // Log top articles with scores
@@ -561,7 +666,7 @@ export function rankArticles(
   relevantArticles.slice(0, limit).forEach((item, index) => {
     const breakingLabel = item.isBreaking ? ' [BREAKING]' : '';
     console.log(
-      `  ${index + 1}. [Score: ${item.score}]${breakingLabel} ${item.article.title.substring(0, 60)}...`
+      `  ${index + 1}. [Score: ${item.score}] [${item.region.toUpperCase()}]${breakingLabel} ${item.article.title.substring(0, 60)}...`
     );
   });
 

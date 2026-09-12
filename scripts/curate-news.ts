@@ -28,7 +28,8 @@ import { fileURLToPath } from 'node:url';
 import { fetchNewsArticles, rankArticles, scoreArticle } from './utils/news-api-client.js';
 import { fetchRssArticles, getRssSourceBonus } from './utils/rss-feed-client.js';
 import { processArticles } from './utils/article-summarizer.js';
-import { createAllPRs, closeOldPRs } from './utils/github-pr-creator.js';
+import { createAllPRs, closeOldPRs, fetchProposedSlugs } from './utils/github-pr-creator.js';
+import { inferRegion, isDuplicateTitle, normalizeUrl, titleSlug } from './utils/article-filters.js';
 import { sendSlackNotification, sendErrorNotification } from './utils/slack-notifier.js';
 import type { NewsSourceConfig, CuratedArticle, NewsApiArticle } from './types/news-curation.js';
 
@@ -114,6 +115,7 @@ async function main() {
 
   const isDryRun = process.argv.includes('--dry-run');
   const cleanupOnly = process.argv.includes('--cleanup');
+  const verbose = process.argv.includes('--verbose');
 
   if (isDryRun) {
     console.log('DRY RUN MODE - No PRs will be created\n');
@@ -167,8 +169,9 @@ async function main() {
     console.log('--- RSS Feeds (Primary) ---');
     const rssArticles = await fetchRssArticles({ config });
     for (const article of rssArticles) {
-      if (!seenUrls.has(article.url)) {
-        seenUrls.add(article.url);
+      const canonical = normalizeUrl(article.url);
+      if (!seenUrls.has(canonical)) {
+        seenUrls.add(canonical);
         allArticles.push(article);
       }
     }
@@ -181,8 +184,9 @@ async function main() {
         config,
       });
       for (const article of newsApiArticles) {
-        if (!seenUrls.has(article.url)) {
-          seenUrls.add(article.url);
+        const canonical = normalizeUrl(article.url);
+        if (!seenUrls.has(canonical)) {
+          seenUrls.add(canonical);
           allArticles.push(article);
         }
       }
@@ -203,34 +207,36 @@ async function main() {
     console.log('\nStep 2: Ranking articles by relevance...\n');
     const rankedArticles = rankArticles(articles, config, config.maxArticlesPerRun * 3, {
       getRssBonus: (sourceName) => getRssSourceBonus(sourceName, config.rssFeeds || []),
+      verbose,
     });
 
     if (rankedArticles.length === 0) {
       console.log(
-        '\nNo articles passed the relevance threshold. Try lowering minRelevanceScore in sources.json'
+        '\nNo articles passed the relevance threshold. Try lowering minRelevanceScore or regionThresholds in sources.json'
       );
       console.log('Current threshold:', config.minRelevanceScore || 0);
       return;
     }
 
-    // Step 3: Filter out duplicates
+    // Step 3: Filter out duplicates - published articles and anything the
+    // curator already proposed (a closed, unmerged PR is an editorial "no").
     console.log('\nStep 3: Filtering duplicates...\n');
     const existingSlugs = getExistingArticleSlugs();
     console.log(`  Existing articles: ${existingSlugs.size}`);
 
-    const newArticles = rankedArticles.filter((article) => {
-      const slug = article.title
-        .toLowerCase()
-        .replace(/[^a-z0-9\s-]/g, '')
-        .replace(/\s+/g, '-')
-        .substring(0, 50);
+    const proposedSlugs = process.env.GH_TOKEN
+      ? await fetchProposedSlugs(githubOptions)
+      : new Set<string>();
+    console.log(`  Previously proposed (open or closed PRs): ${proposedSlugs.size}`);
 
-      // Check if we already have an article with a similar title (first 20 chars)
-      for (const existingSlug of existingSlugs) {
-        if (existingSlug.includes(slug.substring(0, 20))) {
-          console.log(`  Skipping duplicate: ${article.title.substring(0, 50)}...`);
-          return false;
-        }
+    const newArticles = rankedArticles.filter((article) => {
+      if (isDuplicateTitle(article.title, existingSlugs)) {
+        console.log(`  Skipping already published: ${article.title.substring(0, 50)}...`);
+        return false;
+      }
+      if (isDuplicateTitle(article.title, proposedSlugs)) {
+        console.log(`  Skipping already proposed: ${article.title.substring(0, 50)}...`);
+        return false;
       }
       return true;
     });
@@ -260,26 +266,6 @@ async function main() {
 
     if (isDryRun) {
       // In dry run, create mock summaries with region inference
-      const inferRegion = (text: string): 'uae' | 'mena' | 'global' => {
-        const lowerText = text.toLowerCase();
-        if (
-          lowerText.includes('uae') ||
-          lowerText.includes('emirates') ||
-          lowerText.includes('dubai') ||
-          lowerText.includes('cbuae')
-        )
-          return 'uae';
-        if (
-          lowerText.includes('saudi') ||
-          lowerText.includes('bahrain') ||
-          lowerText.includes('gcc') ||
-          lowerText.includes('mena') ||
-          lowerText.includes('middle east')
-        )
-          return 'mena';
-        return 'global';
-      };
-
       curatedArticles = topArticles.map((article) => ({
         id: Math.random().toString(36).substring(7),
         title: article.title,
@@ -290,12 +276,8 @@ async function main() {
         summary: article.description || 'No summary available.',
         relevanceScore: scores.get(article.url) || 0,
         type: 'global' as const,
-        region: inferRegion(`${article.title} ${article.description || ''}`),
-        slug: `${article.publishedAt.split('T')[0]}-${article.title
-          .toLowerCase()
-          .replace(/[^a-z0-9\s-]/g, '')
-          .replace(/\s+/g, '-')
-          .substring(0, 50)}`,
+        region: inferRegion(article),
+        slug: `${article.publishedAt.split('T')[0]}-${titleSlug(article.title)}`,
       }));
     } else {
       curatedArticles = await processArticles(topArticles, scores, {
