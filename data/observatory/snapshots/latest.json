@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-09-13T11:06:36.719Z",
+  "timestamp": "2026-09-14T11:50:55.276Z",
   "version": "2.0.0",
   "production": {
-    "timestamp": "2026-09-13T11:06:35.167Z",
+    "timestamp": "2026-09-14T11:50:53.377Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "production",
@@ -768,7 +768,7 @@
             "family": "accounts",
             "version": "2.1",
             "certificationStatus": "Self-Certified",
-            "familyComplete": true
+            "familyComplete": false
           }
         ],
         "authServerCount": 1,
@@ -1033,7 +1033,7 @@
     }
   },
   "sandbox": {
-    "timestamp": "2026-09-13T11:06:36.712Z",
+    "timestamp": "2026-09-14T11:50:55.272Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "sandbox",
