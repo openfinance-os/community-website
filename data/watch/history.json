@@ -240,6 +240,18 @@
    "liveLFIs": 15,
    "liveTPPs": 15,
    "websiteSpecBranch": "main"
+  },
+  {
+   "runDate": "2026-09-14",
+   "totalFull": 1011579,
+   "errPct": 23.5,
+   "paySucc": 96.0,
+   "authPct": 53.3,
+   "top1Share": 86.0,
+   "hhi": 7450,
+   "liveLFIs": 15,
+   "liveTPPs": 15,
+   "websiteSpecBranch": "main"
   }
  ]
 }
