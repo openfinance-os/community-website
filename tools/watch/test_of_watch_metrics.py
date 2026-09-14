@@ -6,6 +6,10 @@ Exits non-zero on the first failed assertion. Uses a tiny synthetic log so the
 money-in-fils, accepted-only, and full-vs-partial-month rules are pinned down
 independently of the live feed.
 """
+import json
+import os
+import tempfile
+
 import of_watch_metrics as m
 
 # Two full months (Jan, Feb) + one partial (Mar). Amounts chosen so a naive
@@ -114,6 +118,50 @@ def main():
     print("  ok  guard: falls back to asOfData when asOfDataSince is missing from state")
 
     print("\nall guard tests passed")
+
+    # -------------------------------------------------------- shard decoding
+    shard = {
+        "v": 1,
+        "fields": ["date", "lfinamekey", "tppname", "httpmethod", "url",
+                   "tppresponsecodegroup", "totalapicalls", "executiontime"],
+        "dicts": {
+            "date": ["2026-07-01", "2026-07-02"],
+            "lfinamekey": ["uae-mashrt"],
+            "tppname": ["T1"],
+            "httpmethod": ["GET"],
+            "url": ["open-finance/aisp/v1.2/accounts"],
+            "tppresponsecodegroup": ["2xx"],
+        },
+        # row = [date_idx, lfi_idx, tpp_idx, method_idx, url_idx, code_idx, calls, exectime]
+        "rows": [[0, 0, 0, 0, 0, 0, 5, 100], [1, 0, 0, 0, 0, 0, 9, 120]],
+    }
+    decoded = m._decode_shard(shard)
+    eq("decode_shard row count", len(decoded), 2)
+    eq("decode_shard row 0", decoded[0],
+       {"date": "2026-07-01", "lfinamekey": "uae-mashrt", "tppname": "T1",
+        "httpmethod": "GET", "url": "open-finance/aisp/v1.2/accounts",
+        "tppresponsecodegroup": "2xx", "totalapicalls": 5, "executiontime": 100})
+    print("  ok  _decode_shard maps dict-indexed columns and passes raw ints through")
+
+    # _rows_from_api_json accepts both the legacy flat array and a raw shard
+    eq("_rows_from_api_json(flat list)", m._rows_from_api_json(API), API)
+    eq("_rows_from_api_json(shard dict)", m._rows_from_api_json(shard), decoded)
+    try:
+        m._rows_from_api_json({"unexpected": "shape"})
+        raise AssertionError("expected ValueError for an unrecognized api log shape")
+    except ValueError:
+        pass
+    print("  ok  _rows_from_api_json decodes both known shapes, rejects unknown ones")
+
+    # _get_api_rows(path=...) reads a local file of either shape with no network
+    with tempfile.TemporaryDirectory() as d:
+        flat_path = os.path.join(d, "flat.json")
+        shard_path = os.path.join(d, "shard.json")
+        json.dump(API, open(flat_path, "w"))
+        json.dump(shard, open(shard_path, "w"))
+        eq("_get_api_rows(flat file)", m._get_api_rows(flat_path, "unused://"), API)
+        eq("_get_api_rows(shard file)", m._get_api_rows(shard_path, "unused://"), decoded)
+    print("  ok  _get_api_rows reads a local snapshot without touching the network")
 
 
 def _asof(computed):

@@ -56,11 +56,11 @@ the instruction set pasted into the scheduled Claude Code routine
 | --- | --- |
 | `watch.template.html` | Self-contained dashboard template; consumes the payload via `var D=__DATA__` |
 | `build_watch_page.py` | Standalone preview builder (the site build uses the Astro endpoint instead) |
-| `of_watch_metrics.py` | Deterministic recompute of the log-derived metrics (money in integer fils) + `verify` (source-fidelity self-check) + `guard` (early-exit when data hasn't advanced) |
+| `of_watch_metrics.py` | Deterministic recompute of the log-derived metrics (money in integer fils) + `verify` (source-fidelity self-check) + `guard` (early-exit when data hasn't advanced). Transparently decodes the sharded `api-log-index.json` format the feed moved to in Sep 2026 (see "API log format" below) |
 | `of_watch_specdiff.py` | Field-level OpenAPI diff of the tracked spec surface via `raw.githubusercontent.com` — works with no GitHub API (see "Degraded GitHub scope") |
-| `test_of_watch_metrics.py` / `test_of_watch_specdiff.py` | No-network unit tests (`python3 tools/watch/test_of_watch_*.py`) |
-| `of_watch_breaking.py` | Builds the `breaking` payload block from the api-specs breaking-changes registers |
-| `of_watch_production.py` | Builds the production adoption grid from the Trust Framework directory + metrics logs |
+| `test_of_watch_metrics.py` / `test_of_watch_specdiff.py` / `test_of_watch_production.py` / `test_of_watch_breaking.py` | No-network unit tests (`python3 tools/watch/test_of_watch_*.py`) |
+| `of_watch_breaking.py` | Builds the `breaking` payload block from the api-specs breaking-changes registers; auto-routes registers on a not-yet-final standards line (rc/draft/beta, or simply newer than `--current-version`) into `pending` instead of requiring hand-classification |
+| `of_watch_production.py` | Builds the production adoption grid from the Trust Framework directory + metrics logs; the "last two full months" traffic window is computed dynamically from the log itself, not a hardcoded month pair |
 | `../../data/watch/payload.json` | Latest weekly payload (rendered by the page) |
 | `../../data/watch/state.json` | Diff basis between runs |
 | `../../data/watch/history.json` | Week-over-week history (~26 runs) |
@@ -106,6 +106,21 @@ On an ADVANCED run (exit 0), reset `state["asOfDataSince"]` to that run's date
 when state.json is rewritten — it anchors the exit-4 staleness clock for future
 runs. `guard` also accepts `--today` (default: today) and `--stale-days`
 (default: 10) to override the clock/threshold, e.g. for testing.
+
+## API log format
+
+As of Sep 2026, `nebras-open-finance.com/api/api-log.json` itself 200s with
+the site's HTML shell instead of the flat JSON array it used to serve — the
+log moved to a sharded, dictionary-encoded format: `api-log-index.json`
+lists per-quarter shard filenames under the same `/api/` path, and each shard
+is `{v, fields, dicts, rows}` (see `of_watch_metrics.py`'s "API LOG FORMAT"
+docstring for the exact decode). `of_watch_metrics._get_api_rows` and
+`of_watch_production._fetch_log` both decode this transparently — every
+caller (`compute`, `verify`, `guard`, the production grid) still sees the
+same flat list-of-dicts shape as before, live or from a `--api` snapshot. If
+Nebras changes the wire format again, `_rows_from_api_json` is the one place
+to teach it a third shape; a mismatch it can't parse fails loudly there
+rather than silently returning zero/garbage rows further downstream.
 
 ## Degraded GitHub scope
 

@@ -39,6 +39,26 @@ STATUS pills
 * doc        documentation-alignment only (spec now matches live wire) — low risk
 * low        contract tightened but no real consumer could be affected
 * staging    on a branch, not yet normative
+* draft      register lives on a not-yet-final standards line (rc/draft/beta,
+             or simply a newer major.minor than the current live version) —
+             content is real but not enforced; always routed to `pending`,
+             never `tpp`/`lfi` (see DRAFT DETECTION below)
+
+DRAFT DETECTION
+---------------
+A register's *version segment* (the path component right after
+`standards|api-hub|ozone-connect`, e.g. `v2.1-errata2` or `v2.2-rc1`) is
+compared against `current_version` (the standards line that is actually live
+today — pass `--current-version` or `--state`, which reads `standards.version`
+from it). It counts as DRAFT when either:
+  (a) the segment carries an explicit pre-release marker (-rc*, -draft, -beta,
+      -alpha), or
+  (b) its major.minor is newer than `current_version`'s (e.g. v2.2.x while
+      v2.1 is still the live line).
+This means a newly-discovered register on the next standards line lands in
+`pending` automatically the first run it's seen, without a human having to
+notice and hand-classify it (as happened the first time the v2.2-rc1 /
+v2.2.x registers appeared).
 
 Release-note behaviour changes have no register file, so they are listed in
 RELEASE_NOTE_BEHAVIOUR below; refresh that list from the API Hub release notes
@@ -198,10 +218,32 @@ def _spec_slug(path):
     return m.group(1) if m else path
 
 
-def _version_label(path):
+def _version_segment(path):
     m = re.search(r"/breaking-changes/(?:standards|api-hub|ozone-connect)/([^/]+)/", path)
-    v = m.group(1) if m else ""
-    return v + " · merged"
+    return m.group(1) if m else ""
+
+
+def _version_label(path, draft=False):
+    v = _version_segment(path)
+    return v + (" · DRAFT, not yet enforced" if draft else " · merged")
+
+
+DRAFT_MARKER_RE = re.compile(r"-(rc|draft|beta|alpha)\d*\b", re.I)
+VERSION_NUM_RE = re.compile(r"v(\d+)\.(\d+)")
+
+
+def _version_num(v):
+    """'v2.1-errata2' -> (2, 1); 'v2.2-rc1' -> (2, 2); 'v2.1.x' -> (2, 1)."""
+    m = VERSION_NUM_RE.match(v or "")
+    return (int(m.group(1)), int(m.group(2))) if m else (0, 0)
+
+
+def _is_draft(path, current_version):
+    """See "DRAFT DETECTION" in the module docstring."""
+    seg = _version_segment(path)
+    if DRAFT_MARKER_RE.search(seg):
+        return True
+    return _version_num(seg) > _version_num(current_version)
 
 
 def _severity(rationale, rules):
@@ -253,14 +295,18 @@ def _first_sentence(rationale):
     return (m.group(1) if m else txt)[:240]
 
 
-def build(ref="main", registers=None):
+DEFAULT_CURRENT_VERSION = "v2.1-final"
+
+
+def build(ref="main", registers=None, current_version=DEFAULT_CURRENT_VERSION):
     registers = registers or DEFAULT_REGISTERS
-    tpp, lfi = [], []
+    tpp, lfi, pending = [], [], list(PENDING)
     for path in registers:
         layer = _layer(path)
         slug = _spec_slug(path)
         surface = SURFACE.get(slug, slug)
-        version = _version_label(path)
+        draft = _is_draft(path, current_version)
+        version = _version_label(path, draft=draft)
         src = WEB.format(ref=ref, path=path)
         try:
             doc = _yaml_load(_fetch(ref, path))
@@ -273,10 +319,13 @@ def build(ref="main", registers=None):
             eps = _endpoints_label(entry.get("endpoints"))
             phrases = "; ".join(dict.fromkeys(RULE_PHRASE.get(x, x) for x in rules))
             what = phrases + (" — " + _first_sentence(rationale) if rationale else "")
-            sev = _severity(rationale, rules)
+            sev = "draft" if draft else _severity(rationale, rules)
             action = _remedy(rationale, sev)
             row = [surface + (" — " + eps if eps else ""), version, what[:300], action, sev, src]
-            (tpp if layer == "tpp" else lfi).append(row)
+            if draft:
+                pending.append(row)
+            else:
+                (tpp if layer == "tpp" else lfi).append(row)
 
     for b in RELEASE_NOTE_BEHAVIOUR:
         row = [b["surface"] + "  (" + b["release"] + ")", b["version"], b["breaks"], b["action"], b["status"], b["src"]]
@@ -289,12 +338,14 @@ def build(ref="main", registers=None):
         "asOf": "api-specs %s · current errata register" % ref,
         "tpp": tpp,
         "lfi": lfi,
-        "pending": PENDING,
+        "pending": pending,
         "note": "Parsed from api-specs supporting/breaking-changes/** (each entry oasdiff-signed-off by Nebras) "
                 "plus API Hub release-note behaviour changes. Standards-spec breaks are TPP-facing (the contract "
                 "TPPs build to); api-hub / Ozone-Connect breaks are LFI / API-Hub-facing. SupplementaryData blocks "
                 "stay open as extension points. Status: Enforced now = merged to main under the current errata; "
-                "Live behaviour = deployed API Hub release; Doc-align = spec now matches live wire; Staging = on a branch.",
+                "Live behaviour = deployed API Hub release; Doc-align = spec now matches live wire; Staging = on a "
+                "branch; Draft = register lives on a not-yet-final standards line (current_version=%s) — always in "
+                "pending, auto-detected by version-line comparison, not hand-classified." % current_version,
     }
     return block
 
@@ -323,14 +374,25 @@ def _registers_from_state(state_path):
     return regs or None
 
 
+def _current_version_from_state(state_path):
+    with open(state_path) as f:
+        st = json.load(f)
+    return (st.get("standards") or {}).get("version")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--ref", default="main", help="api-specs git ref (default main)")
-    ap.add_argument("--state", help="tracker state json; reads specForwardSignals.breakingChangesRegister")
+    ap.add_argument("--state", help="tracker state json; reads specForwardSignals.breakingChangesRegister "
+                    "and, unless --current-version is also given, standards.version")
+    ap.add_argument("--current-version", help="the currently-final standards line (e.g. v2.1-final) that "
+                     "draft detection compares register version segments against; defaults to "
+                     "state.standards.version when --state is given, else %r" % DEFAULT_CURRENT_VERSION)
     ap.add_argument("--out", help="write the breaking block here (else stdout)")
     a = ap.parse_args()
     registers = _registers_from_state(a.state) if a.state else None
-    block = build(ref=a.ref, registers=registers)
+    current_version = a.current_version or (a.state and _current_version_from_state(a.state)) or DEFAULT_CURRENT_VERSION
+    block = build(ref=a.ref, registers=registers, current_version=current_version)
     js = json.dumps(block, indent=2, ensure_ascii=False)
     if a.out:
         open(a.out, "w").write(js)

@@ -25,6 +25,20 @@ It covers only the purely log-derived block (headline, activity, payActivity,
 payments, authPct, eco). The production board, tierMatrix and economics blocks
 have their own tools (of_watch_production.py) / are assembled by the run.
 
+API LOG FORMAT
+--------------
+As of 2026-09, `api-log.json` itself 200s with the site's HTML shell instead
+of a flat JSON array — the log moved to a sharded, dictionary-encoded format:
+`api-log-index.json` lists per-quarter shard filenames (e.g.
+`api-log-q3-26.json`), each shaped `{v, fields, dicts, rows}` where `fields`
+gives the column order and, for columns also present as a key in `dicts`,
+each row stores an index into `dicts[<field>]` rather than the raw value.
+`_get_api_rows` fetches the index + every shard and decodes them into the
+same flat list-of-dicts shape `compute()` has always consumed, so callers
+never see the wire format. It falls back to the legacy flat-array URL if the
+index is ever retired, and a local `--api` snapshot may be either shape
+(flat rows, or a single already-fetched shard dict) — both decode correctly.
+
 USAGE
 -----
     # recompute from the live logs, print the metric fragment
@@ -63,6 +77,8 @@ from datetime import date
 from decimal import Decimal
 
 API_URL = "https://nebras-open-finance.com/api/api-log.json"
+API_INDEX_URL = "https://nebras-open-finance.com/api/api-log-index.json"
+API_BASE_URL = "https://nebras-open-finance.com/api/"
 AUTH_URL = "https://nebras-open-finance.com/api/auth-log.json"
 PAY_URL = "https://nebras-open-finance.com/api/payments-log.json"
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
@@ -82,6 +98,52 @@ def _get(url):
 
 def _load(path, url):
     return json.load(open(path)) if path else _get(url)
+
+
+def _decode_shard(shard):
+    """A sharded api-log file: {v, fields, dicts, rows} -> flat list of dicts."""
+    fields, dicts = shard["fields"], shard.get("dicts", {})
+    out = []
+    for row in shard["rows"]:
+        rec = {}
+        for i, f in enumerate(fields):
+            v = row[i]
+            rec[f] = dicts[f][v] if f in dicts else v
+        out.append(rec)
+    return out
+
+
+def _rows_from_api_json(data):
+    """Accept either the legacy flat row array or one decoded/raw shard dict."""
+    if isinstance(data, list):
+        return data
+    if isinstance(data, dict) and "rows" in data and "fields" in data:
+        return _decode_shard(data)
+    raise ValueError("unrecognized api log format (expected a flat row array "
+                      "or a {fields,dicts,rows} shard)")
+
+
+def _get_api_rows(path, url):
+    """Load the api-call log, transparently decoding the sharded format.
+
+    A local --api snapshot may be a flat array or a single shard dict — both
+    decode via _rows_from_api_json. A live fetch tries the sharded index
+    first (the current wire format: api-log-index.json lists per-quarter
+    shard files under the same /api/ path), concatenating every shard; if the
+    index is unavailable it falls back to the legacy flat-array URL.
+    """
+    if path:
+        return _rows_from_api_json(json.load(open(path)))
+    try:
+        index = _get(API_INDEX_URL)
+    except Exception:
+        index = None
+    if isinstance(index, dict) and index.get("shards"):
+        rows = []
+        for shard_name in index["shards"]:
+            rows.extend(_decode_shard(_get(API_BASE_URL + shard_name)))
+        return rows
+    return _rows_from_api_json(_get(url))
 
 
 def _fils(amount):
@@ -358,7 +420,7 @@ def main():
                             help="alert if asOfData hasn't advanced in this many days (default: 10)")
     a = ap.parse_args()
 
-    api = _load(a.api, API_URL)
+    api = _get_api_rows(a.api, API_URL)
     auth = _load(a.auth, AUTH_URL)
     pay = _load(a.pay, PAY_URL)
     computed = compute(api, auth, pay)
