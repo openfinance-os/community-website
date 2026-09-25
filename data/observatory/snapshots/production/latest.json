@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-09-24T11:08:14.710Z",
+  "timestamp": "2026-09-25T11:11:05.774Z",
   "source": "https://data.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "production",
@@ -29,7 +29,7 @@
       "products"
     ],
     "liveInProduction": 12,
-    "shariahCompliantCount": 1,
+    "shariahCompliantCount": 0,
     "multiRoleCount": 25,
     "tppCount": 0,
     "byAuthCapabilities": {
@@ -654,7 +654,7 @@
         "products"
       ],
       "hasAuthServer": true,
-      "isShariahCompliant": true,
+      "isShariahCompliant": false,
       "authCapabilities": {
         "supportsCiba": false,
         "supportsDCR": false,
@@ -668,16 +668,16 @@
           "familyComplete": false
         },
         {
-          "family": "products",
-          "version": "2.1",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
           "family": "cop",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
+        },
+        {
+          "family": "products",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
         },
         {
           "family": "payments",
@@ -993,12 +993,6 @@
       },
       "apiResources": [
         {
-          "family": "accounts",
-          "version": "2.1",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        },
-        {
           "family": "cop",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
@@ -1012,6 +1006,12 @@
         },
         {
           "family": "payments",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "accounts",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
