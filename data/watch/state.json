@@ -506,7 +506,7 @@
     "errPct": 24.1
    },
    "uae-livx": {
-    "name": "uae-livx (unmapped/unconfirmed)",
+    "name": "Liv (digital bank)",
     "calls": 10885,
     "errPct": 13.6
    },
@@ -1270,5 +1270,10 @@
   "version": "v2.1-final",
   "errata": "v2.1-errata3",
   "apiHub": "v8"
- }
+ },
+ "lastChecked": {
+  "date": "2026-09-28",
+  "result": "no change"
+ },
+ "entitiesFile": "data/watch/entities.json"
 }
