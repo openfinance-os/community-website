@@ -459,6 +459,12 @@ def main():
 
     payload = json.load(open(a.payload))
     checks = verify(payload, computed)
+    import of_watch_entities
+    unmapped = of_watch_entities.unmapped_log_keys(api)
+    checks.append(("entities: every log key is in entities.json", not unmapped, unmapped, []))
+    import of_watch_payload
+    for problem in of_watch_payload.lint(payload):
+        checks.append((f"lint: {problem}", False, None, None))
     width = max(len(n) for n, *_ in checks)
     failed = 0
     for name, ok, pv, cv in checks:
