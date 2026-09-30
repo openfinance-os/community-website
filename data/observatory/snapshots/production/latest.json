@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-09-29T12:09:35.187Z",
+  "timestamp": "2026-09-30T11:56:43.415Z",
   "source": "https://data.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "production",
@@ -29,7 +29,7 @@
       "products"
     ],
     "liveInProduction": 12,
-    "shariahCompliantCount": 0,
+    "shariahCompliantCount": 1,
     "multiRoleCount": 25,
     "tppCount": 0,
     "byAuthCapabilities": {
@@ -121,7 +121,7 @@
         "payments"
       ],
       "hasAuthServer": true,
-      "isShariahCompliant": false,
+      "isShariahCompliant": true,
       "authCapabilities": {
         "supportsCiba": false,
         "supportsDCR": false,
