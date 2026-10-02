@@ -1,20 +1,20 @@
 {
-  "timestamp": "2026-10-01T12:28:16.706Z",
+  "timestamp": "2026-10-02T11:54:38.277Z",
   "version": "2.0.0",
   "production": {
-    "timestamp": "2026-10-01T12:28:14.945Z",
+    "timestamp": "2026-10-02T11:54:36.407Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "production",
     "summary": {
-      "totalParticipants": 26,
+      "totalParticipants": 27,
       "byStatus": {
-        "Active": 26
+        "Active": 27
       },
       "byRole": {
         "BDSP": 16,
         "BSIP": 15,
-        "LFI": 18,
+        "LFI": 19,
         "ISP": 7,
         "API Read_Write": 3,
         "TSP": 3,
@@ -22,7 +22,7 @@
       },
       "byCity": {
         "Abu Dhabi": 5,
-        "Unknown": 14,
+        "Unknown": 15,
         "Dubai": 7
       },
       "apiFamilies": [
@@ -945,6 +945,29 @@
         "isLive": false
       },
       {
+        "id": "16c610ed-9e4a-407d-90d0-64149ba96b45",
+        "name": "Standard Chartered",
+        "legalName": "Standard Chartered Bank",
+        "shortName": "Standard Chartered",
+        "status": "Active",
+        "roles": [
+          "LFI"
+        ],
+        "city": "Unknown",
+        "registrationNumber": "01.02.01.002.1958.02",
+        "apiFamilies": [],
+        "hasAuthServer": false,
+        "isShariahCompliant": false,
+        "authCapabilities": {
+          "supportsCiba": false,
+          "supportsDCR": false,
+          "supportsRedirect": false
+        },
+        "apiResources": [],
+        "authServerCount": 0,
+        "isLive": false
+      },
+      {
         "id": "c8e1896a-9c6c-4d1d-8f98-1a771a1ccd85",
         "name": "Union Insurance",
         "legalName": "Union Insurance",
@@ -1025,15 +1048,19 @@
       }
     ],
     "trends": {
-      "participantChange": 0,
-      "newParticipants": [],
+      "participantChange": 1,
+      "newParticipants": [
+        "16c610ed-9e4a-407d-90d0-64149ba96b45"
+      ],
       "removedParticipants": [],
-      "roleChanges": {},
+      "roleChanges": {
+        "LFI": 1
+      },
       "apiFamilyChanges": {}
     }
   },
   "sandbox": {
-    "timestamp": "2026-10-01T12:28:16.688Z",
+    "timestamp": "2026-10-02T11:54:38.269Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.0.0",
     "environment": "sandbox",
@@ -3594,6 +3621,7 @@
       "0016920f-c806-47fd-91d6-ce81b3fa7a1e",
       "221bfab7-d564-4083-a9f5-277468aece4c",
       "daa9716b-d6c3-4211-9f87-53a630bdb9f6",
+      "16c610ed-9e4a-407d-90d0-64149ba96b45",
       "c8e1896a-9c6c-4d1d-8f98-1a771a1ccd85",
       "d86e6704-e92b-4368-a425-5a7ba230e986"
     ],
@@ -3654,7 +3682,6 @@
       "18c1db8f-a463-4158-84ca-cd0d2bf1682e",
       "8e924742-96c7-45c3-961f-09a80ce1d991",
       "dc0b18f1-924d-4fb8-8606-facca336f5d8",
-      "16c610ed-9e4a-407d-90d0-64149ba96b45",
       "a41e437b-306a-4763-a42b-c4de302eee0b",
       "1ee6f5b6-2fa4-48fd-bffa-d8771186c564",
       "4c52000d-3db6-44db-8be3-8418cae0e2f1",
