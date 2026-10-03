@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-10-02T11:54:36.407Z",
+  "timestamp": "2026-10-03T11:07:20.765Z",
   "source": "https://data.directory.openfinance.ae",
   "version": "2.0.0",
   "environment": "production",
@@ -1045,14 +1045,10 @@
     }
   ],
   "trends": {
-    "participantChange": 1,
-    "newParticipants": [
-      "16c610ed-9e4a-407d-90d0-64149ba96b45"
-    ],
+    "participantChange": 0,
+    "newParticipants": [],
     "removedParticipants": [],
-    "roleChanges": {
-      "LFI": 1
-    },
+    "roleChanges": {},
     "apiFamilyChanges": {}
   }
 }
