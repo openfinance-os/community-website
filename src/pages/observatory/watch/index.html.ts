@@ -22,6 +22,7 @@ const SITE = 'https://openfinance-os.org';
 const PAGE_URL = `${SITE}/observatory/watch/`;
 
 const HEAD_META = [
+  '<script src="/analytics/posthog.js"></script>',
   '<link rel="icon" type="image/svg+xml" href="/favicon.svg">',
   '<meta name="description" content="An independent weekly monitor of the UAE Open Finance ecosystem (Al Tareq / Nebras): API & payment volumes, standards changes, and CBUAE release compliance by tier.">',
   '<meta property="og:title" content="UAE Open Finance — Ecosystem Watch">',
