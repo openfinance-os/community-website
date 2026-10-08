@@ -1,0 +1,152 @@
+---
+import payload from '../../../data/watch/payload.json';
+import { watchBriefing } from '@lib/watch-briefing';
+const briefing = watchBriefing(payload);
+const date = (value: string) =>
+  new Date(value).toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'UTC',
+  });
+---
+
+<section class="watch-briefing" aria-labelledby="briefing-title">
+  <div class="briefing-inner">
+    <header>
+      <div>
+        <p class="eyebrow">Independent Ecosystem Watch</p><h2 id="briefing-title">
+          Latest saved briefing
+        </h2>
+      </div>
+      <a class="full-link" href="/observatory/watch/">Read the full Watch →</a>
+    </header>
+    <p class="briefing-date">
+      Run: <time datetime={briefing.runDate}>{date(briefing.runDate)}</time> · Operational logs through
+      <time datetime={briefing.asOfData}>{date(briefing.asOfData)}</time>. These are saved
+      observations; source links and reporting windows are in the full Watch.
+    </p>
+    <div class="briefing-grid">
+      {
+        briefing.items.map((item) => (
+          <article>
+            <>
+              <p class="audience">{item.audience}</p>
+              <h3>
+                {item.area}
+                <span>{item.status === 'nochange' ? 'No change' : item.status}</span>
+              </h3>
+              <p>{item.text}</p>
+              <a href={item.href}>View evidence &amp; sources →</a>
+            </>
+          </article>
+        ))
+      }
+    </div>
+    <p class="briefing-next">
+      Evaluating published capabilities? <a href="/observatory/coverage/"
+        >Filter API coverage and compare registrations</a
+      >. Directory declarations and operational observations have separate dates and definitions.
+    </p>
+  </div>
+</section>
+<style>
+  .watch-briefing {
+    padding: 40px 16px;
+    background: var(--color-gray-50);
+  }
+  .briefing-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .eyebrow {
+    margin: 0 0 8px;
+    color: var(--color-primary-600);
+    text-transform: uppercase;
+    font-family: var(--font-mono);
+    letter-spacing: 0.08em;
+    font-size: 0.75rem;
+  }
+  h2 {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    margin: 0;
+  }
+  a {
+    color: var(--color-primary-600);
+    text-underline-offset: 3px;
+  }
+  .full-link {
+    font-weight: 600;
+  }
+  .briefing-date,
+  .briefing-next {
+    color: var(--color-gray-600);
+    font-size: 0.85rem;
+    line-height: 1.7;
+    max-width: 90ch;
+    margin: 16px 0 24px;
+  }
+  .briefing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+  article {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+  }
+  .audience {
+    color: var(--color-gray-500);
+    font-size: 0.75rem;
+    margin: 0 0 12px;
+  }
+  h3 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    margin: 0;
+  }
+  h3 span {
+    color: var(--color-primary-600);
+    background: var(--color-primary-50);
+    padding: 4px 8px;
+    border-radius: var(--radius-full);
+    font-size: 0.7rem;
+    text-transform: capitalize;
+    font-weight: 500;
+  }
+  article > p:not(.audience) {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    flex: 1;
+    margin: 14px 0 20px;
+  }
+  article > a {
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  @media (max-width: 850px) {
+    .briefing-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 550px) {
+    .briefing-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

@@ -1,12 +1,18 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
+import ObservatoryNav from '@components/observatory/ObservatoryNav.astro';
+import ParticipantTimeline from '@components/observatory/ParticipantTimeline.astro';
+import { getObservatorySnapshot } from '@lib/observatory-data';
 import Breadcrumb from '@components/common/Breadcrumb.astro';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { participantPaths, participantUrl } from '@lib/participant-identity';
+import { describeApiFamilies, roleLabels } from '@lib/taxonomy';
+import type { TransformedParticipant } from '../../../../scripts/types/participant';
 
 // Load participant data
-const snapshotPath = join(process.cwd(), 'data/observatory/snapshots/production/latest.json');
-const snapshot = JSON.parse(readFileSync(snapshotPath, 'utf-8'));
+
+const snapshot = getObservatorySnapshot('production');
 
 // Load profiles for enhanced data
 const profilesPath = join(process.cwd(), 'data/participants/profiles.json');
@@ -18,85 +24,24 @@ try {
 }
 
 export function getStaticPaths() {
-  const snapshotPath = join(process.cwd(), 'data/observatory/snapshots/production/latest.json');
-  const snapshot = JSON.parse(readFileSync(snapshotPath, 'utf-8'));
-  const profilesPath = join(process.cwd(), 'data/participants/profiles.json');
-  let profiles: Record<string, any> = {};
-  try {
-    profiles = JSON.parse(readFileSync(profilesPath, 'utf-8'));
-  } catch {
-    // Profiles are optional
-  }
-
-  return snapshot.participants.map((p: any) => {
-    const slug = p.shortName
-      ? p.shortName
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, '-')
-          .replace(/^-|-$/g, '')
-      : p.id;
-    const profile = profiles[p.name] || profiles[p.shortName] || profiles[p.legalName] || null;
-
-    return {
-      params: { slug },
-      props: { participant: p, profile },
-    };
-  });
+  const snapshot = getObservatorySnapshot('production');
+  return participantPaths(snapshot.participants, 'production');
 }
 
 interface Props {
-  participant: {
-    id: string;
-    name: string;
-    legalName: string;
-    shortName: string;
-    status: string;
-    roles: string[];
-    city: string;
-    registrationNumber?: string;
-    apiFamilies: string[];
-    hasAuthServer: boolean;
-    isShariahCompliant: boolean;
-    isLive: boolean;
-    authCapabilities?: {
-      supportsCiba: boolean;
-      supportsDCR: boolean;
-      supportsRedirect: boolean;
-    };
-    apiResources?: Array<{
-      family: string;
-      version: string;
-      certificationStatus: string;
-      familyComplete: boolean;
-    }>;
-    authServerCount?: number;
-  };
-  profile: {
-    shortName?: string;
-    fullName?: string;
-    description?: string;
-    founded?: number;
-    headquarters?: {
-      city: string;
-      country: string;
-      countryCode: string;
-    };
-    parentCompany?: {
-      name: string;
-      headquarters: string;
-      countryCode: string;
-    };
-    type?: string;
-    typeLabel?: string;
-    ownership?: string;
-    ownershipDetail?: string;
-    marketPosition?: string;
-    website?: string | null;
-    specializations?: string[];
-  } | null;
+  matches: TransformedParticipant[];
+  redirectTo?: string;
 }
 
-const { participant, profile } = Astro.props;
+const { matches, redirectTo } = Astro.props;
+if (redirectTo) return Astro.redirect(redirectTo, 301);
+const participant = matches[0];
+const profile =
+  profiles[participant.name] ||
+  profiles[participant.shortName] ||
+  profiles[participant.legalName] ||
+  null;
+const environment = 'production';
 
 // Find related participants (same type or location)
 const currentType = profile?.type || 'unknown';
@@ -106,7 +51,7 @@ const currentCity = profile?.headquarters?.city || participant.city;
 const relatedParticipants: Array<{ name: string; shortName: string; type: string; slug: string }> =
   snapshot.participants
     .filter((p: any) => {
-      if (p.name === participant.name) return false;
+      if (p.id === participant.id) return false;
       const pProfile = profiles[p.name] || profiles[p.shortName] || null;
       const pType = pProfile?.type || 'unknown';
       const pCity = pProfile?.headquarters?.city || p.city;
@@ -121,31 +66,12 @@ const relatedParticipants: Array<{ name: string; shortName: string; type: string
         name: p.name,
         shortName: p.shortName || p.name,
         type: pProfile?.typeLabel || pProfile?.type || 'Participant',
-        slug: (p.shortName || p.name)
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, '-')
-          .replace(/^-|-$/g, ''),
+        slug: p.id,
       };
     });
 
-// API families configuration
-const allApiFamilies = [
-  { key: 'accounts', label: 'Accounts', description: 'Account information access' },
-  { key: 'payments', label: 'Payments', description: 'Payment initiation services' },
-  { key: 'cop', label: 'CoP', description: 'Confirmation of Payee' },
-  { key: 'products', label: 'Products', description: 'Product information' },
-];
-
-// Role descriptions
-const roleDescriptions: Record<string, string> = {
-  LFI: 'Licensed Financial Institution - A regulated bank or financial institution',
-  BDSP: 'Business Data Service Provider - Provides business data services',
-  BSIP: 'Business Service Integration Provider - Integrates business services',
-  ISP: 'Information Service Provider - Provides information services',
-  TSP: 'Technical Service Provider - Provides technical infrastructure',
-  TPP: 'Third Party Provider - Accesses bank data on behalf of customers',
-  'API Read_Write': 'API Read/Write Access - Has read and write API permissions',
-};
+const allApiFamilies = describeApiFamilies(participant.apiFamilies);
+const roleDescriptions = roleLabels;
 
 // Type badge colors
 const typeColors: Record<string, string> = {
@@ -195,216 +121,292 @@ const structuredData = {
   title={participant.name}
   description={profile?.description ||
     `${participant.name} - UAE Open Finance participant. ${participant.roles.join(', ')}`}
-  articleSchema={structuredData}
+  articleSchema={matches.length === 1 ? structuredData : undefined}
 >
-  <div class="participant-page">
-    <div class="container">
-      <Breadcrumb
-        items={[{ label: 'Observatory', href: '/observatory' }, { label: participant.name }]}
-      />
+  <ObservatoryNav />
+  {
+    matches.length > 1 ? (
+      <section class="participant-page">
+        <div class="container">
+          <h1>{participant.name}: choose a registration</h1>
+          <p>
+            The directory contains multiple registrations with this display name. Each has its own
+            ID and role claims.
+          </p>
+          <ul class="registration-choices">
+            {matches.map((registration: any) => (
+              <li>
+                <a href={participantUrl(registration, environment)}>
+                  {registration.legalName || registration.name}
+                </a>
+                <p>
+                  Roles: {registration.roles.join(', ')} · ID: <code>{registration.id}</code>
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    ) : (
+      <div class="participant-page">
+        <div class="container">
+          <Breadcrumb
+            items={[{ label: 'Observatory', href: '/observatory' }, { label: participant.name }]}
+          />
 
-      <div class="page-grid">
-        <!-- Main Content -->
-        <main class="main-content">
-          <!-- Header -->
-          <header class="participant-header">
-            <div class="header-badges">
-              {
-                profile?.typeLabel ? (
-                  <div
-                    class:list={['type-badge', typeColors[profile.type || ''] || 'type-default']}
-                  >
-                    {profile.typeLabel}
-                  </div>
-                ) : null
-              }
-              {
-                participant.isLive ? (
-                  <div class="status-badge live">
-                    <span class="status-dot" />
-                    Live in Production
-                  </div>
-                ) : (
-                  <div class="status-badge registered">Registered</div>
-                )
-              }
-              {participant.isShariahCompliant && <div class="shariah-badge">Islamic Banking</div>}
-            </div>
-
-            <h1 class="participant-name">{participant.name}</h1>
-            <p class="legal-name">{participant.legalName}</p>
-
-            {profile?.description && <p class="description">{profile.description}</p>}
-
-            {profile?.marketPosition && <p class="market-position">{profile.marketPosition}</p>}
-          </header>
-
-          <!-- Roles Section -->
-          <section class="section">
-            <h2 class="section-title">Roles & Capabilities</h2>
-            <div class="roles-grid">
-              {
-                participant.roles.map((role) => (
-                  <div class="role-card">
-                    <div class="role-header">
-                      <span class="role-name">{role}</span>
-                      <span class="role-active">Active</span>
+          <div class="page-grid">
+            <div class="main-content">
+              <header class="participant-header">
+                <div class="header-badges">
+                  {profile?.typeLabel ? (
+                    <div
+                      class:list={['type-badge', typeColors[profile.type || ''] || 'type-default']}
+                    >
+                      {profile.typeLabel}
                     </div>
-                    {roleDescriptions[role] && (
-                      <p class="role-description">{roleDescriptions[role]}</p>
-                    )}
-                  </div>
-                ))
-              }
-            </div>
-          </section>
+                  ) : null}
+                  {participant.hasAuthServer ? (
+                    <div class="status-badge live">
+                      <span class="status-dot" />
+                      Authorization server published
+                    </div>
+                  ) : (
+                    <div class="status-badge registered">Registered only</div>
+                  )}
+                  {participant.isShariahCompliant && (
+                    <div class="shariah-badge">Directory Shariah flag</div>
+                  )}
+                </div>
 
-          <!-- API Coverage Section -->
-          <section class="section">
-            <h2 class="section-title">API Coverage</h2>
-            <div class="api-grid">
-              {
-                allApiFamilies.map((api) => {
-                  const isActive = participant.apiFamilies.includes(api.key);
-                  const resource = participant.apiResources?.find((r) => r.family === api.key);
-                  return (
-                    <div class:list={['api-card', { active: isActive }]}>
-                      <div class="api-header">
-                        <span class="api-indicator" />
-                        <span class="api-name">{api.label}</span>
+                <h1 class="participant-name">{participant.name}</h1>
+                <p class="legal-name">{participant.legalName}</p>
+                <p>
+                  Registration ID: <code>{participant.id}</code>
+                </p>
+                <p class="description">
+                  Directory observation: {snapshot.timestamp.slice(0, 10)} UTC. Published metadata
+                  does not verify live traffic or API availability.
+                </p>
+
+                {profile?.description && <p class="description">{profile.description}</p>}
+
+                {profile?.marketPosition && <p class="market-position">{profile.marketPosition}</p>}
+                <p>
+                  <a href={`/observatory/coverage/?compare=${environment}:${participant.id}`}>
+                    Compare this registration
+                  </a>
+                </p>
+              </header>
+              <ParticipantTimeline id={participant.id} environment={environment} />
+
+              <section class="section">
+                <h2 class="section-title">Roles & Capabilities</h2>
+                <div class="roles-grid">
+                  {participant.roles.map((role) => (
+                    <div class="role-card">
+                      <div class="role-header">
+                        <span class="role-name">{role}</span>
+                        <span class="role-active">Active</span>
                       </div>
-                      <p class="api-description">{api.description}</p>
-                      {resource && (
-                        <div class="api-details">
-                          <span class="api-version">v{resource.version}</span>
-                          <span class="api-status">{resource.certificationStatus}</span>
-                        </div>
+                      {roleDescriptions[role] && (
+                        <p class="role-description">{roleDescriptions[role]}</p>
                       )}
                     </div>
-                  );
-                })
-              }
-            </div>
-          </section>
-
-          <!-- Authorization Capabilities -->
-          {
-            participant.hasAuthServer && (
-              <section class="section">
-                <h2 class="section-title">Authorization Capabilities</h2>
-                <div class="auth-grid">
-                  <div
-                    class:list={[
-                      'auth-item',
-                      { active: participant.authCapabilities?.supportsRedirect },
-                    ]}
-                  >
-                    <span class="auth-indicator" />
-                    <div class="auth-content">
-                      <span class="auth-name">Redirect</span>
-                      <span class="auth-description">Traditional OAuth redirect flow</span>
-                    </div>
-                  </div>
-                  <div
-                    class:list={[
-                      'auth-item',
-                      { active: participant.authCapabilities?.supportsCiba },
-                    ]}
-                  >
-                    <span class="auth-indicator" />
-                    <div class="auth-content">
-                      <span class="auth-name">CIBA</span>
-                      <span class="auth-description">
-                        Client Initiated Backchannel Authentication
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    class:list={[
-                      'auth-item',
-                      { active: participant.authCapabilities?.supportsDCR },
-                    ]}
-                  >
-                    <span class="auth-indicator" />
-                    <div class="auth-content">
-                      <span class="auth-name">DCR</span>
-                      <span class="auth-description">Dynamic Client Registration</span>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </section>
-            )
-          }
-        </main>
 
-        <!-- Sidebar -->
-        <aside class="sidebar">
-          <div class="info-card">
-            <h3 class="info-title">Details</h3>
-            <dl class="info-list">
-              <div class="info-item">
-                <dt>Location</dt>
-                <dd>
-                  <span class="flag">{hqFlag}</span>
-                  {displayCity}, UAE
-                </dd>
-              </div>
-              {
-                profile?.parentCompany && (
+              <section class="section">
+                <h2 class="section-title">API Coverage</h2>
+                <div class="api-grid">
+                  {allApiFamilies.map((api) => {
+                    const isActive = participant.apiFamilies.includes(api.key);
+                    const resources =
+                      participant.apiResources?.filter((r: any) => r.family === api.key) || [];
+                    return (
+                      <div class:list={['api-card', { active: isActive }]}>
+                        <div class="api-header">
+                          <span class="api-indicator" />
+                          <span class="api-name">{api.label}</span>
+                        </div>
+                        <p class="api-description">{api.description}</p>
+                        {resources.map((resource: any) => (
+                          <div class="api-details">
+                            <span class="api-version">v{resource.version}</span>
+                            <span class="api-status">
+                              {resource.certificationStatus || 'Certification not declared'}
+                            </span>
+                            <span>
+                              {resource.familyComplete
+                                ? 'Family declared complete'
+                                : 'Family not declared complete'}
+                            </span>
+                          </div>
+                        ))}
+                        {!isActive && <p class="api-description">Not published in this snapshot</p>}
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+
+              {participant.hasAuthServer && (
+                <section class="section">
+                  <h2 class="section-title">Declared Authorization Capabilities</h2>
+                  <p>
+                    Indicators reflect directory declarations; unmarked capabilities are not
+                    declared true and have not been tested.
+                  </p>
+                  <div class="auth-grid">
+                    <div
+                      class:list={[
+                        'auth-item',
+                        { active: participant.authCapabilities?.supportsRedirect },
+                      ]}
+                    >
+                      <span class="auth-indicator" />
+                      <div class="auth-content">
+                        <span class="auth-name">Redirect</span>
+                        <span class="auth-description">Traditional OAuth redirect flow</span>
+                      </div>
+                    </div>
+                    <div
+                      class:list={[
+                        'auth-item',
+                        { active: participant.authCapabilities?.supportsCiba },
+                      ]}
+                    >
+                      <span class="auth-indicator" />
+                      <div class="auth-content">
+                        <span class="auth-name">CIBA</span>
+                        <span class="auth-description">
+                          Client Initiated Backchannel Authentication
+                        </span>
+                      </div>
+                    </div>
+                    <div
+                      class:list={[
+                        'auth-item',
+                        { active: participant.authCapabilities?.supportsDCR },
+                      ]}
+                    >
+                      <span class="auth-indicator" />
+                      <div class="auth-content">
+                        <span class="auth-name">DCR</span>
+                        <span class="auth-description">Dynamic Client Registration</span>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              )}
+            </div>
+
+            <aside class="sidebar">
+              <div class="info-card">
+                <h3 class="info-title">Details</h3>
+                <dl class="info-list">
                   <div class="info-item">
-                    <dt>Parent Company</dt>
+                    <dt>Location</dt>
                     <dd>
-                      <span class="flag">
-                        {countryFlags[profile.parentCompany.countryCode] || '🌍'}
-                      </span>
-                      {profile.parentCompany.name}
+                      <span class="flag">{hqFlag}</span>
+                      {displayCity}, UAE
                     </dd>
                   </div>
-                )
-              }
-              {
-                profile?.founded && (
-                  <div class="info-item">
-                    <dt>Founded</dt>
-                    <dd>{profile.founded}</dd>
-                  </div>
-                )
-              }
-              {
-                participant.registrationNumber && participant.registrationNumber !== 'N/A' && (
-                  <div class="info-item">
-                    <dt>Registration</dt>
-                    <dd class="mono">{participant.registrationNumber}</dd>
-                  </div>
-                )
-              }
-              {
-                participant.authServerCount !== undefined && participant.authServerCount > 0 && (
-                  <div class="info-item">
-                    <dt>Auth Servers</dt>
-                    <dd>{participant.authServerCount}</dd>
-                  </div>
-                )
-              }
-              {
-                profile?.ownership && (
-                  <div class="info-item">
-                    <dt>Ownership</dt>
-                    <dd>{profile.ownership}</dd>
-                  </div>
-                )
-              }
-            </dl>
-          </div>
+                  {profile?.parentCompany && (
+                    <div class="info-item">
+                      <dt>Parent Company</dt>
+                      <dd>
+                        <span class="flag">
+                          {countryFlags[profile.parentCompany.countryCode] || '🌍'}
+                        </span>
+                        {profile.parentCompany.name}
+                      </dd>
+                    </div>
+                  )}
+                  {profile?.founded && (
+                    <div class="info-item">
+                      <dt>Founded</dt>
+                      <dd>{profile.founded}</dd>
+                    </div>
+                  )}
+                  {participant.registrationNumber && participant.registrationNumber !== 'N/A' && (
+                    <div class="info-item">
+                      <dt>Registration</dt>
+                      <dd class="mono">{participant.registrationNumber}</dd>
+                    </div>
+                  )}
+                  {participant.authServerCount !== undefined && participant.authServerCount > 0 && (
+                    <div class="info-item">
+                      <dt>Auth Servers</dt>
+                      <dd>{participant.authServerCount}</dd>
+                    </div>
+                  )}
+                  {profile?.ownership && (
+                    <div class="info-item">
+                      <dt>Ownership</dt>
+                      <dd>{profile.ownership}</dd>
+                    </div>
+                  )}
+                </dl>
+              </div>
 
-          {
-            profile?.website && (
-              <a
-                href={profile.website}
-                class="website-btn"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              {profile?.website && (
+                <a
+                  href={profile.website}
+                  class="website-btn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="2" y1="12" x2="22" y2="12" />
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                  </svg>
+                  Visit Website
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M7 17L17 7M17 7H7M17 7v10" />
+                  </svg>
+                </a>
+              )}
+
+              {relatedParticipants.length > 0 && (
+                <div class="related-section">
+                  <h3 class="info-title">Related Participants</h3>
+                  <ul class="related-list">
+                    {relatedParticipants.map(
+                      (related: {
+                        name: string;
+                        shortName: string;
+                        type: string;
+                        slug: string;
+                      }) => (
+                        <li>
+                          <a href={`/observatory/participant/${related.slug}`} class="related-link">
+                            <span class="related-name">{related.shortName}</span>
+                            <span class="related-type">{related.type}</span>
+                          </a>
+                        </li>
+                      )
+                    )}
+                  </ul>
+                </div>
+              )}
+
+              <a href="/observatory" class="back-link">
                 <svg
                   width="16"
                   height="16"
@@ -413,65 +415,25 @@ const structuredData = {
                   stroke="currentColor"
                   stroke-width="2"
                 >
-                  <circle cx="12" cy="12" r="10" />
-                  <line x1="2" y1="12" x2="22" y2="12" />
-                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                  <path d="M19 12H5M12 19l-7-7 7-7" />
                 </svg>
-                Visit Website
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path d="M7 17L17 7M17 7H7M17 7v10" />
-                </svg>
+                Back to Observatory
               </a>
-            )
-          }
-
-          {
-            relatedParticipants.length > 0 && (
-              <div class="related-section">
-                <h3 class="info-title">Related Participants</h3>
-                <ul class="related-list">
-                  {relatedParticipants.map(
-                    (related: { name: string; shortName: string; type: string; slug: string }) => (
-                      <li>
-                        <a href={`/observatory/participant/${related.slug}`} class="related-link">
-                          <span class="related-name">{related.shortName}</span>
-                          <span class="related-type">{related.type}</span>
-                        </a>
-                      </li>
-                    )
-                  )}
-                </ul>
-              </div>
-            )
-          }
-
-          <a href="/observatory" class="back-link">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M19 12H5M12 19l-7-7 7-7"></path>
-            </svg>
-            Back to Observatory
-          </a>
-        </aside>
+            </aside>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
+    )
+  }
 </PageLayout>
 
 <style>
+  .registration-choices li {
+    margin: var(--space-6) 0;
+  }
+  code {
+    overflow-wrap: anywhere;
+  }
   .participant-page {
     padding: var(--space-8) var(--space-4) var(--space-16);
   }

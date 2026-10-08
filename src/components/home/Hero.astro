@@ -2,9 +2,10 @@
 interface Props {
   participantCount: number;
   activeCount: number;
+  observedAt: string;
 }
 
-const { participantCount, activeCount } = Astro.props;
+const { participantCount, activeCount, observedAt } = Astro.props;
 ---
 
 <section class="hero">
@@ -38,8 +39,10 @@ const { participantCount, activeCount } = Astro.props;
     <div class="hero-stat">
       <div class="stat-number">{participantCount}</div>
       <div class="stat-details">
-        <span class="stat-label">financial institutions connected</span>
-        <span class="stat-sublabel">All {activeCount} active · Live data from registry</span>
+        <span class="stat-label">production directory registrations</span>
+        <span class="stat-sublabel"
+          >{activeCount} marked Active · Observed {observedAt.slice(0, 10)} UTC</span
+        >
       </div>
     </div>
 

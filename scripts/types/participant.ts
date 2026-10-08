@@ -77,6 +77,7 @@ export interface AuthCapabilities {
 
 export interface ApiResourceInfo {
   family: string;
+  rawFamily?: string;
   version: string;
   certificationStatus: string;
   familyComplete: boolean;
@@ -98,7 +99,8 @@ export interface TransformedParticipant {
   authCapabilities: AuthCapabilities;
   apiResources: ApiResourceInfo[];
   authServerCount: number;
-  // Registration status - distinguishes between Live (has APIs) vs Registered only
+  // Legacy isLive means an active authorization server with an issuer is published.
+  // It does not establish successful integration, traffic, or operational availability.
   isLive: boolean;
 }
 
