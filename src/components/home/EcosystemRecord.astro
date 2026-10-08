@@ -89,12 +89,15 @@ const ledgerNote =
     : 'No changes in the last 30 days — latest events shown';
 
 const eventLabels: Record<ChangelogEvent['type'], { label: string; cls: string }> = {
-  went_live: { label: 'Went live', cls: 'live' },
-  joined: { label: 'Joined', cls: 'join' },
-  role_added: { label: 'New role', cls: 'role' },
-  api_family_added: { label: 'New APIs', cls: 'role' },
-  went_offline: { label: 'Offline', cls: 'role' },
-  left: { label: 'Left', cls: 'role' },
+  went_live: { label: 'Auth server published', cls: 'live' },
+  joined: { label: 'Registration first observed', cls: 'join' },
+  role_added: { label: 'Role first observed', cls: 'role' },
+  api_family_added: { label: 'Family first observed', cls: 'role' },
+  went_offline: { label: 'Auth server removed', cls: 'role' },
+  left: { label: 'Registration no longer observed', cls: 'role' },
+  role_removed: { label: 'Role no longer observed', cls: 'role' },
+  api_family_removed: { label: 'Family no longer observed', cls: 'role' },
+  resource_changed: { label: 'Resource declarations changed', cls: 'role' },
 };
 
 function fmtDate(iso: string): string {
@@ -125,7 +128,7 @@ const snapshotCount = getSnapshotCount();
           <svg
             viewBox={`0 0 ${W} ${H}`}
             role="img"
-            aria-label={`Registered and live participants in production, ${trackingSince} to ${last.d}. Registered: ${last.t}. Live: ${last.l}.`}
+            aria-label={`Registrations and published authorization servers in production, ${trackingSince} to ${last.d}. Registered: ${last.t}. With authorization servers: ${last.l}.`}
           >
             {
               gridVals.map((v) => (
@@ -152,20 +155,21 @@ const snapshotCount = getSnapshotCount();
               {last.t} registered
             </text>
             <text class="direct-lbl lbl-live" x={x(last.d) + 10} y={y(last.l) + 4}>
-              {last.l} live
+              {last.l} with issuer
             </text>
           </svg>
         </div>
         <div class="legend" aria-hidden="true">
           <span class="key"><span class="swatch swatch-total"></span>Registered in production</span>
-          <span class="key"><span class="swatch swatch-live"></span>Live in production</span>
+          <span class="key"><span class="swatch swatch-live"></span>Auth server published</span>
         </div>
         <details class="table-view">
           <summary>View as table</summary>
           <table>
             <thead>
               <tr
-                ><th scope="col">Date</th><th scope="col">Registered</th><th scope="col">Live</th
+                ><th scope="col">Date</th><th scope="col">Registered</th><th scope="col"
+                  >With auth server</th
                 ></tr
               >
             </thead>

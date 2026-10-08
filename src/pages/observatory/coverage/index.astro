@@ -1,0 +1,766 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import ObservatoryNav from '@components/observatory/ObservatoryNav.astro';
+import { getDirectoryRecords } from '@lib/observatory-data';
+import { apiFamilyLabel } from '@lib/taxonomy';
+import { coverageFamilies, coverageVersions, resourceDescription } from '@lib/coverage';
+
+const records = getDirectoryRecords();
+const production = records.filter((r) => r.environment === 'production');
+const observations = [
+  ...new Map(
+    records.map((r) => [
+      r.environment,
+      { environment: r.environment, observedAt: r.observedAt, source: r.source },
+    ])
+  ).values(),
+];
+const data = JSON.stringify(records).replace(/</g, '\\u003c');
+---
+
+<PageLayout
+  title="API Coverage & Comparison"
+  description="Filter and compare dated UAE Open Finance directory registrations by environment, API family and version. Export the published evidence."
+>
+  <ObservatoryNav current="coverage" />
+  <div class="coverage-page">
+    <header>
+      <p class="eyebrow">Published directory evidence</p>
+      <h1>API coverage &amp; comparison</h1>
+      <p class="lede">
+        Find published API families and versions, then compare up to three registrations. Each
+        environment is a separate observation.
+      </p>
+      <p class="evidence-note">
+        An issuer or resource declaration does not prove a working integration. Certification and
+        completeness below are source declarations. Go-live approval and operational activity are <strong
+          >unknown in this directory dataset</strong
+        >; inspect the <a href="/observatory/watch/">Watch</a> for separately dated operational evidence.
+      </p>
+      <ul class="observations">
+        {
+          observations.map((o) => (
+            <li>
+              <strong>{o.environment === 'production' ? 'Production' : 'Sandbox'}</strong>:{' '}
+              <time datetime={o.observedAt}>
+                {o.observedAt.replace('T', ' ').replace('Z', ' UTC')}
+              </time>{' '}
+              · <a href={o.source}>Directory source</a>
+            </li>
+          ))
+        }
+      </ul>
+    </header>
+
+    <form id="coverage-filters">
+      <fieldset disabled>
+        <legend>Find coverage</legend>
+        <div class="filter-grid">
+          <label
+            >Environment<select name="environment"
+              ><option value="production">Production</option><option value="sandbox">Sandbox</option
+              ><option value="both">Both environments</option></select
+            ></label
+          >
+          <label
+            >API family<select name="family"
+              ><option value="">All families</option>{
+                coverageFamilies(records, 'production').map((family) => (
+                  <option value={family}>{apiFamilyLabel(family)}</option>
+                ))
+              }</select
+            ></label
+          >
+          <label
+            >API version<select name="version"
+              ><option value="">All versions</option>{
+                coverageVersions(records, { environment: 'production', family: '' }).map(
+                  (version) => <option value={version}>{version}</option>
+                )
+              }</select
+            ></label
+          >
+          <label
+            >Issuer metadata<select name="issuer"
+              ><option value="all">Any publication state</option><option value="published"
+                >Active issuer published</option
+              ><option value="not-published">No active issuer published</option></select
+            ></label
+          >
+          <label class="query-label"
+            >Name or registration ID<input
+              type="search"
+              name="query"
+              placeholder="Search names or IDs"
+              maxlength="200"
+            /></label
+          >
+          <label
+            >Sort by<select name="sort"
+              ><option value="name">Name A–Z</option><option value="resources"
+                >Resource declarations, most first</option
+              ><option value="date">Observation, newest first</option></select
+            ></label
+          >
+        </div>
+        <button type="reset">Reset filters</button>
+      </fieldset>
+    </form>
+    <noscript
+      ><p class="evidence-note">
+        The production table is readable below. Enable JavaScript to filter, compare or export. <a
+          href="/observatory/sandbox">Browse the sandbox overview</a
+        > or <a href="/observatory/data">download the datasets</a>.
+      </p></noscript
+    >
+
+    <div class="table-toolbar">
+      <p id="coverage-count" role="status" aria-live="polite">
+        {production.length} registrations in production
+      </p>
+      <button id="coverage-download" type="button" disabled>Download filtered CSV</button>
+    </div>
+    <p id="coverage-empty" hidden>
+      No matching registrations. Try another family, version or environment, or reset the filters.
+    </p>
+    <p class="scroll-hint">Scroll the table horizontally to see all columns.</p>
+    <div
+      class="table-scroll"
+      role="region"
+      aria-label="Directory coverage table, scroll horizontally for all columns"
+      tabindex="0"
+    >
+      <table class="coverage-table">
+        <caption>Published metadata, with all declared resource versions retained</caption>
+        <thead
+          ><tr
+            ><th scope="col">Compare</th><th scope="col">Registration</th><th scope="col"
+              >Environment &amp; observation</th
+            ><th scope="col">Issuer publication</th><th scope="col">Published API resources</th><th
+              scope="col">Source</th
+            ></tr
+          ></thead
+        >
+        <tbody id="coverage-rows">
+          {
+            records.map((record) => (
+              <tr data-record-key={record.key} hidden={record.environment !== 'production'}>
+                <td>
+                  <label class="compare-control">
+                    <input
+                      class="compare-toggle"
+                      type="checkbox"
+                      value={record.key}
+                      disabled
+                      aria-label={`Compare ${record.name} (${record.environment}), registration ${record.id}`}
+                    />
+                  </label>
+                </td>
+                <th scope="row">
+                  <>
+                    <a href={record.profileUrl}>{record.name}</a>
+                    <span class="record-id">{record.id}</span>
+                    <span class="role-list">
+                      Role claims: {record.roles.join(', ') || 'none published'}
+                    </span>
+                  </>
+                </th>
+                <td>
+                  <>
+                    <span class="environment">{record.environment}</span>
+                    <time datetime={record.observedAt}>{record.observedAt.slice(0, 10)} UTC</time>
+                  </>
+                </td>
+                <td>
+                  {record.issuerPublished
+                    ? 'Active issuer published'
+                    : 'No active issuer published'}
+                </td>
+                <td>
+                  <details class="resource-list">
+                    <summary>{`${record.resources.length} resource declarations`}</summary>
+                    <ul>
+                      {record.resources.map((resource) => (
+                        <li data-family={resource.family} data-version={resource.version || ''}>
+                          {resourceDescription(resource)}
+                        </li>
+                      ))}
+                    </ul>
+                    {record.resources.length === 0 && (
+                      <p>No version or certification declarations in this observation.</p>
+                    )}
+                  </details>
+                </td>
+                <td>
+                  <>
+                    <a href={record.source}>Directory</a>
+                    <a href={record.profileUrl}>View profile &amp; timeline</a>
+                  </>
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <section id="comparison" hidden aria-labelledby="comparison-title">
+      <div class="table-toolbar">
+        <h2 id="comparison-title">Selected registrations</h2><button
+          id="comparison-clear"
+          type="button">Clear comparison</button
+        >
+      </div>
+      <p id="comparison-status" role="status" aria-live="polite"></p>
+      <p>
+        Selections remain available when you change filters. Matching names or IDs across
+        environments are separate observations.
+      </p>
+      <p class="scroll-hint">
+        Scroll the comparison horizontally to see every selected registration.
+      </p>
+      <div
+        class="table-scroll"
+        role="region"
+        aria-label="Registration comparison, scroll horizontally for all columns"
+        tabindex="0"
+      >
+        <table id="comparison-table">
+          <caption>Compare source declarations, dates and evidence gaps</caption>
+        </table>
+      </div>
+    </section>
+
+    <section class="reuse" aria-labelledby="reuse-title">
+      <h2 id="reuse-title">Share or cite this view</h2>
+      <p>
+        Shared links reopen the latest saved directory observations. Download the CSV to retain this
+        observation's dates and values.
+      </p>
+      <label
+        >Link including filters and selected registrations<input
+          id="coverage-url"
+          type="url"
+          readonly
+          value="https://openfinance-os.org/observatory/coverage/"
+        /></label
+      >
+      <button id="coverage-copy" type="button" disabled>Copy link</button><span
+        id="copy-status"
+        role="status"></span>
+      <p id="coverage-citation">
+        OpenFinance-OS, UAE Open Finance directory observations. {
+          observations.map((o) => `${o.environment} observed ${o.observedAt}`).join('; ')
+        }. Published metadata, not verified usage.
+      </p>
+      <p>
+        CSV exports contain one row per matching resource, with registration ID, environment,
+        observation time, source, version and declarations. A registration with no resource details
+        has a row with those fields empty. See the <a href="/observatory/methodology"
+          >definitions and limitations</a
+        >.
+      </p>
+    </section>
+  </div>
+  <script is:inline type="application/json" id="coverage-data" set:html={data} />
+</PageLayout>
+
+<script>
+  import { apiFamilyLabel } from '@lib/taxonomy';
+  import {
+    coverageCsv,
+    coverageFamilies,
+    coverageParams,
+    coverageVersions,
+    defaultCoverageFilters,
+    filterCoverage,
+    matchingResources,
+    readCoverageState,
+    resourceDescription,
+    type CoverageFilters,
+    type DirectoryRecord,
+  } from '@lib/coverage';
+
+  const records: DirectoryRecord[] = JSON.parse(
+    document.getElementById('coverage-data')!.textContent!
+  );
+  const form = document.getElementById('coverage-filters') as HTMLFormElement;
+  const controls = Object.fromEntries(
+    ['environment', 'family', 'version', 'issuer', 'query', 'sort'].map((name) => [
+      name,
+      form.elements.namedItem(name) as HTMLInputElement | HTMLSelectElement,
+    ])
+  );
+  const rowContainer = document.getElementById('coverage-rows')!;
+  const rows = new Map(
+    Array.from(rowContainer.querySelectorAll<HTMLTableRowElement>('tr')).map((row) => [
+      row.dataset.recordKey!,
+      row,
+    ])
+  );
+  const compareToggles = Array.from(document.querySelectorAll<HTMLInputElement>('.compare-toggle'));
+  let { filters, selected } = readCoverageState(new URLSearchParams(location.search), records);
+
+  function options(
+    select: HTMLSelectElement,
+    values: string[],
+    label: string,
+    name: (value: string) => string
+  ) {
+    select.replaceChildren(
+      new Option(label, ''),
+      ...values.map((value) => new Option(name(value), value))
+    );
+  }
+  function syncControls() {
+    options(
+      controls.family as HTMLSelectElement,
+      coverageFamilies(records, filters.environment),
+      'All families',
+      apiFamilyLabel
+    );
+    if (!coverageFamilies(records, filters.environment).includes(filters.family))
+      filters.family = '';
+    options(
+      controls.version as HTMLSelectElement,
+      coverageVersions(records, filters),
+      'All versions',
+      (v) => v
+    );
+    if (!coverageVersions(records, filters).includes(filters.version)) filters.version = '';
+    for (const key of Object.keys(controls) as Array<keyof CoverageFilters>)
+      controls[key].value = filters[key];
+  }
+  function cell(tag: 'td' | 'th', text: string) {
+    const node = document.createElement(tag);
+    node.textContent = text;
+    return node;
+  }
+  function renderComparison() {
+    const section = document.getElementById('comparison')!;
+    section.hidden = selected.length === 0;
+    compareToggles.forEach((input) => {
+      input.checked = selected.includes(input.value);
+    });
+    const chosen = selected.map((key) => records.find((r) => r.key === key)!);
+    const table = document.getElementById('comparison-table')!;
+    table.querySelectorAll('thead, tbody').forEach((part) => part.remove());
+    const head = document.createElement('thead');
+    const header = document.createElement('tr');
+    const criterion = cell('th', 'Evidence');
+    criterion.scope = 'col';
+    header.append(criterion);
+    chosen.forEach((record) => {
+      const title = cell('th', '');
+      title.scope = 'col';
+      const link = document.createElement('a');
+      link.href = record.profileUrl;
+      link.textContent = `${record.name} (${record.environment})`;
+      title.append(link);
+      header.append(title);
+    });
+    head.append(header);
+    table.append(head);
+    const body = document.createElement('tbody');
+    const criteria: Array<[string, (record: DirectoryRecord) => string]> = [
+      ['Registration ID', (r) => r.id],
+      ['Observed at (UTC)', (r) => r.observedAt],
+      [
+        'Issuer metadata',
+        (r) => (r.issuerPublished ? 'Active issuer published' : 'No active issuer published'),
+      ],
+      ['Role claims', (r) => r.roles.join(', ') || 'None published'],
+      [
+        'Published resources',
+        (r) =>
+          r.resources.map(resourceDescription).join('\n\n') ||
+          'No resource details published in this observation',
+      ],
+      ['Go-live approval', () => 'Unknown in directory dataset'],
+      ['Operational activity', () => 'Unknown in directory dataset'],
+    ];
+    criteria.forEach(([title, describe]) => {
+      const row = document.createElement('tr');
+      const label = cell('th', title);
+      label.scope = 'row';
+      row.append(label, ...chosen.map((r) => cell('td', describe(r))));
+      body.append(row);
+    });
+    const sourceRow = document.createElement('tr');
+    const sourceLabel = cell('th', 'Source');
+    sourceLabel.scope = 'row';
+    sourceRow.append(sourceLabel);
+    chosen.forEach((r) => {
+      const value = cell('td', '');
+      const link = document.createElement('a');
+      link.href = r.source;
+      link.textContent = `${r.environment} directory`;
+      value.append(link);
+      sourceRow.append(value);
+    });
+    body.append(sourceRow);
+    table.append(body);
+    document.getElementById('comparison-status')!.textContent =
+      `${selected.length} of 3 registrations selected`;
+  }
+  function render() {
+    syncControls();
+    const matching = filterCoverage(records, filters);
+    const keys = new Set(matching.map((r) => r.key));
+    rows.forEach((row, key) => {
+      row.hidden = !keys.has(key);
+    });
+    matching.forEach((record) => {
+      const row = rows.get(record.key)!;
+      rowContainer.append(row);
+      const resources = matchingResources(record, filters);
+      row.querySelector('summary')!.textContent =
+        `${resources.length} matching resource declarations${record.families.length && !filters.family && !filters.version ? ` · ${record.families.map(apiFamilyLabel).join(', ')}` : ''}`;
+      row.querySelectorAll<HTMLLIElement>('[data-family]').forEach((item) => {
+        item.hidden = !!(
+          (filters.family && item.dataset.family !== filters.family) ||
+          (filters.version && item.dataset.version !== filters.version)
+        );
+      });
+    });
+    document.getElementById('coverage-count')!.textContent =
+      `${matching.length} registrations in ${filters.environment === 'both' ? 'both environments (separate rows)' : filters.environment}`;
+    document.getElementById('coverage-empty')!.hidden = matching.length !== 0;
+    (document.getElementById('coverage-download') as HTMLButtonElement).disabled =
+      matching.length === 0;
+    renderComparison();
+    const url = new URL(location.href);
+    url.search = coverageParams(filters, selected).toString();
+    history.replaceState(null, '', url);
+    (document.getElementById('coverage-url') as HTMLInputElement).value = url.href;
+  }
+  form.querySelector('fieldset')!.disabled = false;
+  compareToggles.forEach((input) => {
+    input.disabled = false;
+    input.addEventListener('change', () => {
+      if (input.checked && selected.length === 3) {
+        input.checked = false;
+        document.getElementById('comparison-status')!.textContent =
+          'You can compare up to 3 registrations. Remove one to add another.';
+        return;
+      }
+      selected = input.checked
+        ? [...selected, input.value]
+        : selected.filter((key) => key !== input.value);
+      render();
+    });
+  });
+  form.addEventListener('submit', (event) => event.preventDefault());
+  form.addEventListener('input', () => {
+    filters = Object.fromEntries(
+      Object.entries(controls).map(([name, control]) => [name, control.value])
+    ) as unknown as CoverageFilters;
+    render();
+  });
+  form.addEventListener('reset', (event) => {
+    event.preventDefault();
+    filters = { ...defaultCoverageFilters };
+    render();
+  });
+  document.getElementById('comparison-clear')!.addEventListener('click', () => {
+    selected = [];
+    render();
+  });
+  document.getElementById('coverage-download')!.addEventListener('click', () => {
+    const blob = new Blob(['\uFEFF', coverageCsv(records, filters)], {
+      type: 'text/csv;charset=utf-8',
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `uae-open-finance-coverage-${filters.environment}.csv`;
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  });
+  const copy = document.getElementById('coverage-copy') as HTMLButtonElement;
+  copy.disabled = false;
+  copy.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(
+        (document.getElementById('coverage-url') as HTMLInputElement).value
+      );
+      document.getElementById('copy-status')!.textContent = 'Link copied';
+    } catch {
+      (document.getElementById('coverage-url') as HTMLInputElement).select();
+      document.getElementById('copy-status')!.textContent = 'Select and copy the link above';
+    }
+  });
+  window.addEventListener('popstate', () => {
+    ({ filters, selected } = readCoverageState(new URLSearchParams(location.search), records));
+    render();
+  });
+  render();
+</script>
+
+<style>
+  .coverage-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 16px 64px;
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin: 8px 0 16px;
+  }
+  h2 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    color: var(--color-primary-600);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+  }
+  .lede {
+    font-size: 1.15rem;
+    max-width: 70ch;
+    color: var(--color-gray-600);
+  }
+  .evidence-note {
+    padding: 16px;
+    background: var(--color-gray-50);
+    border-left: 3px solid var(--color-accent-500);
+    margin: 20px 0;
+    line-height: 1.7;
+  }
+  .observations {
+    padding-left: 20px;
+    font-size: 0.85rem;
+    color: var(--color-gray-600);
+    overflow-wrap: anywhere;
+  }
+  a {
+    color: var(--color-primary-600);
+    text-underline-offset: 3px;
+  }
+  fieldset {
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    margin: 24px 0 12px;
+    min-width: 0;
+  }
+  legend {
+    font-weight: 700;
+    padding: 0 8px;
+  }
+  .filter-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    min-width: 0;
+  }
+  .query-label {
+    grid-column: span 2;
+  }
+  input:not([type='checkbox']),
+  select {
+    min-width: 0;
+    width: 100%;
+    min-height: 44px;
+    padding: 10px;
+    color: var(--color-gray-900);
+    background: var(--color-surface);
+    border: 1px solid var(--color-gray-300);
+    border-radius: var(--radius-md);
+    font: inherit;
+  }
+  button {
+    min-height: 44px;
+    padding: 10px 16px;
+    color: var(--color-primary-600);
+    background: var(--color-primary-50);
+    border: 1px solid var(--color-primary-300);
+    border-radius: var(--radius-md);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+  :is(button, input, select, a):focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 3px;
+  }
+  .table-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin: 20px 0 12px;
+  }
+  #coverage-count {
+    font-weight: 600;
+  }
+  .table-scroll {
+    overflow: auto;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    min-width: 900px;
+  }
+  caption {
+    text-align: left;
+    padding: 14px;
+    background: var(--color-gray-50);
+    color: var(--color-gray-600);
+  }
+  th,
+  td {
+    text-align: left;
+    vertical-align: top;
+    padding: 16px;
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+  thead th {
+    background: var(--color-gray-50);
+  }
+  tbody th {
+    min-width: 180px;
+    max-width: 240px;
+  }
+  td {
+    min-width: 125px;
+  }
+  .record-id,
+  .role-list,
+  td time,
+  .environment,
+  td > a {
+    display: block;
+    margin: 8px 0;
+    font-weight: 400;
+    font-size: 0.78rem;
+    color: var(--color-gray-600);
+  }
+  .record-id {
+    font-family: var(--font-mono);
+    overflow-wrap: anywhere;
+  }
+  .environment {
+    text-transform: capitalize;
+    font-weight: 700;
+  }
+  .compare-toggle {
+    width: 22px;
+    height: 22px;
+    accent-color: var(--color-primary-600);
+  }
+  .compare-control {
+    display: inline-flex;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .scroll-hint {
+    display: none;
+    color: var(--color-gray-600);
+    font-size: 0.8rem;
+  }
+  @media (max-width: 1100px) {
+    .scroll-hint {
+      display: block;
+    }
+  }
+  .resource-list {
+    min-width: 260px;
+  }
+  summary {
+    cursor: pointer;
+    line-height: 1.5;
+  }
+  .resource-list ul {
+    padding-left: 18px;
+  }
+  .resource-list li {
+    margin: 10px 0;
+    line-height: 1.6;
+  }
+  #comparison {
+    margin: 36px 0;
+  }
+  #comparison-table {
+    min-width: 650px;
+  }
+  #comparison-table :global(td) {
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+    min-width: 180px;
+  }
+  #comparison-table :global(th) {
+    text-align: left;
+  }
+  #comparison-table :global(th),
+  #comparison-table :global(td) {
+    vertical-align: top;
+    padding: 16px;
+    border-bottom: 1px solid var(--color-gray-200);
+    font-size: 0.85rem;
+  }
+  #comparison-table :global(thead th) {
+    background: var(--color-gray-50);
+  }
+  #comparison-table :global(a) {
+    color: var(--color-primary-600);
+  }
+  .reuse {
+    margin-top: 36px;
+    padding: 24px;
+    background: var(--color-gray-50);
+    border-radius: var(--radius-lg);
+  }
+  .reuse button {
+    margin: 12px 12px 0 0;
+  }
+  #coverage-citation {
+    font-size: 0.85rem;
+    overflow-wrap: anywhere;
+  }
+  [hidden] {
+    display: none !important;
+  }
+  @media (max-width: 700px) {
+    .filter-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .query-label {
+      grid-column: span 2;
+    }
+    .reuse {
+      padding: 16px;
+    }
+  }
+  @media (max-width: 350px) {
+    .filter-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .query-label {
+      grid-column: auto;
+    }
+  }
+</style>

@@ -1,11 +1,14 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
+import ObservatoryNav from '@components/observatory/ObservatoryNav.astro';
+import { roleLabels, taxonomySource } from '@lib/taxonomy';
 ---
 
 <PageLayout
   title="Methodology"
   description="How we calculate Observatory metrics and derive ecosystem status."
 >
+  <ObservatoryNav current="methodology" />
   <div class="methodology-page">
     <div class="container">
       <header class="page-header">
@@ -33,7 +36,8 @@ import PageLayout from '@layouts/PageLayout.astro';
                 <strong>Production</strong>
               </div>
               <p>
-                Live ecosystem with licensed participants actively providing Open Finance services.
+                The production directory publishes registrations, role claims and
+                authorization-server metadata. Registration does not establish use of a service.
               </p>
               <code>data.directory.openfinance.ae</code>
             </div>
@@ -43,12 +47,24 @@ import PageLayout from '@layouts/PageLayout.astro';
                 <strong>Sandbox</strong>
               </div>
               <p>
-                Testing environment where institutions complete certification before going live.
+                The sandbox directory publishes testing-environment registrations and metadata.
+                Registration alone does not show testing activity or certification.
               </p>
               <code>data.sandbox.directory.openfinance.ae</code>
             </div>
           </div>
         </div>
+      </section>
+
+      <section class="content-section">
+        <h2>Observation Limits</h2>
+        <p>
+          The collector schema changed to version 2.1 on 8 October 2026 to preserve insurance, ATM
+          and unknown API families. Older snapshots retain their original coverage; newly observed
+          families can reflect this collection correction rather than a new deployment. Capability
+          flags are source declarations, and an unmarked flag has not been tested. The Watch uses
+          separate traffic logs with explicit reporting periods.
+        </p>
       </section>
 
       <section class="content-section">
@@ -71,53 +87,68 @@ import PageLayout from '@layouts/PageLayout.astro';
           <h3>Core Metrics</h3>
 
           <div class="metric-definition">
-            <h4>Total Participants</h4>
+            <h4>Registrations</h4>
             <p>
-              Count of all organizations registered in the directory, regardless of status. Changes
-              are tracked over time to show ecosystem growth.
+              Count of distinct OrganisationId values after excluded test/support and unresolved
+              unnamed records are filtered out. One legal entity may have multiple registrations.
+              Cross-environment totals deduplicate IDs, not legal entities.
             </p>
           </div>
 
           <div class="metric-definition">
-            <h4>Live in Production</h4>
+            <h4>Authorization Server Published</h4>
             <p>
-              Participants that have at least one active Authorization Server with a valid issuer
-              URL. This indicates they have completed technical integration and can process API
-              requests.
+              Registrations with at least one active authorization server and a nonempty issuer
+              field. We do not validate issuer reachability, certification, successful integration,
+              or traffic. The JSON fields isLive and liveInProduction retain this meaning for
+              compatibility.
+            </p>
+            <p>
+              In the UAE, the API Hub is the OIDC/FAPI authorization server and token issuer.
+              Metadata published under an LFI registration can describe that Hub endpoint; it does
+              not establish that the institution issues TPP access tokens.
             </p>
           </div>
 
           <div class="metric-definition">
-            <h4>Shariah Compliant</h4>
+            <h4>Directory Shariah Flag</h4>
             <p>
-              Institutions flagged as Shariah-compliant in the directory, offering Islamic finance
-              products that comply with Islamic law principles.
+              Registrations whose source shariah_compliant flag includes True. This source
+              declaration is not a classification of every Islamic finance institution, and
+              editorial profiles are not used to overwrite it.
             </p>
           </div>
 
           <div class="metric-definition">
             <h4>Multi-Role Participants</h4>
             <p>
-              Institutions registered with two or more roles (e.g., LFI + BDSP + BSIP). This
-              indicates deeper integration with the Open Finance ecosystem.
+              Registrations with two or more active role claims. This does not measure integration
+              depth, usage, or licence category.
             </p>
           </div>
         </div>
 
         <div class="metric-category">
           <h3>Participant Roles</h3>
-          <p>Roles are defined by the CBUAE Open Finance Regulation:</p>
+          <p>
+            Directory roles and permissions use the <a
+              href={taxonomySource.url}
+              target="_blank"
+              rel="noopener noreferrer">Trust Framework role documentation</a
+            > (terminology reviewed {taxonomySource.version}). A role claim is separate from a
+            licence or editorial company-type classification.
+          </p>
 
           <div class="metric-definition">
-            <h4>LFI — Licensed Financial Institution</h4>
+            <h4>LFI — {roleLabels.LFI}</h4>
             <p>
-              Banks and financial institutions licensed by CBUAE that hold customer accounts and
-              provide core banking services.
+              Regulated financial institutions, including banks and insurers, providing data or
+              services through the central API Hub.
             </p>
           </div>
 
           <div class="metric-definition">
-            <h4>BDSP — Bank Data Service Provider</h4>
+            <h4>BDSP — {roleLabels.BDSP}</h4>
             <p>
               Entities that provide data sharing services, enabling secure access to customer
               financial data.
@@ -125,34 +156,40 @@ import PageLayout from '@layouts/PageLayout.astro';
           </div>
 
           <div class="metric-definition">
-            <h4>BSIP — Bank Service Infrastructure Provider</h4>
+            <h4>BSIP — {roleLabels.BSIP}</h4>
             <p>
-              Technical infrastructure providers that support Open Finance connectivity and API
-              operations.
+              The directory role for bank service initiation. Consult the operator for the
+              permissions attached to this claim.
             </p>
           </div>
 
           <div class="metric-definition">
-            <h4>ISP — Information Service Provider</h4>
-            <p>
-              Entities that aggregate and provide financial information services using customer
-              data.
-            </p>
+            <h4>ISP — {roleLabels.ISP}</h4>
+            <p>The directory role for insurance service provision.</p>
           </div>
 
           <div class="metric-definition">
-            <h4>TPP — Third Party Provider</h4>
+            <h4>TPP — {roleLabels.TPP}</h4>
             <p>
               Fintech companies and other third parties that access Open Finance APIs to provide
               innovative financial services.
             </p>
           </div>
 
-          <p class="note">Note: A single participant may hold multiple roles simultaneously.</p>
+          <p class="note">
+            A registration may hold multiple roles. TPP population is unavailable from these claims;
+            the legacy tppCount field only counts explicit TPP claims.
+          </p>
         </div>
 
         <div class="metric-category">
           <h3>API Families</h3>
+          <p>
+            Insurance and ATM families are preserved alongside banking families. Unknown family
+            identifiers are retained verbatim, and every declared version and completeness flag is
+            available in the dataset and participant detail. Absence from a snapshot is not proof
+            that a service is unavailable.
+          </p>
           <p>
             Derived from the API resources registered under each participant's authorization
             servers:
@@ -191,8 +228,11 @@ import PageLayout from '@layouts/PageLayout.astro';
         </div>
 
         <div class="metric-category">
-          <h3>Authorization Capabilities</h3>
-          <p>Technical capabilities extracted from each participant's authorization servers:</p>
+          <h3>Declared Authorization Capabilities</h3>
+          <p>
+            Flags declared on active authorization servers. Unmarked capabilities are not declared
+            true; their availability has not been tested.
+          </p>
 
           <div class="metric-definition">
             <h4>CIBA — Client Initiated Backchannel Authentication</h4>
@@ -214,8 +254,9 @@ import PageLayout from '@layouts/PageLayout.astro';
           <div class="metric-definition">
             <h4>Redirect Flow</h4>
             <p>
-              Standard OAuth 2.0 redirect-based authentication flow where users are redirected to
-              the bank's authorization server to authenticate and grant consent.
+              The TPP initiates authorization through the API Hub. In the LFI redirect journey, the
+              customer authenticates with the institution. The Hub owns the consent state and issues
+              the access token. A declared redirect flag does not verify this journey.
             </p>
           </div>
         </div>
@@ -227,24 +268,24 @@ import PageLayout from '@layouts/PageLayout.astro';
           <div class="metric-definition">
             <h4>In Both Environments</h4>
             <p>
-              Participants registered in both production and sandbox, indicating full ecosystem
-              integration.
+              Registration IDs observed in both production and sandbox. Presence in both does not
+              establish certification or successful integration.
             </p>
           </div>
 
           <div class="metric-definition">
             <h4>Sandbox Only</h4>
             <p>
-              Participants currently in the testing/certification phase. These represent the
-              pipeline of institutions preparing for production launch.
+              Registration IDs observed in sandbox and absent from the production snapshot. This
+              does not establish a testing phase, certification status or planned launch.
             </p>
           </div>
 
           <div class="metric-definition">
             <h4>Production Only</h4>
             <p>
-              Participants that have graduated from sandbox to production and may have removed their
-              sandbox registration.
+              Registration IDs observed in production and absent from the sandbox snapshot. This
+              does not establish a graduation event or previous sandbox participation.
             </p>
           </div>
         </div>
@@ -279,8 +320,8 @@ import PageLayout from '@layouts/PageLayout.astro';
             differences
           </li>
           <li>
-            TPP count may appear low as many fintechs are still in the onboarding/certification
-            process
+            TPP population cannot be inferred from role claims. The legacy explicit-claim count does
+            not indicate how many licensed TPPs exist.
           </li>
           <li>Historical data before the launch of this Observatory is not available</li>
           <li>
@@ -314,11 +355,7 @@ import PageLayout from '@layouts/PageLayout.astro';
           at:
         </p>
         <p>
-          <a
-            href="https://github.com/organizations/openfinance-os/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="https://github.com/openfinance-os" target="_blank" rel="noopener noreferrer">
             github.com/openfinance-os
           </a>
         </p>
