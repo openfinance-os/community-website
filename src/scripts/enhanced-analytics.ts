@@ -10,6 +10,8 @@
  * - Page performance metrics (Core Web Vitals)
  */
 
+import { outboundAttempt } from '../lib/engagement-events';
+
 // Types are declared in analytics.ts
 
 /**
@@ -330,30 +332,21 @@ function getTimeBucket(seconds: number): string {
 // ============================================
 
 function initOutboundLinkTracking(): void {
-  const currentHost = window.location.hostname;
-
   document.addEventListener('click', (e) => {
-    const link = (e.target as HTMLElement).closest('a');
+    if (e.defaultPrevented || !(e.target instanceof Element)) return;
+    const link = e.target.closest<HTMLAnchorElement>('a');
     if (!link) return;
 
     const href = link.getAttribute('href');
     if (!href) return;
 
-    try {
-      const url = new URL(href, window.location.origin);
-
-      // Check if it's an external link
-      if (url.hostname && url.hostname !== currentHost) {
-        window.posthog?.capture('outbound_link_clicked', {
-          url: href,
-          domain: url.hostname,
-          link_text: link.textContent?.trim().substring(0, 100) || '',
-          link_location: getLinkLocation(link),
-          page_path: window.location.pathname,
-        });
-      }
-    } catch {
-      // Invalid URL, ignore
+    const attempt = outboundAttempt(href, window.location.href);
+    if (attempt) {
+      window.posthog?.capture('outbound_link_clicked', {
+        ...attempt,
+        link_location: getLinkLocation(link),
+        page_path: window.location.pathname,
+      });
     }
   });
 }

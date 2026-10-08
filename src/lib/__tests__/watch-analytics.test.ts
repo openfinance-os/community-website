@@ -27,10 +27,10 @@ function browser(host = 'openfinance-os.org', path = '/observatory/watch/') {
   globals.window = globals;
   const context = vm.createContext(globals);
   const run = () => vm.runInContext(bootstrap, context);
-  const click = (href: string, nav = false) => {
+  const click = (href: string, nav = false, defaultPrevented = false) => {
     const target = new Element() as Element & { closest: () => unknown };
     target.closest = () => ({ getAttribute: () => href, closest: () => nav });
-    listeners.click?.({ target });
+    listeners.click?.({ target, defaultPrevented });
   };
   return { globals, scripts, run, click };
 }
@@ -89,12 +89,35 @@ describe('standalone Watcher analytics', () => {
     b.click('https://example.org/reference?email=private&token=secret#private');
     b.click('mailto:private@example.org');
     expect(JSON.parse(JSON.stringify(b.globals.posthog))).toEqual([
-      ['capture', 'watch_section_selected', { section: 'operations' }],
+      [
+        'capture',
+        'watch_section_selected',
+        {
+          section: 'operations',
+          action: 'section_request',
+          measurement_version: 2,
+        },
+      ],
       [
         'capture',
         'watch_source_opened',
-        { destination_host: 'example.org', destination_path: '/reference' },
+        {
+          destination_host: 'example.org',
+          destination_path: '/reference',
+          action: 'navigation_attempt',
+          measurement_version: 2,
+        },
       ],
     ]);
+  });
+
+  it('ignores cancelled, credential-bearing and first-party source links', () => {
+    const b = browser();
+    b.run();
+    b.click('https://example.org/', false, true);
+    b.click('https://user:password@example.org/');
+    b.click('https://www.openfinance-os.org/learn/');
+    b.click('');
+    expect(b.globals.posthog).toHaveLength(0);
   });
 });

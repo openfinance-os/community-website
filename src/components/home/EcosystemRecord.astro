@@ -2,7 +2,7 @@
 /**
  * The ecosystem, on the record — homepage record band.
  *
- * Left: stepped trend of registered vs live production participants,
+ * Left: stepped trend of production registrations vs published authorization servers,
  * built at compile time from data/observatory/history.json.
  * Right: the registry changelog ledger (events observed in the last 30
  * days, falling back to the most recent events), derived by diffing the
@@ -23,7 +23,12 @@ interface HistoryPoint {
   liveInProduction: number;
 }
 
-const points = (history.dataPoints as HistoryPoint[]).map((p) => ({
+interface Props {
+  historyPoints?: HistoryPoint[];
+}
+
+const { historyPoints = history.productionHistory ?? history.dataPoints } = Astro.props;
+const points = historyPoints.map((p) => ({
   d: p.date,
   t: p.totalParticipants,
   l: p.liveInProduction,

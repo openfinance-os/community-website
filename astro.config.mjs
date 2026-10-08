@@ -25,6 +25,7 @@ export default defineConfig({
 
   integrations: [
     sitemap({
+      customPages: ['https://openfinance-os.org/observatory/watch/'],
       filter: (page) => !page.includes('/github'),
     }),
   ],
