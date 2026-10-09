@@ -1,6 +1,7 @@
 import { writeFileSync, readFileSync, mkdirSync, existsSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import { normalizeApiFamily } from '../src/lib/taxonomy.js';
 import {
   fetchParticipants,
   fetchRoles,
@@ -28,7 +29,7 @@ const DATA_DIR = join(__dirname, '..', 'data', 'observatory', 'snapshots');
 const HISTORY_FILE = join(__dirname, '..', 'data', 'observatory', 'history.json');
 const NAME_MAPPINGS_FILE = join(__dirname, '..', 'data', 'participants', 'name-mappings.json');
 
-const SNAPSHOT_VERSION = '2.0.0';
+const SNAPSHOT_VERSION = '2.1.0';
 
 // Test/support organizations to exclude from data
 const EXCLUDED_ORGANIZATIONS = new Set([
@@ -55,15 +56,7 @@ function getDisplayName(originalName: string): string {
   return nameMappings[originalName] || originalName;
 }
 
-// API family type mapping (from raw API to display names)
-const API_FAMILY_MAP: Record<string, string> = {
-  'account-information': 'accounts',
-  payment: 'payments',
-  confirmation: 'cop',
-  product: 'products',
-};
-
-function transformParticipant(raw: RawParticipant): TransformedParticipant {
+export function transformParticipant(raw: RawParticipant): TransformedParticipant {
   // Extract active roles
   const roles = raw.OrgDomainRoleClaims.filter((claim) => claim.Status === 'Active')
     .map((claim) => claim.Role)
@@ -88,11 +81,12 @@ function transformParticipant(raw: RawParticipant): TransformedParticipant {
 
       for (const resource of authServer.ApiResources) {
         if (resource.Status === 'Active') {
-          const mapped = API_FAMILY_MAP[resource.ApiFamilyType];
+          const mapped = normalizeApiFamily(resource.ApiFamilyType);
           if (mapped) {
             apiFamilies.add(mapped);
             apiResources.push({
               family: mapped,
+              rawFamily: resource.ApiFamilyType,
               version: resource.ApiVersion,
               certificationStatus: resource.CertificationStatus,
               familyComplete: resource.FamilyComplete,
@@ -134,7 +128,7 @@ function transformParticipant(raw: RawParticipant): TransformedParticipant {
     authCapabilities,
     apiResources,
     authServerCount,
-    isLive: hasAuthServer, // Live if has active auth server
+    isLive: hasAuthServer, // Legacy name: directory publishes an active authorization server with an issuer
   };
 }
 
@@ -255,7 +249,7 @@ function mergeParticipantsAndRoles(
   return merged.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
 }
 
-function calculateSummary(participants: TransformedParticipant[]): ObservatorySummary {
+export function calculateSummary(participants: TransformedParticipant[]): ObservatorySummary {
   const byStatus: Record<string, number> = {};
   const byRole: Record<string, number> = {};
   const byCity: Record<string, number> = {};
@@ -609,14 +603,14 @@ function printSummary(snapshot: ObservatorySnapshot, environment: Environment): 
   const { summary } = snapshot;
   console.log(`\n${environment.toUpperCase()} Environment Summary:`);
   console.log(`  Total participants: ${summary.totalParticipants}`);
-  console.log(`  Live in production: ${summary.liveInProduction}`);
+  console.log(`  Registrations with an active issuer: ${summary.liveInProduction}`);
   console.log(`  By status: ${JSON.stringify(summary.byStatus)}`);
   console.log(`  By role: ${JSON.stringify(summary.byRole)}`);
   console.log(`  By city: ${JSON.stringify(summary.byCity)}`);
   console.log(`  API families: ${summary.apiFamilies.join(', ')}`);
-  console.log(`  Shariah compliant: ${summary.shariahCompliantCount}`);
+  console.log(`  Directory Shariah flag declared true: ${summary.shariahCompliantCount}`);
   console.log(`  Multi-role participants: ${summary.multiRoleCount}`);
-  console.log(`  TPP count: ${summary.tppCount}`);
+  console.log(`  Explicit TPP role claims (not a population): ${summary.tppCount}`);
   console.log(
     `  Auth capabilities: CIBA=${summary.byAuthCapabilities.ciba}, DCR=${summary.byAuthCapabilities.dcr}, Redirect=${summary.byAuthCapabilities.redirect}`
   );
@@ -640,7 +634,7 @@ async function main() {
   const productionOnly = process.argv.includes('--production-only');
   const sandboxOnly = process.argv.includes('--sandbox-only');
 
-  console.log('OpenFinance-OS Observatory Collector v2.0');
+  console.log('OpenFinance-OS Observatory Collector v2.1');
   console.log('=========================================');
   if (isDryRun) {
     console.log('DRY RUN MODE - No files will be written\n');
@@ -756,4 +750,6 @@ async function main() {
   }
 }
 
-main();
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main();
+}
