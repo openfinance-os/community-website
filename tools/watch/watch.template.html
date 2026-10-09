@@ -257,7 +257,7 @@ if(AL.length){var mv=AL.filter(isMoving),st=AL.filter(function(a){return !isMovi
 /* ===== OVERVIEW / ACTIVITY HERO ===== */
 o+='<section id="overview"><div class="card hero">';
 /* left: transaction headline + tiles */
-o+='<div><div style="font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em">Total API transactions · '+nFull+' full months'+inf('Every API call across all banks and TPPs over the full months shown (the current, incomplete month is excluded from this headline). The all-time figure below includes the partial month.')+'</div>';
+o+='<div><div style="font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em">Total API calls · '+nFull+' full months'+inf('Every API call across all banks and TPPs over the full months shown (the current, incomplete month is excluded from this headline). The all-time figure below includes the partial month.')+'</div>';
 o+='<div class="bignum">'+(A.fullTotal!=null?A.fullTotal.toLocaleString():D.headline.totalFull.toLocaleString())+'</div>';
 o+=wow('totalFull',function(x){return x.toLocaleString()+' calls';});
 o+='<div class="sub" style="margin-top:4px">'+(A.allTime!=null?A.allTime.toLocaleString()+' all-time incl. '+esc(A.partialLabel)+' partial ('+A.partialVal.toLocaleString()+')':'')+'</div>';
@@ -266,8 +266,8 @@ var T1=[
  [k(A.lastFullVal||0)+' <span class="delta '+((A.momPct||0)>=0?'up':'down')+'">'+dArrow(A.momPct||0)+'</span>', esc(A.lastFullLabel||'')+' run-rate (MoM)','API calls in the most recent full month, and the % change vs the month before. A proxy for how fast ecosystem activity is growing.'],
  [k(A.peakVal||0),'Peak month ('+esc(A.peakLabel||'')+')','The single busiest full month by API call volume so far.'],
  [esc(D.headline.errPct)+'%','Error rate','Share of all API calls returning a 4xx or 5xx response across the whole ecosystem. Heavily skewed by a couple of banks — see Operations for the per-bank split.',wow('errPct',function(x){return x.toFixed(1)+'pp';})],
- [esc(D.headline.liveLFIs),'Live LFIs','Licensed institutions (banks, bank brands and insurers) with any traffic in the public Nebras logs over the full months shown.',wow('liveLFIs',String)],
- [esc(D.headline.liveTPPs),'Active TPPs','Third-Party Providers — the apps/fintechs consuming bank data and initiating payments — seen calling the APIs.',wow('liveTPPs',String)],
+ [esc(D.headline.liveLFIs),'Observed LFI keys','Distinct LFI log keys with any calls in the full months, including error-only keys and bank segments; this is not a count of live licensed institutions.',wow('liveLFIs',String)],
+ [esc(D.headline.liveTPPs),'Observed TPP names','Distinct non-empty TPP names with calls in the full-month public logs; no licensing or production activity conclusion is implied.',wow('liveTPPs',String)],
  [esc(D.payments.successPct)+'%','Payment success','Share of payment instructions the bank accepted, out of all instructions including rejected, pending and received. Acceptance, not final settlement — see the payment funnel in Operations.',wow('paySucc',function(x){return x.toFixed(1)+'pp';})]
 ];
 T1.forEach(function(t){o+='<div class="tile"><div class="v">'+t[0]+'</div><div class="l">'+t[1]+inf(t[2])+'</div>'+(t[3]||'')+'</div>';});
@@ -349,7 +349,7 @@ o+='<div class="note">Standards: '+lk(D.links.standards,'release notes')+' · '+
 o+='</div></section>';
 
 /* ===== SECTION 2 — COMPLIANCE ===== */
-o+='<section id="compliance"><div class="seg"><div class="n">2</div><h2>Release Compliance'+inf('For each CBUAE-mandated release, how many Tier-1 banks are registered LIVE in the production Trust Framework directory (data.directory.openfinance.ae) for the API families that release requires — the authoritative go-live signal (self-certified, Status=Active). The note on each card adds the secondary sandbox signal: how many of those are also actively serving 2xx traffic. Production registration, not sandbox traffic, is the basis for the count.')+'</h2><div class="d">How fully each CBUAE release is supported — Tier-1 banks live in the production directory (+ sandbox traffic as secondary)</div></div>';
+o+='<section id="compliance"><div class="seg"><div class="n">2</div><h2>Release registration coverage'+inf('Active API-family registrations in the production directory, compared with the CBUAE release calendar. Family registration does not prove every required function works or establish regulatory compliance. Public-log traffic is a separate observation; its environment is not identified.')+'</h2><div class="d">Active production-directory families by release; successful public-log traffic is a separate signal</div></div>';
 /* deadline timeline: mandate month vs how many are live, today marked */
 (function(){var B=D.board||[];if(!B.length)return;
  var ms=[];B.forEach(function(b){[b.t1Due,b.t2Due].forEach(function(x){if(x&&x!=='N/A')ms.push(isoMs(x));});});ms.push(TODAY);
@@ -387,30 +387,30 @@ o+='</div></div></details>';
 o+='<div class="note"><b>'+esc(D.tiers.t1)+'</b><br>'+esc(D.tiers.t2)+'<br>'+esc(D.tiers.ins)+'<br>'+esc(D.fillBasisNote)+' '+lk(D.tiers.url,'OF Roadmap (Confluence)')+'</div></section>';
 
 /* ===== ADOPTION HEATMAP ===== */
-o+='<section id="adoption"><div class="seg"><div class="n">3</div><h2>Adoption Heatmap'+inf('A per-bank × per-function grid of which APIs each LFI is actually serving successfully (2xx), grouped by CBUAE tier. Both grids below use ONE shared legend. The first grid is the sandbox / pre-live picture from the public Nebras logs (states: Live / Seen-earlier / No-evidence / Not-observed); the second is the production-directory overlay (states: Live / Exposed-no-traffic / Not-observed). Green always means the same thing in both: carrying live 2xx traffic in the last two full months.')+'</h2><div class="d">2xx support by LFI × functionality — sandbox (demand-side) and production directory, one shared legend</div></div>';
-var LGD='<div class="lgd"><span><span class="sw" style="background:var(--green)"></span>Live — 2xx traffic, last 2 full months</span><span><span class="sw" style="background:#1f6feb"></span>Exposed, no traffic — production directory</span><span><span class="sw" style="background:var(--amber)"></span>Seen earlier, quiet now — sandbox history</span><span><span class="sw" style="background:var(--grey)"></span>No evidence</span><span><span class="sw" style="background:repeating-linear-gradient(45deg,#21262d,#21262d 3px,#161b22 3px,#161b22 6px)"></span>Not observed / not exposed</span></div>';
+o+='<section id="adoption"><div class="seg"><div class="n">3</div><h2>Adoption Heatmap'+inf('Successful public-log calls by LFI and capability over the last two full months. The logs omit environment labels. The second grid matches those observations to Active capabilities in the production directory; matching does not identify the environment of the calls.')+'</h2><div class="d">Successful public-log traffic and production-directory registrations, shown separately</div></div>';
+var LGD='<div class="lgd"><span><span class="sw" style="background:var(--green)"></span>Successful traffic — 2xx, last 2 full months</span><span><span class="sw" style="background:#1f6feb"></span>Exposed, no traffic — production directory</span><span><span class="sw" style="background:var(--amber)"></span>Seen earlier, quiet now — public-log history</span><span><span class="sw" style="background:var(--grey)"></span>No evidence</span><span><span class="sw" style="background:repeating-linear-gradient(45deg,#21262d,#21262d 3px,#161b22 3px,#161b22 6px)"></span>Not observed / not exposed</span></div>';
 o+='<div class="card"><div class="hm"><table><thead><tr><th>LFI</th>';
 D.tierMatrix.cols.forEach(function(c){o+='<th class="col">'+esc(c)+'</th>';});o+='</tr></thead><tbody>';
 function rowsBlock(title,rows){o+='<tr class="wvhdr"><td colspan="'+(D.tierMatrix.cols.length+1)+'">'+title+'</td></tr>';rows.forEach(function(r){o+='<tr><td style="white-space:nowrap"><b>'+esc(r[0])+'</b></td>';r[2].forEach(function(v){var cls=v===2?'cv2':(v===1?'cv1':'cv0');o+='<td class="c"><span class="cellv '+cls+'"></span></td>';});o+='</tr>';});}
 function rowsBlock2(rows){rows.forEach(function(r){o+='<tr><td style="white-space:nowrap"><b>'+esc(r[0])+'</b> <span style="color:var(--mut);font-size:10px">'+esc(r[1]||'')+'</span></td>';r[2].forEach(function(v){var cls=v===2?'cv2':(v===1?'cv1':'cv0');o+='<td class="c"><span class="cellv '+cls+'"></span></td>';});o+='</tr>';});}
-rowsBlock('Tier 1 — Banks ('+D.tierMatrix.t1.length+' of '+D.tierMatrix.t1count+' · sandbox / pre-live 2xx)',D.tierMatrix.t1);
-rowsBlock('Tier 2 — Banks ('+D.tierMatrix.t2inLogs+' of '+D.tierMatrix.t2count+' in sandbox · due Sep-2026)',D.tierMatrix.t2);
+rowsBlock('Tier 1 — Banks ('+D.tierMatrix.t1.length+' of '+D.tierMatrix.t1count+' · public-log 2xx)',D.tierMatrix.t1);
+rowsBlock('Tier 2 — Banks ('+D.tierMatrix.t2inLogs+' of '+D.tierMatrix.t2count+' in public logs · due Sep-2026)',D.tierMatrix.t2);
 o+='<tr><td style="white-space:nowrap;color:var(--mut)"><i>'+(D.tierMatrix.t2count-D.tierMatrix.t2inLogs)+' other Tier-2 banks</i></td>';D.tierMatrix.cols.forEach(function(){o+='<td class="c"><span class="cellv no"></span></td>';});o+='</tr>';
 if(D.tierMatrix.other&&D.tierMatrix.other.length){o+='<tr class="wvhdr"><td colspan="'+(D.tierMatrix.cols.length+1)+'">Other bank brands &amp; segments — no tier slot of their own, not counted in tier fills</td></tr>';rowsBlock2(D.tierMatrix.other);}
 if(D.tierMatrix.ins&&D.tierMatrix.ins.length){
- o+='<tr class="wvhdr"><td colspan="'+(D.tierMatrix.cols.length+1)+'">Open Insurance — Insurers ('+D.tierMatrix.insT1+' Tier-1 + '+D.tierMatrix.insT2+' Tier-2 · '+D.tierMatrix.ins.length+' first seen in sandbox)</td></tr>';
+ o+='<tr class="wvhdr"><td colspan="'+(D.tierMatrix.cols.length+1)+'">Open Insurance — Insurers ('+D.tierMatrix.insT1+' Tier-1 + '+D.tierMatrix.insT2+' Tier-2 · '+D.tierMatrix.ins.length+' seen in public logs)</td></tr>';
  rowsBlock2(D.tierMatrix.ins);
 }else{
  o+='<tr class="wvhdr"><td colspan="'+(D.tierMatrix.cols.length+1)+'">Open Insurance — Insurers ('+D.tierMatrix.insT1+' Tier-1 + '+D.tierMatrix.insT2+' Tier-2 · none onboarded)</td></tr>';
- o+='<tr><td style="white-space:nowrap;color:var(--mut)"><i>No insurer in sandbox</i></td>';D.tierMatrix.cols.forEach(function(){o+='<td class="c"><span class="cellv no"></span></td>';});o+='</tr>';
+ o+='<tr><td style="white-space:nowrap;color:var(--mut)"><i>No insurer in public logs</i></td>';D.tierMatrix.cols.forEach(function(){o+='<td class="c"><span class="cellv no"></span></td>';});o+='</tr>';
 }
 o+='</tbody></table></div>';
-o+='<div class="hmcap">Sandbox / pre-live demand-side traffic — uses: Live, Seen-earlier, No-evidence, Not-observed.</div>'+LGD+'</div>';
+o+='<div class="hmcap">Public-log observations — environment labels are unavailable.</div>'+LGD+'</div>';
 /* ----- Production adoption sub-grid (exposed=blue / live traffic=green) ----- */
 if(D.tierMatrix.prodGrid){var PG=D.tierMatrix.prodGrid;
  function prodCls(s){return s==='green'?'cv2':(s==='blue'?'cvb':'no');}
  function prodRow(name,tag,cells){var o2='<tr><td style="white-space:nowrap"><b>'+esc(name)+'</b>'+(tag?' <span style="color:var(--mut);font-size:10px">'+esc(tag)+'</span>':'')+'</td>';cells.forEach(function(s){o2+='<td class="c"><span class="cellv '+prodCls(s)+'"></span></td>';});return o2+'</tr>';}
- o+='<div class="card" style="margin-top:12px"><h3>Production adoption — exposed vs live'+inf('Same shared legend as the sandbox grid. LIVE (green) = exposed in the production Trust Framework directory (data.directory.openfinance.ae) AND carrying live 2xx traffic in the public logs over the last two full months — identical meaning to the sandbox grid. EXPOSED, NO TRAFFIC (blue) = registered in the production directory but no 2xx yet. NOT OBSERVED (hatched) = not exposed for that LFI. Payments are measured on initiation, so a 5xx-only payment flow shows Exposed-no-traffic rather than Live.')+'</h3>';
+ o+='<div class="card" style="margin-top:12px"><h3>Production registration — matched traffic vs exposure'+inf('Green matches an Active production-directory capability to successful calls in the public logs. Blue has registration without observed successful calls in the window. Logs omit environment labels, so the match does not prove production traffic. Payments use initiation rather than status polling.')+'</h3>';
  o+='<div class="prodhd"><span class="prodbig">'+PG.counts.t1+' / '+(D.tierMatrix.t1count||PG.counts.t1)+'</span> Tier-1 banks live in the production directory · '+PG.counts.prodOrgs+' production participants total ('+PG.counts.banks+' banks) · <b style="color:#56d364">'+PG.counts.green+'</b> live + <b style="color:#79c0ff">'+PG.counts.blue+'</b> exposed-only capabilities</div>';
  o+='<div class="hm"><table><thead><tr><th>LFI</th>';
  PG.cols.forEach(function(c){o+='<th class="col">'+esc(c)+'</th>';});o+='</tr></thead><tbody>';
@@ -426,31 +426,31 @@ o+='<div class="note">'+esc(D.adoptionNote)+'</div></section>';
 /* ===== OPERATIONS ===== */
 o+='<section id="operations"><div class="seg"><div class="n">4</div><h2>Operations &amp; Reliability'+inf('Reliability and payment health: where errors come from, whose problem they are (client vs backend), how authorisation converts, and how payments progress from initiation to settlement.')+'</h2><div class="d">Where the errors are, whose problem they are, and how payments convert</div></div>';
 /* reliability board */
-o+='<div class="card"><h3>Reliability board — success vs error mix by LFI'+inf('Each bank as a stacked bar: green = 2xx success, amber = 4xx (consent/client errors), red = 5xx (backend errors). The dot flags overall risk; the tag says whether the dominant problem is client-side or backend-side. Sorted by error rate.')+'</h3>';
+o+='<div class="card"><h3>HTTP response mix by LFI key'+inf('Logged HTTP response groups: green 2xx, amber 4xx, red 5xx. The aggregate does not identify root cause, environment or incident ownership.')+'</h3>';
 var lf=D.lfi.slice().sort(function(a,b){return b[2]-a[2];});
 lf.forEach(function(r){var err=r[2],p4=r[3],p5=r[4],ok=Math.max(0,100-err);
 var dot=(err>50||p5>30)?'r':((err>15||p5>10)?'a':'g');
-var tag=err<=15?['ok','Healthy']:(p4>=p5?['cons','Consent / client']:['back','Backend / LFI']);
+var tag=err<=15?['ok','Low error share']:(p4>=p5?['cons','4xx dominant']:['back','5xx dominant']);
 o+='<div class="relrow"><div class="nm"><span class="dot '+dot+'"></span><b>'+esc(r[0])+'</b></div>';
 o+='<div class="stack"><i class="s2" style="width:'+ok+'%"></i><i class="s4" style="width:'+p4+'%"></i><i class="s5" style="width:'+p5+'%"></i></div>';
 o+='<div style="text-align:right;font-variant-numeric:tabular-nums;color:var(--mut)">'+r[1].toLocaleString()+'</div>';
 o+='<div style="text-align:right"><span class="dtag '+tag[0]+'">'+tag[1]+'</span></div></div>';});
 o+='<div class="lgd"><span><span class="sw" style="background:var(--green)"></span>2xx success</span><span><span class="sw" style="background:var(--amber)"></span>4xx consent/client</span><span><span class="sw" style="background:var(--red)"></span>5xx backend</span></div>';
-o+='<div class="note">Sorted by error rate. Diagnosis: 4xx-dominant = consent/client integration issue; 5xx-dominant = backend/LFI stability. Response times on the '+lk('https://nebras-open-finance.com/metrics','live dashboard')+'.</div></div>';
+o+='<div class="note">Sorted by error rate. HTTP groups do not establish root cause or incident ownership. Response times on the '+lk('https://nebras-open-finance.com/metrics','live dashboard')+'.</div></div>';
 /* 4xx vs 5xx split */
 o+='<div class="grid g2" style="margin-top:12px">';
 var by4=D.lfi.slice().filter(function(r){return r[3]>0;}).sort(function(a,b){return b[3]-a[3];});
-o+='<div class="card"><h3>Consent / client errors (4xx)'+inf('Requests the bank rejected as the caller’s fault — expired/withdrawn consent, malformed requests, failed authentication. Owned by TPP integration and consent UX, not the bank’s servers. ~calls = estimated 4xx volume.')+'</h3><table><thead><tr><th>LFI</th><th class="num">4xx %</th><th class="num">~calls</th></tr></thead><tbody>';
+o+='<div class="card"><h3>HTTP 4xx responses'+inf('Logged HTTP 4xx responses. Detailed errors, request context and environment are unavailable; root cause and ownership cannot be assigned. ~calls is estimated from the rounded share.')+'</h3><table><thead><tr><th>LFI</th><th class="num">4xx %</th><th class="num">~calls</th></tr></thead><tbody>';
 by4.slice(0,6).forEach(function(r){o+='<tr><td>'+esc(r[0])+'</td><td class="num" style="color:#e3b341">'+r[3]+'%</td><td class="num">'+Math.round(r[1]*r[3]/100).toLocaleString()+'</td></tr>';});
 o+='</tbody></table><div class="note">Client-side rejections — consent expiry, malformed requests, auth failures. Owner: TPP integration + consent UX.</div></div>';
 var by5=D.lfi.slice().filter(function(r){return r[4]>0;}).sort(function(a,b){return b[4]-a[4];});
-o+='<div class="card"><h3>Backend / LFI errors (5xx)'+inf('Server-side failures inside the bank or its Ozone Connect backend — effectively availability incidents the LFI owns. ~calls = estimated 5xx volume.')+'</h3><table><thead><tr><th>LFI</th><th class="num">5xx %</th><th class="num">~calls</th></tr></thead><tbody>';
+o+='<div class="card"><h3>HTTP 5xx responses'+inf('Logged HTTP 5xx responses. The failing component, environment and incident owner are not identified. ~calls is estimated from the rounded share.')+'</h3><table><thead><tr><th>LFI</th><th class="num">5xx %</th><th class="num">~calls</th></tr></thead><tbody>';
 by5.slice(0,6).forEach(function(r){o+='<tr><td>'+esc(r[0])+'</td><td class="num" style="color:#f85149">'+r[4]+'%</td><td class="num">'+Math.round(r[1]*r[4]/100).toLocaleString()+'</td></tr>';});
-o+='</tbody></table><div class="note">Server-side failures — owner: the LFI / its Ozone Connect backend. These are availability incidents.</div></div>';
+o+='</tbody></table><div class="note">HTTP 5xx observations; the public logs do not identify the failing component or establish a production incident.</div></div>';
 o+='</div>';
 /* auth gauge + payment funnel */
 o+='<div class="grid g2" style="margin-top:12px">';
-o+='<div class="card"><h3>Authorisation conversion'+inf('Of all authorisation (consent) attempts, the share that succeed — return 2xx and issue a token. The rest are cancelled, expired, or fail SCA before completing. A market-wide consent-funnel health signal.')+'</h3>';
+o+='<div class="card"><h3>Authorisation conversion'+inf('Share of logged authorization calls returning HTTP 2xx. The aggregate does not prove token issuance or identify cancellation, expiry or SCA outcomes. An HTTP-response signal in the public logs; environment and user-level outcomes are unavailable.')+'</h3>';
 o+='<div style="font-size:30px;font-weight:800;line-height:1">'+esc(D.authPct)+'%</div><div class="note" style="margin-top:2px">of authorisation requests succeed (2xx)</div>';
 o+='<div class="gauge" style="margin-top:9px"><i style="width:'+D.authPct+'%"></i></div>';
 o+='<div class="note">'+(100-D.authPct).toFixed(0)+'% of auth attempts fail before a token is issued — a consent-funnel drop-off (cancelled/expired/SCA failures) worth watching for the whole ecosystem.</div></div>';
@@ -466,12 +466,15 @@ o+='<div class="movers" style="margin-top:8px"><div class="mv">Rejected <b style
 o+='<div class="note">'+esc(D.payments.successPct)+'% accepted, but only ~'+(tot?Math.round(settled/tot*100):0)+'% fully settled — most accepted payments sit in “accepted, not yet posted.” Value AED '+(D.payments.valueAED?(D.payments.valueAED/1e6).toFixed(1)+'M':'—')+'.</div></div>';}
 o+='</div>';
 /* TPP concentration (compact) */
-o+='<div class="card" style="margin-top:12px"><h3>Concentration risk — dependence on one TPP'+inf('How dependent the ecosystem is on a single aggregator (TPP). Share = % of attributed traffic each TPP carries. HHI is a standard concentration index — above 2,500 is “highly concentrated.” High concentration means one TPP outage could stall most activity.')+'</h3><table><thead><tr><th>TPP</th><th class="num">Calls</th><th class="num">Share</th></tr></thead><tbody>';
+o+='<div class="card" style="margin-top:12px"><h3>Concentration risk — dependence on one TPP'+inf('Concentration of attributed public-log calls by TPP. The logs do not reveal market-wide volumes, user counts or redundancy.')+'</h3><table><thead><tr><th>TPP</th><th class="num">Calls</th><th class="num">Share</th></tr></thead><tbody>';
 D.tpp.slice(0,6).forEach(function(r){var sh=D.eco.attributed&&r[0]!=='(Unattributed)'?(r[1]/D.eco.attributed*100):null;o+='<tr><td>'+esc(r[0])+'</td><td class="num">'+r[1].toLocaleString()+'</td><td class="num" style="color:var(--mut)">'+(sh!=null?sh.toFixed(1)+'%':'—')+'</td></tr>';});
-o+='</tbody></table><div class="note"><b>'+esc(D.eco.top1)+'</b> handles '+esc(D.eco.top1share)+'% of all attributed traffic (HHI '+Number(D.eco.hhi).toLocaleString()+'; anything over 2,500 is “highly concentrated”). With no second aggregator at scale, an outage at the top TPP would stall most Open Finance activity market-wide — the ecosystem has little redundancy today. Unattributed: '+D.unattributed.toLocaleString()+' calls.</div></div>';
+o+='</tbody></table><div class="note"><b>'+esc(D.eco.top1)+'</b> handles '+esc(D.eco.top1share)+'% of all attributed traffic (HHI '+Number(D.eco.hhi).toLocaleString()+'; anything over 2,500 is “highly concentrated”). This measures the observed public-log traffic mix; market-wide outage impact and production redundancy cannot be inferred from these aggregates. Unattributed: '+D.unattributed.toLocaleString()+' calls.</div></div>';
 o+='</section>';
 
 /* ===== ECONOMICS ===== */
+if(D.economicsUnavailable){var EU=D.economicsUnavailable;
+o+='<section id="economics"><div class="seg"><div class="n">5</div><h2>Commercial &amp; Economics</h2><div class="d">Fee totals require billing context</div></div>';
+o+='<div class="card"><h3>Fee estimates unavailable</h3><p>'+esc(EU.note)+'</p><div class="note">Pricing source checked '+esc(EU.checked)+': '+lk(EU.sourceUrl,'Commercial & Pricing Model v1.0')+'.</div></div></section>';}
 if(D.economics){var E=D.economics;
 o+='<section id="economics"><div class="seg"><div class="n">5</div><h2>Commercial &amp; Economics'+inf('What the platform and the AlTareq scheme fees come to at current volume — what TPPs pay (Nebras API Hub consumption + per-payment scheme fees) and what LFIs earn (payment scheme fees; data sharing is zero-rated below the page caps). Priced on the regulated Commercial & Pricing Model v1.0 from the observed 2xx / accepted flows.')+'</h2><div class="d">Who pays whom, and how much, at current platform volume</div></div>';
 /* headline answer cards */
@@ -505,7 +508,7 @@ if(D.audit){var AU=D.audit;o+='<section id="audit"><details class="more" style="
  ['adoption','impact','breaking','tiers'].forEach(function(key){if(AU[key]){o+='<div class="card" style="margin-top:8px"><h3>'+esc(key)+'</h3><div class="pre">'+esc(AU[key])+'</div></div>';}});
  if(AU.board){o+='<div class="card" style="margin-top:8px"><h3>Release notes (long form)</h3><div class="pre">'+Object.keys(AU.board).map(function(r){return esc(r)+': '+esc(AU.board[r]);}).join('\n\n')+'</div></div>';}
  o+='</details></section>';}
-o+='<div class="foot">Tiers &amp; deadlines per the '+lk('https://openfinanceuae.atlassian.net/wiki/spaces/OF/pages/6259008/Roadmap','Open Finance Roadmap (Nebras OF Confluence)')+'. Adoption is demand-side evidence from public Nebras sandbox / pre-live logs — absence of TPP calls does not prove an LFI is not certified. '+lk('https://nebras-open-finance.com/metrics','metrics')+' · '+lk('https://openfinanceuae.atlassian.net/wiki/spaces/OF/pages/6259008/Roadmap','OF Roadmap')+'</div>';
+o+='<div class="foot">Tiers &amp; deadlines per the '+lk('https://openfinanceuae.atlassian.net/wiki/spaces/OF/pages/6259008/Roadmap','Open Finance Roadmap (Nebras OF Confluence)')+'. Public Nebras logs omit environment labels. Registration and successful calls are separate observations; absence of calls does not prove an LFI is not certified. '+lk('https://nebras-open-finance.com/metrics','metrics')+' · '+lk('https://openfinanceuae.atlassian.net/wiki/spaces/OF/pages/6259008/Roadmap','OF Roadmap')+'</div>';
 return o;}
 document.write(H());
 (function(){var ns=document.querySelectorAll('.nav a[href^="#"]');for(var i=0;i<ns.length;i++){(function(a){a.addEventListener('click',function(e){e.preventDefault();var el=document.getElementById(a.getAttribute('href').slice(1));if(el){el.scrollIntoView({behavior:'smooth',block:'start'});}});})(ns[i]);}})();

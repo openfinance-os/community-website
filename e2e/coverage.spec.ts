@@ -1,5 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { readFileSync } from 'node:fs';
+const watchPayload = JSON.parse(
+  readFileSync(new URL('../data/watch/payload.json', import.meta.url), 'utf8')
+);
 const production = JSON.parse(
   readFileSync(
     new URL('../data/observatory/snapshots/production/latest.json', import.meta.url),
@@ -121,7 +124,9 @@ test('briefing, coverage and the Watch remain readable without JavaScript', asyn
   const page = await context.newPage();
   await page.goto('/');
   await expect(page.getByRole('heading', { name: 'Latest saved briefing' })).toBeVisible();
-  await expect(page.locator('.briefing-date time[datetime="2026-09-29"]')).toBeVisible();
+  await expect(
+    page.locator(`.briefing-date time[datetime="${watchPayload.asOfData}"]`)
+  ).toBeVisible();
   await page.goto('/observatory/coverage/');
   await expect(page.locator('#coverage-rows tr:visible')).toHaveCount(
     production.participants.length
