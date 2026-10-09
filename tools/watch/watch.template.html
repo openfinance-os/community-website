@@ -26,6 +26,7 @@ h1{font-size:21px;margin:0 0 2px}
 .seg h2{font-size:17px;margin:0}
 .seg .d{color:var(--mut);font-size:12px;margin-left:auto;max-width:50%;text-align:right}
 .grid{display:grid;gap:12px}
+.grid>*,.hero>*{min-width:0}
 .g2{grid-template-columns:1fr 1fr}
 .g3{grid-template-columns:1fr 1fr 1fr}
 @media(max-width:780px){.g2{grid-template-columns:1fr}.g3{grid-template-columns:1fr}.seg .d{display:none}}
@@ -136,6 +137,7 @@ a{color:var(--ac);text-decoration:none}a:hover{text-decoration:underline}
 .fstep .fl{display:flex;justify-content:space-between;align-items:baseline;font-size:12px}
 .fstep .fb{height:9px;border-radius:5px;background:linear-gradient(90deg,#1f6feb,#56d364);margin-top:3px;min-width:2px}
 @media(max-width:780px){.relrow{grid-template-columns:120px 1fr 92px}.relrow>div:nth-child(3){display:none}}
+.xs{overflow-x:auto}
 .note{font-size:11px;color:var(--mut);margin-top:8px;line-height:1.45}
 .info{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;border:1px solid var(--mut);color:var(--mut);font-size:9px;font-weight:700;font-style:normal;cursor:help;position:relative;margin-left:5px;vertical-align:middle;text-transform:none;letter-spacing:0;flex:none}
 .info:hover,.info:focus{color:var(--tx);border-color:var(--ac);outline:none}
@@ -143,6 +145,53 @@ a{color:var(--ac);text-decoration:none}a:hover{text-decoration:underline}
 .info .tip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--bd)}
 .info:hover .tip,.info:focus .tip{display:block}
 .foot{color:var(--mut);font-size:11px;margin-top:30px;border-top:1px solid var(--bd);padding-top:10px}
+/* freshness + this-week summary */
+.fresh{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--mut);margin-top:6px}
+.fresh b{color:var(--tx);font-weight:600}
+.stale{color:#e3b341}
+.week{margin:10px 0 4px;padding:6px 14px}
+.wk{display:grid;grid-template-columns:96px 84px 1fr;gap:10px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--bd);font-size:13px}
+.wk:last-child{border-bottom:0}
+.wk .a{font-weight:700}
+.wk a{color:var(--tx)}
+.t-std{background:rgba(139,148,158,.12);color:var(--mut);border:1px solid var(--bd)}
+.since{font-size:11px;color:var(--mut);white-space:nowrap}
+.wow{display:block;font-size:10px;font-weight:600;color:var(--mut);margin-top:2px}
+details.more{margin-top:8px}
+details.more>summary{cursor:pointer;font-size:12px;color:var(--ac);list-style:none;padding:4px 0}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary::before{content:'▸ ';color:var(--mut)}
+details.more[open]>summary::before{content:'▾ '}
+.bkcounts{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 2px;font-size:12px;color:var(--mut)}
+.pre{white-space:pre-wrap;font-size:11.5px;color:var(--mut);line-height:1.5;background:var(--panel2);border:1px solid var(--bd);border-radius:8px;padding:10px 12px;max-height:420px;overflow:auto}
+/* deadline timeline */
+.tl{position:relative;margin-top:4px}
+.tlrow{display:grid;grid-template-columns:190px 1fr 80px;gap:10px;align-items:center;min-height:30px;border-bottom:1px solid var(--bd);font-size:12px}
+.tlrow .lab{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.track{position:relative;height:30px}
+.track .span{position:absolute;top:13px;height:4px;border-radius:2px;background:var(--stripe)}
+.mk{position:absolute;top:8px;width:14px;height:14px;margin-left:-7px;border-radius:50%;border:2px solid var(--panel);cursor:help}
+.mk.t2{background:transparent;border:2px solid #79c0ff}
+.mk.t2.ins{border-color:#a371f7}
+.today{position:absolute;top:0;bottom:0;width:2px;background:var(--amber);opacity:.85;z-index:2}
+.axis{position:relative;height:18px;font-size:10px;color:var(--mut)}
+.axis span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.tlrow .cnt{text-align:right;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.15}
+.t2c{display:block;font-size:10px;font-weight:600;color:#79c0ff}
+.tllgd{display:flex;flex-wrap:wrap;gap:14px;margin-top:9px;font-size:11px;color:var(--mut);align-items:center}
+.tllgd i{display:inline-block;width:12px;height:12px;border-radius:50%;vertical-align:middle;margin-right:5px}
+@media(max-width:780px){
+ .wk{grid-template-columns:1fr auto;gap:4px 8px}.wk .t{grid-column:1/-1}
+ .tlrow{grid-template-columns:112px 1fr 50px;font-size:10.5px}.tlrow .lab{white-space:normal;line-height:1.2;padding:3px 0}
+ .nav{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.nav::-webkit-scrollbar{display:none}
+ .nav .brand{display:none}.nav a{white-space:nowrap;flex:none}
+ table.cards,table.cards tbody,table.cards tr,table.cards td{display:block;width:100%}
+ table.cards thead{display:none}
+ table.cards tr{border:1px solid var(--bd);border-radius:9px;margin:8px 0;padding:4px 2px}
+ table.cards td{border:0;padding:3px 10px}
+ table.cards td[data-l]::before{content:attr(data-l);display:block;font-size:10px;font-weight:600;color:var(--mut);text-transform:uppercase;letter-spacing:.03em}
+ .hm table.cards{min-width:0}
+}
 </style></head>
 <body><div class="wrap"><script>var D=__DATA__;
 function esc(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
@@ -154,32 +203,74 @@ function m(n){n=Number(n)||0;if(n>=1e6)return 'AED '+(n/1e6).toFixed(1)+'M';if(n
 function mc(n){n=Number(n)||0;if(n>=1e6)return (n/1e6).toFixed(1)+'M';if(n>=1e3)return (n/1e3).toFixed(0)+'k';return String(Math.round(n));}
 function dArrow(p){return (p>=0?'▲ ':'▼ ')+Math.abs(p)+'%';}
 function inf(t){return ' <span class="info" tabindex="0">i<span class="tip">'+esc(t)+'</span></span>';}
-function H(){var o='',A=D.activity||{},M=D.movers||{};
+/* dates are computed in the reader's browser, so countdowns never go stale between runs */
+var MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+var NOW=new Date(),TODAY=Date.UTC(NOW.getFullYear(),NOW.getMonth(),NOW.getDate());
+function isoMs(s){var p=String(s).split('-');return Date.UTC(+p[0],(+p[1]||1)-1,+p[2]||1);}
+function daysTo(ym){return (!ym||ym==='N/A')?null:Math.round((isoMs(ym)-TODAY)/864e5);}
+function daysSince(iso){return iso?Math.round((TODAY-isoMs(iso))/864e5):null;}
+function fmtDay(iso){if(!iso)return '';var d=new Date(isoMs(iso));return d.getUTCDate()+' '+MO[d.getUTCMonth()]+' '+d.getUTCFullYear();}
+function todayIso(){var d=new Date(TODAY);return d.toISOString().slice(0,10);}
+function cd(n){return n==null?'':(n<0?'passed '+(-n)+'d ago':(n===0?'due today':'in '+n+'d'));}
+function bandOf(n){return n==null?'past':(n<0?'past':(n<=30?'now':'soon'));}
+var STAT={new:['t-new','New'],changed:['t-chg','Changed'],standing:['t-std','Standing'],nochange:['t-no','No change']};
+function sTag(s){var t=STAT[s]||STAT.standing;return '<span class="tag '+t[0]+'">'+t[1]+'</span>';}
+function sinceTxt(x){return x&&x.since?'<span class="since">since '+fmtDay(x.since)+'</span>':'';}
+function alertsN(){return (D.alerts||[]).map(function(a){if(typeof a!=='string')return a;var m=a.split(/\s(https?:\/\/\S+)/);return {status:/^STANDING/i.test(a)?'standing':'new',text:m[0].replace(/^(NEW|CHANGED|STANDING)[^:]*:\s*/i,''),url:m[1]};});}
+function isMoving(a){return a.status==='new'||a.status==='changed';}
+function td(label,html,extra){return '<td data-l="'+esc(label)+'"'+(extra||'')+'>'+html+'</td>';}
+function H(){var o='',A=D.activity||{},M=D.movers||{},AL=alertsN(),CK=D.checked||{},HIS=D.history||[];
+var nFull=(D.months||[]).length;
+var prev=HIS.length>1?HIS[HIS.length-2]:null,cur=HIS.length?HIS[HIS.length-1]:null;
+function wow(key,fmt){if(!prev||!cur||prev[key]==null||cur[key]==null)return '';var d=cur[key]-prev[key];if(Math.abs(d)<1e-9)return '<span class="wow">= vs '+esc(fmtDay(prev.runDate))+'</span>';return '<span class="wow">'+(d>0?'+':'−')+fmt(Math.abs(d))+' vs '+esc(fmtDay(prev.runDate))+'</span>';}
 
 /* sticky nav */
 o+='<div class="nav"><span class="brand">UAE Open Finance · Ecosystem Watch</span>';
 (D.nav||[]).forEach(function(nv){o+='<a href="#'+nv[0]+'">'+esc(nv[1])+'</a>';});
-if(D.alerts&&D.alerts.length){o+='<span class="ping">● '+D.alerts.filter(function(a){return !/^STANDING/i.test(a);}).length+' changes this run</span>';}
+var nMov=AL.filter(isMoving).length;
+if(AL.length){o+='<a class="ping" href="#alerts" style="margin-left:auto;color:var(--amber)">● '+nMov+' new or changed</a>';}
 o+='</div>';
 
-o+='<div class="head"><h1>UAE Open Finance — Ecosystem Watch <span class="wkly">Weekly monitoring run</span></h1><div class="sub">run '+esc(D.runDate)+' · data through '+esc(D.asOfData)+' · '+esc(D.basis)+'</div></div>';
+/* header + freshness: what the page shows, and when the watch last looked */
+var ckAge=daysSince(CK.date||D.runDate);
+o+='<div class="head"><h1>UAE Open Finance — Ecosystem Watch <span class="wkly">Weekly</span></h1>';
+o+='<div class="fresh"><span>Latest data run <b>'+esc(fmtDay(D.runDate))+'</b></span><span>Logs through <b>'+esc(fmtDay(D.asOfData))+'</b></span>';
+if(CK.date){o+='<span>Last checked <b>'+esc(fmtDay(CK.date))+'</b> ('+esc(CK.result||'')+')</span>';}
+o+='<span>Countdowns as of <b>'+esc(fmtDay(todayIso()))+'</b></span></div>';
+if(ckAge!=null&&ckAge>8){o+='<div class="fresh stale">⚠ No check recorded in '+ckAge+' days; the weekly job may not have run. Figures below are from '+esc(fmtDay(CK.date||D.runDate))+'.</div>';}
+else if(CK.note){o+='<div class="fresh">'+esc(CK.note)+'</div>';}
+o+='</div>';
+
+/* this week: one line per question the page answers */
+if(D.summary&&D.summary.length){o+='<div class="card week">';
+ D.summary.forEach(function(s){o+='<div class="wk"><span class="a"><a href="'+esc(s.href||'#')+'">'+esc(s.area)+'</a></span><span>'+sTag(s.status)+'</span><span class="t">'+esc(s.text)+'</span></div>';});
+ o+='</div>';}
+
+/* alerts: new/changed first, standing collapsed */
+if(AL.length){var mv=AL.filter(isMoving),st=AL.filter(function(a){return !isMoving(a);});
+ function alertRow(a){return '<div class="alert'+(isMoving(a)?'':' std')+'">'+sTag(a.status)+' '+esc(a.text)+' '+sinceTxt(a)+' '+lk(a.url,'source')+'</div>';}
+ o+='<section id="alerts"><div class="seg"><h2 style="font-size:15px">Alerts'+inf('Threshold alerts from the weekly job. New / Changed = first seen at the latest data run or check; Standing = unchanged since the date shown.')+'</h2></div>';
+ mv.forEach(function(a){o+=alertRow(a);});
+ if(st.length){o+='<details class="more"><summary>'+st.length+' standing alert'+(st.length>1?'s':'')+'</summary>';st.forEach(function(a){o+=alertRow(a);});o+='</details>';}
+ o+='</section>';}
 
 /* ===== OVERVIEW / ACTIVITY HERO ===== */
 o+='<section id="overview"><div class="card hero">';
 /* left: transaction headline + tiles */
-o+='<div><div style="font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em">Total API transactions · 7 full months'+inf('Every API call across all banks and TPPs over the full months shown (the current, incomplete month is excluded from this headline). The all-time figure below includes the partial month.')+'</div>';
+o+='<div><div style="font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em">Total API transactions · '+nFull+' full months'+inf('Every API call across all banks and TPPs over the full months shown (the current, incomplete month is excluded from this headline). The all-time figure below includes the partial month.')+'</div>';
 o+='<div class="bignum">'+(A.fullTotal!=null?A.fullTotal.toLocaleString():D.headline.totalFull.toLocaleString())+'</div>';
+o+=wow('totalFull',function(x){return x.toLocaleString()+' calls';});
 o+='<div class="sub" style="margin-top:4px">'+(A.allTime!=null?A.allTime.toLocaleString()+' all-time incl. '+esc(A.partialLabel)+' partial ('+A.partialVal.toLocaleString()+')':'')+'</div>';
 o+='<div class="tiles">';
 var T1=[
  [k(A.lastFullVal||0)+' <span class="delta '+((A.momPct||0)>=0?'up':'down')+'">'+dArrow(A.momPct||0)+'</span>', esc(A.lastFullLabel||'')+' run-rate (MoM)','API calls in the most recent full month, and the % change vs the month before. A proxy for how fast ecosystem activity is growing.'],
  [k(A.peakVal||0),'Peak month ('+esc(A.peakLabel||'')+')','The single busiest full month by API call volume so far.'],
- [esc(D.headline.errPct)+'%','Error rate','Share of all API calls returning a 4xx or 5xx response across the whole ecosystem. Heavily skewed by a couple of banks — see Operations for the per-bank split.'],
- [esc(D.headline.liveLFIs),'Live LFIs','Banks (Licensed Financial Institutions) with any traffic in the public Nebras logs.'],
- [esc(D.headline.liveTPPs),'Active TPPs','Third-Party Providers — the apps/fintechs consuming bank data and initiating payments — seen calling the APIs.'],
- [esc(D.payments.successPct)+'%','Payment success','Share of payment instructions the bank accepted (vs rejected/pending). Acceptance, not final settlement — see the payment funnel in Operations.']
+ [esc(D.headline.errPct)+'%','Error rate','Share of all API calls returning a 4xx or 5xx response across the whole ecosystem. Heavily skewed by a couple of banks — see Operations for the per-bank split.',wow('errPct',function(x){return x.toFixed(1)+'pp';})],
+ [esc(D.headline.liveLFIs),'Live LFIs','Licensed institutions (banks, bank brands and insurers) with any traffic in the public Nebras logs over the full months shown.',wow('liveLFIs',String)],
+ [esc(D.headline.liveTPPs),'Active TPPs','Third-Party Providers — the apps/fintechs consuming bank data and initiating payments — seen calling the APIs.',wow('liveTPPs',String)],
+ [esc(D.payments.successPct)+'%','Payment success','Share of payment instructions the bank accepted, out of all instructions including rejected, pending and received. Acceptance, not final settlement — see the payment funnel in Operations.',wow('paySucc',function(x){return x.toFixed(1)+'pp';})]
 ];
-T1.forEach(function(t){o+='<div class="tile"><div class="v">'+t[0]+'</div><div class="l">'+t[1]+inf(t[2])+'</div></div>';});
+T1.forEach(function(t){o+='<div class="tile"><div class="v">'+t[0]+'</div><div class="l">'+t[1]+inf(t[2])+'</div>'+(t[3]||'')+'</div>';});
 o+='</div></div>';
 /* right: bar chart + movers */
 o+='<div><div style="font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px">Monthly transaction volume'+inf('Total API calls per month. The last bar (striped) is the current, incomplete month, so it reads low.')+'</div>';
@@ -196,7 +287,7 @@ o+='</div></div>';
 /* payment value card */
 if(D.payActivity){var P=D.payActivity,W=D.payWho||{};
 o+='<div class="card hero" style="margin-top:12px">';
-o+='<div><div style="font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em">Paid through Open Finance · accepted value · '+P.months.length+' months'+inf('Total value (AED) of payments the banks accepted, over the full months shown. Accepted means approved — not necessarily fully settled. The all-time figure includes the partial month.')+'</div>';
+o+='<div><div style="font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em">Paid through Open Finance · accepted value · '+(P.partialIdx!=null?P.partialIdx:P.months.length)+' full months'+inf('Total value (AED) of payments the banks accepted, over the full months shown. Accepted means approved — not necessarily fully settled. The all-time figure includes the partial month.')+'</div>';
 o+='<div class="bignum">'+m(P.fullTotal)+'</div>';
 o+='<div class="sub" style="margin-top:4px">'+m(P.allTime)+' all-time incl. '+esc(P.partialLabel)+' partial ('+m(P.partialVal)+')</div>';
 o+='<div class="tiles">';
@@ -219,36 +310,36 @@ W.lfi.slice(0,4).forEach(function(x){o+='<div class="mv"><b>'+esc(x[0])+'</b> <s
 o+='<div class="movers" style="margin-top:6px"><span style="font-size:10.5px;color:var(--mut);align-self:center">TPPs:</span>';
 W.tpp.slice(0,4).forEach(function(x){o+='<div class="mv"><b>'+esc(x[0])+'</b> <span class="p">'+m(x[1])+'</span></div>';});o+='</div>';}
 o+='</div></div>';}
-o+='<div class="note" style="margin-top:10px">'+esc(D.eco.note)+'</div></section>';
+o+='<div class="note" style="margin-top:10px">The top TPP carries '+esc(D.eco.top1share)+'% of attributed traffic (HHI '+Number(D.eco.hhi).toLocaleString()+'; over 2,500 is “highly concentrated”) — see Concentration risk in Operations.</div></section>';
 
 /* ===== SECTION 1 — STANDARDS ===== */
 o+='<section id="standards"><div class="seg"><div class="n">1</div><h2>Standards &amp; Documentation'+inf('Tracks changes to the Open Finance API specs, errata and API Hub versions across the three layers they live in: GitHub (api-specs), the Nebras website, and Confluence.')+'</h2><div class="d">What changed across GitHub · Confluence · website this run</div></div>';
 /* version ribbon */
 if(D.ribbon){o+='<div class="ribbon" style="margin-bottom:12px">';D.ribbon.forEach(function(r){o+='<div class="rb '+esc(r.state)+'"><div class="l">'+esc(r.label)+'</div><div class="v">'+esc(r.val)+'</div></div>';});o+='</div>';}
-/* alerts (changes only here) */
-if(D.alerts&&D.alerts.length){o+='<div>';D.alerts.forEach(function(a){var std=/^STANDING/i.test(a);var parts=a.split(/\s(https?:\/\/\S+)/);o+='<div class="alert'+(std?' std':'')+'">'+esc(parts[0])+' '+lk(parts[1],'link')+'</div>';});o+='</div>';}
-/* breaking changes — split by who must act: TPP vs LFI/API Hub */
+/* OpenAPI spec changes — the core "what changed" table */
+o+='<div class="card"><h3>OpenAPI spec changes'+inf('What changed in the machine-readable API definitions — new/renamed endpoints, fields and versions — and what integrators must change as a result.')+'</h3><div style="font-size:13px;margin:-2px 0 8px">'+esc(D.impact.headline)+'</div>';
+o+='<div class="hm"><table class="cards"><thead><tr><th>Surface</th><th>Version</th><th>What changed</th><th>Ecosystem impact</th><th></th></tr></thead><tbody>';
+D.impact.rows.forEach(function(r){o+='<tr>'+td('Surface','<b>'+esc(r[0])+'</b>')+td('Version',esc(r[1]))+td('What changed',esc(r[2]))+td('Ecosystem impact',esc(r[3]))+td('',lk(r[4],'spec'),' class="src"')+'</tr>';});
+o+='</tbody></table></div><div class="note"><b>Cross-layer:</b> '+esc(D.impact.crossLayer)+' &nbsp;'+lk(D.impact.compareUrl,'full diff')+'</div></div>';
+/* breaking changes — counts up front, full register one click away */
 if(D.breaking){var BK=D.breaking;
- var bkLbl={live:['bk-live','Enforced now'],behaviour:['bk-beh','Live behaviour'],doc:['bk-doc','Doc-align'],low:['bk-doc','Low impact'],staging:['bk-stg','Staging']};
+ var bkLbl={live:['bk-live','Enforced now'],behaviour:['bk-beh','Live behaviour'],doc:['bk-doc','Doc-align'],low:['bk-doc','Low impact'],staging:['bk-stg','Staging'],draft:['bk-stg','Draft']};
  function bkPill(s){var p=bkLbl[s]||['bk-doc',esc(s||'')];return '<span class="bkpill '+p[0]+'">'+p[1]+'</span>';}
- function bkRows(rows){var s='';(rows||[]).forEach(function(r){s+='<tr><td><b>'+esc(r[0])+'</b></td><td style="white-space:nowrap">'+esc(r[1])+'</td><td>'+esc(r[2])+'</td><td>'+esc(r[3])+'</td><td>'+bkPill(r[4])+'</td><td class="src">'+lk(r[5],'register')+'</td></tr>';});return s;}
+ function bkCounts(rows){var c={},order=[];(rows||[]).forEach(function(r){if(!(r[4] in c)){c[r[4]]=0;order.push(r[4]);}c[r[4]]++;});return order.map(function(k2){return bkPill(k2)+' <b>'+c[k2]+'</b>';}).join(' &nbsp; ');}
+ function bkRows(rows){var s='';(rows||[]).forEach(function(r){s+='<tr>'+td('Spec / endpoints','<b>'+esc(r[0])+'</b>')+td('Version',esc(r[1]))+td('What breaks',esc(r[2]))+td('Required action',esc(r[3]))+td('Status',bkPill(r[4]))+td('',lk(r[5],'register'),' class="src"')+'</tr>';});return s;}
+ function bkGroup(cls,title,rows,hdr){if(!rows||!rows.length)return;o+='<div class="bkgrouphd '+cls+'">'+title+' · '+rows.length+'</div><div class="bkcounts">'+bkCounts(rows)+'</div>';
+  o+='<details class="more"><summary>Show all '+rows.length+'</summary><div class="hm"><table class="cards"><thead><tr>'+hdr.map(function(h2){return '<th>'+h2+'</th>';}).join('')+'<th></th></tr></thead><tbody>'+bkRows(rows)+'</tbody></table></div></details>';}
  var bkLive=((BK.tpp||[]).concat(BK.lfi||[])).filter(function(r){return r[4]==='live'||r[4]==='behaviour';}).length;
- o+='<div class="card bkcard" style="margin-top:8px"><h3>⚠ Breaking changes — who must act'+inf('Accepted breaking changes parsed from the api-specs supporting/breaking-changes registers (each oasdiff-signed-off by Nebras), plus API Hub release-note behaviour changes. Split by which side of the integration must change: TPP-facing = the contract third parties build to (standards specs); LFI / API Hub = Ozone Connect + the Hub control plane (api-hub specs). Status: Enforced now = merged to main under the current errata; Live behaviour = a deployed API Hub release-note change; Staging = on a branch, not yet normative.')+' — <span class="bkn">'+bkLive+' enforced/live</span></h3>';
- o+='<div class="bkgrouphd tpp">TPP-facing — the contract third parties build to</div>';
- o+='<div class="hm"><table><thead><tr><th>Spec / endpoints</th><th>Version</th><th>What breaks</th><th>Required action</th><th>Status</th><th></th></tr></thead><tbody>'+bkRows(BK.tpp)+'</tbody></table></div>';
- o+='<div class="bkgrouphd lfi">LFI / API Hub — Ozone Connect + Hub control plane</div>';
- o+='<div class="hm"><table><thead><tr><th>Spec / endpoints</th><th>Version</th><th>What breaks</th><th>Required action</th><th>Status</th><th></th></tr></thead><tbody>'+bkRows(BK.lfi)+'</tbody></table></div>';
- if(BK.pending&&BK.pending.length){o+='<div class="bkgrouphd stg">Pending / staging — not yet on main</div>';
-  o+='<div class="hm"><table><thead><tr><th>Source</th><th>State</th><th>What is changing</th><th>Watch</th><th>Status</th><th></th></tr></thead><tbody>'+bkRows(BK.pending)+'</tbody></table></div>';}
+ o+='<div class="card bkcard" style="margin-top:12px"><h3>⚠ Breaking changes — who must act'+inf('Accepted breaking changes parsed from the api-specs supporting/breaking-changes registers (each oasdiff-signed-off by Nebras), plus API Hub release-note behaviour changes. Split by which side of the integration must change: TPP-facing = the contract third parties build to (standards specs); LFI / API Hub = Ozone Connect + the Hub control plane (api-hub specs). Status: Enforced now = merged to main under the current errata; Live behaviour = a deployed API Hub release-note change; Doc-align = the spec now matches live behaviour; Pending = not yet on main.')+' — <span class="bkn">'+bkLive+' enforced/live</span></h3>';
+ bkGroup('tpp','TPP-facing — the contract third parties build to',BK.tpp,['Spec / endpoints','Version','What breaks','Required action','Status']);
+ bkGroup('lfi','LFI / API Hub — Ozone Connect + Hub control plane',BK.lfi,['Spec / endpoints','Version','What breaks','Required action','Status']);
+ bkGroup('stg','Pending — not yet on main',BK.pending,['Source','State','What is changing','Watch','Status']);
  if(BK.note){o+='<div class="note">'+esc(BK.note)+'</div>';}
  o+='</div>';}
-o+='<div class="card" style="margin-top:8px"><h3>OpenAPI spec changes'+inf('What changed in the machine-readable API definitions this week — new/renamed endpoints, fields and versions — and what integrators must change as a result.')+' — '+esc(D.impact.headline)+'</h3>';
-o+='<div class="hm"><table><thead><tr><th>Surface</th><th>Version</th><th>What changed</th><th>Ecosystem impact</th><th></th></tr></thead><tbody>';
-D.impact.rows.forEach(function(r){o+='<tr><td><b>'+esc(r[0])+'</b></td><td>'+esc(r[1])+'</td><td>'+esc(r[2])+'</td><td>'+esc(r[3])+'</td><td class="src">'+lk(r[4],'spec')+'</td></tr>';});
-o+='</tbody></table></div><div class="note"><b>Cross-layer:</b> '+esc(D.impact.crossLayer)+' &nbsp;'+lk(D.impact.compareUrl,'full diff')+'</div></div>';
 o+='<div class="grid g2" style="margin-top:12px">';
-o+='<div class="card"><h3>Change log — standards layer'+inf('Plain-English summary of every standards / spec / governance change detected this run, tagged NEW / CHANGED / No change, each linked to its source.')+'</h3><table><tbody>';
-(D.changeLog||[]).filter(function(c){return /spec|errata|standard|postman|confluence|website|govern/i.test(c[0]);}).forEach(function(c){var t=c[1]==='NEW'?'t-new':(/no change/i.test(c[1])?'t-no':'t-chg');o+='<tr><td style="white-space:nowrap"><span class="tag '+t+'">'+esc(c[1])+'</span></td><td><b>'+esc(c[0])+'</b><br><span style="color:var(--mut)">'+esc(c[2])+'</span> '+lk(c[3],'src')+'</td></tr>';});
+o+='<div class="card"><h3>Change log'+inf('Every change the watch detected across standards, operations, adoption and deadlines, with the date it was first seen and a source link. “No change” rows confirm a source was re-checked.')+'</h3><table class="cards"><tbody>';
+(D.changeLog||[]).forEach(function(c){if(Array.isArray(c)){c={title:c[0],status:/^NEW/i.test(c[1])?'new':(/no change/i.test(c[1])?'nochange':'changed'),text:c[2],url:c[3]};}
+ o+='<tr>'+td('',sTag(c.status),' style="white-space:nowrap"')+td('','<b>'+esc(c.title)+'</b>'+(c.layer?' <span class="since">· '+esc(c.layer)+'</span>':'')+' '+sinceTxt(c)+'<br><span style="color:var(--mut)">'+esc(c.text)+'</span> '+lk(c.url,'source'))+'</tr>';});
 o+='</tbody></table></div>';
 o+='<div class="card"><h3>GitHub repos &amp; commits this run'+inf('The Nebras-Open-Finance GitHub repositories and the specific commits/branches that moved since the last run — the earliest signal of upcoming standards changes.')+'</h3><table><tbody>';
 (D.repos||[]).forEach(function(r){o+='<tr><td><b>'+esc(r[0])+'</b> <code style="color:var(--mut)">'+esc(r[1])+'</code><br><span style="color:var(--mut);font-size:11px">'+esc(r[2])+'</span></td><td class="src">'+lk(r[3],'repo')+'</td></tr>';});
@@ -259,15 +350,41 @@ o+='</div></section>';
 
 /* ===== SECTION 2 — COMPLIANCE ===== */
 o+='<section id="compliance"><div class="seg"><div class="n">2</div><h2>Release Compliance'+inf('For each CBUAE-mandated release, how many Tier-1 banks are registered LIVE in the production Trust Framework directory (data.directory.openfinance.ae) for the API families that release requires — the authoritative go-live signal (self-certified, Status=Active). The note on each card adds the secondary sandbox signal: how many of those are also actively serving 2xx traffic. Production registration, not sandbox traffic, is the basis for the count.')+'</h2><div class="d">How fully each CBUAE release is supported — Tier-1 banks live in the production directory (+ sandbox traffic as secondary)</div></div>';
-o+='<div class="card"><div class="board">';
-D.board.forEach(function(b){var zero=(b.obs&&b.t1Now===0)?' zero':'';o+='<div class="rel band-'+b.band+zero+'">';
+/* deadline timeline: mandate month vs how many are live, today marked */
+(function(){var B=D.board||[];if(!B.length)return;
+ var ms=[];B.forEach(function(b){[b.t1Due,b.t2Due].forEach(function(x){if(x&&x!=='N/A')ms.push(isoMs(x));});});ms.push(TODAY);
+ var lo=Math.min.apply(null,ms),hi=Math.max.apply(null,ms);lo=Date.UTC(new Date(lo).getUTCFullYear(),new Date(lo).getUTCMonth()-1,1);hi=Date.UTC(new Date(hi).getUTCFullYear(),new Date(hi).getUTCMonth()+2,1);
+ function x(t){return ((t-lo)/(hi-lo)*100).toFixed(2)+'%';}
+ o+='<div class="card"><h3>Deadline timeline'+inf('Each row is a CBUAE release. The filled dot is the Tier-1 mandate month, coloured by how many Tier-1 institutions are registered live in production (red = none, green = all). The hollow dot is the Tier-2 month. The amber line is today. The Annexure gives months only; countdowns count from the 1st.')+'</h3>';
+ o+='<div class="tlrow" style="min-height:22px;border:0"><span></span><div class="axis">';
+ var stepM=(window.innerWidth||1200)<780?6:3;
+ for(var t=lo;t<=hi;t=Date.UTC(new Date(t).getUTCFullYear(),new Date(t).getUTCMonth()+stepM,1)){var dd=new Date(t);o+='<span style="left:'+x(t)+'">'+MO[dd.getUTCMonth()]+' '+String(dd.getUTCFullYear()).slice(2)+'</span>';}
+ o+='</div><span></span></div><div class="tl">';
+ B.forEach(function(b){var ins=/insurance/i.test(b.rel);var d1=daysTo(b.t1Due),d2=daysTo(b.t2Due);
+  var t1=isoMs(b.t1Due),t2=(b.t2Due&&b.t2Due!=='N/A')?isoMs(b.t2Due):null;
+  var col=b.obs?fillColor(b.t1Now,b.t1Of):'#6e7681';
+  var tip1='Tier-1 due '+fmtDue(b.t1Due)+' ('+cd(d1)+')'+(b.obs?' — '+b.t1Now+'/'+b.t1Of+' live':' — not observable');
+  var tip2=t2?'Tier-2 due '+fmtDue(b.t2Due)+' ('+cd(d2)+')'+(b.t2Early!=null?' — '+b.t2Early+' Tier-2 registered':''):'';
+  o+='<div class="tlrow"><span class="lab" title="'+esc(b.rel)+'">'+esc(b.rel)+'</span><div class="track">';
+  o+='<span class="span" style="left:'+x(t1)+';width:calc('+x(t2||t1)+' - '+x(t1)+')"></span>';
+  o+='<span class="today" style="left:'+x(TODAY)+'"></span>';
+  o+='<span class="mk" style="left:'+x(t1)+';background:'+col+'" title="'+esc(tip1)+'"></span>';
+  if(t2){o+='<span class="mk t2'+(ins?' ins':'')+'" style="left:'+x(t2)+'" title="'+esc(tip2)+'"></span>';}
+  var t2of=ins?28:30,t2txt=(t2&&b.obs&&b.t2Early!=null)?'<span class="t2c">T2 '+b.t2Early+'/'+t2of+'</span>':'';
+  o+='</div><span class="cnt" style="color:'+col+'">'+(b.obs?b.t1Now+'/'+b.t1Of:'n/obs')+t2txt+'</span></div>';});
+ o+='</div><div class="tllgd"><span><i style="background:#2ea043"></i>Tier-1 month (colour = share live)</span><span><i style="border:2px solid #79c0ff"></i>Tier-2 month</span><span><i style="background:#d29922;border-radius:1px;width:3px"></i>Today</span><span>Right column: Tier-1 live in production · T2 = Tier-2 registered so far</span></div></div>';
+})();
+o+='<details class="more"><summary>Release cards — scope, both countdowns and notes for all '+(D.board||[]).length+' releases</summary>';
+o+='<div class="card" style="margin-top:6px"><div class="board">';
+D.board.forEach(function(b){var zero=(b.obs&&b.t1Now===0)?' zero':'';var d1=daysTo(b.t1Due),d2=daysTo(b.t2Due);o+='<div class="rel band-'+bandOf(d1)+zero+'">';
 o+='<div class="top"><span class="rn">'+esc(b.rel)+'</span><span class="ap">'+esc(b.applic)+'</span></div><div class="sc">'+esc(b.scope)+'</div>';
-o+='<div class="dd"><span>T1 due <b>'+fmtDue(b.t1Due)+'</b>'+(b.t1DaysLeft<0?' · passed '+(-b.t1DaysLeft)+'d':' · in '+b.t1DaysLeft+'d')+'</span><span>T2 due <b>'+fmtDue(b.t2Due)+'</b></span></div>';
+o+='<div class="dd"><span>T1 <b>'+fmtDue(b.t1Due)+'</b> · '+cd(d1)+'</span><span>T2 <b>'+fmtDue(b.t2Due)+'</b>'+(d2!=null?' · '+cd(d2):'')+'</span></div>';
 if(!b.obs){o+='<div class="nobs">n/obs — scope not visible in URL logs</div>';}
 else{var pct=b.t1Of?Math.round(b.t1Now/b.t1Of*100):0;o+='<div class="meter"><i style="width:'+pct+'%;background:'+fillColor(b.t1Now,b.t1Of)+'"></i></div>';
 o+='<div class="mrow"><span class="f" style="color:'+fillColor(b.t1Now,b.t1Of)+'">'+b.t1Now+'/'+b.t1Of+'</span><span class="lbl">Tier-1 active'+(b.t1Ever>b.t1Now?' · '+b.t1Ever+'/'+b.t1Of+' ever':'')+'</span>'+(b.t2Early>0?'<span class="t2e">+'+b.t2Early+' T2 early</span>':'')+'</div>';}
-o+='<div class="note" style="margin-top:6px">'+esc(b.note)+' '+lk(b.url,'')+'</div></div>';});
-o+='</div><div class="note"><b>'+esc(D.tiers.t1)+'</b><br>'+esc(D.tiers.t2)+'<br>'+esc(D.tiers.ins)+'<br>'+esc(D.fillBasisNote)+' '+lk(D.tiers.url,'OF Roadmap (Confluence)')+'</div></div></section>';
+o+='<div class="note" style="margin-top:6px">'+(b.status?sTag(b.status)+' ':'')+esc(b.note)+' '+lk(b.url,'rulebook')+'</div></div>';});
+o+='</div></div></details>';
+o+='<div class="note"><b>'+esc(D.tiers.t1)+'</b><br>'+esc(D.tiers.t2)+'<br>'+esc(D.tiers.ins)+'<br>'+esc(D.fillBasisNote)+' '+lk(D.tiers.url,'OF Roadmap (Confluence)')+'</div></section>';
 
 /* ===== ADOPTION HEATMAP ===== */
 o+='<section id="adoption"><div class="seg"><div class="n">3</div><h2>Adoption Heatmap'+inf('A per-bank × per-function grid of which APIs each LFI is actually serving successfully (2xx), grouped by CBUAE tier. Both grids below use ONE shared legend. The first grid is the sandbox / pre-live picture from the public Nebras logs (states: Live / Seen-earlier / No-evidence / Not-observed); the second is the production-directory overlay (states: Live / Exposed-no-traffic / Not-observed). Green always means the same thing in both: carrying live 2xx traffic in the last two full months.')+'</h2><div class="d">2xx support by LFI × functionality — sandbox (demand-side) and production directory, one shared legend</div></div>';
@@ -279,6 +396,7 @@ function rowsBlock2(rows){rows.forEach(function(r){o+='<tr><td style="white-spac
 rowsBlock('Tier 1 — Banks ('+D.tierMatrix.t1.length+' of '+D.tierMatrix.t1count+' · sandbox / pre-live 2xx)',D.tierMatrix.t1);
 rowsBlock('Tier 2 — Banks ('+D.tierMatrix.t2inLogs+' of '+D.tierMatrix.t2count+' in sandbox · due Sep-2026)',D.tierMatrix.t2);
 o+='<tr><td style="white-space:nowrap;color:var(--mut)"><i>'+(D.tierMatrix.t2count-D.tierMatrix.t2inLogs)+' other Tier-2 banks</i></td>';D.tierMatrix.cols.forEach(function(){o+='<td class="c"><span class="cellv no"></span></td>';});o+='</tr>';
+if(D.tierMatrix.other&&D.tierMatrix.other.length){o+='<tr class="wvhdr"><td colspan="'+(D.tierMatrix.cols.length+1)+'">Other bank brands &amp; segments — no tier slot of their own, not counted in tier fills</td></tr>';rowsBlock2(D.tierMatrix.other);}
 if(D.tierMatrix.ins&&D.tierMatrix.ins.length){
  o+='<tr class="wvhdr"><td colspan="'+(D.tierMatrix.cols.length+1)+'">Open Insurance — Insurers ('+D.tierMatrix.insT1+' Tier-1 + '+D.tierMatrix.insT2+' Tier-2 · '+D.tierMatrix.ins.length+' first seen in sandbox)</td></tr>';
  rowsBlock2(D.tierMatrix.ins);
@@ -350,7 +468,7 @@ o+='</div>';
 /* TPP concentration (compact) */
 o+='<div class="card" style="margin-top:12px"><h3>Concentration risk — dependence on one TPP'+inf('How dependent the ecosystem is on a single aggregator (TPP). Share = % of attributed traffic each TPP carries. HHI is a standard concentration index — above 2,500 is “highly concentrated.” High concentration means one TPP outage could stall most activity.')+'</h3><table><thead><tr><th>TPP</th><th class="num">Calls</th><th class="num">Share</th></tr></thead><tbody>';
 D.tpp.slice(0,6).forEach(function(r){var sh=D.eco.attributed&&r[0]!=='(Unattributed)'?(r[1]/D.eco.attributed*100):null;o+='<tr><td>'+esc(r[0])+'</td><td class="num">'+r[1].toLocaleString()+'</td><td class="num" style="color:var(--mut)">'+(sh!=null?sh.toFixed(1)+'%':'—')+'</td></tr>';});
-o+='</tbody></table><div class="note"><b>'+esc(D.eco.top1)+'</b> handles '+esc(D.eco.top1share)+'% of all attributed traffic across most live banks (HHI '+esc(D.eco.hhi)+'; anything over 2,500 is “highly concentrated”). Because there is no second aggregator at scale, a Lean outage would stall most Open Finance activity market-wide — the ecosystem has little redundancy today. Unattributed: '+D.unattributed.toLocaleString()+' calls.</div></div>';
+o+='</tbody></table><div class="note"><b>'+esc(D.eco.top1)+'</b> handles '+esc(D.eco.top1share)+'% of all attributed traffic (HHI '+Number(D.eco.hhi).toLocaleString()+'; anything over 2,500 is “highly concentrated”). With no second aggregator at scale, an outage at the top TPP would stall most Open Finance activity market-wide — the ecosystem has little redundancy today. Unattributed: '+D.unattributed.toLocaleString()+' calls.</div></div>';
 o+='</section>';
 
 /* ===== ECONOMICS ===== */
@@ -358,27 +476,35 @@ if(D.economics){var E=D.economics;
 o+='<section id="economics"><div class="seg"><div class="n">5</div><h2>Commercial &amp; Economics'+inf('What the platform and the AlTareq scheme fees come to at current volume — what TPPs pay (Nebras API Hub consumption + per-payment scheme fees) and what LFIs earn (payment scheme fees; data sharing is zero-rated below the page caps). Priced on the regulated Commercial & Pricing Model v1.0 from the observed 2xx / accepted flows.')+'</h2><div class="d">Who pays whom, and how much, at current platform volume</div></div>';
 /* headline answer cards */
 o+='<div class="grid g3">';
-o+='<div class="card"><h3>LEAN — cost to run its flows'+inf('LEAN TECH total: Nebras API Hub consumption fee (2.5 fils per successful data/payment call) + per-payment scheme fees owed to LFIs. Data sharing adds nothing below the page caps.')+'</h3><div style="font-size:26px;font-weight:800;line-height:1">'+E.head.leanTotal.toLocaleString()+' <span style="font-size:13px;color:var(--mut)">AED</span></div><div class="note" style="margin-top:3px">Hub '+E.head.leanHub.toLocaleString()+' + payments '+E.head.leanPay.toLocaleString()+' AED · data 0. Payment fee depends on context — band '+E.head.leanPayLo.toLocaleString()+'–'+E.head.leanPayHi.toLocaleString()+' AED (all-P2P-flat ↔ all-merchant-38bps).</div></div>';
-o+='<div class="card"><h3>WIO — payment income'+inf('What TPPs owe WIO for accepted payments initiated against it. Point uses SingleInstantPayment=25 fils flat, VariableOnDemand=38 bps. Data income is zero under the caps.')+'</h3><div style="font-size:26px;font-weight:800;line-height:1">'+E.head.wio.toLocaleString()+' <span style="font-size:13px;color:var(--mut)">AED</span></div><div class="note" style="margin-top:3px">On '+(E.head.wioVal/1e6).toFixed(1)+'M AED of accepted payments · up to '+E.head.wioHi.toLocaleString()+' AED if all merchant-collection (38 bps). Data income 0.</div></div>';
-o+='<div class="card"><h3>Mashreq — payment income'+inf('What TPPs owe Mashreq for accepted payments initiated against it, same basis as WIO.')+'</h3><div style="font-size:26px;font-weight:800;line-height:1">'+E.head.mashreq.toLocaleString()+' <span style="font-size:13px;color:var(--mut)">AED</span></div><div class="note" style="margin-top:3px">On '+(E.head.mashreqVal/1e6).toFixed(1)+'M AED of accepted payments · up to '+E.head.mashreqHi.toLocaleString()+' AED if all merchant-collection. Data income 0.</div></div>';
+/* headline cards are chosen by rank, so no institution gets a fixed card */
+var TT=(E.head&&E.head.topTpp)||{};var ttTot=Math.round(((TT.hub||0)+(TT.pay||0))*100)/100;
+o+='<div class="card"><h3>Top TPP by cost — '+esc(TT.name||'')+inf('The TPP with the highest platform cost: Nebras API Hub consumption fee (2.5 fils per successful data/payment call) plus per-payment scheme fees owed to LFIs. Data sharing adds nothing below the page caps.')+'</h3><div style="font-size:26px;font-weight:800;line-height:1">'+ttTot.toLocaleString()+' <span style="font-size:13px;color:var(--mut)">AED</span></div><div class="note" style="margin-top:3px">Hub '+(TT.hub||0).toLocaleString()+' + payments '+(TT.pay||0).toLocaleString()+' AED · data 0. Payment fee depends on context — band '+(TT.payLo||0).toLocaleString()+'–'+(TT.payHi||0).toLocaleString()+' AED (all-P2P-flat ↔ all-merchant-38bps).</div></div>';
+(E.lfiIncome||[]).slice(0,2).forEach(function(r,i){
+ o+='<div class="card"><h3>#'+(i+1)+' LFI by payment income — '+esc(r[0])+inf('What TPPs owe this LFI for accepted payments initiated against it. Point uses SingleInstantPayment=25 fils flat, VariableOnDemand=38 bps. Data income is zero under the caps. Ranked from the LFI income table below.')+'</h3><div style="font-size:26px;font-weight:800;line-height:1">'+r[1].toLocaleString()+' <span style="font-size:13px;color:var(--mut)">AED</span></div><div class="note" style="margin-top:3px">On '+(r[4]/1e6).toFixed(1)+'M AED of accepted payments · up to '+r[3].toLocaleString()+' AED if all merchant-collection (38 bps). Data income 0.</div></div>';});
 o+='</div>';
 o+='<div class="note" style="margin:8px 0 4px">All figures are '+esc(E.basis)+' These are <b>pre-live sandbox volumes</b> — the whole ecosystem\'s Hub fees total only '+E.hubTotal.toLocaleString()+' AED over the period; the model bites at production scale. The merchant-38bps ceiling ignores the first-200-AED/merchant/day exemption (so it slightly overstates).</div>';
 /* LFI income table */
 o+='<div class="grid g2" style="margin-top:8px">';
-o+='<div class="card"><h3>LFI income — payment scheme fees'+inf('Per LFI: point estimate plus the two bounding scenarios. Flat = every payment at 25 fils; Merchant = every payment at 38 bps of value (50 AED/txn cap). For low-value/high-count flows the flat scenario can exceed the bps one.')+'</h3><table><thead><tr><th>LFI</th><th class="num">Point</th><th class="num">Flat 25f</th><th class="num">Merch 38bps</th><th class="num">Value (AED)</th></tr></thead><tbody>';
+o+='<div class="card"><h3>LFI income — payment scheme fees'+inf('Per LFI: point estimate plus the two bounding scenarios. Flat = every payment at 25 fils; Merchant = every payment at 38 bps of value (50 AED/txn cap). For low-value/high-count flows the flat scenario can exceed the bps one.')+'</h3><div class="xs"><table><thead><tr><th>LFI</th><th class="num">Point</th><th class="num">Flat 25f</th><th class="num">Merch 38bps</th><th class="num">Value (AED)</th></tr></thead><tbody>';
 E.lfiIncome.forEach(function(r){o+='<tr><td>'+esc(r[0])+'</td><td class="num"><b>'+r[1].toLocaleString()+'</b></td><td class="num" style="color:var(--mut)">'+r[2].toLocaleString()+'</td><td class="num" style="color:var(--mut)">'+r[3].toLocaleString()+'</td><td class="num">'+r[4].toLocaleString()+'</td></tr>';});
-o+='</tbody></table><div class="note">Income is AED. Data-sharing income = <b>0</b> for every LFI (retail/SME free below 15 attended / 5 unattended pages per customer/day; CoP/Balance/Product/Customer always free). Payment context is not in the logs — point maps SingleInstantPayment→25 fils, VariableOnDemand→38 bps.</div></div>';
+o+='</tbody></table></div><div class="note">Income is AED. Data-sharing income = <b>0</b> for every LFI (retail/SME free below 15 attended / 5 unattended pages per customer/day; CoP/Balance/Product/Customer always free). Payment context is not in the logs — point maps SingleInstantPayment→25 fils, VariableOnDemand→38 bps.</div></div>';
 /* TPP cost table */
-o+='<div class="card"><h3>TPP cost — platform + payments'+inf('Per TPP: Nebras API Hub consumption (2.5 fils/successful chargeable call) plus per-payment scheme fees owed to LFIs (point estimate). Data sharing adds nothing below the caps.')+'</h3><table><thead><tr><th>TPP</th><th class="num">Hub fee</th><th class="num">Payments</th><th class="num">Total</th></tr></thead><tbody>';
+o+='<div class="card"><h3>TPP cost — platform + payments'+inf('Per TPP: Nebras API Hub consumption (2.5 fils/successful chargeable call) plus per-payment scheme fees owed to LFIs (point estimate). Data sharing adds nothing below the caps.')+'</h3><div class="xs"><table><thead><tr><th>TPP</th><th class="num">Hub fee</th><th class="num">Payments</th><th class="num">Total</th></tr></thead><tbody>';
 E.tppCost.forEach(function(r){o+='<tr><td>'+esc(r[0])+'</td><td class="num">'+r[1].toLocaleString()+'</td><td class="num">'+r[2].toLocaleString()+'</td><td class="num"><b>'+(r[1]+r[2]).toLocaleString()+'</b></td></tr>';});
-o+='</tbody></table><div class="note">AED, full-months. Hub fee goes to Nebras; payment scheme fees go to the LFIs. Ecosystem Hub total '+E.hubTotal.toLocaleString()+' AED (floor '+E.hubFloor.toLocaleString()+' with balance/CoP pairing discount).</div></div>';
+o+='</tbody></table></div><div class="note">AED, full-months. Hub fee goes to Nebras; payment scheme fees go to the LFIs. Ecosystem Hub total '+E.hubTotal.toLocaleString()+' AED (floor '+E.hubFloor.toLocaleString()+' with balance/CoP pairing discount).</div></div>';
 o+='</div>';
 /* fee schedule reference */
-o+='<div class="card" style="margin-top:12px"><h3>Fee schedule (regulated) — '+lk(E.sourceUrl,'Commercial &amp; Pricing Model v1.0')+'</h3><table><thead><tr><th>Stream</th><th>Rate</th></tr></thead><tbody>';
-E.schedule.forEach(function(r){o+='<tr><td style="white-space:nowrap"><b>'+esc(r[0])+'</b></td><td>'+esc(r[1])+'</td></tr>';});
-o+='</tbody></table><div class="note">Fees charged only for technically successful calls; all fees VAT-inclusive; Nebras calculates &amp; collects on behalf of LFIs. Source: '+lk(E.sourceUrl,'OF Confluence — Commercial &amp; Pricing Model')+'.</div></div>';
+o+='<div class="card" style="margin-top:12px"><h3>Fee schedule (regulated) — '+lk(E.sourceUrl,'Commercial & Pricing Model v1.0')+'</h3><table><thead><tr><th>Stream</th><th>Rate</th></tr></thead><tbody>';
+E.schedule.forEach(function(r){o+='<tr><td><b>'+esc(r[0])+'</b></td><td>'+esc(r[1])+'</td></tr>';});
+o+='</tbody></table><div class="note">Fees charged only for technically successful calls; all fees VAT-inclusive; Nebras calculates &amp; collects on behalf of LFIs. Source: '+lk(E.sourceUrl,'OF Confluence — Commercial & Pricing Model')+'.</div></div>';
 o+='</section>';}
 
+/* audit trail: the job's full working notes, kept but out of the way */
+if(D.audit){var AU=D.audit;o+='<section id="audit"><details class="more" style="margin-top:26px"><summary>Run log — full working notes from the latest run (for auditors)</summary>';
+ if(AU.run){o+='<div class="card" style="margin-top:6px"><h3>Run</h3><div class="pre">'+esc(AU.run)+'</div></div>';}
+ ['adoption','impact','breaking','tiers'].forEach(function(key){if(AU[key]){o+='<div class="card" style="margin-top:8px"><h3>'+esc(key)+'</h3><div class="pre">'+esc(AU[key])+'</div></div>';}});
+ if(AU.board){o+='<div class="card" style="margin-top:8px"><h3>Release notes (long form)</h3><div class="pre">'+Object.keys(AU.board).map(function(r){return esc(r)+': '+esc(AU.board[r]);}).join('\n\n')+'</div></div>';}
+ o+='</details></section>';}
 o+='<div class="foot">Tiers &amp; deadlines per the '+lk('https://openfinanceuae.atlassian.net/wiki/spaces/OF/pages/6259008/Roadmap','Open Finance Roadmap (Nebras OF Confluence)')+'. Adoption is demand-side evidence from public Nebras sandbox / pre-live logs — absence of TPP calls does not prove an LFI is not certified. '+lk('https://nebras-open-finance.com/metrics','metrics')+' · '+lk('https://openfinanceuae.atlassian.net/wiki/spaces/OF/pages/6259008/Roadmap','OF Roadmap')+'</div>';
 return o;}
 document.write(H());

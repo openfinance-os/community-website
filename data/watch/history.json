@@ -1,5 +1,5 @@
 {
- "note": "Append one compact entry per scheduled run. The artifact reads this to draw sparklines and compute week-over-week deltas. Keep ~26 entries (6 months) then trim oldest.",
+ "note": "One compact, ecosystem-level entry per run that published new data (runs where the logs didn't advance add no row). Institution-specific columns are not allowed. Keep ~26 entries.",
  "runs": [
   {
    "runDate": "2026-06-08",
@@ -7,10 +7,6 @@
    "errPct": 44.2,
    "paySucc": 92.5,
    "authPct": 54.0,
-   "adcbCalls": 15899,
-   "adcbErr": 20.1,
-   "adcbRank": 8,
-   "topTppShare": 85.1,
    "hhi": 7315,
    "websiteSpecBranch": "caap-refactor"
   },
@@ -20,14 +16,10 @@
    "errPct": 44.2,
    "paySucc": 92.5,
    "authPct": 54.0,
-   "adcbCalls": 15899,
-   "adcbErr": 20.1,
-   "adcbRank": 8,
-   "topTppShare": 85.1,
    "hhi": 7315,
-   "websiteSpecBranch": "caap-refactor",
    "liveLFIs": 10,
-   "liveTPPs": 11
+   "liveTPPs": 11,
+   "websiteSpecBranch": "caap-refactor"
   },
   {
    "runDate": "2026-06-11",
@@ -35,15 +27,10 @@
    "errPct": 44.2,
    "paySucc": 92.5,
    "authPct": 54.0,
-   "adcbCalls": 15899,
-   "adcbErr": 20.1,
-   "adcbRank": 8,
-   "topTppShare": 85.1,
    "hhi": 7315,
-   "websiteSpecBranch": "caap-refactor",
    "liveLFIs": 10,
    "liveTPPs": 11,
-   "adcbTppCalls": 212
+   "websiteSpecBranch": "caap-refactor"
   },
   {
    "runDate": "2026-06-15",
@@ -51,15 +38,10 @@
    "errPct": 44.2,
    "paySucc": 92.5,
    "authPct": 54.0,
-   "adcbCalls": 15899,
-   "adcbErr": 20.1,
-   "adcbRank": 8,
-   "topTppShare": 85.1,
    "hhi": 7315,
-   "websiteSpecBranch": "caap-refactor",
    "liveLFIs": 10,
    "liveTPPs": 11,
-   "adcbTppCalls": 212
+   "websiteSpecBranch": "caap-refactor"
   },
   {
    "runDate": "2026-06-22",
@@ -67,15 +49,10 @@
    "errPct": 44.2,
    "paySucc": 92.5,
    "authPct": 54.0,
-   "adcbCalls": 15899,
-   "adcbErr": 20.1,
-   "adcbRank": 8,
-   "topTppShare": 85.1,
    "hhi": 7315,
-   "websiteSpecBranch": "caap-refactor",
    "liveLFIs": 10,
    "liveTPPs": 11,
-   "adcbTppCalls": 212
+   "websiteSpecBranch": "caap-refactor"
   },
   {
    "runDate": "2026-06-23",
@@ -83,15 +60,10 @@
    "errPct": 44.2,
    "paySucc": 92.5,
    "authPct": 54.0,
-   "adcbCalls": 15899,
-   "adcbErr": 20.1,
-   "adcbRank": 8,
-   "topTppShare": 85.1,
    "hhi": 7315,
-   "websiteSpecBranch": "caap-refactor",
    "liveLFIs": 10,
    "liveTPPs": 11,
-   "adcbTppCalls": 212
+   "websiteSpecBranch": "caap-refactor"
   },
   {
    "runDate": "2026-06-26",
@@ -99,15 +71,10 @@
    "errPct": 44.2,
    "paySucc": 92.5,
    "authPct": 54.0,
-   "adcbCalls": 15899,
-   "adcbErr": 20.1,
-   "adcbRank": 8,
-   "topTppShare": 85.1,
    "hhi": 7315,
-   "websiteSpecBranch": "main",
    "liveLFIs": 10,
    "liveTPPs": 11,
-   "adcbTppCalls": 212
+   "websiteSpecBranch": "main"
   },
   {
    "runDate": "2026-06-29",
@@ -115,7 +82,6 @@
    "errPct": 44.2,
    "paySucc": 92.6,
    "authPct": 54.0,
-   "topTppShare": 85.1,
    "hhi": 7315,
    "liveLFIs": 10,
    "liveTPPs": 11,
@@ -264,6 +230,18 @@
    "liveLFIs": 16,
    "liveTPPs": 16,
    "websiteSpecBranch": "main"
+  },
+  {
+   "runDate": "2026-10-05",
+   "totalFull": 1011740,
+   "errPct": 23.5,
+   "paySucc": 96.0,
+   "authPct": 53.3,
+   "top1Share": 86.0,
+   "hhi": 7447,
+   "liveLFIs": 16,
+   "liveTPPs": 16,
+   "websiteSpecBranch": "v2.2-rc2-nebras"
   }
  ]
 }

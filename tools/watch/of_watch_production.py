@@ -54,6 +54,7 @@ USAGE
 import argparse, json, re, sys, urllib.request
 from collections import defaultdict
 
+import of_watch_entities as E
 import of_watch_metrics as m
 
 PROD_DIR_URL = "https://data.directory.openfinance.ae/participants"
@@ -64,29 +65,11 @@ UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
 COLS = ["Consent", "AIS:balances", "AIS:transactions", "AIS:parties",
         "PIS:payments", "CoP", "v2.1 uplift", "Insurance", "FX"]
 
-# Production directory OrganisationName -> heatmap display name + tier bucket.
-ORG = {
-    "FAB": ("First Abu Dhabi Bank", "t1"),
-    "Emirates NBD": ("Emirates NBD", "t1"),
-    "ADCB": ("ADCB", "t1"),
-    "DIB": ("Dubai Islamic Bank", "t1"),
-    "Mashreq": ("Mashreq", "t1"),
-    "ADIB": ("ADIB", "t1"),
-    "HSBC": ("HSBC (Retail)", "t1"),
-    "CBD": ("Commercial Bank of Dubai", "t1"),
-    "WIO Bank": ("WIO Bank", "t2"),
-    "LIVA": ("LIVA (insurer)", "ins"),
-    "ADNIC": ("ADNIC (insurer)", "ins"),
-}
-# Heatmap display order for the Tier-1 block (matches the sandbox grid).
-T1_ORDER = ["FAB", "Emirates NBD", "ADCB", "DIB", "Mashreq", "ADIB", "HSBC", "CBD"]
-
-# api-log lfinamekey -> production-directory OrganisationName.
-LOGKEY = {
-    "uae-adcbrt": "ADCB", "uae-adibrt": "ADIB", "uae-cbdrt": "CBD", "uae-dibrt": "DIB",
-    "uae-enbdx": "Emirates NBD", "uae-fabretail": "FAB", "uae-hsbcrt": "HSBC",
-    "uae-hsbcws": "HSBC", "uae-mashrt": "Mashreq", "uae-wioretail": "WIO Bank",
-}
+# Names, tiers and log-key mappings come from data/watch/entities.json, so a new
+# participant is added in one place and never needs a hand-patched row here.
+ORG = {k: (v["name"], v["tier"]) for k, v in E.orgs().items()}
+T1_ORDER = E.t1_order()
+LOGKEY = E.logkey_to_org()
 
 def _get(url):
     return json.loads(urllib.request.urlopen(
@@ -212,9 +195,11 @@ def build_grid(directory=None, log=None):
 
     t1 = [[ORG[k][0], _cells(k, exposed, traffic)] for k in T1_ORDER if k in present]
     other = []
-    for k, (disp, tier) in ORG.items():
-        if tier in ("t2", "ins") and k in present:
-            other.append([disp, ("Tier-2" if tier == "t2" else "Insurer"), _cells(k, exposed, traffic)])
+    for want in ("t2", "ins"):
+        for k, (disp, tier) in ORG.items():
+            if tier == want and k in present:
+                other.append([disp, ("Tier-2" if tier == "t2" else "Insurer"), _cells(k, exposed, traffic)])
+    unmapped = E.unmapped_orgs(directory)
 
     def count(state):
         n = 0
@@ -231,6 +216,7 @@ def build_grid(directory=None, log=None):
         "other": other,
         "counts": {"prodOrgs": len(directory), "banks": banks,
                    "t1": len(t1), "green": count("green"), "blue": count("blue")},
+        "unmapped": unmapped,
         "window": f"2xx in {_window_label(window)} (last 2 full months)",
         "source": PROD_DIR_URL,
         "trafficSource": LOG_URL,
@@ -281,6 +267,8 @@ def main():
         for r in g["other"]:
             print(("%s [%s]" % (r[0], r[1])).ljust(26) + " ".join(sym[x].rjust(6) for x in r[2]))
         print("\ncounts:", g["counts"])
+        if g["unmapped"]:
+            print("UNMAPPED directory orgs (add to data/watch/entities.json):", g["unmapped"])
 
 
 if __name__ == "__main__":

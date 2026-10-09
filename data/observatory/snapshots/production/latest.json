@@ -1,17 +1,17 @@
 {
-  "timestamp": "2026-09-27T11:25:50.844Z",
+  "timestamp": "2026-10-08T18:28:59.259Z",
   "source": "https://data.directory.openfinance.ae",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "environment": "production",
   "summary": {
-    "totalParticipants": 26,
+    "totalParticipants": 27,
     "byStatus": {
-      "Active": 26
+      "Active": 27
     },
     "byRole": {
       "BDSP": 16,
       "BSIP": 15,
-      "LFI": 18,
+      "LFI": 19,
       "ISP": 7,
       "API Read_Write": 3,
       "TSP": 3,
@@ -19,17 +19,19 @@
     },
     "byCity": {
       "Abu Dhabi": 5,
-      "Unknown": 14,
+      "Unknown": 15,
       "Dubai": 7
     },
     "apiFamilies": [
       "accounts",
+      "atm",
       "cop",
+      "insurance",
       "payments",
       "products"
     ],
     "liveInProduction": 12,
-    "shariahCompliantCount": 0,
+    "shariahCompliantCount": 1,
     "multiRoleCount": 25,
     "tppCount": 0,
     "byAuthCapabilities": {
@@ -38,10 +40,10 @@
       "redirect": 0
     },
     "byCertificationStatus": {
-      "Self-Certified": 47
+      "Self-Certified": 50
     },
     "byApiVersion": {
-      "2.1": 37,
+      "2.1": 40,
       "1.2": 7,
       "2.0": 3
     }
@@ -76,24 +78,28 @@
       "apiResources": [
         {
           "family": "products",
+          "rawFamily": "product",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "cop",
+          "rawFamily": "confirmation",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "payments",
+          "rawFamily": "payment",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
         },
         {
           "family": "accounts",
+          "rawFamily": "account-information",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
@@ -121,7 +127,7 @@
         "payments"
       ],
       "hasAuthServer": true,
-      "isShariahCompliant": false,
+      "isShariahCompliant": true,
       "authCapabilities": {
         "supportsCiba": false,
         "supportsDCR": false,
@@ -130,18 +136,21 @@
       "apiResources": [
         {
           "family": "cop",
+          "rawFamily": "confirmation",
           "version": "1.2",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "payments",
+          "rawFamily": "payment",
           "version": "1.2",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
         },
         {
           "family": "accounts",
+          "rawFamily": "account-information",
           "version": "1.2",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
@@ -162,7 +171,9 @@
       ],
       "city": "Abu Dhabi",
       "registrationNumber": "National001",
-      "apiFamilies": [],
+      "apiFamilies": [
+        "insurance"
+      ],
       "hasAuthServer": true,
       "isShariahCompliant": false,
       "authCapabilities": {
@@ -170,7 +181,15 @@
         "supportsDCR": false,
         "supportsRedirect": false
       },
-      "apiResources": [],
+      "apiResources": [
+        {
+          "family": "insurance",
+          "rawFamily": "insurance",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        }
+      ],
       "authServerCount": 1,
       "isLive": true
     },
@@ -227,24 +246,28 @@
       "apiResources": [
         {
           "family": "accounts",
+          "rawFamily": "account-information",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "payments",
+          "rawFamily": "payment",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
         },
         {
           "family": "cop",
+          "rawFamily": "confirmation",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "products",
+          "rawFamily": "product",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
@@ -282,48 +305,56 @@
       "apiResources": [
         {
           "family": "cop",
+          "rawFamily": "confirmation",
           "version": "1.2",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "products",
+          "rawFamily": "product",
           "version": "1.2",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
         },
         {
           "family": "payments",
+          "rawFamily": "payment",
           "version": "1.2",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
         },
         {
           "family": "accounts",
+          "rawFamily": "account-information",
           "version": "1.2",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "products",
+          "rawFamily": "product",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
         },
         {
           "family": "cop",
+          "rawFamily": "confirmation",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "accounts",
+          "rawFamily": "account-information",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
         },
         {
           "family": "payments",
+          "rawFamily": "payment",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
@@ -408,48 +439,56 @@
       "apiResources": [
         {
           "family": "products",
+          "rawFamily": "product",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "cop",
+          "rawFamily": "confirmation",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "payments",
+          "rawFamily": "payment",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
         },
         {
           "family": "accounts",
+          "rawFamily": "account-information",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
         },
         {
           "family": "products",
+          "rawFamily": "product",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "cop",
+          "rawFamily": "confirmation",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "accounts",
+          "rawFamily": "account-information",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
         },
         {
           "family": "payments",
+          "rawFamily": "payment",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
@@ -487,30 +526,35 @@
       "apiResources": [
         {
           "family": "payments",
+          "rawFamily": "payment",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "cop",
+          "rawFamily": "confirmation",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "products",
+          "rawFamily": "product",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "accounts",
+          "rawFamily": "account-information",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "accounts",
+          "rawFamily": "account-information",
           "version": "2.0",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
@@ -534,6 +578,7 @@
       "registrationNumber": "01.02.01.001.1946.02",
       "apiFamilies": [
         "accounts",
+        "atm",
         "cop",
         "payments",
         "products"
@@ -547,37 +592,50 @@
       },
       "apiResources": [
         {
-          "family": "payments",
+          "family": "accounts",
+          "rawFamily": "account-information",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
         },
         {
-          "family": "accounts",
+          "family": "payments",
+          "rawFamily": "payment",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
+        },
+        {
+          "family": "atm",
+          "rawFamily": "atm",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
         },
         {
           "family": "cop",
+          "rawFamily": "confirmation",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "products",
+          "rawFamily": "product",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
         },
         {
           "family": "payments",
+          "rawFamily": "payment",
           "version": "2.0",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
         },
         {
           "family": "accounts",
+          "rawFamily": "account-information",
           "version": "2.0",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
@@ -622,7 +680,9 @@
       ],
       "city": "Dubai",
       "registrationNumber": "Foriegn065",
-      "apiFamilies": [],
+      "apiFamilies": [
+        "insurance"
+      ],
       "hasAuthServer": true,
       "isShariahCompliant": false,
       "authCapabilities": {
@@ -630,7 +690,15 @@
         "supportsDCR": false,
         "supportsRedirect": false
       },
-      "apiResources": [],
+      "apiResources": [
+        {
+          "family": "insurance",
+          "rawFamily": "insurance",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        }
+      ],
       "authServerCount": 1,
       "isLive": true
     },
@@ -663,24 +731,28 @@
       "apiResources": [
         {
           "family": "accounts",
+          "rawFamily": "account-information",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
         },
         {
           "family": "cop",
+          "rawFamily": "confirmation",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "products",
+          "rawFamily": "product",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
         },
         {
           "family": "payments",
+          "rawFamily": "payment",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
@@ -763,6 +835,7 @@
       "apiResources": [
         {
           "family": "accounts",
+          "rawFamily": "account-information",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
@@ -942,6 +1015,29 @@
       "isLive": false
     },
     {
+      "id": "16c610ed-9e4a-407d-90d0-64149ba96b45",
+      "name": "Standard Chartered",
+      "legalName": "Standard Chartered Bank",
+      "shortName": "Standard Chartered",
+      "status": "Active",
+      "roles": [
+        "LFI"
+      ],
+      "city": "Unknown",
+      "registrationNumber": "01.02.01.002.1958.02",
+      "apiFamilies": [],
+      "hasAuthServer": false,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 0,
+      "isLive": false
+    },
+    {
       "id": "c8e1896a-9c6c-4d1d-8f98-1a771a1ccd85",
       "name": "Union Insurance",
       "legalName": "Union Insurance",
@@ -994,24 +1090,28 @@
       "apiResources": [
         {
           "family": "cop",
+          "rawFamily": "confirmation",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "products",
+          "rawFamily": "product",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "payments",
+          "rawFamily": "payment",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "accounts",
+          "rawFamily": "account-information",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
@@ -1026,6 +1126,9 @@
     "newParticipants": [],
     "removedParticipants": [],
     "roleChanges": {},
-    "apiFamilyChanges": {}
+    "apiFamilyChanges": {
+      "atm": 1,
+      "insurance": 2
+    }
   }
 }

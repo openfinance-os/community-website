@@ -1,6 +1,6 @@
 {
- "runDate": "2026-09-21",
- "note": "Run 2026-09-21: guard confirmed ADVANCED -- asOfData 2026-09-06 -> 2026-09-12 AND headline.totalFull moved 1,011,579 -> 1,011,740 (+161), a genuine full-months change even though August was already closed as of the prior run. All three source logs were re-downloaded fresh (api-log-index.json's 4 quarterly dict-encoded shards, still the sharded format first seen 2026-08-24; auth-log.json/payments-log.json still flat arrays) and decoded locally (240,550 rows, 2025-11-01..2026-09-12). Root cause of the full-months delta, isolated via a second independent hand-aggregation straight from the decoded rows (assertion c): National Bank of Fujairah PJSC (uae-nbfrt) surfaced 148 calls dated 6-13 Aug 2026 that were absent from every prior run's log snapshot -- a late-arriving backfill of an already-closed month in the upstream Nebras feed, not new activity this week -- plus small backfill corrections (~13 calls total) spread across Mashreq (+1), ADIB (+5), FAB (+2), Emirates NBD (+2) and uae-livx (+3), also within the same already-closed August month. Every other full-months figure (payments, payment value, auth 2xx share, byVersion mix, concentration inputs besides the new NBF traffic) is otherwise unchanged. liveLFIs 15->16, liveTPPs 15->16: National Bank of Fujairah PJSC now appears as BOTH the LFI (uae-nbfrt, AIS-only traffic -- balances/transactions/parties/standing-orders/direct-debits/scheduled-payments/statements/product, no payment or confirmation-of-payee calls) AND, for the first time, a TPP (145 calls, calling only its own LFI arm -- a NEW (tpp,lfi) pairing, consistent with a self-integration-test pattern also seen from other banks' first TPP calls). PRODUCTION DIRECTORY: re-fetched from data.directory.openfinance.ae -- same 12 organisations, IDENTICAL families/ApiVersion/FamilyComplete flags (version-aware aggregation across every AuthorisationServer per org, guarding against the FAB/HSBC multi-auth-server mis-read from 2026-09-14). National Bank of Fujairah PJSC's directory registration (account-information v2.1, FamilyComplete=false, Self-Certified) is UNCHANGED -- only its sandbox-traffic signal is new. SANDBOX/PRODUCTION TRAFFIC OVERLAY (Jul-Aug 2026 window, unchanged since Aug remains the last full month): NBF's AIS:balances/AIS:transactions/AIS:parties and v2.1-uplift cells flip blue->green (Consent stays blue -- no /account-access-consents call observed); green 61->65, blue 12->8 (of_watch_production.py's own ORG/LOGKEY dicts still do not track National Bank of Fujairah PJSC / uae-nbfrt -- a standing tooling gap, this row was reconstructed by hand). SANDBOX ADOPTION (§1i): Retail R4+ v2.1 grows 7->8 -- NBF newly clears the >=100-v2.1-2xx-call mechanical rule (131 qualifying calls); Retail R1/R2 stay at 9/9 (NBF has no payment/CoP traffic so does not qualify there). NEW (tpp,lfi) pairings vs state: NATIONAL BANK OF FUJAIRAH PJSC x uae-nbfrt (self-directed, 145 calls). api-specs main: of_watch_specdiff.py re-hashed all 99 tracked files -- 0 changed, 0 missing, --probe sweep of 141 convention-derived successor paths found 0 new files: NO SPEC CHANGE on GitHub since 2026-08-24. All 10 tracked breaking-changes registers were re-hashed (SHA-256) and are BYTE-IDENTICAL to the stored digests -- no new register, no content change; the 2 v2.2-rc1/v2.2.x registers stay in `breaking.pending` since Standards V2.2 remains release-candidate. A NEW Confluence-only breaking item was sighted this run (see Confluence paragraph below) and was added to `breaking.pending` by hand, since it is not yet a GitHub-tracked register. Website .specs-branch pin file still absent (404 re-confirmed) -- site still builds from main. CHANGED: the website's v2.1->v2.2-rc1 changelog grew from 6 changes/12 areas to 9 changes/16 areas -- 3 new items, all Islamic-finance/Sharia-compliance fields (expected profit/finance rates and Takaful on product data; separate interest/profit calculation-method fields; Shari'ah description on balance/transaction/statement objects) -- but the 5 tracked v2.2-rc1 OpenAPI file hashes are UNCHANGED since 2026-08-24, so this is the website's documentation catching up to already-present spec content, not a new spec edit. RELEASE NOTES/ERRATA: re-fetched -- still 3 published errata records (v2.1-errata1/2/3, 1+17+5=23 corrections total), API Hub release list still ends 2026.22.0 (6 Jul), Trust Framework still ends 2.4.0 (Released 7 Jul)/2.5.0 (Planned). CONFLUENCE: re-fetched via the public OF-space REST search (top-25 most-recently-modified results, plus direct ID lookups for the 3 pages outside that window) -- 8 of 9 tracked pages match their stored version numbers exactly. The ONE exception: 'Standards V2.1 & API Hub V8 - Consolidated Errata' (id 1366294554) advanced version 5->7 (two edits, both 2026-09-18, no edit comments) and its metadata table now lists a fourth errata, 'Errata 4' (2026-09-18), with 3 items found in the page body: (1) a doc-only clarification that the LFI API Hub Documentation's Products Endpoint mapping page is intentionally blank (no Ozone-Connect<->Standards field differences for Products); (2) API Hub Consent Manager PATCH /insurance-quote-log/{logId} -- 'KYCCaptured' is REMOVED from the QuoteStatus values an LFI may set (only the TPP may set it going forward); (3) the matching TPP-facing Standards correction to the Insurance Quote Initiation spec making the same rule explicit. This is CONFLUENCE-ONLY: neither api-specs main (0/99 unchanged, no v2.1-errata4 folder found by --probe) nor the nebras-open-finance.com errata page (still 3 records, 23 items) reflect it yet -- a leading indicator, not yet enforced. The Roadmap page (id 6259008, the deadline source) is unchanged since 25 Mar 2026. A previously-untracked 'Re: Standards V2.1 & API Hub V8 - Consolidated Errata' page (id 1386119172) also surfaced in this run's top-25 scan (version 1, dated 2026-07-08) -- an old, stable discussion/response page, not a new finding. CBUAE/ECOSYSTEM: rulebook.centralbank.ae re-tried, still unreachable via direct fetch this session (standing) -- rulebook URLs are still cited per release per the task requirement. WebSearch confirms the Federal Decree-Law No. 6/2025 licensed-financial-activity reconciliation deadline was 16 Sep 2026 -- it has now PASSED (5 days ago as of this run), escalated from 'imminent' (flagged 2026-09-14). No other genuinely new dated ecosystem item surfaced inside the 2026-09-14..2026-09-21 window. DEADLINE RADAR: all daysLeft re-stamped against 2026-09-21 (7 days later than last run) -- no band crossed a boundary (Corporates — Full Suite stays 'past', now 20 days overdue vs 13; Standards V2.2 stays 'upcoming' at 71 days, still >30). GitHub org enumeration remains blocked (403, standing) -- repos block carried forward unchanged for commit-history fields; content-level spec diffing via raw.githubusercontent.com is unaffected.",
+ "runDate": "2026-10-05",
+ "note": "2026-10-05: ADVANCED run (logs to 29 Sep). Website spec branch -> v2.2-rc2-nebras; v2.2-rc2 published; a 6th commercial go-live approval (dated 28 Sep); new TPP key MERCURY PAYMENTS SERVICES LLC; 5 new TPP-LFI pairings (Sep partial). Run 2026-09-21: guard confirmed ADVANCED -- asOfData 2026-09-06 -> 2026-09-12 AND headline.totalFull moved 1,011,579 -> 1,011,740 (+161), a genuine full-months change even though August was already closed as of the prior run. All three source logs were re-downloaded fresh (api-log-index.json's 4 quarterly dict-encoded shards, still the sharded format first seen 2026-08-24; auth-log.json/payments-log.json still flat arrays) and decoded locally (240,550 rows, 2025-11-01..2026-09-12). Root cause of the full-months delta, isolated via a second independent hand-aggregation straight from the decoded rows (assertion c): National Bank of Fujairah PJSC (uae-nbfrt) surfaced 148 calls dated 6-13 Aug 2026 that were absent from every prior run's log snapshot -- a late-arriving backfill of an already-closed month in the upstream Nebras feed, not new activity this week -- plus small backfill corrections (~13 calls total) spread across Mashreq (+1), ADIB (+5), FAB (+2), Emirates NBD (+2) and uae-livx (+3), also within the same already-closed August month. Every other full-months figure (payments, payment value, auth 2xx share, byVersion mix, concentration inputs besides the new NBF traffic) is otherwise unchanged. liveLFIs 15->16, liveTPPs 15->16: National Bank of Fujairah PJSC now appears as BOTH the LFI (uae-nbfrt, AIS-only traffic -- balances/transactions/parties/standing-orders/direct-debits/scheduled-payments/statements/product, no payment or confirmation-of-payee calls) AND, for the first time, a TPP (145 calls, calling only its own LFI arm -- a NEW (tpp,lfi) pairing, consistent with a self-integration-test pattern also seen from other banks' first TPP calls). PRODUCTION DIRECTORY: re-fetched from data.directory.openfinance.ae -- same 12 organisations, IDENTICAL families/ApiVersion/FamilyComplete flags (version-aware aggregation across every AuthorisationServer per org, guarding against the FAB/HSBC multi-auth-server mis-read from 2026-09-14). National Bank of Fujairah PJSC's directory registration (account-information v2.1, FamilyComplete=false, Self-Certified) is UNCHANGED -- only its sandbox-traffic signal is new. SANDBOX/PRODUCTION TRAFFIC OVERLAY (Jul-Aug 2026 window, unchanged since Aug remains the last full month): NBF's AIS:balances/AIS:transactions/AIS:parties and v2.1-uplift cells flip blue->green (Consent stays blue -- no /account-access-consents call observed); green 61->65, blue 12->8 (of_watch_production.py's own ORG/LOGKEY dicts still do not track National Bank of Fujairah PJSC / uae-nbfrt -- a standing tooling gap, this row was reconstructed by hand). SANDBOX ADOPTION (§1i): Retail R4+ v2.1 grows 7->8 -- NBF newly clears the >=100-v2.1-2xx-call mechanical rule (131 qualifying calls); Retail R1/R2 stay at 9/9 (NBF has no payment/CoP traffic so does not qualify there). NEW (tpp,lfi) pairings vs state: NATIONAL BANK OF FUJAIRAH PJSC x uae-nbfrt (self-directed, 145 calls). api-specs main: of_watch_specdiff.py re-hashed all 99 tracked files -- 0 changed, 0 missing, --probe sweep of 141 convention-derived successor paths found 0 new files: NO SPEC CHANGE on GitHub since 2026-08-24. All 10 tracked breaking-changes registers were re-hashed (SHA-256) and are BYTE-IDENTICAL to the stored digests -- no new register, no content change; the 2 v2.2-rc1/v2.2.x registers stay in `breaking.pending` since Standards V2.2 remains release-candidate. A NEW Confluence-only breaking item was sighted this run (see Confluence paragraph below) and was added to `breaking.pending` by hand, since it is not yet a GitHub-tracked register. Website .specs-branch pin file still absent (404 re-confirmed) -- site still builds from main. CHANGED: the website's v2.1->v2.2-rc1 changelog grew from 6 changes/12 areas to 9 changes/16 areas -- 3 new items, all Islamic-finance/Sharia-compliance fields (expected profit/finance rates and Takaful on product data; separate interest/profit calculation-method fields; Shari'ah description on balance/transaction/statement objects) -- but the 5 tracked v2.2-rc1 OpenAPI file hashes are UNCHANGED since 2026-08-24, so this is the website's documentation catching up to already-present spec content, not a new spec edit. RELEASE NOTES/ERRATA: re-fetched -- still 3 published errata records (v2.1-errata1/2/3, 1+17+5=23 corrections total), API Hub release list still ends 2026.22.0 (6 Jul), Trust Framework still ends 2.4.0 (Released 7 Jul)/2.5.0 (Planned). CONFLUENCE: re-fetched via the public OF-space REST search (top-25 most-recently-modified results, plus direct ID lookups for the 3 pages outside that window) -- 8 of 9 tracked pages match their stored version numbers exactly. The ONE exception: 'Standards V2.1 & API Hub V8 - Consolidated Errata' (id 1366294554) advanced version 5->7 (two edits, both 2026-09-18, no edit comments) and its metadata table now lists a fourth errata, 'Errata 4' (2026-09-18), with 3 items found in the page body: (1) a doc-only clarification that the LFI API Hub Documentation's Products Endpoint mapping page is intentionally blank (no Ozone-Connect<->Standards field differences for Products); (2) API Hub Consent Manager PATCH /insurance-quote-log/{logId} -- 'KYCCaptured' is REMOVED from the QuoteStatus values an LFI may set (only the TPP may set it going forward); (3) the matching TPP-facing Standards correction to the Insurance Quote Initiation spec making the same rule explicit. This is CONFLUENCE-ONLY: neither api-specs main (0/99 unchanged, no v2.1-errata4 folder found by --probe) nor the nebras-open-finance.com errata page (still 3 records, 23 items) reflect it yet -- a leading indicator, not yet enforced. The Roadmap page (id 6259008, the deadline source) is unchanged since 25 Mar 2026. A previously-untracked 'Re: Standards V2.1 & API Hub V8 - Consolidated Errata' page (id 1386119172) also surfaced in this run's top-25 scan (version 1, dated 2026-07-08) -- an old, stable discussion/response page, not a new finding. CBUAE/ECOSYSTEM: rulebook.centralbank.ae re-tried, still unreachable via direct fetch this session (standing) -- rulebook URLs are still cited per release per the task requirement. WebSearch confirms the Federal Decree-Law No. 6/2025 licensed-financial-activity reconciliation deadline was 16 Sep 2026 -- it has now PASSED (5 days ago as of this run), escalated from 'imminent' (flagged 2026-09-14). No other genuinely new dated ecosystem item surfaced inside the 2026-09-14..2026-09-21 window. DEADLINE RADAR: all daysLeft re-stamped against 2026-09-21 (7 days later than last run) -- no band crossed a boundary (Corporates — Full Suite stays 'past', now 20 days overdue vs 13; Standards V2.2 stays 'upcoming' at 71 days, still >30). GitHub org enumeration remains blocked (403, standing) -- repos block carried forward unchanged for commit-history fields; content-level spec diffing via raw.githubusercontent.com is unaffected.",
  "metrics_basis": "full-months-only (excludes the current partial month)",
  "artifacts": {
   "refreshedEachRun": true,
@@ -10,64 +10,63 @@
   "builder": "tools/watch/build_watch_page.py tools/watch/watch.template.html data/watch/payload.json <out.html> (local preview only)",
   "note": "Single neutral ecosystem watch page, served at openfinance-os.org/observatory/watch/. The weekly job commits payload+state+history to this repo; Cloudflare Pages rebuilds the site on push. The former Cowork artifact (uae-open-finance-watch) and standalone ecosystem-watcher Cloudflare project are RETIRED (subdomain redirects here)."
  },
- "websiteSpecBranch": "main",
- "websiteSpecBranchNote": "community-standards `.specs-branch` pin file was REMOVED in commit b3abdfb5 (25 Jun); it previously pinned caap-refactor. With caap-refactor merged into api-specs main (PR#17), the site now builds specs from main (default). websiteSpecBranch := main. A future re-introduction of `.specs-branch` or a new pinned branch = website-content change.",
- "repoOrgEnumerated": "github.com/orgs/Nebras-Open-Finance/repositories (via WebFetch; api.github.com org-listing blocked for this session's proxy scope) — 5 public repos as of 2026-07-12 (unchanged: community-standards, api-specs, postman, .github, agentic-toolkit). A further new repo appearing = NEW-REPO ALERT.",
+ "websiteSpecBranch": "v2.2-rc2-nebras",
+ "websiteSpecBranchNote": "2026-10-05: community-standards .specs-branch RE-INTRODUCED in commit 245f8c5 (28 Sep) = v2.2-rc2-nebras (api-specs branch head 54c1d45, 4 commits ahead of main, 0 behind; 28 files differ). Site builds spec pages from that branch; v2.1 stays default version, v2.2-rc2 flagged draft.",
+ "repoOrgEnumerated": "2026-10-05: api.github.com still 403 (org enumeration unavailable), but git transport (git ls-remote / bare partial clone of github.com/Nebras-Open-Finance/<repo>.git) WORKS for the 5 known repos -> heads, branches and commit history recovered. A brand-new repo would still be missed.",
  "repos": {
   "community-standards": {
-   "headSha": "6e18b5d",
-   "headDate": "2026-07-18",
-   "pushedAt": "2026-07-18",
+   "headSha": "1d2bfb9",
+   "headDate": "2026-10-04",
+   "pushedAt": "2026-10-04",
    "role": "WEBSITE source (Vite app -> nebras-open-finance.com) + public metrics logs (refreshed through 2026-07-07); OFP-005 placeholder + BDS functional-certification pages shipped here",
    "branches": {
-    "main": "7fc3b1d",
-    "internal": "374fb836"
+    "main": "1d2bfb9",
+    "internal": "374fb83"
    }
   },
   "api-specs": {
-   "headSha": "634b325",
-   "headDate": "2026-07-08",
-   "pushedAt": "2026-07-08",
-   "headMsg": "Merge pull request #24 from ozone (errata-3 consolidation, PR#23+PR#24 now on main)",
-   "tagsReleases": "none",
+   "headSha": "a3c8b8b",
+   "headDate": "2026-08-21",
+   "pushedAt": "2026-09-28",
+   "headMsg": "Merge pull request #32 from Nebras-Open-Finance/ozone",
    "role": "NORMATIVE OpenAPI source of truth",
    "branches": {
-    "main": "634b325",
-    "ozone": "active-2026-07-08 (content not diffed this run)",
-    "creditor-debtor-reference-charset": "active-2026-07-09 (PR#22 open since 1 Jul)",
-    "sync-auth-server-authorization-details": "53425149"
+    "main": "a3c8b8b",
+    "ozone": "932398d",
+    "revert-rc2-changes-in-rc1": "a037646",
+    "sync-auth-server-authorization-details": "55c1aa2",
+    "v2.2-rc2-nebras": "54c1d45"
    }
   },
   "postman": {
-   "headSha": "089cd0ad",
-   "headDate": "2026-06-13",
-   "pushedAt": "2026-06-18",
+   "headSha": "88db518",
+   "headDate": "2026-08-13",
+   "pushedAt": "2026-08-13",
    "role": "collections + conformance tests",
    "branches": {
-    "main": "089cd0ad",
-    "updated-insurance-postman-colelction": "a0c5a3ca"
+    "main": "88db518",
+    "fix/example-numbering": "b4cb642",
+    "updated-insurance-postman-colelction": "a0c5a3c"
    }
   },
   ".github": {
-   "headSha": "315d6541",
+   "headSha": "315d654",
    "headDate": "2026-06-23",
    "pushedAt": "2026-06-23",
    "role": "org community-health files + Discussions hub",
    "branches": {
-    "main": "315d6541"
+    "main": "315d654"
    }
   },
   "agentic-toolkit": {
-   "headSha": "58bb146b",
-   "headDate": "2026-07-03",
-   "pushedAt": "2026-07-03",
-   "role": "official 'uae-open-finance' Agent Skill (SKILL.md + references) + repo scaffold",
+   "headSha": "2b93b8b",
+   "headDate": "2026-09-28",
+   "pushedAt": "2026-09-28",
+   "role": "official 'uae-open-finance' Agent Skill",
    "branches": {
-    "main": "58bb146b"
-   },
-   "note": "main advanced from prior tracked 1ee6845/f2668ac to 58bb146b — continued development."
-  },
-  "_unverifiedNote": "GitHub access blocked this session (403 on all Nebras-Open-Finance requests). headSha/headDate/branches below are carried forward from the 2026-07-20 run, NOT reconfirmed this run."
+    "main": "2b93b8b"
+   }
+  }
  },
  "specFiles": {
   "dist/api-hub/v1.2.x/cbuae-consent-manager-openapi.yaml": "ff8bb7eb15d48d4690c015a710088e689ba6ab41",
@@ -433,11 +432,12 @@
   "Testing and Certification Framework": {
    "version": 46,
    "when": "2026-05-12"
-  }
+  },
+  "_checked": "2026-10-05: no OF-space page modified since 18 Sep (curl blocked by WAF; WebFetch used)."
  },
  "metrics": {
   "basis": "full-months-only",
-  "asOfDataThrough": "2026-09-12 (September partial excluded from full-months basis)",
+  "asOfDataThrough": "2026-09-29 (September partial excluded from full-months basis)",
   "monthsSeen": [
    "2025-11",
    "2025-12",
@@ -451,7 +451,7 @@
    "2026-08",
    "2026-09"
   ],
-  "totalCalls": 1166845,
+  "totalCalls": 1383319,
   "totalCallsFullMonthsOnly": 1011740,
   "errorRatePct": 23.5,
   "byVersionPct": {
@@ -506,7 +506,7 @@
     "errPct": 24.1
    },
    "uae-livx": {
-    "name": "uae-livx (unmapped/unconfirmed)",
+    "name": "Liv (digital bank)",
     "calls": 10885,
     "errPct": 13.6
    },
@@ -553,7 +553,7 @@
     "2026-06": 1279,
     "2026-07": 434,
     "2026-08": 819,
-    "2026-09": 1667
+    "2026-09": 1945
    },
    "uae-hsbcrt": {
     "2025-11": 1349,
@@ -566,7 +566,7 @@
     "2026-06": 9167,
     "2026-07": 8972,
     "2026-08": 3388,
-    "2026-09": 5357
+    "2026-09": 7727
    },
    "uae-dibrt": {
     "2025-11": 4545,
@@ -579,7 +579,7 @@
     "2026-06": 2663,
     "2026-07": 2567,
     "2026-08": 2205,
-    "2026-09": 277
+    "2026-09": 768
    },
    "uae-adibrt": {
     "2025-11": 5343,
@@ -592,7 +592,7 @@
     "2026-06": 21407,
     "2026-07": 42146,
     "2026-08": 69033,
-    "2026-09": 19243
+    "2026-09": 42232
    },
    "uae-mashrt": {
     "2025-11": 8914,
@@ -605,7 +605,7 @@
     "2026-06": 25435,
     "2026-07": 67344,
     "2026-08": 70959,
-    "2026-09": 42237
+    "2026-09": 105011
    },
    "uae-cbdrt": {
     "2025-11": 2241,
@@ -618,7 +618,7 @@
     "2026-06": 2576,
     "2026-07": 2083,
     "2026-08": 3359,
-    "2026-09": 1972
+    "2026-09": 4741
    },
    "uae-fabretail": {
     "2025-11": 196,
@@ -631,7 +631,7 @@
     "2026-06": 2627,
     "2026-07": 3260,
     "2026-08": 70597,
-    "2026-09": 40366
+    "2026-09": 96708
    },
    "uae-enbdx": {
     "2025-11": 139,
@@ -644,7 +644,7 @@
     "2026-06": 6056,
     "2026-07": 6418,
     "2026-08": 9685,
-    "2026-09": 2779
+    "2026-09": 8004
    },
    "uae-wioretail": {
     "2025-12": 176,
@@ -656,7 +656,7 @@
     "2026-06": 32663,
     "2026-07": 83834,
     "2026-08": 70371,
-    "2026-09": 40343
+    "2026-09": 101932
    },
    "uae-hsbcws": {
     "2026-02": 1,
@@ -665,17 +665,18 @@
     "2026-06": 6,
     "2026-07": 47,
     "2026-08": 63,
-    "2026-09": 100
+    "2026-09": 156
    },
    "uae-livx": {
     "2026-06": 169,
     "2026-07": 4046,
     "2026-08": 6670,
-    "2026-09": 755
+    "2026-09": 1800
    },
    "uae-aaic": {
     "2026-06": 116,
-    "2026-07": 205
+    "2026-07": 205,
+    "2026-09": 113
    },
    "uae-orient": {
     "2026-06": 21,
@@ -684,11 +685,12 @@
     "2026-09": 3
    },
    "uae-nbfrt": {
-    "2026-08": 148
+    "2026-08": 148,
+    "2026-09": 430
    },
    "uae-fabbusiness": {
     "2026-08": 26,
-    "2026-09": 5
+    "2026-09": 8
    },
    "uae-awnic": {
     "2026-08": 17,
@@ -707,7 +709,7 @@
     "2026-06": 81042,
     "2026-07": 192630,
     "2026-08": 259958,
-    "2026-09": 136032
+    "2026-09": 321598
    },
    "(Unattributed)": {
     "2025-11": 6596,
@@ -720,7 +722,7 @@
     "2026-06": 3468,
     "2026-07": 4406,
     "2026-08": 7539,
-    "2026-09": 5438
+    "2026-09": 10928
    },
    "NYMCARD": {
     "2025-11": 696,
@@ -732,7 +734,8 @@
     "2026-05": 776,
     "2026-06": 1,
     "2026-07": 389,
-    "2026-08": 3
+    "2026-08": 3,
+    "2026-09": 389
    },
    "PAY TEN PAYMENT SERVICES PROVIDER LLC": {
     "2025-11": 542,
@@ -745,12 +748,12 @@
     "2026-06": 989,
     "2026-07": 1887,
     "2026-08": 1000,
-    "2026-09": 359
+    "2026-09": 1152
    },
    "MASHREQ BANK PSC": {
     "2025-11": 9,
     "2026-08": 93,
-    "2026-09": 12
+    "2026-09": 26
    },
    "SPARE DIGITAL TECHNOLOGIES LLC S.O.C": {
     "2025-11": 9,
@@ -763,7 +766,7 @@
     "2026-06": 88,
     "2026-07": 267,
     "2026-08": 322,
-    "2026-09": 91
+    "2026-09": 211
    },
    "ABU DHABI COMMERCIAL BANK PBJC": {
     "2025-11": 35,
@@ -789,7 +792,7 @@
     "2026-06": 2406,
     "2026-07": 8360,
     "2026-08": 13363,
-    "2026-09": 1329
+    "2026-09": 5287
    },
    "ABU DHABI ISLAMIC BANK P.J.S.C": {
     "2026-02": 385,
@@ -799,7 +802,7 @@
     "2026-06": 5332,
     "2026-07": 11320,
     "2026-08": 14275,
-    "2026-09": 6803
+    "2026-09": 19121
    },
    "HSBC BANK MIDDLE EAST LIMITED": {
     "2026-02": 22,
@@ -809,18 +812,19 @@
     "2026-06": 7791,
     "2026-07": 636,
     "2026-08": 2260,
-    "2026-09": 284
+    "2026-09": 735
    },
    "WIO BANK": {
     "2026-05": 1028,
     "2026-06": 2940,
     "2026-07": 1262,
     "2026-08": 4724,
-    "2026-09": 1757
+    "2026-09": 4216
    },
    "ALAIN AHLIA INSURANCE COMPANY": {
     "2026-06": 109,
-    "2026-07": 198
+    "2026-07": 198,
+    "2026-09": 108
    },
    "ORIENT INSURANCE PJSC": {
     "2026-06": 13,
@@ -830,79 +834,85 @@
    },
    "COMMERCIAL BANK OF DUBAI": {
     "2026-08": 3639,
-    "2026-09": 2951
+    "2026-09": 7456
    },
    "NATIONAL BANK OF FUJAIRAH PJSC": {
-    "2026-08": 145
+    "2026-08": 145,
+    "2026-09": 24
    },
    "AL WATHBA NATIONAL INSURANCE CO": {
     "2026-08": 16,
     "2026-09": 1
+   },
+   "MERCURY PAYMENTS SERVICES LLC": {
+    "2026-09": 279
    }
   },
   "tppByLfi": {
    "LEAN TECH": {
-    "uae-adcbrt": 18078,
-    "uae-hsbcrt": 21035,
-    "uae-dibrt": 23775,
-    "uae-adibrt": 183992,
-    "uae-mashrt": 225313,
-    "uae-cbdrt": 19849,
-    "uae-fabretail": 132770,
-    "uae-enbdx": 16157,
-    "uae-wioretail": 263848
+    "uae-adcbrt": 18165,
+    "uae-hsbcrt": 22812,
+    "uae-dibrt": 23917,
+    "uae-adibrt": 206832,
+    "uae-mashrt": 274805,
+    "uae-cbdrt": 21443,
+    "uae-fabretail": 189034,
+    "uae-enbdx": 16647,
+    "uae-wioretail": 316329,
+    "uae-nbfrt": 399
    },
    "(Unattributed)": {
-    "uae-mashrt": 31211,
-    "uae-adcbrt": 266,
-    "uae-cbdrt": 1512,
-    "uae-fabretail": 73,
-    "uae-enbdx": 4197,
+    "uae-mashrt": 33714,
+    "uae-adcbrt": 270,
+    "uae-cbdrt": 1970,
+    "uae-fabretail": 74,
+    "uae-enbdx": 5120,
     "uae-dibrt": 78676,
-    "uae-adibrt": 829,
-    "uae-hsbcrt": 2601,
-    "uae-wioretail": 3775,
-    "uae-hsbcws": 20,
-    "uae-aaic": 14,
+    "uae-adibrt": 918,
+    "uae-hsbcrt": 2606,
+    "uae-wioretail": 5264,
+    "uae-hsbcws": 21,
+    "uae-aaic": 19,
     "uae-orient": 10,
-    "uae-livx": 8,
-    "uae-nbfrt": 3,
-    "uae-fabbusiness": 31,
+    "uae-livx": 10,
+    "uae-nbfrt": 10,
+    "uae-fabbusiness": 34,
     "uae-awnic": 1
    },
    "NYMCARD": {
     "uae-cbdrt": 778,
     "uae-mashrt": 110,
     "uae-enbdx": 292,
-    "uae-hsbcrt": 287,
+    "uae-hsbcrt": 377,
     "uae-fabretail": 1506,
     "uae-adcbrt": 68,
-    "uae-dibrt": 1149
+    "uae-dibrt": 1448
    },
    "PAY TEN PAYMENT SERVICES PROVIDER LLC": {
-    "uae-adcbrt": 1417,
-    "uae-enbdx": 442,
-    "uae-adibrt": 1371,
-    "uae-cbdrt": 620,
-    "uae-fabretail": 1782,
-    "uae-mashrt": 3217,
-    "uae-wioretail": 1851,
-    "uae-hsbcrt": 70,
-    "uae-dibrt": 185
+    "uae-adcbrt": 1556,
+    "uae-enbdx": 450,
+    "uae-adibrt": 1413,
+    "uae-cbdrt": 622,
+    "uae-fabretail": 1853,
+    "uae-mashrt": 3503,
+    "uae-wioretail": 1975,
+    "uae-hsbcrt": 141,
+    "uae-dibrt": 235
    },
    "MASHREQ BANK PSC": {
     "uae-mashrt": 9,
-    "uae-wioretail": 93,
+    "uae-wioretail": 107,
     "uae-cbdrt": 12
    },
    "SPARE DIGITAL TECHNOLOGIES LLC S.O.C": {
-    "uae-mashrt": 407,
-    "uae-adibrt": 115,
-    "uae-wioretail": 337,
-    "uae-cbdrt": 88,
-    "uae-enbdx": 123,
-    "uae-fabretail": 25,
-    "uae-hsbcws": 81
+    "uae-mashrt": 428,
+    "uae-adibrt": 133,
+    "uae-wioretail": 348,
+    "uae-cbdrt": 117,
+    "uae-enbdx": 129,
+    "uae-fabretail": 28,
+    "uae-hsbcws": 112,
+    "uae-adcbrt": 1
    },
    "ABU DHABI COMMERCIAL BANK PBJC": {
     "uae-adcbrt": 269
@@ -911,45 +921,50 @@
     "uae-fabretail": 23
    },
    "EMIRATES NBD BANK PJSC": {
-    "uae-enbdx": 16875,
-    "uae-livx": 11632,
-    "uae-wioretail": 3724,
-    "uae-cbdrt": 35
+    "uae-enbdx": 18822,
+    "uae-livx": 12675,
+    "uae-wioretail": 4281,
+    "uae-cbdrt": 35,
+    "uae-mashrt": 411
    },
    "ABU DHABI ISLAMIC BANK P.J.S.C": {
     "uae-adibrt": 385,
-    "uae-mashrt": 48380,
-    "uae-cbdrt": 6855,
-    "uae-wioretail": 3932,
-    "uae-enbdx": 21
+    "uae-mashrt": 56206,
+    "uae-cbdrt": 7505,
+    "uae-wioretail": 7560,
+    "uae-enbdx": 188,
+    "uae-adcbrt": 47
    },
    "HSBC BANK MIDDLE EAST LIMITED": {
-    "uae-hsbcrt": 11192,
-    "uae-hsbcws": 179
+    "uae-hsbcrt": 11619,
+    "uae-hsbcws": 203
    },
    "WIO BANK": {
-    "uae-wioretail": 4434,
-    "uae-enbdx": 7003,
-    "uae-cbdrt": 119,
-    "uae-fabretail": 12,
-    "uae-mashrt": 143
+    "uae-wioretail": 5110,
+    "uae-enbdx": 8687,
+    "uae-cbdrt": 155,
+    "uae-fabretail": 15,
+    "uae-mashrt": 203
    },
    "ALAIN AHLIA INSURANCE COMPANY": {
-    "uae-aaic": 307
+    "uae-aaic": 415
    },
    "ORIENT INSURANCE PJSC": {
     "uae-orient": 94
    },
    "COMMERCIAL BANK OF DUBAI": {
-    "uae-wioretail": 4088,
-    "uae-mashrt": 2488,
+    "uae-wioretail": 6697,
+    "uae-mashrt": 4384,
     "uae-enbdx": 14
    },
    "NATIONAL BANK OF FUJAIRAH PJSC": {
-    "uae-nbfrt": 145
+    "uae-nbfrt": 169
    },
    "AL WATHBA NATIONAL INSURANCE CO": {
     "uae-awnic": 17
+   },
+   "MERCURY PAYMENTS SERVICES LLC": {
+    "uae-mashrt": 279
    }
   },
   "payments": {
@@ -993,6 +1008,7 @@
    "HSBC BANK MIDDLE EAST LIMITED",
    "LEAN TECH",
    "MASHREQ BANK PSC",
+   "MERCURY PAYMENTS SERVICES LLC",
    "NATIONAL BANK OF FUJAIRAH PJSC",
    "NYMCARD",
    "ORIENT INSURANCE PJSC",
@@ -1017,7 +1033,8 @@
    "2.5.0 (Planned)"
   ],
   "url": "https://nebras-open-finance.com/tech/release-notes-and-erratas/",
-  "_unverifiedNote": "2026-09-07: the top-level release-notes-and-erratas index and its api-hub/trust-framework listing pages remain JS-rendered (plain fetch returns homepage shell only), but the dated /2026/ subpages (release-notes/api-hub/2026/, release-notes/trust-framework/2026/) and erratas/v2.1/ fetched fully and confirmed the lists below are unchanged. changelog/v2.2-draft/ no longer resolves (superseded by changelog/v2.2-rc1/, which does resolve, same 6-change/12-area content)."
+  "_unverifiedNote": "2026-09-07: the top-level release-notes-and-erratas index and its api-hub/trust-framework listing pages remain JS-rendered (plain fetch returns homepage shell only), but the dated /2026/ subpages (release-notes/api-hub/2026/, release-notes/trust-framework/2026/) and erratas/v2.1/ fetched fully and confirmed the lists below are unchanged. changelog/v2.2-draft/ no longer resolves (superseded by changelog/v2.2-rc1/, which does resolve, same 6-change/12-area content).",
+  "v2.2-rc2": "2026-09-28 changelog https://nebras-open-finance.com/tech/release-notes-and-erratas/changelog/v2.2-rc2/ (4 carried from rc1 + 13 new). Website errata still v2.1-errata3; API Hub 2026.22.0 (6 Jul); Trust Framework 2.4.0 (7 Jul)."
  },
  "openPRs": {
   "api-specs": [
@@ -1027,7 +1044,7 @@
   "_unverifiedNote": "Could not fully verify this run — GitHub access blocked (see repos._unverifiedNote). github-stats.json gives an aggregate count only."
  },
  "adoption": {
-  "basis": "2xx traffic in last two full months (2026-07 + 2026-08), public Nebras logs; demand-side evidence",
+  "basis": "2xx traffic in last two full months (2026-07 + 2026-08), public Nebras logs; demand-side evidence (re-verified 2026-10-05: unchanged)",
   "counts": {
    "Retail R1": {
     "now": 9,
@@ -1129,7 +1146,7 @@
   "banks": 10,
   "greenCells": 65,
   "blueCells": 8,
-  "note": "Diff `exposed` (production-directory capability registration) and `live` (2xx traffic) each run. [2026-09-21: production directory RE-VERIFIED UNCHANGED (still 12 orgs, same families/versions/FamilyComplete) -- no board t1Now/t2Early count moves from directory registration alone. SANDBOX TRAFFIC OVERLAY changed: National Bank of Fujairah PJSC (Tier-2; account-information v2.1 only) shows its FIRST-EVER 2xx sandbox traffic -- 148 calls dated 6-13 Aug 2026, an already-closed month (late-arriving backfill, not new activity this week). AIS:balances/transactions/parties and v2.1-uplift cells flip blue->green; Consent stays blue. green 61->65, blue 12->8. NBF also appears for the first time as a TPP (145 calls), calling only its own LFI arm -- a NEW (tpp,lfi) pairing. NOTE: of_watch_production.py's ORG/LOGKEY dicts in the committed source still omit National Bank of Fujairah PJSC / uae-nbfrt -- a standing tooling gap; this row is reconstructed by hand each run until the script is patched.] Diff `exposed` (production-directory capability registration) and `live` (2xx traffic) each run. [2026-09-14: production directory + traffic overlay both RE-VERIFIED UNCHANGED (still 12 orgs, same families/versions/FamilyComplete; still Jul-Aug 2026 window since Aug remains the last full month) -- green/blue counts stay 61/12. Sole change: 'National Bank of Fujairah' -> 'National Bank of Fujairah PJSC' display-name normalisation (same OrganisationId/CreatedOn), not a new organisation. Verified with version-aware aggregation across every AuthorisationServer per org this run, after a naive last-AS-wins read initially mis-flagged FAB/HSBC as changed (corrected before concluding).] [2026-09-07: production directory UNCHANGED (same 12 orgs, same families/versions) -- no board t1Now count affected. Traffic overlay window rolled forward to Jul-Aug (from Jun-Jul): FAB's v2.1-uplift cell flips blue->green; net green 60->61, blue 13->12 across the same 12 orgs. Computed via an ad-hoc script using the correct dynamic window since tools/watch/of_watch_production.py's LAST2 constant is still hardcoded in the committed source (maintenance fix still pending, out of this run's commit scope).]",
+  "note": "[2026-10-05: directory RE-VERIFIED: 12 orgs, same Active families/versions; grid 65 green / 8 blue unchanged (of_watch_production.py). NEW tracked signal: Commercial Go-Live Approval certifications on AuthorisationServers -- 6 orgs (5 Tier-1 + WIO); newest dated 28/09/2026.] Diff `exposed` (production-directory capability registration) and `live` (2xx traffic) each run. [2026-09-21: production directory RE-VERIFIED UNCHANGED (still 12 orgs, same families/versions/FamilyComplete) -- no board t1Now/t2Early count moves from directory registration alone. SANDBOX TRAFFIC OVERLAY changed: National Bank of Fujairah PJSC (Tier-2; account-information v2.1 only) shows its FIRST-EVER 2xx sandbox traffic -- 148 calls dated 6-13 Aug 2026, an already-closed month (late-arriving backfill, not new activity this week). AIS:balances/transactions/parties and v2.1-uplift cells flip blue->green; Consent stays blue. green 61->65, blue 12->8. NBF also appears for the first time as a TPP (145 calls), calling only its own LFI arm -- a NEW (tpp,lfi) pairing. NOTE: of_watch_production.py's ORG/LOGKEY dicts in the committed source still omit National Bank of Fujairah PJSC / uae-nbfrt -- a standing tooling gap; this row is reconstructed by hand each run until the script is patched.] Diff `exposed` (production-directory capability registration) and `live` (2xx traffic) each run. [2026-09-14: production directory + traffic overlay both RE-VERIFIED UNCHANGED (still 12 orgs, same families/versions/FamilyComplete; still Jul-Aug 2026 window since Aug remains the last full month) -- green/blue counts stay 61/12. Sole change: 'National Bank of Fujairah' -> 'National Bank of Fujairah PJSC' display-name normalisation (same OrganisationId/CreatedOn), not a new organisation. Verified with version-aware aggregation across every AuthorisationServer per org this run, after a naive last-AS-wins read initially mis-flagged FAB/HSBC as changed (corrected before concluding).] [2026-09-07: production directory UNCHANGED (same 12 orgs, same families/versions) -- no board t1Now count affected. Traffic overlay window rolled forward to Jul-Aug (from Jun-Jul): FAB's v2.1-uplift cell flips blue->green; net green 60->61, blue 13->12 across the same 12 orgs. Computed via an ad-hoc script using the correct dynamic window since tools/watch/of_watch_production.py's LAST2 constant is still hardcoded in the committed source (maintenance fix still pending, out of this run's commit scope).]",
   "directoryFamilies": {
    "ADCB": {
     "size": "LFI",
@@ -1244,10 +1261,18 @@
    }
   },
   "complianceBasis": "Release Compliance board driven by production-directory registration (Status=Active families). Tier-1 counts UNCHANGED this run: R1 8/8, R2 8/8, ProductQuotes 7/8, v2.1 7/8 Tier-1 (only ADIB remains on v1.2). SME Bulk 1/8 (FAB + WIO Bank register file-payments). Insurance unchanged: 2/16 Tier-1 insurers (LIVA + ADNIC). Tier-2-early movers unchanged: WIO Bank + National Bank of Fujairah PJSC (2 each on Retail R2 and the v2.1 uplift) -- directory registration is unchanged; only NBF's SANDBOX traffic signal is new this run.",
-  "paymentFamilyEndpoints": "FAB and WIO Bank now both register file-payments (bulk) Active in production (FamilyComplete=True); the other 7 Tier-1 banks register only base payments + payment-consents + refund (FamilyComplete=False). No international/multi endpoint registered by anyone; international is a payment-type within /payments, not a separate endpoint."
+  "paymentFamilyEndpoints": "FAB and WIO Bank now both register file-payments (bulk) Active in production (FamilyComplete=True); the other 7 Tier-1 banks register only base payments + payment-consents + refund (FamilyComplete=False). No international/multi endpoint registered by anyone; international is a payment-type within /payments, not a separate endpoint.",
+  "commercialGoLive": {
+   "ADIB": "14/04/2026",
+   "CBD": "22/12/2025",
+   "FAB": "22/12/2025",
+   "HSBC": "28/09/2026",
+   "WIO Bank": "13/04/2026",
+   "Mashreq": "11/02/2026"
+  }
  },
- "asOfData": "2026-09-12",
- "asOfDataSince": "2026-09-21",
+ "asOfData": "2026-09-29",
+ "asOfDataSince": "2026-10-05",
  "lfiKeysSeen": [
   "uae-aaic",
   "uae-adcbrt",
@@ -1270,5 +1295,45 @@
   "version": "v2.1-final",
   "errata": "v2.1-errata3",
   "apiHub": "v8"
+ },
+ "lastChecked": {
+  "date": "2026-10-05",
+  "result": "alert"
+ },
+ "entitiesFile": "data/watch/entities.json",
+ "specFilesWebsiteBranch": {
+  "ref": "v2.2-rc2-nebras",
+  "headSha": "54c1d45",
+  "note": "Blob SHA-1 of every file on the website branch that differs from main (other tracked files identical to state.specFiles).",
+  "files": {
+   "dist/api-hub/v2.2.x/uae-api-hub-consent-manager-openapi.yaml": "c9018a370dffb6824b202cd79d6b57caed422720",
+   "dist/ozone-connect/v2.2.x/uae-ozone-connect-bank-data-sharing-openapi.yaml": "855e30f41368541e9cee0e785e4f8d08c5ffd36d",
+   "dist/ozone-connect/v2.2.x/uae-ozone-connect-bank-open-data-openapi.yaml": "a7bc4972d6d7312cf004d77b1f4c1cb466cdca19",
+   "dist/ozone-connect/v2.2.x/uae-ozone-connect-bank-products-data-openapi.yaml": "668f17b3875ac8d4c573c4283ce8dd51da0fd4b7",
+   "dist/ozone-connect/v2.2.x/uae-ozone-connect-bank-service-initiation-openapi.yaml": "f80330b7e83c97944db2af6f251c6e519434b6a7",
+   "dist/ozone-connect/v2.2.x/uae-ozone-connect-caap-operations-openapi.yaml": "887848dfadc2a22cfada1be4df24f48b9d905f40",
+   "dist/ozone-connect/v2.2.x/uae-ozone-connect-consent-events-actions-openapi.yaml": "dd0b1e5d7ce0a246957e52d6de17fcaa6ed14002",
+   "dist/ozone-connect/v2.2.x/uae-ozone-connect-insurance-openapi.yaml": "e63613a229e97b2c535c2c68c25a7c209f903beb",
+   "dist/standards/v2.2-rc1/uae-account-information-openapi.yaml": "51909745e938a90aa3fd7d601ab4967a155120fd",
+   "dist/standards/v2.2-rc2/uae-account-information-openapi.yaml": "dbd83df909e873e09975fab810f76d0beb962d14",
+   "dist/standards/v2.2-rc2/uae-account-opening-service-initiation-openapi.yaml": "1b4c5015bca7e34a3c8783d20dde46138917b962",
+   "dist/standards/v2.2-rc2/uae-atm-openapi.yaml": "02d07571e2eed9a57e42ffe39e379672c73c7350",
+   "dist/standards/v2.2-rc2/uae-authorization-endpoints-openapi.yaml": "147c04dddbe0bdcdd826674fe75ee7749ee99443",
+   "dist/standards/v2.2-rc2/uae-bank-initiation-openapi.yaml": "f87930ecb8dc33f521ad6cc5df64af25fd67add7",
+   "dist/standards/v2.2-rc2/uae-confirmation-of-payee-openapi.yaml": "9bb5f3ac9f09f11589c5078024d3b2f7ad7d16f0",
+   "dist/standards/v2.2-rc2/uae-fx-service-initiation-openapi.yaml": "283212193a90ef6bb71c6c85985a776dee9c73af",
+   "dist/standards/v2.2-rc2/uae-insurance-openapi.yaml": "0d67f0964bccc65084fa422b4f82e5c5e5bb73ab",
+   "dist/standards/v2.2-rc2/uae-product-openapi.yaml": "b8be8bff7b8debbb6ca09caf886f86bb2dbbb04d",
+   "dist/standards/v2.2-rc2/uae-webhook-template-openapi.yaml": "f8899aab5ef200350e4ccb8d869cf08a4f95808e",
+   "supporting/breaking-changes/api-hub/v2.2.x/uae-api-hub-consent-manager-openapi/breaking-changes.yaml": "2ae528e9bddfcd9d333a6bcfed4112da6c128ab1",
+   "supporting/breaking-changes/ozone-connect/v2.2.x/uae-ozone-connect-bank-service-initiation-openapi/breaking-changes.yaml": "5c0164a6f3b3a5382dcbd27269d19276e917fb5a",
+   "supporting/breaking-changes/ozone-connect/v2.2.x/uae-ozone-connect-consent-events-actions-openapi/breaking-changes.yaml": "5c0164a6f3b3a5382dcbd27269d19276e917fb5a",
+   "supporting/breaking-changes/standards/v2.2-rc2/uae-account-information-openapi/breaking-changes.yaml": "99d18fcc02cb3ddeb945def0956d00dff5e719b5",
+   "supporting/breaking-changes/standards/v2.2-rc2/uae-authorization-endpoints-openapi/breaking-changes.yaml": "d021582d526621843538ca36c6abd030db4c33b9",
+   "supporting/breaking-changes/standards/v2.2-rc2/uae-bank-initiation-openapi/breaking-changes.yaml": "d345e46db4d6d1daf15bc7f67f6f2635ba13c10d",
+   "supporting/breaking-changes/standards/v2.2-rc2/uae-confirmation-of-payee-openapi/breaking-changes.yaml": "2ade4da10ab1b95b3319f376a2c1391aef4abee0",
+   "supporting/breaking-changes/standards/v2.2-rc2/uae-product-openapi/breaking-changes.yaml": "695be06dbe6efa45adb6fffdd67e07755de78a87",
+   "supporting/breaking-changes/standards/v2.2-rc2/uae-webhook-template-openapi/breaking-changes.yaml": "1b92069cee8e131c872dca869957b4b8eb3a340c"
+  }
  }
 }

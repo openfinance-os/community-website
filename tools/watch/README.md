@@ -27,10 +27,11 @@ Cloudflare Pages ──▶ openfinance-os.org/observatory/watch/
 A scheduled Claude job runs every Monday morning (Dubai time). Each run it:
 
 0. Runs `of_watch_metrics.py guard` first. If the source data has not advanced
-   since the last run (same `asOfData`, no headline signal moved), the run is a
-   no-op beyond the daily deadline-radar re-stamp: it skips the heavy recompute,
-   the commit, and the `history.json` append. This keeps frozen-data weeks from
-   minting duplicate history rows and empty-signal commits.
+   since the last run (same `asOfData`, no headline signal moved), it skips the
+   heavy recompute and the `history.json` append (no duplicate history rows),
+   but still checks standards, Confluence, the directory and news, and commits a
+   small heartbeat (`payload.checked`) so readers can see the watch looked this
+   week. Countdowns never need re-stamping: the page computes them in the browser.
 1. Recomputes every figure from the freshly downloaded Nebras metrics logs
    and the production Trust Framework directory (never copies numbers
    forward). The log-derived block is produced by `of_watch_metrics.py compute`
@@ -58,8 +59,10 @@ the instruction set pasted into the scheduled Claude Code routine
 | `build_watch_page.py` | Standalone preview builder (the site build uses the Astro endpoint instead) |
 | `of_watch_metrics.py` | Deterministic recompute of the log-derived metrics (money in integer fils) + `verify` (source-fidelity self-check) + `guard` (early-exit when data hasn't advanced). Transparently decodes the sharded `api-log-index.json` format the feed moved to in Sep 2026 (see "API log format" below) |
 | `of_watch_specdiff.py` | Field-level OpenAPI diff of the tracked spec surface via `raw.githubusercontent.com` — works with no GitHub API (see "Degraded GitHub scope") |
-| `test_of_watch_metrics.py` / `test_of_watch_specdiff.py` / `test_of_watch_production.py` / `test_of_watch_breaking.py` | No-network unit tests (`python3 tools/watch/test_of_watch_*.py`) |
+| `test_of_watch_*.py` | No-network unit tests (`for t in tools/watch/test_of_watch_*.py; do python3 $t; done`) |
 | `of_watch_breaking.py` | Builds the `breaking` payload block from the api-specs breaking-changes registers; auto-routes registers on a not-yet-final standards line (rc/draft/beta, or simply newer than `--current-version`) into `pending` instead of requiring hand-classification |
+| `of_watch_entities.py` + `../../data/watch/entities.json` | Who each log key / directory org is (name, bank or insurer, CBUAE tier). Every tool reads this; unknown identifiers are reported, never guessed |
+| `of_watch_payload.py` | No-network payload linter: neutral field names, short reader text, typed status/since on every change, 5-line summary, heartbeat, and board due dates cross-checked against the CBUAE Annexure. Also run by `verify` |
 | `of_watch_production.py` | Builds the production adoption grid from the Trust Framework directory + metrics logs; the "last two full months" traffic window is computed dynamically from the log itself, not a hardcoded month pair |
 | `../../data/watch/payload.json` | Latest weekly payload (rendered by the page) |
 | `../../data/watch/state.json` | Diff basis between runs |
@@ -158,10 +161,25 @@ heads, commit/PR history, and compare diffs are unavailable.
   as a standing limitation — the release-notes (§4) and Confluence attachments
   (§5), both reachable, remain the authoritative "new standard" signal.
 
+## Page layout (reader-first)
+
+The page answers five questions in its first screen — a "This week" summary
+(Standards, Operations, Adoption, Deadlines, Alerts), then dated alerts
+(New / Changed first, Standing collapsed). Below that: the hero charts with
+week-over-week markers, the spec-change table, breaking changes as counts with
+the full register one click away, a deadline timeline for both tiers, the
+heatmaps, operations and economics. The job's long working notes live in
+`payload.audit` and render only inside the collapsed "Run log" at the bottom.
+
+The payload format is documented in `routine-prompt.md` → "PAYLOAD FORMAT" and
+enforced by `of_watch_payload.py`.
+
 ## Editorial stance
 
 The watch is ecosystem-neutral regulatory oversight. It singles out no
 individual institution: every LFI and TPP appears only as a row in league
-tables, adoption lists, and heatmaps, identical to its peers. Every change it
+tables, adoption lists, and heatmaps, identical to its peers. This is enforced
+in the schema: no payload field may be named after an institution, and headline
+cards are chosen by rank rather than fixed to a name. Every change it
 reports carries a clickable source URL (GitHub commit/compare, Nebras page,
 Confluence page, CBUAE rulebook, or the production directory).

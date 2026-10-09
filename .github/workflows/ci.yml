@@ -4,13 +4,11 @@ on:
   push:
     branches: [main]
     paths-ignore:
-      - '**.md'
       - 'docs/**'
       - '.github/ISSUE_TEMPLATE/**'
   pull_request:
     branches: [main]
     paths-ignore:
-      - '**.md'
       - 'docs/**'
       - '.github/ISSUE_TEMPLATE/**'
 
@@ -82,6 +80,12 @@ jobs:
 
       - name: Run unit tests
         run: npm run test
+
+      - name: Validate Watch logic
+        run: |
+          for test_file in tools/watch/test_of_watch_*.py; do
+            python3 "$test_file" || exit 1
+          done
 
       - name: Run tests with coverage
         run: npm run test:coverage
