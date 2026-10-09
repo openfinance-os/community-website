@@ -4,6 +4,7 @@ import Hero from '@components/home/Hero.astro';
 import ObservatoryPreview from '@components/home/ObservatoryPreview.astro';
 import EcosystemRecord from '@components/home/EcosystemRecord.astro';
 import LatestNews from '@components/home/LatestNews.astro';
+import WatchBriefing from '@components/home/WatchBriefing.astro';
 import type { ObservatorySnapshot } from '@lib/types';
 // Import observatory data
 import snapshot from '../../data/observatory/snapshots/latest.json';
@@ -67,7 +68,7 @@ const quickLinks = [
   {
     title: 'Contribute on GitHub',
     description: 'Help improve this community resource — all contributions welcome.',
-    href: 'https://github.com/organizations/openfinance-os/',
+    href: 'https://github.com/openfinance-os',
     icon: 'github',
     external: true,
   },
@@ -82,12 +83,14 @@ const icons: Record<string, string> = {
 
 <PageLayout
   title="Home"
-  description="The community home for UAE Open Finance and Open Banking. Real-time ecosystem visibility, developer resources, API guides, and community collaboration for the UAE financial services industry."
+  description="The community home for UAE Open Finance and Open Banking. Daily ecosystem observations, developer resources, API guides, and community collaboration for the UAE financial services industry."
   lastUpdated={timestamp}
 >
-  <Hero participantCount={totalParticipants} activeCount={activeCount} />
+  <Hero participantCount={totalParticipants} activeCount={activeCount} observedAt={timestamp} />
 
   <ObservatoryPreview stats={ecosystemStats} />
+
+  <WatchBriefing />
 
   <EcosystemRecord />
 

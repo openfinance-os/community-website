@@ -3,13 +3,14 @@ import PageLayout from '@layouts/PageLayout.astro';
 import OperatorPointer from '@components/learn/OperatorPointer.astro';
 import latest from '../../../data/observatory/snapshots/production/latest.json';
 
-const live = latest.summary.liveInProduction;
+const withIssuer = latest.summary.liveInProduction;
 const total = latest.summary.totalParticipants;
+const observedDate = latest.timestamp.slice(0, 10);
 ---
 
 <PageLayout
   title="Bank / LFI Guide"
-  description="What a Licensed Financial Institution's role is in UAE Open Finance, and where to find the operator's integration docs."
+  description="Understand the LFI's Ozone Connect interface, customer authentication, and the central API Hub's responsibilities."
 >
   <div class="guide-page">
     <div class="container">
@@ -22,41 +23,52 @@ const total = latest.summary.totalParticipants;
       <header class="page-header">
         <h1>What is a Licensed Financial Institution?</h1>
         <p class="subtitle">
-          The plain-language version — and a pointer to the operator's integration guide.
+          The institution's responsibilities, the Hub's responsibilities, and integration resources.
         </p>
       </header>
 
       <section class="concept">
         <p>
-          A <strong>Licensed Financial Institution (LFI)</strong> — a bank or insurer regulated by the
-          CBUAE — is the data and payment holder in UAE Open Finance. Under Al&nbsp;Tareq, LFIs expose
-          standardised, consent-gated APIs so that customers can share their data with, or initiate payments
-          through, the third parties they choose. The LFI's job is to publish those APIs securely (FAPI),
-          honour consent, and stay available.
+          A <strong>Licensed Financial Institution (LFI)</strong>, such as a bank or insurer,
+          provides financial data or executes services through the UAE's central API Hub. The LFI
+          implements
+          <strong>Ozone Connect</strong>, the backend interface called by the Hub. TPP-facing
+          requests and responses pass through the Hub.
         </p>
         <p>
-          Going live means connecting through the central API Hub, passing certification, and
-          appearing in the trust-framework directory. Today
-          <strong>{live} of {total}</strong> registered institutions are live in production — you can
-          track the rollout release by release in the <a href="/observatory">Observatory</a> and the
-          <a href="/observatory/watch/">weekly Ecosystem Watch</a>.
+          The customer authenticates with the LFI in the authorization journey. The Hub acts as the
+          OIDC/FAPI authorization server, owns consent state and issues access tokens. The LFI
+          processes the Hub's validated requests; it does not issue the TPP's access tokens or keep
+          an independent consent state.
+        </p>
+        <p>
+          Certification and production live proving are distinct from directory publication. In the
+          production snapshot observed on <time datetime={observedDate}>{observedDate}</time>,
+          <strong>{withIssuer} of {total} registration IDs</strong> publish an active issuer. These counts
+          do not establish how many institutions are live. Explore metadata in the
+          <a href="/observatory">Observatory</a> and reported operational activity in the
+          <a href="/observatory/watch/">Ecosystem Watch</a>.
         </p>
       </section>
 
       <OperatorPointer
-        intro="The integration journey, trust framework, API Hub setup and certification are maintained by the Al Tareq operator. Start there:"
+        intro="Use the official Open Finance documentation for governing requirements. The community LFI guide explains the integration journey and links to supporting material:"
         links={[
           {
-            label: 'LFI API Hub — getting started',
-            href: 'https://nebras-open-finance.com/tech/lfi-api-hub/getting-started/',
+            label: 'Official Open Finance documentation',
+            href: 'https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview',
           },
           {
-            label: 'Trust framework',
+            label: 'LFI API Hub — community integration guide',
+            href: 'https://nebras-open-finance.com/tech/lfi-api-hub/',
+          },
+          {
+            label: 'Trust framework — community reference',
             href: 'https://nebras-open-finance.com/tech/lfi-api-hub/trust-framework/',
           },
           {
-            label: 'Testing & certification',
-            href: 'https://nebras-open-finance.com/tech/lfi-api-hub/production/testing-certification/overview',
+            label: 'Testing & certification — official documentation',
+            href: 'https://openfinanceuae.atlassian.net/wiki/spaces/OF/pages/124583943',
           },
         ]}
       />
