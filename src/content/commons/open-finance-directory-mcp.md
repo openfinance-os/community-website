@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Open Finance Directory MCP Server"
 type: utility
 summary: "An MCP server that gives any AI coding assistant real-time access to the UAE Open Finance Trust Framework Directory — look up participants, API families, and sandbox endpoints."

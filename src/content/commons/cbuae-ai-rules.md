@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "CBUAE API Development Rules for AI Assistants"
 type: reference
 summary: "Reusable instruction files that teach any AI coding assistant CBUAE API conventions, security patterns, and compliance requirements."

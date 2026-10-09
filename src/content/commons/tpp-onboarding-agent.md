@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "TPP Onboarding Agent"
 type: utility
 summary: "An AI agent that guides developers through the complete TPP registration and first-API-call journey — from directory enrollment to a working sandbox integration."

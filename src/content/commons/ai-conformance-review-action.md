@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "AI Conformance Review GitHub Action"
 type: artifact
 summary: "A GitHub Action that uses AI to review pull requests for CBUAE API conformance — checks headers, consent flows, error handling, and security patterns before merge."

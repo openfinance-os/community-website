@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Open Finance Context Pack"
 type: reference
 summary: "A curated, AI-optimized knowledge base of CBUAE specs, API schemas, and integration patterns — ready to drop into any AI assistant's context window."

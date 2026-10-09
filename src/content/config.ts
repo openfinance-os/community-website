@@ -112,6 +112,9 @@ const commonsCollection = defineCollection({
       })
       .optional(),
 
+    // Unverified proposal examples must never enter public routes or search.
+    draft: z.boolean().default(false),
+
     // Governance
     disclaimers: z.array(z.string()).default([]),
     featured: z.boolean().default(false),

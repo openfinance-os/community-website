@@ -3,6 +3,7 @@
 > **Status:** Plan / RFC
 > **Date:** 2026-02-07
 > **Scope:** Extend the existing Commons section with AI-enabled developer tooling for Open Finance
+> **Review (9 October 2026):** The five sample tool entries are unpublished drafts. Their repository links returned 404 under the maintainer's existing authenticated account. Installation commands, capabilities and maturity claims in those examples are unverified proposal material. Publish an entry only after its source, supported baseline, license and install instructions have been verified.
 
 ---
 
