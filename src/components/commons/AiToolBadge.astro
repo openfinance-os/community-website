@@ -1,0 +1,68 @@
+---
+interface Props {
+  category: string;
+  compact?: boolean;
+}
+
+const { category, compact = false } = Astro.props;
+
+const categoryLabels: Record<string, string> = {
+  prompt: 'Prompt',
+  'mcp-server': 'MCP Server',
+  agent: 'Agent',
+  'ide-extension': 'IDE Extension',
+  workflow: 'Workflow',
+  'knowledge-base': 'Knowledge Base',
+  'code-generator': 'Generator',
+  'testing-tool': 'Testing Tool',
+};
+
+const label = categoryLabels[category] || category;
+---
+
+<span class:list={['ai-tool-badge', compact && 'compact']}>
+  <svg
+    width={compact ? '10' : '12'}
+    height={compact ? '10' : '12'}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    aria-hidden="true"
+  >
+    <path
+      d="M12 2a4 4 0 0 1 4 4v1a3 3 0 0 1 3 3v1a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2v-1a3 3 0 0 1 3-3V6a4 4 0 0 1 4-4z"
+    ></path>
+    <circle cx="9" cy="15" r="1" fill="currentColor" stroke="none"></circle>
+    <circle cx="15" cy="15" r="1" fill="currentColor" stroke="none"></circle>
+  </svg>
+  AI: {label}
+</span>
+
+<style>
+  .ai-tool-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-2) var(--space-3);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    line-height: 1;
+    border-radius: var(--radius-md);
+    background: rgba(99, 102, 241, 0.12);
+    color: #6366f1;
+    white-space: nowrap;
+  }
+
+  .ai-tool-badge.compact {
+    padding: var(--space-1) var(--space-2);
+    font-size: 0.625rem;
+  }
+
+  :global([data-theme='dark']) .ai-tool-badge {
+    background: rgba(129, 140, 248, 0.15);
+    color: #818cf8;
+  }
+</style>
