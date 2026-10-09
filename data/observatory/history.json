@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-08T12:50:24.358Z",
+  "lastUpdated": "2026-10-08T18:28:59.617Z",
   "dataPoints": [
     {
       "date": "2025-12-26",
@@ -6311,7 +6311,9 @@
       },
       "apiFamilyCoverage": {
         "accounts": 10,
+        "atm": 1,
         "cop": 9,
+        "insurance": 2,
         "payments": 9,
         "products": 8
       },
@@ -12630,7 +12632,9 @@
       },
       "apiFamilyCoverage": {
         "accounts": 10,
+        "atm": 1,
         "cop": 9,
+        "insurance": 2,
         "payments": 9,
         "products": 8
       },
@@ -17842,10 +17846,15 @@
         "London": 2
       },
       "apiFamilyCoverage": {
+        "account": 6,
         "accounts": 8,
+        "atm": 1,
         "cop": 8,
+        "insurance": 4,
+        "onboarding": 1,
         "payments": 13,
-        "products": 9
+        "products": 9,
+        "reporting": 1
       },
       "tppCount": 0,
       "shariahCompliantCount": 9

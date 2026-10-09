@@ -34,12 +34,15 @@ for (const e of all) {
 }
 
 const eventLabels: Record<ChangelogEvent['type'], { label: string; cls: string }> = {
-  went_live: { label: 'Went live', cls: 'live' },
-  joined: { label: 'Joined', cls: 'join' },
-  role_added: { label: 'New role', cls: 'role' },
-  api_family_added: { label: 'New APIs', cls: 'role' },
-  went_offline: { label: 'Offline', cls: 'role' },
-  left: { label: 'Left', cls: 'role' },
+  went_live: { label: 'Auth server published', cls: 'live' },
+  joined: { label: 'Registration first observed', cls: 'join' },
+  role_added: { label: 'Role first observed', cls: 'role' },
+  api_family_added: { label: 'Family first observed', cls: 'role' },
+  went_offline: { label: 'Auth server removed', cls: 'role' },
+  left: { label: 'Registration no longer observed', cls: 'role' },
+  role_removed: { label: 'Role no longer observed', cls: 'role' },
+  api_family_removed: { label: 'Family no longer observed', cls: 'role' },
+  resource_changed: { label: 'Resource declarations changed', cls: 'role' },
 };
 
 function fmtDate(iso: string): string {
@@ -55,9 +58,12 @@ function fmtDate(iso: string): string {
   <header class="changelog-header">
     <h2 id="changelog-title">Registry changelog</h2>
     <p class="changelog-sub">
-      Every join, go-live and role change in the production registry — {all.length} events observed by
-      diffing daily snapshots since {trackingSince}. Dates are when a change was observed, not
-      necessarily when it took effect.
+      Every registration, authorization-server and role change in the production registry — {
+        all.length
+      } events observed by diffing daily snapshots since {trackingSince}. Dates are when a change
+      was observed, not necessarily when it took effect. The 8 October 2026 collector update
+      expanded family coverage; those additions can reflect a measurement correction rather than a
+      new deployment.
     </p>
   </header>
 

@@ -29,6 +29,7 @@ export interface ParticipantProfile {
 
 // Observatory participant from API
 export interface Participant {
+  id: string;
   name: string;
   shortName?: string;
   legalName?: string;
