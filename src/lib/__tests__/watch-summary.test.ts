@@ -38,11 +38,14 @@ describe('server-readable Watcher summary', () => {
   });
 
   it('names the official documentation site when a saved summary refers to the website', () => {
-    const html = renderWatchSummary({
+    const briefing = watchBriefing({
+      runDate: '2026-10-05',
+      asOfData: '2026-09-29',
       summary: [
         { area: 'Standards', text: 'The website now builds from a draft specification branch.' },
       ],
     });
+    const html = renderWatchSummary({ summary: briefing.items });
     expect(html).toContain(
       'The Nebras community documentation site now builds from a draft specification branch.'
     );
