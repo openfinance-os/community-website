@@ -14,7 +14,15 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 export type ChangelogEventType =
-  'joined' | 'left' | 'went_live' | 'went_offline' | 'role_added' | 'api_family_added';
+  | 'joined'
+  | 'left'
+  | 'went_live'
+  | 'went_offline'
+  | 'role_added'
+  | 'api_family_added'
+  | 'role_removed'
+  | 'api_family_removed'
+  | 'resource_changed';
 
 export interface ChangelogEvent {
   /** ISO date (YYYY-MM-DD) the change was observed */
@@ -32,23 +40,33 @@ export interface SnapshotParticipant {
   roles?: string[];
   apiFamilies?: string[];
   isLive?: boolean;
+  apiResources?: Array<{
+    family: string;
+    version?: string;
+    certificationStatus?: string;
+    familyComplete?: boolean;
+  }>;
 }
 
 export interface SnapshotLike {
   participants: SnapshotParticipant[];
 }
 
-const SNAPSHOT_DIR = join(process.cwd(), 'data', 'observatory', 'snapshots', 'production');
+type Environment = 'production' | 'sandbox';
+const snapshotDirectory = (environment: Environment) =>
+  join(process.cwd(), 'data', 'observatory', 'snapshots', environment);
 
-function listSnapshotDates(): string[] {
-  return readdirSync(SNAPSHOT_DIR)
+function listSnapshotDates(environment: Environment = 'production'): string[] {
+  return readdirSync(snapshotDirectory(environment))
     .filter((f) => /^\d{4}-\d{2}-\d{2}\.json$/.test(f))
     .map((f) => f.replace('.json', ''))
     .sort();
 }
 
-function readSnapshot(date: string): SnapshotLike {
-  return JSON.parse(readFileSync(join(SNAPSHOT_DIR, `${date}.json`), 'utf8')) as SnapshotLike;
+function readSnapshot(date: string, environment: Environment): SnapshotLike {
+  return JSON.parse(
+    readFileSync(join(snapshotDirectory(environment), `${date}.json`), 'utf8')
+  ) as SnapshotLike;
 }
 
 function byId(s: SnapshotLike): Map<string, SnapshotParticipant> {
@@ -105,6 +123,55 @@ export function diffSnapshots(
     }
   }
 
+  for (const [id, p] of b) {
+    const was = a.get(id);
+    if (!was) continue;
+    const removedRoles =
+      Array.isArray(was.roles) && Array.isArray(p.roles)
+        ? was.roles.filter((role) => !p.roles!.includes(role))
+        : [];
+    if (removedRoles.length)
+      events.push({
+        date,
+        type: 'role_removed',
+        participantId: id,
+        name: p.name,
+        detail: removedRoles.join(' · '),
+      });
+    const removedFamilies =
+      Array.isArray(was.apiFamilies) && Array.isArray(p.apiFamilies)
+        ? was.apiFamilies.filter((family) => !p.apiFamilies!.includes(family))
+        : [];
+    if (removedFamilies.length)
+      events.push({
+        date,
+        type: 'api_family_removed',
+        participantId: id,
+        name: p.name,
+        detail: removedFamilies.join(' · '),
+      });
+    // Compare only where both observations recorded details. A missing field is not a removal.
+    if (Array.isArray(was.apiResources) && Array.isArray(p.apiResources)) {
+      const describe = (resources: NonNullable<SnapshotParticipant['apiResources']>) =>
+        resources
+          .map(
+            (r) =>
+              `${r.family} v${r.version || 'unknown'}; certification=${r.certificationStatus || 'unknown'}; complete=${r.familyComplete ?? 'unknown'}`
+          )
+          .sort();
+      const before = describe(was.apiResources);
+      const after = describe(p.apiResources);
+      if (JSON.stringify(before) !== JSON.stringify(after))
+        events.push({
+          date,
+          type: 'resource_changed',
+          participantId: id,
+          name: p.name,
+          detail: `Before: ${before.join(' | ') || 'none recorded'}. After: ${after.join(' | ') || 'none recorded'}.`,
+        });
+    }
+  }
+
   for (const [id, p] of a) {
     if (!b.has(id)) {
       events.push({ date, type: 'left', participantId: id, name: p.name });
@@ -114,21 +181,22 @@ export function diffSnapshots(
   return events;
 }
 
-let cache: ChangelogEvent[] | null = null;
+const cache = new Map<Environment, ChangelogEvent[]>();
 
 /**
  * The full production-registry changelog, newest first.
  * Computed once per build and cached.
  */
-export function getRegistryChangelog(): ChangelogEvent[] {
-  if (cache) return cache;
+export function getRegistryChangelog(environment: Environment = 'production'): ChangelogEvent[] {
+  const cached = cache.get(environment);
+  if (cached) return cached;
 
-  const dates = listSnapshotDates();
+  const dates = listSnapshotDates(environment);
   const events: ChangelogEvent[] = [];
   let prev: SnapshotLike | null = null;
 
   for (const date of dates) {
-    const snap = readSnapshot(date);
+    const snap = readSnapshot(date, environment);
     if (prev) {
       events.push(...diffSnapshots(prev, snap, date));
     }
@@ -143,13 +211,16 @@ export function getRegistryChangelog(): ChangelogEvent[] {
     left: 3,
     role_added: 4,
     api_family_added: 5,
+    role_removed: 6,
+    api_family_removed: 7,
+    resource_changed: 8,
   };
   events.sort(
     (x, y) =>
       y.date.localeCompare(x.date) || order[x.type] - order[y.type] || x.name.localeCompare(y.name)
   );
 
-  cache = events;
+  cache.set(environment, events);
   return events;
 }
 
@@ -164,12 +235,12 @@ export function getRecentEvents(days: number): ChangelogEvent[] {
 }
 
 /** First (oldest) snapshot date — "tracking since". */
-export function getTrackingSince(): string {
-  const dates = listSnapshotDates();
+export function getTrackingSince(environment: Environment = 'production'): string {
+  const dates = listSnapshotDates(environment);
   return dates[0] || '';
 }
 
 /** Number of daily snapshots in the record. */
-export function getSnapshotCount(): number {
-  return listSnapshotDates().length;
+export function getSnapshotCount(environment: Environment = 'production'): number {
+  return listSnapshotDates(environment).length;
 }
