@@ -1,13 +1,13 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { experimental_AstroContainer as AstroContainer } from 'astro/container';
-import { transform } from '@astrojs/compiler';
+import { transform } from '@astrojs/compiler-rs';
 import { build } from 'esbuild';
 import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { Window } from 'happy-dom';
 
-// Compile real components without requiring a Vite upgrade for the existing Vitest 2 setup.
+// Compile the real Astro 7 components for the container rendering assertions.
 let temporaryDirectory: string;
 let components: Record<string, Parameters<AstroContainer['renderToString']>[0]>;
 beforeAll(async () => {
