@@ -18,7 +18,7 @@ export async function GET(context: APIContext) {
       title: post.data.title,
       pubDate: post.data.date,
       description: post.data.description || `${post.data.title} - OpenFinance-OS News`,
-      link: `/news/${post.slug}/`,
+      link: `/news/${post.id}/`,
       author: post.data.author,
       categories: [post.data.type],
     })),

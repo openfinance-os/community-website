@@ -1,12 +1,12 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
 import Badge from '@components/common/Badge.astro';
-import { getCollection, type CollectionEntry } from 'astro:content';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
 
 export async function getStaticPaths() {
   const newsEntries = await getCollection('news');
   return newsEntries.map((entry) => ({
-    params: { slug: entry.slug },
+    params: { slug: entry.id },
     props: { entry },
   }));
 }
@@ -16,7 +16,7 @@ interface Props {
 }
 
 const { entry } = Astro.props;
-const { Content } = await entry.render();
+const { Content } = await render(entry);
 
 const typeLabels: Record<string, string> = {
   official: 'Regulatory',
@@ -56,7 +56,7 @@ const articleSchema = {
   },
   mainEntityOfPage: {
     '@type': 'WebPage',
-    '@id': new URL(`/news/${entry.slug}`, Astro.site).toString(),
+    '@id': new URL(`/news/${entry.id}`, Astro.site).toString(),
   },
 };
 ---
@@ -90,9 +90,7 @@ const articleSchema = {
           <Badge variant={entry.data.type} size="md">
             {typeLabels[entry.data.type]}
           </Badge>
-          <time datetime={entry.data.date.toISOString()}>
-            {formatDate(entry.data.date)}
-          </time>
+          <time datetime={entry.data.date.toISOString()}>{formatDate(entry.data.date)}</time>
           <span class="meta-separator">·</span>
           <span class="author">By {entry.data.author}</span>
         </div>
@@ -104,31 +102,24 @@ const articleSchema = {
         <Content />
       </div>
 
-      {
-        entry.data.source && (
-          <footer class="article-footer">
-            <a
-              href={entry.data.source}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="source-link"
+      {entry.data.source && (
+        <footer class="article-footer">
+          <a href={entry.data.source} target="_blank" rel="noopener noreferrer" class="source-link">
+            View original source
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
             >
-              View original source
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                aria-hidden="true"
-              >
-                <path d="M7 17L17 7M17 7H7M17 7v10" />
-              </svg>
-            </a>
-          </footer>
-        )
-      }
+              <path d="M7 17L17 7M17 7H7M17 7v10" />
+            </svg>
+          </a>
+        </footer>
+      )}
 
       <div class="article-nav">
         <a href="/updates?tab=news" class="nav-link">

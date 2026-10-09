@@ -12,7 +12,9 @@ import { roleLabels, taxonomySource } from '@lib/taxonomy';
   <div class="methodology-page">
     <div class="container">
       <header class="page-header">
-        <a href="/observatory" class="back-link">← Observatory</a>
+        <a href="/observatory" class="back-link">
+          ← Observatory
+        </a>
         <h1>Methodology</h1>
         <p>How we calculate Observatory metrics and derive ecosystem status</p>
       </header>
@@ -21,9 +23,10 @@ import { roleLabels, taxonomySource } from '@lib/taxonomy';
         <h2>Data Sources</h2>
         <p>
           All data displayed in the Observatory is derived from the public
-          <a href="https://data.directory.openfinance.ae" target="_blank" rel="noopener noreferrer"
-            >UAE Open Finance Trust Framework Directory</a
-          >, operated by Raidiam on behalf of Nebras Open Finance LLC (a CBUAE subsidiary).
+          <a href="https://data.directory.openfinance.ae" target="_blank" rel="noopener noreferrer">
+            UAE Open Finance Trust Framework Directory
+          </a>
+          , operated by Raidiam on behalf of Nebras Open Finance LLC (a CBUAE subsidiary).
         </p>
 
         <div class="environment-info">
@@ -70,8 +73,9 @@ import { roleLabels, taxonomySource } from '@lib/taxonomy';
       <section class="content-section">
         <h2>Update Frequency</h2>
         <p>
-          Data is collected automatically once per day at <strong>06:00 UTC</strong> via a GitHub Actions
-          workflow. Each collection creates timestamped snapshots for both production and sandbox environments.
+          Data is collected automatically once per day at <strong>06:00 UTC</strong> via a GitHub
+          Actions workflow. Each collection creates timestamped snapshots for both production and
+          sandbox environments.
         </p>
         <p>
           Historical snapshots are preserved, enabling trend analysis and visualization of ecosystem
@@ -131,12 +135,12 @@ import { roleLabels, taxonomySource } from '@lib/taxonomy';
         <div class="metric-category">
           <h3>Participant Roles</h3>
           <p>
-            Directory roles and permissions use the <a
-              href={taxonomySource.url}
-              target="_blank"
-              rel="noopener noreferrer">Trust Framework role documentation</a
-            > (terminology reviewed {taxonomySource.version}). A role claim is separate from a
-            licence or editorial company-type classification.
+            Directory roles and permissions use the{' '}
+            <a href={taxonomySource.url} target="_blank" rel="noopener noreferrer">
+              Trust Framework role documentation
+            </a>{' '}
+            (terminology reviewed {taxonomySource.version}). A role claim is separate from a licence
+            or editorial company-type classification.
           </p>
 
           <div class="metric-definition">
@@ -361,18 +365,29 @@ import { roleLabels, taxonomySource } from '@lib/taxonomy';
         </p>
         <p>Key files:</p>
         <ul>
-          <li><code>scripts/collect-observatory.ts</code> — Data collection and transformation</li>
-          <li><code>scripts/utils/directory-client.ts</code> — API client for both environments</li>
-          <li><code>scripts/types/participant.ts</code> — TypeScript type definitions</li>
-          <li><code>data/observatory/</code> — Snapshots and historical data</li>
+          <li>
+            <code>scripts/collect-observatory.ts</code> — Data collection and transformation
+          </li>
+          <li>
+            <code>scripts/utils/directory-client.ts</code> — API client for both environments
+          </li>
+          <li>
+            <code>scripts/types/participant.ts</code> — TypeScript type definitions
+          </li>
+          <li>
+            <code>data/observatory/</code> — Snapshots and historical data
+          </li>
         </ul>
         <p>
           If you find an error or have suggestions, please
           <a
             href="https://github.com/openfinance-os/community/issues"
             target="_blank"
-            rel="noopener noreferrer">open an issue</a
-          >.
+            rel="noopener noreferrer"
+          >
+            open an issue
+          </a>
+          .
         </p>
       </section>
     </div>

@@ -100,51 +100,49 @@ const icons: Record<string, string> = {
     <div class="container">
       <h2 class="section-title">Quick Links</h2>
       <div class="quick-links-grid">
-        {
-          quickLinks.map((link) => (
-            <a
-              href={link.href}
-              class="quick-link-card"
-              target={link.external ? '_blank' : undefined}
-              rel={link.external ? 'noopener noreferrer' : undefined}
-            >
-              <div class="quick-link-icon" set:html={icons[link.icon]} />
-              <div class="quick-link-content">
-                <h3 class="quick-link-title">
-                  {link.title}
-                  {link.external && (
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      class="external-icon"
-                    >
-                      <path d="M7 17L17 7M17 7H7M17 7v10" />
-                    </svg>
-                  )}
-                </h3>
-                <p class="quick-link-description">{link.description}</p>
-              </div>
-              <div class="quick-link-arrow" aria-hidden="true">
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
-              </div>
-            </a>
-          ))
-        }
+        {quickLinks.map((link) => (
+          <a
+            href={link.href}
+            class="quick-link-card"
+            target={link.external ? '_blank' : undefined}
+            rel={link.external ? 'noopener noreferrer' : undefined}
+          >
+            <div class="quick-link-icon" set:html={icons[link.icon]} />
+            <div class="quick-link-content">
+              <h3 class="quick-link-title">
+                {link.title}
+                {link.external && (
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    class="external-icon"
+                  >
+                    <path d="M7 17L17 7M17 7H7M17 7v10" />
+                  </svg>
+                )}
+              </h3>
+              <p class="quick-link-description">{link.description}</p>
+            </div>
+            <div class="quick-link-arrow" aria-hidden="true">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </div>
+          </a>
+        ))}
       </div>
     </div>
   </section>

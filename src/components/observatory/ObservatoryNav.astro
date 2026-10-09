@@ -7,13 +7,11 @@ const { current } = Astro.props;
 ---
 
 <nav class="observatory-nav" aria-label="Observatory">
-  {
-    observatoryNavigation.map(({ key, label, href }) => (
-      <a href={href} aria-current={current === key ? 'page' : undefined}>
-        {label}
-      </a>
-    ))
-  }
+  {observatoryNavigation.map(({ key, label, href }) => (
+    <a href={href} aria-current={current === key ? 'page' : undefined}>
+      {label}
+    </a>
+  ))}
 </nav>
 <style>
   .observatory-nav {

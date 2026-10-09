@@ -42,21 +42,19 @@ const latestNews = sortedNews.slice(0, limit);
       </a>
     </div>
     <div class="news-grid">
-      {
-        latestNews.map((article) => (
-          <NewsCard
-            title={article.data.title}
-            date={article.data.date}
-            type={article.data.type}
-            region={article.data.region}
-            author={article.data.author}
-            description={article.data.description}
-            slug={article.slug}
-            source={article.data.source}
-            external={article.data.external}
-          />
-        ))
-      }
+      {latestNews.map((article) => (
+        <NewsCard
+          title={article.data.title}
+          date={article.data.date}
+          type={article.data.type}
+          region={article.data.region}
+          author={article.data.author}
+          description={article.data.description}
+          slug={article.id}
+          source={article.data.source}
+          external={article.data.external}
+        />
+      ))}
     </div>
   </div>
 </section>

@@ -30,30 +30,26 @@ const icons = {
 ---
 
 <div class:list={['stat-card', { 'has-env': environment }]} data-env={environment}>
-  {
-    environment && (
-      <div class:list={['env-badge', environment]}>
-        <span class="env-dot" />
-        {environment === 'production' ? 'Prod' : 'Sandbox'}
-      </div>
-    )
-  }
+  {environment && (
+    <div class:list={['env-badge', environment]}>
+      <span class="env-dot" />
+      {environment === 'production' ? 'Prod' : 'Sandbox'}
+    </div>
+  )}
   <div class="stat-header">
     {icon && <div class="stat-icon" set:html={icons[icon]} />}
     <span class="stat-label">{label}</span>
   </div>
   <div class="stat-value">
     <span class="value-number">{value}</span>
-    {
-      calculatedTrend && (
-        <span class:list={['trend', `trend-${calculatedTrend}`]}>
-          {calculatedTrend === 'up' && '↑'}
-          {calculatedTrend === 'down' && '↓'}
-          {calculatedTrend === 'neutral' && '→'}
-          {displayTrendValue && <span class="trend-value">{displayTrendValue}</span>}
-        </span>
-      )
-    }
+    {calculatedTrend && (
+      <span class:list={['trend', `trend-${calculatedTrend}`]}>
+        {calculatedTrend === 'up' && '↑'}
+        {calculatedTrend === 'down' && '↓'}
+        {calculatedTrend === 'neutral' && '→'}
+        {displayTrendValue && <span class="trend-value">{displayTrendValue}</span>}
+      </span>
+    )}
   </div>
   {sublabel && <p class="stat-sublabel">{sublabel}</p>}
   <div class="stat-decoration" aria-hidden="true"></div>

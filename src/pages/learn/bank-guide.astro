@@ -44,8 +44,11 @@ const observedDate = latest.timestamp.slice(0, 10);
         <p>
           Certification and production live proving are distinct from directory publication. In the
           production snapshot observed on <time datetime={observedDate}>{observedDate}</time>,
-          <strong>{withIssuer} of {total} registration IDs</strong> publish an active issuer. These counts
-          do not establish how many institutions are live. Explore metadata in the
+          <strong>
+            {withIssuer} of {total} registration IDs
+          </strong>{' '}
+          publish an active issuer. These counts do not establish how many institutions are live.
+          Explore metadata in the
           <a href="/observatory">Observatory</a> and reported operational activity in the
           <a href="/observatory/watch/">Ecosystem Watch</a>.
         </p>
