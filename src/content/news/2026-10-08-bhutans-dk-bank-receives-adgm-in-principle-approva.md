@@ -5,8 +5,10 @@ type: official
 region: uae
 author: Fintech News Middle East
 source: https://fintechnews.ae/34042/digital-banking/dk-bank-adgm-in-principle-approval-abu-dhabi/
-description: "Bhutan-based DK Bank has received in-principle approval from the Financial Services Regulatory Authority (FSRA) of ADGM, Abu Dhabi&#8217;s international financial centre. The bank intends to establish a subsidiary in ADGM to provide brokerage, custody, payments and advisory services. However, the..."
+description: "DK Bank has received in-principle approval for a planned ADGM subsidiary. Operations remain conditional on meeting approval requirements and obtaining final Financial Services Permission."
 external: true
 ---
 
-Bhutan-based DK Bank has received in-principle approval from the Financial Services Regulatory Authority (FSRA) of ADGM, Abu Dhabi&#8217;s international financial centre. The bank intends to establish a subsidiary in ADGM to provide brokerage, custody, payments and advisory services. However, the...
+DK Bank says ADGM's Financial Services Regulatory Authority has granted in-principle approval for a planned Abu Dhabi subsidiary offering brokerage, custody, payments and advisory services.
+
+The approval is conditional. The bank must satisfy its requirements and receive final Financial Services Permission before beginning operations. [Emirates News Agency reports the bank's announcement](https://www.wam.ae/en/article/c2n1i8v-bhutans-bank-plans-international-expansion-through).
