@@ -472,6 +472,9 @@ o+='</tbody></table><div class="note"><b>'+esc(D.eco.top1)+'</b> handles '+esc(D
 o+='</section>';
 
 /* ===== ECONOMICS ===== */
+if(D.economicsUnavailable){var EU=D.economicsUnavailable;
+o+='<section id="economics"><div class="seg"><div class="n">5</div><h2>Commercial &amp; Economics</h2><div class="d">Fee totals require billing context</div></div>';
+o+='<div class="card"><h3>Fee estimates unavailable</h3><p>'+esc(EU.note)+'</p><div class="note">Pricing source checked '+esc(EU.checked)+': '+lk(EU.sourceUrl,'Commercial & Pricing Model v1.0')+'.</div></div></section>';}
 if(D.economics){var E=D.economics;
 o+='<section id="economics"><div class="seg"><div class="n">5</div><h2>Commercial &amp; Economics'+inf('What the platform and the AlTareq scheme fees come to at current volume — what TPPs pay (Nebras API Hub consumption + per-payment scheme fees) and what LFIs earn (payment scheme fees; data sharing is zero-rated below the page caps). Priced on the regulated Commercial & Pricing Model v1.0 from the observed 2xx / accepted flows.')+'</h2><div class="d">Who pays whom, and how much, at current platform volume</div></div>';
 /* headline answer cards */

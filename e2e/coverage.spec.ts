@@ -1,5 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { readFileSync } from 'node:fs';
+const watchPayload = JSON.parse(
+  readFileSync(new URL('../data/watch/payload.json', import.meta.url), 'utf8')
+);
 const production = JSON.parse(
   readFileSync(
     new URL('../data/observatory/snapshots/production/latest.json', import.meta.url),
@@ -116,14 +119,16 @@ test('mobile coverage and comparison scroll within their regions', async ({ page
 test('briefing, coverage and the Watch remain readable without JavaScript', async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
-  await page.goto('http://localhost:4321/');
+  await page.goto('/');
   await expect(page.getByRole('heading', { name: 'Latest saved briefing' })).toBeVisible();
-  await expect(page.locator('.briefing-date time[datetime="2026-09-29"]')).toBeVisible();
-  await page.goto('http://localhost:4321/observatory/coverage/');
+  await expect(
+    page.locator(`.briefing-date time[datetime="${watchPayload.asOfData}"]`)
+  ).toBeVisible();
+  await page.goto('/observatory/coverage/');
   await expect(page.locator('#coverage-rows tr:visible')).toHaveCount(
     production.participants.length
   );
-  await page.goto('http://localhost:4321/observatory/watch/');
+  await page.goto('/observatory/watch/');
   await expect(page.getByRole('heading', { name: 'Saved Ecosystem Watch briefing' })).toBeVisible();
   await expect(page.getByRole('navigation', { name: 'Observatory' })).toBeVisible();
   await context.close();
