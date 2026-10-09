@@ -1,643 +1,126 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
+import OperatorPointer from '@components/learn/OperatorPointer.astro';
+import latest from '../../../data/observatory/snapshots/production/latest.json';
 
-const apiRequirements = [
-  {
-    api: 'Account Information',
-    required: true,
-    description: 'Balances, transactions, standing orders, direct debits',
-  },
-  {
-    api: 'Payment Initiation',
-    required: true,
-    description: 'Domestic payments, scheduled payments, bulk payments',
-  },
-  {
-    api: 'Confirmation of Payee',
-    required: true,
-    description: 'Name verification before payment execution',
-  },
-  {
-    api: 'Product Information',
-    required: false,
-    description: 'Public product catalogs, branch information, ATM locations',
-  },
-];
-
-const implementationPhases = [
-  {
-    phase: 'Phase 1: Foundation',
-    items: [
-      'Register on Al Tareq platform',
-      'Set up authorization server (OAuth 2.0 + FAPI)',
-      'Implement consent management system',
-      'Deploy sandbox environment',
-    ],
-  },
-  {
-    phase: 'Phase 2: Core APIs',
-    items: [
-      'Implement Account Information APIs',
-      'Implement Payment Initiation APIs',
-      'Set up webhook notifications',
-      'Complete internal testing',
-    ],
-  },
-  {
-    phase: 'Phase 3: Certification',
-    items: [
-      'Pass conformance test suite',
-      'Complete security assessment',
-      'Document API specifications',
-      'Publish to directory',
-    ],
-  },
-  {
-    phase: 'Phase 4: Production',
-    items: [
-      'Enable production APIs',
-      'Onboard initial TPPs',
-      'Monitor and optimize performance',
-      'Iterate based on feedback',
-    ],
-  },
-];
+const withIssuer = latest.summary.liveInProduction;
+const total = latest.summary.totalParticipants;
+const observedDate = latest.timestamp.slice(0, 10);
 ---
 
 <PageLayout
-  title="Bank Guide"
-  description="Implementation guide for banks joining UAE Open Finance."
+  title="Bank / LFI Guide"
+  description="Understand the LFI's Ozone Connect interface, customer authentication, and the central API Hub's responsibilities."
 >
   <div class="guide-page">
     <div class="container">
       <nav class="breadcrumb">
         <a href="/learn">Learn</a>
         <span>/</span>
-        <span>Bank Guide</span>
+        <span>Bank / LFI Guide</span>
       </nav>
 
       <header class="page-header">
-        <h1>Guide for Banks & Financial Institutions</h1>
+        <h1>What is a Licensed Financial Institution?</h1>
         <p class="subtitle">
-          Implementation guide for Account Servicing Payment Service Providers (ASPSPs) joining the
-          UAE Open Finance ecosystem.
+          The institution's responsibilities, the Hub's responsibilities, and integration resources.
         </p>
       </header>
 
-      <section>
-        <h2>Your Role as an ASPSP</h2>
+      <section class="concept">
         <p>
-          As a bank or Licensed Financial Institution (LFI), you are an Account Servicing Payment
-          Service Provider (ASPSP) in the Open Finance ecosystem. Your role is to provide secure,
-          standardized APIs that allow authorized Third Party Providers (TPPs) to access customer
-          data and initiate payments on their behalf.
+          A <strong>Licensed Financial Institution (LFI)</strong>, such as a bank or insurer,
+          provides financial data or executes services through the UAE's central API Hub. The LFI
+          implements
+          <strong>Ozone Connect</strong>, the backend interface called by the Hub. TPP-facing
+          requests and responses pass through the Hub.
         </p>
-        <div class="role-highlights">
-          <div class="role-item">
-            <span class="role-icon">🏦</span>
-            <div>
-              <h4>Data Provider</h4>
-              <p>Expose account data through standardized APIs</p>
-            </div>
-          </div>
-          <div class="role-item">
-            <span class="role-icon">🔐</span>
-            <div>
-              <h4>Consent Manager</h4>
-              <p>Handle customer authorization and consent lifecycle</p>
-            </div>
-          </div>
-          <div class="role-item">
-            <span class="role-icon">💳</span>
-            <div>
-              <h4>Payment Executor</h4>
-              <p>Process payments initiated by authorized TPPs</p>
-            </div>
-          </div>
-        </div>
+        <p>
+          The customer authenticates with the LFI in the authorization journey. The Hub acts as the
+          OIDC/FAPI authorization server, owns consent state and issues access tokens. The LFI
+          processes the Hub's validated requests; it does not issue the TPP's access tokens or keep
+          an independent consent state.
+        </p>
+        <p>
+          Certification and production live proving are distinct from directory publication. In the
+          production snapshot observed on <time datetime={observedDate}>{observedDate}</time>,
+          <strong>{withIssuer} of {total} registration IDs</strong> publish an active issuer. These counts
+          do not establish how many institutions are live. Explore metadata in the
+          <a href="/observatory">Observatory</a> and reported operational activity in the
+          <a href="/observatory/watch/">Ecosystem Watch</a>.
+        </p>
       </section>
 
-      <section>
-        <h2>API Requirements</h2>
-        <p>The UAE Open Finance framework specifies the following API families:</p>
-        <div class="api-table">
-          <div class="api-row header">
-            <span>API Family</span>
-            <span>Status</span>
-            <span>Description</span>
-          </div>
+      <OperatorPointer
+        intro="Use the official Open Finance documentation for governing requirements. The community LFI guide explains the integration journey and links to supporting material:"
+        links={[
           {
-            apiRequirements.map((api) => (
-              <div class="api-row">
-                <span class="api-name">{api.api}</span>
-                <span class={`api-status ${api.required ? 'required' : 'optional'}`}>
-                  {api.required ? 'Required' : 'Optional'}
-                </span>
-                <span class="api-desc">{api.description}</span>
-              </div>
-            ))
-          }
-        </div>
-      </section>
-
-      <section>
-        <h2>Technical Architecture</h2>
-        <div class="architecture-diagram">
-          <div class="arch-layer">
-            <span class="layer-label">TPP Layer</span>
-            <div class="arch-box tpp">Third Party Providers</div>
-          </div>
-          <div class="arch-arrow">↓ FAPI-secured APIs ↓</div>
-          <div class="arch-layer">
-            <span class="layer-label">Platform Layer</span>
-            <div class="arch-box platform">Al Tareq Platform (Directory, Trust Framework)</div>
-          </div>
-          <div class="arch-arrow">↓ Mutual TLS ↓</div>
-          <div class="arch-layer">
-            <span class="layer-label">Bank Layer</span>
-            <div class="arch-boxes">
-              <div class="arch-box bank">Authorization Server</div>
-              <div class="arch-box bank">Resource Server (APIs)</div>
-              <div class="arch-box bank">Consent Management</div>
-            </div>
-          </div>
-          <div class="arch-arrow">↓</div>
-          <div class="arch-layer">
-            <span class="layer-label">Core Systems</span>
-            <div class="arch-box core">Core Banking, Payment Systems, Customer Data</div>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2>Implementation Roadmap</h2>
-        <div class="phases">
+            label: 'Official Open Finance documentation',
+            href: 'https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview',
+          },
           {
-            implementationPhases.map((phase, index) => (
-              <div class="phase-card">
-                <div class="phase-header">
-                  <span class="phase-number">{index + 1}</span>
-                  <h3>{phase.phase}</h3>
-                </div>
-                <ul>
-                  {phase.items.map((item) => (
-                    <li>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            ))
-          }
-        </div>
-      </section>
-
-      <section>
-        <h2>Security Requirements</h2>
-        <div class="security-grid">
-          <div class="security-card">
-            <h4>FAPI Compliance</h4>
-            <p>Implement Financial-grade API security profile (FAPI 1.0 Advanced or FAPI 2.0)</p>
-          </div>
-          <div class="security-card">
-            <h4>Mutual TLS</h4>
-            <p>All API calls must use mutual TLS with qualified certificates</p>
-          </div>
-          <div class="security-card">
-            <h4>Strong Customer Authentication</h4>
-            <p>Multi-factor authentication for consent authorization</p>
-          </div>
-          <div class="security-card">
-            <h4>Token Binding</h4>
-            <p>Access tokens bound to TPP certificates to prevent token theft</p>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2>Consent Management</h2>
-        <p>Banks must implement a comprehensive consent management system that:</p>
-        <ul class="consent-list">
-          <li>Displays clear information about requested access permissions</li>
-          <li>Allows customers to approve or deny access per account</li>
-          <li>Supports consent expiry and renewal</li>
-          <li>Enables customers to revoke consent at any time</li>
-          <li>Maintains an audit trail of all consent activities</li>
-          <li>Provides a customer dashboard to view active consents</li>
-        </ul>
-      </section>
-
-      <section class="cta-section">
-        <h2>Implementation Support</h2>
-        <p>Access technical documentation and sandbox environments to begin your implementation.</p>
-        <div class="cta-buttons">
-          <a
-            href="https://openfinanceuae.atlassian.net/wiki/spaces/tfdocsv7/pages/362840092"
-            class="cta-primary"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            API Documentation →
-          </a>
-          <a
-            href="https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview?mode=global"
-            class="cta-secondary"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Al Tareq Portal →
-          </a>
-        </div>
-      </section>
+            label: 'LFI API Hub — community integration guide',
+            href: 'https://nebras-open-finance.com/tech/lfi-api-hub/',
+          },
+          {
+            label: 'Trust framework — community reference',
+            href: 'https://nebras-open-finance.com/tech/lfi-api-hub/trust-framework/',
+          },
+          {
+            label: 'Testing & certification — official documentation',
+            href: 'https://openfinanceuae.atlassian.net/wiki/spaces/OF/pages/124583943',
+          },
+        ]}
+      />
     </div>
   </div>
 </PageLayout>
 
 <style>
   .guide-page {
-    padding: var(--space-8) var(--space-4) var(--space-16);
+    padding: var(--space-12) var(--space-4) var(--space-16);
   }
-
   .container {
-    max-width: 800px;
+    max-width: 760px;
     margin: 0 auto;
   }
-
   .breadcrumb {
     display: flex;
-    align-items: center;
     gap: var(--space-2);
-    font-size: 0.875rem;
+    font-size: 0.85rem;
     color: var(--color-gray-500);
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-4);
   }
-
   .breadcrumb a {
+    color: var(--color-gray-500);
+    text-decoration: none;
+  }
+  .breadcrumb a:hover {
     color: var(--color-primary-600);
   }
-
-  .page-header {
-    margin-bottom: var(--space-10);
-  }
-
   .page-header h1 {
-    font-size: 2.25rem;
-    margin-bottom: var(--space-3);
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 3.6vw, 2.3rem);
+    font-weight: 700;
+    margin: 0 0 var(--space-2);
+    color: var(--color-gray-900);
+    letter-spacing: -0.02em;
   }
-
   .subtitle {
-    font-size: 1.125rem;
+    margin: 0 0 var(--space-8);
     color: var(--color-gray-600);
+    font-size: 1.05rem;
   }
-
-  section {
-    margin-bottom: var(--space-12);
-  }
-
-  section h2 {
-    font-size: 1.5rem;
-    margin-bottom: var(--space-4);
-  }
-
-  section > p {
-    color: var(--color-gray-600);
-    line-height: 1.7;
-    margin-bottom: var(--space-6);
-  }
-
-  /* Role Highlights */
-  .role-highlights {
-    display: grid;
-    gap: var(--space-4);
-  }
-
-  @media (min-width: 640px) {
-    .role-highlights {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  .role-item {
-    display: flex;
-    gap: var(--space-3);
-    padding: var(--space-4);
-    background: var(--color-gray-50);
-    border-radius: var(--radius-lg);
-  }
-
-  .role-icon {
-    font-size: 1.5rem;
-    flex-shrink: 0;
-  }
-
-  .role-item h4 {
-    font-size: 0.9375rem;
-    margin-bottom: var(--space-1);
-  }
-
-  .role-item p {
-    font-size: 0.8125rem;
-    color: var(--color-gray-600);
-    margin: 0;
-  }
-
-  /* API Table */
-  .api-table {
-    border: 1px solid var(--color-gray-200);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-  }
-
-  .api-row {
-    display: grid;
-    grid-template-columns: 1fr auto 2fr;
-    gap: var(--space-4);
-    padding: var(--space-4);
-    border-bottom: 1px solid var(--color-gray-100);
-    align-items: center;
-  }
-
-  .api-row:last-child {
-    border-bottom: none;
-  }
-
-  .api-row.header {
-    background: var(--color-gray-50);
-    font-weight: 600;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-gray-500);
-  }
-
-  .api-name {
-    font-weight: 500;
-  }
-
-  .api-status {
-    padding: var(--space-1) var(--space-2);
-    font-size: 0.6875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    border-radius: var(--radius-sm);
-  }
-
-  .api-status.required {
-    background: var(--color-primary-100);
-    color: var(--color-primary-700);
-  }
-
-  .api-status.optional {
-    background: var(--color-gray-100);
-    color: var(--color-gray-600);
-  }
-
-  .api-desc {
-    font-size: 0.875rem;
-    color: var(--color-gray-600);
-  }
-
-  @media (max-width: 640px) {
-    .api-row {
-      grid-template-columns: 1fr;
-      gap: var(--space-2);
-    }
-    .api-row.header {
-      display: none;
-    }
-  }
-
-  /* Architecture Diagram */
-  .architecture-diagram {
-    background: var(--color-gray-50);
-    padding: var(--space-6);
-    border-radius: var(--radius-xl);
-    text-align: center;
-  }
-
-  .arch-layer {
-    margin-bottom: var(--space-2);
-  }
-
-  .layer-label {
-    display: block;
-    font-size: 0.6875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-gray-500);
-    margin-bottom: var(--space-2);
-  }
-
-  .arch-box {
-    padding: var(--space-3) var(--space-4);
-    border-radius: var(--radius-md);
-    font-size: 0.875rem;
-    font-weight: 500;
-  }
-
-  .arch-box.tpp {
-    background: var(--color-accent-100);
-    color: var(--color-accent-700);
-  }
-
-  .arch-box.platform {
-    background: var(--color-gray-200);
+  .concept p {
     color: var(--color-gray-700);
-  }
-
-  .arch-box.bank {
-    background: var(--color-primary-100);
-    color: var(--color-primary-700);
-  }
-
-  .arch-box.core {
-    background: var(--color-gray-300);
-    color: var(--color-gray-800);
-  }
-
-  .arch-boxes {
-    display: grid;
-    gap: var(--space-2);
-  }
-
-  @media (min-width: 640px) {
-    .arch-boxes {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  .arch-arrow {
-    padding: var(--space-2);
-    color: var(--color-gray-400);
-    font-size: 0.75rem;
-  }
-
-  /* Phases */
-  .phases {
-    display: grid;
-    gap: var(--space-4);
-  }
-
-  @media (min-width: 640px) {
-    .phases {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  .phase-card {
-    padding: var(--space-5);
-    background: white;
-    border: 1px solid var(--color-gray-200);
-    border-radius: var(--radius-lg);
-  }
-
-  .phase-header {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    margin-bottom: var(--space-4);
-  }
-
-  .phase-number {
-    width: 28px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--color-primary-600);
-    color: white;
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
-    font-weight: 600;
-    border-radius: 50%;
-  }
-
-  .phase-card h3 {
     font-size: 1rem;
+    line-height: 1.7;
+    margin: 0 0 var(--space-4);
   }
-
-  .phase-card ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  .concept strong {
+    color: var(--color-gray-900);
   }
-
-  .phase-card li {
-    position: relative;
-    padding-left: var(--space-5);
-    margin-bottom: var(--space-2);
-    font-size: 0.875rem;
+  :global([data-theme='dark']) .concept p {
     color: var(--color-gray-600);
-  }
-
-  .phase-card li::before {
-    content: '→';
-    position: absolute;
-    left: 0;
-    color: var(--color-primary-500);
-  }
-
-  /* Security Grid */
-  .security-grid {
-    display: grid;
-    gap: var(--space-4);
-  }
-
-  @media (min-width: 640px) {
-    .security-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  .security-card {
-    padding: var(--space-4);
-    background: var(--color-primary-50);
-    border-radius: var(--radius-lg);
-  }
-
-  .security-card h4 {
-    font-size: 0.9375rem;
-    color: var(--color-primary-700);
-    margin-bottom: var(--space-2);
-  }
-
-  .security-card p {
-    font-size: 0.875rem;
-    color: var(--color-gray-600);
-    margin: 0;
-  }
-
-  /* Consent List */
-  .consent-list {
-    list-style: none;
-    padding: 0;
-  }
-
-  .consent-list li {
-    position: relative;
-    padding: var(--space-3) 0 var(--space-3) var(--space-8);
-    border-bottom: 1px solid var(--color-gray-100);
-    color: var(--color-gray-700);
-  }
-
-  .consent-list li::before {
-    content: '✓';
-    position: absolute;
-    left: 0;
-    color: var(--color-success);
-    font-weight: 600;
-  }
-
-  /* CTA Section */
-  .cta-section {
-    padding: var(--space-8);
-    background: var(--color-gray-50);
-    border-radius: var(--radius-xl);
-    text-align: center;
-  }
-
-  .cta-section h2 {
-    margin-bottom: var(--space-2);
-  }
-
-  .cta-section > p {
-    margin-bottom: var(--space-6);
-  }
-
-  .cta-buttons {
-    display: flex;
-    gap: var(--space-4);
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .cta-primary {
-    padding: var(--space-3) var(--space-6);
-    background: var(--color-primary-600);
-    color: white;
-    font-weight: 600;
-    border-radius: var(--radius-lg);
-    text-decoration: none;
-    transition: background-color var(--transition-fast);
-  }
-
-  .cta-primary:hover {
-    background: var(--color-primary-700);
-    text-decoration: none;
-  }
-
-  .cta-secondary {
-    padding: var(--space-3) var(--space-6);
-    background: white;
-    color: var(--color-primary-600);
-    font-weight: 600;
-    border: 1px solid var(--color-primary-600);
-    border-radius: var(--radius-lg);
-    text-decoration: none;
-    transition: background-color var(--transition-fast);
-  }
-
-  .cta-secondary:hover {
-    background: var(--color-primary-50);
-    text-decoration: none;
   }
 </style>

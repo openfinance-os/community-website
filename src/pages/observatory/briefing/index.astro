@@ -1,0 +1,35 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import ObservatoryNav from '@components/observatory/ObservatoryNav.astro';
+import WatchBriefing from '@components/home/WatchBriefing.astro';
+---
+
+<PageLayout
+  title="Latest Ecosystem Briefing"
+  description="The latest saved UAE Open Finance Watch summary, with its observation date, operational cutoff and links to the full evidence."
+>
+  <ObservatoryNav current="briefing" />
+  <header class="briefing-header">
+    <h1>Ecosystem briefing</h1><p>
+      Standards, operations and adoption in one dated view. The full Watch provides the underlying
+      sources and reporting windows.
+    </p>
+  </header>
+  <WatchBriefing />
+</PageLayout>
+<style>
+  .briefing-header {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 16px;
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3rem);
+  }
+  p {
+    color: var(--color-gray-600);
+    max-width: 75ch;
+    line-height: 1.7;
+  }
+</style>

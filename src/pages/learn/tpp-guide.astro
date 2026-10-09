@@ -1,39 +1,12 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
-
-const requirements = [
-  'Valid UAE business license or equivalent authorization',
-  'Technical capability to implement FAPI-compliant security',
-  'Demonstrated understanding of Open Finance APIs',
-  'Data protection and security policies in place',
-  'Professional indemnity insurance (where required)',
-];
-
-const tppTypes = [
-  {
-    code: 'BDSP',
-    name: 'Banking Data Service Provider',
-    description: 'Access account information and transaction data',
-    useCases: ['Personal finance management', 'Credit scoring', 'Wealth management'],
-  },
-  {
-    code: 'BSIP',
-    name: 'Banking Service Initiation Provider',
-    description: 'Initiate payments on behalf of customers',
-    useCases: ['E-commerce payments', 'Bill payments', 'Money transfers'],
-  },
-  {
-    code: 'ISP',
-    name: 'Information Service Provider',
-    description: 'Provide account aggregation and information services',
-    useCases: ['Account aggregation', 'Financial dashboards', 'Comparison services'],
-  },
-];
+import { roleLabels } from '@lib/taxonomy';
+import OperatorPointer from '@components/learn/OperatorPointer.astro';
 ---
 
 <PageLayout
   title="TPP Guide"
-  description="Complete guide for Third Party Providers building on UAE Open Finance."
+  description="What a Third Party Provider does through the UAE API Hub, and where to find participation and integration guidance."
 >
   <div class="guide-page">
     <div class="container">
@@ -44,405 +17,103 @@ const tppTypes = [
       </nav>
 
       <header class="page-header">
-        <h1>Guide for Third Party Providers</h1>
+        <h1>What is a Third Party Provider?</h1>
         <p class="subtitle">
-          Everything fintechs and TPPs need to know about building on UAE Open Finance.
+          The plain-language version, with official documentation and community technical
+          references.
         </p>
       </header>
 
-      <section>
-        <h2>What is a TPP?</h2>
+      <section class="concept">
         <p>
-          A Third Party Provider (TPP) is an organization authorized to access customer banking data
-          or initiate payments on their behalf. TPPs include fintechs, payment providers, and other
-          technology companies building innovative financial services.
+          A <strong>Third Party Provider (TPP)</strong> consumes Open Finance services through the central
+          API Hub. With the required customer consent, it can read financial data or initiate payments.
+          These capabilities support budgeting apps, pay-by-bank checkouts, account aggregation and lending
+          informed by cash flow. An LFI can also act as a TPP where its permissions and licence allow.
         </p>
         <p>
-          In the UAE Open Finance framework, TPPs connect to banks through the Al Tareq platform,
-          using standardized APIs and security protocols.
+          In the UAE, TPPs register with the trust-framework directory, obtain certification, and
+          integrate through the central API Hub. Directory role claims include <strong>BDSP</strong> ({
+            roleLabels.BDSP
+          }),
+          <strong>BSIP</strong> ({roleLabels.BSIP}) and <strong>ISP</strong> ({roleLabels.ISP}).
+          These claims describe permissions, not a TPP licence classification. The
+          <a href="/observatory">Observatory</a> records observed directory registrations and published
+          resources; it does not verify whether a provider is licensed for a particular proposition or
+          actively using an API.
         </p>
       </section>
 
-      <section>
-        <h2>TPP Categories</h2>
-        <div class="tpp-types">
+      <OperatorPointer
+        intro="Check official participation requirements before planning an integration. The community standards site provides technical guides and specification references:"
+        links={[
           {
-            tppTypes.map((type) => (
-              <div class="tpp-card">
-                <div class="tpp-header">
-                  <span class="tpp-code">{type.code}</span>
-                  <h3>{type.name}</h3>
-                </div>
-                <p>{type.description}</p>
-                <div class="use-cases">
-                  <span class="use-cases-label">Common use cases:</span>
-                  <ul>
-                    {type.useCases.map((useCase) => (
-                      <li>{useCase}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            ))
-          }
-        </div>
-      </section>
-
-      <section>
-        <h2>Registration Requirements</h2>
-        <p>To register as a TPP on the Al Tareq platform, you'll need:</p>
-        <ul class="requirements-list">
-          {requirements.map((req) => <li>{req}</li>)}
-        </ul>
-      </section>
-
-      <section>
-        <h2>Registration Process</h2>
-        <div class="process-steps">
-          <div class="process-step">
-            <div class="step-icon">1</div>
-            <div>
-              <h4>Create Account</h4>
-              <p>Register on the Al Tareq portal with your organization details.</p>
-            </div>
-          </div>
-          <div class="process-step">
-            <div class="step-icon">2</div>
-            <div>
-              <h4>Submit Documentation</h4>
-              <p>Upload required legal and technical documentation.</p>
-            </div>
-          </div>
-          <div class="process-step">
-            <div class="step-icon">3</div>
-            <div>
-              <h4>Technical Review</h4>
-              <p>Nebras reviews your technical capabilities and security measures.</p>
-            </div>
-          </div>
-          <div class="process-step">
-            <div class="step-icon">4</div>
-            <div>
-              <h4>Sandbox Access</h4>
-              <p>Upon approval, receive credentials for the sandbox environment.</p>
-            </div>
-          </div>
-          <div class="process-step">
-            <div class="step-icon">5</div>
-            <div>
-              <h4>Conformance Testing</h4>
-              <p>Complete required conformance tests against API specifications.</p>
-            </div>
-          </div>
-          <div class="process-step">
-            <div class="step-icon">6</div>
-            <div>
-              <h4>Production Access</h4>
-              <p>After passing tests, receive production credentials and go live.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2>Technical Requirements</h2>
-        <div class="tech-grid">
-          <div class="tech-card">
-            <h4>Authentication</h4>
-            <p>OAuth 2.0 with PKCE, mutual TLS for API calls</p>
-          </div>
-          <div class="tech-card">
-            <h4>Security Profile</h4>
-            <p>FAPI 1.0 Advanced or FAPI 2.0 compliant</p>
-          </div>
-          <div class="tech-card">
-            <h4>Consent Management</h4>
-            <p>Real-time consent capture and lifecycle management</p>
-          </div>
-          <div class="tech-card">
-            <h4>Certificates</h4>
-            <p>eIDAS-style qualified certificates for signing</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="cta-section">
-        <h2>Ready to Get Started?</h2>
-        <p>Visit the Al Tareq portal to begin your TPP registration.</p>
-        <div class="cta-buttons">
-          <a
-            href="https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview?mode=global"
-            class="cta-primary"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Start Registration →
-          </a>
-          <a href="/learn/api-guide" class="cta-secondary"> View API Guide → </a>
-        </div>
-      </section>
+            label: 'Official Open Finance documentation',
+            href: 'https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview',
+          },
+          {
+            label: 'TPP Standards — community reference',
+            href: 'https://nebras-open-finance.com/tech/tpp-standards',
+          },
+          {
+            label: 'Testing & certification — community reference',
+            href: 'https://nebras-open-finance.com/tech/tpp-standards/production/testing-certification/overview',
+          },
+          {
+            label: 'API specifications — community reference',
+            href: 'https://nebras-open-finance.com/tech/api-specs/',
+          },
+        ]}
+      />
     </div>
   </div>
 </PageLayout>
 
 <style>
   .guide-page {
-    padding: var(--space-8) var(--space-4) var(--space-16);
+    padding: var(--space-12) var(--space-4) var(--space-16);
   }
-
   .container {
-    max-width: 800px;
+    max-width: 760px;
     margin: 0 auto;
   }
-
   .breadcrumb {
     display: flex;
-    align-items: center;
     gap: var(--space-2);
-    font-size: 0.875rem;
+    font-size: 0.85rem;
     color: var(--color-gray-500);
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-4);
   }
-
   .breadcrumb a {
-    color: var(--color-primary-600);
-  }
-
-  .page-header {
-    margin-bottom: var(--space-10);
-  }
-
-  .page-header h1 {
-    font-size: 2.25rem;
-    margin-bottom: var(--space-3);
-  }
-
-  .subtitle {
-    font-size: 1.125rem;
-    color: var(--color-gray-600);
-  }
-
-  section {
-    margin-bottom: var(--space-12);
-  }
-
-  section h2 {
-    font-size: 1.5rem;
-    margin-bottom: var(--space-4);
-  }
-
-  section > p {
-    color: var(--color-gray-600);
-    line-height: 1.7;
-    margin-bottom: var(--space-4);
-  }
-
-  /* TPP Types */
-  .tpp-types {
-    display: grid;
-    gap: var(--space-4);
-  }
-
-  .tpp-card {
-    padding: var(--space-6);
-    background: white;
-    border: 1px solid var(--color-gray-200);
-    border-radius: var(--radius-xl);
-  }
-
-  .tpp-header {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    margin-bottom: var(--space-3);
-  }
-
-  .tpp-code {
-    padding: var(--space-1) var(--space-2);
-    background: var(--color-primary-100);
-    color: var(--color-primary-700);
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 600;
-    border-radius: var(--radius-sm);
-  }
-
-  .tpp-card h3 {
-    font-size: 1.125rem;
-  }
-
-  .tpp-card > p {
-    color: var(--color-gray-600);
-    margin-bottom: var(--space-4);
-  }
-
-  .use-cases-label {
-    font-size: 0.75rem;
-    font-weight: 600;
     color: var(--color-gray-500);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .use-cases ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-    list-style: none;
-    padding: 0;
-    margin: var(--space-2) 0 0;
-  }
-
-  .use-cases li {
-    padding: var(--space-1) var(--space-3);
-    background: var(--color-gray-100);
-    color: var(--color-gray-700);
-    font-size: 0.8125rem;
-    border-radius: var(--radius-full);
-  }
-
-  /* Requirements */
-  .requirements-list {
-    list-style: none;
-    padding: 0;
-  }
-
-  .requirements-list li {
-    position: relative;
-    padding: var(--space-3) 0 var(--space-3) var(--space-8);
-    border-bottom: 1px solid var(--color-gray-100);
-    color: var(--color-gray-700);
-  }
-
-  .requirements-list li::before {
-    content: '✓';
-    position: absolute;
-    left: 0;
-    color: var(--color-success);
-    font-weight: 600;
-  }
-
-  /* Process Steps */
-  .process-steps {
-    display: grid;
-    gap: var(--space-4);
-  }
-
-  .process-step {
-    display: flex;
-    gap: var(--space-4);
-    padding: var(--space-4);
-    background: var(--color-gray-50);
-    border-radius: var(--radius-lg);
-  }
-
-  .step-icon {
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--color-primary-600);
-    color: white;
-    font-family: var(--font-mono);
-    font-size: 0.875rem;
-    font-weight: 600;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .process-step h4 {
-    font-size: 1rem;
-    margin-bottom: var(--space-1);
-  }
-
-  .process-step p {
-    font-size: 0.875rem;
-    color: var(--color-gray-600);
-    margin: 0;
-  }
-
-  /* Tech Grid */
-  .tech-grid {
-    display: grid;
-    gap: var(--space-4);
-  }
-
-  @media (min-width: 640px) {
-    .tech-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  .tech-card {
-    padding: var(--space-4);
-    background: var(--color-primary-50);
-    border-radius: var(--radius-lg);
-  }
-
-  .tech-card h4 {
-    font-size: 0.9375rem;
-    color: var(--color-primary-700);
-    margin-bottom: var(--space-1);
-  }
-
-  .tech-card p {
-    font-size: 0.875rem;
-    color: var(--color-gray-600);
-    margin: 0;
-  }
-
-  /* CTA Section */
-  .cta-section {
-    padding: var(--space-8);
-    background: var(--color-gray-50);
-    border-radius: var(--radius-xl);
-    text-align: center;
-  }
-
-  .cta-section h2 {
-    margin-bottom: var(--space-2);
-  }
-
-  .cta-section > p {
-    margin-bottom: var(--space-6);
-  }
-
-  .cta-buttons {
-    display: flex;
-    gap: var(--space-4);
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .cta-primary {
-    padding: var(--space-3) var(--space-6);
-    background: var(--color-primary-600);
-    color: white;
-    font-weight: 600;
-    border-radius: var(--radius-lg);
-    text-decoration: none;
-    transition: background-color var(--transition-fast);
-  }
-
-  .cta-primary:hover {
-    background: var(--color-primary-700);
     text-decoration: none;
   }
-
-  .cta-secondary {
-    padding: var(--space-3) var(--space-6);
-    background: white;
+  .breadcrumb a:hover {
     color: var(--color-primary-600);
-    font-weight: 600;
-    border: 1px solid var(--color-primary-600);
-    border-radius: var(--radius-lg);
-    text-decoration: none;
-    transition: background-color var(--transition-fast);
   }
-
-  .cta-secondary:hover {
-    background: var(--color-primary-50);
-    text-decoration: none;
+  .page-header h1 {
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 3.6vw, 2.3rem);
+    font-weight: 700;
+    margin: 0 0 var(--space-2);
+    color: var(--color-gray-900);
+    letter-spacing: -0.02em;
+  }
+  .subtitle {
+    margin: 0 0 var(--space-8);
+    color: var(--color-gray-600);
+    font-size: 1.05rem;
+  }
+  .concept p {
+    color: var(--color-gray-700);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin: 0 0 var(--space-4);
+  }
+  .concept strong {
+    color: var(--color-gray-900);
+  }
+  :global([data-theme='dark']) .concept p {
+    color: var(--color-gray-600);
   }
 </style>

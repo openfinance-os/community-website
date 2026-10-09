@@ -33,6 +33,8 @@ const { currentEnvironment, productionCount = 0, sandboxCount = 0 } = Astro.prop
 </div>
 
 <style>
+  /* Lives inside the always-dark Observatory banner, so colours are literal
+     rather than theme tokens (which invert in dark mode). */
   .environment-toggle {
     display: flex;
     align-items: center;
@@ -42,7 +44,7 @@ const { currentEnvironment, productionCount = 0, sandboxCount = 0 } = Astro.prop
   .toggle-label {
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--color-primary-200);
+    color: #a3cccc;
   }
 
   .toggle-buttons {
@@ -65,7 +67,7 @@ const { currentEnvironment, productionCount = 0, sandboxCount = 0 } = Astro.prop
     border-radius: var(--radius-full);
     font-size: 0.8125rem;
     font-weight: 500;
-    color: var(--color-primary-200);
+    color: #a3cccc;
     cursor: pointer;
     transition: all 0.2s ease;
     text-decoration: none;
@@ -79,7 +81,7 @@ const { currentEnvironment, productionCount = 0, sandboxCount = 0 } = Astro.prop
 
   .toggle-btn.active {
     background: white;
-    color: var(--color-primary-900);
+    color: #041919;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   }
 
@@ -129,8 +131,8 @@ const { currentEnvironment, productionCount = 0, sandboxCount = 0 } = Astro.prop
   }
 
   .toggle-btn.active .env-count {
-    background: var(--color-primary-100);
-    color: var(--color-primary-700);
+    background: #d1e5e5;
+    color: #0a3d3d;
   }
 
   @media (max-width: 640px) {

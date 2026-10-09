@@ -1,67 +1,12 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
 import Breadcrumb from '@components/common/Breadcrumb.astro';
-
-const steps = [
-  {
-    number: 1,
-    title: 'Understand the Framework',
-    description: 'Learn about the UAE Open Finance regulatory framework and key participants.',
-    items: [
-      'Review the CBUAE Open Finance guidelines',
-      'Understand the difference between TPPs and ASPSPs',
-      'Familiarize yourself with participant roles (LFI, BDSP, BSIP, ISP)',
-    ],
-  },
-  {
-    number: 2,
-    title: 'Choose Your Role',
-    description: 'Determine which participant type applies to your organization.',
-    items: [
-      'TPP: Building apps that access bank data or initiate payments',
-      'ASPSP: Banks providing APIs to TPPs',
-      'Technology Provider: Supporting infrastructure providers',
-    ],
-  },
-  {
-    number: 3,
-    title: 'Register on Al Tareq',
-    description: 'Create an account on the official platform.',
-    items: [
-      'Visit openfinanceuae.atlassian.net',
-      'Complete the registration form',
-      'Submit required documentation',
-      'Await approval from Nebras',
-    ],
-  },
-  {
-    number: 4,
-    title: 'Access the Sandbox',
-    description: 'Start testing in the sandbox environment.',
-    items: [
-      'Obtain sandbox credentials',
-      'Review API documentation',
-      'Test authentication flows',
-      'Implement consent management',
-    ],
-  },
-  {
-    number: 5,
-    title: 'Go Live',
-    description: 'Complete certification and launch in production.',
-    items: [
-      'Pass conformance testing',
-      'Complete security assessment',
-      'Obtain production credentials',
-      'Start processing real transactions',
-    ],
-  },
-];
+import OperatorPointer from '@components/learn/OperatorPointer.astro';
 ---
 
 <PageLayout
   title="Getting Started"
-  description="Everything you need to start building on UAE Open Finance."
+  description="Understand the UAE Open Finance ecosystem — what it is, the API families, and where to go to build."
 >
   <div class="guide-page">
     <div class="container">
@@ -71,7 +16,8 @@ const steps = [
         <span class="badge">Start Here</span>
         <h1>Getting Started with UAE Open Finance</h1>
         <p class="subtitle">
-          A step-by-step guide to understanding and participating in the UAE Open Finance ecosystem.
+          Understand the UAE Open Finance ecosystem — what it is and the API families — then head to
+          official documentation and community technical references to build.
         </p>
       </header>
 
@@ -79,16 +25,22 @@ const steps = [
         <h2>What is UAE Open Finance?</h2>
         <p>
           UAE Open Finance is a regulatory framework that enables secure, standardized sharing of
-          financial data between banks and authorized third-party providers. Operated under CBUAE
-          oversight and powered by the Al Tareq platform, it allows consumers to share their
-          financial data with apps and services they trust.
+          financial data between financial institutions, including banks and insurers, and
+          authorized providers. Under CBUAE oversight and the Al Tareq brand, customers can give
+          consent to share data or initiate payments through services they choose.
+        </p>
+        <p>
+          Requests follow <strong>TPP → API Hub → LFI → API Hub → TPP</strong>. The Hub manages
+          consent, issues access tokens and exposes the APIs used by TPPs. The institution
+          authenticates the customer and provides its backend services through Ozone Connect. A TPP
+          does not connect directly to that backend.
         </p>
         <div class="key-points">
           <div class="key-point">
             <span class="point-icon">🔐</span>
             <div>
               <h4>Secure by Design</h4>
-              <p>FAPI-compliant security with explicit customer consent</p>
+              <p>Financial API security and customer consent for data sharing and payments</p>
             </div>
           </div>
           <div class="key-point">
@@ -108,31 +60,32 @@ const steps = [
         </div>
       </section>
 
-      <section class="steps-section">
-        <h2>Your Journey to Going Live</h2>
-        <div class="steps-timeline">
+      <OperatorPointer
+        heading="Ready to build or go live?"
+        intro="Start with the official participation and standards documentation, then use the community guides for technical orientation. Organization onboarding, application registration and certification are separate steps:"
+        links={[
           {
-            steps.map((step) => (
-              <div class="step">
-                <div class="step-number">{step.number}</div>
-                <div class="step-content">
-                  <h3>{step.title}</h3>
-                  <p>{step.description}</p>
-                  <ul>
-                    {step.items.map((item) => (
-                      <li>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            ))
-          }
-        </div>
-      </section>
+            label: 'Official Open Finance documentation',
+            href: 'https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview',
+          },
+          {
+            label: 'TPP standards — community reference',
+            href: 'https://nebras-open-finance.com/tech/tpp-standards',
+          },
+          {
+            label: 'LFI API Hub — community integration guide',
+            href: 'https://nebras-open-finance.com/tech/lfi-api-hub/',
+          },
+        ]}
+      />
 
       <section class="apis-section">
-        <h2>Available API Families</h2>
-        <p>The UAE Open Finance framework currently supports the following API categories:</p>
+        <h2>What the APIs cover</h2>
+        <p>
+          The specifications cover banking and insurance services. Published versions and resources
+          vary by registration; check the <a href="/observatory">Observatory</a> for dated directory observations
+          and the specifications for the contract you need.
+        </p>
         <div class="api-grid">
           <div class="api-card">
             <h4>Account Information</h4>
@@ -140,15 +93,25 @@ const steps = [
           </div>
           <div class="api-card">
             <h4>Payment Initiation</h4>
-            <p>Initiate domestic payments directly from customer accounts.</p>
+            <p>Initiate payments from customer accounts through the Hub with customer consent.</p>
           </div>
           <div class="api-card">
             <h4>Confirmation of Payee</h4>
-            <p>Verify recipient details before initiating payments.</p>
+            <p>
+              Check recipient details using client credentials, without a customer consent journey.
+            </p>
           </div>
           <div class="api-card">
             <h4>Product Information</h4>
-            <p>Access publicly available product and branch information.</p>
+            <p>Read product catalogue information using client credentials.</p>
+          </div>
+          <div class="api-card">
+            <h4>Insurance Information</h4>
+            <p>Access insurance policy information with customer consent.</p>
+          </div>
+          <div class="api-card">
+            <h4>ATM Information</h4>
+            <p>Read ATM information using client credentials.</p>
           </div>
         </div>
       </section>
@@ -168,7 +131,7 @@ const steps = [
           </a>
           <a href="/learn/api-guide" class="next-card">
             <h4>API Integration</h4>
-            <p>Technical implementation details</p>
+            <p>Hub architecture and specification links</p>
             <span>→</span>
           </a>
         </div>
@@ -329,7 +292,7 @@ const steps = [
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--color-primary-600);
+    background: var(--color-primary-fill);
     color: white;
     font-family: var(--font-mono);
     font-size: 0.875rem;
@@ -485,11 +448,11 @@ const steps = [
   }
 
   :global([data-theme='dark']) .subtitle {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .breadcrumb {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) section h2 {
@@ -497,7 +460,7 @@ const steps = [
   }
 
   :global([data-theme='dark']) section > p {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .key-point {
@@ -515,7 +478,7 @@ const steps = [
   }
 
   :global([data-theme='dark']) .key-point p {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .steps-timeline::before {
@@ -527,11 +490,11 @@ const steps = [
   }
 
   :global([data-theme='dark']) .step-content > p {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .step-content li {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .api-card {
@@ -549,7 +512,7 @@ const steps = [
   }
 
   :global([data-theme='dark']) .api-card p {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .next-card {
@@ -567,7 +530,7 @@ const steps = [
   }
 
   :global([data-theme='dark']) .next-card p {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .next-card span {

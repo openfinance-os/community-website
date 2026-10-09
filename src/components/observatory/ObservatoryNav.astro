@@ -1,0 +1,45 @@
+---
+import { observatoryNavigation } from '@lib/observatory-navigation';
+interface Props {
+  current?: string;
+}
+const { current } = Astro.props;
+---
+
+<nav class="observatory-nav" aria-label="Observatory">
+  {
+    observatoryNavigation.map(({ key, label, href }) => (
+      <a href={href} aria-current={current === key ? 'page' : undefined}>
+        {label}
+      </a>
+    ))
+  }
+</nav>
+<style>
+  .observatory-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 16px;
+  }
+  a {
+    color: var(--color-primary-600);
+    border: 1px solid var(--color-gray-200);
+    padding: 10px 14px;
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  a:hover,
+  a[aria-current] {
+    background: var(--color-primary-50);
+    border-color: var(--color-primary-400);
+  }
+  a:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 3px;
+  }
+</style>

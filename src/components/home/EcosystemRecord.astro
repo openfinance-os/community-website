@@ -1,0 +1,478 @@
+---
+/**
+ * The ecosystem, on the record — homepage record band.
+ *
+ * Left: stepped trend of registered vs live production participants,
+ * built at compile time from data/observatory/history.json.
+ * Right: the registry changelog ledger (events observed in the last 30
+ * days, falling back to the most recent events), derived by diffing the
+ * daily snapshots (src/lib/registry-changelog.ts).
+ */
+import history from '../../../data/observatory/history.json';
+import {
+  getRecentEvents,
+  getRegistryChangelog,
+  getTrackingSince,
+  getSnapshotCount,
+  type ChangelogEvent,
+} from '@lib/registry-changelog';
+
+interface HistoryPoint {
+  date: string;
+  totalParticipants: number;
+  liveInProduction: number;
+}
+
+const points = (history.dataPoints as HistoryPoint[]).map((p) => ({
+  d: p.date,
+  t: p.totalParticipants,
+  l: p.liveInProduction,
+}));
+
+// Keep only change points (plus endpoints) — same curve, tiny path
+const compact = points.filter(
+  (p, i) => i === 0 || i === points.length - 1 || p.t !== points[i - 1].t || p.l !== points[i - 1].l
+);
+
+// ----- chart geometry (build-time SVG) -----
+const W = 640;
+const H = 240;
+const M = { top: 14, right: 120, bottom: 26, left: 32 };
+const iw = W - M.left - M.right;
+const ih = H - M.top - M.bottom;
+const t0 = Date.parse(compact[0].d);
+const t1 = Date.parse(compact[compact.length - 1].d);
+const vMax = Math.max(...compact.map((p) => p.t)) + 1;
+const vMin = Math.max(0, Math.min(...compact.map((p) => p.l)) - 1);
+const x = (d: string) => M.left + ((Date.parse(d) - t0) / (t1 - t0 || 1)) * iw;
+const y = (v: number) => M.top + ih - ((v - vMin) / (vMax - vMin || 1)) * ih;
+
+function stepPath(key: 't' | 'l'): string {
+  let p = `M ${x(compact[0].d).toFixed(1)} ${y(compact[0][key]).toFixed(1)}`;
+  for (let i = 1; i < compact.length; i++) {
+    p += ` H ${x(compact[i].d).toFixed(1)} V ${y(compact[i][key]).toFixed(1)}`;
+  }
+  return p;
+}
+
+const last = compact[compact.length - 1];
+
+// y gridlines: 3-4 round steps inside the domain
+const gridStep = Math.max(1, Math.ceil((vMax - vMin) / 4));
+const gridVals: number[] = [];
+for (let v = Math.ceil(vMin / gridStep) * gridStep; v < vMax; v += gridStep) {
+  if (v > vMin) gridVals.push(v);
+}
+
+// x labels: month starts, at most ~5
+const monthTicks: { d: string; label: string }[] = [];
+const start = new Date(t0);
+const cur = new Date(Date.UTC(start.getUTCFullYear(), start.getUTCMonth() + 1, 1));
+while (cur.getTime() <= t1) {
+  monthTicks.push({
+    d: cur.toISOString().slice(0, 10),
+    label: cur.toLocaleDateString('en-GB', { month: 'short', timeZone: 'UTC' }),
+  });
+  cur.setUTCMonth(cur.getUTCMonth() + 1);
+}
+const xTicks =
+  monthTicks.length > 5
+    ? monthTicks.filter((_, i) => i % Math.ceil(monthTicks.length / 5) === 0)
+    : monthTicks;
+
+// ----- changelog ledger -----
+const recent = getRecentEvents(30);
+const events: ChangelogEvent[] = (recent.length > 0 ? recent : getRegistryChangelog()).slice(0, 6);
+const ledgerNote =
+  recent.length > 0
+    ? `${recent.length} ${recent.length === 1 ? 'event' : 'events'} observed in the last 30 days`
+    : 'No changes in the last 30 days — latest events shown';
+
+const eventLabels: Record<ChangelogEvent['type'], { label: string; cls: string }> = {
+  went_live: { label: 'Auth server published', cls: 'live' },
+  joined: { label: 'Registration first observed', cls: 'join' },
+  role_added: { label: 'Role first observed', cls: 'role' },
+  api_family_added: { label: 'Family first observed', cls: 'role' },
+  went_offline: { label: 'Auth server removed', cls: 'role' },
+  left: { label: 'Registration no longer observed', cls: 'role' },
+  role_removed: { label: 'Role no longer observed', cls: 'role' },
+  api_family_removed: { label: 'Family no longer observed', cls: 'role' },
+  resource_changed: { label: 'Resource declarations changed', cls: 'role' },
+};
+
+function fmtDate(iso: string): string {
+  return new Date(iso).toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    timeZone: 'UTC',
+  });
+}
+
+const trackingSince = getTrackingSince();
+const snapshotCount = getSnapshotCount();
+---
+
+<section class="ecosystem-record" aria-labelledby="record-title">
+  <div class="record-container">
+    <div class="record-head">
+      <h2 id="record-title">The ecosystem, on the record</h2>
+      <span class="provenance">
+        snapshotted daily since {trackingSince} · {snapshotCount} snapshots ·
+        <a href="/observatory/data">data</a> · <a href="/observatory/methodology">methodology</a>
+      </span>
+    </div>
+
+    <div class="record-grid">
+      <div class="record-panel chart-panel">
+        <div class="chart-wrap">
+          <svg
+            viewBox={`0 0 ${W} ${H}`}
+            role="img"
+            aria-label={`Registrations and published authorization servers in production, ${trackingSince} to ${last.d}. Registered: ${last.t}. With authorization servers: ${last.l}.`}
+          >
+            {
+              gridVals.map((v) => (
+                <>
+                  <line class="grid-line" x1={M.left} x2={M.left + iw} y1={y(v)} y2={y(v)} />
+                  <text class="axis-txt" x={M.left - 8} y={y(v) + 4} text-anchor="end">
+                    {v}
+                  </text>
+                </>
+              ))
+            }
+            {
+              xTicks.map((tick) => (
+                <text class="axis-txt" x={x(tick.d)} y={H - 6} text-anchor="middle">
+                  {tick.label}
+                </text>
+              ))
+            }
+            <path class="chart-line line-total" d={stepPath('t')}></path>
+            <path class="chart-line line-live" d={stepPath('l')}></path>
+            <circle class="end-dot dot-total" cx={x(last.d)} cy={y(last.t)} r="4.5"></circle>
+            <circle class="end-dot dot-live" cx={x(last.d)} cy={y(last.l)} r="4.5"></circle>
+            <text class="direct-lbl lbl-total" x={x(last.d) + 10} y={y(last.t) + 4}>
+              {last.t} registered
+            </text>
+            <text class="direct-lbl lbl-live" x={x(last.d) + 10} y={y(last.l) + 4}>
+              {last.l} with issuer
+            </text>
+          </svg>
+        </div>
+        <div class="legend" aria-hidden="true">
+          <span class="key"><span class="swatch swatch-total"></span>Registered in production</span>
+          <span class="key"><span class="swatch swatch-live"></span>Auth server published</span>
+        </div>
+        <details class="table-view">
+          <summary>View as table</summary>
+          <table>
+            <thead>
+              <tr
+                ><th scope="col">Date</th><th scope="col">Registered</th><th scope="col"
+                  >With auth server</th
+                ></tr
+              >
+            </thead>
+            <tbody>
+              {
+                compact.map((p) => (
+                  <tr>
+                    <>
+                      <td>{p.d}</td>
+                      <td>{p.t}</td>
+                      <td>{p.l}</td>
+                    </>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </details>
+      </div>
+
+      <div class="record-panel ledger">
+        <h3 class="ledger-title">Registry changelog</h3>
+        <p class="ledger-note">{ledgerNote}</p>
+        {
+          events.map((e) => (
+            <div class="entry">
+              <span class="entry-date">{fmtDate(e.date)}</span>
+              <span class="entry-what">
+                <span class={`event-chip ${eventLabels[e.type].cls}`}>
+                  {eventLabels[e.type].label}
+                </span>
+                <b>{e.name}</b>
+                {e.detail && <span class="entry-detail"> — {e.detail}</span>}
+              </span>
+            </div>
+          ))
+        }
+        <p class="all-link"><a href="/observatory#changelog">Full changelog →</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ecosystem-record {
+    /* Colorblind-safe series colors, validated against both surfaces */
+    --record-total: #12a385;
+    --record-live: #b06e1d;
+    --chip-join-bg: rgba(18, 163, 133, 0.12);
+    --chip-join-ink: #0b6b57;
+    --chip-live-bg: rgba(176, 110, 29, 0.12);
+    --chip-live-ink: #8a5510;
+    padding: var(--space-16) var(--space-4);
+  }
+  :global([data-theme='dark']) .ecosystem-record {
+    --record-total: #17a284;
+    --record-live: #c98500;
+    --chip-join-ink: #5fd4b6;
+    --chip-live-ink: #e5ae45;
+    --chip-join-bg: rgba(23, 162, 132, 0.18);
+    --chip-live-bg: rgba(201, 133, 0, 0.18);
+  }
+  @media (prefers-color-scheme: dark) {
+    :global(html:not([data-theme='light'])) .ecosystem-record {
+      --record-total: #17a284;
+      --record-live: #c98500;
+      --chip-join-ink: #5fd4b6;
+      --chip-live-ink: #e5ae45;
+      --chip-join-bg: rgba(23, 162, 132, 0.18);
+      --chip-live-bg: rgba(201, 133, 0, 0.18);
+    }
+  }
+
+  .record-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .record-head {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-6);
+  }
+  .record-head h2 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--color-gray-900);
+    letter-spacing: -0.01em;
+  }
+  .provenance {
+    font-family: var(--font-mono);
+    font-size: 0.73rem;
+    color: var(--color-gray-500);
+  }
+  .provenance a {
+    color: var(--color-gray-500);
+  }
+
+  .record-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--space-4);
+    align-items: stretch;
+  }
+  @media (max-width: 860px) {
+    .record-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .record-panel {
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .chart-wrap {
+    flex: 1;
+    min-height: 220px;
+  }
+  @media (max-width: 600px) {
+    .chart-wrap {
+      min-height: 160px;
+    }
+  }
+  .chart-wrap svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .grid-line {
+    stroke: var(--color-gray-200);
+    stroke-width: 1;
+  }
+  .axis-txt {
+    fill: var(--color-gray-500);
+    font-size: 11px;
+    font-family: var(--font-mono);
+  }
+  .chart-line {
+    fill: none;
+    stroke-width: 2;
+    stroke-linejoin: round;
+  }
+  .line-total {
+    stroke: var(--record-total);
+  }
+  .line-live {
+    stroke: var(--record-live);
+  }
+  .end-dot {
+    stroke: var(--color-gray-50);
+    stroke-width: 2;
+  }
+  .dot-total {
+    fill: var(--record-total);
+  }
+  .dot-live {
+    fill: var(--record-live);
+  }
+  .direct-lbl {
+    font-size: 11.5px;
+    font-weight: 600;
+    font-family: var(--font-mono);
+  }
+  .lbl-total {
+    fill: var(--record-total);
+  }
+  .lbl-live {
+    fill: var(--record-live);
+  }
+
+  .legend {
+    display: flex;
+    gap: var(--space-4);
+    margin-top: var(--space-2);
+    font-size: 0.76rem;
+    color: var(--color-gray-600);
+    flex-wrap: wrap;
+  }
+  .key {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .swatch {
+    width: 14px;
+    height: 3px;
+    border-radius: 2px;
+    display: inline-block;
+  }
+  .swatch-total {
+    background: var(--record-total);
+  }
+  .swatch-live {
+    background: var(--record-live);
+  }
+
+  .table-view {
+    margin-top: var(--space-3);
+  }
+  .table-view summary {
+    cursor: pointer;
+    color: var(--color-gray-500);
+    font-size: 0.74rem;
+  }
+  .table-view table {
+    border-collapse: collapse;
+    margin-top: var(--space-2);
+    width: 100%;
+    font-variant-numeric: tabular-nums;
+  }
+  .table-view th,
+  .table-view td {
+    text-align: left;
+    padding: 4px 10px 4px 0;
+    border-bottom: 1px solid var(--color-gray-200);
+    color: var(--color-gray-600);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+  }
+  .table-view th {
+    color: var(--color-gray-500);
+    font-weight: 500;
+  }
+
+  .ledger-title {
+    margin: 0 0 2px;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-gray-500);
+    font-weight: 600;
+    font-family: var(--font-sans);
+  }
+  .ledger-note {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 4px 0 var(--space-4);
+    color: var(--color-gray-900);
+  }
+  .entry {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: var(--space-3);
+    padding: var(--space-2) 0;
+    border-top: 1px solid var(--color-gray-200);
+  }
+  .entry-date {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-gray-500);
+    padding-top: 3px;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .entry-what {
+    font-size: 0.87rem;
+    color: var(--color-gray-600);
+  }
+  .entry-what b {
+    color: var(--color-gray-900);
+    font-weight: 600;
+  }
+  .entry-detail {
+    color: var(--color-gray-500);
+  }
+  .event-chip {
+    display: inline-block;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-right: 7px;
+    font-family: var(--font-mono);
+  }
+  .event-chip.join {
+    background: var(--chip-join-bg);
+    color: var(--chip-join-ink);
+  }
+  .event-chip.live {
+    background: var(--chip-live-bg);
+    color: var(--chip-live-ink);
+  }
+  .event-chip.role {
+    background: var(--color-gray-100);
+    color: var(--color-gray-600);
+  }
+
+  .all-link {
+    margin: auto 0 0;
+    padding-top: var(--space-3);
+    font-size: 0.84rem;
+  }
+</style>

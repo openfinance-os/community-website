@@ -11,16 +11,16 @@ import PageLayout from '@layouts/PageLayout.astro';
     <header class="hero">
       <div class="container">
         <h1>About OpenFinance-OS</h1>
-        <p class="hero-subtitle">
-          Making the UAE Open Finance ecosystem visible, accessible, and welcoming.
-        </p>
+        <p class="hero-subtitle">Independent by design — the neutral record of UAE Open Finance.</p>
         <p class="hero-description">
-          We are a community of developers, fintechs, bankers, and enthusiasts who believe open
-          ecosystems thrive on transparency.
+          We are not official and not affiliated, deliberately. An operator can't be the neutral
+          scorekeeper of its own program; an independent community can. That's why this site exists
+          alongside the operator's — a community of developers, fintechs, bankers, and enthusiasts
+          who believe open ecosystems thrive on transparency.
         </p>
         <div class="hero-cta">
           <a
-            href="https://github.com/organizations/openfinance-os/"
+            href="https://github.com/openfinance-os"
             class="btn btn-primary"
             target="_blank"
             rel="noopener noreferrer"
@@ -70,7 +70,7 @@ import PageLayout from '@layouts/PageLayout.astro';
             </div>
             <h3>Visibility</h3>
             <p>
-              Track ecosystem activity through the Observatory dashboard with real-time participant
+              Track ecosystem activity through the Observatory dashboard with daily participant
               data.
             </p>
           </div>
@@ -256,6 +256,41 @@ import PageLayout from '@layouts/PageLayout.astro';
             <span>Not a replacement for Al Tareq or CBUAE channels</span>
           </div>
         </div>
+
+        <p class="nongoals-intro">
+          Concretely, so the two sites never converge, this site does not carry API specifications,
+          integration guides, certification or testing docs, service-desk functions, or pricing and
+          SLA content. That's the operator's job — we link there. (Independent <em>analysis</em> of public
+          operational data, like the weekly Watch, is in scope; duplicating the operator's own presentation
+          is not.)
+        </p>
+      </div>
+    </section>
+
+    <!-- Who to use when -->
+    <section class="section routing-section">
+      <div class="container">
+        <h2>Which site do you need?</h2>
+        <div class="routing-grid">
+          <div class="routing-card">
+            <span class="routing-q">Building or integrating?</span>
+            <p>
+              API specifications, TPP standards, LFI integration guides, certification and the
+              service desk are maintained by the Al&nbsp;Tareq operator's team.
+            </p>
+            <a href="https://nebras-open-finance.com/" rel="noopener" class="routing-link"
+              >nebras-open-finance.com →</a
+            >
+          </div>
+          <div class="routing-card here">
+            <span class="routing-q">Understanding, tracking, or comparing?</span>
+            <p>
+              The independent record of the ecosystem, the global comparisons, the community commons
+              — and a plain-language on-ramp for newcomers.
+            </p>
+            <a href="/observatory" class="routing-link">Start with the Observatory →</a>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -268,7 +303,7 @@ import PageLayout from '@layouts/PageLayout.astro';
             <p>
               OpenFinance-OS is community-owned and open source. The codebase is maintained on
               GitHub under the <a
-                href="https://github.com/organizations/openfinance-os/"
+                href="https://github.com/openfinance-os"
                 target="_blank"
                 rel="noopener noreferrer">openfinance-os</a
               > organization.
@@ -528,7 +563,7 @@ import PageLayout from '@layouts/PageLayout.astro';
         <div class="cta-card">
           <h2>Ready to explore?</h2>
           <p>
-            Dive into the Observatory to see real-time ecosystem data, or check out our learning
+            Dive into the Observatory to see dated ecosystem observations, or check out our learning
             resources to get started with UAE Open Finance.
           </p>
           <div class="cta-buttons">
@@ -637,12 +672,12 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   .btn-accent {
-    background: var(--color-primary-600);
+    background: var(--color-primary-fill);
     color: white;
   }
 
   .btn-accent:hover {
-    background: var(--color-primary-700);
+    background: var(--color-primary-fill-strong);
     text-decoration: none;
   }
 
@@ -803,6 +838,78 @@ import PageLayout from '@layouts/PageLayout.astro';
     font-size: 0.9375rem;
   }
 
+  .nongoals-intro {
+    margin: var(--space-6) 0 0;
+    max-width: 70ch;
+    color: var(--color-gray-600);
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  /* Which site do you need? */
+  .routing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+
+  .routing-card {
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    background: white;
+  }
+
+  .routing-card.here {
+    border-color: var(--color-primary-300);
+    background: var(--color-primary-50);
+  }
+
+  .routing-q {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--color-gray-500);
+  }
+
+  .routing-card p {
+    margin: var(--space-2) 0 var(--space-4);
+    color: var(--color-gray-600);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .routing-link {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--color-primary-600);
+    text-decoration: none;
+  }
+
+  .routing-link:hover {
+    text-decoration: underline;
+  }
+
+  :global([data-theme='dark']) .routing-card {
+    background: var(--color-gray-100);
+    border-color: var(--color-gray-200);
+  }
+
+  :global([data-theme='dark']) .routing-card.here {
+    background: rgba(26, 107, 107, 0.12);
+    border-color: var(--color-primary-300);
+  }
+
+  :global([data-theme='dark']) .nongoals-intro {
+    color: var(--color-gray-500);
+  }
+
+  :global([data-theme='dark']) .routing-link {
+    color: var(--color-primary-300);
+  }
+
   /* Governance Section */
   .governance-content {
     display: grid;
@@ -958,7 +1065,11 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   .cta-card {
-    background: linear-gradient(135deg, var(--color-primary-600) 0%, var(--color-primary-700) 100%);
+    background: linear-gradient(
+      135deg,
+      var(--color-primary-fill) 0%,
+      var(--color-primary-fill-strong) 100%
+    );
     border-radius: var(--radius-2xl);
     padding: var(--space-12) var(--space-8);
     text-align: center;
@@ -1002,6 +1113,10 @@ import PageLayout from '@layouts/PageLayout.astro';
       grid-template-columns: 1fr;
     }
 
+    .routing-grid {
+      grid-template-columns: 1fr;
+    }
+
     .callout-box {
       flex-direction: column;
       text-align: center;
@@ -1027,7 +1142,7 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   :global([data-theme='dark']) .hero-description {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .btn-primary {
@@ -1042,7 +1157,7 @@ import PageLayout from '@layouts/PageLayout.astro';
   :global([data-theme='dark']) .btn-secondary {
     background: var(--color-gray-100);
     border-color: var(--color-gray-300);
-    color: var(--color-gray-200);
+    color: var(--color-gray-700);
   }
 
   :global([data-theme='dark']) .btn-secondary:hover {
@@ -1055,7 +1170,7 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   :global([data-theme='dark']) .section-intro {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .value-card {
@@ -1078,7 +1193,7 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   :global([data-theme='dark']) .value-card p {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .callout-box {
@@ -1113,11 +1228,11 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   :global([data-theme='dark']) .not-item span {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .governance-text p {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .governance-text a {
@@ -1162,7 +1277,7 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   :global([data-theme='dark']) .doc-link span {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .arrow-icon {

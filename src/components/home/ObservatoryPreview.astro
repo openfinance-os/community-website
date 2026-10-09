@@ -1,4 +1,5 @@
 ---
+import { apiFamilyLabel } from '@lib/taxonomy';
 interface EcosystemStats {
   totalUnique: number;
   production: {
@@ -12,6 +13,8 @@ interface EcosystemStats {
   inBoth: number;
   productionOnly: number;
   sandboxOnly: number;
+  apiFamilies: string[];
+  apiFamilyCoverage: Record<string, number>;
 }
 
 interface Props {
@@ -20,10 +23,17 @@ interface Props {
 
 const { stats } = Astro.props;
 
+const apiFamilyColors: Record<string, string> = {
+  accounts: 'var(--color-primary-500)',
+  payments: 'var(--color-accent-500)',
+  products: '#8b5cf6',
+  cop: '#3b82f6',
+};
+
 // Calculate percentages for the engagement funnel
 const totalRegistered = stats.totalUnique;
-const testingInSandbox = stats.inBoth + stats.sandboxOnly;
-const liveInProduction = stats.inBoth + stats.productionOnly;
+const testingInSandbox = stats.sandbox.registered;
+const liveInProduction = stats.production.registered;
 
 // Progress percentages (relative to total)
 const sandboxPercent = totalRegistered > 0 ? (testingInSandbox / totalRegistered) * 100 : 0;
@@ -33,10 +43,9 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
 <section class="observatory-preview">
   <div class="section-header">
     <div class="header-content">
-      <h2 class="section-title">Ecosystem Engagement</h2>
+      <h2 class="section-title">Directory Coverage</h2>
       <p class="section-description">
-        Track participation across the UAE Open Finance ecosystem, from sandbox testing to
-        production deployment.
+        Compare registrations and published resources across the UAE Open Finance directories.
       </p>
     </div>
     <a href="/observatory" class="view-all-link">
@@ -58,7 +67,7 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
   </div>
 
   <div class="preview-grid">
-    <!-- Total Ecosystem Card -->
+    <!-- Across Both Directories Card -->
     <div class="preview-card ecosystem-card">
       <h3 class="card-title">
         <span class="title-icon">
@@ -79,11 +88,11 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
             ></path>
           </svg>
         </span>
-        Total Ecosystem
+        Across Both Directories
       </h3>
       <div class="ecosystem-stat">
         <span class="stat-number">{stats.totalUnique}</span>
-        <span class="stat-label">Organizations</span>
+        <span class="stat-label">Distinct registration IDs</span>
       </div>
       <div class="environment-breakdown">
         <div class="env-item">
@@ -104,7 +113,7 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
       </div>
     </div>
 
-    <!-- Engagement Pipeline Card -->
+    <!-- Registrations by Environment Card -->
     <div class="preview-card pipeline-card">
       <h3 class="card-title">
         <span class="title-icon">
@@ -121,12 +130,12 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
             <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
           </svg>
         </span>
-        Engagement Pipeline
+        Registrations by Environment
       </h3>
       <div class="pipeline">
         <div class="pipeline-stage">
           <div class="stage-header">
-            <span class="stage-label">Registered</span>
+            <span class="stage-label">Across both directories</span>
             <span class="stage-value">{totalRegistered}</span>
           </div>
           <div class="stage-bar">
@@ -135,7 +144,7 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
         </div>
         <div class="pipeline-stage">
           <div class="stage-header">
-            <span class="stage-label">Testing in Sandbox</span>
+            <span class="stage-label">Sandbox registrations</span>
             <span class="stage-value">{testingInSandbox}</span>
           </div>
           <div class="stage-bar">
@@ -144,7 +153,7 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
         </div>
         <div class="pipeline-stage">
           <div class="stage-header">
-            <span class="stage-label">Live in Production</span>
+            <span class="stage-label">Production registrations</span>
             <span class="stage-value">{liveInProduction}</span>
           </div>
           <div class="stage-bar">
@@ -154,8 +163,50 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
         </div>
       </div>
       <p class="pipeline-note">
-        {Math.round(sandboxPercent)}% testing, {Math.round(productionPercent)}% live
+        {stats.sandbox.live} sandbox and {stats.production.live} production registrations publish an active
+        authorization server with an issuer. Registration does not establish usage.
       </p>
+    </div>
+
+    <!-- API Family Coverage Card -->
+    <div class="preview-card api-coverage-card">
+      <h3 class="card-title">
+        <span class="title-icon">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+            ></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+        </span>
+        API Coverage
+      </h3>
+      <div class="api-stat">
+        <span class="stat-number">{stats.apiFamilies.length}</span>
+        <span class="stat-label">API Families</span>
+      </div>
+      <div class="api-breakdown">
+        {
+          stats.apiFamilies.map((family) => (
+            <div class="api-item">
+              <span
+                class="api-dot"
+                style={`background: ${apiFamilyColors[family] || 'var(--color-gray-400)'}`}
+              />
+              <span class="api-label">{apiFamilyLabel(family)}</span>
+              <span class="api-value">{stats.apiFamilyCoverage[family] || 0}</span>
+            </div>
+          ))
+        }
+      </div>
     </div>
 
     <!-- CTA Card -->
@@ -208,7 +259,7 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
 <style>
   .observatory-preview {
     padding: var(--space-16) var(--space-4);
-    background: white;
+    background: var(--color-card);
     border-top: 1px solid var(--color-gray-200);
     border-bottom: 1px solid var(--color-gray-200);
   }
@@ -271,7 +322,13 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
 
   @media (min-width: 768px) {
     .preview-grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .preview-grid {
+      grid-template-columns: repeat(4, 1fr);
     }
   }
 
@@ -362,6 +419,48 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
     color: var(--color-gray-900);
   }
 
+  /* API Coverage Card Styles */
+  .api-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: var(--space-4);
+  }
+
+  .api-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-gray-200);
+  }
+
+  .api-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.8125rem;
+  }
+
+  .api-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .api-label {
+    flex: 1;
+    color: var(--color-gray-600);
+  }
+
+  .api-value {
+    font-weight: 600;
+    color: var(--color-gray-900);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+  }
+
   /* Pipeline Card Styles */
   .pipeline {
     display: flex;
@@ -427,7 +526,7 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
   /* CTA Card Styles */
   .preview-card-cta {
     position: relative;
-    background: linear-gradient(135deg, var(--color-primary-900) 0%, var(--color-primary-800) 100%);
+    background: linear-gradient(135deg, #041919 0%, #072b2b 100%);
     border-color: transparent;
     overflow: hidden;
   }
@@ -446,7 +545,7 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
 
   .cta-description {
     font-size: 0.875rem;
-    color: var(--color-primary-200);
+    color: #a3cccc;
     margin-bottom: var(--space-4);
     line-height: 1.5;
   }
@@ -457,7 +556,7 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
     gap: var(--space-2);
     padding: var(--space-2) var(--space-4);
     background: white;
-    color: var(--color-primary-700);
+    color: #0a3d3d;
     font-size: 0.875rem;
     font-weight: 500;
     text-decoration: none;

@@ -1,72 +1,61 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
+import ObservatoryNav from '@components/observatory/ObservatoryNav.astro';
+import { apiFamilyLabel, roleLabels } from '@lib/taxonomy';
 import StatCard from '@components/observatory/StatCard.astro';
 import DonutChart from '@components/observatory/DonutChart.astro';
 import ParticipantCard from '@components/observatory/ParticipantCard.astro';
 import EnvironmentToggle from '@components/observatory/EnvironmentToggle.astro';
 import AuthCapabilitiesChart from '@components/observatory/AuthCapabilitiesChart.astro';
 import HistoricalTrendsChart from '@components/observatory/HistoricalTrendsChart.astro';
-import Badge from '@components/common/Badge.astro';
+import RegistryChangelog from '@components/observatory/RegistryChangelog.astro';
 import { calculateCityDistribution, findProfile } from '@lib/city-utils';
 import type { ProfilesMap } from '@lib/types';
 
 // Import dual environment snapshot
-import dualSnapshot from '../../../data/observatory/snapshots/latest.json';
+import { getObservatorySnapshot } from '@lib/observatory-data';
 
 // Import historical data
 import historyDataRaw from '../../../data/observatory/history.json';
 
 // Import participant profiles
 import participantProfiles from '../../../data/participants/profiles.json';
-const historyData = historyDataRaw || { dataPoints: [], milestones: [] };
+interface DataPoint {
+  date: string;
+  totalParticipants: number;
+  liveInProduction: number;
+  byRole: Record<string, number>;
+  byCity: Record<string, number>;
+  apiFamilyCoverage: Record<string, number>;
+  tppCount: number;
+  shariahCompliantCount: number;
+}
+
+interface HistoryData {
+  dataPoints: DataPoint[];
+  milestones: Array<{ date: string; event: string; participantName?: string }>;
+  productionHistory?: DataPoint[];
+  sandboxHistory?: DataPoint[];
+}
+
+const historyData = (historyDataRaw || {
+  dataPoints: [],
+  milestones: [],
+}) as unknown as HistoryData;
 
 // This page always shows PRODUCTION environment
 // For sandbox, see /observatory/sandbox
 const currentEnv = 'production';
 
-// Handle both old single-environment format and new dual-environment format
-const isDualFormat = 'production' in dualSnapshot && 'crossEnvironment' in dualSnapshot;
-
-let snapshot: any;
-let crossEnvironment: any = null;
-let productionSnapshot: any = null;
-let sandboxSnapshot: any = null;
-
-if (isDualFormat) {
-  productionSnapshot = dualSnapshot.production;
-  sandboxSnapshot = dualSnapshot.sandbox;
-  crossEnvironment = dualSnapshot.crossEnvironment;
-  snapshot = productionSnapshot;
-} else {
-  // Old format - single environment
-  snapshot = dualSnapshot;
-}
-
-// Fallback if no snapshot available
-if (!snapshot) {
-  snapshot = {
-    timestamp: new Date().toISOString(),
-    summary: {
-      totalParticipants: 0,
-      byStatus: {},
-      byRole: {},
-      byCity: {},
-      apiFamilies: [],
-      liveInProduction: 0,
-      shariahCompliantCount: 0,
-      multiRoleCount: 0,
-      tppCount: 0,
-      byAuthCapabilities: { ciba: 0, dcr: 0, redirect: 0 },
-    },
-    participants: [],
-  };
-}
+const isDualFormat = true;
+const productionSnapshot = getObservatorySnapshot('production');
+const sandboxSnapshot = getObservatorySnapshot('sandbox');
+const snapshot = productionSnapshot;
 
 const { summary, participants, timestamp, trends } = snapshot;
 
 // Handle both old and new summary format
 const totalParticipants = summary.totalParticipants || 0;
-const byStatus = summary.byStatus || {};
 const byRole = summary.byRole || {};
 const apiFamilies = summary.apiFamilies || [];
 
@@ -81,10 +70,7 @@ const shariahCompliantCount =
   summary.shariahCompliantCount ?? participants.filter((p: any) => p.isShariahCompliant).length;
 const multiRoleCount =
   summary.multiRoleCount ?? participants.filter((p: any) => p.roles?.length > 1).length;
-const tppCount = summary.tppCount ?? (byRole.TPP || 0);
 const byAuthCapabilities = summary.byAuthCapabilities || { ciba: 0, dcr: 0, redirect: 0 };
-
-const activeCount = byStatus.Active || 0;
 
 // Aggregate by Company Type using profile data
 const byType: Record<string, number> = {};
@@ -188,14 +174,6 @@ const ownershipData = Object.entries(byOwnership)
     color: (ownershipColors as any)[label] || 'var(--color-gray-400)',
   }));
 
-// API family labels
-const apiFamilyLabels = {
-  accounts: 'Account Information',
-  payments: 'Payments',
-  cop: 'Confirmation of Payee',
-  products: 'Products',
-} as const;
-
 // Format timestamp
 const formatDate = (dateStr: string) => {
   return new Date(dateStr).toLocaleDateString('en-US', {
@@ -214,20 +192,19 @@ const displayParticipants = participants;
 
 <PageLayout
   title="Observatory - UAE Open Finance Ecosystem"
-  description="Real-time visibility into UAE Open Finance and Open Banking ecosystem health. Track participating banks, TPPs, API coverage, and ecosystem growth across production and sandbox environments."
+  description="Daily directory observations of UAE Open Finance registrations and published API metadata across production and sandbox environments."
   lastUpdated={timestamp}
 >
+  <ObservatoryNav current="production" />
   <div class="observatory-page">
     <header class="page-header">
       <div class="header-content">
         <div class="header-badge">
           <span class="live-indicator"></span>
-          <span>Live Data</span>
+          <span>Directory Snapshot</span>
         </div>
         <h1>Observatory</h1>
-        <p class="header-description">
-          Real-time visibility into UAE Open Finance ecosystem health
-        </p>
+        <p class="header-description">Directory registrations and published API metadata</p>
       </div>
       <div class="header-meta">
         <div class="header-controls">
@@ -246,6 +223,8 @@ const displayParticipants = participants;
             Last updated: <time datetime={timestamp}>{formatDate(timestamp)}</time> UTC
           </p>
           <div class="header-links">
+            <a href="/observatory/watch/" class="header-link">Weekly Ecosystem Watch</a>
+            <a href="/observatory/data" class="header-link">Data &amp; datasets</a>
             <a href="/observatory/methodology" class="header-link">How we calculate this</a>
             <a
               href="https://github.com/openfinance-os/community/issues"
@@ -258,31 +237,39 @@ const displayParticipants = participants;
       </div>
     </header>
 
+    <p class="measurement-note">
+      Each registration is a directory ID, not a deduplicated legal entity. An active authorization
+      server with an issuer is published metadata, not evidence of traffic or verified availability.
+      Capability and Shariah indicators reflect source declarations. <a
+        href="/observatory/methodology">Definitions and limitations</a
+      >.
+    </p>
+
     <section class="stats-section">
       <div class="stats-grid">
         <StatCard
           value={totalParticipants}
-          label="Total Participants"
-          sublabel="Registered in the ecosystem"
+          label="Registrations"
+          sublabel="Production directory IDs"
           icon="participants"
           trendValue={trends?.participantChange}
         />
         <StatCard
           value={liveInProduction}
-          label="Live in Production"
-          sublabel="With authorization servers"
+          label="Registrations With Issuer"
+          sublabel="Registrations with an active issuer"
           icon="active"
         />
         <StatCard
           value={shariahCompliantCount}
-          label="Shariah Compliant"
-          sublabel="Islamic finance institutions"
+          label="Directory Shariah Flag"
+          sublabel="Flag declared true in source"
           icon="shariah"
         />
         <StatCard
           value={apiFamilies.length}
           label="API Families"
-          sublabel="Accounts, Payments, CoP, Products"
+          sublabel="Published active resource families"
           icon="api"
         />
       </div>
@@ -297,16 +284,21 @@ const displayParticipants = participants;
           sublabel="Participants with 2+ roles"
           icon="participants"
         />
-        <StatCard value={tppCount} label="TPPs" sublabel="Third Party Providers" icon="tpp" />
+        <StatCard
+          value="N/A"
+          label="TPP Population"
+          sublabel="Role claims do not classify licences"
+          icon="tpp"
+        />
         <StatCard
           value={byAuthCapabilities.dcr}
-          label="DCR Support"
+          label="Declared DCR"
           sublabel="Dynamic Client Registration"
           icon="auth"
         />
         <StatCard
           value={byAuthCapabilities.ciba}
-          label="CIBA Support"
+          label="Declared CIBA"
           sublabel="Backchannel Authentication"
           icon="auth"
         />
@@ -346,19 +338,19 @@ const displayParticipants = participants;
           </div>
           <div class="role-legend">
             <div class="role-item">
-              <strong>LFI</strong> — Licensed Financial Institution (banks)
+              <strong>LFI</strong> — {roleLabels.LFI} (banks)
             </div>
             <div class="role-item">
-              <strong>BDSP</strong> — Bank Data Service Provider
+              <strong>BDSP</strong> — {roleLabels.BDSP}
             </div>
             <div class="role-item">
-              <strong>BSIP</strong> — Bank Service Infrastructure Provider
+              <strong>BSIP</strong> — {roleLabels.BSIP}
             </div>
             <div class="role-item">
-              <strong>ISP</strong> — Information Service Provider
+              <strong>ISP</strong> — {roleLabels.ISP}
             </div>
             <div class="role-item">
-              <strong>TPP</strong> — Third Party Provider (fintechs)
+              <strong>TPP</strong> — {roleLabels.TPP}
             </div>
           </div>
         </div>
@@ -452,7 +444,7 @@ const displayParticipants = participants;
             </svg>
             API Coverage
           </h2>
-          <p class="chart-description">API families supported by participants</p>
+          <p class="chart-description">Active API families published by registrations</p>
           <div class="api-matrix">
             {
               apiFamilies.map((api: string) => {
@@ -461,7 +453,7 @@ const displayParticipants = participants;
                   totalParticipants > 0 ? Math.round((count / totalParticipants) * 100) : 0;
                 return (
                   <div class="api-row">
-                    <span class="api-name">{(apiFamilyLabels as any)[api] || api}</span>
+                    <span class="api-name">{apiFamilyLabel(api)}</span>
                     <div class="api-bar-container">
                       <div class="api-bar" style={`width: ${percentage}%`} />
                     </div>
@@ -495,6 +487,8 @@ const displayParticipants = participants;
         />
       </div>
     </section>
+
+    <RegistryChangelog />
 
     <section class="participants-section">
       <header class="section-header">
@@ -568,8 +562,8 @@ const displayParticipants = participants;
                 <label class="filter-label" for="filter-status">Status</label>
                 <select id="filter-status" class="filter-dropdown">
                   <option value="">All</option>
-                  <option value="live">Live</option>
-                  <option value="registered">Registered</option>
+                  <option value="live">Auth server published</option>
+                  <option value="registered">Registered only</option>
                 </select>
               </div>
             </div>
@@ -591,13 +585,14 @@ const displayParticipants = participants;
                 data-legal-name={participant.legalName?.toLowerCase() || ''}
                 data-type={profile?.type || ''}
                 data-city={displayCity}
-                data-is-live={participant.isLive ?? true}
+                data-is-live={participant.hasAuthServer}
                 data-participant-name={participant.name}
                 data-participant-short-name={participant.shortName}
                 data-participant-city={displayCity}
                 data-participant-roles={participant.roles.join(', ')}
               >
                 <ParticipantCard
+                  id={participant.id}
                   name={participant.name}
                   legalName={participant.legalName}
                   shortName={participant.shortName}
@@ -607,7 +602,7 @@ const displayParticipants = participants;
                   apiFamilies={participant.apiFamilies}
                   hasAuthServer={participant.hasAuthServer}
                   isShariahCompliant={participant.isShariahCompliant}
-                  isLive={participant.isLive ?? true}
+                  isLive={participant.hasAuthServer}
                   profile={profile}
                   environment="production"
                 />
@@ -644,12 +639,20 @@ const displayParticipants = participants;
 </PageLayout>
 
 <style>
+  .measurement-note {
+    max-width: 1000px;
+    margin: var(--space-6) 0;
+    color: var(--color-gray-600);
+    font-size: 0.875rem;
+  }
   .observatory-page {
     padding-bottom: var(--space-16);
   }
 
+  /* Always-dark banner: literal colours so the inverted dark-mode primary
+     scale cannot turn it light behind white text. */
   .page-header {
-    background: linear-gradient(180deg, var(--color-primary-900) 0%, var(--color-primary-800) 100%);
+    background: linear-gradient(180deg, #041919 0%, #072b2b 100%);
     color: white;
     padding: var(--space-12) var(--space-4);
     position: relative;
@@ -713,7 +716,7 @@ const displayParticipants = participants;
 
   .header-description {
     font-size: 1.125rem;
-    color: var(--color-primary-200);
+    color: #a3cccc;
     max-width: 500px;
   }
 
@@ -748,11 +751,11 @@ const displayParticipants = participants;
   .last-updated {
     font-family: var(--font-mono);
     font-size: 0.8125rem;
-    color: var(--color-primary-300);
+    color: #75b3b3;
   }
 
   .last-updated time {
-    color: var(--color-primary-100);
+    color: #d1e5e5;
   }
 
   .header-links {
@@ -762,7 +765,7 @@ const displayParticipants = participants;
 
   .header-link {
     font-size: 0.875rem;
-    color: var(--color-primary-200);
+    color: #a3cccc;
     text-decoration: none;
     transition: color var(--transition-fast);
   }
@@ -1253,7 +1256,7 @@ const displayParticipants = participants;
   }
 
   :global([data-theme='dark']) .filter-label {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .filter-dropdown {
@@ -1277,7 +1280,7 @@ const displayParticipants = participants;
   }
 
   :global([data-theme='dark']) .chart-description {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .role-legend {
@@ -1285,15 +1288,15 @@ const displayParticipants = participants;
   }
 
   :global([data-theme='dark']) .role-item {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .role-item strong {
-    color: var(--color-gray-300);
+    color: var(--color-gray-600);
   }
 
   :global([data-theme='dark']) .api-name {
-    color: var(--color-gray-300);
+    color: var(--color-gray-600);
   }
 
   :global([data-theme='dark']) .api-bar-container {
@@ -1301,7 +1304,7 @@ const displayParticipants = participants;
   }
 
   :global([data-theme='dark']) .api-count {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .section-header h2 {
@@ -1309,7 +1312,7 @@ const displayParticipants = participants;
   }
 
   :global([data-theme='dark']) .section-header p {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .disclaimer {
@@ -1322,7 +1325,7 @@ const displayParticipants = participants;
   }
 
   :global([data-theme='dark']) .disclaimer p {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 </style>
 

@@ -1,6 +1,7 @@
 import { writeFileSync, readFileSync, mkdirSync, existsSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import { normalizeApiFamily } from '../src/lib/taxonomy.js';
 import {
   fetchParticipants,
   fetchRoles,
@@ -28,14 +29,13 @@ const DATA_DIR = join(__dirname, '..', 'data', 'observatory', 'snapshots');
 const HISTORY_FILE = join(__dirname, '..', 'data', 'observatory', 'history.json');
 const NAME_MAPPINGS_FILE = join(__dirname, '..', 'data', 'participants', 'name-mappings.json');
 
-const SNAPSHOT_VERSION = '2.0.0';
+const SNAPSHOT_VERSION = '2.1.0';
 
 // Test/support organizations to exclude from data
 const EXCLUDED_ORGANIZATIONS = new Set([
   'TEST ORG',
   'Ozone API Test 2',
   'Nebras Support',
-  'OpenID Foundation',
   'Test Organization',
   'Demo Organization',
 ]);
@@ -56,15 +56,7 @@ function getDisplayName(originalName: string): string {
   return nameMappings[originalName] || originalName;
 }
 
-// API family type mapping (from raw API to display names)
-const API_FAMILY_MAP: Record<string, string> = {
-  'account-information': 'accounts',
-  payment: 'payments',
-  confirmation: 'cop',
-  product: 'products',
-};
-
-function transformParticipant(raw: RawParticipant): TransformedParticipant {
+export function transformParticipant(raw: RawParticipant): TransformedParticipant {
   // Extract active roles
   const roles = raw.OrgDomainRoleClaims.filter((claim) => claim.Status === 'Active')
     .map((claim) => claim.Role)
@@ -89,11 +81,12 @@ function transformParticipant(raw: RawParticipant): TransformedParticipant {
 
       for (const resource of authServer.ApiResources) {
         if (resource.Status === 'Active') {
-          const mapped = API_FAMILY_MAP[resource.ApiFamilyType];
+          const mapped = normalizeApiFamily(resource.ApiFamilyType);
           if (mapped) {
             apiFamilies.add(mapped);
             apiResources.push({
               family: mapped,
+              rawFamily: resource.ApiFamilyType,
               version: resource.ApiVersion,
               certificationStatus: resource.CertificationStatus,
               familyComplete: resource.FamilyComplete,
@@ -135,7 +128,7 @@ function transformParticipant(raw: RawParticipant): TransformedParticipant {
     authCapabilities,
     apiResources,
     authServerCount,
-    isLive: hasAuthServer, // Live if has active auth server
+    isLive: hasAuthServer, // Legacy name: directory publishes an active authorization server with an issuer
   };
 }
 
@@ -146,12 +139,14 @@ function transformRole(raw: RawRole): TransformedParticipant {
     .map((claim) => claim.AuthorisationDomainRoleName)
     .filter((role, index, arr) => arr.indexOf(role) === index);
 
-  const displayName = getDisplayName(raw.RegisteredName);
+  // Use RegisteredName, falling back to ID-based lookup in name mappings
+  const rawName = raw.RegisteredName || nameMappings[raw.OrganisationId];
+  const displayName = getDisplayName(rawName);
 
   return {
     id: raw.OrganisationId,
     name: displayName,
-    legalName: raw.RegisteredName,
+    legalName: rawName,
     shortName: displayName,
     status: raw.Status,
     roles: roles.sort(),
@@ -172,8 +167,8 @@ function transformRole(raw: RawRole): TransformedParticipant {
 }
 
 // Check if organization should be excluded (test/support orgs)
-function shouldExclude(name: string): boolean {
-  if (!name) return true;
+function shouldExclude(name: string | undefined | null): boolean {
+  if (!name) return false; // Missing names are real orgs, not excluded
   // Check exact match first
   if (EXCLUDED_ORGANIZATIONS.has(name)) return true;
   // Check case-insensitive match
@@ -183,22 +178,23 @@ function shouldExclude(name: string): boolean {
   }
   // Check for common test patterns
   if (nameLower.includes('test org') || nameLower.includes('demo org')) return true;
+  // Exclude Nebras support variants
+  if (nameLower.startsWith('nebras')) return true;
   return false;
 }
 
 // Merge participants (live) with roles (all registered)
+// Each unique OrganisationId is counted as a separate registration
 function mergeParticipantsAndRoles(
   participants: TransformedParticipant[],
   roles: RawRole[]
 ): TransformedParticipant[] {
   const seenIds = new Set<string>();
-  const seenNames = new Map<string, TransformedParticipant>(); // Track by name to merge duplicates
   const merged: TransformedParticipant[] = [];
   let excludedCount = 0;
   let duplicateCount = 0;
-  let mergedByNameCount = 0;
 
-  // Process participants first (live orgs)
+  // Process participants first (live orgs with auth servers)
   for (const p of participants) {
     // Skip excluded test orgs
     if (shouldExclude(p.legalName) || shouldExclude(p.name)) {
@@ -211,90 +207,49 @@ function mergeParticipantsAndRoles(
       continue;
     }
 
-    // Check if we've seen this name before (handle same org with different IDs)
-    const nameKey = p.legalName.toLowerCase().trim();
-    const existingByName = seenNames.get(nameKey);
-
-    if (existingByName) {
-      // Merge roles and other data from duplicate
-      mergedByNameCount++;
-      const mergedRoles = [...new Set([...existingByName.roles, ...p.roles])].sort();
-      const mergedApiFamilies = [
-        ...new Set([...existingByName.apiFamilies, ...p.apiFamilies]),
-      ].sort();
-      const mergedApiResources = [...existingByName.apiResources, ...p.apiResources];
-
-      existingByName.roles = mergedRoles;
-      existingByName.apiFamilies = mergedApiFamilies;
-      existingByName.apiResources = mergedApiResources;
-      existingByName.hasAuthServer = existingByName.hasAuthServer || p.hasAuthServer;
-      existingByName.isShariahCompliant = existingByName.isShariahCompliant || p.isShariahCompliant;
-      existingByName.authServerCount = existingByName.authServerCount + p.authServerCount;
-      existingByName.isLive = existingByName.isLive || p.isLive;
-      existingByName.authCapabilities = {
-        supportsCiba:
-          existingByName.authCapabilities.supportsCiba || p.authCapabilities.supportsCiba,
-        supportsDCR: existingByName.authCapabilities.supportsDCR || p.authCapabilities.supportsDCR,
-        supportsRedirect:
-          existingByName.authCapabilities.supportsRedirect || p.authCapabilities.supportsRedirect,
-      };
-      // Use the city that's not "Unknown" if available
-      if (existingByName.city === 'Unknown' && p.city !== 'Unknown') {
-        existingByName.city = p.city;
-      }
-    } else {
-      seenIds.add(p.id);
-      seenNames.set(nameKey, p);
-      merged.push(p);
-    }
+    seenIds.add(p.id);
+    merged.push(p);
   }
 
   // Add roles that aren't already in participants
+  let unnamedCount = 0;
   for (const role of roles) {
-    // Skip if already seen, not active, or missing required fields
-    if (seenIds.has(role.OrganisationId) || role.Status !== 'Active' || !role.RegisteredName) {
+    // Skip if already seen by ID or not active
+    if (seenIds.has(role.OrganisationId) || role.Status !== 'Active') {
       if (seenIds.has(role.OrganisationId)) duplicateCount++;
       continue;
     }
+    // Skip entries with no registered name AND no ID-based name mapping
+    if (!role.RegisteredName?.trim() && !nameMappings[role.OrganisationId]) {
+      unnamedCount++;
+      continue;
+    }
     // Skip excluded test orgs
-    if (shouldExclude(role.RegisteredName)) {
+    const resolvedName = role.RegisteredName || nameMappings[role.OrganisationId];
+    if (shouldExclude(resolvedName)) {
       excludedCount++;
       continue;
     }
 
-    // Check if we've seen this name before
-    const nameKey = role.RegisteredName.toLowerCase().trim();
-    const existingByName = seenNames.get(nameKey);
-
-    if (existingByName) {
-      // Merge roles from this registration
-      mergedByNameCount++;
-      const transformedRole = transformRole(role);
-      const mergedRoles = [...new Set([...existingByName.roles, ...transformedRole.roles])].sort();
-      existingByName.roles = mergedRoles;
-    } else {
-      seenIds.add(role.OrganisationId);
-      const transformed = transformRole(role);
-      seenNames.set(nameKey, transformed);
-      merged.push(transformed);
-    }
+    seenIds.add(role.OrganisationId);
+    merged.push(transformRole(role));
   }
 
   if (excludedCount > 0) {
     console.log(`  Filtered out ${excludedCount} test/support organizations`);
   }
+  if (unnamedCount > 0) {
+    console.log(`  Skipped ${unnamedCount} unnamed registrations (no name or ID mapping found)`);
+  }
   if (duplicateCount > 0) {
     console.log(`  Removed ${duplicateCount} duplicate entries (by ID)`);
-  }
-  if (mergedByNameCount > 0) {
-    console.log(`  Merged ${mergedByNameCount} duplicate entries (by name)`);
   }
 
   // Sort by name (with null safety)
   return merged.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
 }
 
-function calculateSummary(participants: TransformedParticipant[]): ObservatorySummary {
+export function calculateSummary(participants: TransformedParticipant[]): ObservatorySummary {
   const byStatus: Record<string, number> = {};
   const byRole: Record<string, number> = {};
   const byCity: Record<string, number> = {};
@@ -582,6 +537,26 @@ function writeSnapshot(
 ): void {
   const envDir = join(DATA_DIR, environment);
 
+  // Validate: do not write empty snapshots
+  if (snapshot.participants.length === 0) {
+    console.warn(`WARNING: Skipping write for ${environment} - snapshot has 0 participants`);
+    return;
+  }
+
+  // Warn if participant count dropped significantly from previous snapshot
+  const previous = loadPreviousSnapshot(environment);
+  if (previous && previous.participants.length > 0) {
+    const dropPercent =
+      ((previous.participants.length - snapshot.participants.length) /
+        previous.participants.length) *
+      100;
+    if (dropPercent > 20) {
+      console.warn(
+        `WARNING: ${environment} participant count dropped by ${dropPercent.toFixed(1)}% (${previous.participants.length} → ${snapshot.participants.length})`
+      );
+    }
+  }
+
   if (!isDryRun) {
     if (!existsSync(envDir)) {
       mkdirSync(envDir, { recursive: true });
@@ -628,14 +603,14 @@ function printSummary(snapshot: ObservatorySnapshot, environment: Environment): 
   const { summary } = snapshot;
   console.log(`\n${environment.toUpperCase()} Environment Summary:`);
   console.log(`  Total participants: ${summary.totalParticipants}`);
-  console.log(`  Live in production: ${summary.liveInProduction}`);
+  console.log(`  Registrations with an active issuer: ${summary.liveInProduction}`);
   console.log(`  By status: ${JSON.stringify(summary.byStatus)}`);
   console.log(`  By role: ${JSON.stringify(summary.byRole)}`);
   console.log(`  By city: ${JSON.stringify(summary.byCity)}`);
   console.log(`  API families: ${summary.apiFamilies.join(', ')}`);
-  console.log(`  Shariah compliant: ${summary.shariahCompliantCount}`);
+  console.log(`  Directory Shariah flag declared true: ${summary.shariahCompliantCount}`);
   console.log(`  Multi-role participants: ${summary.multiRoleCount}`);
-  console.log(`  TPP count: ${summary.tppCount}`);
+  console.log(`  Explicit TPP role claims (not a population): ${summary.tppCount}`);
   console.log(
     `  Auth capabilities: CIBA=${summary.byAuthCapabilities.ciba}, DCR=${summary.byAuthCapabilities.dcr}, Redirect=${summary.byAuthCapabilities.redirect}`
   );
@@ -659,7 +634,7 @@ async function main() {
   const productionOnly = process.argv.includes('--production-only');
   const sandboxOnly = process.argv.includes('--sandbox-only');
 
-  console.log('OpenFinance-OS Observatory Collector v2.0');
+  console.log('OpenFinance-OS Observatory Collector v2.1');
   console.log('=========================================');
   if (isDryRun) {
     console.log('DRY RUN MODE - No files will be written\n');
@@ -729,10 +704,31 @@ async function main() {
       }
     }
 
+    // Skip writing combined snapshot if no data was fetched from either environment
+    if (!productionSnapshot && !sandboxSnapshot) {
+      console.error(
+        '\nNo data fetched from any environment. Skipping snapshot write to preserve existing data.'
+      );
+      process.exit(1);
+    }
+
     // Create combined dual-environment snapshot
     if (!productionOnly && !sandboxOnly) {
+      // If one environment failed, fall back to its previous snapshot to avoid losing data
+      const effectiveProduction = productionSnapshot ?? loadPreviousSnapshot('production');
+      const effectiveSandbox = sandboxSnapshot ?? loadPreviousSnapshot('sandbox');
+
+      if (!productionSnapshot) {
+        console.warn(
+          '\nWARNING: Production fetch failed, using previous snapshot for combined data'
+        );
+      }
+      if (!sandboxSnapshot) {
+        console.warn('\nWARNING: Sandbox fetch failed, using previous snapshot for combined data');
+      }
+
       console.log('\nCreating combined snapshot...');
-      const dualSnapshot = createDualEnvironmentSnapshot(productionSnapshot, sandboxSnapshot);
+      const dualSnapshot = createDualEnvironmentSnapshot(effectiveProduction, effectiveSandbox);
 
       console.log('\nCross-Environment Analysis:');
       console.log(
@@ -754,4 +750,6 @@ async function main() {
   }
 }
 
-main();
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main();
+}

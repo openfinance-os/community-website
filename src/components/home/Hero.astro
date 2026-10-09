@@ -2,9 +2,10 @@
 interface Props {
   participantCount: number;
   activeCount: number;
+  observedAt: string;
 }
 
-const { participantCount, activeCount } = Astro.props;
+const { participantCount, activeCount, observedAt } = Astro.props;
 ---
 
 <section class="hero">
@@ -26,19 +27,22 @@ const { participantCount, activeCount } = Astro.props;
     </h1>
 
     <p class="hero-tagline">
-      Building transparency in <span class="highlight">UAE's financial ecosystem</span> — together
+      The independent record of <span class="highlight">UAE Open Finance</span> — the data, the global
+      context, the community.
     </p>
 
     <p class="hero-mission">
-      We are not official. We are not affiliated. We are contributors.<br />
-      <span class="mission-emphasis">By the community, for the community.</span>
+      Not official, not affiliated — <span class="mission-emphasis">independent by design,</span> so the
+      view stays neutral.
     </p>
 
     <div class="hero-stat">
       <div class="stat-number">{participantCount}</div>
       <div class="stat-details">
-        <span class="stat-label">financial institutions connected</span>
-        <span class="stat-sublabel">All {activeCount} active · Live data from registry</span>
+        <span class="stat-label">production directory registrations</span>
+        <span class="stat-sublabel"
+          >{activeCount} marked Active · Observed {observedAt.slice(0, 10)} UTC</span
+        >
       </div>
     </div>
 
@@ -61,23 +65,50 @@ const { participantCount, activeCount } = Astro.props;
         </svg>
         Explore the Observatory
       </a>
-      <a
-        href="https://github.com/organizations/openfinance-os/"
-        class="btn btn-secondary"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path
-            d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
-          ></path>
+      <a href="/commons/data-sandbox" class="btn btn-secondary">
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+          <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+          <path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"></path>
         </svg>
-        View on GitHub
+        Try the Data Sandbox
+        <span class="btn-badge">New</span>
+      </a>
+      <a href="/commons/ecosystem-watcher" class="btn btn-secondary">
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+        </svg>
+        Ecosystem Watcher
+        <span class="btn-badge">New</span>
       </a>
     </div>
 
     <p class="hero-footer">
-      Visibility · Education · Community — Independent voices for an open financial future
+      Building or integrating on Al Tareq? The operator's developer hub has the API specs,
+      certification and service desk —
+      <a href="https://nebras-open-finance.com/" rel="noopener" class="hero-handoff-link"
+        >head to Nebras →</a
+      >
     </p>
   </div>
 </section>
@@ -333,7 +364,7 @@ const { participantCount, activeCount } = Astro.props;
   }
 
   .btn-primary {
-    background: var(--color-primary-600);
+    background: var(--color-primary-fill);
     color: white;
     box-shadow: 0 4px 14px 0 rgba(15, 118, 110, 0.3);
   }
@@ -343,7 +374,7 @@ const { participantCount, activeCount } = Astro.props;
   }
 
   .btn-primary:hover {
-    background: var(--color-primary-700);
+    background: var(--color-primary-fill-strong);
     box-shadow: 0 6px 20px 0 rgba(15, 118, 110, 0.4);
   }
 
@@ -373,6 +404,28 @@ const { participantCount, activeCount } = Astro.props;
     transform: scale(1.1);
   }
 
+  .btn-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px var(--space-2);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-primary-700);
+    background: var(--color-primary-50);
+    border: 1px solid var(--color-primary-200);
+    border-radius: var(--radius-full);
+    margin-left: var(--space-1);
+  }
+
+  :global([data-theme='dark']) .btn-badge {
+    color: var(--color-primary-300);
+    background: rgba(20, 184, 166, 0.15);
+    border-color: rgba(20, 184, 166, 0.3);
+  }
+
   .btn:focus-visible {
     outline: 2px solid var(--color-primary-500);
     outline-offset: 2px;
@@ -390,8 +443,25 @@ const { participantCount, activeCount } = Astro.props;
     font-family: var(--font-mono);
     font-size: 0.8125rem;
     color: var(--color-gray-500);
+    max-width: 54ch;
+    margin-inline: auto;
     animation: fadeInUp 0.6s ease-out backwards;
     animation-delay: 0.7s;
+  }
+
+  .hero-handoff-link {
+    color: var(--color-primary-600);
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .hero-handoff-link:hover {
+    text-decoration: underline;
+  }
+
+  :global([data-theme='dark']) .hero-handoff-link {
+    color: var(--color-primary-300);
   }
 
   @media (max-width: 640px) {
@@ -420,7 +490,7 @@ const { participantCount, activeCount } = Astro.props;
   :global([data-theme='dark']) .hero-badge {
     background: var(--color-gray-100);
     border-color: var(--color-gray-200);
-    color: var(--color-gray-300);
+    color: var(--color-gray-600);
   }
 
   :global([data-theme='dark']) .hero-title {
@@ -437,15 +507,15 @@ const { participantCount, activeCount } = Astro.props;
   }
 
   :global([data-theme='dark']) .hero-tagline {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .highlight {
-    color: var(--color-gray-200);
+    color: var(--color-gray-700);
   }
 
   :global([data-theme='dark']) .hero-mission {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .mission-emphasis {
@@ -459,17 +529,17 @@ const { participantCount, activeCount } = Astro.props;
   }
 
   :global([data-theme='dark']) .stat-label {
-    color: var(--color-gray-200);
+    color: var(--color-gray-700);
   }
 
   :global([data-theme='dark']) .stat-sublabel {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .btn-secondary {
     background: var(--color-gray-100);
     border-color: rgba(77, 196, 196, 0.3);
-    color: var(--color-gray-200);
+    color: var(--color-gray-700);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   }
 
@@ -481,7 +551,7 @@ const { participantCount, activeCount } = Astro.props;
   }
 
   :global([data-theme='dark']) .hero-footer {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .gradient-orb-1 {

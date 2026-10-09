@@ -2,20 +2,32 @@
 import PageLayout from '@layouts/PageLayout.astro';
 import Hero from '@components/home/Hero.astro';
 import ObservatoryPreview from '@components/home/ObservatoryPreview.astro';
+import EcosystemRecord from '@components/home/EcosystemRecord.astro';
 import LatestNews from '@components/home/LatestNews.astro';
-import Card from '@components/common/Card.astro';
+import WatchBriefing from '@components/home/WatchBriefing.astro';
+import type { ObservatorySnapshot } from '@lib/types';
 // Import observatory data
 import snapshot from '../../data/observatory/snapshots/latest.json';
 
 // Handle both old flat format and new dual-environment format
 const isDualFormat = 'production' in snapshot;
-const productionData = isDualFormat ? snapshot.production : snapshot;
-const sandboxData = isDualFormat ? snapshot.sandbox : null;
+const productionData = (isDualFormat
+  ? snapshot.production
+  : snapshot) as unknown as ObservatorySnapshot;
+const sandboxData = (isDualFormat
+  ? snapshot.sandbox
+  : null) as unknown as ObservatorySnapshot | null;
 const crossEnvironment = isDualFormat ? snapshot.crossEnvironment : null;
 
 const { summary, timestamp, participants } = productionData;
-const { totalParticipants, byStatus, liveInProduction } = summary;
+const { totalParticipants, byStatus, liveInProduction, apiFamilies } = summary;
 const activeCount = byStatus.Active || 0;
+
+// Calculate API family coverage - count participants supporting each API family
+const apiFamilyCoverage: Record<string, number> = {};
+for (const family of apiFamilies || []) {
+  apiFamilyCoverage[family] = participants.filter((p) => p.apiFamilies?.includes(family)).length;
+}
 
 // Calculate ecosystem engagement stats
 const ecosystemStats = {
@@ -35,6 +47,9 @@ const ecosystemStats = {
   inBoth: crossEnvironment?.inBothEnvironments?.length || 0,
   productionOnly: crossEnvironment?.productionOnly?.length || 0,
   sandboxOnly: crossEnvironment?.sandboxOnly?.length || 0,
+  // API Family coverage
+  apiFamilies: apiFamilies || [],
+  apiFamilyCoverage,
 };
 
 const quickLinks = [
@@ -53,7 +68,7 @@ const quickLinks = [
   {
     title: 'Contribute on GitHub',
     description: 'Help improve this community resource — all contributions welcome.',
-    href: 'https://github.com/organizations/openfinance-os/',
+    href: 'https://github.com/openfinance-os',
     icon: 'github',
     external: true,
   },
@@ -68,12 +83,16 @@ const icons: Record<string, string> = {
 
 <PageLayout
   title="Home"
-  description="The community home for UAE Open Finance and Open Banking. Real-time ecosystem visibility, developer resources, API guides, and community collaboration for the UAE financial services industry."
+  description="The community home for UAE Open Finance and Open Banking. Daily ecosystem observations, developer resources, API guides, and community collaboration for the UAE financial services industry."
   lastUpdated={timestamp}
 >
-  <Hero participantCount={totalParticipants} activeCount={activeCount} />
+  <Hero participantCount={totalParticipants} activeCount={activeCount} observedAt={timestamp} />
 
   <ObservatoryPreview stats={ecosystemStats} />
+
+  <WatchBriefing />
+
+  <EcosystemRecord />
 
   <LatestNews limit={4} />
 
@@ -289,7 +308,7 @@ const icons: Record<string, string> = {
   }
 
   :global([data-theme='dark']) .quick-link-description {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .quick-link-arrow {

@@ -945,12 +945,12 @@ function formatDate(date: Date): string {
   }
 
   .btn-primary {
-    background: var(--color-primary-600);
+    background: var(--color-primary-fill);
     color: white;
   }
 
   .btn-primary:hover {
-    background: var(--color-primary-700);
+    background: var(--color-primary-fill-strong);
     text-decoration: none;
   }
 
@@ -1406,11 +1406,11 @@ function formatDate(date: Date): string {
 
   /* Dark mode */
   :global([data-theme='dark']) .page-header h1 {
-    color: var(--color-gray-100);
+    color: var(--color-gray-800);
   }
 
   :global([data-theme='dark']) .subtitle {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .stats-bar {
@@ -1422,7 +1422,7 @@ function formatDate(date: Date): string {
   }
 
   :global([data-theme='dark']) .stat-label {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .stat-divider {
@@ -1435,11 +1435,11 @@ function formatDate(date: Date): string {
   }
 
   :global([data-theme='dark']) .featured-title {
-    color: var(--color-gray-100);
+    color: var(--color-gray-800);
   }
 
   :global([data-theme='dark']) .featured-description {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .featured-card {
@@ -1453,7 +1453,7 @@ function formatDate(date: Date): string {
   }
 
   :global([data-theme='dark']) .featured-card-title {
-    color: var(--color-gray-100);
+    color: var(--color-gray-800);
   }
 
   :global([data-theme='dark']) .featured-card:hover .featured-card-title {
@@ -1461,7 +1461,7 @@ function formatDate(date: Date): string {
   }
 
   :global([data-theme='dark']) .featured-card-summary {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .featured-card-meta {
@@ -1469,13 +1469,13 @@ function formatDate(date: Date): string {
   }
 
   :global([data-theme='dark']) .featured-card-meta .contributor {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .btn-secondary {
     background: var(--color-gray-800);
     border-color: var(--color-gray-700);
-    color: var(--color-gray-300);
+    color: var(--color-gray-600);
   }
 
   :global([data-theme='dark']) .btn-secondary:hover {
@@ -1489,11 +1489,11 @@ function formatDate(date: Date): string {
   }
 
   :global([data-theme='dark']) .legend-item strong {
-    color: var(--color-gray-100);
+    color: var(--color-gray-800);
   }
 
   :global([data-theme='dark']) .legend-item span {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .filters-section {
@@ -1502,17 +1502,17 @@ function formatDate(date: Date): string {
   }
 
   :global([data-theme='dark']) .filter-label {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .filter-chip {
     background: var(--color-gray-700);
-    color: var(--color-gray-300);
+    color: var(--color-gray-600);
   }
 
   :global([data-theme='dark']) .filter-chip:hover {
     background: var(--color-gray-600);
-    color: var(--color-gray-100);
+    color: var(--color-gray-800);
   }
 
   :global([data-theme='dark']) .filter-chip.active {
@@ -1521,7 +1521,7 @@ function formatDate(date: Date): string {
   }
 
   :global([data-theme='dark']) .results-count {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .contribution-card {
@@ -1535,7 +1535,7 @@ function formatDate(date: Date): string {
   }
 
   :global([data-theme='dark']) .card-title {
-    color: var(--color-gray-100);
+    color: var(--color-gray-800);
   }
 
   :global([data-theme='dark']) .contribution-card:hover .card-title {
@@ -1543,17 +1543,17 @@ function formatDate(date: Date): string {
   }
 
   :global([data-theme='dark']) .card-summary {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .meta-tag {
     background: var(--color-gray-700);
-    color: var(--color-gray-300);
+    color: var(--color-gray-600);
   }
 
   :global([data-theme='dark']) .card-footer {
     border-top-color: var(--color-gray-700);
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .contributor a {
@@ -1562,7 +1562,7 @@ function formatDate(date: Date): string {
 
   :global([data-theme='dark']) .link-btn {
     background: var(--color-gray-700);
-    color: var(--color-gray-300);
+    color: var(--color-gray-600);
   }
 
   :global([data-theme='dark']) .link-btn:hover {
@@ -1575,11 +1575,11 @@ function formatDate(date: Date): string {
   }
 
   :global([data-theme='dark']) .empty-state h3 {
-    color: var(--color-gray-200);
+    color: var(--color-gray-700);
   }
 
   :global([data-theme='dark']) .empty-state p {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .no-results {
@@ -1587,6 +1587,6 @@ function formatDate(date: Date): string {
   }
 
   :global([data-theme='dark']) .no-results p {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 </style>

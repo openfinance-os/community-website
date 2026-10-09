@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Node.js
         uses: ./.github/actions/setup-node
@@ -28,7 +28,7 @@ jobs:
         run: npm run build
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: dist-link-check
           path: dist/
@@ -41,8 +41,31 @@ jobs:
     timeout-minutes: 30
 
     steps:
+      # Checkout so lychee picks up .lycheeignore from the repo root.
+      # Runs before the artifact download; checkout cleans the workspace first.
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      # Participant homepages (third-party bank/insurer/fintech sites) are
+      # bot-hostile and fail intermittently in CI though they load fine in a
+      # browser. Append them to .lycheeignore from their single source of truth
+      # so the list never needs manual upkeep as participants change.
+      - name: Append participant homepages to lychee ignore
+        run: |
+          node -e '
+            const d = require("./data/participants/profiles.json");
+            const hosts = new Set();
+            JSON.stringify(d).replace(/https?:\/\/[^"\\ ]+/g, (u) => {
+              try { hosts.add(new URL(u).host); } catch {}
+              return u;
+            });
+            const lines = [...hosts].sort().map((h) => "://" + h.replace(/\./g, "\\."));
+            require("fs").appendFileSync(".lycheeignore", "\n# --- participant homepages (auto-generated) ---\n" + lines.join("\n") + "\n");
+            console.log("Appended " + lines.length + " participant hosts to .lycheeignore");
+          '
+
       - name: Download build artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: dist-link-check
           path: dist/
@@ -54,8 +77,9 @@ jobs:
           args: >-
             --verbose
             --no-progress
-            --accept 200,204,301,302,403
-            --exclude-mail
+            --root-dir ${{ github.workspace }}/dist
+            --accept 200,204,301,302,403,405,429
+            --max-retries 2
             --timeout 30
             './dist/**/*.html'
           fail: true
@@ -63,7 +87,7 @@ jobs:
 
       - name: Upload link check report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: link-check-report
           path: lychee-report.md
@@ -81,13 +105,13 @@ jobs:
 
     steps:
       - name: Download link check report
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: link-check-report
         continue-on-error: true
 
       - name: Create issue for broken links
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             const fs = require('fs');

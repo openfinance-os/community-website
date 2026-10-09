@@ -1,10 +1,17 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
+import OperatorPointer from '@components/learn/OperatorPointer.astro';
+import { apiFamilyLabel } from '@lib/taxonomy';
+import latest from '../../../data/observatory/snapshots/production/latest.json';
+
+const families = latest.summary.apiFamilies.length;
+const familyNames = latest.summary.apiFamilies.map(apiFamilyLabel).join(', ');
+const observedDate = latest.timestamp.slice(0, 10);
 ---
 
 <PageLayout
-  title="API Integration Guide"
-  description="Technical guide for integrating with UAE Open Finance APIs."
+  title="API Guide"
+  description="Understand the UAE API Hub, consented and client-credentials services, and where to find specifications."
 >
   <div class="guide-page">
     <div class="container">
@@ -15,627 +22,106 @@ import PageLayout from '@layouts/PageLayout.astro';
       </nav>
 
       <header class="page-header">
-        <h1>API Integration Guide</h1>
+        <h1>The UAE Open Finance APIs</h1>
         <p class="subtitle">
-          Technical deep-dive into authentication, consent flows, and API usage for UAE Open
-          Finance.
+          What the APIs cover, how the Hub mediates access, and where to find specifications.
         </p>
       </header>
 
-      <section>
-        <h2>Authentication Flow</h2>
+      <section class="concept">
         <p>
-          UAE Open Finance uses OAuth 2.0 with PKCE (Proof Key for Code Exchange) and
-          Financial-grade API (FAPI) security profiles. Here's the typical authentication flow:
+          UAE Open Finance uses a <strong>central API Hub</strong>. A TPP calls the Hub; the Hub
+          calls the financial institution through its Ozone Connect interface and returns the
+          response. The Hub manages consent, issues access tokens and provides the TPP-facing APIs.
+          TPPs do not call the institution's backend directly.
         </p>
-        <div class="flow-diagram">
-          <div class="flow-step">
-            <span class="flow-num">1</span>
-            <div>
-              <h4>Authorization Request</h4>
-              <p>TPP redirects user to bank's authorization endpoint</p>
-            </div>
-          </div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-step">
-            <span class="flow-num">2</span>
-            <div>
-              <h4>User Authentication</h4>
-              <p>User authenticates with bank (SCA required)</p>
-            </div>
-          </div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-step">
-            <span class="flow-num">3</span>
-            <div>
-              <h4>Consent Grant</h4>
-              <p>User reviews and approves data access permissions</p>
-            </div>
-          </div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-step">
-            <span class="flow-num">4</span>
-            <div>
-              <h4>Authorization Code</h4>
-              <p>Bank redirects back to TPP with auth code</p>
-            </div>
-          </div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-step">
-            <span class="flow-num">5</span>
-            <div>
-              <h4>Token Exchange</h4>
-              <p>TPP exchanges code for access token</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2>API Endpoints</h2>
-        <div class="endpoint-section">
-          <h3>Account Information APIs</h3>
-          <div class="endpoints">
-            <div class="endpoint">
-              <span class="method get">GET</span>
-              <code>/accounts</code>
-              <p>List all accounts the user has consented to share</p>
-            </div>
-            <div class="endpoint">
-              <span class="method get">GET</span>
-              <code>/accounts/{`{accountId}`}</code>
-              <p>Get details of a specific account</p>
-            </div>
-            <div class="endpoint">
-              <span class="method get">GET</span>
-              <code>/accounts/{`{accountId}`}/balances</code>
-              <p>Get current and available balance</p>
-            </div>
-            <div class="endpoint">
-              <span class="method get">GET</span>
-              <code>/accounts/{`{accountId}`}/transactions</code>
-              <p>Get transaction history with pagination</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="endpoint-section">
-          <h3>Payment Initiation APIs</h3>
-          <div class="endpoints">
-            <div class="endpoint">
-              <span class="method post">POST</span>
-              <code>/domestic-payments</code>
-              <p>Initiate a domestic payment</p>
-            </div>
-            <div class="endpoint">
-              <span class="method get">GET</span>
-              <code>/domestic-payments/{`{paymentId}`}</code>
-              <p>Get payment status and details</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="endpoint-section">
-          <h3>Confirmation of Payee APIs</h3>
-          <div class="endpoints">
-            <div class="endpoint">
-              <span class="method post">POST</span>
-              <code>/funds-confirmation-consents</code>
-              <p>Create a funds confirmation consent</p>
-            </div>
-            <div class="endpoint">
-              <span class="method post">POST</span>
-              <code>/funds-confirmations</code>
-              <p>Check if funds are available</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2>Request Headers</h2>
-        <p>All API requests must include the following headers:</p>
-        <div class="code-block">
-          <pre><code>Authorization: Bearer {`{access_token}`}
-x-fapi-auth-date: Sun, 26 Jan 2025 10:00:00 GMT
-x-fapi-customer-ip-address: 192.168.1.1
-x-fapi-interaction-id: 93bac548-d2de-4546-b106-880a5018460d
-x-idempotency-key: FRESCO.21302.GFX.20 (for POST requests)
-Content-Type: application/json
-Accept: application/json</code></pre>
-        </div>
-      </section>
-
-      <section>
-        <h2>Example: Get Account Balances</h2>
-        <div class="example-block">
-          <h4>Request</h4>
-          <div class="code-block">
-            <pre><code>GET /accounts/22289/balances HTTP/1.1
-Host: api.bank.ae
-Authorization: Bearer eyJhbGciOiJQUzI1NiIsInR5cCI6IkpXVCJ9...
-x-fapi-auth-date: Sun, 26 Jan 2025 10:00:00 GMT
-x-fapi-interaction-id: 93bac548-d2de-4546-b106-880a5018460d
-Accept: application/json</code></pre>
-          </div>
-          <h4>Response</h4>
-          <div class="code-block">
-            <pre><code>{`{
-  "Data": {
-    "Balance": [
-      {
-        "AccountId": "22289",
-        "CreditDebitIndicator": "Credit",
-        "Type": "InterimAvailable",
-        "DateTime": "2025-01-26T10:00:00+04:00",
-        "Amount": {
-          "Amount": "15000.00",
-          "Currency": "AED"
-        }
-      }
-    ]
-  },
-  "Links": {
-    "Self": "https://api.bank.ae/accounts/22289/balances"
-  },
-  "Meta": {
-    "TotalPages": 1
-  }
-}`}</code></pre>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2>Consent Object</h2>
-        <p>Before accessing account data, you must create a consent request:</p>
-        <div class="code-block">
-          <pre><code>{`{
-  "Data": {
-    "Permissions": [
-      "ReadAccountsBasic",
-      "ReadAccountsDetail",
-      "ReadBalances",
-      "ReadTransactionsBasic",
-      "ReadTransactionsCredits",
-      "ReadTransactionsDebits",
-      "ReadTransactionsDetail"
-    ],
-    "ExpirationDateTime": "2025-07-26T00:00:00+04:00",
-    "TransactionFromDateTime": "2024-07-26T00:00:00+04:00",
-    "TransactionToDateTime": "2025-07-26T00:00:00+04:00"
-  },
-  "Risk": {}
-}`}</code></pre>
-        </div>
-        <div class="permission-list">
-          <h4>Available Permissions</h4>
-          <ul>
-            <li><code>ReadAccountsBasic</code> — Account identification</li>
-            <li><code>ReadAccountsDetail</code> — Full account details</li>
-            <li><code>ReadBalances</code> — Current and available balances</li>
-            <li><code>ReadTransactionsBasic</code> — Transaction amounts and dates</li>
-            <li><code>ReadTransactionsDetail</code> — Full transaction details</li>
-            <li><code>ReadTransactionsCredits</code> — Credit transactions only</li>
-            <li><code>ReadTransactionsDebits</code> — Debit transactions only</li>
-          </ul>
-        </div>
-      </section>
-
-      <section>
-        <h2>Error Handling</h2>
-        <p>The API uses standard HTTP status codes and returns errors in a consistent format:</p>
-        <div class="code-block">
-          <pre><code>{`{
-  "Code": "400",
-  "Id": "93bac548-d2de-4546-b106-880a5018460d",
-  "Message": "Bad Request",
-  "Errors": [
-    {
-      "ErrorCode": "UK.OBIE.Field.Missing",
-      "Message": "End date is missing",
-      "Path": "Data.Permissions",
-      "Url": "https://docs.openfinance.ae/errors/field-missing"
-    }
-  ]
-}`}</code></pre>
-        </div>
-        <div class="error-codes">
-          <h4>Common Error Codes</h4>
-          <div class="error-grid">
-            <div class="error-item">
-              <code>400</code>
-              <span>Bad Request — Invalid request format</span>
-            </div>
-            <div class="error-item">
-              <code>401</code>
-              <span>Unauthorized — Invalid or expired token</span>
-            </div>
-            <div class="error-item">
-              <code>403</code>
-              <span>Forbidden — Insufficient permissions</span>
-            </div>
-            <div class="error-item">
-              <code>404</code>
-              <span>Not Found — Resource doesn't exist</span>
-            </div>
-            <div class="error-item">
-              <code>429</code>
-              <span>Too Many Requests — Rate limit exceeded</span>
-            </div>
-            <div class="error-item">
-              <code>500</code>
-              <span>Server Error — Internal bank error</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="cta-section">
-        <h2>Full API Documentation</h2>
         <p>
-          For complete API specifications, request/response schemas, and testing tools, visit the
-          official documentation.
+          Customer data sharing and payment initiation require customer consent. Services such as
+          Confirmation of Payee, product information and ATM information use client credentials
+          without an end-customer consent journey. <strong>FAPI</strong> supplies the financial API security
+          profile; <a href="/learn/glossary#dcr">DCR</a> registers a client and is a separate step from
+          customer authentication.
         </p>
-        <div class="cta-buttons">
-          <a
-            href="https://openfinanceuae.atlassian.net/wiki/spaces/tfdocsv7/pages/362840092"
-            class="cta-primary"
-            target="_blank"
-            rel="noopener noreferrer"
+        <p>
+          The production directory snapshot observed on <time datetime={observedDate}
+            >{observedDate}</time
           >
-            View Full Documentation →
-          </a>
-          <a
-            href="https://data.directory.openfinance.ae"
-            class="cta-secondary"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Trust Framework Directory →
-          </a>
-        </div>
+          contains <strong>{families} published API family identifiers</strong>: {familyNames}. The
+          <a href="/observatory">Observatory</a> shows published resources and versions. Publication does
+          not establish successful integration, availability or live usage.
+        </p>
       </section>
+
+      <OperatorPointer
+        intro="Check the official standards and the selected specification version, including errata. The community reference site offers browsable technical material:"
+        links={[
+          {
+            label: 'Official Open Finance documentation',
+            href: 'https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview',
+          },
+          {
+            label: 'API specifications — community reference',
+            href: 'https://nebras-open-finance.com/tech/api-specs/',
+          },
+          {
+            label: 'Security & FAPI — community reference',
+            href: 'https://nebras-open-finance.com/tech/tpp-standards/security/fapi/',
+          },
+          {
+            label: 'Release notes & errata — community reference',
+            href: 'https://nebras-open-finance.com/tech/release-notes-and-erratas/',
+          },
+        ]}
+      />
     </div>
   </div>
 </PageLayout>
 
 <style>
   .guide-page {
-    padding: var(--space-8) var(--space-4) var(--space-16);
+    padding: var(--space-12) var(--space-4) var(--space-16);
   }
-
   .container {
-    max-width: 800px;
+    max-width: 760px;
     margin: 0 auto;
   }
-
   .breadcrumb {
     display: flex;
-    align-items: center;
     gap: var(--space-2);
-    font-size: 0.875rem;
+    font-size: 0.85rem;
     color: var(--color-gray-500);
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-4);
   }
-
   .breadcrumb a {
+    color: var(--color-gray-500);
+    text-decoration: none;
+  }
+  .breadcrumb a:hover {
     color: var(--color-primary-600);
   }
-
-  .page-header {
-    margin-bottom: var(--space-10);
-  }
-
   .page-header h1 {
-    font-size: 2.25rem;
-    margin-bottom: var(--space-3);
-  }
-
-  .subtitle {
-    font-size: 1.125rem;
-    color: var(--color-gray-600);
-  }
-
-  section {
-    margin-bottom: var(--space-12);
-  }
-
-  section h2 {
-    font-size: 1.5rem;
-    margin-bottom: var(--space-4);
-  }
-
-  section > p {
-    color: var(--color-gray-600);
-    line-height: 1.7;
-    margin-bottom: var(--space-6);
-  }
-
-  /* Flow Diagram */
-  .flow-diagram {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-6);
-    background: var(--color-gray-50);
-    border-radius: var(--radius-xl);
-  }
-
-  .flow-step {
-    display: flex;
-    gap: var(--space-3);
-    padding: var(--space-4);
-    background: white;
-    border-radius: var(--radius-lg);
-    max-width: 200px;
-  }
-
-  .flow-num {
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--color-primary-600);
-    color: white;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 600;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .flow-step h4 {
-    font-size: 0.8125rem;
-    margin-bottom: var(--space-1);
-  }
-
-  .flow-step p {
-    font-size: 0.75rem;
-    color: var(--color-gray-500);
-    margin: 0;
-  }
-
-  .flow-arrow {
-    color: var(--color-gray-400);
-    font-size: 1.5rem;
-  }
-
-  @media (max-width: 768px) {
-    .flow-diagram {
-      flex-direction: column;
-    }
-    .flow-arrow {
-      transform: rotate(90deg);
-    }
-    .flow-step {
-      max-width: 100%;
-    }
-  }
-
-  /* Endpoints */
-  .endpoint-section {
-    margin-bottom: var(--space-6);
-  }
-
-  .endpoint-section h3 {
-    font-size: 1.125rem;
-    margin-bottom: var(--space-4);
-    padding-bottom: var(--space-2);
-    border-bottom: 1px solid var(--color-gray-200);
-  }
-
-  .endpoints {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-  }
-
-  .endpoint {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    padding: var(--space-3);
-    background: var(--color-gray-50);
-    border-radius: var(--radius-md);
-    flex-wrap: wrap;
-  }
-
-  .method {
-    padding: var(--space-1) var(--space-2);
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 3.6vw, 2.3rem);
     font-weight: 700;
-    border-radius: var(--radius-sm);
-    text-transform: uppercase;
+    margin: 0 0 var(--space-2);
+    color: var(--color-gray-900);
+    letter-spacing: -0.02em;
   }
-
-  .method.get {
-    background: #dbeafe;
-    color: #1e40af;
-  }
-
-  .method.post {
-    background: #dcfce7;
-    color: #166534;
-  }
-
-  .endpoint code {
-    font-family: var(--font-mono);
-    font-size: 0.875rem;
-    color: var(--color-gray-800);
-  }
-
-  .endpoint p {
-    flex: 1;
-    font-size: 0.8125rem;
+  .subtitle {
+    margin: 0 0 var(--space-8);
     color: var(--color-gray-600);
-    margin: 0;
-    min-width: 200px;
+    font-size: 1.05rem;
   }
-
-  /* Code Blocks */
-  .code-block {
-    background: var(--color-gray-900);
-    border-radius: var(--radius-lg);
-    overflow-x: auto;
-    margin-bottom: var(--space-4);
+  .concept p {
+    color: var(--color-gray-700);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin: 0 0 var(--space-4);
   }
-
-  .code-block pre {
-    margin: 0;
-    padding: var(--space-4);
+  .concept strong {
+    color: var(--color-gray-900);
   }
-
-  .code-block code {
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
-    color: #e2e8f0;
-    line-height: 1.6;
-  }
-
-  /* Example Block */
-  .example-block h4 {
-    font-size: 0.875rem;
-    margin-bottom: var(--space-2);
-    color: var(--color-gray-500);
-  }
-
-  /* Permission List */
-  .permission-list {
-    margin-top: var(--space-6);
-    padding: var(--space-4);
-    background: var(--color-gray-50);
-    border-radius: var(--radius-lg);
-  }
-
-  .permission-list h4 {
-    font-size: 0.875rem;
-    margin-bottom: var(--space-3);
-  }
-
-  .permission-list ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    gap: var(--space-2);
-  }
-
-  @media (min-width: 640px) {
-    .permission-list ul {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  .permission-list li {
-    font-size: 0.8125rem;
+  :global([data-theme='dark']) .concept p {
     color: var(--color-gray-600);
-  }
-
-  .permission-list code {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    background: var(--color-primary-100);
-    color: var(--color-primary-700);
-    padding: var(--space-1);
-    border-radius: var(--radius-sm);
-    margin-right: var(--space-2);
-  }
-
-  /* Error Codes */
-  .error-codes {
-    margin-top: var(--space-6);
-  }
-
-  .error-codes h4 {
-    font-size: 0.875rem;
-    margin-bottom: var(--space-3);
-  }
-
-  .error-grid {
-    display: grid;
-    gap: var(--space-2);
-  }
-
-  .error-item {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    padding: var(--space-2) var(--space-3);
-    background: var(--color-gray-50);
-    border-radius: var(--radius-md);
-  }
-
-  .error-item code {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 600;
-    background: var(--color-error);
-    color: white;
-    padding: var(--space-1) var(--space-2);
-    border-radius: var(--radius-sm);
-  }
-
-  .error-item span {
-    font-size: 0.8125rem;
-    color: var(--color-gray-600);
-  }
-
-  /* CTA Section */
-  .cta-section {
-    padding: var(--space-8);
-    background: var(--color-gray-50);
-    border-radius: var(--radius-xl);
-    text-align: center;
-  }
-
-  .cta-section h2 {
-    margin-bottom: var(--space-2);
-  }
-
-  .cta-section > p {
-    margin-bottom: var(--space-6);
-  }
-
-  .cta-buttons {
-    display: flex;
-    gap: var(--space-4);
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .cta-primary {
-    padding: var(--space-3) var(--space-6);
-    background: var(--color-primary-600);
-    color: white;
-    font-weight: 600;
-    border-radius: var(--radius-lg);
-    text-decoration: none;
-    transition: background-color var(--transition-fast);
-  }
-
-  .cta-primary:hover {
-    background: var(--color-primary-700);
-    text-decoration: none;
-  }
-
-  .cta-secondary {
-    padding: var(--space-3) var(--space-6);
-    background: white;
-    color: var(--color-primary-600);
-    font-weight: 600;
-    border: 1px solid var(--color-primary-600);
-    border-radius: var(--radius-lg);
-    text-decoration: none;
-    transition: background-color var(--transition-fast);
-  }
-
-  .cta-secondary:hover {
-    background: var(--color-primary-50);
-    text-decoration: none;
   }
 </style>

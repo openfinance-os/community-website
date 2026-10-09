@@ -114,120 +114,165 @@ async function githubRequest<T>(
     throw new Error(`GitHub API error: ${response.status} - ${error}`);
   }
 
+  // Handle 204 No Content (e.g. DELETE responses)
+  if (response.status === 204) {
+    return undefined as T;
+  }
+
   return response.json();
+}
+
+export interface FilePRInput {
+  /** Branch to create/update (e.g. `news/slug` or `digest/2026-07-12`) */
+  branchName: string;
+  /** Repo-relative path of the file to add/replace */
+  filePath: string;
+  /** Full file contents */
+  content: string;
+  /** Commit message */
+  commitMessage: string;
+  /** Pull request title */
+  prTitle: string;
+  /** Pull request body (markdown) */
+  prBody: string;
+  /** Optional labels; failures to apply are non-fatal */
+  labels?: string[];
+  /**
+   * When true, merge the PR immediately after creation instead of leaving it
+   * open for manual review. Use only for deterministic, no-judgment-call
+   * content (e.g. the weekly digest, computed entirely from data already
+   * committed to the repo) — not for anything requiring editorial review
+   * (e.g. curated external news articles).
+   */
+  autoMerge?: boolean;
+  /** Merge method used when autoMerge is true. Defaults to 'squash'. */
+  mergeMethod?: 'merge' | 'squash' | 'rebase';
+}
+
+/**
+ * Generic single-file PR: commits `content` to `filePath` on a fresh branch
+ * off the base branch and opens a PR. Used by both news curation and the
+ * weekly digest so the GitHub plumbing lives in one place.
+ */
+export async function createFilePR(
+  input: FilePRInput,
+  options: GitHubOptions
+): Promise<{ number: number; url: string; branch: string }> {
+  const { owner, repo, baseBranch = 'main' } = options;
+  const {
+    branchName,
+    filePath,
+    content,
+    commitMessage,
+    prTitle,
+    prBody,
+    labels,
+    autoMerge,
+    mergeMethod,
+  } = input;
+
+  // 1. Base branch SHA
+  const baseRef = await githubRequest<GitHubRefResponse>(
+    `/repos/${owner}/${repo}/git/ref/heads/${baseBranch}`,
+    options
+  );
+  const baseSha = baseRef.object.sha;
+
+  // 2. Blob
+  const blob = await githubRequest<GitHubBlobResponse>(
+    `/repos/${owner}/${repo}/git/blobs`,
+    options,
+    'POST',
+    { content: Buffer.from(content).toString('base64'), encoding: 'base64' }
+  );
+
+  // 3. Tree
+  const tree = await githubRequest<GitHubTreeResponse>(
+    `/repos/${owner}/${repo}/git/trees`,
+    options,
+    'POST',
+    {
+      base_tree: baseSha,
+      tree: [{ path: filePath, mode: '100644', type: 'blob', sha: blob.sha }],
+    }
+  );
+
+  // 4. Commit
+  const commit = await githubRequest<GitHubCommitResponse>(
+    `/repos/${owner}/${repo}/git/commits`,
+    options,
+    'POST',
+    { message: commitMessage, tree: tree.sha, parents: [baseSha] }
+  );
+
+  // 5. Branch (create, or force-update if it exists)
+  try {
+    await githubRequest(`/repos/${owner}/${repo}/git/refs`, options, 'POST', {
+      ref: `refs/heads/${branchName}`,
+      sha: commit.sha,
+    });
+  } catch {
+    await githubRequest(`/repos/${owner}/${repo}/git/refs/heads/${branchName}`, options, 'PATCH', {
+      sha: commit.sha,
+      force: true,
+    });
+  }
+
+  // 6. Pull request
+  const pr = await githubRequest<GitHubPRResponse>(
+    `/repos/${owner}/${repo}/pulls`,
+    options,
+    'POST',
+    { title: prTitle, head: branchName, base: baseBranch, body: prBody, draft: false }
+  );
+
+  // 7. Labels (non-fatal)
+  if (labels && labels.length > 0) {
+    try {
+      await githubRequest(`/repos/${owner}/${repo}/issues/${pr.number}/labels`, options, 'POST', {
+        labels,
+      });
+    } catch {
+      console.warn('Could not add labels to PR (labels may not exist)');
+    }
+  }
+
+  console.log(`  Created PR #${pr.number}: ${pr.html_url}`);
+
+  // 8. Auto-merge (opt-in, deterministic content only — see FilePRInput.autoMerge)
+  if (autoMerge) {
+    try {
+      await githubRequest(`/repos/${owner}/${repo}/pulls/${pr.number}/merge`, options, 'PUT', {
+        merge_method: mergeMethod || 'squash',
+      });
+      console.log(`  Auto-merged PR #${pr.number}`);
+    } catch (err) {
+      console.warn(`  Could not auto-merge PR #${pr.number} (left open for manual review):`, err);
+    }
+  }
+
+  return { number: pr.number, url: pr.html_url, branch: branchName };
 }
 
 export async function createArticlePR(
   article: CuratedArticle,
   options: GitHubOptions
 ): Promise<GitHubPR> {
-  const { owner, repo, baseBranch = 'main' } = options;
-  const branchName = `news/${article.slug}`;
-  const filePath = `src/content/news/${article.slug}.md`;
-
   console.log(`Creating PR for: ${article.title.substring(0, 50)}...`);
-
   try {
-    // 1. Get the SHA of the base branch
-    const baseRef = await githubRequest<GitHubRefResponse>(
-      `/repos/${owner}/${repo}/git/ref/heads/${baseBranch}`,
+    const pr = await createFilePR(
+      {
+        branchName: `news/${article.slug}`,
+        filePath: `src/content/news/${article.slug}.md`,
+        content: generateMarkdownContent(article),
+        commitMessage: `feat(news): add "${article.title.substring(0, 50)}..."`,
+        prTitle: `[News] ${article.title}`,
+        prBody: generatePRBody(article),
+        labels: ['news-curation', 'auto-generated'],
+      },
       options
     );
-    const baseSha = baseRef.object.sha;
-
-    // 2. Create a blob with the markdown content
-    const content = generateMarkdownContent(article);
-    const blob = await githubRequest<GitHubBlobResponse>(
-      `/repos/${owner}/${repo}/git/blobs`,
-      options,
-      'POST',
-      {
-        content: Buffer.from(content).toString('base64'),
-        encoding: 'base64',
-      }
-    );
-
-    // 3. Create a tree with the new file
-    const tree = await githubRequest<GitHubTreeResponse>(
-      `/repos/${owner}/${repo}/git/trees`,
-      options,
-      'POST',
-      {
-        base_tree: baseSha,
-        tree: [
-          {
-            path: filePath,
-            mode: '100644',
-            type: 'blob',
-            sha: blob.sha,
-          },
-        ],
-      }
-    );
-
-    // 4. Create a commit
-    const commit = await githubRequest<GitHubCommitResponse>(
-      `/repos/${owner}/${repo}/git/commits`,
-      options,
-      'POST',
-      {
-        message: `feat(news): add "${article.title.substring(0, 50)}..."`,
-        tree: tree.sha,
-        parents: [baseSha],
-      }
-    );
-
-    // 5. Create a new branch
-    try {
-      await githubRequest(`/repos/${owner}/${repo}/git/refs`, options, 'POST', {
-        ref: `refs/heads/${branchName}`,
-        sha: commit.sha,
-      });
-    } catch (error) {
-      // Branch might already exist, try to update it
-      await githubRequest(
-        `/repos/${owner}/${repo}/git/refs/heads/${branchName}`,
-        options,
-        'PATCH',
-        {
-          sha: commit.sha,
-          force: true,
-        }
-      );
-    }
-
-    // 6. Create a draft pull request
-    const pr = await githubRequest<GitHubPRResponse>(
-      `/repos/${owner}/${repo}/pulls`,
-      options,
-      'POST',
-      {
-        title: `[News] ${article.title}`,
-        head: branchName,
-        base: baseBranch,
-        body: generatePRBody(article),
-        draft: false, // Not draft so it can be easily merged
-      }
-    );
-
-    // 7. Add labels to the PR
-    try {
-      await githubRequest(`/repos/${owner}/${repo}/issues/${pr.number}/labels`, options, 'POST', {
-        labels: ['news-curation', 'auto-generated'],
-      });
-    } catch {
-      // Labels might not exist, that's okay
-      console.warn('Could not add labels to PR (labels may not exist)');
-    }
-
-    console.log(`  Created PR #${pr.number}: ${pr.html_url}`);
-
-    return {
-      number: pr.number,
-      url: pr.html_url,
-      title: article.title,
-      branch: branchName,
-    };
+    return { number: pr.number, url: pr.url, title: article.title, branch: pr.branch };
   } catch (error) {
     console.error(`Failed to create PR for article: ${article.title}`, error);
     throw error;
@@ -253,6 +298,43 @@ export async function createAllPRs(
   }
 
   return results;
+}
+
+/**
+ * Slugs of every article the curator has already proposed as a PR, open or
+ * closed. Closed-but-unmerged PRs are editorial rejections: without this the
+ * same rejected story came back the day after the 48-hour cleanup, every day.
+ *
+ * Returns slugs without the `news/` branch prefix (they keep their date
+ * prefix, which `isDuplicateTitle` strips before comparing).
+ */
+export async function fetchProposedSlugs(
+  options: GitHubOptions,
+  maxPages: number = 5
+): Promise<Set<string>> {
+  const { owner, repo } = options;
+  const slugs = new Set<string>();
+
+  try {
+    for (let page = 1; page <= maxPages; page++) {
+      const prs = await githubRequest<Array<{ head: { ref: string } }>>(
+        `/repos/${owner}/${repo}/pulls?state=all&sort=created&direction=desc&per_page=100&page=${page}`,
+        options
+      );
+
+      for (const pr of prs) {
+        if (pr.head.ref.startsWith('news/')) {
+          slugs.add(pr.head.ref.slice('news/'.length));
+        }
+      }
+
+      if (prs.length < 100) break;
+    }
+  } catch (error) {
+    console.warn('Could not list previously proposed news PRs:', error);
+  }
+
+  return slugs;
 }
 
 export async function closeOldPRs(

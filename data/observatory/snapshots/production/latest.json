@@ -1,36 +1,38 @@
 {
-  "timestamp": "2026-02-07T06:40:45.808Z",
+  "timestamp": "2026-10-08T18:28:59.259Z",
   "source": "https://data.directory.openfinance.ae",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "environment": "production",
   "summary": {
-    "totalParticipants": 17,
+    "totalParticipants": 27,
     "byStatus": {
-      "Active": 17
+      "Active": 27
     },
     "byRole": {
-      "BDSP": 13,
-      "BSIP": 12,
-      "LFI": 10,
-      "ISP": 3,
+      "BDSP": 16,
+      "BSIP": 15,
+      "LFI": 19,
+      "ISP": 7,
       "API Read_Write": 3,
       "TSP": 3,
       "pki-test-harness": 1
     },
     "byCity": {
-      "Abu Dhabi": 4,
-      "Unknown": 8,
-      "Dubai": 5
+      "Abu Dhabi": 5,
+      "Unknown": 15,
+      "Dubai": 7
     },
     "apiFamilies": [
       "accounts",
+      "atm",
       "cop",
+      "insurance",
       "payments",
       "products"
     ],
-    "liveInProduction": 9,
-    "shariahCompliantCount": 2,
-    "multiRoleCount": 15,
+    "liveInProduction": 12,
+    "shariahCompliantCount": 1,
+    "multiRoleCount": 25,
     "tppCount": 0,
     "byAuthCapabilities": {
       "ciba": 0,
@@ -38,11 +40,12 @@
       "redirect": 0
     },
     "byCertificationStatus": {
-      "Self-Certified": 33
+      "Self-Certified": 50
     },
     "byApiVersion": {
-      "1.2": 26,
-      "2.0": 7
+      "2.1": 40,
+      "1.2": 7,
+      "2.0": 3
     }
   },
   "participants": [
@@ -74,34 +77,32 @@
       },
       "apiResources": [
         {
-          "family": "accounts",
-          "version": "1.2",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        },
-        {
-          "family": "payments",
-          "version": "1.2",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
           "family": "products",
-          "version": "2.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        },
-        {
-          "family": "products",
-          "version": "1.2",
+          "rawFamily": "product",
+          "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "cop",
-          "version": "2.0",
+          "rawFamily": "confirmation",
+          "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
+        },
+        {
+          "family": "payments",
+          "rawFamily": "payment",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "accounts",
+          "rawFamily": "account-information",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
         }
       ],
       "authServerCount": 1,
@@ -126,6 +127,54 @@
         "payments"
       ],
       "hasAuthServer": true,
+      "isShariahCompliant": true,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [
+        {
+          "family": "cop",
+          "rawFamily": "confirmation",
+          "version": "1.2",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "payments",
+          "rawFamily": "payment",
+          "version": "1.2",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "accounts",
+          "rawFamily": "account-information",
+          "version": "1.2",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        }
+      ],
+      "authServerCount": 1,
+      "isLive": true
+    },
+    {
+      "id": "b1b75d1a-648e-4e88-8d1f-a2a3cf43de5c",
+      "name": "ADNIC",
+      "legalName": "ABU DHABI NATIONAL INSURANCE COMPANY PJSC",
+      "shortName": "ADNIC",
+      "status": "Active",
+      "roles": [
+        "ISP",
+        "LFI"
+      ],
+      "city": "Abu Dhabi",
+      "registrationNumber": "National001",
+      "apiFamilies": [
+        "insurance"
+      ],
+      "hasAuthServer": true,
       "isShariahCompliant": false,
       "authCapabilities": {
         "supportsCiba": false,
@@ -134,22 +183,11 @@
       },
       "apiResources": [
         {
-          "family": "accounts",
-          "version": "1.2",
+          "family": "insurance",
+          "rawFamily": "insurance",
+          "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
-        },
-        {
-          "family": "payments",
-          "version": "1.2",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
-          "family": "cop",
-          "version": "1.2",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
         }
       ],
       "authServerCount": 1,
@@ -186,6 +224,8 @@
       "shortName": "CBD",
       "status": "Active",
       "roles": [
+        "BDSP",
+        "BSIP",
         "LFI"
       ],
       "city": "Dubai",
@@ -205,31 +245,35 @@
       },
       "apiResources": [
         {
-          "family": "payments",
-          "version": "1.2",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
           "family": "accounts",
-          "version": "1.2",
+          "rawFamily": "account-information",
+          "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
+          "family": "payments",
+          "rawFamily": "payment",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
           "family": "cop",
-          "version": "1.2",
+          "rawFamily": "confirmation",
+          "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "products",
-          "version": "1.2",
+          "rawFamily": "product",
+          "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         }
       ],
-      "authServerCount": 1,
+      "authServerCount": 2,
       "isLive": true
     },
     {
@@ -241,7 +285,6 @@
       "roles": [
         "BDSP",
         "BSIP",
-        "ISP",
         "LFI"
       ],
       "city": "Dubai",
@@ -261,26 +304,58 @@
       },
       "apiResources": [
         {
-          "family": "payments",
-          "version": "1.2",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
           "family": "cop",
-          "version": "1.2",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        },
-        {
-          "family": "accounts",
+          "rawFamily": "confirmation",
           "version": "1.2",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "products",
+          "rawFamily": "product",
           "version": "1.2",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "payments",
+          "rawFamily": "payment",
+          "version": "1.2",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "accounts",
+          "rawFamily": "account-information",
+          "version": "1.2",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "products",
+          "rawFamily": "product",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "cop",
+          "rawFamily": "confirmation",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "accounts",
+          "rawFamily": "account-information",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "payments",
+          "rawFamily": "payment",
+          "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
         }
@@ -289,10 +364,57 @@
       "isLive": true
     },
     {
+      "id": "7c618e0b-0acc-4642-bdbb-180eb419be95",
+      "name": "Dubai Insurance Company",
+      "legalName": "Dubai Insurance Company",
+      "shortName": "Dubai Insurance Company",
+      "status": "Active",
+      "roles": [
+        "LFI"
+      ],
+      "city": "Unknown",
+      "registrationNumber": "National004",
+      "apiFamilies": [],
+      "hasAuthServer": false,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 0,
+      "isLive": false
+    },
+    {
+      "id": "f18cef1c-2ea2-4501-a1e5-db2e911689f8",
+      "name": "Emirates Insurance Company",
+      "legalName": "Emirates Insurance Company",
+      "shortName": "Emirates Insurance Company",
+      "status": "Active",
+      "roles": [
+        "ISP",
+        "LFI"
+      ],
+      "city": "Unknown",
+      "registrationNumber": "National002",
+      "apiFamilies": [],
+      "hasAuthServer": false,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 0,
+      "isLive": false
+    },
+    {
       "id": "64e5061d-437f-43c8-9f17-1df9a4600705",
-      "name": "ENBD",
+      "name": "Emirates NBD",
       "legalName": "EMIRATES NBD BANK PJSC",
-      "shortName": "ENBD",
+      "shortName": "Emirates NBD",
       "status": "Active",
       "roles": [
         "BDSP",
@@ -316,31 +438,63 @@
       },
       "apiResources": [
         {
-          "family": "payments",
-          "version": "1.2",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
-          "family": "cop",
-          "version": "1.2",
+          "family": "products",
+          "rawFamily": "product",
+          "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
+          "family": "cop",
+          "rawFamily": "confirmation",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "payments",
+          "rawFamily": "payment",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
           "family": "accounts",
-          "version": "1.2",
+          "rawFamily": "account-information",
+          "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
         },
         {
           "family": "products",
-          "version": "1.2",
+          "rawFamily": "product",
+          "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
+        },
+        {
+          "family": "cop",
+          "rawFamily": "confirmation",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "accounts",
+          "rawFamily": "account-information",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "payments",
+          "rawFamily": "payment",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
         }
       ],
-      "authServerCount": 1,
+      "authServerCount": 2,
       "isLive": true
     },
     {
@@ -371,31 +525,36 @@
       },
       "apiResources": [
         {
-          "family": "accounts",
-          "version": "2.0",
+          "family": "payments",
+          "rawFamily": "payment",
+          "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
-          "family": "payments",
-          "version": "2.0",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
           "family": "cop",
-          "version": "2.0",
+          "rawFamily": "confirmation",
+          "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "products",
-          "version": "2.0",
+          "rawFamily": "product",
+          "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "accounts",
+          "rawFamily": "account-information",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "accounts",
+          "rawFamily": "account-information",
           "version": "2.0",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
@@ -411,15 +570,21 @@
       "shortName": "HSBC",
       "status": "Active",
       "roles": [
+        "BDSP",
+        "BSIP",
         "LFI"
       ],
       "city": "Dubai",
       "registrationNumber": "01.02.01.001.1946.02",
       "apiFamilies": [
-        "accounts"
+        "accounts",
+        "atm",
+        "cop",
+        "payments",
+        "products"
       ],
       "hasAuthServer": true,
-      "isShariahCompliant": true,
+      "isShariahCompliant": false,
       "authCapabilities": {
         "supportsCiba": false,
         "supportsDCR": false,
@@ -428,9 +593,52 @@
       "apiResources": [
         {
           "family": "accounts",
-          "version": "1.2",
+          "rawFamily": "account-information",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "payments",
+          "rawFamily": "payment",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "atm",
+          "rawFamily": "atm",
+          "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
+        },
+        {
+          "family": "cop",
+          "rawFamily": "confirmation",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "products",
+          "rawFamily": "product",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "payments",
+          "rawFamily": "payment",
+          "version": "2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "accounts",
+          "rawFamily": "account-information",
+          "version": "2.0",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
         }
       ],
       "authServerCount": 2,
@@ -461,6 +669,40 @@
       "isLive": false
     },
     {
+      "id": "879f9b11-5905-41ae-9dbe-7cb151b16546",
+      "name": "LIVA",
+      "legalName": "Liva Insurance BSC (c)",
+      "shortName": "LIVA",
+      "status": "Active",
+      "roles": [
+        "ISP",
+        "LFI"
+      ],
+      "city": "Dubai",
+      "registrationNumber": "Foriegn065",
+      "apiFamilies": [
+        "insurance"
+      ],
+      "hasAuthServer": true,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [
+        {
+          "family": "insurance",
+          "rawFamily": "insurance",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        }
+      ],
+      "authServerCount": 1,
+      "isLive": true
+    },
+    {
       "id": "4767786f-ab28-4d5c-8fdb-0f27e1c4eb9c",
       "name": "Mashreq",
       "legalName": "MASHREQ BANK PSC",
@@ -476,10 +718,11 @@
       "apiFamilies": [
         "accounts",
         "cop",
-        "payments"
+        "payments",
+        "products"
       ],
       "hasAuthServer": true,
-      "isShariahCompliant": true,
+      "isShariahCompliant": false,
       "authCapabilities": {
         "supportsCiba": false,
         "supportsDCR": false,
@@ -487,26 +730,60 @@
       },
       "apiResources": [
         {
-          "family": "cop",
-          "version": "1.2",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        },
-        {
-          "family": "payments",
-          "version": "1.2",
+          "family": "accounts",
+          "rawFamily": "account-information",
+          "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
         },
         {
-          "family": "accounts",
-          "version": "1.2",
+          "family": "cop",
+          "rawFamily": "confirmation",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "products",
+          "rawFamily": "product",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "payments",
+          "rawFamily": "payment",
+          "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
         }
       ],
       "authServerCount": 1,
       "isLive": true
+    },
+    {
+      "id": "94884086-b7c2-43a0-b4e7-a928b9fed0ac",
+      "name": "Mercury",
+      "legalName": "Mercury Payments Services LLC",
+      "shortName": "Mercury",
+      "status": "Active",
+      "roles": [
+        "BDSP",
+        "BSIP"
+      ],
+      "city": "Unknown",
+      "registrationNumber": "08.01.03.019.2024.02",
+      "apiFamilies": [],
+      "hasAuthServer": false,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 0,
+      "isLive": false
     },
     {
       "id": "80dbdeff-47fd-48cf-9451-7fc63b25ff43",
@@ -516,8 +793,6 @@
       "status": "Active",
       "roles": [
         "API Read_Write",
-        "BDSP",
-        "BSIP",
         "TSP"
       ],
       "city": "Unknown",
@@ -535,6 +810,41 @@
       "isLive": false
     },
     {
+      "id": "8c21e663-1d34-45cd-91fa-86d7c2d240f4",
+      "name": "NBF",
+      "legalName": "National Bank of Fujairah PJSC",
+      "shortName": "NBF",
+      "status": "Active",
+      "roles": [
+        "BDSP",
+        "BSIP",
+        "LFI"
+      ],
+      "city": "Dubai",
+      "registrationNumber": "01.01.01.039.1984.07",
+      "apiFamilies": [
+        "accounts"
+      ],
+      "hasAuthServer": true,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [
+        {
+          "family": "accounts",
+          "rawFamily": "account-information",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        }
+      ],
+      "authServerCount": 1,
+      "isLive": true
+    },
+    {
       "id": "7336c529-f6ad-4d98-b9f6-183316fd0a68",
       "name": "NymCard Payment Services L.L.C.",
       "legalName": "NymCard Payment Services L.L.C.",
@@ -546,6 +856,30 @@
       ],
       "city": "Unknown",
       "registrationNumber": "07.01.02.001.2022.02",
+      "apiFamilies": [],
+      "hasAuthServer": false,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 0,
+      "isLive": false
+    },
+    {
+      "id": "f4649205-7273-4b7f-8d55-5ad95674a5f9",
+      "name": "Orient Insurance",
+      "legalName": "Orient Insurance",
+      "shortName": "Orient Insurance",
+      "status": "Active",
+      "roles": [
+        "ISP",
+        "LFI"
+      ],
+      "city": "Unknown",
+      "registrationNumber": "National014",
       "apiFamilies": [],
       "hasAuthServer": false,
       "isShariahCompliant": false,
@@ -633,6 +967,30 @@
       "isLive": false
     },
     {
+      "id": "221bfab7-d564-4083-a9f5-277468aece4c",
+      "name": "Salama",
+      "legalName": "Salama",
+      "shortName": "Salama",
+      "status": "Active",
+      "roles": [
+        "ISP",
+        "LFI"
+      ],
+      "city": "Unknown",
+      "registrationNumber": "Takaful017",
+      "apiFamilies": [],
+      "hasAuthServer": false,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 0,
+      "isLive": false
+    },
+    {
       "id": "daa9716b-d6c3-4211-9f87-53a630bdb9f6",
       "name": "Spare Digital Technologies LLC S.O.C",
       "legalName": "Spare Digital Technologies LLC S.O.C",
@@ -657,6 +1015,53 @@
       "isLive": false
     },
     {
+      "id": "16c610ed-9e4a-407d-90d0-64149ba96b45",
+      "name": "Standard Chartered",
+      "legalName": "Standard Chartered Bank",
+      "shortName": "Standard Chartered",
+      "status": "Active",
+      "roles": [
+        "LFI"
+      ],
+      "city": "Unknown",
+      "registrationNumber": "01.02.01.002.1958.02",
+      "apiFamilies": [],
+      "hasAuthServer": false,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 0,
+      "isLive": false
+    },
+    {
+      "id": "c8e1896a-9c6c-4d1d-8f98-1a771a1ccd85",
+      "name": "Union Insurance",
+      "legalName": "Union Insurance",
+      "shortName": "Union Insurance",
+      "status": "Active",
+      "roles": [
+        "ISP",
+        "LFI"
+      ],
+      "city": "Unknown",
+      "registrationNumber": "National067",
+      "apiFamilies": [],
+      "hasAuthServer": false,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 0,
+      "isLive": false
+    },
+    {
       "id": "d86e6704-e92b-4368-a425-5a7ba230e986",
       "name": "WIO Bank",
       "legalName": "WIO Bank",
@@ -665,7 +1070,6 @@
       "roles": [
         "BDSP",
         "BSIP",
-        "ISP",
         "LFI"
       ],
       "city": "Abu Dhabi",
@@ -685,26 +1089,30 @@
       },
       "apiResources": [
         {
-          "family": "accounts",
-          "version": "1.2",
+          "family": "cop",
+          "rawFamily": "confirmation",
+          "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
-          "family": "cop",
-          "version": "1.2",
+          "family": "products",
+          "rawFamily": "product",
+          "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
           "family": "payments",
-          "version": "1.2",
+          "rawFamily": "payment",
+          "version": "2.1",
           "certificationStatus": "Self-Certified",
-          "familyComplete": false
+          "familyComplete": true
         },
         {
-          "family": "products",
-          "version": "1.2",
+          "family": "accounts",
+          "rawFamily": "account-information",
+          "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         }
@@ -718,6 +1126,9 @@
     "newParticipants": [],
     "removedParticipants": [],
     "roleChanges": {},
-    "apiFamilyChanges": {}
+    "apiFamilyChanges": {
+      "atm": 1,
+      "insurance": 2
+    }
   }
 }

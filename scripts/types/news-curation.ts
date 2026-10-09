@@ -90,6 +90,19 @@ export interface RssFeedSource {
   url: string;
   priority: number; // 1 = highest priority, 2 = secondary
   category?: 'regulatory' | 'regional' | 'industry';
+  /**
+   * Feed format. `google-news` feeds (news.google.com/rss/search) carry the
+   * publisher in a <source> element and append " - Publisher" to titles;
+   * the client normalises both so scoring sees the real outlet.
+   */
+  format?: 'rss' | 'google-news';
+}
+
+/** Minimum score an article must reach, by inferred region. */
+export interface RegionThresholds {
+  uae?: number;
+  mena?: number;
+  global?: number;
 }
 
 export interface RssArticle {
@@ -127,6 +140,19 @@ export interface NewsSourceConfig {
   maxArticlesPerRun: number;
   lookbackHours: number;
   minRelevanceScore?: number;
+  /** Per-region minimum scores; falls back to minRelevanceScore. */
+  regionThresholds?: RegionThresholds;
+  /**
+   * When true, articles inferred as `global` must mention at least one core
+   * open banking / open finance term to be considered at all.
+   */
+  requireCoreTermForGlobal?: boolean;
+  /** Reject items published more than this many hours in the future (default 6). */
+  futureToleranceHours?: number;
+  /** URL path fragments identifying event, webinar or gated-content pages. */
+  eventUrlPatterns?: string[];
+  /** Title/description phrases identifying event listings or promos. */
+  eventTitlePatterns?: string[];
   breakingNewsBonus?: number;
   contentQualityWeight?: number;
   minDescriptionLength?: number;

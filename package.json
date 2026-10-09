@@ -21,22 +21,25 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui"
+    "test:e2e:ui": "playwright test --ui",
+    "weekly-digest": "tsx scripts/weekly-digest.ts",
+    "weekly-digest:dry": "tsx scripts/weekly-digest.ts --dry-run"
   },
   "dependencies": {
-    "@astrojs/rss": "^4.0.14",
-    "@astrojs/sitemap": "^3.2.0",
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.3",
     "astro": "^5.0.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.57.0",
+    "@astrojs/check": "^0.9.9",
+    "@playwright/test": "^1.61.1",
     "@types/node": "^22.0.0",
     "@vitest/coverage-v8": "^2.1.0",
-    "happy-dom": "^20.1.0",
+    "happy-dom": "^20.11.0",
     "html-validate": "^8.0.0",
     "prettier": "^3.4.0",
     "prettier-plugin-astro": "^0.14.0",
-    "tsx": "^4.19.0",
+    "tsx": "^4.23.1",
     "typescript": "^5.7.0",
     "vitest": "^2.1.0"
   },

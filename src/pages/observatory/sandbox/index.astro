@@ -1,5 +1,7 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
+import ObservatoryNav from '@components/observatory/ObservatoryNav.astro';
+import { apiFamilyLabel, roleLabels } from '@lib/taxonomy';
 import StatCard from '@components/observatory/StatCard.astro';
 import DonutChart from '@components/observatory/DonutChart.astro';
 import ParticipantCard from '@components/observatory/ParticipantCard.astro';
@@ -8,11 +10,32 @@ import AuthCapabilitiesChart from '@components/observatory/AuthCapabilitiesChart
 import HistoricalTrendsChart from '@components/observatory/HistoricalTrendsChart.astro';
 
 // Import dual environment snapshot
-import dualSnapshot from '../../../../data/observatory/snapshots/latest.json';
+import { getObservatorySnapshot } from '@lib/observatory-data';
 
 // Import historical data
 import historyDataRaw from '../../../../data/observatory/history.json';
-const historyData = historyDataRaw || { dataPoints: [], milestones: [] };
+interface DataPoint {
+  date: string;
+  totalParticipants: number;
+  liveInProduction: number;
+  byRole: Record<string, number>;
+  byCity: Record<string, number>;
+  apiFamilyCoverage: Record<string, number>;
+  tppCount: number;
+  shariahCompliantCount: number;
+}
+
+interface HistoryData {
+  dataPoints: DataPoint[];
+  milestones: Array<{ date: string; event: string; participantName?: string }>;
+  productionHistory?: DataPoint[];
+  sandboxHistory?: DataPoint[];
+}
+
+const historyData = (historyDataRaw || {
+  dataPoints: [],
+  milestones: [],
+}) as unknown as HistoryData;
 
 // Import participant profiles for enriched data
 import participantProfiles from '../../../../data/participants/profiles.json';
@@ -20,47 +43,15 @@ import participantProfiles from '../../../../data/participants/profiles.json';
 // This page shows SANDBOX environment
 const currentEnv = 'sandbox';
 
-// Handle both old single-environment format and new dual-environment format
-const isDualFormat = 'production' in dualSnapshot && 'crossEnvironment' in dualSnapshot;
-
-let snapshot: any;
-let productionSnapshot: any = null;
-let sandboxSnapshot: any = null;
-
-if (isDualFormat) {
-  productionSnapshot = dualSnapshot.production;
-  sandboxSnapshot = dualSnapshot.sandbox;
-  snapshot = sandboxSnapshot;
-} else {
-  // Old format - redirect to main observatory
-  snapshot = dualSnapshot;
-}
-
-// Fallback if no snapshot available
-if (!snapshot) {
-  snapshot = {
-    timestamp: new Date().toISOString(),
-    summary: {
-      totalParticipants: 0,
-      byStatus: {},
-      byRole: {},
-      byCity: {},
-      apiFamilies: [],
-      liveInProduction: 0,
-      shariahCompliantCount: 0,
-      multiRoleCount: 0,
-      tppCount: 0,
-      byAuthCapabilities: { ciba: 0, dcr: 0, redirect: 0 },
-    },
-    participants: [],
-  };
-}
+const isDualFormat = true;
+const productionSnapshot = getObservatorySnapshot('production');
+const sandboxSnapshot = getObservatorySnapshot('sandbox');
+const snapshot = sandboxSnapshot;
 
 const { summary, participants, timestamp, trends } = snapshot;
 
 // Handle both old and new summary format
 const totalParticipants = summary.totalParticipants || 0;
-const byStatus = summary.byStatus || {};
 const byRole = summary.byRole || {};
 const apiFamilies = summary.apiFamilies || [];
 
@@ -100,10 +91,7 @@ const shariahCompliantCount =
   summary.shariahCompliantCount ?? participants.filter((p: any) => p.isShariahCompliant).length;
 const multiRoleCount =
   summary.multiRoleCount ?? participants.filter((p: any) => p.roles?.length > 1).length;
-const tppCount = summary.tppCount ?? (byRole.TPP || 0);
 const byAuthCapabilities = summary.byAuthCapabilities || { ciba: 0, dcr: 0, redirect: 0 };
-
-const activeCount = byStatus.Active || 0;
 
 // Aggregate by Company Type using profile data
 const byType: Record<string, number> = {};
@@ -215,14 +203,6 @@ const ownershipData = Object.entries(byOwnership)
     color: (ownershipColors as any)[label] || 'var(--color-gray-400)',
   }));
 
-// API family labels
-const apiFamilyLabels = {
-  accounts: 'Account Information',
-  payments: 'Payments',
-  cop: 'Confirmation of Payee',
-  products: 'Products',
-} as const;
-
 // Format timestamp
 const formatDate = (dateStr: string) => {
   return new Date(dateStr).toLocaleDateString('en-US', {
@@ -241,6 +221,7 @@ const formatDate = (dateStr: string) => {
   description="Sandbox environment visibility for UAE Open Finance ecosystem. Track test participants and API coverage in the sandbox environment."
   lastUpdated={timestamp}
 >
+  <ObservatoryNav current="sandbox" />
   <div class="observatory-page">
     <header class="page-header sandbox-header">
       <div class="header-content">
@@ -280,31 +261,39 @@ const formatDate = (dateStr: string) => {
       </div>
     </header>
 
+    <p class="measurement-note">
+      Each registration is a directory ID, not a deduplicated legal entity. An active authorization
+      server with an issuer is published metadata, not evidence of traffic or verified availability.
+      Capability and Shariah indicators reflect source declarations. <a
+        href="/observatory/methodology">Definitions and limitations</a
+      >.
+    </p>
+
     <section class="stats-section">
       <div class="stats-grid">
         <StatCard
           value={totalParticipants}
-          label="Total Participants"
-          sublabel="Registered in sandbox"
+          label="Registrations"
+          sublabel="Sandbox directory IDs"
           icon="participants"
           trendValue={trends?.participantChange}
         />
         <StatCard
           value={liveInProduction}
-          label="With Auth Servers"
-          sublabel="Ready for testing"
+          label="Registrations With Issuer"
+          sublabel="Registrations with an active issuer"
           icon="active"
         />
         <StatCard
           value={shariahCompliantCount}
-          label="Shariah Compliant"
-          sublabel="Islamic finance institutions"
+          label="Directory Shariah Flag"
+          sublabel="Flag declared true in source"
           icon="shariah"
         />
         <StatCard
           value={apiFamilies.length}
           label="API Families"
-          sublabel="Accounts, Payments, CoP, Products"
+          sublabel="Published active resource families"
           icon="api"
         />
       </div>
@@ -319,16 +308,21 @@ const formatDate = (dateStr: string) => {
           sublabel="Participants with 2+ roles"
           icon="participants"
         />
-        <StatCard value={tppCount} label="TPPs" sublabel="Third Party Providers" icon="tpp" />
+        <StatCard
+          value="N/A"
+          label="TPP Population"
+          sublabel="Role claims do not classify licences"
+          icon="tpp"
+        />
         <StatCard
           value={byAuthCapabilities.dcr}
-          label="DCR Support"
+          label="Declared DCR"
           sublabel="Dynamic Client Registration"
           icon="auth"
         />
         <StatCard
           value={byAuthCapabilities.ciba}
-          label="CIBA Support"
+          label="Declared CIBA"
           sublabel="Backchannel Authentication"
           icon="auth"
         />
@@ -368,19 +362,19 @@ const formatDate = (dateStr: string) => {
           </div>
           <div class="role-legend">
             <div class="role-item">
-              <strong>LFI</strong> — Licensed Financial Institution (banks)
+              <strong>LFI</strong> — {roleLabels.LFI} (banks)
             </div>
             <div class="role-item">
-              <strong>BDSP</strong> — Bank Data Service Provider
+              <strong>BDSP</strong> — {roleLabels.BDSP}
             </div>
             <div class="role-item">
-              <strong>BSIP</strong> — Bank Service Infrastructure Provider
+              <strong>BSIP</strong> — {roleLabels.BSIP}
             </div>
             <div class="role-item">
-              <strong>ISP</strong> — Information Service Provider
+              <strong>ISP</strong> — {roleLabels.ISP}
             </div>
             <div class="role-item">
-              <strong>TPP</strong> — Third Party Provider (fintechs)
+              <strong>TPP</strong> — {roleLabels.TPP}
             </div>
           </div>
         </div>
@@ -483,7 +477,7 @@ const formatDate = (dateStr: string) => {
                   totalParticipants > 0 ? Math.round((count / totalParticipants) * 100) : 0;
                 return (
                   <div class="api-row">
-                    <span class="api-name">{(apiFamilyLabels as any)[api] || api}</span>
+                    <span class="api-name">{apiFamilyLabel(api)}</span>
                     <div class="api-bar-container">
                       <div class="api-bar" style={`width: ${percentage}%`} />
                     </div>
@@ -589,8 +583,8 @@ const formatDate = (dateStr: string) => {
                 <label class="filter-label" for="filter-status">Status</label>
                 <select id="filter-status" class="filter-dropdown">
                   <option value="">All</option>
-                  <option value="live">Live</option>
-                  <option value="registered">Registered</option>
+                  <option value="live">Auth server published</option>
+                  <option value="registered">Registered only</option>
                 </select>
               </div>
             </div>
@@ -612,13 +606,14 @@ const formatDate = (dateStr: string) => {
                 data-legal-name={participant.legalName?.toLowerCase() || ''}
                 data-type={profile?.type || ''}
                 data-city={displayCity}
-                data-is-live={participant.isLive ?? true}
+                data-is-live={participant.hasAuthServer}
                 data-participant-name={participant.name}
                 data-participant-short-name={participant.shortName}
                 data-participant-city={displayCity}
                 data-participant-roles={participant.roles.join(', ')}
               >
                 <ParticipantCard
+                  id={participant.id}
                   name={participant.name}
                   legalName={participant.legalName}
                   shortName={participant.shortName}
@@ -628,7 +623,7 @@ const formatDate = (dateStr: string) => {
                   apiFamilies={participant.apiFamilies}
                   hasAuthServer={participant.hasAuthServer}
                   isShariahCompliant={participant.isShariahCompliant}
-                  isLive={participant.isLive ?? true}
+                  isLive={participant.hasAuthServer}
                   profile={profile}
                   environment="sandbox"
                 />
@@ -651,7 +646,7 @@ const formatDate = (dateStr: string) => {
           >. The sandbox environment is used for testing and development purposes.
         </p>
         <p>
-          <strong>This is not production data.</strong> For live ecosystem statistics, view the
+          <strong>This is not production data.</strong> For production directory observations, view the
           <a href="/observatory">Production Observatory</a>.
         </p>
       </div>
@@ -660,12 +655,20 @@ const formatDate = (dateStr: string) => {
 </PageLayout>
 
 <style>
+  .measurement-note {
+    max-width: 1000px;
+    margin: var(--space-6) 0;
+    color: var(--color-gray-600);
+    font-size: 0.875rem;
+  }
   .observatory-page {
     padding-bottom: var(--space-16);
   }
 
+  /* Always-dark banner: literal colours so the inverted dark-mode primary
+     scale cannot turn it light behind white text. */
   .page-header {
-    background: linear-gradient(180deg, var(--color-primary-900) 0%, var(--color-primary-800) 100%);
+    background: linear-gradient(180deg, #041919 0%, #072b2b 100%);
     color: white;
     padding: var(--space-12) var(--space-4);
     position: relative;
@@ -1268,7 +1271,7 @@ const formatDate = (dateStr: string) => {
   }
 
   :global([data-theme='dark']) .filter-label {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .filter-dropdown {
@@ -1292,7 +1295,7 @@ const formatDate = (dateStr: string) => {
   }
 
   :global([data-theme='dark']) .chart-description {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .role-legend {
@@ -1300,15 +1303,15 @@ const formatDate = (dateStr: string) => {
   }
 
   :global([data-theme='dark']) .role-item {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .role-item strong {
-    color: var(--color-gray-300);
+    color: var(--color-gray-600);
   }
 
   :global([data-theme='dark']) .api-name {
-    color: var(--color-gray-300);
+    color: var(--color-gray-600);
   }
 
   :global([data-theme='dark']) .api-bar-container {
@@ -1316,7 +1319,7 @@ const formatDate = (dateStr: string) => {
   }
 
   :global([data-theme='dark']) .api-count {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .section-header h2 {
@@ -1324,7 +1327,7 @@ const formatDate = (dateStr: string) => {
   }
 
   :global([data-theme='dark']) .section-header p {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .disclaimer {
@@ -1342,7 +1345,7 @@ const formatDate = (dateStr: string) => {
   }
 
   :global([data-theme='dark']) .disclaimer p {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 </style>
 

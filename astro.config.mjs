@@ -6,6 +6,11 @@ export default defineConfig({
 
   output: 'static',
 
+  // Production redirects live in public/_redirects (Cloudflare, server-side
+  // 301s) — see that file. astro.config redirects are intentionally NOT used:
+  // on Cloudflare they generate meta-refresh pages that get served instead of
+  // the 301, and conflicting rules caused a redirect loop (/global <-> /learn/global).
+
   build: {
     assets: '_astro',
     inlineStylesheets: 'auto',

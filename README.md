@@ -14,6 +14,7 @@ A community-owned website providing visibility into the UAE Open Finance ecosyst
 OpenFinance-OS.org is a grassroots initiative that provides:
 
 - **Observatory** — Real-time dashboard showing ecosystem participants, roles, and API coverage
+- **Ecosystem Watch** — Independent weekly monitor of volumes, standards changes, and CBUAE release compliance ([/observatory/watch/](https://openfinance-os.org/observatory/watch/), see [tools/watch/README.md](tools/watch/README.md))
 - **News** — Community-curated updates about UAE Open Finance
 - **Learn** — Resources for developers, fintechs, and banks
 - **Community** — A gathering point for collaboration and discussion
@@ -79,6 +80,33 @@ npm run collect:dry
 
 # Fetch and save data
 npm run collect
+```
+
+## News Curation
+
+A daily workflow (`.github/workflows/news-curation.yml`) runs `scripts/curate-news.ts`, which
+pulls candidate stories from RSS and Google News search feeds (plus NewsAPI when a key is set),
+scores them for UAE open finance relevance and opens one review PR per story. Sources, weights
+and thresholds live in `data/news-curation/sources.json`.
+
+What gets filtered out before scoring:
+
+- Event, webinar, whitepaper and other gated or promotional pages (`eventUrlPatterns`,
+  `eventTitlePatterns`)
+- Items dated in the future (event listings) or older than `lookbackHours`
+- Global stories that never mention an open banking / open finance term
+  (`requireCoreTermForGlobal`)
+- Anything already published, or already proposed in an open or closed PR
+
+Minimum scores are tiered by region (`regionThresholds`): UAE stories need the least, global
+stories the most.
+
+```bash
+# Preview what the curator would propose (no PRs, no Slack)
+npm run curate-news:dry
+
+# Same, with per-article rejection reasons and score breakdowns
+npx tsx scripts/curate-news.ts --dry-run --verbose
 ```
 
 ## Brand

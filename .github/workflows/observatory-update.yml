@@ -4,6 +4,14 @@ on:
   schedule:
     # Run daily at 06:00 UTC
     - cron: '0 6 * * *'
+  pull_request:
+    paths:
+      - 'scripts/collect-observatory.ts'
+      - 'scripts/utils/directory-client.ts'
+      - 'scripts/types/participant.ts'
+      - 'scripts/__tests__/collect-observatory.test.ts'
+      - 'src/lib/taxonomy.ts'
+      - '.github/workflows/observatory-update.yml'
   workflow_dispatch:
     inputs:
       dry_run:
@@ -14,12 +22,34 @@ on:
 
 # Prevent multiple data updates running simultaneously
 concurrency:
-  group: ${{ github.workflow }}
-  cancel-in-progress: false
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
+  # Validation job for pull requests - checks script compiles without fetching external data
+  validate:
+    name: Validate Collector Script
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: ./.github/actions/setup-node
+
+      - name: Validate safe collector import
+        run: npx tsx --eval "import('./scripts/collect-observatory.ts')"
+
+      - name: Verify collector transformations without network calls
+        run: npm test -- scripts/__tests__/collect-observatory.test.ts
+
+  # Data collection job for scheduled runs and manual triggers
   collect:
     name: Collect Observatory Data
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
@@ -28,7 +58,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
