@@ -741,7 +741,7 @@
    "t1Of": 8,
    "t1Ever": 8,
    "t2Early": 1,
-   "note": "8/8 Tier-1 registered live in production, plus WIO (Tier-2). The same 9 carry sandbox traffic.",
+   "note": "8/8 Tier-1 register Active families in production, plus WIO (Tier-2). The same 9 appear in the public logs.",
    "url": "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation",
    "ref": "openBanking: Retail Payments & Data – R1"
   },
@@ -771,7 +771,7 @@
    "t1Of": 8,
    "t1Ever": 8,
    "t2Early": 2,
-   "note": "8/8 Tier-1 live in production. Tier-2 early movers: WIO and National Bank of Fujairah.",
+   "note": "8/8 Tier-1 registered in production. Tier-2 early movers: WIO and National Bank of Fujairah.",
    "url": "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation",
    "ref": "openBanking: Retail Payments & Data – R2"
   },
@@ -816,7 +816,7 @@
    "t1Of": 8,
    "t1Ever": 1,
    "t2Early": 1,
-   "note": "1/8 Tier-1 has a bulk (file-payments) endpoint live in production, plus WIO. No bulk traffic in the sandbox yet.",
+   "note": "1/8 Tier-1 has a bulk (file-payments) endpoint registered in production, plus WIO. No bulk traffic in the public logs yet.",
    "url": "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation",
    "ref": "openBanking: For SME (bulk/intl)"
   },
@@ -928,9 +928,9 @@
  ],
  "tiers": {
   "note": "Tiers & deadlines per CBUAE Annexure 1 (Jan 2026) — references/cbuae-of-market-adoption-timeline-2026-01.md.",
-  "t1": "Tier 1 — 8 banks: FAB, Emirates NBD, ADCB, DIB, Mashreq, ADIB, HSBC ME, CBD. All 8 appear in the sandbox.",
+  "t1": "Tier 1 — 8 banks: FAB, Emirates NBD, ADCB, DIB, Mashreq, ADIB, HSBC ME, CBD. All 8 appear in the public logs.",
   "t2": "Tier 2: 30 banks, due Sep-2026 for most releases. In production: WIO (full retail set) and National Bank of Fujairah (account information only).",
-  "ins": "Open Insurance: 16 Tier-1 + 28 Tier-2 insurers. 2 Tier-1 live in production (LIVA, ADNIC); 2 more seen in the sandbox. The Tier-1 deadline (Feb-2026) has passed.",
+  "ins": "Open Insurance: 16 Tier-1 + 28 Tier-2 insurers. Two Tier-1 insurers register insurance resources in production. Public logs show two insurers with successful calls and one with errors only.",
   "url": "https://openfinanceuae.atlassian.net/wiki/spaces/OF/pages/6259008/Roadmap"
  },
  "fillBasisNote": "Counts use Active API-family registrations in the production directory. Family presence does not prove every release-specific function works or establish regulatory compliance.",
@@ -2192,7 +2192,7 @@
   "note": "Fresh metrics through 7 October; September closed. Production directory, GitHub branches/spec trees and public Confluence pages reviewed."
  },
  "audit": {
-  "run": "2026-10-09: guard ADVANCED; source asOfData 2026-09-29 → 2026-10-07. All headline, monthly, LFI/TPP/family, payment value and adoption-grid values recomputed from frozen source logs. September is now full; October excluded. Existing authenticated GitHub API reads succeed, without scope changes. Main tree has 100 spec files; 99 tracked hashes unchanged. One previously untracked insurance errata3 spec dates to 21 August, not a new release this run. Website branch has 114 specs; one version/changelog-only delta. Fee totals removed because billing context is absent. No controlled production submissions or analytics tests were run. Legal calendar: removed the unsupported exact 16 September deadline; the linked Article 184 allows a one-year period and Board extension. Direct primary-page fetch returned 403; no extension status is asserted.",
+  "run": "2026-10-09: guard ADVANCED; source asOfData 2026-09-29 → 2026-10-07. All headline, monthly, LFI/TPP/family, payment value and adoption-grid values recomputed from frozen source logs. September is now full; October excluded. Existing authenticated GitHub API reads succeed, without scope changes. Main tree has 100 spec files; 99 tracked hashes unchanged. One previously untracked insurance errata3 spec dates to 21 August, not a new release this run. Website branch has 114 specs; one version/changelog-only delta. Fee totals removed because billing context is absent. No controlled production submissions or analytics tests were run. Legal calendar: removed the unsupported exact 16 September deadline; the linked Article 184 allows a one-year period and Board extension. Direct primary-page fetch returned 403; no extension status is asserted. Public-log labels and concentration/authorization explanations now state the missing environment and outcome context explicitly.",
   "adoption": "Successful public-log traffic in August–September 2026; bank release counts exclude brands and insurers. This is not compliance certification.",
   "impact": "Main: v2.1-errata3 and v2.2-rc1. Website: v2.2-rc2-nebras, 5 commits ahead of main. Confluence Technical Standards still names v2.1 as final; Consolidated Errata page version 7 is unchanged.",
   "breaking": "Normative main specifications remain unchanged; existing enforced/pending classifications retained. Website branch is still a release candidate.",
