@@ -257,7 +257,7 @@ if(AL.length){var mv=AL.filter(isMoving),st=AL.filter(function(a){return !isMovi
 /* ===== OVERVIEW / ACTIVITY HERO ===== */
 o+='<section id="overview"><div class="card hero">';
 /* left: transaction headline + tiles */
-o+='<div><div style="font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em">Total API transactions · '+nFull+' full months'+inf('Every API call across all banks and TPPs over the full months shown (the current, incomplete month is excluded from this headline). The all-time figure below includes the partial month.')+'</div>';
+o+='<div><div style="font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em">Total API calls · '+nFull+' full months'+inf('Every API call across all banks and TPPs over the full months shown (the current, incomplete month is excluded from this headline). The all-time figure below includes the partial month.')+'</div>';
 o+='<div class="bignum">'+(A.fullTotal!=null?A.fullTotal.toLocaleString():D.headline.totalFull.toLocaleString())+'</div>';
 o+=wow('totalFull',function(x){return x.toLocaleString()+' calls';});
 o+='<div class="sub" style="margin-top:4px">'+(A.allTime!=null?A.allTime.toLocaleString()+' all-time incl. '+esc(A.partialLabel)+' partial ('+A.partialVal.toLocaleString()+')':'')+'</div>';
@@ -266,8 +266,8 @@ var T1=[
  [k(A.lastFullVal||0)+' <span class="delta '+((A.momPct||0)>=0?'up':'down')+'">'+dArrow(A.momPct||0)+'</span>', esc(A.lastFullLabel||'')+' run-rate (MoM)','API calls in the most recent full month, and the % change vs the month before. A proxy for how fast ecosystem activity is growing.'],
  [k(A.peakVal||0),'Peak month ('+esc(A.peakLabel||'')+')','The single busiest full month by API call volume so far.'],
  [esc(D.headline.errPct)+'%','Error rate','Share of all API calls returning a 4xx or 5xx response across the whole ecosystem. Heavily skewed by a couple of banks — see Operations for the per-bank split.',wow('errPct',function(x){return x.toFixed(1)+'pp';})],
- [esc(D.headline.liveLFIs),'Live LFIs','Licensed institutions (banks, bank brands and insurers) with any traffic in the public Nebras logs over the full months shown.',wow('liveLFIs',String)],
- [esc(D.headline.liveTPPs),'Active TPPs','Third-Party Providers — the apps/fintechs consuming bank data and initiating payments — seen calling the APIs.',wow('liveTPPs',String)],
+ [esc(D.headline.liveLFIs),'Observed LFI keys','Distinct LFI log keys with any calls in the full months, including error-only keys and bank segments; this is not a count of live licensed institutions.',wow('liveLFIs',String)],
+ [esc(D.headline.liveTPPs),'Observed TPP names','Distinct non-empty TPP names with calls in the full-month public logs; no licensing or production activity conclusion is implied.',wow('liveTPPs',String)],
  [esc(D.payments.successPct)+'%','Payment success','Share of payment instructions the bank accepted, out of all instructions including rejected, pending and received. Acceptance, not final settlement — see the payment funnel in Operations.',wow('paySucc',function(x){return x.toFixed(1)+'pp';})]
 ];
 T1.forEach(function(t){o+='<div class="tile"><div class="v">'+t[0]+'</div><div class="l">'+t[1]+inf(t[2])+'</div>'+(t[3]||'')+'</div>';});
@@ -426,27 +426,27 @@ o+='<div class="note">'+esc(D.adoptionNote)+'</div></section>';
 /* ===== OPERATIONS ===== */
 o+='<section id="operations"><div class="seg"><div class="n">4</div><h2>Operations &amp; Reliability'+inf('Reliability and payment health: where errors come from, whose problem they are (client vs backend), how authorisation converts, and how payments progress from initiation to settlement.')+'</h2><div class="d">Where the errors are, whose problem they are, and how payments convert</div></div>';
 /* reliability board */
-o+='<div class="card"><h3>Reliability board — success vs error mix by LFI'+inf('Each bank as a stacked bar: green = 2xx success, amber = 4xx (consent/client errors), red = 5xx (backend errors). The dot flags overall risk; the tag says whether the dominant problem is client-side or backend-side. Sorted by error rate.')+'</h3>';
+o+='<div class="card"><h3>HTTP response mix by LFI key'+inf('Logged HTTP response groups: green 2xx, amber 4xx, red 5xx. The aggregate does not identify root cause, environment or incident ownership.')+'</h3>';
 var lf=D.lfi.slice().sort(function(a,b){return b[2]-a[2];});
 lf.forEach(function(r){var err=r[2],p4=r[3],p5=r[4],ok=Math.max(0,100-err);
 var dot=(err>50||p5>30)?'r':((err>15||p5>10)?'a':'g');
-var tag=err<=15?['ok','Healthy']:(p4>=p5?['cons','Consent / client']:['back','Backend / LFI']);
+var tag=err<=15?['ok','Low error share']:(p4>=p5?['cons','4xx dominant']:['back','5xx dominant']);
 o+='<div class="relrow"><div class="nm"><span class="dot '+dot+'"></span><b>'+esc(r[0])+'</b></div>';
 o+='<div class="stack"><i class="s2" style="width:'+ok+'%"></i><i class="s4" style="width:'+p4+'%"></i><i class="s5" style="width:'+p5+'%"></i></div>';
 o+='<div style="text-align:right;font-variant-numeric:tabular-nums;color:var(--mut)">'+r[1].toLocaleString()+'</div>';
 o+='<div style="text-align:right"><span class="dtag '+tag[0]+'">'+tag[1]+'</span></div></div>';});
 o+='<div class="lgd"><span><span class="sw" style="background:var(--green)"></span>2xx success</span><span><span class="sw" style="background:var(--amber)"></span>4xx consent/client</span><span><span class="sw" style="background:var(--red)"></span>5xx backend</span></div>';
-o+='<div class="note">Sorted by error rate. Diagnosis: 4xx-dominant = consent/client integration issue; 5xx-dominant = backend/LFI stability. Response times on the '+lk('https://nebras-open-finance.com/metrics','live dashboard')+'.</div></div>';
+o+='<div class="note">Sorted by error rate. HTTP groups do not establish root cause or incident ownership. Response times on the '+lk('https://nebras-open-finance.com/metrics','live dashboard')+'.</div></div>';
 /* 4xx vs 5xx split */
 o+='<div class="grid g2" style="margin-top:12px">';
 var by4=D.lfi.slice().filter(function(r){return r[3]>0;}).sort(function(a,b){return b[3]-a[3];});
-o+='<div class="card"><h3>Consent / client errors (4xx)'+inf('Requests the bank rejected as the caller’s fault — expired/withdrawn consent, malformed requests, failed authentication. Owned by TPP integration and consent UX, not the bank’s servers. ~calls = estimated 4xx volume.')+'</h3><table><thead><tr><th>LFI</th><th class="num">4xx %</th><th class="num">~calls</th></tr></thead><tbody>';
+o+='<div class="card"><h3>HTTP 4xx responses'+inf('Logged HTTP 4xx responses. Detailed errors, request context and environment are unavailable; root cause and ownership cannot be assigned. ~calls is estimated from the rounded share.')+'</h3><table><thead><tr><th>LFI</th><th class="num">4xx %</th><th class="num">~calls</th></tr></thead><tbody>';
 by4.slice(0,6).forEach(function(r){o+='<tr><td>'+esc(r[0])+'</td><td class="num" style="color:#e3b341">'+r[3]+'%</td><td class="num">'+Math.round(r[1]*r[3]/100).toLocaleString()+'</td></tr>';});
 o+='</tbody></table><div class="note">Client-side rejections — consent expiry, malformed requests, auth failures. Owner: TPP integration + consent UX.</div></div>';
 var by5=D.lfi.slice().filter(function(r){return r[4]>0;}).sort(function(a,b){return b[4]-a[4];});
-o+='<div class="card"><h3>Backend / LFI errors (5xx)'+inf('Server-side failures inside the bank or its Ozone Connect backend — effectively availability incidents the LFI owns. ~calls = estimated 5xx volume.')+'</h3><table><thead><tr><th>LFI</th><th class="num">5xx %</th><th class="num">~calls</th></tr></thead><tbody>';
+o+='<div class="card"><h3>HTTP 5xx responses'+inf('Logged HTTP 5xx responses. The failing component, environment and incident owner are not identified. ~calls is estimated from the rounded share.')+'</h3><table><thead><tr><th>LFI</th><th class="num">5xx %</th><th class="num">~calls</th></tr></thead><tbody>';
 by5.slice(0,6).forEach(function(r){o+='<tr><td>'+esc(r[0])+'</td><td class="num" style="color:#f85149">'+r[4]+'%</td><td class="num">'+Math.round(r[1]*r[4]/100).toLocaleString()+'</td></tr>';});
-o+='</tbody></table><div class="note">Server-side failures — owner: the LFI / its Ozone Connect backend. These are availability incidents.</div></div>';
+o+='</tbody></table><div class="note">HTTP 5xx observations; the public logs do not identify the failing component or establish a production incident.</div></div>';
 o+='</div>';
 /* auth gauge + payment funnel */
 o+='<div class="grid g2" style="margin-top:12px">';
