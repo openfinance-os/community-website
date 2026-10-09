@@ -30,7 +30,7 @@ pnpm-debug.log*
 *.tsbuildinfo
 
 # test coverage
-coverage/
+/coverage/
 
 # playwright
 playwright-report/

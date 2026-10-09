@@ -1,0 +1,107 @@
+---
+import {
+  getRegistryChangelog,
+  getTrackingSince,
+  type ChangelogEventType,
+} from '@lib/registry-changelog';
+interface Props {
+  id: string;
+  environment: 'production' | 'sandbox';
+}
+const { id, environment } = Astro.props;
+const events = getRegistryChangelog(environment).filter((event) => event.participantId === id);
+const labels: Record<ChangelogEventType, string> = {
+  joined: 'Registration first observed',
+  left: 'Registration no longer observed',
+  went_live: 'Active issuer first observed',
+  went_offline: 'Active issuer no longer observed',
+  role_added: 'Role first observed',
+  role_removed: 'Role no longer observed',
+  api_family_added: 'Family first observed',
+  api_family_removed: 'Family no longer observed',
+  resource_changed: 'Resource declarations changed',
+};
+const dataset =
+  environment === 'production'
+    ? '/observatory/data/registry-changelog.json'
+    : '/observatory/data/registry-sandbox-changelog.json';
+---
+
+<section class="participant-timeline" aria-labelledby="timeline-title">
+  <h2 id="timeline-title">Observed directory timeline</h2>
+  <p>
+    Derived from saved {environment} snapshots since {getTrackingSince(environment)}. Dates describe
+    when a change was observed; collection gaps can delay detection. Older snapshots may omit
+    fields. The 8 October 2026 collector update expanded family coverage, so an addition on that
+    date does not establish a deployment.
+  </p>
+  {
+    events.length ? (
+      <ol>
+        {events.map((event) => (
+          <li>
+            <time datetime={event.date}>{event.date}</time>
+            <div>
+              <strong>{labels[event.type]}</strong>
+              {event.detail && <p>{event.detail}</p>}
+            </div>
+          </li>
+        ))}
+      </ol>
+    ) : (
+      <p>
+        No changes recorded for this ID in the available snapshot differences. This does not
+        establish the registration's start date.
+      </p>
+    )
+  }
+  <a href={dataset}>Download the {environment} changelog and observation dates</a>
+</section>
+<style>
+  .participant-timeline {
+    margin: 32px 0;
+    padding: 24px;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+  }
+  h2 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+  }
+  p {
+    color: var(--color-gray-600);
+    font-size: 0.85rem;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+  }
+  ol {
+    list-style: none;
+    margin: 20px 0;
+    padding: 0;
+  }
+  li {
+    display: grid;
+    grid-template-columns: 100px minmax(0, 1fr);
+    gap: 16px;
+    padding: 16px 0;
+    border-top: 1px solid var(--color-gray-200);
+  }
+  time {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-primary-600);
+  }
+  li p {
+    margin: 8px 0 0;
+  }
+  a {
+    color: var(--color-primary-600);
+    font-size: 0.85rem;
+  }
+  @media (max-width: 600px) {
+    li {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 8px;
+    }
+  }
+</style>

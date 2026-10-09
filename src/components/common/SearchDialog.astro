@@ -6,6 +6,9 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { getCollection } from 'astro:content';
+import { participantUrl } from '@lib/participant-identity';
+import { glossaryData, glossaryAnchor } from '@lib/glossary';
+import { roleLabels } from '@lib/taxonomy';
 
 // Load profiles for city data (used by both production and sandbox)
 const profilesPath = join(process.cwd(), 'data/participants/profiles.json');
@@ -18,6 +21,7 @@ try {
 
 // Load production participant data at build time
 let productionParticipants: Array<{
+  id: string;
   name: string;
   shortName: string;
   city: string;
@@ -35,6 +39,7 @@ try {
       p.city === 'Unknown' && profile?.headquarters?.city ? profile.headquarters.city : p.city;
 
     return {
+      id: p.id,
       name: p.name,
       shortName: p.shortName || p.name,
       city: city || 'UAE',
@@ -47,6 +52,7 @@ try {
 
 // Load sandbox participant data at build time
 let sandboxParticipants: Array<{
+  id: string;
   name: string;
   shortName: string;
   city: string;
@@ -58,17 +64,18 @@ try {
   const snapshot = JSON.parse(readFileSync(snapshotPath, 'utf-8'));
   const participantData = snapshot.participants || [];
 
-  // Get production participant names to filter out duplicates
-  const productionNames = new Set(productionParticipants.map((p) => p.name));
+  // Get production registration IDs to filter out duplicates
+  const productionIds = new Set(productionParticipants.map((p) => p.id));
 
   sandboxParticipants = participantData
-    .filter((p: any) => !productionNames.has(p.name)) // Exclude those already in production
+    .filter((p: any) => !productionIds.has(p.id)) // Exclude those already in production
     .map((p: any) => {
       const profile = profiles[p.name] || profiles[p.shortName] || null;
       const city =
         p.city === 'Unknown' && profile?.headquarters?.city ? profile.headquarters.city : p.city;
 
       return {
+        id: p.id,
         name: p.name,
         shortName: p.shortName || p.name,
         city: city || 'UAE',
@@ -115,28 +122,30 @@ try {
   console.warn('Could not load commons for search:', error);
 }
 
-// Helper to create URL-friendly slugs
-function createSlug(name: string): string {
-  return name
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '');
-}
-
 // Serialize data for client-side use
 const searchIndex = {
+  concepts: glossaryData.flatMap((section) =>
+    section.terms.map((term) => ({
+      type: 'page' as const,
+      title: `${term.term}${term.full ? ` — ${term.full}` : ''}`,
+      description: term.definition,
+      url: `/learn/glossary#${glossaryAnchor(term.term)}`,
+      searchTerms: [term.term, term.full || '', term.definition],
+    }))
+  ),
   participants: [
     // Production participants
     ...productionParticipants.map((p) => ({
       type: 'participant' as const,
       title: p.name,
       description: p.roles.join(', '),
-      meta: `${p.city} • Production`,
-      url: `/observatory/participant/${createSlug(p.shortName || p.name)}`,
+      meta: `${p.city} • Production • ${p.id.slice(0, 8)}`,
+      url: participantUrl(p),
       searchTerms: [
         p.name.toLowerCase(),
         p.shortName?.toLowerCase(),
-        ...p.roles.map((r) => r.toLowerCase()),
+        ...p.roles.flatMap((r) => [r.toLowerCase(), roleLabels[r]?.toLowerCase() || r]),
+        p.id,
       ].filter(Boolean),
     })),
     // Sandbox-only participants
@@ -144,12 +153,13 @@ const searchIndex = {
       type: 'participant' as const,
       title: p.name,
       description: p.roles.join(', '),
-      meta: `${p.city} • Sandbox`,
-      url: `/observatory/sandbox/participant/${createSlug(p.shortName || p.name)}`,
+      meta: `${p.city} • Sandbox • ${p.id.slice(0, 8)}`,
+      url: participantUrl(p, 'sandbox'),
       searchTerms: [
         p.name.toLowerCase(),
         p.shortName?.toLowerCase(),
-        ...p.roles.map((r) => r.toLowerCase()),
+        ...p.roles.flatMap((r) => [r.toLowerCase(), roleLabels[r]?.toLowerCase() || r]),
+        p.id,
       ].filter(Boolean),
     })),
   ],
@@ -400,7 +410,11 @@ const searchIndex = {
 </dialog>
 
 <!-- Inject search index as a data attribute for client-side access -->
-<script id="search-index-data" type="application/json" set:html={JSON.stringify(searchIndex)} />
+<script
+  id="search-index-data"
+  type="application/json"
+  set:html={JSON.stringify(searchIndex).replace(/</g, '\\u003c')}
+/>
 
 <script>
   // PostHog tracking helpers
@@ -438,7 +452,8 @@ const searchIndex = {
     participants: SearchItem[];
     news: SearchItem[];
     commons: SearchItem[];
-  } = { participants: [], news: [], commons: [] };
+    concepts: SearchItem[];
+  } = { participants: [], news: [], commons: [], concepts: [] };
 
   try {
     const indexScript = document.getElementById('search-index-data');
@@ -451,6 +466,32 @@ const searchIndex = {
 
   // Pages data (static)
   const pages: SearchItem[] = [
+    {
+      type: 'page',
+      title: 'API Coverage & Comparison',
+      description:
+        'Filter published families and versions, compare registrations and export dated CSV evidence',
+      url: '/observatory/coverage/',
+    },
+    {
+      type: 'page',
+      title: 'Latest Saved Ecosystem Briefing',
+      description: 'Dated Watch summary with standards, operations, adoption and source links',
+      url: '/observatory/briefing/',
+    },
+    {
+      type: 'page',
+      title: 'Ecosystem Watch',
+      description: 'Dated activity, standards, deadlines and alerts',
+      url: '/observatory/watch/',
+    },
+    {
+      type: 'page',
+      title: 'Directory Methodology',
+      description:
+        'Registration counts, published authorization servers, declarations and limitations',
+      url: '/observatory/methodology',
+    },
     {
       type: 'page',
       title: 'Observatory',
@@ -511,6 +552,7 @@ const searchIndex = {
     ...preloadedIndex.participants,
     ...preloadedIndex.news,
     ...preloadedIndex.commons,
+    ...preloadedIndex.concepts,
     ...pages,
   ];
 
@@ -652,14 +694,27 @@ const searchIndex = {
     // Helper to create result item with tracking
     function createResultItem(item: SearchItem, index: number): HTMLLIElement {
       const li = document.createElement('li');
-      const hasDesc = 'description' in item && item.description;
-      li.innerHTML = `
-        <a href="${item.url}" class="result-item" data-type="${item.type}" data-title="${item.title}" data-position="${index}">
-          <span class="result-title">${item.title}</span>
-          ${hasDesc ? `<span class="result-desc">${item.description}</span>` : ''}
-          ${item.meta && !hasDesc ? `<span class="result-meta">${item.meta}</span>` : ''}
-        </a>
-      `;
+      const link = document.createElement('a');
+      link.href = item.url;
+      link.className = 'result-item';
+      link.dataset.type = item.type;
+      link.dataset.title = item.title;
+      link.dataset.position = String(index);
+      const title = document.createElement('span');
+      title.className = 'result-title';
+      title.textContent = item.title;
+      link.appendChild(title);
+      for (const [text, className] of [
+        [item.description, 'result-desc'],
+        [item.meta, 'result-meta'],
+      ]) {
+        if (!text) continue;
+        const span = document.createElement('span');
+        span.className = className || '';
+        span.textContent = text;
+        link.appendChild(span);
+      }
+      li.appendChild(link);
       // Add click tracking
       li.querySelector('a')?.addEventListener('click', () => {
         trackSearchEvent('search_result_clicked', {
@@ -839,6 +894,13 @@ const searchIndex = {
 </script>
 
 <style>
+  .search-dialog [hidden] {
+    display: none !important;
+  }
+  .search-trigger {
+    min-width: 44px;
+    min-height: 44px;
+  }
   .search-trigger-container {
     display: flex;
     align-items: center;
@@ -936,7 +998,7 @@ const searchIndex = {
     backdrop-filter: blur(4px);
   }
 
-  [data-theme='dark'] .search-dialog {
+  :global([data-theme='dark']) .search-dialog {
     background: var(--color-gray-100);
   }
 
@@ -1075,7 +1137,7 @@ const searchIndex = {
     margin: 0;
   }
 
-  .result-item {
+  .search-dialog :global(.result-item) {
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
@@ -1085,29 +1147,29 @@ const searchIndex = {
     transition: background-color var(--transition-fast);
   }
 
-  .result-item:hover,
-  .result-item:focus {
+  .search-dialog :global(.result-item):hover,
+  .search-dialog :global(.result-item):focus {
     background: var(--color-gray-100);
     text-decoration: none;
     outline: none;
   }
 
-  [data-theme='dark'] .result-item:hover,
-  [data-theme='dark'] .result-item:focus {
+  :global([data-theme='dark']) .search-dialog :global(.result-item):hover,
+  :global([data-theme='dark']) .search-dialog :global(.result-item):focus {
     background: var(--color-gray-200);
   }
 
-  .result-title {
+  .search-dialog :global(.result-title) {
     font-weight: 500;
     color: var(--color-gray-900);
   }
 
-  [data-theme='dark'] .result-title {
+  :global([data-theme='dark']) .search-dialog :global(.result-title) {
     color: var(--color-gray-100);
   }
 
-  .result-desc,
-  .result-meta {
+  .search-dialog :global(.result-desc),
+  .search-dialog :global(.result-meta) {
     font-size: 0.875rem;
     color: var(--color-gray-500);
   }
