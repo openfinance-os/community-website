@@ -1,11 +1,12 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
+import { roleLabels } from '@lib/taxonomy';
 import OperatorPointer from '@components/learn/OperatorPointer.astro';
 ---
 
 <PageLayout
   title="TPP Guide"
-  description="What a Third Party Provider is in UAE Open Finance, and where to find the operator's registration and integration docs."
+  description="What a Third Party Provider does through the UAE API Hub, and where to find participation and integration guidance."
 >
   <div class="guide-page">
     <div class="container">
@@ -18,36 +19,50 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
       <header class="page-header">
         <h1>What is a Third Party Provider?</h1>
         <p class="subtitle">
-          The plain-language version — and a pointer to the operator's canonical standards.
+          The plain-language version, with official documentation and community technical
+          references.
         </p>
       </header>
 
       <section class="concept">
         <p>
-          A <strong>Third Party Provider (TPP)</strong> is a licensed company that — with the customer's
-          consent — reads financial data or initiates payments through the UAE's Open Finance framework
-          (Al&nbsp;Tareq), without ever holding the customer's money. TPPs are what turn open finance
-          from infrastructure into products: budgeting apps, pay-by-bank checkouts, account aggregation,
-          and lending that can see real cash flow.
+          A <strong>Third Party Provider (TPP)</strong> consumes Open Finance services through the central
+          API Hub. With the required customer consent, it can read financial data or initiate payments.
+          These capabilities support budgeting apps, pay-by-bank checkouts, account aggregation and lending
+          informed by cash flow. An LFI can also act as a TPP where its permissions and licence allow.
         </p>
         <p>
           In the UAE, TPPs register with the trust-framework directory, obtain certification, and
-          integrate through the central API Hub. Roles include <strong>BDSP</strong> (data access),
-          <strong>BSIP</strong> (payment initiation) and <strong>ISP</strong> (information services).
-          You can see every registered participant and who is live in the
-          <a href="/observatory">Observatory</a>.
+          integrate through the central API Hub. Directory role claims include <strong>BDSP</strong> ({
+            roleLabels.BDSP
+          }),
+          <strong>BSIP</strong> ({roleLabels.BSIP}) and <strong>ISP</strong> ({roleLabels.ISP}).
+          These claims describe permissions, not a TPP licence classification. The
+          <a href="/observatory">Observatory</a> records observed directory registrations and published
+          resources; it does not verify whether a provider is licensed for a particular proposition or
+          actively using an API.
         </p>
       </section>
 
       <OperatorPointer
-        intro="Registration requirements, certification steps and the technical standards are maintained by the Al Tareq operator. Start there:"
+        intro="Check official participation requirements before planning an integration. The community standards site provides technical guides and specification references:"
         links={[
-          { label: 'TPP Standards', href: 'https://nebras-open-finance.com/tech/tpp-standards' },
           {
-            label: 'Testing & certification',
+            label: 'Official Open Finance documentation',
+            href: 'https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview',
+          },
+          {
+            label: 'TPP Standards — community reference',
+            href: 'https://nebras-open-finance.com/tech/tpp-standards',
+          },
+          {
+            label: 'Testing & certification — community reference',
             href: 'https://nebras-open-finance.com/tech/tpp-standards/production/testing-certification/overview',
           },
-          { label: 'API specifications', href: 'https://nebras-open-finance.com/tech/api-specs/' },
+          {
+            label: 'API specifications — community reference',
+            href: 'https://nebras-open-finance.com/tech/api-specs/',
+          },
         ]}
       />
     </div>
