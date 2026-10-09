@@ -1,6 +1,7 @@
 // AI-powered article summarization using Anthropic Claude API
 // Falls back to article description if no API key is provided (free mode)
 import type { NewsApiArticle, CuratedArticle } from '../types/news-curation.js';
+import { titleSlug } from './article-filters.js';
 
 const ANTHROPIC_API_URL = 'https://api.anthropic.com/v1/messages';
 
@@ -32,15 +33,7 @@ interface EnhancedSummaryResult extends SummaryResult {
 
 function generateSlug(title: string, date: string): string {
   const datePrefix = date.split('T')[0];
-  const slug = title
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .substring(0, 50)
-    .replace(/-$/, '');
-
-  return `${datePrefix}-${slug}`;
+  return `${datePrefix}-${titleSlug(title)}`;
 }
 
 function generateArticleId(url: string): string {

@@ -17,7 +17,7 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
         <h1>Getting Started with UAE Open Finance</h1>
         <p class="subtitle">
           Understand the UAE Open Finance ecosystem — what it is and the API families — then head to
-          the operator's docs to build.
+          official documentation and community technical references to build.
         </p>
       </header>
 
@@ -25,16 +25,22 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
         <h2>What is UAE Open Finance?</h2>
         <p>
           UAE Open Finance is a regulatory framework that enables secure, standardized sharing of
-          financial data between banks and authorized third-party providers. Operated under CBUAE
-          oversight and powered by the Al Tareq platform, it allows consumers to share their
-          financial data with apps and services they trust.
+          financial data between financial institutions, including banks and insurers, and
+          authorized providers. Under CBUAE oversight and the Al Tareq brand, customers can give
+          consent to share data or initiate payments through services they choose.
+        </p>
+        <p>
+          Requests follow <strong>TPP → API Hub → LFI → API Hub → TPP</strong>. The Hub manages
+          consent, issues access tokens and exposes the APIs used by TPPs. The institution
+          authenticates the customer and provides its backend services through Ozone Connect. A TPP
+          does not connect directly to that backend.
         </p>
         <div class="key-points">
           <div class="key-point">
             <span class="point-icon">🔐</span>
             <div>
               <h4>Secure by Design</h4>
-              <p>FAPI-compliant security with explicit customer consent</p>
+              <p>Financial API security and customer consent for data sharing and payments</p>
             </div>
           </div>
           <div class="key-point">
@@ -56,23 +62,30 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
 
       <OperatorPointer
         heading="Ready to build or go live?"
-        intro="Choosing your role, registering on Al Tareq, sandbox access, certification and the path to production are operated by Nebras — the steps change with each release, so follow them at the source:"
+        intro="Start with the official participation and standards documentation, then use the community guides for technical orientation. Organization onboarding, application registration and certification are separate steps:"
         links={[
           {
-            label: 'TPP registration & standards',
+            label: 'Official Open Finance documentation',
+            href: 'https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview',
+          },
+          {
+            label: 'TPP standards — community reference',
             href: 'https://nebras-open-finance.com/tech/tpp-standards',
           },
           {
-            label: 'LFI API Hub — getting started',
-            href: 'https://nebras-open-finance.com/tech/lfi-api-hub/getting-started/',
+            label: 'LFI API Hub — community integration guide',
+            href: 'https://nebras-open-finance.com/tech/lfi-api-hub/',
           },
-          { label: 'Program overview', href: 'https://nebras-open-finance.com/program/whats-live' },
         ]}
       />
 
       <section class="apis-section">
-        <h2>Available API Families</h2>
-        <p>The UAE Open Finance framework currently supports the following API categories:</p>
+        <h2>What the APIs cover</h2>
+        <p>
+          The specifications cover banking and insurance services. Published versions and resources
+          vary by registration; check the <a href="/observatory">Observatory</a> for dated directory observations
+          and the specifications for the contract you need.
+        </p>
         <div class="api-grid">
           <div class="api-card">
             <h4>Account Information</h4>
@@ -80,15 +93,25 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
           </div>
           <div class="api-card">
             <h4>Payment Initiation</h4>
-            <p>Initiate domestic payments directly from customer accounts.</p>
+            <p>Initiate payments from customer accounts through the Hub with customer consent.</p>
           </div>
           <div class="api-card">
             <h4>Confirmation of Payee</h4>
-            <p>Verify recipient details before initiating payments.</p>
+            <p>
+              Check recipient details using client credentials, without a customer consent journey.
+            </p>
           </div>
           <div class="api-card">
             <h4>Product Information</h4>
-            <p>Access publicly available product and branch information.</p>
+            <p>Read product catalogue information using client credentials.</p>
+          </div>
+          <div class="api-card">
+            <h4>Insurance Information</h4>
+            <p>Access insurance policy information with customer consent.</p>
+          </div>
+          <div class="api-card">
+            <h4>ATM Information</h4>
+            <p>Read ATM information using client credentials.</p>
           </div>
         </div>
       </section>
@@ -108,7 +131,7 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
           </a>
           <a href="/learn/api-guide" class="next-card">
             <h4>API Integration</h4>
-            <p>Technical implementation details</p>
+            <p>Hub architecture and specification links</p>
             <span>→</span>
           </a>
         </div>
@@ -269,7 +292,7 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--color-primary-600);
+    background: var(--color-primary-fill);
     color: white;
     font-family: var(--font-mono);
     font-size: 0.875rem;
@@ -425,11 +448,11 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
   }
 
   :global([data-theme='dark']) .subtitle {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .breadcrumb {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) section h2 {
@@ -437,7 +460,7 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
   }
 
   :global([data-theme='dark']) section > p {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .key-point {
@@ -455,7 +478,7 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
   }
 
   :global([data-theme='dark']) .key-point p {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .steps-timeline::before {
@@ -467,11 +490,11 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
   }
 
   :global([data-theme='dark']) .step-content > p {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .step-content li {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .api-card {
@@ -489,7 +512,7 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
   }
 
   :global([data-theme='dark']) .api-card p {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .next-card {
@@ -507,7 +530,7 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
   }
 
   :global([data-theme='dark']) .next-card p {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .next-card span {

@@ -625,7 +625,11 @@ const statusLabels: Record<string, { label: string; color: string }> = {
 
   .cta-content {
     padding: var(--space-12);
-    background: linear-gradient(135deg, var(--color-primary-600), var(--color-primary-700));
+    background: linear-gradient(
+      135deg,
+      var(--color-primary-fill),
+      var(--color-primary-fill-strong)
+    );
     border-radius: var(--radius-xl);
     text-align: center;
     color: white;
@@ -675,16 +679,16 @@ const statusLabels: Record<string, { label: string; color: string }> = {
   }
 
   :global([data-theme='dark']) .subtitle {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .section-title {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
     border-bottom-color: var(--color-gray-300);
   }
 
   :global([data-theme='dark']) .section-intro {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .table-wrapper {
@@ -695,16 +699,16 @@ const statusLabels: Record<string, { label: string; color: string }> = {
   :global([data-theme='dark']) .benchmark-table th {
     background: var(--color-gray-200);
     border-color: var(--color-gray-300);
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .benchmark-table td {
     border-color: var(--color-gray-200);
-    color: var(--color-gray-300);
+    color: var(--color-gray-600);
   }
 
   :global([data-theme='dark']) .jurisdiction-cell .name {
-    color: var(--color-gray-100);
+    color: var(--color-gray-800);
   }
 
   :global([data-theme='dark']) .benchmark-table tr.highlight {
@@ -733,7 +737,7 @@ const statusLabels: Record<string, { label: string; color: string }> = {
 
   :global([data-theme='dark']) .status-badge.neutral {
     background: var(--color-gray-200);
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .region-card {
@@ -755,7 +759,7 @@ const statusLabels: Record<string, { label: string; color: string }> = {
   }
 
   :global([data-theme='dark']) .region-description {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .region-arrow {
@@ -777,7 +781,7 @@ const statusLabels: Record<string, { label: string; color: string }> = {
   }
 
   :global([data-theme='dark']) .insight-card p {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .resource-card {
@@ -795,7 +799,7 @@ const statusLabels: Record<string, { label: string; color: string }> = {
   }
 
   :global([data-theme='dark']) .resource-content p {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .resource-link {

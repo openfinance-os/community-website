@@ -1,9 +1,7 @@
 ---
 /**
- * Operator-docs pointer — used on the Learn integration-guide stubs.
- * The conceptual "what is X" stays on this site; the procedural how-to
- * lives with the Al Tareq operator (Nebras), which we link rather than
- * mirror. The weekly link-check watches these outbound links.
+ * Source pointer for Learn overviews. Label official documentation and
+ * community references separately. The weekly link-check watches these links.
  */
 interface Link {
   label: string;
@@ -47,8 +45,8 @@ const { heading = 'Building or integrating?', intro, links } = Astro.props;
     }
   </ul>
   <p class="op-note">
-    We link to the operator's canonical docs rather than mirror them — so what you read is always
-    current.
+    Check each source's version, publication date and errata before implementation. Community
+    references do not replace official requirements.
   </p>
 </aside>
 
@@ -103,7 +101,7 @@ const { heading = 'Building or integrating?', intro, links } = Astro.props;
     background: var(--color-gray-100);
   }
   :global([data-theme='dark']) .op-intro {
-    color: var(--color-gray-300);
+    color: var(--color-gray-600);
   }
   :global([data-theme='dark']) .op-links a {
     color: var(--color-primary-300);

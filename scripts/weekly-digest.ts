@@ -3,7 +3,7 @@
  *
  * A deterministic, factual weekly summary generated from data already in
  * the repo: the registry changelog (diffed daily snapshots) and the
- * Ecosystem Watch history (week-over-week metrics). No LLM, no external
+ * Ecosystem Watch history (dated cumulative and period-based metrics). No LLM, no external
  * calls — so the independent record can't hallucinate.
  *
  * Opens a PR adding a post to src/content/news/, then merges it immediately —
@@ -21,6 +21,8 @@
  */
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { summarizeWatch, type WatchRun, type WatchPeriod } from './utils/watch-digest.js';
 import {
   getRecentEvents,
   getTrackingSince,
@@ -31,18 +33,6 @@ import { createFilePR } from './utils/github-pr-creator.js';
 const DRY_RUN = process.argv.includes('--dry-run');
 const ROOT = process.cwd();
 const NEWS_DIR = join(ROOT, 'src', 'content', 'news');
-
-interface WatchRun {
-  runDate: string;
-  totalFull: number;
-  errPct: number;
-  paySucc: number;
-  authPct: number;
-  liveLFIs?: number;
-  liveTPPs?: number;
-  top1Share?: number;
-  hhi?: number;
-}
 
 function readJson<T>(rel: string): T {
   return JSON.parse(readFileSync(join(ROOT, rel), 'utf8')) as T;
@@ -56,32 +46,25 @@ function fmtDate(iso: string): string {
   });
 }
 
-/** Signed percentage/point delta, or '' when there is no meaningful baseline. */
-function delta(cur: number, prev: number, unit: 'pct' | 'pp' | 'abs'): string {
-  if (prev === undefined || prev === null) return '';
-  const d = cur - prev;
-  if (unit === 'pct') {
-    if (prev === 0) return '';
-    const pct = (d / prev) * 100;
-    const sign = pct >= 0 ? '+' : '';
-    return ` (${sign}${pct.toFixed(1)}% WoW)`;
-  }
-  const sign = d >= 0 ? '+' : '';
-  const suffix = unit === 'pp' ? 'pp' : '';
-  if (d === 0) return ' (no change WoW)';
-  return ` (${sign}${d.toFixed(unit === 'pp' ? 1 : 0)}${suffix} WoW)`;
-}
-
 const eventVerb: Record<ChangelogEvent['type'], string> = {
-  went_live: 'went live in production',
+  went_live: 'first published an active authorization server with an issuer in our observations',
   joined: 'joined the production registry',
   role_added: 'added a role',
-  api_family_added: 'added API families',
-  went_offline: 'went offline',
+  api_family_added: 'had additional API families first observed (collection coverage can change)',
+  role_removed: 'had role claims no longer observed',
+  api_family_removed: 'had API families no longer observed',
+  resource_changed: 'had resource declarations change (observation, not deployment evidence)',
+  went_offline:
+    'no longer published an active authorization server with an issuer in our observations',
   left: 'left the registry',
 };
 
-function buildDigest(): { slug: string; title: string; description: string; markdown: string } {
+export function buildDigest(): {
+  slug: string;
+  title: string;
+  description: string;
+  markdown: string;
+} {
   const latest = readJson<{
     timestamp: string;
     summary: { liveInProduction: number; totalParticipants: number };
@@ -97,14 +80,9 @@ function buildDigest(): { slug: string; title: string; description: string; mark
   const history = readJson<{ runs: WatchRun[] }>('data/watch/history.json');
   const runs = history.runs || [];
   const cur = runs[runs.length - 1];
-  let prev: WatchRun | undefined;
-  if (cur) {
-    const curMs = Date.parse(cur.runDate);
-    const weekAgo = curMs - 6.5 * 24 * 3600 * 1000;
-    // most recent run at or before ~a week ago; fall back to the prior run
-    prev =
-      [...runs].reverse().find((r) => Date.parse(r.runDate) <= weekAgo) || runs[runs.length - 2];
-  }
+  const period = existsSync(join(ROOT, 'data/watch/payload.json'))
+    ? readJson<WatchPeriod>('data/watch/payload.json')
+    : undefined;
 
   // Window label: from the earliest event (or a week ago) to the observed date
   const start = new Date(Date.parse(observedDate) - 7 * 24 * 3600 * 1000)
@@ -116,7 +94,9 @@ function buildDigest(): { slug: string; title: string; description: string; mark
 
   // ---- registry section ----
   const registryLines: string[] = [];
-  registryLines.push(`**${live}** of **${total}** registered institutions are live in production.`);
+  registryLines.push(
+    `**${live}** of **${total}** production directory registrations publish an active authorization server with an issuer. This is published metadata, not verified service availability or traffic.`
+  );
   if (events.length === 0) {
     registryLines.push('\nNo changes to the production registry this week.');
   } else {
@@ -130,38 +110,14 @@ function buildDigest(): { slug: string; title: string; description: string; mark
   }
 
   // ---- activity section ----
-  let activity = '';
-  if (cur) {
-    const p = prev || ({} as WatchRun);
-    const lines: string[] = [];
-    lines.push(
-      `Ecosystem activity, week over week (Ecosystem Watch, to ${fmtDate(cur.runDate)}):\n`
-    );
-    lines.push(
-      `- **${cur.totalFull.toLocaleString('en-US')}** API calls${delta(cur.totalFull, p.totalFull, 'pct')}`
-    );
-    lines.push(`- Payment success **${cur.paySucc}%**${delta(cur.paySucc, p.paySucc, 'pp')}`);
-    lines.push(`- Error rate **${cur.errPct}%**${delta(cur.errPct, p.errPct, 'pp')}`);
-    if (cur.liveLFIs !== undefined) {
-      lines.push(
-        `- **${cur.liveLFIs}** LFIs and **${cur.liveTPPs}** TPPs serving live traffic${
-          p.liveLFIs !== undefined ? delta(cur.liveLFIs, p.liveLFIs, 'abs') : ''
-        }`
-      );
-    }
-    activity = lines.join('\n');
-  }
+  const activity = cur ? summarizeWatch(cur, period) : '';
 
   // ---- description ----
   const changeSummary =
     events.length === 0
       ? 'no registry changes'
       : `${events.length} registry ${events.length === 1 ? 'change' : 'changes'}`;
-  const activitySummary =
-    cur && prev
-      ? `, API volume ${delta(cur.totalFull, prev.totalFull, 'pct').trim().replace(/[()]/g, '')}`
-      : '';
-  const description = `The week in the UAE Open Finance ecosystem: ${live} of ${total} institutions live, ${changeSummary}${activitySummary}.`;
+  const description = `UAE Open Finance: ${total} production registrations, ${live} with a published authorization server; ${changeSummary}. Dated activity measures with explicit reporting windows.`;
 
   const markdown = `---
 title: "${title.replace(/"/g, '\\"')}"
@@ -180,7 +136,7 @@ ${registryLines.join('\n')}
 ${activity ? `\n## Ecosystem activity\n\n${activity}\n` : ''}
 ## Dig deeper
 
-- **[Full registry changelog →](/observatory#changelog)** — every join, go-live and role change since ${getTrackingSince()}
+- **[Full registry changelog →](/observatory#changelog)** — every registration, authorization-server and role change since ${getTrackingSince()}
 - **[Ecosystem Watch →](/observatory/watch/)** — adoption, reliability and standards, week by week
 - **[Download the data →](/observatory/data)** — the snapshots and history behind this digest
 
@@ -231,7 +187,9 @@ async function main() {
   console.log(`Published digest PR #${pr.number}: ${pr.url}`);
 }
 
-main().catch((err) => {
-  console.error('Weekly digest failed:', err);
-  process.exit(1);
-});
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((err) => {
+    console.error('Weekly digest failed:', err);
+    process.exit(1);
+  });
+}

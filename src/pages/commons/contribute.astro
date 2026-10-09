@@ -586,7 +586,7 @@ Organize with clear headings.
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--color-primary-600);
+    background: var(--color-primary-fill);
     color: white;
     font-weight: 700;
     border-radius: var(--radius-full);
@@ -788,7 +788,11 @@ Organize with clear headings.
 
   .cta-card {
     padding: var(--space-10) var(--space-8);
-    background: linear-gradient(135deg, var(--color-primary-600) 0%, var(--color-primary-700) 100%);
+    background: linear-gradient(
+      135deg,
+      var(--color-primary-fill) 0%,
+      var(--color-primary-fill-strong) 100%
+    );
     border-radius: var(--radius-2xl);
     text-align: center;
     color: white;
@@ -850,23 +854,23 @@ Organize with clear headings.
 
   /* Dark Mode */
   :global([data-theme='dark']) .back-link {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .page-header h1 {
-    color: var(--color-gray-100);
+    color: var(--color-gray-800);
   }
 
   :global([data-theme='dark']) .subtitle {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) section h2 {
-    color: var(--color-gray-100);
+    color: var(--color-gray-800);
   }
 
   :global([data-theme='dark']) .section-intro {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .type-card {
@@ -875,12 +879,12 @@ Organize with clear headings.
   }
 
   :global([data-theme='dark']) .type-card h3 {
-    color: var(--color-gray-100);
+    color: var(--color-gray-800);
   }
 
   :global([data-theme='dark']) .type-card > p,
   :global([data-theme='dark']) .type-card li {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .type-format {
@@ -893,16 +897,16 @@ Organize with clear headings.
   }
 
   :global([data-theme='dark']) .step-content h4 {
-    color: var(--color-gray-100);
+    color: var(--color-gray-800);
   }
 
   :global([data-theme='dark']) .step-content p {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .step-content code {
     background: var(--color-gray-700);
-    color: var(--color-gray-200);
+    color: var(--color-gray-700);
   }
 
   :global([data-theme='dark']) .code-block {
@@ -915,13 +919,13 @@ Organize with clear headings.
   }
 
   :global([data-theme='dark']) .code-filename {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .copy-btn {
     background: var(--color-gray-700);
     border-color: var(--color-gray-600);
-    color: var(--color-gray-300);
+    color: var(--color-gray-600);
   }
 
   :global([data-theme='dark']) .guideline {
@@ -930,11 +934,11 @@ Organize with clear headings.
   }
 
   :global([data-theme='dark']) .guideline h4 {
-    color: var(--color-gray-100);
+    color: var(--color-gray-800);
   }
 
   :global([data-theme='dark']) .guideline li {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .rule {
@@ -942,14 +946,14 @@ Organize with clear headings.
   }
 
   :global([data-theme='dark']) .rule h4 {
-    color: var(--color-gray-100);
+    color: var(--color-gray-800);
   }
 
   :global([data-theme='dark']) .rule li {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .rule li strong {
-    color: var(--color-gray-200);
+    color: var(--color-gray-700);
   }
 </style>

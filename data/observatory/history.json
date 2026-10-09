@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-09T06:53:28.248Z",
+  "lastUpdated": "2026-10-08T18:28:59.617Z",
   "dataPoints": [
     {
       "date": "2025-12-26",
@@ -4800,6 +4800,1520 @@
       "apiFamilyCoverage": {
         "accounts": 9,
         "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-10",
+      "totalParticipants": 25,
+      "liveInProduction": 11,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 17,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-11",
+      "totalParticipants": 25,
+      "liveInProduction": 11,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 17,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-12",
+      "totalParticipants": 25,
+      "liveInProduction": 11,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 17,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-13",
+      "totalParticipants": 25,
+      "liveInProduction": 11,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 17,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-14",
+      "totalParticipants": 25,
+      "liveInProduction": 11,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 17,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-15",
+      "totalParticipants": 25,
+      "liveInProduction": 11,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 17,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-16",
+      "totalParticipants": 25,
+      "liveInProduction": 11,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 17,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-17",
+      "totalParticipants": 25,
+      "liveInProduction": 11,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 17,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-18",
+      "totalParticipants": 26,
+      "liveInProduction": 11,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 15,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-23",
+      "totalParticipants": 26,
+      "liveInProduction": 11,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 15,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-24",
+      "totalParticipants": 26,
+      "liveInProduction": 11,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 15,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-25",
+      "totalParticipants": 26,
+      "liveInProduction": 11,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 15,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-26",
+      "totalParticipants": 26,
+      "liveInProduction": 11,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 15,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-27",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-28",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-29",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-30",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-31",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-01",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-02",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-03",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-04",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-05",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-06",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-07",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-08",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-09",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-10",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-11",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-12",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-13",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-14",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-15",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-16",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-17",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-18",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-19",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-20",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-21",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-22",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-23",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-24",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-25",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 0
+    },
+    {
+      "date": "2026-09-26",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 0
+    },
+    {
+      "date": "2026-09-27",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 0
+    },
+    {
+      "date": "2026-09-28",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 0
+    },
+    {
+      "date": "2026-09-29",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 0
+    },
+    {
+      "date": "2026-09-30",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-10-01",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-10-02",
+      "totalParticipants": 27,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 19,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 15,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-10-03",
+      "totalParticipants": 27,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 19,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 15,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-10-04",
+      "totalParticipants": 27,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 19,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 15,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-10-05",
+      "totalParticipants": 27,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 19,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 15,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-10-06",
+      "totalParticipants": 27,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 19,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 15,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-10-07",
+      "totalParticipants": 27,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 19,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 15,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-10-08",
+      "totalParticipants": 27,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 19,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 15,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "atm": 1,
+        "cop": 9,
+        "insurance": 2,
         "payments": 9,
         "products": 8
       },
@@ -9612,6 +11126,1520 @@
       },
       "tppCount": 0,
       "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-10",
+      "totalParticipants": 25,
+      "liveInProduction": 11,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 17,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-11",
+      "totalParticipants": 25,
+      "liveInProduction": 11,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 17,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-12",
+      "totalParticipants": 25,
+      "liveInProduction": 11,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 17,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-13",
+      "totalParticipants": 25,
+      "liveInProduction": 11,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 17,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-14",
+      "totalParticipants": 25,
+      "liveInProduction": 11,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 17,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-15",
+      "totalParticipants": 25,
+      "liveInProduction": 11,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 17,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-16",
+      "totalParticipants": 25,
+      "liveInProduction": 11,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 17,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-17",
+      "totalParticipants": 25,
+      "liveInProduction": 11,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 17,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-18",
+      "totalParticipants": 26,
+      "liveInProduction": 11,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 15,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-23",
+      "totalParticipants": 26,
+      "liveInProduction": 11,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 15,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-24",
+      "totalParticipants": 26,
+      "liveInProduction": 11,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 15,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-25",
+      "totalParticipants": 26,
+      "liveInProduction": 11,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 15,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-26",
+      "totalParticipants": 26,
+      "liveInProduction": 11,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 15,
+        "Dubai": 6
+      },
+      "apiFamilyCoverage": {
+        "accounts": 9,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-27",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-28",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-29",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-30",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-08-31",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-01",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-02",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-03",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-04",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-05",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-06",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-07",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-08",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-09",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-10",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-11",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-12",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-13",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-14",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-15",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-16",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-17",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-18",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-19",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-20",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-21",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-22",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-23",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-24",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-09-25",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 0
+    },
+    {
+      "date": "2026-09-26",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 0
+    },
+    {
+      "date": "2026-09-27",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 0
+    },
+    {
+      "date": "2026-09-28",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 0
+    },
+    {
+      "date": "2026-09-29",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 0
+    },
+    {
+      "date": "2026-09-30",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-10-01",
+      "totalParticipants": 26,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 18,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 14,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-10-02",
+      "totalParticipants": 27,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 19,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 15,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-10-03",
+      "totalParticipants": 27,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 19,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 15,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-10-04",
+      "totalParticipants": 27,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 19,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 15,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-10-05",
+      "totalParticipants": 27,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 19,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 15,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-10-06",
+      "totalParticipants": 27,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 19,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 15,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-10-07",
+      "totalParticipants": 27,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 19,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 15,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "cop": 9,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-10-08",
+      "totalParticipants": 27,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 19,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 15,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "atm": 1,
+        "cop": 9,
+        "insurance": 2,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
     }
   ],
   "sandboxHistory": [
@@ -13257,6 +16285,1579 @@
       },
       "tppCount": 0,
       "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-08-10",
+      "totalParticipants": 77,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 73,
+        "BSIP": 73,
+        "LFI": 52,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 58,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-08-11",
+      "totalParticipants": 77,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 73,
+        "BSIP": 73,
+        "LFI": 52,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 58,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-08-12",
+      "totalParticipants": 77,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 73,
+        "BSIP": 73,
+        "LFI": 52,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 58,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-08-13",
+      "totalParticipants": 78,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 74,
+        "BSIP": 74,
+        "LFI": 52,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 59,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-08-14",
+      "totalParticipants": 78,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 74,
+        "BSIP": 74,
+        "LFI": 52,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 59,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-08-15",
+      "totalParticipants": 78,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 74,
+        "BSIP": 74,
+        "LFI": 52,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 59,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-08-16",
+      "totalParticipants": 78,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 74,
+        "BSIP": 74,
+        "LFI": 52,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 59,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-08-17",
+      "totalParticipants": 78,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 74,
+        "BSIP": 74,
+        "LFI": 52,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 59,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-08-18",
+      "totalParticipants": 78,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 74,
+        "BSIP": 74,
+        "LFI": 52,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 59,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-08-23",
+      "totalParticipants": 78,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 74,
+        "BSIP": 74,
+        "LFI": 52,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 59,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-08-24",
+      "totalParticipants": 78,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 74,
+        "BSIP": 74,
+        "LFI": 52,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 59,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-08-25",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-08-26",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-08-27",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-08-28",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-08-29",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-08-30",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-08-31",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-09-01",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-09-02",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-09-03",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-09-04",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-09-05",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-09-06",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-09-07",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-09-08",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-09-09",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-09-10",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-09-11",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-09-12",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-09-13",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-09-14",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-09-15",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-09-16",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-09-17",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-09-18",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-09-19",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-09-20",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-09-21",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-09-22",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
+    },
+    {
+      "date": "2026-09-23",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 9
+    },
+    {
+      "date": "2026-09-24",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 9
+    },
+    {
+      "date": "2026-09-25",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 9
+    },
+    {
+      "date": "2026-09-26",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 9
+    },
+    {
+      "date": "2026-09-27",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 9
+    },
+    {
+      "date": "2026-09-28",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 9
+    },
+    {
+      "date": "2026-09-29",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 9
+    },
+    {
+      "date": "2026-09-30",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 9
+    },
+    {
+      "date": "2026-10-01",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 9
+    },
+    {
+      "date": "2026-10-02",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 9
+    },
+    {
+      "date": "2026-10-03",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 9
+    },
+    {
+      "date": "2026-10-04",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 9
+    },
+    {
+      "date": "2026-10-05",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 9
+    },
+    {
+      "date": "2026-10-06",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 9
+    },
+    {
+      "date": "2026-10-07",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "accounts": 8,
+        "cop": 8,
+        "payments": 13,
+        "products": 9
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 9
+    },
+    {
+      "date": "2026-10-08",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "account": 6,
+        "accounts": 8,
+        "atm": 1,
+        "cop": 8,
+        "insurance": 4,
+        "onboarding": 1,
+        "payments": 13,
+        "products": 9,
+        "reporting": 1
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 9
     }
   ],
   "milestones": [
@@ -13553,6 +18154,30 @@
       "event": "Emirates Insurance Company joined production",
       "participantId": "f18cef1c-2ea2-4501-a1e5-db2e911689f8",
       "participantName": "Emirates Insurance Company"
+    },
+    {
+      "date": "2026-08-13",
+      "event": "Bank Mal Al Mahali Al Islami - L.L.C - S.P.C joined sandbox",
+      "participantId": "854f1680-ab8e-46f4-be6c-70461dbc38ba",
+      "participantName": "Bank Mal Al Mahali Al Islami - L.L.C - S.P.C"
+    },
+    {
+      "date": "2026-08-18",
+      "event": "Dubai Insurance Company joined production",
+      "participantId": "7c618e0b-0acc-4642-bdbb-180eb419be95",
+      "participantName": "Dubai Insurance Company"
+    },
+    {
+      "date": "2026-08-25",
+      "event": "Al Ahli Bank of Kuwait K.S.C.P joined sandbox",
+      "participantId": "a9d14b51-08f0-4a5a-8603-e284670e0015",
+      "participantName": "Al Ahli Bank of Kuwait K.S.C.P"
+    },
+    {
+      "date": "2026-10-02",
+      "event": "Standard Chartered joined production",
+      "participantId": "16c610ed-9e4a-407d-90d0-64149ba96b45",
+      "participantName": "Standard Chartered"
     }
   ]
 }
