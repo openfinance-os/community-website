@@ -5,6 +5,7 @@ import type {
   NewsSourceConfig,
   NewsApiArticle,
 } from '../types/news-curation.js';
+import { normalizeUrl } from './article-filters.js';
 
 interface RssFetchOptions {
   config: NewsSourceConfig;
@@ -71,9 +72,40 @@ function stripHtml(html: string): string {
 }
 
 /**
+ * Google News search feeds append " - Publisher" to every title and carry the
+ * publisher in a <source> element. Return the clean title and the outlet name
+ * so scoring can apply preferred-source bonuses to the real publisher.
+ */
+export function normalizeGoogleNewsItem(
+  item: string,
+  title: string,
+  fallbackSource: string
+): { title: string; source: string } {
+  const sourceMatch = item.match(/<source[^>]*>([\s\S]*?)<\/source>/i);
+  const publisher = sourceMatch ? decodeHtmlEntities(sourceMatch[1].trim()) : '';
+
+  // Only strip the suffix when the feed names the publisher and the title
+  // actually ends with it; a dash inside a headline is left alone.
+  let cleanTitle = title;
+  const separator = title.lastIndexOf(' - ');
+  if (publisher && separator > 0) {
+    const suffix = title.slice(separator + 3).trim();
+    if (suffix.toLowerCase() === publisher.toLowerCase()) {
+      cleanTitle = title.slice(0, separator).trim();
+    }
+  }
+
+  return { title: cleanTitle, source: publisher || fallbackSource };
+}
+
+/**
  * Parse RSS/Atom feed XML into articles
  */
-function parseFeed(xml: string, sourceName: string): RssArticle[] {
+export function parseFeed(
+  xml: string,
+  sourceName: string,
+  format: RssFeedSource['format'] = 'rss'
+): RssArticle[] {
   const articles: RssArticle[] = [];
 
   // Check if it's an Atom feed
@@ -127,13 +159,21 @@ function parseFeed(xml: string, sourceName: string): RssArticle[] {
 
       const description = extractTagContent(item, 'description');
 
+      let title = extractTagContent(item, 'title');
+      let source = sourceName;
+      if (format === 'google-news') {
+        const normalized = normalizeGoogleNewsItem(item, title, sourceName);
+        title = normalized.title;
+        source = normalized.source;
+      }
+
       articles.push({
-        title: extractTagContent(item, 'title'),
+        title,
         link: extractTagContent(item, 'link') || extractTagContent(item, 'guid'),
         pubDate: extractTagContent(item, 'pubDate') || extractTagContent(item, 'dc:date'),
         description: stripHtml(description || ''),
         content: stripHtml(content || description || ''),
-        source: sourceName,
+        source,
         categories: extractAllTags(item, 'category'),
       });
     }
@@ -168,7 +208,7 @@ async function fetchFeed(feed: RssFeedSource, retries: number = 3): Promise<RssA
       }
 
       const xml = await response.text();
-      const articles = parseFeed(xml, feed.name);
+      const articles = parseFeed(xml, feed.name, feed.format);
 
       return articles;
     } catch (error) {
@@ -249,12 +289,13 @@ export async function fetchRssArticles(options: RssFetchOptions): Promise<NewsAp
 
       let addedCount = 0;
       for (const article of articles) {
-        // Skip duplicates
-        if (seenUrls.has(article.link)) continue;
-        seenUrls.add(article.link);
-
         // Skip articles without required fields
         if (!article.title || !article.link) continue;
+
+        // Skip duplicates (ignoring tracking parameters such as utm_*)
+        const canonical = normalizeUrl(article.link);
+        if (seenUrls.has(canonical)) continue;
+        seenUrls.add(canonical);
 
         // Skip old articles
         try {
@@ -287,6 +328,10 @@ export async function fetchRssArticles(options: RssFetchOptions): Promise<NewsAp
 export function getRssSourceBonus(sourceName: string, feeds: RssFeedSource[]): number {
   const feed = feeds.find((f) => f.name === sourceName);
   if (!feed) return 0;
+
+  // Google News search feeds are keyword queries, not editorial picks, so
+  // they get the smaller bonus regardless of priority.
+  if (feed.format === 'google-news') return 5;
 
   // Priority 1 sources get +15 bonus, priority 2 get +8
   return feed.priority === 1 ? 15 : 8;

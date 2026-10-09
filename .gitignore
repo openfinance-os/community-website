@@ -30,7 +30,7 @@ pnpm-debug.log*
 *.tsbuildinfo
 
 # test coverage
-coverage/
+/coverage/
 
 # playwright
 playwright-report/
@@ -39,3 +39,6 @@ test-results/
 # python
 __pycache__/
 *.pyc
+
+# Claude Code harness-managed session state (agent worktrees, etc.)
+.claude/

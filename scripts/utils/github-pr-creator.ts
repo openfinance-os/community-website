@@ -159,8 +159,17 @@ export async function createFilePR(
   options: GitHubOptions
 ): Promise<{ number: number; url: string; branch: string }> {
   const { owner, repo, baseBranch = 'main' } = options;
-  const { branchName, filePath, content, commitMessage, prTitle, prBody, labels, autoMerge, mergeMethod } =
-    input;
+  const {
+    branchName,
+    filePath,
+    content,
+    commitMessage,
+    prTitle,
+    prBody,
+    labels,
+    autoMerge,
+    mergeMethod,
+  } = input;
 
   // 1. Base branch SHA
   const baseRef = await githubRequest<GitHubRefResponse>(
@@ -289,6 +298,43 @@ export async function createAllPRs(
   }
 
   return results;
+}
+
+/**
+ * Slugs of every article the curator has already proposed as a PR, open or
+ * closed. Closed-but-unmerged PRs are editorial rejections: without this the
+ * same rejected story came back the day after the 48-hour cleanup, every day.
+ *
+ * Returns slugs without the `news/` branch prefix (they keep their date
+ * prefix, which `isDuplicateTitle` strips before comparing).
+ */
+export async function fetchProposedSlugs(
+  options: GitHubOptions,
+  maxPages: number = 5
+): Promise<Set<string>> {
+  const { owner, repo } = options;
+  const slugs = new Set<string>();
+
+  try {
+    for (let page = 1; page <= maxPages; page++) {
+      const prs = await githubRequest<Array<{ head: { ref: string } }>>(
+        `/repos/${owner}/${repo}/pulls?state=all&sort=created&direction=desc&per_page=100&page=${page}`,
+        options
+      );
+
+      for (const pr of prs) {
+        if (pr.head.ref.startsWith('news/')) {
+          slugs.add(pr.head.ref.slice('news/'.length));
+        }
+      }
+
+      if (prs.length < 100) break;
+    }
+  } catch (error) {
+    console.warn('Could not list previously proposed news PRs:', error);
+  }
+
+  return slugs;
 }
 
 export async function closeOldPRs(

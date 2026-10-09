@@ -79,7 +79,7 @@ const currentPath = Astro.url.pathname;
       </button>
 
       <a
-        href="https://github.com/organizations/openfinance-os/"
+        href="https://github.com/openfinance-os"
         class="github-link"
         target="_blank"
         rel="noopener noreferrer"
@@ -120,7 +120,7 @@ const currentPath = Astro.url.pathname;
       }
       <li>
         <a
-          href="https://github.com/organizations/openfinance-os/"
+          href="https://github.com/openfinance-os"
           class="nav-link-mobile github"
           target="_blank"
           rel="noopener noreferrer"
@@ -447,7 +447,7 @@ const currentPath = Astro.url.pathname;
   }
 
   .header-actions {
-    display: none;
+    display: flex;
     align-items: center;
     gap: var(--space-1);
   }
@@ -455,6 +455,16 @@ const currentPath = Astro.url.pathname;
   @media (min-width: 1200px) {
     .header-actions {
       display: flex;
+    }
+  }
+
+  @media (max-width: 1199px) {
+    .header-actions .theme-toggle,
+    .header-actions .github-link {
+      display: none;
+    }
+    .header-actions {
+      margin-left: auto;
     }
   }
 

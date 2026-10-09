@@ -1,0 +1,36 @@
+{
+ "note": "Single source of truth for who each identifier is. logKeys = api-log lfinamekey; orgs = production-directory OrganisationName. tier: t1 / t2 = CBUAE Open Banking Tier 1 / Tier 2; other = a bank brand or segment without its own tier slot; ins = insurer. confirmed=false means the mapping is inferred, not verified. The job flags any log key or directory org missing from this file instead of guessing.",
+ "logKeys": {
+  "uae-fabretail": {"name": "First Abu Dhabi Bank", "short": "FAB", "kind": "bank", "tier": "t1", "org": "FAB", "confirmed": true},
+  "uae-enbdx": {"name": "Emirates NBD", "short": "Emirates NBD", "kind": "bank", "tier": "t1", "org": "Emirates NBD", "confirmed": true},
+  "uae-adcbrt": {"name": "ADCB", "short": "ADCB", "kind": "bank", "tier": "t1", "org": "ADCB", "confirmed": true},
+  "uae-dibrt": {"name": "Dubai Islamic Bank", "short": "DIB", "kind": "bank", "tier": "t1", "org": "DIB", "confirmed": true},
+  "uae-mashrt": {"name": "Mashreq", "short": "Mashreq", "kind": "bank", "tier": "t1", "org": "Mashreq", "confirmed": true},
+  "uae-adibrt": {"name": "ADIB", "short": "ADIB", "kind": "bank", "tier": "t1", "org": "ADIB", "confirmed": true},
+  "uae-hsbcrt": {"name": "HSBC (Retail)", "short": "HSBC retail", "kind": "bank", "tier": "t1", "org": "HSBC", "confirmed": true},
+  "uae-hsbcws": {"name": "HSBC (Wholesale)", "short": "HSBC wholesale", "kind": "bank", "tier": "t1", "org": "HSBC", "segment": true, "confirmed": true},
+  "uae-cbdrt": {"name": "Commercial Bank of Dubai", "short": "CBD", "kind": "bank", "tier": "t1", "org": "CBD", "confirmed": true},
+  "uae-wioretail": {"name": "WIO Bank", "short": "WIO", "kind": "bank", "tier": "t2", "org": "WIO Bank", "confirmed": true},
+  "uae-nbfrt": {"name": "National Bank of Fujairah", "short": "NBF", "kind": "bank", "tier": "t2", "org": "National Bank of Fujairah PJSC", "confirmed": true},
+  "uae-livx": {"name": "Liv (digital bank)", "short": "Liv", "kind": "bank", "tier": "other", "org": null, "confirmed": true, "note": "Digital retail banking brand; not separately registered in the production directory."},
+  "uae-fabbusiness": {"name": "FAB business (unconfirmed)", "short": "FAB business", "kind": "bank", "tier": "other", "org": null, "segment": true, "confirmed": false},
+  "uae-aaic": {"name": "Alain Ahlia Insurance Company", "short": "Alain Ahlia", "kind": "insurer", "tier": "ins", "org": null, "confirmed": true},
+  "uae-orient": {"name": "Orient Insurance PJSC", "short": "Orient", "kind": "insurer", "tier": "ins", "org": null, "confirmed": true},
+  "uae-awnic": {"name": "Al Wathba National Insurance Co (unconfirmed)", "short": "Al Wathba", "kind": "insurer", "tier": "ins", "org": null, "confirmed": false}
+ },
+ "orgs": {
+  "FAB": {"name": "First Abu Dhabi Bank", "tier": "t1"},
+  "Emirates NBD": {"name": "Emirates NBD", "tier": "t1"},
+  "ADCB": {"name": "ADCB", "tier": "t1"},
+  "DIB": {"name": "Dubai Islamic Bank", "tier": "t1"},
+  "Mashreq": {"name": "Mashreq", "tier": "t1"},
+  "ADIB": {"name": "ADIB", "tier": "t1"},
+  "HSBC": {"name": "HSBC (Retail)", "tier": "t1"},
+  "CBD": {"name": "Commercial Bank of Dubai", "tier": "t1"},
+  "WIO Bank": {"name": "WIO Bank", "tier": "t2"},
+  "National Bank of Fujairah PJSC": {"name": "National Bank of Fujairah", "tier": "t2"},
+  "LIVA": {"name": "LIVA", "tier": "ins"},
+  "ADNIC": {"name": "ADNIC", "tier": "ins"}
+ },
+ "t1Order": ["FAB", "Emirates NBD", "ADCB", "DIB", "Mashreq", "ADIB", "HSBC", "CBD"]
+}

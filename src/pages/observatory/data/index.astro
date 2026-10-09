@@ -1,5 +1,6 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
+import ObservatoryNav from '@components/observatory/ObservatoryNav.astro';
 import history from '../../../../data/observatory/history.json';
 import latest from '../../../../data/observatory/snapshots/production/latest.json';
 import { getRegistryChangelog, getTrackingSince, getSnapshotCount } from '@lib/registry-changelog';
@@ -12,23 +13,37 @@ const participantCount = latest.summary.totalParticipants;
 
 const datasets = [
   {
+    name: 'Coverage & comparison',
+    path: '/observatory/coverage/',
+    what: 'Compare up to three registrations and download a CSV filtered by environment, family and version. Source dates and declaration fields accompany every resource row.',
+    fields: 'registration ID, environment, observedAt, source, family, version, declarations',
+    updated: 'with the directory observations',
+  },
+  {
+    name: 'Sandbox — changelog',
+    path: '/observatory/data/registry-sandbox-changelog.json',
+    what: 'Dated sandbox changes, including roles, published families and resource declarations. Dates describe observations rather than deployments.',
+    fields: 'dataset, environment, source, trackingSince, events[]',
+    updated: 'daily',
+  },
+  {
     name: 'Registry — latest snapshot',
     path: '/observatory/data/registry-latest.json',
-    what: `Current production registry: summary statistics and all ${participantCount} participants with roles, API families and live status.`,
+    what: `Current production registry: summary statistics and all ${participantCount} participants with roles, API families and published authorization-server metadata.`,
     fields: 'dataset, source, observedAt, summary, participants[]',
     updated: 'daily',
   },
   {
     name: 'Registry — history',
     path: '/observatory/data/registry-history.json',
-    what: `Daily time series (${historyPoints} points) of participant and live counts, with breakdowns by role, city and API family, plus named milestones.`,
+    what: `Daily time series (${historyPoints} points) of registration and published authorization-server counts, with breakdowns by role, city and API family, plus named milestones.`,
     fields: 'dataset, trackingSince, dataPoints[], milestones[]',
     updated: 'daily',
   },
   {
     name: 'Registry — changelog',
     path: '/observatory/data/registry-changelog.json',
-    what: `Every dated registry change (${changelogCount} events): joins, departures, go-lives, role and API-family additions, derived by diffing snapshots.`,
+    what: `Every dated registry change (${changelogCount} events): joins, departures, authorization-server changes, role and API-family additions, derived by diffing snapshots.`,
     fields: 'dataset, trackingSince, count, events[]',
     updated: 'daily',
   },
@@ -42,6 +57,7 @@ const citation = `OpenFinance-OS, "UAE Open Finance Registry" (dataset), openfin
   description="Open, citable datasets tracking the UAE Open Finance ecosystem — registry snapshots, daily history, and a derived changelog."
   lastUpdated={latest.timestamp}
 >
+  <ObservatoryNav current="data" />
   <div class="data-page">
     <div class="container">
       <header class="page-header">
@@ -69,7 +85,9 @@ const citation = `OpenFinance-OS, "UAE Open Finance Registry" (dataset), openfin
               </p>
               <div class="dataset-actions">
                 <a class="download" href={d.path}>
-                  Download JSON
+                  {d.path === '/observatory/coverage/'
+                    ? 'Open coverage & CSV export'
+                    : 'Download JSON'}
                   <svg
                     width="14"
                     height="14"
@@ -127,8 +145,9 @@ const citation = `OpenFinance-OS, "UAE Open Finance Registry" (dataset), openfin
         <p class="footnote">
           Looking for operational metrics (API call volumes, payment flows, reliability)? See the
           <a href="/observatory/watch/">weekly Ecosystem Watch</a>. Building or integrating? The
-          operator's developer hub is at
-          <a href="https://nebras-open-finance.com/" rel="noopener">nebras-open-finance.com</a>.
+          community technical reference is at
+          <a href="https://nebras-open-finance.com/" rel="noopener">nebras-open-finance.com</a>;
+          governing documentation is linked from <a href="/learn">Learn</a>.
         </p>
       </section>
     </div>
@@ -229,7 +248,7 @@ const citation = `OpenFinance-OS, "UAE Open Finance Registry" (dataset), openfin
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: var(--color-primary-600);
+    background: var(--color-primary-fill);
     color: #fff;
     text-decoration: none;
     font-weight: 600;
@@ -238,7 +257,7 @@ const citation = `OpenFinance-OS, "UAE Open Finance Registry" (dataset), openfin
     border-radius: var(--radius-lg);
   }
   .download:hover {
-    background: var(--color-primary-700);
+    background: var(--color-primary-fill-strong);
     text-decoration: none;
   }
   .url {

@@ -13,21 +13,21 @@ const capabilities = [
     name: 'CIBA',
     fullName: 'Client Initiated Backchannel Authentication',
     count: cibaCount,
-    percentage: Math.round((cibaCount / totalParticipants) * 100),
+    percentage: totalParticipants ? Math.round((cibaCount / totalParticipants) * 100) : 0,
     description: 'Decoupled authentication for enhanced security',
   },
   {
     name: 'DCR',
     fullName: 'Dynamic Client Registration',
     count: dcrCount,
-    percentage: Math.round((dcrCount / totalParticipants) * 100),
+    percentage: totalParticipants ? Math.round((dcrCount / totalParticipants) * 100) : 0,
     description: 'Automated TPP onboarding capability',
   },
   {
     name: 'Redirect',
     fullName: 'OAuth Redirect Flow',
     count: redirectCount,
-    percentage: Math.round((redirectCount / totalParticipants) * 100),
+    percentage: totalParticipants ? Math.round((redirectCount / totalParticipants) * 100) : 0,
     description: 'Standard OAuth 2.0 redirect authentication',
   },
 ];
@@ -48,9 +48,11 @@ const capabilities = [
       <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
       <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
     </svg>
-    Authorization Capabilities
+    Declared Authorization Capabilities
   </h3>
-  <p class="section-description">Technical capabilities supported by participants</p>
+  <p class="section-description">
+    Directory flags declared true. Unmarked capabilities have not been tested.
+  </p>
 
   <div class="capabilities-list">
     {
@@ -72,7 +74,7 @@ const capabilities = [
             <div class="capability-bar" style={`width: ${Math.max(cap.percentage, 0)}%`} />
           </div>
           <div class="capability-description">
-            {cap.percentage === 0 ? 'Not yet adopted by participants' : cap.description}
+            {cap.percentage === 0 ? 'Not declared true in the directory' : cap.description}
           </div>
         </div>
       ))
@@ -227,7 +229,7 @@ const capabilities = [
   }
 
   :global([data-theme='dark']) .section-description {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .capability-item {
@@ -239,11 +241,11 @@ const capabilities = [
   }
 
   :global([data-theme='dark']) .name-full {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .stat-count {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .capability-bar-container {
@@ -251,7 +253,7 @@ const capabilities = [
   }
 
   :global([data-theme='dark']) .capability-description {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .capability-item.zero-state .name-abbr {

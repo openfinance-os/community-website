@@ -4,6 +4,7 @@
  * Stable URL: /observatory/data/registry-changelog.json
  */
 import type { APIRoute } from 'astro';
+import { registryDefinitions } from '@lib/registry-definitions';
 import { getRegistryChangelog, getTrackingSince } from '@lib/registry-changelog';
 
 export const GET: APIRoute = () => {
@@ -11,12 +12,13 @@ export const GET: APIRoute = () => {
   const body = {
     dataset: 'uae-open-finance-registry-changelog',
     description:
-      'Dated changes to the UAE Open Finance production registry (joins, departures, go-lives, role and API-family additions), derived by diffing daily snapshots of the public trust-framework directory.',
+      'Dated changes to production registrations, issuer publication, roles, families and resource declarations, derived by diffing saved directory snapshots.',
     source: 'https://data.directory.openfinance.ae',
     trackingSince: getTrackingSince(),
+    definitions: registryDefinitions,
     license: 'CC-BY-4.0',
     attribution: 'OpenFinance-OS (openfinance-os.org) — independent, not official',
-    note: 'Event dates are observation dates (the later snapshot of each diffed pair) and may lag the real-world change.',
+    note: 'Event dates are later-snapshot observation dates and can lag real-world changes. The 2026-10-08 collector schema 2.1 update expanded family coverage; additions on that date can reflect a measurement correction.',
     count: events.length,
     events,
   };

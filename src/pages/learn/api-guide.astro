@@ -1,14 +1,17 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
 import OperatorPointer from '@components/learn/OperatorPointer.astro';
+import { apiFamilyLabel } from '@lib/taxonomy';
 import latest from '../../../data/observatory/snapshots/production/latest.json';
 
 const families = latest.summary.apiFamilies.length;
+const familyNames = latest.summary.apiFamilies.map(apiFamilyLabel).join(', ');
+const observedDate = latest.timestamp.slice(0, 10);
 ---
 
 <PageLayout
   title="API Guide"
-  description="What the UAE Open Finance APIs are, and where to find the operator's canonical specifications."
+  description="Understand the UAE API Hub, consented and client-credentials services, and where to find specifications."
 >
   <div class="guide-page">
     <div class="container">
@@ -21,36 +24,51 @@ const families = latest.summary.apiFamilies.length;
       <header class="page-header">
         <h1>The UAE Open Finance APIs</h1>
         <p class="subtitle">
-          What the APIs cover conceptually — and where the canonical, machine-readable specs live.
+          What the APIs cover, how the Hub mediates access, and where to find specifications.
         </p>
       </header>
 
       <section class="concept">
         <p>
-          UAE Open Finance exposes a standardised set of consent-gated APIs so that authorised third
-          parties can access data or initiate payments on a customer's behalf. Access is always
-          brokered by an explicit, revocable consent and secured with
-          <strong>FAPI</strong> (Financial-grade API) profiles — redirect, DCR and CIBA flows through
-          the central API Hub.
+          UAE Open Finance uses a <strong>central API Hub</strong>. A TPP calls the Hub; the Hub
+          calls the financial institution through its Ozone Connect interface and returns the
+          response. The Hub manages consent, issues access tokens and provides the TPP-facing APIs.
+          TPPs do not call the institution's backend directly.
         </p>
         <p>
-          There are currently <strong>{families} API families</strong> live across the ecosystem — Accounts
-          (account information), Payments, Confirmation of Payee, and Products — with insurance lines
-          rolling out. The <a href="/observatory">Observatory</a> shows which institutions expose which
-          families.
+          Customer data sharing and payment initiation require customer consent. Services such as
+          Confirmation of Payee, product information and ATM information use client credentials
+          without an end-customer consent journey. <strong>FAPI</strong> supplies the financial API security
+          profile; <a href="/learn/glossary#dcr">DCR</a> registers a client and is a separate step from
+          customer authentication.
+        </p>
+        <p>
+          The production directory snapshot observed on <time datetime={observedDate}
+            >{observedDate}</time
+          >
+          contains <strong>{families} published API family identifiers</strong>: {familyNames}. The
+          <a href="/observatory">Observatory</a> shows published resources and versions. Publication does
+          not establish successful integration, availability or live usage.
         </p>
       </section>
 
       <OperatorPointer
-        intro="The API specifications are authoritative and versioned — they change with each release, so read them at the source rather than a copy:"
+        intro="Check the official standards and the selected specification version, including errata. The community reference site offers browsable technical material:"
         links={[
-          { label: 'API specifications', href: 'https://nebras-open-finance.com/tech/api-specs/' },
           {
-            label: 'Security & FAPI',
+            label: 'Official Open Finance documentation',
+            href: 'https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview',
+          },
+          {
+            label: 'API specifications — community reference',
+            href: 'https://nebras-open-finance.com/tech/api-specs/',
+          },
+          {
+            label: 'Security & FAPI — community reference',
             href: 'https://nebras-open-finance.com/tech/tpp-standards/security/fapi/',
           },
           {
-            label: 'Release notes & errata',
+            label: 'Release notes & errata — community reference',
             href: 'https://nebras-open-finance.com/tech/release-notes-and-erratas/',
           },
         ]}
@@ -104,6 +122,6 @@ const families = latest.summary.apiFamilies.length;
     color: var(--color-gray-900);
   }
   :global([data-theme='dark']) .concept p {
-    color: var(--color-gray-300);
+    color: var(--color-gray-600);
   }
 </style>

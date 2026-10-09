@@ -28,9 +28,18 @@ This fixes the previous overstatement (reusing sandbox cells as "production")
 and surfaces real gaps: e.g. an LFI that has published Payments in production but
 whose payment initiation is returning only 5xx shows blue, not green.
 
-"Live traffic" defaults to 2xx in the last two FULL months (currently live).
-Payments traffic is measured on initiation (`POST .../payments`), not status
-reads, so a broken initiation flow is not masked by status polling.
+"Live traffic" defaults to 2xx in the last two FULL months, computed dynamically
+from whichever months are actually present in the log (the latest month found
+is always treated as the current partial month and excluded, matching
+of_watch_metrics.py's full/partial split) — never a hardcoded pair of months
+that goes stale as time passes. Payments traffic is measured on initiation
+(`POST .../payments`), not status reads, so a broken initiation flow is not
+masked by status polling.
+
+The traffic log is fetched via of_watch_metrics._get_api_rows, which knows how
+to decode the sharded api-log-index.json format the feed moved to (see that
+module's "API LOG FORMAT" note) — fetching LOG_URL directly here would get the
+site's HTML shell, not data.
 
 NOTE on environment of the traffic feed: Nebras publishes no per-environment
 call volumes, so the green signal means "this production-exposed capability is
@@ -45,45 +54,52 @@ USAGE
 import argparse, json, re, sys, urllib.request
 from collections import defaultdict
 
+import of_watch_entities as E
+import of_watch_metrics as m
+
 PROD_DIR_URL = "https://data.directory.openfinance.ae/participants"
-LOG_URL = "https://nebras-open-finance.com/api/api-log.json"
+LOG_URL = m.API_URL
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
       "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36")
 
 COLS = ["Consent", "AIS:balances", "AIS:transactions", "AIS:parties",
         "PIS:payments", "CoP", "v2.1 uplift", "Insurance", "FX"]
 
-# Production directory OrganisationName -> heatmap display name + tier bucket.
-ORG = {
-    "FAB": ("First Abu Dhabi Bank", "t1"),
-    "Emirates NBD": ("Emirates NBD", "t1"),
-    "ADCB": ("ADCB", "t1"),
-    "DIB": ("Dubai Islamic Bank", "t1"),
-    "Mashreq": ("Mashreq", "t1"),
-    "ADIB": ("ADIB", "t1"),
-    "HSBC": ("HSBC (Retail)", "t1"),
-    "CBD": ("Commercial Bank of Dubai", "t1"),
-    "WIO Bank": ("WIO Bank", "t2"),
-    "LIVA": ("LIVA (insurer)", "ins"),
-    "ADNIC": ("ADNIC (insurer)", "ins"),
-}
-# Heatmap display order for the Tier-1 block (matches the sandbox grid).
-T1_ORDER = ["FAB", "Emirates NBD", "ADCB", "DIB", "Mashreq", "ADIB", "HSBC", "CBD"]
-
-# api-log lfinamekey -> production-directory OrganisationName.
-LOGKEY = {
-    "uae-adcbrt": "ADCB", "uae-adibrt": "ADIB", "uae-cbdrt": "CBD", "uae-dibrt": "DIB",
-    "uae-enbdx": "Emirates NBD", "uae-fabretail": "FAB", "uae-hsbcrt": "HSBC",
-    "uae-hsbcws": "HSBC", "uae-mashrt": "Mashreq", "uae-wioretail": "WIO Bank",
-}
-
-LAST2 = {"2026-05", "2026-06"}  # most recent two FULL months (July partial excluded)
-
+# Names, tiers and log-key mappings come from data/watch/entities.json, so a new
+# participant is added in one place and never needs a hand-patched row here.
+ORG = {k: (v["name"], v["tier"]) for k, v in E.orgs().items()}
+T1_ORDER = E.t1_order()
+LOGKEY = E.logkey_to_org()
 
 def _get(url):
     return json.loads(urllib.request.urlopen(
         urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "application/json,*/*"}),
         timeout=40).read())
+
+
+def _fetch_log(path=None):
+    """Load the api-call log, decoding the sharded format if that's what's live."""
+    return m._get_api_rows(path, LOG_URL)
+
+
+def _last2_full_months(log):
+    """The two most recent FULL months present in the log — the latest month is
+    always the current partial month and is excluded, matching
+    of_watch_metrics.compute()'s full/partial split. Replaces a hardcoded
+    month pair, which went stale every time a month rolled over."""
+    ms = sorted({r["date"][:7] for r in log})
+    full = ms[:-1] if ms else []
+    return set(full[-2:])
+
+
+def _window_label(window):
+    ms = sorted(window)
+    if not ms:
+        return "no full months yet"
+    year = ms[-1][:4]
+    if len(ms) == 1:
+        return f"{m._abbr(ms[0])} {year}"
+    return f"{m._abbr(ms[0])}-{m._abbr(ms[-1])} {year}"
 
 
 def _cols_for_path(p):
@@ -131,13 +147,17 @@ def exposure(directory=None):
     return exposed, meta
 
 
-def live_traffic(log=None, window=LAST2):
+def live_traffic(log=None, window=None):
     """Per org -> set of heatmap columns with 2xx traffic in the window.
 
     Payments counts initiation only (path ending /payments), so status polling
-    does not mask a broken initiation flow.
+    does not mask a broken initiation flow. `window` defaults to the two most
+    recent full months found in `log` itself (see _last2_full_months) rather
+    than a fixed pair of months.
     """
-    log = log if log is not None else _get(LOG_URL)
+    log = log if log is not None else _fetch_log()
+    if window is None:
+        window = _last2_full_months(log)
     traffic = defaultdict(set)
     for r in log:
         if r.get("tppresponsecodegroup") != "2xx" or r.get("date", "")[:7] not in window:
@@ -167,15 +187,19 @@ def _cells(org_key, exposed, traffic):
 
 def build_grid(directory=None, log=None):
     directory = directory if directory is not None else _get(PROD_DIR_URL)
+    log = log if log is not None else _fetch_log()
     exposed, meta = exposure(directory)
-    traffic = live_traffic(log)
+    window = _last2_full_months(log)
+    traffic = live_traffic(log, window)
     present = {o["OrganisationName"] for o in directory}
 
     t1 = [[ORG[k][0], _cells(k, exposed, traffic)] for k in T1_ORDER if k in present]
     other = []
-    for k, (disp, tier) in ORG.items():
-        if tier in ("t2", "ins") and k in present:
-            other.append([disp, ("Tier-2" if tier == "t2" else "Insurer"), _cells(k, exposed, traffic)])
+    for want in ("t2", "ins"):
+        for k, (disp, tier) in ORG.items():
+            if tier == want and k in present:
+                other.append([disp, ("Tier-2" if tier == "t2" else "Insurer"), _cells(k, exposed, traffic)])
+    unmapped = E.unmapped_orgs(directory)
 
     def count(state):
         n = 0
@@ -192,7 +216,8 @@ def build_grid(directory=None, log=None):
         "other": other,
         "counts": {"prodOrgs": len(directory), "banks": banks,
                    "t1": len(t1), "green": count("green"), "blue": count("blue")},
-        "window": "2xx in May–Jun 2026 (last 2 full months)",
+        "unmapped": unmapped,
+        "window": f"2xx in {_window_label(window)} (last 2 full months)",
         "source": PROD_DIR_URL,
         "trafficSource": LOG_URL,
         "note": ("Green = capability exposed in the production Trust Framework directory AND carrying "
@@ -242,6 +267,8 @@ def main():
         for r in g["other"]:
             print(("%s [%s]" % (r[0], r[1])).ljust(26) + " ".join(sym[x].rjust(6) for x in r[2]))
         print("\ncounts:", g["counts"])
+        if g["unmapped"]:
+            print("UNMAPPED directory orgs (add to data/watch/entities.json):", g["unmapped"])
 
 
 if __name__ == "__main__":

@@ -1,5 +1,6 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
+import { roleLabels } from '@lib/taxonomy';
 import OperatorPointer from '@components/learn/OperatorPointer.astro';
 
 interface FAQItem {
@@ -44,22 +45,26 @@ const faqCategories: FAQCategory[] = [
       {
         question: 'What is UAE Open Finance?',
         answer:
-          'UAE Open Finance is a regulatory framework supervised by the Central Bank of the UAE (CBUAE) that enables secure, standardized sharing of financial data between banks and authorized third-party providers. It allows consumers to share their financial information with apps and services they trust, enabling innovation in financial services.',
+          'UAE Open Finance is supervised by the Central Bank of the UAE (CBUAE). It enables customers to authorize financial data sharing and payment initiation through participating providers. Banking and insurance services are mediated by a central API Hub.',
       },
       {
         question: 'Who can participate in UAE Open Finance?',
-        answer:
-          'Participation is open to banks (ASPSPs), licensed third-party providers (TPPs), and technology providers. TPPs include Banking Data Service Providers (BDSPs), Banking Service Initiation Providers (BSIPs), and Information Service Providers (ISPs). All participants must be registered on the Al Tareq platform.',
+        answer: `Participants include Licensed Financial Institutions (LFIs), such as banks and insurers, and authorized Third Party Providers (TPPs). Technology providers can support integrations. Directory roles such as BDSP (${roleLabels.BDSP}), BSIP (${roleLabels.BSIP}), and ISP (${roleLabels.ISP}) describe permissions rather than a TPP licence category. Eligibility depends on the intended service and current requirements.`,
       },
       {
         question: 'How do I register to participate?',
         answer:
-          'Registration is done through the Al Tareq portal at openfinanceuae.atlassian.net. You will need to create an account, submit required documentation, and await approval from Nebras, the scheme operator. The process varies depending on whether you are registering as a TPP or an ASPSP.',
+          'Start with the official Open Finance documentation and the onboarding guidance for your organization and intended services. Organization onboarding, Trust Framework access, application registration and certification are separate steps. The Confluence space at openfinanceuae.atlassian.net is a documentation site; creating an account there does not register a participant. Use the verified onboarding instructions to obtain the appropriate directory access.',
       },
       {
         question: 'What is Al Tareq?',
         answer:
-          'Al Tareq is the official UAE Open Finance platform operated by Nebras. It provides the central directory, sandbox environment, and production infrastructure for the ecosystem. All participants must register and be approved on Al Tareq to operate in the UAE Open Finance ecosystem.',
+          'Al Tareq is the UAE Open Finance brand. Nebras operates the central infrastructure, including the API Hub, under CBUAE oversight. The brand, operator and regulator have different responsibilities.',
+      },
+      {
+        question: 'How do the API Hub and financial institution work together?',
+        answer:
+          'A TPP calls the API Hub, which routes the request to the financial institution and returns its response. The Hub owns consent state, acts as the OIDC/FAPI authorization server and issues access tokens. The customer authenticates with the institution, whose backend integrates through Ozone Connect. Directory issuer metadata describes a published authorization server; it does not prove a successful integration or live usage.',
       },
     ],
   },
@@ -70,7 +75,7 @@ const faqCategories: FAQCategory[] = [
       {
         question: 'Is this an official CBUAE or Al Tareq website?',
         answer:
-          'No. OpenFinance-OS is a community-driven initiative. We are not affiliated with CBUAE, Al Tareq, Nebras, or any bank. We aggregate publicly available information and provide community resources. For official information, always refer to the Al Tareq portal and CBUAE.',
+          'No. OpenFinance-OS is an independent community initiative. We are not affiliated with CBUAE, Al Tareq, Nebras, or any bank. We aggregate public observations and community resources. Our learning pages label official documentation and community technical references separately.',
       },
       {
         question: 'How can I contribute to this site?',
@@ -107,7 +112,8 @@ const faqSchema = generateFAQSchema(faqCategories);
         <h1>Frequently Asked Questions</h1>
         <p class="subtitle">
           The newcomer's questions about the UAE Open Finance ecosystem — what it is, who takes
-          part, and how it works. For building and certifying, we point you to the operator's docs.
+          part, and how it works. For building and certifying, we link official documentation and
+          community technical references.
         </p>
       </header>
 
@@ -177,12 +183,22 @@ const faqSchema = generateFAQSchema(faqCategories);
 
       <OperatorPointer
         heading="Building, integrating or certifying?"
-        intro="Operational questions — TPP certification, ASPSP obligations, authentication, DCR, consent flows and security standards — are answered in the operator's canonical docs, which stay current with each release:"
+        intro="Use official documentation for participation requirements and governing standards. The community guides explain TPP and LFI integration, authentication and consent:"
         links={[
-          { label: 'TPP Standards', href: 'https://nebras-open-finance.com/tech/tpp-standards' },
-          { label: 'LFI API Hub', href: 'https://nebras-open-finance.com/tech/lfi-api-hub/' },
           {
-            label: 'Security & FAPI',
+            label: 'Official Open Finance documentation',
+            href: 'https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview',
+          },
+          {
+            label: 'TPP Standards — community reference',
+            href: 'https://nebras-open-finance.com/tech/tpp-standards',
+          },
+          {
+            label: 'LFI API Hub — community integration guide',
+            href: 'https://nebras-open-finance.com/tech/lfi-api-hub/',
+          },
+          {
+            label: 'Security & FAPI — community reference',
             href: 'https://nebras-open-finance.com/tech/tpp-standards/security/fapi/',
           },
         ]}
@@ -207,7 +223,7 @@ const faqSchema = generateFAQSchema(faqCategories);
               target="_blank"
               rel="noopener noreferrer"
             >
-              Official Al Tareq Support
+              Official Open Finance Documentation
               <svg
                 width="14"
                 height="14"
@@ -435,12 +451,12 @@ const faqSchema = generateFAQSchema(faqCategories);
   }
 
   .action-button.primary {
-    background: var(--color-primary-600);
+    background: var(--color-primary-fill);
     color: white;
   }
 
   .action-button.primary:hover {
-    background: var(--color-primary-700);
+    background: var(--color-primary-fill-strong);
   }
 
   .action-button.secondary {
@@ -477,11 +493,11 @@ const faqSchema = generateFAQSchema(faqCategories);
   }
 
   :global([data-theme='dark']) .subtitle {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .breadcrumb {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .faq-category {
@@ -524,7 +540,7 @@ const faqSchema = generateFAQSchema(faqCategories);
   }
 
   :global([data-theme='dark']) .faq-answer p {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .still-questions {
@@ -536,7 +552,7 @@ const faqSchema = generateFAQSchema(faqCategories);
   }
 
   :global([data-theme='dark']) .still-questions > .still-questions-content > p {
-    color: var(--color-gray-400);
+    color: var(--color-gray-500);
   }
 
   :global([data-theme='dark']) .action-button.secondary {
