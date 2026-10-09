@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-10-08T18:28:59.259Z",
+  "timestamp": "2026-10-09T12:35:49.862Z",
   "source": "https://data.directory.openfinance.ae",
   "version": "2.1.0",
   "environment": "production",
@@ -1126,9 +1126,6 @@
     "newParticipants": [],
     "removedParticipants": [],
     "roleChanges": {},
-    "apiFamilyChanges": {
-      "atm": 1,
-      "insurance": 2
-    }
+    "apiFamilyChanges": {}
   }
 }
