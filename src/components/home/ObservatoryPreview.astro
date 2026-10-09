@@ -1,4 +1,5 @@
 ---
+import { apiFamilyLabel } from '@lib/taxonomy';
 interface EcosystemStats {
   totalUnique: number;
   production: {
@@ -22,14 +23,6 @@ interface Props {
 
 const { stats } = Astro.props;
 
-// API family display names and colors
-const apiFamilyLabels: Record<string, string> = {
-  accounts: 'Accounts',
-  payments: 'Payments',
-  products: 'Products',
-  cop: 'CoP',
-};
-
 const apiFamilyColors: Record<string, string> = {
   accounts: 'var(--color-primary-500)',
   payments: 'var(--color-accent-500)',
@@ -39,8 +32,8 @@ const apiFamilyColors: Record<string, string> = {
 
 // Calculate percentages for the engagement funnel
 const totalRegistered = stats.totalUnique;
-const testingInSandbox = stats.inBoth + stats.sandboxOnly;
-const liveInProduction = stats.inBoth + stats.productionOnly;
+const testingInSandbox = stats.sandbox.registered;
+const liveInProduction = stats.production.registered;
 
 // Progress percentages (relative to total)
 const sandboxPercent = totalRegistered > 0 ? (testingInSandbox / totalRegistered) * 100 : 0;
@@ -50,10 +43,9 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
 <section class="observatory-preview">
   <div class="section-header">
     <div class="header-content">
-      <h2 class="section-title">Ecosystem Engagement</h2>
+      <h2 class="section-title">Directory Coverage</h2>
       <p class="section-description">
-        Track participation across the UAE Open Finance ecosystem, from sandbox testing to
-        production deployment.
+        Compare registrations and published resources across the UAE Open Finance directories.
       </p>
     </div>
     <a href="/observatory" class="view-all-link">
@@ -75,7 +67,7 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
   </div>
 
   <div class="preview-grid">
-    <!-- Total Ecosystem Card -->
+    <!-- Across Both Directories Card -->
     <div class="preview-card ecosystem-card">
       <h3 class="card-title">
         <span class="title-icon">
@@ -96,11 +88,11 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
             ></path>
           </svg>
         </span>
-        Total Ecosystem
+        Across Both Directories
       </h3>
       <div class="ecosystem-stat">
         <span class="stat-number">{stats.totalUnique}</span>
-        <span class="stat-label">Organizations</span>
+        <span class="stat-label">Distinct registration IDs</span>
       </div>
       <div class="environment-breakdown">
         <div class="env-item">
@@ -121,7 +113,7 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
       </div>
     </div>
 
-    <!-- Engagement Pipeline Card -->
+    <!-- Registrations by Environment Card -->
     <div class="preview-card pipeline-card">
       <h3 class="card-title">
         <span class="title-icon">
@@ -138,12 +130,12 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
             <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
           </svg>
         </span>
-        Engagement Pipeline
+        Registrations by Environment
       </h3>
       <div class="pipeline">
         <div class="pipeline-stage">
           <div class="stage-header">
-            <span class="stage-label">Registered</span>
+            <span class="stage-label">Across both directories</span>
             <span class="stage-value">{totalRegistered}</span>
           </div>
           <div class="stage-bar">
@@ -152,7 +144,7 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
         </div>
         <div class="pipeline-stage">
           <div class="stage-header">
-            <span class="stage-label">Testing in Sandbox</span>
+            <span class="stage-label">Sandbox registrations</span>
             <span class="stage-value">{testingInSandbox}</span>
           </div>
           <div class="stage-bar">
@@ -161,7 +153,7 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
         </div>
         <div class="pipeline-stage">
           <div class="stage-header">
-            <span class="stage-label">Live in Production</span>
+            <span class="stage-label">Production registrations</span>
             <span class="stage-value">{liveInProduction}</span>
           </div>
           <div class="stage-bar">
@@ -171,7 +163,8 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
         </div>
       </div>
       <p class="pipeline-note">
-        {Math.round(sandboxPercent)}% testing, {Math.round(productionPercent)}% live
+        {stats.sandbox.live} sandbox and {stats.production.live} production registrations publish an active
+        authorization server with an issuer. Registration does not establish usage.
       </p>
     </div>
 
@@ -208,7 +201,7 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
                 class="api-dot"
                 style={`background: ${apiFamilyColors[family] || 'var(--color-gray-400)'}`}
               />
-              <span class="api-label">{apiFamilyLabels[family] || family}</span>
+              <span class="api-label">{apiFamilyLabel(family)}</span>
               <span class="api-value">{stats.apiFamilyCoverage[family] || 0}</span>
             </div>
           ))

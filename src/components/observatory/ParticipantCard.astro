@@ -1,4 +1,6 @@
 ---
+import { participantUrl } from '@lib/participant-identity';
+import { describeApiFamilies } from '@lib/taxonomy';
 interface Profile {
   shortName?: string;
   fullName?: string;
@@ -24,6 +26,7 @@ interface Profile {
 }
 
 interface Props {
+  id: string;
   name: string;
   legalName: string;
   shortName: string;
@@ -39,6 +42,7 @@ interface Props {
 }
 
 const {
+  id,
   name,
   legalName,
   shortName,
@@ -48,33 +52,14 @@ const {
   apiFamilies,
   hasAuthServer,
   isShariahCompliant,
-  isLive = true,
+  isLive = hasAuthServer,
   profile,
   environment = 'production',
 } = Astro.props;
 
-// Generate slug for the detail page link
-const slug = shortName
-  ? shortName
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-|-$/g, '')
-  : name
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-|-$/g, '');
-const detailUrl =
-  environment === 'sandbox'
-    ? `/observatory/sandbox/participant/${slug}`
-    : `/observatory/participant/${slug}`;
-
-// API families configuration
-const allApiFamilies = [
-  { key: 'accounts', label: 'Accounts' },
-  { key: 'payments', label: 'Payments' },
-  { key: 'cop', label: 'CoP' },
-  { key: 'products', label: 'Products' },
-];
+const slug = id;
+const detailUrl = participantUrl({ id }, environment);
+const allApiFamilies = describeApiFamilies(apiFamilies);
 
 // Country flags
 const countryFlags: Record<string, string> = {
@@ -134,7 +119,7 @@ const displayCity =
           ) : isLive ? (
             <div class="status-badge live">
               <span class="status-dot" />
-              <span class="status-text">Live</span>
+              <span class="status-text">Auth server published</span>
             </div>
           ) : (
             <div class="status-badge registered">
@@ -220,7 +205,11 @@ const displayCity =
           allApiFamilies.map((api) => {
             const isActive = apiFamilies.includes(api.key);
             return (
-              <div class="api-item" class:list={[{ active: isActive }]}>
+              <div
+                class="api-item"
+                class:list={[{ active: isActive }]}
+                title={isActive ? 'Published in directory' : 'Not published in this snapshot'}
+              >
                 <span class="api-dot" />
                 <span class="api-name">{api.label}</span>
               </div>
@@ -232,7 +221,7 @@ const displayCity =
 
     <!-- Footer -->
     <footer class="card-footer">
-      {isShariahCompliant && <span class="shariah-badge">Islamic Banking</span>}
+      {isShariahCompliant && <span class="shariah-badge">Directory Shariah flag</span>}
       {
         profile?.website && (
           <span class="website-link" data-href={profile.website} data-participant={name}>
