@@ -30,7 +30,7 @@ function date(value?: string): string {
 /** The fetchable summary remains available when the interactive renderer cannot run. */
 export function renderWatchSummary(payload: WatchSummaryPayload): string {
   const sources: [string, string][] = [
-    ['Public sandbox metrics', 'https://nebras-open-finance.com/metrics'],
+    ['Public API metrics', 'https://nebras-open-finance.com/metrics'],
     ['Production directory', 'https://data.directory.openfinance.ae/participants'],
     ['API specifications', 'https://github.com/Nebras-Open-Finance/api-specs'],
     [
@@ -67,7 +67,7 @@ export function renderWatchSummary(payload: WatchSummaryPayload): string {
       <span>Data as of ${date(payload.asOfData)}</span>
       <span>Last checked ${date(payload.checked?.date)}</span></div>
     <h2>This week</h2><ul>${summary.join('') || '<li>No summary recorded for this run.</li>'}</ul>
-    <p class="note">Directory metadata and demand-side sandbox logs do not independently verify
+    <p class="note">Directory metadata and public logs without environment labels do not independently verify
       production API availability. Data can lag the publication or check date; absence of traffic
       does not prove an institution is not certified.</p>
     <h2>Sources</h2><ul>${sourceLinks.join('')}</ul>

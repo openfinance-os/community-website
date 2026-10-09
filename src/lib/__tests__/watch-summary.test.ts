@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { Window } from 'happy-dom';
 import { renderWatchSummary } from '../watch-summary';
+import { watchBriefing } from '../watch-briefing';
+import payload from '../../../data/watch/payload.json';
 import { GET } from '../../pages/observatory/watch/index.html';
 
 describe('server-readable Watcher summary', () => {
@@ -17,7 +19,7 @@ describe('server-readable Watcher summary', () => {
     window.document.querySelectorAll('script, style').forEach((node) => node.remove());
     const summary = window.document.getElementById('watch-summary')!;
     expect(summary.textContent).toContain('Data as of');
-    expect(summary.textContent).toContain('The Nebras community documentation site now builds');
+    expect(summary.textContent).toContain(watchBriefing(payload).items[0].text);
     expect(summary.querySelector('h1')?.textContent).toBe('Saved Ecosystem Watch briefing');
     expect(
       window.document
@@ -33,6 +35,17 @@ describe('server-readable Watcher summary', () => {
       'https://openfinance-os.org/observatory/watch/'
     );
     await window.happyDOM.abort();
+  });
+
+  it('names the official documentation site when a saved summary refers to the website', () => {
+    const html = renderWatchSummary({
+      summary: [
+        { area: 'Standards', text: 'The website now builds from a draft specification branch.' },
+      ],
+    });
+    expect(html).toContain(
+      'The Nebras community documentation site now builds from a draft specification branch.'
+    );
   });
 
   it('escapes summary content and rejects unsafe source links', () => {
