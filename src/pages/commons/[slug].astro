@@ -6,7 +6,7 @@ import InstallCommand from '@components/commons/InstallCommand.astro';
 import PlatformBadges from '@components/commons/PlatformBadges.astro';
 
 export async function getStaticPaths() {
-  const contributions = await getCollection('commons');
+  const contributions = await getCollection('commons', ({ data }) => !data.draft);
   return contributions.map((contribution) => ({
     params: { slug: contribution.slug },
     props: { contribution },

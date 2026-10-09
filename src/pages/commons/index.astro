@@ -6,7 +6,7 @@ import AiToolBadge from '@components/commons/AiToolBadge.astro';
 import InstallCommand from '@components/commons/InstallCommand.astro';
 import PlatformBadges from '@components/commons/PlatformBadges.astro';
 
-const allContributions = await getCollection('commons');
+const allContributions = await getCollection('commons', ({ data }) => !data.draft);
 const contributions = allContributions.sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime()
 );
