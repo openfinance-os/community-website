@@ -20,6 +20,42 @@ const maturityLevels = ['concept', 'demo', 'production-ready'] as const;
 const licenses = ['mit', 'apache-2.0', 'cc-by-4.0', 'proprietary', 'unlicensed'] as const;
 const sourcePlatforms = ['github', 'substack', 'medium', 'blog', 'research', 'other'] as const;
 
+// AI Developer Tools taxonomy
+const aiToolCategories = [
+  'prompt',
+  'mcp-server',
+  'agent',
+  'ide-extension',
+  'workflow',
+  'knowledge-base',
+  'code-generator',
+  'testing-tool',
+] as const;
+
+const aiPlatforms = [
+  'claude-code',
+  'cursor',
+  'copilot',
+  'windsurf',
+  'openai-codex',
+  'continue-dev',
+  'aider',
+  'mcp',
+  'platform-agnostic',
+] as const;
+
+const aiAccelerates = [
+  'api-integration',
+  'consent-management',
+  'compliance-checking',
+  'sandbox-testing',
+  'security-implementation',
+  'participant-onboarding',
+  'data-mapping',
+  'monitoring',
+  'documentation',
+] as const;
+
 const newsCollection = defineCollection({
   type: 'content',
   schema: z.object({
@@ -76,9 +112,35 @@ const commonsCollection = defineCollection({
       })
       .optional(),
 
+    // Unverified proposal examples must never enter public routes or search.
+    draft: z.boolean().default(false),
+
     // Governance
     disclaimers: z.array(z.string()).default([]),
     featured: z.boolean().default(false),
+
+    // AI Developer Tool metadata (optional — activates enhanced display)
+    aiTool: z
+      .object({
+        category: z.enum(aiToolCategories),
+        platforms: z.array(z.enum(aiPlatforms)).min(1),
+        installCommands: z
+          .array(
+            z.object({
+              platform: z.enum(aiPlatforms),
+              command: z.string(),
+              label: z.string().optional(),
+            })
+          )
+          .default([]),
+        mcpTransport: z.enum(['stdio', 'http', 'sse']).optional(),
+        mcpTools: z.array(z.string()).default([]),
+        version: z.string().optional(),
+        accelerates: z.array(z.enum(aiAccelerates)).default([]),
+        snippet: z.string().optional(),
+        prerequisites: z.string().optional(),
+      })
+      .optional(),
   }),
 });
 
