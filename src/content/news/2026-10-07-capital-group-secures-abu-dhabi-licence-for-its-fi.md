@@ -5,8 +5,10 @@ type: official
 region: uae
 author: Fintech News Middle East
 source: https://fintechnews.ae/34005/wealthtech/capital-group-fsra-licence-abu-dhabi/
-description: "Capital Group has been cleared to work as a regulated investment manager in Abu Dhabi. The approval came from ADGM&#8216;s regulator, the Financial Services Regulatory Authority (FSRA). With the Capital Group FSRA licence, the US$3.6 trillion asset manager can now trade and manage investments in ..."
+description: "Capital Group says it has secured FSRA permission to operate as a regulated investment manager in ADGM, following plans for its first Middle East office in Abu Dhabi."
 external: true
 ---
 
-Capital Group has been cleared to work as a regulated investment manager in Abu Dhabi. The approval came from ADGM&#8216;s regulator, the Financial Services Regulatory Authority (FSRA). With the Capital Group FSRA licence, the US$3.6 trillion asset manager can now trade and manage investments in ...
+Capital Group says it has obtained Financial Services Permission from ADGM's Financial Services Regulatory Authority. The permission authorises trading, investment-management and distribution activities within ADGM.
+
+The milestone follows its May 2026 announcement of plans for its first Middle East office in Abu Dhabi. The firm says it has relocated investment, operational and client-facing staff to the region. [Company announcement hosted by ADGM](https://www.adgm.com/media/announcements/capital-group-secures-fsra-licence-in-abu-dhabi-as-it-expands-in-the-middle-east).
