@@ -112,7 +112,7 @@ let commonsItems: Array<{
 }> = [];
 
 try {
-  const allCommons = await getCollection('commons');
+  const allCommons = await getCollection('commons', ({ data }) => !data.draft);
   commonsItems = allCommons.map((item) => ({
     title: item.data.title,
     slug: item.id,

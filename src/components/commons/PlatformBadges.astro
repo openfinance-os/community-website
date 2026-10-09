@@ -1,0 +1,70 @@
+---
+interface Props {
+  platforms: string[];
+  compact?: boolean;
+}
+
+const { platforms, compact = false } = Astro.props;
+
+const platformLabels: Record<string, string> = {
+  'claude-code': 'Claude Code',
+  cursor: 'Cursor',
+  copilot: 'Copilot',
+  windsurf: 'Windsurf',
+  'openai-codex': 'Codex',
+  'continue-dev': 'Continue',
+  aider: 'Aider',
+  mcp: 'MCP',
+  'platform-agnostic': 'Any AI Tool',
+};
+
+const maxShow = compact ? 2 : platforms.length;
+const visible = platforms.slice(0, maxShow);
+const remaining = platforms.length - maxShow;
+---
+
+<div class:list={['platform-badges', compact && 'compact']}>
+  {visible.map((p) => (
+    <span class="platform-badge">{platformLabels[p] || p}</span>
+  ))}
+  {remaining > 0 && <span class="platform-badge more">+{remaining}</span>}
+</div>
+
+<style>
+  .platform-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+  }
+
+  .platform-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-1) var(--space-2);
+    font-size: 0.625rem;
+    font-weight: 500;
+    color: var(--color-gray-600);
+    background: var(--color-gray-100);
+    border-radius: var(--radius-sm);
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+
+  .platform-badge.more {
+    color: var(--color-gray-400);
+  }
+
+  .compact .platform-badge {
+    font-size: 0.5625rem;
+    padding: 1px var(--space-1);
+  }
+
+  :global([data-theme='dark']) .platform-badge {
+    background: var(--color-gray-700);
+    color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .platform-badge.more {
+    color: var(--color-gray-500);
+  }
+</style>

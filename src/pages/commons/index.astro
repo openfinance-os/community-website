@@ -2,8 +2,11 @@
 import { getCollection } from 'astro:content';
 import PageLayout from '@layouts/PageLayout.astro';
 import Badge from '@components/common/Badge.astro';
+import AiToolBadge from '@components/commons/AiToolBadge.astro';
+import InstallCommand from '@components/commons/InstallCommand.astro';
+import PlatformBadges from '@components/commons/PlatformBadges.astro';
 
-const allContributions = await getCollection('commons');
+const allContributions = await getCollection('commons', ({ data }) => !data.draft);
 const contributions = allContributions.sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime()
 );
@@ -23,6 +26,7 @@ const stats = {
     utility: contributions.filter((c) => c.data.type === 'utility').length,
   },
   productionReady: contributions.filter((c) => c.data.maturity === 'production-ready').length,
+  aiTools: contributions.filter((c) => c.data.aiTool).length,
   recentlyUpdated: contributions.filter((c) => {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
@@ -128,6 +132,11 @@ function formatDate(date: Date): string {
         <div class="stat-item">
           <span class="stat-value">{stats.recentlyUpdated}</span>
           <span class="stat-label">Updated This Month</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-value">{stats.aiTools}</span>
+          <span class="stat-label">AI Tools</span>
         </div>
         <div class="stat-divider"></div>
         <div class="stat-item">
@@ -374,6 +383,17 @@ function formatDate(date: Date): string {
             </button>
           </div>
         </div>
+        <div class="filter-group">
+          <label class="filter-label">Platform</label>
+          <div class="filter-chips" data-filter="aiTool">
+            <button class="filter-chip active" data-value="all">
+              All
+            </button>
+            <button class="filter-chip ai-filter" data-value="ai-tools">
+              AI Developer Tools
+            </button>
+          </div>
+        </div>
       </section>
 
       <!-- Results Count -->
@@ -396,6 +416,7 @@ function formatDate(date: Date): string {
                 data-audience={contribution.data.audience.join(',')}
                 data-use-cases={contribution.data.useCases.join(',')}
                 data-maturity={contribution.data.maturity}
+                data-ai-tool={contribution.data.aiTool ? 'true' : 'false'}
               >
                 <div class="card-header">
                   <div class={`type-indicator ${contribution.data.type}`}>
@@ -472,12 +493,28 @@ function formatDate(date: Date): string {
                       Featured
                     </span>
                   )}
+                  {contribution.data.aiTool && (
+                    <AiToolBadge category={contribution.data.aiTool.category} compact />
+                  )}
                 </div>
 
                 <a href={`/commons/${contribution.id}`} class="card-content">
                   <h3 class="card-title">{contribution.data.title}</h3>
                   <p class="card-summary">{contribution.data.summary}</p>
                 </a>
+
+                {contribution.data.aiTool && contribution.data.aiTool.platforms.length > 0 && (
+                  <div class="card-platforms">
+                    <PlatformBadges platforms={contribution.data.aiTool.platforms} compact />
+                  </div>
+                )}
+
+                {contribution.data.aiTool &&
+                  contribution.data.aiTool.installCommands.length > 0 && (
+                    <div class="card-install">
+                      <InstallCommand commands={contribution.data.aiTool.installCommands} compact />
+                    </div>
+                  )}
 
                 <div class="card-meta">
                   <div class="meta-tags">
@@ -613,6 +650,7 @@ function formatDate(date: Date): string {
     type: 'all',
     audience: 'all',
     useCase: 'all',
+    aiTool: 'all',
   };
 
   function applyFilters() {
@@ -623,6 +661,7 @@ function formatDate(date: Date): string {
       const cardType = cardEl.dataset.type || '';
       const cardAudience = cardEl.dataset.audience || '';
       const cardUseCases = cardEl.dataset.useCases || '';
+      const cardAiTool = cardEl.dataset.aiTool || 'false';
 
       const typeMatch = activeFilters.type === 'all' || cardType === activeFilters.type;
 
@@ -634,7 +673,11 @@ function formatDate(date: Date): string {
       const useCaseMatch =
         activeFilters.useCase === 'all' || cardUseCases.includes(activeFilters.useCase);
 
-      if (typeMatch && audienceMatch && useCaseMatch) {
+      const aiToolMatch =
+        activeFilters.aiTool === 'all' ||
+        (activeFilters.aiTool === 'ai-tools' && cardAiTool === 'true');
+
+      if (typeMatch && audienceMatch && useCaseMatch && aiToolMatch) {
         cardEl.style.display = '';
         visibleCount++;
       } else {
@@ -1202,6 +1245,40 @@ function formatDate(date: Date): string {
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+
+  .card-platforms {
+    padding: var(--space-1) var(--space-4) 0;
+  }
+
+  .card-install {
+    padding: var(--space-2) var(--space-4) 0;
+  }
+
+  .ai-filter {
+    background: rgba(99, 102, 241, 0.08);
+    color: #6366f1;
+    border-color: rgba(99, 102, 241, 0.2);
+  }
+
+  .ai-filter:hover,
+  .ai-filter.active {
+    background: rgba(99, 102, 241, 0.15);
+    color: #6366f1;
+    border-color: #6366f1;
+  }
+
+  :global([data-theme='dark']) .ai-filter {
+    background: rgba(129, 140, 248, 0.1);
+    color: #818cf8;
+    border-color: rgba(129, 140, 248, 0.2);
+  }
+
+  :global([data-theme='dark']) .ai-filter:hover,
+  :global([data-theme='dark']) .ai-filter.active {
+    background: rgba(129, 140, 248, 0.2);
+    color: #818cf8;
+    border-color: #818cf8;
   }
 
   .card-meta {

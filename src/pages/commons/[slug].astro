@@ -1,9 +1,12 @@
 ---
 import { getCollection, render } from 'astro:content';
 import PageLayout from '@layouts/PageLayout.astro';
+import AiToolBadge from '@components/commons/AiToolBadge.astro';
+import InstallCommand from '@components/commons/InstallCommand.astro';
+import PlatformBadges from '@components/commons/PlatformBadges.astro';
 
 export async function getStaticPaths() {
-  const contributions = await getCollection('commons');
+  const contributions = await getCollection('commons', ({ data }) => !data.draft);
   return contributions.map((contribution) => ({
     params: { slug: contribution.id },
     props: { contribution },
@@ -73,6 +76,19 @@ function formatDate(date: Date): string {
 const isExternal =
   contribution.data.type === 'reference' || !contribution.data.authoredByContributor;
 const config = typeConfig[contribution.data.type];
+const aiTool = contribution.data.aiTool;
+
+const acceleratesLabels: Record<string, string> = {
+  'api-integration': 'API Integration',
+  'consent-management': 'Consent Management',
+  'compliance-checking': 'Compliance Checking',
+  'sandbox-testing': 'Sandbox Testing',
+  'security-implementation': 'Security Implementation',
+  'participant-onboarding': 'Participant Onboarding',
+  'data-mapping': 'Data Mapping',
+  monitoring: 'Monitoring',
+  documentation: 'Documentation',
+};
 ---
 
 <PageLayout title={contribution.data.title} description={contribution.data.summary}>
@@ -166,6 +182,7 @@ const config = typeConfig[contribution.data.type];
             </span>
           )}
           {contribution.data.featured && <span class="featured-indicator">Featured</span>}
+          {aiTool && <AiToolBadge category={aiTool.category} />}
         </div>
 
         <h1>{contribution.data.title}</h1>
@@ -186,6 +203,66 @@ const config = typeConfig[contribution.data.type];
           <span class="date">{formatDate(contribution.data.date)}</span>
         </div>
       </header>
+
+      {/* AI Tool Install & Metadata Block */}
+      {aiTool && (
+        <div class="ai-tool-section">
+          {aiTool.installCommands.length > 0 && (
+            <div class="ai-install-block">
+              <h3 class="ai-section-label">Install / Setup</h3>
+              <InstallCommand commands={aiTool.installCommands} />
+            </div>
+          )}
+          <div class="ai-meta-row">
+            {aiTool.platforms.length > 0 && (
+              <div class="ai-meta-item">
+                <span class="ai-meta-label">Works with</span>
+                <PlatformBadges platforms={aiTool.platforms} />
+              </div>
+            )}
+            {aiTool.accelerates.length > 0 && (
+              <div class="ai-meta-item">
+                <span class="ai-meta-label">Accelerates</span>
+                <div class="accelerates-tags">
+                  {aiTool.accelerates.map((a) => (
+                    <span class="accelerates-tag">{acceleratesLabels[a] || a}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+            {aiTool.version && (
+              <div class="ai-meta-item">
+                <span class="ai-meta-label">Version</span>
+                <span class="ai-version">{aiTool.version}</span>
+              </div>
+            )}
+            {aiTool.prerequisites && (
+              <div class="ai-meta-item">
+                <span class="ai-meta-label">Prerequisites</span>
+                <span class="ai-prereqs">{aiTool.prerequisites}</span>
+              </div>
+            )}
+          </div>
+          {aiTool.mcpTools.length > 0 && (
+            <div class="ai-mcp-tools">
+              <span class="ai-meta-label">MCP Tools Provided</span>
+              <div class="mcp-tools-list">
+                {aiTool.mcpTools.map((tool) => (
+                  <code class="mcp-tool">{tool}</code>
+                ))}
+              </div>
+            </div>
+          )}
+          {aiTool.snippet && (
+            <div class="ai-snippet-block">
+              <span class="ai-meta-label">Preview</span>
+              <pre class="ai-snippet">
+                  <code>{aiTool.snippet}</code>
+                </pre>
+            </div>
+          )}
+        </div>
+      )}
 
       <div class="content-wrapper">
         <!-- Main Content -->
@@ -981,5 +1058,149 @@ const config = typeConfig[contribution.data.type];
     :global([data-theme='dark']) .sidebar {
       background: var(--color-gray-800);
     }
+  }
+
+  /* AI Tool Section */
+  .ai-tool-section {
+    margin-bottom: var(--space-10);
+    padding: var(--space-6);
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .ai-section-label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gray-500);
+    margin-bottom: var(--space-2);
+  }
+
+  .ai-install-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .ai-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+  }
+
+  .ai-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .ai-meta-label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gray-500);
+  }
+
+  .accelerates-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+  }
+
+  .accelerates-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-1) var(--space-3);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #6366f1;
+    background: rgba(99, 102, 241, 0.08);
+    border-radius: var(--radius-md);
+    line-height: 1.4;
+  }
+
+  .ai-version {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--color-gray-700);
+    font-weight: 500;
+  }
+
+  .ai-prereqs {
+    font-size: 0.875rem;
+    color: var(--color-gray-700);
+  }
+
+  .ai-mcp-tools {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .mcp-tools-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .mcp-tool {
+    padding: var(--space-1) var(--space-3);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    background: var(--color-gray-100);
+    border-radius: var(--radius-md);
+    color: var(--color-gray-700);
+  }
+
+  .ai-snippet-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .ai-snippet {
+    padding: var(--space-4);
+    background: var(--color-gray-900);
+    color: var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .ai-snippet code {
+    font-family: inherit;
+    font-size: inherit;
+    background: none;
+    padding: 0;
+    color: inherit;
+  }
+
+  :global([data-theme='dark']) .ai-tool-section {
+    background: var(--color-gray-800);
+    border-color: var(--color-gray-700);
+  }
+
+  :global([data-theme='dark']) .accelerates-tag {
+    background: rgba(129, 140, 248, 0.12);
+    color: #818cf8;
+  }
+
+  :global([data-theme='dark']) .ai-version,
+  :global([data-theme='dark']) .ai-prereqs {
+    color: var(--color-gray-300);
+  }
+
+  :global([data-theme='dark']) .mcp-tool {
+    background: var(--color-gray-700);
+    color: var(--color-gray-300);
   }
 </style>
