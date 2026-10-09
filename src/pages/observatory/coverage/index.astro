@@ -33,22 +33,20 @@ const data = JSON.stringify(records).replace(/</g, '\\u003c');
       </p>
       <p class="evidence-note">
         An issuer or resource declaration does not prove a working integration. Certification and
-        completeness below are source declarations. Go-live approval and operational activity are <strong
-          >unknown in this directory dataset</strong
-        >; inspect the <a href="/observatory/watch/">Watch</a> for separately dated operational evidence.
+        completeness below are source declarations. Go-live approval and operational activity are{' '}
+        <strong>unknown in this directory dataset</strong>; inspect the{' '}
+        <a href="/observatory/watch/">Watch</a> for separately dated operational evidence.
       </p>
       <ul class="observations">
-        {
-          observations.map((o) => (
-            <li>
-              <strong>{o.environment === 'production' ? 'Production' : 'Sandbox'}</strong>:{' '}
-              <time datetime={o.observedAt}>
-                {o.observedAt.replace('T', ' ').replace('Z', ' UTC')}
-              </time>{' '}
-              · <a href={o.source}>Directory source</a>
-            </li>
-          ))
-        }
+        {observations.map((o) => (
+          <li>
+            <strong>{o.environment === 'production' ? 'Production' : 'Sandbox'}</strong>:{' '}
+            <time datetime={o.observedAt}>
+              {o.observedAt.replace('T', ' ').replace('Z', ' UTC')}
+            </time>{' '}
+            · <a href={o.source}>Directory source</a>
+          </li>
+        ))}
       </ul>
     </header>
 
@@ -56,69 +54,73 @@ const data = JSON.stringify(records).replace(/</g, '\\u003c');
       <fieldset disabled>
         <legend>Find coverage</legend>
         <div class="filter-grid">
-          <label
-            >Environment<select name="environment"
-              ><option value="production">Production</option><option value="sandbox">Sandbox</option
-              ><option value="both">Both environments</option></select
-            ></label
-          >
-          <label
-            >API family<select name="family"
-              ><option value="">All families</option>{
-                coverageFamilies(records, 'production').map((family) => (
-                  <option value={family}>{apiFamilyLabel(family)}</option>
-                ))
-              }</select
-            ></label
-          >
-          <label
-            >API version<select name="version"
-              ><option value="">All versions</option>{
-                coverageVersions(records, { environment: 'production', family: '' }).map(
-                  (version) => <option value={version}>{version}</option>
+          <label>
+            Environment
+            <select name="environment">
+              <option value="production">Production</option>
+              <option value="sandbox">Sandbox</option>
+              <option value="both">Both environments</option>
+            </select>
+          </label>
+          <label>
+            API family
+            <select name="family">
+              <option value="">All families</option>
+              {coverageFamilies(records, 'production').map((family) => (
+                <option value={family}>{apiFamilyLabel(family)}</option>
+              ))}
+            </select>
+          </label>
+          <label>
+            API version
+            <select name="version">
+              <option value="">All versions</option>
+              {coverageVersions(records, { environment: 'production', family: '' }).map(
+                (version) => (
+                  <option value={version}>{version}</option>
                 )
-              }</select
-            ></label
-          >
-          <label
-            >Issuer metadata<select name="issuer"
-              ><option value="all">Any publication state</option><option value="published"
-                >Active issuer published</option
-              ><option value="not-published">No active issuer published</option></select
-            ></label
-          >
-          <label class="query-label"
-            >Name or registration ID<input
-              type="search"
-              name="query"
-              placeholder="Search names or IDs"
-              maxlength="200"
-            /></label
-          >
-          <label
-            >Sort by<select name="sort"
-              ><option value="name">Name A–Z</option><option value="resources"
-                >Resource declarations, most first</option
-              ><option value="date">Observation, newest first</option></select
-            ></label
-          >
+              )}
+            </select>
+          </label>
+          <label>
+            Issuer metadata
+            <select name="issuer">
+              <option value="all">Any publication state</option>
+              <option value="published">Active issuer published</option>
+              <option value="not-published">No active issuer published</option>
+            </select>
+          </label>
+          <label class="query-label">
+            Name or registration ID
+            <input type="search" name="query" placeholder="Search names or IDs" maxlength="200" />
+          </label>
+          <label>
+            Sort by
+            <select name="sort">
+              <option value="name">Name A–Z</option>
+              <option value="resources">Resource declarations, most first</option>
+              <option value="date">Observation, newest first</option>
+            </select>
+          </label>
         </div>
         <button type="reset">Reset filters</button>
       </fieldset>
     </form>
-    <noscript
-      ><p class="evidence-note">
-        The production table is readable below. Enable JavaScript to filter, compare or export. <a
-          href="/observatory/sandbox">Browse the sandbox overview</a
-        > or <a href="/observatory/data">download the datasets</a>.
-      </p></noscript
-    >
+    <noscript>
+      <p class="evidence-note">
+        The production table is readable below. Enable JavaScript to filter, compare or export.{' '}
+        <a href="/observatory/sandbox">Browse the sandbox overview</a> or{' '}
+        <a href="/observatory/data">download the datasets</a>.
+      </p>
+    </noscript>
 
     <div class="table-toolbar">
       <p id="coverage-count" role="status" aria-live="polite">
         {production.length} registrations in production
       </p>
-      <button id="coverage-download" type="button" disabled>Download filtered CSV</button>
+      <button id="coverage-download" type="button" disabled>
+        Download filtered CSV
+      </button>
     </div>
     <p id="coverage-empty" hidden>
       No matching registrations. Try another family, version or environment, or reset the filters.
@@ -132,84 +134,81 @@ const data = JSON.stringify(records).replace(/</g, '\\u003c');
     >
       <table class="coverage-table">
         <caption>Published metadata, with all declared resource versions retained</caption>
-        <thead
-          ><tr
-            ><th scope="col">Compare</th><th scope="col">Registration</th><th scope="col"
-              >Environment &amp; observation</th
-            ><th scope="col">Issuer publication</th><th scope="col">Published API resources</th><th
-              scope="col">Source</th
-            ></tr
-          ></thead
-        >
+        <thead>
+          <tr>
+            <th scope="col">Compare</th>
+            <th scope="col">Registration</th>
+            <th scope="col">Environment &amp; observation</th>
+            <th scope="col">Issuer publication</th>
+            <th scope="col">Published API resources</th>
+            <th scope="col">Source</th>
+          </tr>
+        </thead>
         <tbody id="coverage-rows">
-          {
-            records.map((record) => (
-              <tr data-record-key={record.key} hidden={record.environment !== 'production'}>
-                <td>
-                  <label class="compare-control">
-                    <input
-                      class="compare-toggle"
-                      type="checkbox"
-                      value={record.key}
-                      disabled
-                      aria-label={`Compare ${record.name} (${record.environment}), registration ${record.id}`}
-                    />
-                  </label>
-                </td>
-                <th scope="row">
-                  <>
-                    <a href={record.profileUrl}>{record.name}</a>
-                    <span class="record-id">{record.id}</span>
-                    <span class="role-list">
-                      Role claims: {record.roles.join(', ') || 'none published'}
-                    </span>
-                  </>
-                </th>
-                <td>
-                  <>
-                    <span class="environment">{record.environment}</span>
-                    <time datetime={record.observedAt}>{record.observedAt.slice(0, 10)} UTC</time>
-                  </>
-                </td>
-                <td>
-                  {record.issuerPublished
-                    ? 'Active issuer published'
-                    : 'No active issuer published'}
-                </td>
-                <td>
-                  <details class="resource-list">
-                    <summary>{`${record.resources.length} resource declarations`}</summary>
-                    <ul>
-                      {record.resources.map((resource) => (
-                        <li data-family={resource.family} data-version={resource.version || ''}>
-                          {resourceDescription(resource)}
-                        </li>
-                      ))}
-                    </ul>
-                    {record.resources.length === 0 && (
-                      <p>No version or certification declarations in this observation.</p>
-                    )}
-                  </details>
-                </td>
-                <td>
-                  <>
-                    <a href={record.source}>Directory</a>
-                    <a href={record.profileUrl}>View profile &amp; timeline</a>
-                  </>
-                </td>
-              </tr>
-            ))
-          }
+          {records.map((record) => (
+            <tr data-record-key={record.key} hidden={record.environment !== 'production'}>
+              <td>
+                <label class="compare-control">
+                  <input
+                    class="compare-toggle"
+                    type="checkbox"
+                    value={record.key}
+                    disabled
+                    aria-label={`Compare ${record.name} (${record.environment}), registration ${record.id}`}
+                  />
+                </label>
+              </td>
+              <th scope="row">
+                <>
+                  <a href={record.profileUrl}>{record.name}</a>
+                  <span class="record-id">{record.id}</span>
+                  <span class="role-list">
+                    Role claims: {record.roles.join(', ') || 'none published'}
+                  </span>
+                </>
+              </th>
+              <td>
+                <>
+                  <span class="environment">{record.environment}</span>
+                  <time datetime={record.observedAt}>{record.observedAt.slice(0, 10)} UTC</time>
+                </>
+              </td>
+              <td>
+                {record.issuerPublished ? 'Active issuer published' : 'No active issuer published'}
+              </td>
+              <td>
+                <details class="resource-list">
+                  <summary>{`${record.resources.length} resource declarations`}</summary>
+                  <ul>
+                    {record.resources.map((resource) => (
+                      <li data-family={resource.family} data-version={resource.version || ''}>
+                        {resourceDescription(resource)}
+                      </li>
+                    ))}
+                  </ul>
+                  {record.resources.length === 0 && (
+                    <p>No version or certification declarations in this observation.</p>
+                  )}
+                </details>
+              </td>
+              <td>
+                <>
+                  <a href={record.source}>Directory</a>
+                  <a href={record.profileUrl}>View profile &amp; timeline</a>
+                </>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
 
     <section id="comparison" hidden aria-labelledby="comparison-title">
       <div class="table-toolbar">
-        <h2 id="comparison-title">Selected registrations</h2><button
-          id="comparison-clear"
-          type="button">Clear comparison</button
-        >
+        <h2 id="comparison-title">Selected registrations</h2>
+        <button id="comparison-clear" type="button">
+          Clear comparison
+        </button>
       </div>
       <p id="comparison-status" role="status" aria-live="polite"></p>
       <p>
@@ -237,28 +236,29 @@ const data = JSON.stringify(records).replace(/</g, '\\u003c');
         Shared links reopen the latest saved directory observations. Download the CSV to retain this
         observation's dates and values.
       </p>
-      <label
-        >Link including filters and selected registrations<input
+      <label>
+        Link including filters and selected registrations
+        <input
           id="coverage-url"
           type="url"
           readonly
           value="https://openfinance-os.org/observatory/coverage/"
-        /></label
-      >
-      <button id="coverage-copy" type="button" disabled>Copy link</button><span
-        id="copy-status"
-        role="status"></span>
+        />
+      </label>
+      <button id="coverage-copy" type="button" disabled>
+        Copy link
+      </button>
+      <span id="copy-status" role="status"></span>
       <p id="coverage-citation">
-        OpenFinance-OS, UAE Open Finance directory observations. {
-          observations.map((o) => `${o.environment} observed ${o.observedAt}`).join('; ')
-        }. Published metadata, not verified usage.
+        OpenFinance-OS, UAE Open Finance directory observations.{' '}
+        {observations.map((o) => `${o.environment} observed ${o.observedAt}`).join('; ')}. Published
+        metadata, not verified usage.
       </p>
       <p>
         CSV exports contain one row per matching resource, with registration ID, environment,
         observation time, source, version and declarations. A registration with no resource details
-        has a row with those fields empty. See the <a href="/observatory/methodology"
-          >definitions and limitations</a
-        >.
+        has a row with those fields empty. See the{' '}
+        <a href="/observatory/methodology">definitions and limitations</a>.
       </p>
     </section>
   </div>

@@ -117,15 +117,13 @@ const keyDifferences = [
               </tr>
             </thead>
             <tbody>
-              {
-                keyDifferences.map((row) => (
-                  <tr>
-                    <td class="aspect-cell">{row.aspect}</td>
-                    <td>{row.psd2}</td>
-                    <td class="uae-cell">{row.uae}</td>
-                  </tr>
-                ))
-              }
+              {keyDifferences.map((row) => (
+                <tr>
+                  <td class="aspect-cell">{row.aspect}</td>
+                  <td>{row.psd2}</td>
+                  <td class="uae-cell">{row.uae}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -134,32 +132,28 @@ const keyDifferences = [
       <section class="timeline-section">
         <h2 class="section-title">Timeline</h2>
         <div class="timeline">
-          {
-            timeline.map((item) => (
-              <div class="timeline-item">
-                <span class="timeline-year">{item.year}</span>
-                <span class="timeline-event">{item.event}</span>
-              </div>
-            ))
-          }
+          {timeline.map((item) => (
+            <div class="timeline-item">
+              <span class="timeline-year">{item.year}</span>
+              <span class="timeline-event">{item.event}</span>
+            </div>
+          ))}
         </div>
       </section>
 
       <section class="lessons-section">
         <h2 class="section-title">Lessons for UAE</h2>
         <div class="lessons-grid">
-          {
-            lessons.map((lesson) => (
-              <div class="lesson-card">
-                <h3>{lesson.title}</h3>
-                <p class="lesson-description">{lesson.description}</p>
-                <div class="lesson-relevance">
-                  <span class="relevance-label">UAE Relevance</span>
-                  <p>{lesson.relevance}</p>
-                </div>
+          {lessons.map((lesson) => (
+            <div class="lesson-card">
+              <h3>{lesson.title}</h3>
+              <p class="lesson-description">{lesson.description}</p>
+              <div class="lesson-relevance">
+                <span class="relevance-label">UAE Relevance</span>
+                <p>{lesson.relevance}</p>
               </div>
-            ))
-          }
+            </div>
+          ))}
         </div>
       </section>
 

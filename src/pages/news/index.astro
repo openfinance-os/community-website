@@ -67,7 +67,7 @@ const getFeaturedHref = () => {
   if (!featuredArticle) return '#';
   return featuredArticle.data.external && featuredArticle.data.source
     ? featuredArticle.data.source
-    : `/news/${featuredArticle.slug}`;
+    : `/news/${featuredArticle.id}`;
 };
 
 const getSourceName = (url: string): string => {
@@ -109,83 +109,81 @@ const getSourceName = (url: string): string => {
       </div>
     </header>
 
-    {
-      featuredArticle && (
-        <section class="featured-section">
-          <div class="container">
-            <div class="featured-label">
-              <span class="label-icon">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                </svg>
-              </span>
-              Latest
-            </div>
-            <a
-              href={getFeaturedHref()}
-              class="featured-card"
-              target={featuredArticle.data.external ? '_blank' : undefined}
-              rel={featuredArticle.data.external ? 'noopener noreferrer' : undefined}
-            >
-              <div class="featured-content">
-                <div class="featured-meta">
-                  <div class="featured-badges">
-                    <Badge variant={featuredArticle.data.type} size="sm">
-                      {typeLabels[featuredArticle.data.type]}
-                    </Badge>
-                    <Badge variant={regionVariant(featuredArticle.data.region)} size="sm">
-                      {regionLabels[featuredArticle.data.region]}
-                    </Badge>
-                  </div>
-                  <time datetime={featuredArticle.data.date.toISOString()}>
-                    {formatDate(featuredArticle.data.date)}
-                  </time>
-                </div>
-                <h2 class="featured-title">{featuredArticle.data.title}</h2>
-                {featuredArticle.data.description && (
-                  <p class="featured-description">{featuredArticle.data.description}</p>
-                )}
-                <div class="featured-footer">
-                  <span class="featured-author">
-                    {featuredArticle.data.external && featuredArticle.data.source
-                      ? `via ${getSourceName(featuredArticle.data.source)}`
-                      : `By ${featuredArticle.data.author}`}
-                  </span>
-                  <span class="featured-cta">
-                    {featuredArticle.data.external ? 'View source' : 'Read article'}
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
-                  </span>
-                </div>
-              </div>
-              <div class="featured-decoration" aria-hidden="true">
-                <div class="decoration-circle" />
-                <div class="decoration-lines">
-                  <span />
-                  <span />
-                  <span />
-                </div>
-              </div>
-            </a>
+    {featuredArticle && (
+      <section class="featured-section">
+        <div class="container">
+          <div class="featured-label">
+            <span class="label-icon">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              </svg>
+            </span>
+            Latest
           </div>
-        </section>
-      )
-    }
+          <a
+            href={getFeaturedHref()}
+            class="featured-card"
+            target={featuredArticle.data.external ? '_blank' : undefined}
+            rel={featuredArticle.data.external ? 'noopener noreferrer' : undefined}
+          >
+            <div class="featured-content">
+              <div class="featured-meta">
+                <div class="featured-badges">
+                  <Badge variant={featuredArticle.data.type} size="sm">
+                    {typeLabels[featuredArticle.data.type]}
+                  </Badge>
+                  <Badge variant={regionVariant(featuredArticle.data.region)} size="sm">
+                    {regionLabels[featuredArticle.data.region]}
+                  </Badge>
+                </div>
+                <time datetime={featuredArticle.data.date.toISOString()}>
+                  {formatDate(featuredArticle.data.date)}
+                </time>
+              </div>
+              <h2 class="featured-title">{featuredArticle.data.title}</h2>
+              {featuredArticle.data.description && (
+                <p class="featured-description">{featuredArticle.data.description}</p>
+              )}
+              <div class="featured-footer">
+                <span class="featured-author">
+                  {featuredArticle.data.external && featuredArticle.data.source
+                    ? `via ${getSourceName(featuredArticle.data.source)}`
+                    : `By ${featuredArticle.data.author}`}
+                </span>
+                <span class="featured-cta">
+                  {featuredArticle.data.external ? 'View source' : 'Read article'}
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </div>
+            </div>
+            <div class="featured-decoration" aria-hidden="true">
+              <div class="decoration-circle" />
+              <div class="decoration-lines">
+                <span />
+                <span />
+                <span />
+              </div>
+            </div>
+          </a>
+        </div>
+      </section>
+    )}
 
     <section class="news-section">
       <div class="container">
@@ -204,21 +202,19 @@ const getSourceName = (url: string): string => {
         />
 
         <div class="news-grid" id="news-grid">
-          {
-            remainingNews.map((article) => (
-              <NewsCard
-                title={article.data.title}
-                date={article.data.date}
-                type={article.data.type}
-                region={article.data.region}
-                author={article.data.author}
-                description={article.data.description}
-                slug={article.slug}
-                source={article.data.source}
-                external={article.data.external}
-              />
-            ))
-          }
+          {remainingNews.map((article) => (
+            <NewsCard
+              title={article.data.title}
+              date={article.data.date}
+              type={article.data.type}
+              region={article.data.region}
+              author={article.data.author}
+              description={article.data.description}
+              slug={article.id}
+              source={article.data.source}
+              external={article.data.external}
+            />
+          ))}
         </div>
 
         <div class="empty-state" id="empty-state" style="display: none;">
@@ -237,16 +233,16 @@ const getSourceName = (url: string): string => {
           </div>
           <p class="empty-title">No articles found</p>
           <p class="empty-description">Try adjusting your filters or search terms</p>
-          <button class="reset-filters-btn" id="reset-filters"> Clear all filters </button>
+          <button class="reset-filters-btn" id="reset-filters">
+            Clear all filters
+          </button>
         </div>
 
-        {
-          sortedNews.length === 0 && (
-            <div class="empty-state">
-              <p>No news articles yet. Check back soon!</p>
-            </div>
-          )
-        }
+        {sortedNews.length === 0 && (
+          <div class="empty-state">
+            <p>No news articles yet. Check back soon!</p>
+          </div>
+        )}
 
         <div class="external-news">
           <h2>More Global News</h2>
@@ -258,9 +254,9 @@ const getSourceName = (url: string): string => {
           >
             <div class="external-content">
               <span class="external-title">Open Conversations</span>
-              <span class="external-description"
-                >Global news and insights about open finance worldwide</span
-              >
+              <span class="external-description">
+                Global news and insights about open finance worldwide
+              </span>
             </div>
             <svg
               width="16"

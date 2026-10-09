@@ -21,28 +21,26 @@ const { heading = 'Building or integrating?', intro, links } = Astro.props;
   <span class="op-eyebrow">{heading}</span>
   <p class="op-intro" set:html={intro} />
   <ul class="op-links">
-    {
-      links.map((l) => (
-        <li>
-          <a href={l.href} rel="noopener">
-            {l.label}
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M7 17L17 7M17 7H7M17 7v10" />
-            </svg>
-          </a>
-        </li>
-      ))
-    }
+    {links.map((l) => (
+      <li>
+        <a href={l.href} rel="noopener">
+          {l.label}
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M7 17L17 7M17 7H7M17 7v10" />
+          </svg>
+        </a>
+      </li>
+    ))}
   </ul>
   <p class="op-note">
     Check each source's version, publication date and errata before implementation. Community

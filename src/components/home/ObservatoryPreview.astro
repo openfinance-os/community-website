@@ -83,9 +83,7 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
           >
             <circle cx="12" cy="12" r="10"></circle>
             <path d="M2 12h20"></path>
-            <path
-              d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
-            ></path>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
           </svg>
         </span>
         Across Both Directories
@@ -157,14 +155,16 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
             <span class="stage-value">{liveInProduction}</span>
           </div>
           <div class="stage-bar">
-            <div class="stage-fill stage-fill-production" style={`width: ${productionPercent}%`}>
-            </div>
+            <div
+              class="stage-fill stage-fill-production"
+              style={`width: ${productionPercent}%`}
+            ></div>
           </div>
         </div>
       </div>
       <p class="pipeline-note">
-        {stats.sandbox.live} sandbox and {stats.production.live} production registrations publish an active
-        authorization server with an issuer. Registration does not establish usage.
+        {stats.sandbox.live} sandbox and {stats.production.live} production registrations publish an
+        active authorization server with an issuer. Registration does not establish usage.
       </p>
     </div>
 
@@ -182,8 +182,7 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
             stroke-linecap="round"
             stroke-linejoin="round"
           >
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-            ></path>
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
             <polyline points="22,6 12,13 2,6"></polyline>
           </svg>
         </span>
@@ -194,18 +193,16 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
         <span class="stat-label">API Families</span>
       </div>
       <div class="api-breakdown">
-        {
-          stats.apiFamilies.map((family) => (
-            <div class="api-item">
-              <span
-                class="api-dot"
-                style={`background: ${apiFamilyColors[family] || 'var(--color-gray-400)'}`}
-              />
-              <span class="api-label">{apiFamilyLabel(family)}</span>
-              <span class="api-value">{stats.apiFamilyCoverage[family] || 0}</span>
-            </div>
-          ))
-        }
+        {stats.apiFamilies.map((family) => (
+          <div class="api-item">
+            <span
+              class="api-dot"
+              style={`background: ${apiFamilyColors[family] || 'var(--color-gray-400)'}`}
+            />
+            <span class="api-label">{apiFamilyLabel(family)}</span>
+            <span class="api-value">{stats.apiFamilyCoverage[family] || 0}</span>
+          </div>
+        ))}
       </div>
     </div>
 
@@ -241,8 +238,14 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
             r="40"
             stroke="var(--color-primary-300)"
             stroke-width="1"
-            stroke-dasharray="4 4"></circle>
-          <circle cx="50" cy="50" r="25" stroke="var(--color-primary-400)" stroke-width="1"
+            stroke-dasharray="4 4"
+          ></circle>
+          <circle
+            cx="50"
+            cy="50"
+            r="25"
+            stroke="var(--color-primary-400)"
+            stroke-width="1"
           ></circle>
           <circle cx="50" cy="50" r="10" fill="var(--color-primary-500)"></circle>
         </svg>

@@ -57,42 +57,38 @@ const { types, typeLabels, regions, regionLabels } = Astro.props;
     <div class="filter-group">
       <span class="filter-label">Type:</span>
       <div class="filter-buttons" role="tablist" aria-label="Filter news by type">
-        {
-          types.map((type) => (
-            <button
-              class:list={['filter-btn', { active: type === 'all' }]}
-              data-filter-type={type}
-              role="tab"
-              id={`news-tab-type-${type}`}
-              aria-selected={type === 'all' ? 'true' : 'false'}
-              aria-controls="news-grid"
-              tabindex={type === 'all' ? 0 : -1}
-            >
-              {type === 'all' ? 'All' : typeLabels[type] || type}
-            </button>
-          ))
-        }
+        {types.map((type) => (
+          <button
+            class:list={['filter-btn', { active: type === 'all' }]}
+            data-filter-type={type}
+            role="tab"
+            id={`news-tab-type-${type}`}
+            aria-selected={type === 'all' ? 'true' : 'false'}
+            aria-controls="news-grid"
+            tabindex={type === 'all' ? 0 : -1}
+          >
+            {type === 'all' ? 'All' : typeLabels[type] || type}
+          </button>
+        ))}
       </div>
     </div>
 
     <div class="filter-group">
       <span class="filter-label">Region:</span>
       <div class="filter-buttons" role="tablist" aria-label="Filter news by region">
-        {
-          regions.map((region) => (
-            <button
-              class:list={['filter-btn', { active: region === 'all' }]}
-              data-filter-region={region}
-              role="tab"
-              id={`news-tab-region-${region}`}
-              aria-selected={region === 'all' ? 'true' : 'false'}
-              aria-controls="news-grid"
-              tabindex={region === 'all' ? 0 : -1}
-            >
-              {region === 'all' ? 'All' : regionLabels[region] || region}
-            </button>
-          ))
-        }
+        {regions.map((region) => (
+          <button
+            class:list={['filter-btn', { active: region === 'all' }]}
+            data-filter-region={region}
+            role="tab"
+            id={`news-tab-region-${region}`}
+            aria-selected={region === 'all' ? 'true' : 'false'}
+            aria-controls="news-grid"
+            tabindex={region === 'all' ? 0 : -1}
+          >
+            {region === 'all' ? 'All' : regionLabels[region] || region}
+          </button>
+        ))}
       </div>
     </div>
   </div>

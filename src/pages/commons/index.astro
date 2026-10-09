@@ -106,9 +106,7 @@ function formatDate(date: Date): string {
             rel="noopener noreferrer"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
-              ></path>
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path>
             </svg>
             View on GitHub
           </a>
@@ -139,99 +137,95 @@ function formatDate(date: Date): string {
       </section>
 
       <!-- Featured Section -->
-      {
-        featuredContributions.length > 0 && (
-          <section class="featured-section">
-            <div class="featured-header">
-              <h2 class="featured-title">
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                </svg>
-                Featured Contributions
-              </h2>
-              <p class="featured-description">
-                Hand-picked resources that exemplify community value
-              </p>
-            </div>
-            <div class="featured-grid">
-              {featuredContributions.map((contribution) => {
-                const config = typeConfig[contribution.data.type];
-                return (
-                  <a href={`/commons/${contribution.slug}`} class="featured-card">
-                    <div class={`featured-type-badge ${contribution.data.type}`}>
-                      {contribution.data.type === 'insight' && (
-                        <svg
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                        >
-                          <path d="M9 18h6M10 22h4M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z" />
-                        </svg>
-                      )}
-                      {contribution.data.type === 'reference' && (
-                        <svg
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                        >
-                          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-                          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-                        </svg>
-                      )}
-                      {contribution.data.type === 'artifact' && (
-                        <svg
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                        >
-                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                          <polyline points="14,2 14,8 20,8" />
-                        </svg>
-                      )}
-                      {contribution.data.type === 'utility' && (
-                        <svg
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                        >
-                          <polyline points="16,18 22,12 16,6" />
-                          <polyline points="8,6 2,12 8,18" />
-                        </svg>
-                      )}
-                      {config.label}
-                    </div>
-                    <h3 class="featured-card-title">{contribution.data.title}</h3>
-                    <p class="featured-card-summary">{contribution.data.summary}</p>
-                    <div class="featured-card-meta">
-                      <span class="contributor">{contribution.data.contributor}</span>
-                      <span class="arrow-icon">→</span>
-                    </div>
-                  </a>
-                );
-              })}
-            </div>
-          </section>
-        )
-      }
+      {featuredContributions.length > 0 && (
+        <section class="featured-section">
+          <div class="featured-header">
+            <h2 class="featured-title">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              </svg>
+              Featured Contributions
+            </h2>
+            <p class="featured-description">Hand-picked resources that exemplify community value</p>
+          </div>
+          <div class="featured-grid">
+            {featuredContributions.map((contribution) => {
+              const config = typeConfig[contribution.data.type];
+              return (
+                <a href={`/commons/${contribution.id}`} class="featured-card">
+                  <div class={`featured-type-badge ${contribution.data.type}`}>
+                    {contribution.data.type === 'insight' && (
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path d="M9 18h6M10 22h4M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z" />
+                      </svg>
+                    )}
+                    {contribution.data.type === 'reference' && (
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+                      </svg>
+                    )}
+                    {contribution.data.type === 'artifact' && (
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14,2 14,8 20,8" />
+                      </svg>
+                    )}
+                    {contribution.data.type === 'utility' && (
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <polyline points="16,18 22,12 16,6" />
+                        <polyline points="8,6 2,12 8,18" />
+                      </svg>
+                    )}
+                    {config.label}
+                  </div>
+                  <h3 class="featured-card-title">{contribution.data.title}</h3>
+                  <p class="featured-card-summary">{contribution.data.summary}</p>
+                  <div class="featured-card-meta">
+                    <span class="contributor">{contribution.data.contributor}</span>
+                    <span class="arrow-icon">→</span>
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       <!-- Type Legend -->
       <section class="type-legend">
@@ -245,9 +239,7 @@ function formatDate(date: Date): string {
               stroke="currentColor"
               stroke-width="2"
             >
-              <path
-                d="M9 18h6M10 22h4M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"
-              ></path>
+              <path d="M9 18h6M10 22h4M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"></path>
             </svg>
           </div>
           <div>
@@ -319,33 +311,67 @@ function formatDate(date: Date): string {
         <div class="filter-group">
           <label class="filter-label">Type</label>
           <div class="filter-chips" data-filter="type">
-            <button class="filter-chip active" data-value="all">All</button>
-            <button class="filter-chip" data-value="insight">Insight</button>
-            <button class="filter-chip" data-value="reference">Reference</button>
-            <button class="filter-chip" data-value="artifact">Artifact</button>
-            <button class="filter-chip" data-value="utility">Utility</button>
+            <button class="filter-chip active" data-value="all">
+              All
+            </button>
+            <button class="filter-chip" data-value="insight">
+              Insight
+            </button>
+            <button class="filter-chip" data-value="reference">
+              Reference
+            </button>
+            <button class="filter-chip" data-value="artifact">
+              Artifact
+            </button>
+            <button class="filter-chip" data-value="utility">
+              Utility
+            </button>
           </div>
         </div>
         <div class="filter-group">
           <label class="filter-label">Audience</label>
           <div class="filter-chips" data-filter="audience">
-            <button class="filter-chip active" data-value="all">All</button>
-            <button class="filter-chip" data-value="bank">Banks</button>
-            <button class="filter-chip" data-value="tpp">TPPs</button>
-            <button class="filter-chip" data-value="developer">Developers</button>
-            <button class="filter-chip" data-value="regulator">Regulators</button>
+            <button class="filter-chip active" data-value="all">
+              All
+            </button>
+            <button class="filter-chip" data-value="bank">
+              Banks
+            </button>
+            <button class="filter-chip" data-value="tpp">
+              TPPs
+            </button>
+            <button class="filter-chip" data-value="developer">
+              Developers
+            </button>
+            <button class="filter-chip" data-value="regulator">
+              Regulators
+            </button>
           </div>
         </div>
         <div class="filter-group">
           <label class="filter-label">Use Case</label>
           <div class="filter-chips" data-filter="useCase">
-            <button class="filter-chip active" data-value="all">All</button>
-            <button class="filter-chip" data-value="payments">Payments</button>
-            <button class="filter-chip" data-value="data">Data</button>
-            <button class="filter-chip" data-value="underwriting">Underwriting</button>
-            <button class="filter-chip" data-value="compliance">Compliance</button>
-            <button class="filter-chip" data-value="identity">Identity</button>
-            <button class="filter-chip" data-value="onboarding">Onboarding</button>
+            <button class="filter-chip active" data-value="all">
+              All
+            </button>
+            <button class="filter-chip" data-value="payments">
+              Payments
+            </button>
+            <button class="filter-chip" data-value="data">
+              Data
+            </button>
+            <button class="filter-chip" data-value="underwriting">
+              Underwriting
+            </button>
+            <button class="filter-chip" data-value="compliance">
+              Compliance
+            </button>
+            <button class="filter-chip" data-value="identity">
+              Identity
+            </button>
+            <button class="filter-chip" data-value="onboarding">
+              Onboarding
+            </button>
           </div>
         </div>
       </section>
@@ -357,24 +383,156 @@ function formatDate(date: Date): string {
 
       <!-- Contributions Grid -->
       <section class="contributions-grid">
-        {
-          contributions.length > 0 ? (
-            contributions.map((contribution) => {
-              const config = typeConfig[contribution.data.type];
-              const isExternal =
-                contribution.data.type === 'reference' || !contribution.data.authoredByContributor;
+        {contributions.length > 0 ? (
+          contributions.map((contribution) => {
+            const config = typeConfig[contribution.data.type];
+            const isExternal =
+              contribution.data.type === 'reference' || !contribution.data.authoredByContributor;
 
-              return (
-                <article
-                  class="contribution-card"
-                  data-type={contribution.data.type}
-                  data-audience={contribution.data.audience.join(',')}
-                  data-use-cases={contribution.data.useCases.join(',')}
-                  data-maturity={contribution.data.maturity}
-                >
-                  <div class="card-header">
-                    <div class={`type-indicator ${contribution.data.type}`}>
-                      {contribution.data.type === 'insight' && (
+            return (
+              <article
+                class="contribution-card"
+                data-type={contribution.data.type}
+                data-audience={contribution.data.audience.join(',')}
+                data-use-cases={contribution.data.useCases.join(',')}
+                data-maturity={contribution.data.maturity}
+              >
+                <div class="card-header">
+                  <div class={`type-indicator ${contribution.data.type}`}>
+                    {contribution.data.type === 'insight' && (
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path d="M9 18h6M10 22h4M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z" />
+                      </svg>
+                    )}
+                    {contribution.data.type === 'reference' && (
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+                      </svg>
+                    )}
+                    {contribution.data.type === 'artifact' && (
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14,2 14,8 20,8" />
+                      </svg>
+                    )}
+                    {contribution.data.type === 'utility' && (
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <polyline points="16,18 22,12 16,6" />
+                        <polyline points="8,6 2,12 8,18" />
+                      </svg>
+                    )}
+                    <span>{config.label}</span>
+                  </div>
+                  {isExternal && (
+                    <span class="external-badge" title="External resource">
+                      External
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path d="M7 17L17 7M17 7H7M17 7v10" />
+                      </svg>
+                    </span>
+                  )}
+                  {contribution.data.featured && (
+                    <span class="featured-badge" title="Featured">
+                      Featured
+                    </span>
+                  )}
+                </div>
+
+                <a href={`/commons/${contribution.id}`} class="card-content">
+                  <h3 class="card-title">{contribution.data.title}</h3>
+                  <p class="card-summary">{contribution.data.summary}</p>
+                </a>
+
+                <div class="card-meta">
+                  <div class="meta-tags">
+                    {contribution.data.useCases.slice(0, 2).map((uc) => (
+                      <span class="meta-tag">{useCaseLabels[uc] || uc}</span>
+                    ))}
+                    {contribution.data.useCases.length > 2 && (
+                      <span class="meta-tag more">+{contribution.data.useCases.length - 2}</span>
+                    )}
+                  </div>
+                  <span class="maturity-badge" data-maturity={contribution.data.maturity}>
+                    {maturityLabels[contribution.data.maturity]}
+                  </span>
+                </div>
+
+                <div class="card-footer">
+                  <span class="contributor">
+                    {contribution.data.contributorUrl ? (
+                      <a
+                        href={contribution.data.contributorUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {contribution.data.contributor}
+                      </a>
+                    ) : (
+                      contribution.data.contributor
+                    )}
+                  </span>
+                  <span class="date">{formatDate(contribution.data.date)}</span>
+                </div>
+
+                {contribution.data.links && (
+                  <div class="card-links">
+                    {contribution.data.links.github && (
+                      <a
+                        href={contribution.data.links.github}
+                        class="link-btn"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title="View on GitHub"
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                        </svg>
+                      </a>
+                    )}
+                    {contribution.data.links.demo && (
+                      <a
+                        href={contribution.data.links.demo}
+                        class="link-btn"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title="View Demo"
+                      >
                         <svg
                           width="14"
                           height="14"
@@ -383,56 +541,21 @@ function formatDate(date: Date): string {
                           stroke="currentColor"
                           stroke-width="2"
                         >
-                          <path d="M9 18h6M10 22h4M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z" />
+                          <polygon points="5,3 19,12 5,21" />
                         </svg>
-                      )}
-                      {contribution.data.type === 'reference' && (
+                      </a>
+                    )}
+                    {contribution.data.links.article && (
+                      <a
+                        href={contribution.data.links.article}
+                        class="link-btn"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title="Read Article"
+                      >
                         <svg
                           width="14"
                           height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                        >
-                          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-                          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-                        </svg>
-                      )}
-                      {contribution.data.type === 'artifact' && (
-                        <svg
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                        >
-                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                          <polyline points="14,2 14,8 20,8" />
-                        </svg>
-                      )}
-                      {contribution.data.type === 'utility' && (
-                        <svg
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                        >
-                          <polyline points="16,18 22,12 16,6" />
-                          <polyline points="8,6 2,12 8,18" />
-                        </svg>
-                      )}
-                      <span>{config.label}</span>
-                    </div>
-                    {isExternal && (
-                      <span class="external-badge" title="External resource">
-                        External
-                        <svg
-                          width="12"
-                          height="12"
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
@@ -440,133 +563,34 @@ function formatDate(date: Date): string {
                         >
                           <path d="M7 17L17 7M17 7H7M17 7v10" />
                         </svg>
-                      </span>
-                    )}
-                    {contribution.data.featured && (
-                      <span class="featured-badge" title="Featured">
-                        Featured
-                      </span>
+                      </a>
                     )}
                   </div>
-
-                  <a href={`/commons/${contribution.slug}`} class="card-content">
-                    <h3 class="card-title">{contribution.data.title}</h3>
-                    <p class="card-summary">{contribution.data.summary}</p>
-                  </a>
-
-                  <div class="card-meta">
-                    <div class="meta-tags">
-                      {contribution.data.useCases.slice(0, 2).map((uc) => (
-                        <span class="meta-tag">{useCaseLabels[uc] || uc}</span>
-                      ))}
-                      {contribution.data.useCases.length > 2 && (
-                        <span class="meta-tag more">+{contribution.data.useCases.length - 2}</span>
-                      )}
-                    </div>
-                    <span class="maturity-badge" data-maturity={contribution.data.maturity}>
-                      {maturityLabels[contribution.data.maturity]}
-                    </span>
-                  </div>
-
-                  <div class="card-footer">
-                    <span class="contributor">
-                      {contribution.data.contributorUrl ? (
-                        <a
-                          href={contribution.data.contributorUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {contribution.data.contributor}
-                        </a>
-                      ) : (
-                        contribution.data.contributor
-                      )}
-                    </span>
-                    <span class="date">{formatDate(contribution.data.date)}</span>
-                  </div>
-
-                  {contribution.data.links && (
-                    <div class="card-links">
-                      {contribution.data.links.github && (
-                        <a
-                          href={contribution.data.links.github}
-                          class="link-btn"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          title="View on GitHub"
-                        >
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                          </svg>
-                        </a>
-                      )}
-                      {contribution.data.links.demo && (
-                        <a
-                          href={contribution.data.links.demo}
-                          class="link-btn"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          title="View Demo"
-                        >
-                          <svg
-                            width="14"
-                            height="14"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                          >
-                            <polygon points="5,3 19,12 5,21" />
-                          </svg>
-                        </a>
-                      )}
-                      {contribution.data.links.article && (
-                        <a
-                          href={contribution.data.links.article}
-                          class="link-btn"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          title="Read Article"
-                        >
-                          <svg
-                            width="14"
-                            height="14"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                          >
-                            <path d="M7 17L17 7M17 7H7M17 7v10" />
-                          </svg>
-                        </a>
-                      )}
-                    </div>
-                  )}
-                </article>
-              );
-            })
-          ) : (
-            <div class="empty-state">
-              <div class="empty-icon">
-                <svg
-                  width="48"
-                  height="48"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                >
-                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                </svg>
-              </div>
-              <h3>No contributions yet</h3>
-              <p>Be the first to contribute to the Commons.</p>
-              <a href="/commons/contribute" class="btn btn-primary">
-                Submit a Contribution
-              </a>
+                )}
+              </article>
+            );
+          })
+        ) : (
+          <div class="empty-state">
+            <div class="empty-icon">
+              <svg
+                width="48"
+                height="48"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              >
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+              </svg>
             </div>
-          )
-        }
+            <h3>No contributions yet</h3>
+            <p>Be the first to contribute to the Commons.</p>
+            <a href="/commons/contribute" class="btn btn-primary">
+              Submit a Contribution
+            </a>
+          </div>
+        )}
       </section>
 
       <!-- No Results Message (hidden by default) -->

@@ -110,23 +110,21 @@ const displayCity =
     <!-- Header: Type Badge + Location -->
     <header class="card-header">
       <div class="header-left">
-        {
-          profile?.typeLabel ? (
-            <div class:list={['type-badge', typeColors[profile.type || ''] || 'type-default']}>
-              {isInternational && parentFlag && <span class="type-flag">{parentFlag}</span>}
-              {profile.typeLabel}
-            </div>
-          ) : isLive ? (
-            <div class="status-badge live">
-              <span class="status-dot" />
-              <span class="status-text">Auth server published</span>
-            </div>
-          ) : (
-            <div class="status-badge registered">
-              <span class="status-text">Registered</span>
-            </div>
-          )
-        }
+        {profile?.typeLabel ? (
+          <div class:list={['type-badge', typeColors[profile.type || ''] || 'type-default']}>
+            {isInternational && parentFlag && <span class="type-flag">{parentFlag}</span>}
+            {profile.typeLabel}
+          </div>
+        ) : isLive ? (
+          <div class="status-badge live">
+            <span class="status-dot" />
+            <span class="status-text">Auth server published</span>
+          </div>
+        ) : (
+          <div class="status-badge registered">
+            <span class="status-text">Registered</span>
+          </div>
+        )}
       </div>
       <div class="location">
         <svg
@@ -154,30 +152,26 @@ const displayCity =
     </div>
 
     <!-- Description -->
-    {
-      profile?.description ? (
-        <div class="description-wrapper">
-          <p class="description">{profile.description}</p>
-          <span class="read-more">Read more →</span>
-        </div>
-      ) : (
-        <div class="description-wrapper">
-          <p class="description placeholder">
-            Recently registered participant – profile coming soon.
-          </p>
-        </div>
-      )
-    }
+    {profile?.description ? (
+      <div class="description-wrapper">
+        <p class="description">{profile.description}</p>
+        <span class="read-more">Read more →</span>
+      </div>
+    ) : (
+      <div class="description-wrapper">
+        <p class="description placeholder">
+          Recently registered participant – profile coming soon.
+        </p>
+      </div>
+    )}
 
     <!-- Parent Company (for international banks) -->
-    {
-      profile?.parentCompany && (
-        <div class="parent-company">
-          <span class="parent-label">HQ:</span>
-          <span class="parent-value">{profile.parentCompany.headquarters}</span>
-        </div>
-      )
-    }
+    {profile?.parentCompany && (
+      <div class="parent-company">
+        <span class="parent-label">HQ:</span>
+        <span class="parent-value">{profile.parentCompany.headquarters}</span>
+      </div>
+    )}
 
     <!-- Market Position (if notable) -->
     {profile?.marketPosition && <div class="market-position">{profile.marketPosition}</div>}
@@ -186,14 +180,12 @@ const displayCity =
     <div class="roles-section">
       <span class="roles-label">Roles</span>
       <p class="roles-list">
-        {
-          roles.map((role, index) => (
-            <>
-              <span class="role">{role}</span>
-              {index < roles.length - 1 && <span class="role-separator">·</span>}
-            </>
-          ))
-        }
+        {roles.map((role, index) => (
+          <>
+            <span class="role">{role}</span>
+            {index < roles.length - 1 && <span class="role-separator">·</span>}
+          </>
+        ))}
       </p>
     </div>
 
@@ -201,44 +193,40 @@ const displayCity =
     <div class="api-section">
       <span class="api-label">API Coverage</span>
       <div class="api-indicators">
-        {
-          allApiFamilies.map((api) => {
-            const isActive = apiFamilies.includes(api.key);
-            return (
-              <div
-                class="api-item"
-                class:list={[{ active: isActive }]}
-                title={isActive ? 'Published in directory' : 'Not published in this snapshot'}
-              >
-                <span class="api-dot" />
-                <span class="api-name">{api.label}</span>
-              </div>
-            );
-          })
-        }
+        {allApiFamilies.map((api) => {
+          const isActive = apiFamilies.includes(api.key);
+          return (
+            <div
+              class="api-item"
+              class:list={[{ active: isActive }]}
+              title={isActive ? 'Published in directory' : 'Not published in this snapshot'}
+            >
+              <span class="api-dot" />
+              <span class="api-name">{api.label}</span>
+            </div>
+          );
+        })}
       </div>
     </div>
 
     <!-- Footer -->
     <footer class="card-footer">
       {isShariahCompliant && <span class="shariah-badge">Directory Shariah flag</span>}
-      {
-        profile?.website && (
-          <span class="website-link" data-href={profile.website} data-participant={name}>
-            Visit website
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M7 17L17 7M17 7H7M17 7v10" />
-            </svg>
-          </span>
-        )
-      }
+      {profile?.website && (
+        <span class="website-link" data-href={profile.website} data-participant={name}>
+          Visit website
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M7 17L17 7M17 7H7M17 7v10" />
+          </svg>
+        </span>
+      )}
     </footer>
   </article>
 </a>

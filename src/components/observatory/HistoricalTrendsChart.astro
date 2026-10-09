@@ -135,186 +135,180 @@ const trendAriaLabel = `Ecosystem growth chart showing ${latestCount} total part
       </svg>
       Ecosystem Growth
     </h3>
-    {
-      displayData.length >= 2 && (
-        <div
-          class:list={[
-            'growth-badge',
-            {
-              positive: growth > 0,
-              negative: growth < 0,
-              neutral: growth === 0,
-            },
-          ]}
-          title={`Change in registered participants over the last ${displayData.length} days of data collection`}
-        >
-          {growth > 0 ? (
-            <>
-              <svg
-                width="12"
-                height="12"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <polyline points="18 15 12 9 6 15" />
-              </svg>
-              +{growth}
-            </>
-          ) : growth < 0 ? (
-            <>
-              <svg
-                width="12"
-                height="12"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <polyline points="6 9 12 15 18 9" />
-              </svg>
-              {growth}
-            </>
-          ) : (
-            <>
-              <svg
-                width="12"
-                height="12"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <line x1="5" y1="12" x2="19" y2="12" />
-              </svg>
-              No change
-            </>
-          )}
-          <span class="period-label">30d</span>
-        </div>
-      )
-    }
+    {displayData.length >= 2 && (
+      <div
+        class:list={[
+          'growth-badge',
+          {
+            positive: growth > 0,
+            negative: growth < 0,
+            neutral: growth === 0,
+          },
+        ]}
+        title={`Change in registered participants over the last ${displayData.length} days of data collection`}
+      >
+        {growth > 0 ? (
+          <>
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="18 15 12 9 6 15" />
+            </svg>
+            +{growth}
+          </>
+        ) : growth < 0 ? (
+          <>
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+            {growth}
+          </>
+        ) : (
+          <>
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            No change
+          </>
+        )}
+        <span class="period-label">30d</span>
+      </div>
+    )}
   </div>
 
-  {
-    displayData.length > 1 ? (
-      <div class="chart-container">
-        <svg
-          viewBox={`0 0 ${width} ${height}`}
-          class="trend-chart"
-          role="img"
-          aria-label={trendAriaLabel}
-        >
-          {/* Grid lines */}
-          {yLabels.map((_, i) => (
-            <line
-              x1={padding.left}
-              y1={padding.top + (i * chartHeight) / 4}
-              x2={padding.left + chartWidth}
-              y2={padding.top + (i * chartHeight) / 4}
-              class="grid-line"
+  {displayData.length > 1 ? (
+    <div class="chart-container">
+      <svg
+        viewBox={`0 0 ${width} ${height}`}
+        class="trend-chart"
+        role="img"
+        aria-label={trendAriaLabel}
+      >
+        {/* Grid lines */}
+        {yLabels.map((_, i) => (
+          <line
+            x1={padding.left}
+            y1={padding.top + (i * chartHeight) / 4}
+            x2={padding.left + chartWidth}
+            y2={padding.top + (i * chartHeight) / 4}
+            class="grid-line"
+          />
+        ))}
+
+        {/* Area fill */}
+        <path d={getAreaPath(displayData)} class="area-fill" />
+
+        {/* Line */}
+        <path d={getPathData(displayData)} class="trend-line" />
+
+        {/* Data points */}
+        {displayData.map((point, i) => {
+          const xStep = chartWidth / Math.max(displayData.length - 1, 1);
+          const yScale = (val: number) =>
+            chartHeight -
+            ((val - minParticipants) / (maxParticipants - minParticipants || 1)) * chartHeight;
+          const x = padding.left + i * xStep;
+          const y = padding.top + yScale(point.totalParticipants);
+
+          return (
+            <circle
+              cx={x}
+              cy={y}
+              r="3"
+              class="data-point"
+              data-date={point.date}
+              data-value={point.totalParticipants}
             />
-          ))}
+          );
+        })}
 
-          {/* Area fill */}
-          <path d={getAreaPath(displayData)} class="area-fill" />
+        {/* Y-axis labels */}
+        {yLabels.map((label, i) => (
+          <text
+            x={padding.left - 10}
+            y={padding.top + chartHeight - (i * chartHeight) / 4 + 4}
+            class="axis-label y-label"
+          >
+            {label}
+          </text>
+        ))}
 
-          {/* Line */}
-          <path d={getPathData(displayData)} class="trend-line" />
-
-          {/* Data points */}
-          {displayData.map((point, i) => {
-            const xStep = chartWidth / Math.max(displayData.length - 1, 1);
-            const yScale = (val: number) =>
-              chartHeight -
-              ((val - minParticipants) / (maxParticipants - minParticipants || 1)) * chartHeight;
-            const x = padding.left + i * xStep;
-            const y = padding.top + yScale(point.totalParticipants);
-
-            return (
-              <circle
-                cx={x}
-                cy={y}
-                r="3"
-                class="data-point"
-                data-date={point.date}
-                data-value={point.totalParticipants}
-              />
-            );
-          })}
-
-          {/* Y-axis labels */}
-          {yLabels.map((label, i) => (
-            <text
-              x={padding.left - 10}
-              y={padding.top + chartHeight - (i * chartHeight) / 4 + 4}
-              class="axis-label y-label"
-            >
-              {label}
-            </text>
-          ))}
-
-          {/* X-axis labels */}
-          {xLabels.map(({ x, label }) => (
-            <text x={x} y={height - 10} class="axis-label x-label">
-              {label}
-            </text>
-          ))}
+        {/* X-axis labels */}
+        {xLabels.map(({ x, label }) => (
+          <text x={x} y={height - 10} class="axis-label x-label">
+            {label}
+          </text>
+        ))}
+      </svg>
+    </div>
+  ) : (
+    <div class="no-data">
+      <div class="no-data-icon">
+        <svg
+          width="48"
+          height="48"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
         </svg>
       </div>
-    ) : (
-      <div class="no-data">
-        <div class="no-data-icon">
-          <svg
-            width="48"
-            height="48"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-          </svg>
-        </div>
-        <p class="no-data-title">Building Historical Data</p>
-        <p class="no-data-description">
-          Trend charts will appear after multiple days of data collection. Check back soon to see
-          ecosystem growth over time.
-        </p>
-        <div class="no-data-meta">
-          <span class="collection-status">
-            <span class="status-dot" />
-            Data collection active
-          </span>
-        </div>
+      <p class="no-data-title">Building Historical Data</p>
+      <p class="no-data-description">
+        Trend charts will appear after multiple days of data collection. Check back soon to see
+        ecosystem growth over time.
+      </p>
+      <div class="no-data-meta">
+        <span class="collection-status">
+          <span class="status-dot" />
+          Data collection active
+        </span>
       </div>
-    )
-  }
+    </div>
+  )}
 
-  {
-    recentMilestones.length > 0 && (
-      <div class="milestones">
-        <h4 class="milestones-title">Recent Milestones</h4>
-        <div class="milestones-list">
-          {recentMilestones.map((milestone) => (
-            <div class="milestone-item">
-              <span class="milestone-date">{milestone.date}</span>
-              <span class="milestone-event">{milestone.event}</span>
-            </div>
-          ))}
-        </div>
+  {recentMilestones.length > 0 && (
+    <div class="milestones">
+      <h4 class="milestones-title">Recent Milestones</h4>
+      <div class="milestones-list">
+        {recentMilestones.map((milestone) => (
+          <div class="milestone-item">
+            <span class="milestone-date">{milestone.date}</span>
+            <span class="milestone-event">{milestone.event}</span>
+          </div>
+        ))}
       </div>
-    )
-  }
+    </div>
+  )}
 </div>
 
 <style>

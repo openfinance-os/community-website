@@ -234,28 +234,30 @@ const formatDate = (dateStr: string) => {
       </div>
       <div class="header-meta">
         <div class="header-controls">
-          {
-            isDualFormat && (
-              <EnvironmentToggle
-                currentEnvironment={currentEnv}
-                productionCount={productionSnapshot?.summary?.totalParticipants || 0}
-                sandboxCount={sandboxSnapshot?.summary?.totalParticipants || 0}
-              />
-            )
-          }
+          {isDualFormat && (
+            <EnvironmentToggle
+              currentEnvironment={currentEnv}
+              productionCount={productionSnapshot?.summary?.totalParticipants || 0}
+              sandboxCount={sandboxSnapshot?.summary?.totalParticipants || 0}
+            />
+          )}
         </div>
         <div class="header-info">
           <p class="last-updated">
             Last updated: <time datetime={timestamp}>{formatDate(timestamp)}</time> UTC
           </p>
           <div class="header-links">
-            <a href="/observatory/methodology" class="header-link">How we calculate this</a>
+            <a href="/observatory/methodology" class="header-link">
+              How we calculate this
+            </a>
             <a
               href="https://github.com/openfinance-os/community/issues"
               class="header-link"
               target="_blank"
-              rel="noopener noreferrer">See an error?</a
+              rel="noopener noreferrer"
             >
+              See an error?
+            </a>
           </div>
         </div>
       </div>
@@ -264,9 +266,8 @@ const formatDate = (dateStr: string) => {
     <p class="measurement-note">
       Each registration is a directory ID, not a deduplicated legal entity. An active authorization
       server with an issuer is published metadata, not evidence of traffic or verified availability.
-      Capability and Shariah indicators reflect source declarations. <a
-        href="/observatory/methodology">Definitions and limitations</a
-      >.
+      Capability and Shariah indicators reflect source declarations.{' '}
+      <a href="/observatory/methodology">Definitions and limitations</a>.
     </p>
 
     <section class="stats-section">
@@ -470,24 +471,22 @@ const formatDate = (dateStr: string) => {
           </h2>
           <p class="chart-description">API families in sandbox</p>
           <div class="api-matrix">
-            {
-              apiFamilies.map((api: string) => {
-                const count = participants.filter((p: any) => p.apiFamilies?.includes(api)).length;
-                const percentage =
-                  totalParticipants > 0 ? Math.round((count / totalParticipants) * 100) : 0;
-                return (
-                  <div class="api-row">
-                    <span class="api-name">{apiFamilyLabel(api)}</span>
-                    <div class="api-bar-container">
-                      <div class="api-bar" style={`width: ${percentage}%`} />
-                    </div>
-                    <span class="api-count">
-                      {count}/{totalParticipants}
-                    </span>
+            {apiFamilies.map((api: string) => {
+              const count = participants.filter((p: any) => p.apiFamilies?.includes(api)).length;
+              const percentage =
+                totalParticipants > 0 ? Math.round((count / totalParticipants) * 100) : 0;
+              return (
+                <div class="api-row">
+                  <span class="api-name">{apiFamilyLabel(api)}</span>
+                  <div class="api-bar-container">
+                    <div class="api-bar" style={`width: ${percentage}%`} />
                   </div>
-                );
-              })
-            }
+                  <span class="api-count">
+                    {count}/{totalParticipants}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -518,8 +517,8 @@ const formatDate = (dateStr: string) => {
           <div>
             <h2>Sandbox Participants</h2>
             <p>
-              <span id="filtered-count">{participants.length}</span> of {participants.length} registered
-              test institutions
+              <span id="filtered-count">{participants.length}</span> of {participants.length}{' '}
+              registered test institutions
             </p>
           </div>
         </div>
@@ -551,7 +550,9 @@ const formatDate = (dateStr: string) => {
             <div class="filter-divider"></div>
             <div class="filter-group">
               <div class="filter-field">
-                <label class="filter-label" for="filter-type">Type</label>
+                <label class="filter-label" for="filter-type">
+                  Type
+                </label>
                 <select id="filter-type" class="filter-dropdown">
                   <option value="">All</option>
                   <option value="commercial-bank">Commercial Bank</option>
@@ -566,7 +567,9 @@ const formatDate = (dateStr: string) => {
                 </select>
               </div>
               <div class="filter-field">
-                <label class="filter-label" for="filter-city">Location</label>
+                <label class="filter-label" for="filter-city">
+                  Location
+                </label>
                 <select id="filter-city" class="filter-dropdown">
                   <option value="">All</option>
                   <option value="Abu Dhabi">Abu Dhabi</option>
@@ -580,7 +583,9 @@ const formatDate = (dateStr: string) => {
                 </select>
               </div>
               <div class="filter-field">
-                <label class="filter-label" for="filter-status">Status</label>
+                <label class="filter-label" for="filter-status">
+                  Status
+                </label>
                 <select id="filter-status" class="filter-dropdown">
                   <option value="">All</option>
                   <option value="live">Auth server published</option>
@@ -592,45 +597,43 @@ const formatDate = (dateStr: string) => {
         </div>
       </header>
       <div class="participants-grid" id="participants-grid">
-        {
-          participants.map((participant: any) => {
-            const profile = (participantProfiles as any)[participant.name];
-            const displayCity =
-              participant.city === 'Unknown' && profile?.headquarters?.city
-                ? profile.headquarters.city
-                : participant.city;
-            return (
-              <div
-                class="participant-card-wrapper"
-                data-name={participant.name.toLowerCase()}
-                data-legal-name={participant.legalName?.toLowerCase() || ''}
-                data-type={profile?.type || ''}
-                data-city={displayCity}
-                data-is-live={participant.hasAuthServer}
-                data-participant-name={participant.name}
-                data-participant-short-name={participant.shortName}
-                data-participant-city={displayCity}
-                data-participant-roles={participant.roles.join(', ')}
-              >
-                <ParticipantCard
-                  id={participant.id}
-                  name={participant.name}
-                  legalName={participant.legalName}
-                  shortName={participant.shortName}
-                  status={participant.status}
-                  roles={participant.roles}
-                  city={participant.city}
-                  apiFamilies={participant.apiFamilies}
-                  hasAuthServer={participant.hasAuthServer}
-                  isShariahCompliant={participant.isShariahCompliant}
-                  isLive={participant.hasAuthServer}
-                  profile={profile}
-                  environment="sandbox"
-                />
-              </div>
-            );
-          })
-        }
+        {participants.map((participant: any) => {
+          const profile = (participantProfiles as any)[participant.name];
+          const displayCity =
+            participant.city === 'Unknown' && profile?.headquarters?.city
+              ? profile.headquarters.city
+              : participant.city;
+          return (
+            <div
+              class="participant-card-wrapper"
+              data-name={participant.name.toLowerCase()}
+              data-legal-name={participant.legalName?.toLowerCase() || ''}
+              data-type={profile?.type || ''}
+              data-city={displayCity}
+              data-is-live={participant.hasAuthServer}
+              data-participant-name={participant.name}
+              data-participant-short-name={participant.shortName}
+              data-participant-city={displayCity}
+              data-participant-roles={participant.roles.join(', ')}
+            >
+              <ParticipantCard
+                id={participant.id}
+                name={participant.name}
+                legalName={participant.legalName}
+                shortName={participant.shortName}
+                status={participant.status}
+                roles={participant.roles}
+                city={participant.city}
+                apiFamilies={participant.apiFamilies}
+                hasAuthServer={participant.hasAuthServer}
+                isShariahCompliant={participant.isShariahCompliant}
+                isLive={participant.hasAuthServer}
+                profile={profile}
+                environment="sandbox"
+              />
+            </div>
+          );
+        })}
       </div>
     </section>
 
@@ -642,11 +645,15 @@ const formatDate = (dateStr: string) => {
           <a
             href="https://data.sandbox.directory.openfinance.ae"
             target="_blank"
-            rel="noopener noreferrer">UAE Open Finance Sandbox Trust Framework Directory</a
-          >. The sandbox environment is used for testing and development purposes.
+            rel="noopener noreferrer"
+          >
+            UAE Open Finance Sandbox Trust Framework Directory
+          </a>
+          . The sandbox environment is used for testing and development purposes.
         </p>
         <p>
-          <strong>This is not production data.</strong> For production directory observations, view the
+          <strong>This is not production data.</strong> For production directory observations, view
+          the
           <a href="/observatory">Production Observatory</a>.
         </p>
       </div>
