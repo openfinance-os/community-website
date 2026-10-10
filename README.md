@@ -161,3 +161,9 @@ MIT License — see [LICENSE](LICENSE) for details.
 ---
 
 Built by the community, for the community.
+
+## Brand and design
+
+The Clear signal identity is maintained in `brand/openfinance-os-brand-guidelines.html`, with the published mirror in `public/brand/`. Use DM Sans for display and UI, the open-circle logo assets, and semantic theme tokens from `src/styles/global.css`. Keep the approved Open Circuit animation and its accessible playback behavior.
+
+The reusable Codex skill is `brand/skills/openfinance-os-brand/`. Its discoverable local installation belongs in `~/.codex/skills/openfinance-os-brand/`; copy that folder when installing or updating it. Update both guideline copies and the skill together when the identity changes.

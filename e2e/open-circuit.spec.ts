@@ -1,8 +1,9 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Open Circuit hero', () => {
+test.describe('Open Circuit section', () => {
   test('plays silently once and supports keyboard pause and replay', async ({ page }) => {
     await page.goto('/');
+    await page.locator('[data-open-circuit]').scrollIntoViewIfNeeded();
     const video = page.locator('#open-circuit-video');
     const pause = page.getByRole('button', { name: 'Pause animation', exact: true });
     await expect(pause).toBeVisible();
@@ -42,6 +43,7 @@ test.describe('Open Circuit hero', () => {
       if (request.url().includes('open-circuit-hero.mp4')) videoRequests.push(request.url());
     });
     await page.goto('/');
+    await page.locator('[data-open-circuit]').scrollIntoViewIfNeeded();
     await expect(page.getByRole('button', { name: 'Play animation', exact: true })).toBeVisible();
     await expect(page.locator('.circuit-poster')).toBeVisible();
     expect(await page.locator('#open-circuit-video').getAttribute('src')).toBeNull();
@@ -54,6 +56,7 @@ test.describe('Open Circuit hero', () => {
   test('keeps the hero usable when video fails', async ({ page }) => {
     await page.route('**/media/open-circuit-hero.mp4', (route) => route.abort());
     await page.goto('/');
+    await page.locator('[data-open-circuit]').scrollIntoViewIfNeeded();
     await expect(page.locator('.circuit-control')).toBeHidden();
     await expect(page.locator('.circuit-poster')).toBeVisible();
     expect(
@@ -67,22 +70,34 @@ test.describe('Open Circuit hero', () => {
     ).toBeVisible();
   });
 
-  test('fits the mobile viewport with the artwork before the description', async ({ page }) => {
+  test('fits the mobile viewport below the purpose headline', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/');
+    await page.locator('[data-open-circuit]').scrollIntoViewIfNeeded();
     const layout = await page.evaluate(() => {
       const art = document.querySelector('.hero-circuit')!.getBoundingClientRect();
-      const description = document.querySelector('.hero-tagline')!.getBoundingClientRect();
+      const hero = document.querySelector('.hero')!.getBoundingClientRect();
       return {
         pageWidth: document.documentElement.scrollWidth,
         viewportWidth: innerWidth,
-        artBottom: art.bottom,
-        descriptionTop: description.top,
+        artTop: art.top,
+        heroBottom: hero.bottom,
       };
     });
     expect(layout.pageWidth).toBeLessThanOrEqual(layout.viewportWidth);
-    expect(layout.artBottom).toBeLessThanOrEqual(layout.descriptionTop);
+    expect(layout.artTop).toBeGreaterThanOrEqual(layout.heroBottom);
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   });
+});
+
+test('animation waits for visibility and pauses when scrolled away', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  const video = page.locator('#open-circuit-video');
+  await expect(video).not.toHaveAttribute('src');
+  await page.locator('.hero-circuit').scrollIntoViewIfNeeded();
+  await expect(page.getByRole('button', { name: 'Pause animation', exact: true })).toBeVisible();
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await expect.poll(() => video.evaluate((v: HTMLVideoElement) => v.paused)).toBe(true);
 });

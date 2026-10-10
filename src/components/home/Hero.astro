@@ -1,683 +1,265 @@
 ---
-interface Props {
-  participantCount: number;
-  activeCount: number;
+import DirectorySnapshot from './DirectorySnapshot.astro';
+interface DirectoryObservation {
+  registered: number;
+  apiFamilies: string[];
   observedAt: string;
 }
-
-const { participantCount, activeCount, observedAt } = Astro.props;
+interface Props {
+  production: DirectoryObservation;
+  sandbox: DirectoryObservation | null;
+}
+const { production, sandbox } = Astro.props;
 ---
 
 <section class="hero" aria-labelledby="hero-title">
-  <div class="hero-content">
-    <div class="hero-badge">
-      <span class="badge-dot"></span>
-      <span class="badge-text">Independent · Open Source · Community-Led</span>
-    </div>
-
-    <h1 class="hero-title" id="hero-title">
-      <span class="title-line title-line-1">Open</span>
-      <span class="title-line title-line-2">Finance<span class="title-suffix">-os</span></span>
-    </h1>
-
-    <div class="hero-circuit" data-open-circuit>
-      <div class="circuit-media" aria-hidden="true">
-        <img
-          class="circuit-poster"
-          src="/media/open-circuit-poster.webp"
-          alt=""
-          width="1440"
-          height="810"
-          loading="eager"
-          fetchpriority="high"
-        />
-        <video
-          id="open-circuit-video"
-          class="circuit-video"
-          data-src="/media/open-circuit-hero.mp4"
-          poster="/media/open-circuit-poster.webp"
-          width="1440"
-          height="810"
-          preload="none"
-          muted
-          playsinline
-          tabindex="-1"></video>
-      </div>
-      <div class="circuit-caption">
-        <div>
-          <p class="circuit-people">People · Institutions · Builders</p>
-          <p class="circuit-message">Connected through permission.</p>
-        </div>
-        <button class="circuit-control" type="button" aria-controls="open-circuit-video" hidden>
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-            <path data-control-icon d="M5 3 13 8 5 13Z"></path>
-          </svg>
-          <span data-control-label>Play animation</span>
-        </button>
-      </div>
-    </div>
-
-    <p class="hero-tagline">
-      The independent record of <span class="highlight">UAE Open Finance</span> — the data, the global
-      context, the community.
-    </p>
-
-    <p class="hero-mission">
-      Not official, not affiliated — <span class="mission-emphasis">independent by design,</span> so the
-      view stays neutral.
-    </p>
-
-    <div class="hero-stat">
-      <div class="stat-number">{participantCount}</div>
-      <div class="stat-details">
-        <span class="stat-label">production directory registrations</span>
-        <span class="stat-sublabel"
-          >{activeCount} marked Active · Observed {observedAt.slice(0, 10)} UTC</span
+  <div class="hero-inner">
+    <div class="hero-content">
+      <p class="hero-eyebrow">
+        <span class="badge-dot" aria-hidden="true"></span>The independent view of UAE Open Finance
+      </p>
+      <h1 id="hero-title">Open finance.<br /><span>In full view.</span></h1>
+      <p class="hero-tagline">
+        See the ecosystem take shape. Explore the data, understand the changes, and build what comes
+        next.
+      </p>
+      <div class="hero-actions">
+        <a href="/observatory" class="hero-primary"
+          >Explore the Observatory <span aria-hidden="true">↗</span></a
+        ><a href="#starting-points" class="hero-secondary"
+          >Find your starting point <span aria-hidden="true">↓</span></a
         >
       </div>
+      <p class="hero-note">Open source. Community led. Independent by design.</p>
     </div>
-
-    <div class="hero-actions">
-      <a href="/observatory" class="btn btn-primary">
-        <svg
-          width="18"
-          height="18"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <circle cx="12" cy="12" r="10"></circle>
-          <circle cx="12" cy="12" r="6"></circle>
-          <circle cx="12" cy="12" r="2"></circle>
-        </svg>
-        Explore the Observatory
-      </a>
-      <a href="/commons/data-sandbox" class="btn btn-secondary">
-        <svg
-          width="18"
-          height="18"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
-          <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
-          <path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"></path>
-        </svg>
-        Try the Data Sandbox
-        <span class="btn-badge">New</span>
-      </a>
-      <a href="/commons/ecosystem-watcher" class="btn btn-secondary">
-        <svg
-          width="18"
-          height="18"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-        </svg>
-        Ecosystem Watcher
-        <span class="btn-badge">New</span>
-      </a>
-    </div>
-
-    <p class="hero-footer">
-      Building or integrating on Al Tareq? The operator's developer hub has the API specs,
-      certification and service desk —
-      <a href="https://nebras-open-finance.com/" rel="noopener" class="hero-handoff-link"
-        >head to Nebras →</a
-      >
-    </p>
+    <DirectorySnapshot production={production} sandbox={sandbox} />
   </div>
 </section>
-
-<script>
-  const circuit = document.querySelector<HTMLElement>('[data-open-circuit]');
-  const video = circuit?.querySelector<HTMLVideoElement>('video');
-  const control = circuit?.querySelector<HTMLButtonElement>('.circuit-control');
-  const label = circuit?.querySelector<HTMLElement>('[data-control-label]');
-  const icon = circuit?.querySelector<SVGPathElement>('[data-control-icon]');
-
-  if (circuit && video && control && label && icon) {
-    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } })
-      .connection;
-    let userPaused = false;
-    let inView = true;
-    let failed = false;
-
-    const updateControl = () => {
-      const playing = !video.paused && !video.ended;
-      label.textContent = playing
-        ? 'Pause animation'
-        : video.ended
-          ? 'Replay animation'
-          : 'Play animation';
-      icon.setAttribute('d', playing ? 'M4 3h3v10H4Zm5 0h3v10H9Z' : 'M5 3 13 8 5 13Z');
-    };
-
-    const play = async () => {
-      if (failed) return;
-      // Keep the video unfetched until playback is appropriate or explicitly requested.
-      if (!video.getAttribute('src')) video.src = video.dataset.src!;
-      video.muted = true;
-      try {
-        await video.play();
-      } catch {
-        // Autoplay can be blocked; the poster and explicit play control remain available.
-        updateControl();
-      }
-    };
-
-    const syncPlayback = () => {
-      if (!inView || document.hidden || motionPreference.matches || connection?.saveData) {
-        video.pause();
-      } else if (!userPaused && !video.ended) {
-        void play();
-      }
-    };
-
-    video.addEventListener('playing', () => {
-      circuit.classList.add('has-video');
-      updateControl();
-    });
-    video.addEventListener('pause', updateControl);
-    video.addEventListener('ended', updateControl);
-    video.addEventListener('error', () => {
-      failed = true;
-      circuit.classList.remove('has-video');
-      control.hidden = true;
-    });
-    control.addEventListener('click', () => {
-      if (!video.paused) {
-        userPaused = true;
-        video.pause();
-      } else {
-        userPaused = false;
-        if (video.ended) video.currentTime = 0;
-        void play();
-      }
-    });
-    motionPreference.addEventListener('change', () => {
-      if (motionPreference.matches) circuit.classList.remove('has-video');
-      syncPlayback();
-    });
-    document.addEventListener('visibilitychange', syncPlayback);
-
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(
-        ([entry]) => {
-          inView = entry.isIntersecting;
-          syncPlayback();
-        },
-        { threshold: 0.1 }
-      ).observe(circuit);
-    }
-
-    control.hidden = false;
-    syncPlayback();
-  }
-</script>
+<div class="principles">
+  <div class="principles-inner">
+    <p class="principle-lead">A shared resource.<br />A clearer picture.</p>
+    <div class="principle">
+      <span class="principle-icon" aria-hidden="true">◎</span><div>
+        <strong>Evidence, in the open</strong><span>Visible sources. Clear context.</span>
+      </div>
+    </div>
+    <div class="principle">
+      <span class="principle-icon" aria-hidden="true">⌘</span><div>
+        <strong>Built to be shared</strong><span>Open code, data, and tools.</span>
+      </div>
+    </div>
+    <div class="principle">
+      <span class="principle-icon" aria-hidden="true">↗</span><div>
+        <strong>Community, at the core</strong><span>A neutral, independent perspective.</span>
+      </div>
+    </div>
+  </div>
+</div>
 
 <style>
   .hero {
-    position: relative;
-    isolation: isolate;
-    display: flex;
-    align-items: center;
-    min-height: 780px;
-    padding: clamp(3rem, 5vw, 5rem) max(2rem, calc((100vw - 1280px) / 2));
-    overflow: hidden;
-    background: #082e30;
-    color: #f2f5ef;
+    padding: 72px 24px 64px;
+    background: var(--color-surface);
   }
-
+  .hero-inner {
+    max-width: 1224px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.08fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
   .hero-content {
-    width: 48%;
-    max-width: 610px;
-    text-align: left;
+    min-width: 0;
   }
-
-  .hero-content > :not(.hero-circuit) {
-    position: relative;
-    z-index: 1;
-  }
-
-  .hero-circuit,
-  .circuit-media {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-  }
-
-  .circuit-poster,
-  .circuit-video {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-  }
-
-  .circuit-video {
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  .has-video .circuit-video {
-    opacity: 1;
-  }
-
-  .circuit-media::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, #082e30 0%, rgba(8, 46, 48, 0.94) 25%, transparent 58%);
-  }
-
-  .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    margin-bottom: var(--space-6);
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    font-weight: 400;
-    letter-spacing: 0.015em;
-    color: #c1d5ce;
-  }
-
-  .badge-dot {
-    width: 6px;
-    height: 6px;
-    flex-shrink: 0;
-    background: #e8a85c;
-    border-radius: 50%;
-    box-shadow: 0 0 14px rgba(232, 168, 92, 0.4);
-  }
-
-  .hero-title {
-    font-size: clamp(4rem, 6.4vw, 6rem);
-    font-weight: 600;
-    line-height: 0.98;
-    letter-spacing: -0.045em;
-    color: #f2f5ef;
-    margin-bottom: var(--space-6);
-  }
-
-  .title-line {
-    display: block;
-  }
-
-  .title-line-2 {
-    color: #e8a85c;
-  }
-
-  .title-suffix {
-    font-family: var(--font-mono);
-    font-size: 0.38em;
-    font-weight: 400;
-    letter-spacing: -0.04em;
-    color: #c1d5ce;
-  }
-
-  .hero-tagline {
-    max-width: 40ch;
-    font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
-    line-height: 1.65;
-    color: #c1d5ce;
-    margin-bottom: var(--space-4);
-  }
-
-  .highlight {
-    color: #f2f5ef;
-    font-weight: 500;
-  }
-
-  .hero-mission {
-    max-width: 52ch;
-    font-size: 0.875rem;
-    line-height: 1.6;
-    color: #b4cac4;
-    margin-bottom: var(--space-6);
-  }
-
-  .mission-emphasis {
-    color: #e2ebe4;
-    font-weight: 500;
-  }
-
-  .hero-stat {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-4);
-    padding: var(--space-4) 0;
-    border-top: 1px solid rgba(193, 213, 206, 0.23);
-    border-bottom: 1px solid rgba(193, 213, 206, 0.23);
-    margin-bottom: var(--space-6);
-  }
-
-  .stat-number {
-    font-family: var(--font-mono);
-    font-size: 2.25rem;
-    font-weight: 500;
-    line-height: 1;
-    color: #e8a85c;
-    letter-spacing: -0.04em;
-  }
-
-  .stat-details {
+  .hero-eyebrow {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    gap: 9px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text);
   }
-
-  .stat-label {
-    font-size: 0.8125rem;
+  .badge-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    flex-shrink: 0;
+  }
+  h1 {
+    font-size: clamp(3.5rem, 6.2vw, 5.625rem);
     font-weight: 500;
-    color: #f2f5ef;
+    letter-spacing: -0.065em;
+    line-height: 1.02;
+    margin: 30px 0 26px;
   }
-
-  .stat-sublabel {
-    font-family: var(--font-mono);
-    font-size: 0.625rem;
-    color: #b4cac4;
+  h1 span {
+    color: var(--color-brand-ink);
   }
-
+  .hero-tagline {
+    max-width: 430px;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+  }
   .hero-actions {
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-    max-width: 580px;
-    margin-bottom: var(--space-6);
-  }
-
-  .btn {
-    display: inline-flex;
     align-items: center;
+    gap: 22px;
+    margin-top: 31px;
+  }
+  .hero-primary {
+    display: inline-flex;
     justify-content: center;
-    gap: var(--space-2);
-    padding: var(--space-3) var(--space-4);
-    font-size: 0.8125rem;
-    font-weight: 500;
+    align-items: center;
+    gap: 20px;
+    background: var(--color-text);
+    color: var(--color-card);
+    padding: 17px 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: var(--radius-lg);
+    transition: transform var(--transition-fast);
+  }
+  .hero-primary:hover {
+    color: var(--color-card);
     text-decoration: none;
-    border-radius: var(--radius-md);
-    transition:
-      background-color var(--transition-fast),
-      border-color var(--transition-fast);
+    transform: translateY(-2px);
   }
-
-  .btn:hover {
-    text-decoration: none;
+  .hero-primary span {
+    font-size: 1.375rem;
+    line-height: 1;
   }
-
-  .btn-primary {
-    background: #f2f5ef;
-    border: 1px solid #f2f5ef;
-    color: #082e30;
-  }
-
-  .btn-primary:hover {
-    background: #e8a85c;
-    border-color: #e8a85c;
-    color: #082e30;
-  }
-
-  .btn-secondary {
-    background: rgba(8, 46, 48, 0.5);
-    color: #e2ebe4;
-    border: 1px solid rgba(193, 213, 206, 0.4);
-  }
-
-  .btn-secondary:hover {
-    background: rgba(193, 213, 206, 0.1);
-    border-color: #c1d5ce;
-    color: #f2f5ef;
-  }
-
-  .btn-badge {
-    font-family: var(--font-mono);
-    font-size: 0.5625rem;
-    text-transform: uppercase;
-    color: #e8a85c;
-  }
-
-  .btn:focus-visible,
-  .circuit-control:focus-visible {
-    outline: 2px solid #e8a85c;
-    outline-offset: 4px;
-  }
-
-  .hero-footer {
-    max-width: 56ch;
-    font-size: 0.75rem;
-    line-height: 1.7;
-    color: #b4cac4;
-  }
-
-  .hero-handoff-link {
-    color: #e8a85c;
-    font-weight: 500;
-    white-space: nowrap;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-
-  .hero-handoff-link:hover {
-    color: #f5c989;
-  }
-
-  .circuit-caption {
-    position: absolute;
-    left: 57%;
-    right: max(2rem, calc((100vw - 1280px) / 2));
-    bottom: 3rem;
+  .hero-secondary {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: var(--space-4);
-    padding-top: var(--space-4);
-    border-top: 1px solid rgba(193, 213, 206, 0.23);
-    pointer-events: auto;
+    gap: 9px;
+    color: var(--color-text);
+    font-size: 0.8125rem;
+    font-weight: 500;
   }
-
-  .circuit-people {
-    font-family: var(--font-mono);
-    font-size: 0.625rem;
-    color: #c1d5ce;
-    margin-bottom: var(--space-1);
+  .hero-note {
+    margin-top: 27px;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
   }
-
-  .circuit-message {
-    font-family: var(--font-display);
-    font-size: 1.125rem;
-    color: #f2f5ef;
+  .principles {
+    border-block: 1px solid var(--color-border);
+    margin-bottom: var(--space-12);
+    background: var(--color-surface);
   }
-
-  .circuit-control {
-    display: inline-flex;
+  .principles-inner {
+    max-width: 1224px;
+    margin: 0 auto;
+    padding: 27px 24px;
+    display: grid;
+    grid-template-columns: 1.05fr 1fr 1fr 1fr;
+    gap: 34px;
     align-items: center;
-    gap: var(--space-2);
-    min-height: 44px;
-    padding: var(--space-2) var(--space-3);
-    border: 1px solid rgba(193, 213, 206, 0.35);
-    border-radius: var(--radius-full);
-    background: rgba(8, 46, 48, 0.7);
-    color: #e2ebe4;
-    font-size: 0.6875rem;
-    white-space: nowrap;
-    cursor: pointer;
   }
-
-  .circuit-control:hover {
-    border-color: #e8a85c;
-    color: #f5c989;
+  .principle-lead {
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
   }
-
-  .circuit-control[hidden] {
-    display: none;
+  .principle {
+    display: flex;
+    gap: 12px;
+    align-items: center;
   }
-
-  @media (min-width: 1600px) {
-    .hero {
-      min-height: 860px;
-    }
+  .principle-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    flex-shrink: 0;
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    color: var(--color-brand-ink);
   }
-
-  @media (max-width: 900px) {
-    .hero {
-      flex-direction: column;
-      min-height: auto;
-      padding: 3rem 0 0;
-    }
-
-    .hero-content {
-      width: 100%;
-      max-width: 650px;
-      padding: 0 var(--space-6);
-    }
-
-    .hero-title {
-      font-size: clamp(3.75rem, 10vw, 5.5rem);
-    }
-
-    .hero-tagline {
-      max-width: 45ch;
-    }
-
-    .hero-circuit {
-      position: relative;
-      width: calc(100% + 3rem);
-      height: 500px;
-      margin: 0 -1.5rem var(--space-6);
-    }
-
-    .circuit-media {
-      bottom: 96px;
-      overflow: hidden;
-    }
-
-    .circuit-poster,
-    .circuit-video {
-      width: 160%;
-      max-width: none;
-      left: -60%;
-      object-position: center 25%;
-    }
-
-    .circuit-media::after {
-      background: linear-gradient(
-        180deg,
-        #082e30 0%,
-        transparent 10%,
-        transparent 90%,
-        #082e30 100%
-      );
-    }
-
-    .circuit-caption {
-      left: var(--space-6);
-      right: var(--space-6);
-      bottom: var(--space-6);
-      max-width: 600px;
-      margin-inline: auto;
-    }
+  .principle strong {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    margin-bottom: 4px;
   }
-
-  @media (max-width: 640px) {
-    .hero {
-      padding-top: var(--space-8);
+  .principle span:not(.principle-icon) {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+  }
+  @media (max-width: 1150px) {
+    .hero-inner {
+      gap: 40px;
     }
-
-    .hero-content {
-      padding-inline: var(--space-5);
-    }
-
-    .hero-badge {
-      font-size: 0.5625rem;
-      margin-bottom: var(--space-5);
-    }
-
-    .hero-title {
-      font-size: clamp(3.25rem, 14vw, 4.5rem);
-      margin-bottom: var(--space-5);
-    }
-
-    .hero-stat {
-      width: 100%;
-      gap: var(--space-3);
-    }
-
-    .stat-number {
-      font-size: 2rem;
-    }
-
-    .stat-label {
-      font-size: 0.75rem;
-    }
-
-    .stat-sublabel {
-      font-size: 0.5625rem;
-    }
-
     .hero-actions {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: var(--space-2);
+      flex-wrap: wrap;
+      gap: 17px;
     }
-
-    .btn {
-      min-height: 46px;
-      width: 100%;
+  }
+  @media (max-width: 900px) {
+    .hero-inner {
+      gap: 27px;
     }
-
-    .hero-circuit {
-      width: calc(100% + 2.5rem);
-      height: 335px;
-      margin: 0 -1.25rem var(--space-5);
+    h1 {
+      font-size: 3.875rem;
     }
-
-    .circuit-media {
-      bottom: 104px;
-    }
-
-    .circuit-caption {
-      left: var(--space-5);
-      right: var(--space-5);
-      gap: var(--space-2);
-    }
-
-    .circuit-people {
-      font-size: 0.5rem;
-    }
-
-    .circuit-message {
+    .hero-tagline {
       font-size: 0.9375rem;
     }
-
-    .circuit-control {
-      font-size: 0.625rem;
-      padding-inline: var(--space-2);
+    .principles-inner {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .principle-lead {
+      display: none;
     }
   }
-
+  @media (max-width: 700px) {
+    .hero {
+      padding: 44px 20px 35px;
+    }
+    .hero-inner {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .hero-eyebrow {
+      font-size: 0.625rem;
+    }
+    h1 {
+      font-size: clamp(2.875rem, 14vw, 3.5rem);
+      letter-spacing: -0.055em;
+      margin: 23px 0;
+    }
+    .hero-actions {
+      gap: 18px;
+    }
+    .hero-primary {
+      padding: 15px;
+      gap: 13px;
+      font-size: 0.75rem;
+    }
+    .hero-secondary {
+      font-size: 0.75rem;
+    }
+    .hero-note {
+      font-size: 0.6875rem;
+    }
+    .principles {
+      margin-bottom: 32px;
+    }
+    .principles-inner {
+      grid-template-columns: 1fr;
+      gap: 18px;
+      padding: 25px 20px;
+    }
+  }
   @media (prefers-reduced-motion: reduce) {
-    .circuit-video,
-    .btn {
+    .hero-primary {
       transition: none;
     }
   }

@@ -1,5 +1,6 @@
 ---
 import SearchDialog from './SearchDialog.astro';
+import BrandMark from './BrandMark.astro';
 
 const navItems = [
   { label: 'Observatory', href: '/observatory' },
@@ -17,14 +18,8 @@ const currentPath = Astro.url.pathname;
 <header class="header">
   <div class="header-inner">
     <a href="/" class="logo">
-      <img
-        src="/brand/logo-icon.svg"
-        alt="OpenFinance-OS Logo - UAE Open Finance Community"
-        class="logo-icon"
-        width="36"
-        height="36"
-      />
-      <span class="logo-text">OpenFinance-OS</span>
+      <BrandMark class="logo-icon" />
+      <span class="logo-text">OpenFinance<span class="logo-suffix">-OS</span></span>
       <span class="beta-label">Beta</span>
     </a>
 
@@ -95,7 +90,12 @@ const currentPath = Astro.url.pathname;
       </a>
     </div>
 
-    <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+    <button
+      class="mobile-menu-btn"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+      aria-controls="mobile-navigation"
+    >
       <span class="hamburger">
         <span></span>
         <span></span>
@@ -104,7 +104,7 @@ const currentPath = Astro.url.pathname;
     </button>
   </div>
 
-  <nav class="nav-mobile" aria-label="Mobile navigation">
+  <nav id="mobile-navigation" class="nav-mobile" aria-label="Mobile navigation">
     <ul class="nav-list-mobile">
       {
         navItems.map((item) => (
@@ -206,6 +206,15 @@ const currentPath = Astro.url.pathname;
     });
   });
 
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && mobileMenuBtn?.getAttribute('aria-expanded') === 'true') {
+      mobileMenuBtn.setAttribute('aria-expanded', 'false');
+      navMobile?.classList.remove('open');
+      header?.classList.remove('menu-open');
+      (mobileMenuBtn as HTMLButtonElement).focus();
+    }
+  });
+
   // Sticky header with shadow on scroll
   let lastScrollY = 0;
   window.addEventListener('scroll', () => {
@@ -289,23 +298,23 @@ const currentPath = Astro.url.pathname;
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(250, 251, 252, 0.85);
+    background: var(--color-card);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid transparent;
+    border-bottom: 1px solid var(--color-border);
     transition:
       border-color var(--transition-base),
       box-shadow var(--transition-base),
       background-color var(--transition-slow);
   }
 
-  [data-theme='dark'] .header {
-    background: rgba(15, 20, 25, 0.85);
+  :global([data-theme='dark']) .header {
+    background: var(--color-card);
   }
 
   @media (prefers-color-scheme: dark) {
-    html:not([data-theme='light']) .header {
-      background: rgba(15, 20, 25, 0.85);
+    :global(html:not([data-theme='light'])) .header {
+      background: var(--color-card);
     }
   }
 
@@ -318,9 +327,9 @@ const currentPath = Astro.url.pathname;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: 1200px;
+    max-width: 1272px;
     margin: 0 auto;
-    padding: var(--space-3) var(--space-4);
+    padding: 22px 24px;
     gap: var(--space-4);
   }
 
@@ -338,11 +347,11 @@ const currentPath = Astro.url.pathname;
     text-decoration: none;
   }
 
-  [data-theme='dark'] .logo {
-    color: var(--color-gray-100);
+  :global([data-theme='dark']) .logo {
+    color: var(--color-text);
   }
 
-  [data-theme='dark'] .logo:hover {
+  :global([data-theme='dark']) .logo:hover {
     color: var(--color-primary-400);
   }
 
@@ -352,31 +361,26 @@ const currentPath = Astro.url.pathname;
   }
 
   .logo-text {
-    font-family: var(--font-mono);
-    font-size: 1rem;
-    font-weight: 600;
-    letter-spacing: -0.02em;
+    font-family: var(--font-sans);
+    font-size: 1.3125rem;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    white-space: nowrap;
   }
 
+  .logo-suffix {
+    font-weight: 500;
+    color: var(--color-text-secondary);
+  }
   .beta-label {
     display: inline-flex;
-    align-items: center;
-    padding: 0.125rem 0.5rem;
-    font-family: var(--font-mono);
+    padding: 2px 6px;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    color: var(--color-text-secondary);
     font-size: 0.625rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #fff;
-    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-    border-radius: var(--radius-full);
-    box-shadow: 0 2px 8px rgba(249, 115, 22, 0.35);
-    margin-left: var(--space-2);
-  }
-
-  [data-theme='dark'] .beta-label {
-    background: linear-gradient(135deg, #fb923c 0%, #f97316 100%);
-    box-shadow: 0 2px 12px rgba(251, 146, 60, 0.4);
+    font-weight: 500;
+    letter-spacing: 0.04em;
   }
 
   .nav-desktop {
@@ -413,7 +417,7 @@ const currentPath = Astro.url.pathname;
 
   .nav-link:hover {
     color: var(--color-gray-900);
-    background-color: var(--color-gray-100);
+    background-color: var(--color-soft);
     text-decoration: none;
   }
 
@@ -430,16 +434,16 @@ const currentPath = Astro.url.pathname;
   }
 
   /* Dark mode nav */
-  [data-theme='dark'] .nav-link {
-    color: var(--color-gray-400);
+  :global([data-theme='dark']) .nav-link {
+    color: var(--color-text-secondary);
   }
 
-  [data-theme='dark'] .nav-link:hover {
-    color: var(--color-gray-100);
-    background-color: var(--color-gray-800);
+  :global([data-theme='dark']) .nav-link:hover {
+    color: var(--color-text);
+    background-color: var(--color-soft);
   }
 
-  [data-theme='dark'] .nav-link.active {
+  :global([data-theme='dark']) .nav-link.active {
     color: var(--color-primary-400);
     background-color: rgba(20, 184, 166, 0.15);
     font-weight: 600;
@@ -490,14 +494,14 @@ const currentPath = Astro.url.pathname;
     transform: scale(1.05);
   }
 
-  [data-theme='dark'] .theme-toggle {
-    background: var(--color-gray-800);
+  :global([data-theme='dark']) .theme-toggle {
+    background: var(--color-soft);
     border-color: var(--color-gray-700);
-    color: var(--color-gray-300);
+    color: var(--color-text-secondary);
   }
 
-  [data-theme='dark'] .theme-toggle:hover {
-    background: var(--color-gray-700);
+  :global([data-theme='dark']) .theme-toggle:hover {
+    background: var(--color-card);
     border-color: var(--color-gray-600);
     color: var(--color-accent-400);
   }
@@ -511,19 +515,19 @@ const currentPath = Astro.url.pathname;
     display: block;
   }
 
-  [data-theme='dark'] .icon-sun {
+  :global([data-theme='dark']) .icon-sun {
     display: block;
   }
 
-  [data-theme='dark'] .icon-moon {
+  :global([data-theme='dark']) .icon-moon {
     display: none;
   }
 
   @media (prefers-color-scheme: dark) {
-    html:not([data-theme='light']) .icon-sun {
+    :global(html:not([data-theme='light'])) .icon-sun {
       display: block;
     }
-    html:not([data-theme='light']) .icon-moon {
+    :global(html:not([data-theme='light'])) .icon-moon {
       display: none;
     }
   }
@@ -543,7 +547,7 @@ const currentPath = Astro.url.pathname;
 
   .github-link:hover {
     color: var(--color-gray-900);
-    background-color: var(--color-gray-100);
+    background-color: var(--color-soft);
   }
 
   .mobile-menu-btn {
@@ -567,7 +571,7 @@ const currentPath = Astro.url.pathname;
   }
 
   .mobile-menu-btn:hover {
-    background-color: var(--color-gray-100);
+    background-color: var(--color-soft);
   }
 
   .hamburger {
@@ -655,7 +659,7 @@ const currentPath = Astro.url.pathname;
 
   .nav-link-mobile:hover {
     color: var(--color-gray-900);
-    background-color: var(--color-gray-100);
+    background-color: var(--color-soft);
     text-decoration: none;
   }
 
@@ -673,21 +677,21 @@ const currentPath = Astro.url.pathname;
   }
 
   /* Dark mode mobile nav */
-  [data-theme='dark'] .nav-mobile {
-    background: var(--color-gray-900);
-    border-top-color: var(--color-gray-800);
+  :global([data-theme='dark']) .nav-mobile {
+    background: var(--color-card);
+    border-top-color: var(--color-border);
   }
 
-  [data-theme='dark'] .nav-link-mobile {
-    color: var(--color-gray-400);
+  :global([data-theme='dark']) .nav-link-mobile {
+    color: var(--color-text-secondary);
   }
 
-  [data-theme='dark'] .nav-link-mobile:hover {
-    color: var(--color-gray-100);
-    background-color: var(--color-gray-800);
+  :global([data-theme='dark']) .nav-link-mobile:hover {
+    color: var(--color-text);
+    background-color: var(--color-soft);
   }
 
-  [data-theme='dark'] .nav-link-mobile.active {
+  :global([data-theme='dark']) .nav-link-mobile.active {
     color: var(--color-primary-400);
     background-color: rgba(20, 184, 166, 0.15);
     font-weight: 600;
@@ -695,7 +699,7 @@ const currentPath = Astro.url.pathname;
     padding-left: calc(var(--space-4) - 3px);
   }
 
-  [data-theme='dark'] .nav-link-mobile.github {
+  :global([data-theme='dark']) .nav-link-mobile.github {
     border-top-color: var(--color-gray-700);
   }
 
@@ -727,20 +731,60 @@ const currentPath = Astro.url.pathname;
     display: inline;
   }
 
-  [data-theme='dark'] .theme-label-light {
+  :global([data-theme='dark']) .theme-label-light {
     display: none;
   }
 
-  [data-theme='dark'] .theme-label-dark {
+  :global([data-theme='dark']) .theme-label-dark {
     display: inline;
   }
 
   @media (prefers-color-scheme: dark) {
-    html:not([data-theme='light']) .theme-label-light {
+    :global(html:not([data-theme='light'])) .theme-label-light {
       display: none;
     }
-    html:not([data-theme='light']) .theme-label-dark {
+    :global(html:not([data-theme='light'])) .theme-label-dark {
       display: inline;
+    }
+  }
+  .logo-icon {
+    width: 34px;
+    height: 34px;
+    color: var(--color-brand-ink);
+    flex-shrink: 0;
+  }
+  .logo {
+    color: var(--color-text);
+  }
+  .logo:hover {
+    color: var(--color-brand-ink);
+  }
+  .nav-link {
+    font-size: 0.8125rem;
+    padding-inline: 10px;
+  }
+  @media (max-width: 700px) {
+    .header-inner {
+      padding: 16px 20px;
+      gap: 10px;
+    }
+    .logo-text {
+      font-size: 1.125rem;
+    }
+    .logo-icon {
+      width: 30px;
+      height: 30px;
+    }
+    .beta-label {
+      display: none;
+    }
+    .logo {
+      gap: 8px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-mobile.open {
+      animation: none;
     }
   }
 </style>

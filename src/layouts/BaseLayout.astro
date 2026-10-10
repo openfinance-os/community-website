@@ -179,24 +179,26 @@ const breadcrumbSchema =
     />
 
     <!-- Structured Data (JSON-LD) -->
-    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
-    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
     {
       breadcrumbSchema && (
-        <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+        <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
       )
     }
     {
       articleSchema && (
-        <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+        <script is:inline type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
       )
     }
 
-    <!-- Fonts - Brand: DM Sans + Fraunces (see PRD Section 14) -->
+    <!-- DM Sans is served locally; monospace is reserved for technical content. -->
+    <link rel="preload" href="/fonts/dm-sans-regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/fonts/dm-sans-medium.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
 
