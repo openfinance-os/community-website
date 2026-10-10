@@ -1,3 +1,8 @@
+---
+import { Image } from 'astro:assets';
+import poster from '../../../public/media/open-circuit-poster.webp';
+---
+
 <section class="open-circuit" aria-labelledby="circuit-title">
   <div class="circuit-inner" data-open-circuit>
     <div class="circuit-copy">
@@ -11,9 +16,11 @@
     </div>
     <div class="hero-circuit">
       <div class="circuit-media" aria-hidden="true">
-        <img
+        <Image
           class="circuit-poster"
-          src="/media/open-circuit-poster.webp"
+          src={poster}
+          widths={[480, 640, 960, 1280, 1440]}
+          sizes="auto, (max-width: 760px) calc(160vw - 64px), (max-width: 1272px) calc(85.6vw - 41px), 1048px"
           alt=""
           width="1440"
           height="810"
@@ -23,7 +30,6 @@
           id="open-circuit-video"
           class="circuit-video"
           data-src="/media/open-circuit-hero.mp4"
-          poster="/media/open-circuit-poster.webp"
           width="1440"
           height="810"
           preload="none"
