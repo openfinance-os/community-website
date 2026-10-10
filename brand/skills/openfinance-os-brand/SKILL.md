@@ -50,6 +50,8 @@ Use `minmax(0, 1fr)` tracks and `min-width: 0` for grid/flex children. Wrap long
 
 ## Voice and data
 
+Underline inline references so links do not rely on color alone. Use description lists for term/definition pairs and preserve logical heading levels, including article cards within their page context. Inspect detailed accessibility audit findings even when an existing CI setting makes them nonblocking.
+
 ### Founder attribution
 
 MiddleLeap founded OpenFinance-OS as an open-source community initiative. The project remains community-led, with independent editorial decisions.
