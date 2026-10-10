@@ -1,3 +1,32 @@
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/dm-sans-regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/dm-sans-medium.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/dm-sans-semibold.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/dm-sans-bold.ttf') format('truetype');
+}
+
 /* OpenFinance-OS Design Tokens */
 /* Brand colors from /brand/logo-preview.html */
 :root {
@@ -39,11 +68,14 @@
   --color-primary-fill-strong: #0a3d3d;
 
   /* Neutral - Brand values */
-  --color-surface: #fafbfc;
+  --color-surface: #f6f8f5;
+  --color-border: #dce5df;
+  --color-soft: #e7efea;
+  --color-brand-ink: #0d4f4f;
   --color-card: #ffffff;
   --color-dark: #0f1419;
-  --color-text: #1a1d21;
-  --color-text-secondary: #5a6169;
+  --color-text: #132c2b;
+  --color-text-secondary: #526662;
   --color-gray-50: #fafbfc;
   --color-gray-100: #f3f4f6;
   --color-gray-200: #e5e7eb;
@@ -63,7 +95,7 @@
   /* Typography - Brand fonts */
   --font-sans:
     'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-display: 'Fraunces', Georgia, serif;
+  --font-display: var(--font-sans);
   --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', ui-monospace, monospace;
 
   /* Spacing */
@@ -140,13 +172,16 @@
   --color-primary-fill-strong: #0d4f4f;
 
   /* Surface and backgrounds */
-  --color-surface: #0f1419;
-  --color-card: #1a1f26;
+  --color-surface: #102423;
+  --color-border: #2f4944;
+  --color-soft: #213c36;
+  --color-brand-ink: #cce4d8;
+  --color-card: #17302e;
   --color-dark: #fafbfc;
 
   /* Text colors - inverted */
-  --color-text: #e4e7eb;
-  --color-text-secondary: #9ca3af;
+  --color-text: #f1f7f1;
+  --color-text-secondary: #adc1b9;
 
   /* Gray scale - inverted for dark mode */
   --color-gray-50: #1a1f26;
@@ -200,11 +235,14 @@
     --color-accent-900: #fdf0d9;
     --color-primary-fill: #1a6b6b;
     --color-primary-fill-strong: #0d4f4f;
-    --color-surface: #0f1419;
-    --color-card: #1a1f26;
+    --color-surface: #102423;
+    --color-border: #2f4944;
+    --color-soft: #213c36;
+    --color-brand-ink: #cce4d8;
+    --color-card: #17302e;
     --color-dark: #fafbfc;
-    --color-text: #e4e7eb;
-    --color-text-secondary: #9ca3af;
+    --color-text: #f1f7f1;
+    --color-text-secondary: #adc1b9;
     --color-gray-50: #1a1f26;
     --color-gray-100: #1f2937;
     --color-gray-200: #2d3748;
@@ -293,7 +331,8 @@ h6 {
 h1,
 h2 {
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 500;
+  letter-spacing: -0.035em;
 }
 
 h1 {

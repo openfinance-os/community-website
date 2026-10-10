@@ -1,0 +1,280 @@
+<section class="open-circuit" aria-labelledby="circuit-title">
+  <div class="circuit-inner" data-open-circuit>
+    <div class="circuit-copy">
+      <p class="circuit-people">People · Institutions · Builders</p>
+      <h2 id="circuit-title">Connected through<br />permission.</h2>
+      <p class="circuit-description">
+        An open ecosystem starts with people in control. Shared standards connect institutions and
+        builders around that permission.
+      </p>
+      <a href="/learn">Understand the framework <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="hero-circuit">
+      <div class="circuit-media" aria-hidden="true">
+        <img
+          class="circuit-poster"
+          src="/media/open-circuit-poster.webp"
+          alt=""
+          width="1440"
+          height="810"
+          loading="lazy"
+        />
+        <video
+          id="open-circuit-video"
+          class="circuit-video"
+          data-src="/media/open-circuit-hero.mp4"
+          poster="/media/open-circuit-poster.webp"
+          width="1440"
+          height="810"
+          preload="none"
+          muted
+          playsinline
+          tabindex="-1"></video>
+      </div>
+      <div class="circuit-caption">
+        <span>Open Circuit</span>
+        <button class="circuit-control" type="button" aria-controls="open-circuit-video" hidden>
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"
+            ><path data-control-icon d="M5 3 13 8 5 13Z"></path></svg
+          >
+          <span data-control-label>Play animation</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const circuit = document.querySelector<HTMLElement>('[data-open-circuit]');
+  const video = circuit?.querySelector<HTMLVideoElement>('video');
+  const control = circuit?.querySelector<HTMLButtonElement>('.circuit-control');
+  const label = circuit?.querySelector<HTMLElement>('[data-control-label]');
+  const icon = circuit?.querySelector<SVGPathElement>('[data-control-icon]');
+
+  if (circuit && video && control && label && icon) {
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } })
+      .connection;
+    let userPaused = false;
+    let inView = !('IntersectionObserver' in window);
+    let failed = false;
+
+    const updateControl = () => {
+      const playing = !video.paused && !video.ended;
+      label.textContent = playing
+        ? 'Pause animation'
+        : video.ended
+          ? 'Replay animation'
+          : 'Play animation';
+      icon.setAttribute('d', playing ? 'M4 3h3v10H4Zm5 0h3v10H9Z' : 'M5 3 13 8 5 13Z');
+    };
+
+    const play = async () => {
+      if (failed) return;
+      // Keep the video unfetched until playback is appropriate or explicitly requested.
+      if (!video.getAttribute('src')) video.src = video.dataset.src!;
+      video.muted = true;
+      try {
+        await video.play();
+      } catch {
+        // Autoplay can be blocked; the poster and explicit play control remain available.
+        updateControl();
+      }
+    };
+
+    const syncPlayback = () => {
+      if (!inView || document.hidden || motionPreference.matches || connection?.saveData) {
+        video.pause();
+      } else if (!userPaused && !video.ended) {
+        void play();
+      }
+    };
+
+    video.addEventListener('playing', () => {
+      circuit.classList.add('has-video');
+      updateControl();
+    });
+    video.addEventListener('pause', updateControl);
+    video.addEventListener('ended', updateControl);
+    video.addEventListener('error', () => {
+      failed = true;
+      circuit.classList.remove('has-video');
+      control.hidden = true;
+    });
+    control.addEventListener('click', () => {
+      if (!video.paused) {
+        userPaused = true;
+        video.pause();
+      } else {
+        userPaused = false;
+        if (video.ended) video.currentTime = 0;
+        void play();
+      }
+    });
+    motionPreference.addEventListener('change', () => {
+      if (motionPreference.matches) circuit.classList.remove('has-video');
+      syncPlayback();
+    });
+    document.addEventListener('visibilitychange', syncPlayback);
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(
+        ([entry]) => {
+          inView = entry.isIntersecting;
+          syncPlayback();
+        },
+        { threshold: 0.1 }
+      ).observe(circuit);
+    }
+
+    control.hidden = false;
+    syncPlayback();
+  }
+</script>
+<style>
+  .open-circuit {
+    padding: 0 var(--space-6) var(--space-16);
+    background: var(--color-surface);
+  }
+  .circuit-inner {
+    max-width: 1224px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    background: #082e30;
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+  }
+  .circuit-copy {
+    padding: 60px 48px;
+    align-self: center;
+    position: relative;
+    z-index: 1;
+  }
+  .circuit-people {
+    color: #c1d5ce;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    margin-bottom: 24px;
+  }
+  h2 {
+    font-size: clamp(2rem, 3.1vw, 2.75rem);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    color: #f2f5ef;
+    line-height: 1.1;
+    margin-bottom: 22px;
+  }
+  .circuit-description {
+    color: #c1d5ce;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    max-width: 36ch;
+    margin-bottom: 26px;
+  }
+  .circuit-copy a {
+    display: inline-flex;
+    gap: 18px;
+    color: #e8a85c;
+    font-size: 0.875rem;
+    text-underline-offset: 4px;
+  }
+  .hero-circuit {
+    position: relative;
+    min-height: 400px;
+  }
+  .circuit-media {
+    position: absolute;
+    inset: 0 0 65px;
+    overflow: hidden;
+  }
+  .circuit-poster,
+  .circuit-video {
+    position: absolute;
+    inset: 0 auto 0 -60%;
+    width: 160%;
+    max-width: none;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+  }
+  .circuit-media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #082e30, transparent 20%);
+    pointer-events: none;
+  }
+  .circuit-video {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .has-video .circuit-video {
+    opacity: 1;
+  }
+  .circuit-caption {
+    position: absolute;
+    left: 28px;
+    right: 28px;
+    bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: #c1d5ce;
+    font-size: 0.75rem;
+  }
+  .circuit-control {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 8px 12px;
+    border: 1px solid #c1d5ce66;
+    border-radius: var(--radius-md);
+    background: #082e30;
+    color: #f2f5ef;
+    font-size: 0.75rem;
+    cursor: pointer;
+  }
+  .circuit-control[hidden] {
+    display: none;
+  }
+  .circuit-control:hover {
+    border-color: #e8a85c;
+    color: #f5c989;
+  }
+  .circuit-control:focus-visible {
+    outline-color: #e8a85c;
+    outline-offset: 4px;
+  }
+  @media (max-width: 760px) {
+    .open-circuit {
+      padding: 0 20px 40px;
+    }
+    .circuit-inner {
+      grid-template-columns: 1fr;
+    }
+    .circuit-copy {
+      padding: 32px 28px 0;
+    }
+    .circuit-description {
+      max-width: 48ch;
+    }
+    .hero-circuit {
+      min-height: 320px;
+    }
+    .circuit-media {
+      bottom: 70px;
+    }
+    .circuit-caption {
+      left: 24px;
+      right: 24px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .circuit-video {
+      transition: none;
+    }
+  }
+</style>

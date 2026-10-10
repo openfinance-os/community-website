@@ -63,7 +63,7 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
     <div class="footer-brand">
       <a href="/" class="footer-logo">
         <img
-          src="/brand/logo-icon.svg"
+          src="/brand/logo-icon-dark.svg"
           alt="OpenFinance-OS Logo - UAE Open Finance and Open Banking Community"
           width="28"
           height="28"
@@ -188,15 +188,19 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
           )
         }
       </p>
-      <p class="footer-disclaimer">Not affiliated with any bank, regulator, or official body.</p>
+      <p class="footer-disclaimer">
+        OpenFinance-OS is a community initiative and is not affiliated with, endorsed by, or
+        officially connected to the CBUAE, Al Tareq Platform, or any financial institution. Always
+        verify information with official sources.
+      </p>
     </div>
   </div>
 </footer>
 
 <style>
   .footer {
-    background: var(--color-gray-900);
-    color: var(--color-gray-300);
+    background: #0c3d3e;
+    color: #cce4d8;
     margin-top: auto;
   }
 
@@ -223,7 +227,7 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
 
     .footer-links {
       padding-left: var(--space-6);
-      border-left: 1px solid var(--color-gray-800);
+      border-left: 1px solid #365a55;
     }
   }
 
@@ -235,10 +239,10 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 1rem;
     font-weight: 600;
-    color: var(--color-gray-100);
+    color: #f1f7f1;
     text-decoration: none;
     transition: color var(--transition-fast);
   }
@@ -256,23 +260,23 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
     margin-top: var(--space-4);
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--color-gray-100);
+    color: #f1f7f1;
   }
 
   .footer-description {
     margin-top: var(--space-2);
     font-size: 0.875rem;
     line-height: 1.6;
-    color: var(--color-gray-400);
+    color: #c1d5ce;
   }
 
   .footer-heading {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--color-gray-500);
+    color: #adc1b9;
     margin-bottom: var(--space-4);
   }
 
@@ -291,7 +295,7 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
     gap: var(--space-2);
     font-size: 0.875rem;
     line-height: 1.6;
-    color: var(--color-gray-300);
+    color: #cce4d8;
     text-decoration: none;
     transition:
       color var(--transition-fast),
@@ -311,7 +315,7 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
   }
 
   .footer-link:hover {
-    color: var(--color-gray-100);
+    color: #f1f7f1;
     text-decoration: none;
   }
 
@@ -324,7 +328,7 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
   }
 
   .footer-bottom {
-    border-top: 1px solid var(--color-gray-800);
+    border-top: 1px solid #365a55;
     background: rgba(0, 0, 0, 0.2);
   }
 
@@ -350,17 +354,17 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
     flex-wrap: wrap;
     align-items: center;
     gap: var(--space-2);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.75rem;
-    color: var(--color-gray-500);
+    color: #adc1b9;
   }
 
   .meta-separator {
-    color: var(--color-gray-700);
+    color: #adc1b9;
   }
 
   .meta-timestamp time {
-    color: var(--color-gray-400);
+    color: #c1d5ce;
   }
 
   .relative-time {
@@ -369,12 +373,12 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
   }
 
   .time-separator {
-    color: var(--color-gray-600);
+    color: #adc1b9;
   }
 
   .footer-disclaimer {
     font-size: 0.75rem;
-    color: var(--color-gray-500);
+    color: #adc1b9;
   }
 </style>
 

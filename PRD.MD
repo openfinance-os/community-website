@@ -631,7 +631,7 @@ openfinance-os.org/
 
 ## 14. Design Principles
 
-> **Brand assets location:** `/brand/` — See `/brand/logo-preview.html` for complete visual reference.
+> **Brand assets location:** `/brand/` — See `/brand/openfinance-os-brand-guidelines.html` (v2.0, Clear signal) and `/brand/logo-preview.html`. Reusable skill: `brand/skills/openfinance-os-brand/SKILL.md`.
 
 ### Visual Identity
 
@@ -646,21 +646,21 @@ openfinance-os.org/
 |-------|-----|-------|
 | Primary | `#0D4F4F` | Main brand color, headers |
 | Primary Light | `#1A6B6B` | Gradients, hover states |
-| Accent | `#E8A85C` | Highlights, CTAs, "-OS" in wordmark |
+| Accent | `#E8A85C` | Restrained signal point and highlights |
 | Accent Light | `#F5C989` | Gradient stops |
-| Surface | `#FAFBFC` | Page backgrounds |
-| Dark | `#0F1419` | Dark mode background |
-| Text | `#1A1D21` | Body text |
-| Text Secondary | `#5A6169` | Secondary text, taglines |
+| Surface | `#F6F8F5` | Light page backgrounds |
+| Dark | `#102423` | Dark mode background |
+| Text | `#132C2B` | Light-mode body text |
+| Text Secondary | `#526662` | Light-mode secondary text, taglines |
 
 ### Typography
 
 | Font | Weights | Usage |
 |------|---------|-------|
-| DM Sans | 400, 500, 600, 700 | Primary font — body, UI, wordmark |
-| Fraunces | 600, 700 | Display — section headings, hero text |
+| DM Sans | 400, 500, 600, 700 | Display, body, UI, wordmark; 500 for display headings |
+| JetBrains Mono | 400, 500 | Code, IDs, literal technical values |
 
-Google Fonts: `https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&display=swap`
+DM Sans is served locally from `/fonts/` with its SIL Open Font License. Fraunces is retired. The v2 open-circle mark replaces the original globe tile. Keep the Open Circuit animation below the homepage opening screen with muted inline playback, poster fallback, reduced-motion/data-saving support, and pause/play/replay controls.
 
 ### Logo Assets
 
