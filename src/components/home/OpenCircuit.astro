@@ -200,23 +200,24 @@ import poster from '../../../public/media/open-circuit-poster.webp';
     position: absolute;
     inset: 0 0 65px;
     overflow: hidden;
+    /* The wide source extends left of this viewport; soften that clipped edge too. */
+    mask-image: linear-gradient(90deg, transparent, #000 20%);
   }
   .circuit-poster,
   .circuit-video {
     position: absolute;
-    inset: 0 auto 0 -60%;
-    width: 160%;
+    inset: 0 auto 0 20%;
+    width: auto;
     max-width: none;
     height: 100%;
+    transform: translateX(-50%);
     object-fit: contain;
     object-position: center;
-  }
-  .circuit-media::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, #082e30, transparent 20%);
-    pointer-events: none;
+    /* Fade every edge of the source rectangle into the shared teal surface. */
+    mask-image:
+      linear-gradient(90deg, transparent, #000 12%, #000 82%, transparent),
+      linear-gradient(180deg, transparent, #000 16%, #000 78%, transparent);
+    mask-composite: intersect;
   }
   .circuit-video {
     opacity: 0;

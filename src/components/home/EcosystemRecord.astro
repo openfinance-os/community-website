@@ -16,6 +16,7 @@ import {
   getSnapshotCount,
   type ChangelogEvent,
 } from '@lib/registry-changelog';
+import RegistryEvent from '@components/observatory/RegistryEvent.astro';
 
 interface HistoryPoint {
   date: string;
@@ -87,26 +88,6 @@ const ledgerNote =
   recent.length > 0
     ? `${recent.length} ${recent.length === 1 ? 'event' : 'events'} observed in the last 30 days`
     : 'No changes in the last 30 days — latest events shown';
-
-const eventLabels: Record<ChangelogEvent['type'], { label: string; cls: string }> = {
-  went_live: { label: 'Auth server published', cls: 'live' },
-  joined: { label: 'Registration first observed', cls: 'join' },
-  role_added: { label: 'Role first observed', cls: 'role' },
-  api_family_added: { label: 'Family first observed', cls: 'role' },
-  went_offline: { label: 'Auth server removed', cls: 'role' },
-  left: { label: 'Registration no longer observed', cls: 'role' },
-  role_removed: { label: 'Role no longer observed', cls: 'role' },
-  api_family_removed: { label: 'Family no longer observed', cls: 'role' },
-  resource_changed: { label: 'Resource declarations changed', cls: 'role' },
-};
-
-function fmtDate(iso: string): string {
-  return new Date(iso).toLocaleDateString('en-GB', {
-    day: '2-digit',
-    month: 'short',
-    timeZone: 'UTC',
-  });
-}
 
 const trackingSince = getTrackingSince();
 const snapshotCount = getSnapshotCount();
@@ -191,16 +172,9 @@ const snapshotCount = getSnapshotCount();
       <div class="record-panel ledger">
         <h3 class="ledger-title">Registry changelog</h3>
         <p class="ledger-note">{ledgerNote}</p>
-        {events.map((e) => (
+        {events.map((e, index) => (
           <div class="entry">
-            <span class="entry-date">{fmtDate(e.date)}</span>
-            <span class="entry-what">
-              <span class={`event-chip ${eventLabels[e.type].cls}`}>
-                {eventLabels[e.type].label}
-              </span>
-              <b>{e.name}</b>
-              {e.detail && <span class="entry-detail"> — {e.detail}</span>}
-            </span>
+            <RegistryEvent event={e} id={`ledger-${index}`} />
           </div>
         ))}
         <p class="all-link">
@@ -216,28 +190,16 @@ const snapshotCount = getSnapshotCount();
     /* Colorblind-safe series colors, validated against both surfaces */
     --record-total: #12a385;
     --record-live: #b06e1d;
-    --chip-join-bg: rgba(18, 163, 133, 0.12);
-    --chip-join-ink: #0b6b57;
-    --chip-live-bg: rgba(176, 110, 29, 0.12);
-    --chip-live-ink: #8a5510;
     padding: var(--space-16) var(--space-4);
   }
   :global([data-theme='dark']) .ecosystem-record {
     --record-total: #17a284;
     --record-live: #c98500;
-    --chip-join-ink: #5fd4b6;
-    --chip-live-ink: #e5ae45;
-    --chip-join-bg: rgba(23, 162, 132, 0.18);
-    --chip-live-bg: rgba(201, 133, 0, 0.18);
   }
   @media (prefers-color-scheme: dark) {
     :global(html:not([data-theme='light'])) .ecosystem-record {
       --record-total: #17a284;
       --record-live: #c98500;
-      --chip-join-ink: #5fd4b6;
-      --chip-live-ink: #e5ae45;
-      --chip-join-bg: rgba(23, 162, 132, 0.18);
-      --chip-live-bg: rgba(201, 133, 0, 0.18);
     }
   }
 
@@ -419,53 +381,9 @@ const snapshotCount = getSnapshotCount();
     color: var(--color-gray-900);
   }
   .entry {
-    display: grid;
-    grid-template-columns: 56px 1fr;
-    gap: var(--space-3);
+    min-width: 0;
     padding: var(--space-2) 0;
-    border-top: 1px solid var(--color-gray-200);
-  }
-  .entry-date {
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    color: var(--color-gray-500);
-    padding-top: 3px;
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-  }
-  .entry-what {
-    font-size: 0.87rem;
-    color: var(--color-gray-600);
-  }
-  .entry-what b {
-    color: var(--color-gray-900);
-    font-weight: 600;
-  }
-  .entry-detail {
-    color: var(--color-gray-500);
-  }
-  .event-chip {
-    display: inline-block;
-    font-size: 0.6rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 2px 7px;
-    border-radius: 4px;
-    margin-right: 7px;
-    font-family: var(--font-mono);
-  }
-  .event-chip.join {
-    background: var(--chip-join-bg);
-    color: var(--chip-join-ink);
-  }
-  .event-chip.live {
-    background: var(--chip-live-bg);
-    color: var(--chip-live-ink);
-  }
-  .event-chip.role {
-    background: var(--color-gray-100);
-    color: var(--color-gray-600);
+    border-top: 1px solid var(--color-border);
   }
 
   .all-link {
