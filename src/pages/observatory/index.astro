@@ -243,14 +243,13 @@ const displayParticipants = participants;
       </div>
     </header>
 
-    <p class="measurement-note">
-      Each registration is a directory ID, not a deduplicated legal entity. An active authorization
-      server with an issuer is published metadata, not evidence of traffic or verified availability.
-      Capability and Shariah indicators reflect source declarations.{' '}
-      <a href="/observatory/methodology">Definitions and limitations</a>.
-    </p>
-
     <section class="stats-section">
+      <p class="measurement-note">
+        Each registration is a directory ID, not a deduplicated legal entity. An active
+        authorization server with an issuer is published metadata, not evidence of traffic or
+        verified availability. Capability and Shariah indicators reflect source declarations.{' '}
+        <a href="/observatory/methodology">Definitions and limitations</a>.
+      </p>
       <div class="stats-grid">
         <StatCard
           value={totalParticipants}
@@ -654,7 +653,7 @@ const displayParticipants = participants;
 <style>
   .measurement-note {
     max-width: 1000px;
-    margin: var(--space-6) 0;
+    margin: 0 0 var(--space-6);
     color: var(--color-text-secondary);
     font-size: 0.875rem;
   }
@@ -805,7 +804,7 @@ const displayParticipants = participants;
 
   .stats-section {
     max-width: 1200px;
-    margin: calc(-1 * var(--space-8)) auto 0;
+    margin: 0 auto;
     padding: 0 var(--space-4);
     position: relative;
     z-index: 10;

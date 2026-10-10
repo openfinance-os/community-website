@@ -1,0 +1,282 @@
+---
+import type { ChangelogEvent } from '@lib/registry-changelog';
+import { resourceChangePresentation } from '@lib/registry-event-presentation';
+
+interface Props {
+  event: ChangelogEvent;
+  id: string;
+}
+const { event, id } = Astro.props;
+const labels: Record<ChangelogEvent['type'], { label: string; tone: string }> = {
+  went_live: { label: 'Auth server published', tone: 'live' },
+  joined: { label: 'Registration first observed', tone: 'join' },
+  role_added: { label: 'Role first observed', tone: 'neutral' },
+  api_family_added: { label: 'Family first observed', tone: 'neutral' },
+  went_offline: { label: 'Auth server removed', tone: 'neutral' },
+  left: { label: 'Registration no longer observed', tone: 'neutral' },
+  role_removed: { label: 'Role no longer observed', tone: 'neutral' },
+  api_family_removed: { label: 'Family no longer observed', tone: 'neutral' },
+  resource_changed: { label: 'Resource declarations changed', tone: 'neutral' },
+};
+const date = new Date(`${event.date}T00:00:00Z`);
+const shortDate = date.toLocaleDateString('en-GB', {
+  day: '2-digit',
+  month: 'short',
+  timeZone: 'UTC',
+});
+const longDate = date.toLocaleDateString('en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+const resourceChange = event.type === 'resource_changed' && event.detail;
+const comparison = resourceChange ? resourceChangePresentation(event.detail!) : null;
+const popoverId = `${id}-change`;
+---
+
+<div class="registry-event" data-event-type={event.type}>
+  <time class="event-date" datetime={event.date}>
+    {shortDate}
+  </time>
+  <div class="event-body">
+    <div class="event-heading">
+      <span class={`event-chip ${labels[event.type].tone}`}>{labels[event.type].label}</span>
+      <b class="event-name">{event.name}</b>
+    </div>
+    {resourceChange ? (
+      <div class="event-description">
+        <span>{comparison?.summary || 'Declarations updated.'}</span>
+        <button
+          class="change-trigger"
+          type="button"
+          popovertarget={popoverId}
+          aria-haspopup="dialog"
+          aria-label={`View change for ${event.name}, observed ${longDate}`}
+        >
+          View change <span aria-hidden="true">↗</span>
+        </button>
+      </div>
+    ) : (
+      event.detail && <p class="event-detail">{event.detail}</p>
+    )}
+  </div>
+  {resourceChange && (
+    <div
+      class="change-popover"
+      id={popoverId}
+      popover="auto"
+      role="dialog"
+      aria-labelledby={`${id}-title`}
+    >
+      <div class="change-header">
+        <div>
+          <h2 id={`${id}-title`}>{event.name} — resource change</h2>
+          <p>Observed {longDate} in the production directory</p>
+        </div>
+        <button
+          class="change-close"
+          type="button"
+          autofocus
+          popovertarget={popoverId}
+          popovertargetaction="hide"
+          aria-label={`Close change details for ${event.name}`}
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      {comparison ? (
+        <>
+          <p class="change-summary">{comparison.summary}</p>
+          <div class="change-comparison">
+            {(['Before', 'After'] as const).map((label) => (
+              <section aria-labelledby={`${id}-${label.toLowerCase()}`}>
+                <h3 id={`${id}-${label.toLowerCase()}`}>{label}</h3>
+                {comparison[label === 'Before' ? 'before' : 'after'].length ? (
+                  <ul>
+                    {comparison[label === 'Before' ? 'before' : 'after'].map((entry) => (
+                      <li>{entry}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>None recorded</p>
+                )}
+              </section>
+            ))}
+          </div>
+        </>
+      ) : (
+        <p class="raw-detail">{event.detail}</p>
+      )}
+    </div>
+  )}
+</div>
+
+<style>
+  .registry-event {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr);
+    align-items: baseline;
+    gap: 12px;
+    min-width: 0;
+  }
+  .event-date {
+    color: var(--color-text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .event-body {
+    min-width: 0;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    overflow-wrap: anywhere;
+  }
+  .event-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 10px;
+  }
+  .event-chip {
+    max-width: 100%;
+    border-radius: 4px;
+    background: var(--color-soft);
+    color: var(--color-text-secondary);
+    padding: 3px 7px;
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+    text-transform: uppercase;
+  }
+  .event-chip.join {
+    color: var(--color-success-text);
+  }
+  .event-chip.live {
+    color: var(--color-warning-text);
+  }
+  .event-name {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+  .event-description {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 12px;
+    margin-top: 4px;
+  }
+  .event-detail {
+    margin: 4px 0 0;
+  }
+  .change-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 4px 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-brand-ink);
+    font: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+  }
+  .change-trigger:hover {
+    text-decoration-thickness: 2px;
+  }
+  .change-trigger:focus-visible,
+  .change-close:focus-visible {
+    outline: 2px solid var(--color-brand-ink);
+    outline-offset: 4px;
+  }
+  .change-popover {
+    position: fixed;
+    inset: 0;
+    width: min(760px, calc(100vw - 32px));
+    max-height: calc(100dvh - 48px);
+    margin: auto;
+    padding: 24px;
+    overflow: auto;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    background: var(--color-card);
+    color: var(--color-text);
+    box-shadow: 0 12px 48px #0003;
+  }
+  .change-popover::backdrop {
+    background: #10242344;
+  }
+  .change-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .change-header h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+  }
+  .change-header p {
+    margin: 8px 0 0;
+    color: var(--color-text-secondary);
+    font-size: 0.8125rem;
+  }
+  .change-close {
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-soft);
+    color: var(--color-text);
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  .change-summary {
+    margin: 20px 0;
+    font-weight: 600;
+  }
+  .change-comparison {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+  .change-comparison h3 {
+    margin: 0 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  .change-comparison ul {
+    padding-left: 20px;
+    margin: 0;
+  }
+  .change-comparison li {
+    margin-bottom: 12px;
+  }
+  .change-comparison li,
+  .change-comparison p,
+  .raw-detail {
+    color: var(--color-text-secondary);
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+  }
+  @media (max-width: 560px) {
+    .change-popover {
+      padding: 20px;
+    }
+    .change-comparison {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+    }
+  }
+</style>
