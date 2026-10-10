@@ -9,7 +9,7 @@ Use this skill for OpenFinance-OS design work. This identity belongs to the inde
 
 ## Sources
 
-In the community-website repository, read `brand/openfinance-os-brand-guidelines.html` for the full v2.0 guide and use `brand/` assets. `public/brand/` is the published mirror; update both together. The website's maintained tokens are `src/styles/global.css`. The public guide is at https://openfinance-os.org/brand/openfinance-os-brand-guidelines.html; when working on an unpublished redesign, prefer the repository guide over the older deployed copy.
+In the community-website repository, read `brand/openfinance-os-brand-guidelines.html` for the full v2.1 guide and use `brand/` assets. `public/brand/` is the published mirror; update both together. The website's maintained tokens are `src/styles/global.css`. The public guide is at https://openfinance-os.org/brand/openfinance-os-brand-guidelines.html; when working on an unpublished redesign, prefer the repository guide over the older deployed copy.
 
 The canonical skill lives in `brand/skills/openfinance-os-brand/`. Keep the local discoverable copy at `~/.codex/skills/openfinance-os-brand/` synchronized when updating it. A user's implementation request does not by itself authorize publication or contacting other people.
 
@@ -41,6 +41,16 @@ Keep the purpose headline, a dated directory preview, and an obvious Observatory
 Retain the approved Open Circuit media (`public/media/open-circuit-hero.mp4` and its `.webp` poster). `src/components/home/OpenCircuit.astro` owns playback. It is a separate prominent responsive section below the opening screen. Keep muted inline playback, no automatic looping, pause/play/replay controls, in-view loading, offscreen/document-hidden pausing, and poster fallback. Reduced-motion and data-saving modes must not fetch or autoplay it automatically. The user can explicitly request playback. Decorative circles and animation illustrate connection; they do not encode live traffic or maturity.
 
 ## Voice and data
+
+### Founder attribution
+
+MiddleLeap founded OpenFinance-OS as an open-source community initiative. The project remains community-led, with independent editorial decisions.
+
+Use “A community initiative founded by MiddleLeap.” in the footer, beside the open-source credit. Link only the name to https://www.middleleap.com/. Use the existing footer typography, colour, and size; keep the credit understated as a text link. Do not add a separate MiddleLeap logo, hero credit, or promotional call to action.
+
+The About-page governance section explains: “OpenFinance-OS was founded by MiddleLeap as an open-source community initiative. It remains community-led, with independent editorial decisions.” Acknowledge the founding role openly and preserve the no-paid-placement and editorial-independence statements. Do not describe the founding role as sponsorship or imply official endorsement.
+
+### Evidence and independence
 
 Write plainly and helpfully. Preserve neutrality and community ownership. Keep directory registration, issuer publication, self-certification, go-live approval, and operational traffic distinct. Label the environment, observation date, source, and reporting window. Preserve raw family names, versions, IDs, and unknowns. Do not present saved observations as a fresh live fetch.
 
