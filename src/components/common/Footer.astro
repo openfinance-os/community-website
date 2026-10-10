@@ -1,4 +1,6 @@
 ---
+import MiddleLeapLogo from './MiddleLeapLogo.astro';
+
 interface Props {
   lastUpdated?: string;
 }
@@ -173,7 +175,10 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
     <div class="footer-bottom-inner">
       <p class="footer-meta">
         <span class="founder-credit">
-          A community initiative founded by <a href="https://www.middleleap.com/">MiddleLeap</a>.
+          <span>A community initiative founded by</span>
+          <a href="https://www.middleleap.com/" aria-label="MiddleLeap">
+            <MiddleLeapLogo tone="dark" />
+          </a>
         </span>
         <span class="meta-label">Open source under MIT License</span>
         {
@@ -368,12 +373,16 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
 
   .founder-credit {
     flex-basis: 100%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    column-gap: 4px;
   }
 
   .founder-credit a {
     color: inherit;
-    text-decoration: underline;
-    text-underline-offset: 3px;
+    display: inline-flex;
+    text-decoration: none;
   }
 
   .meta-timestamp time {
