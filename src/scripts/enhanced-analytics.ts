@@ -18,6 +18,8 @@
  */
 export function initEnhancedAnalytics(): void {
   if (typeof window === 'undefined') return;
+  // Watch keeps its existing explicit public-navigation analytics only.
+  if (/^\/observatory\/watch\/?$/.test(window.location.pathname)) return;
   if (window.__enhancedAnalyticsInitialized) return;
   window.__enhancedAnalyticsInitialized = true;
 

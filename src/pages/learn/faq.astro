@@ -108,7 +108,7 @@ const faqSchema = generateFAQSchema(faqCategories);
         <span>FAQ</span>
       </nav>
 
-      <header class="page-header">
+      <header class="page-intro page-header">
         <h1>Frequently Asked Questions</h1>
         <p class="subtitle">
           The newcomer's questions about the UAE Open Finance ecosystem — what it is, who takes
@@ -254,16 +254,17 @@ const faqSchema = generateFAQSchema(faqCategories);
   }
 
   .breadcrumb {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-2);
     font-size: 0.875rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-6);
   }
 
   .breadcrumb a {
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
   }
 
   .page-header {
@@ -271,30 +272,32 @@ const faqSchema = generateFAQSchema(faqCategories);
   }
 
   .page-header h1 {
-    font-size: 2.25rem;
+    font-size: clamp(2rem, 4vw, 3.5rem);
     margin-bottom: var(--space-3);
   }
 
   .subtitle {
     font-size: 1.125rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     line-height: 1.6;
     max-width: 600px;
   }
 
   /* FAQ Categories */
   .faq-categories {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-12);
   }
 
   .faq-category {
-    border-top: 1px solid var(--color-gray-200);
+    border-top: 1px solid var(--color-border);
     padding-top: var(--space-8);
   }
 
   .category-title {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-3);
@@ -304,6 +307,7 @@ const faqSchema = generateFAQSchema(faqCategories);
   }
 
   .category-icon {
+    min-width: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -311,7 +315,7 @@ const faqSchema = generateFAQSchema(faqCategories);
     height: 36px;
     background: var(--color-primary-50);
     border-radius: var(--radius-lg);
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
   }
 
   .category-icon svg {
@@ -321,14 +325,15 @@ const faqSchema = generateFAQSchema(faqCategories);
 
   /* FAQ Items */
   .faq-list {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
   }
 
   .faq-item {
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     transition:
       border-color var(--transition-fast),
@@ -345,6 +350,7 @@ const faqSchema = generateFAQSchema(faqCategories);
   }
 
   .faq-question {
+    min-width: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -361,7 +367,7 @@ const faqSchema = generateFAQSchema(faqCategories);
 
   .question-text {
     font-weight: 500;
-    color: var(--color-gray-900);
+    color: var(--color-text);
     line-height: 1.4;
   }
 
@@ -369,7 +375,7 @@ const faqSchema = generateFAQSchema(faqCategories);
     flex-shrink: 0;
     width: 24px;
     height: 24px;
-    color: var(--color-gray-400);
+    color: var(--color-text-secondary);
     transition: transform var(--transition-fast);
   }
 
@@ -380,7 +386,7 @@ const faqSchema = generateFAQSchema(faqCategories);
 
   .faq-item[open] .expand-icon {
     transform: rotate(180deg);
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
   }
 
   .faq-answer {
@@ -400,7 +406,7 @@ const faqSchema = generateFAQSchema(faqCategories);
   }
 
   .faq-answer p {
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     line-height: 1.7;
     margin: 0;
   }
@@ -420,11 +426,12 @@ const faqSchema = generateFAQSchema(faqCategories);
   }
 
   .still-questions > .still-questions-content > p {
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-6);
   }
 
   .question-actions {
+    min-width: 0;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -460,14 +467,14 @@ const faqSchema = generateFAQSchema(faqCategories);
   }
 
   .action-button.secondary {
-    background: white;
-    color: var(--color-gray-700);
-    border: 1px solid var(--color-gray-300);
+    background: var(--color-card);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
   }
 
   .action-button.secondary:hover {
-    background: var(--color-gray-50);
-    border-color: var(--color-gray-400);
+    background: var(--color-surface);
+    border-color: var(--color-border);
   }
 
   .action-button:focus-visible {
@@ -485,37 +492,37 @@ const faqSchema = generateFAQSchema(faqCategories);
 
   /* Dark mode adjustments */
   :global([data-theme='dark']) .faq-page {
-    background: var(--color-gray-50);
+    background: var(--color-surface);
   }
 
   :global([data-theme='dark']) .page-header h1 {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .subtitle {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .breadcrumb {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .faq-category {
-    border-top-color: var(--color-gray-200);
+    border-top-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .category-title {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .category-icon {
-    background: var(--color-primary-900);
-    color: var(--color-primary-400);
+    background: var(--color-soft);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .faq-item {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .faq-item:hover {
@@ -528,40 +535,40 @@ const faqSchema = generateFAQSchema(faqCategories);
   }
 
   :global([data-theme='dark']) .question-text {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .expand-icon {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .faq-item[open] .expand-icon {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .faq-answer p {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .still-questions {
-    background: var(--color-primary-900);
+    background: var(--color-soft);
   }
 
   :global([data-theme='dark']) .still-questions h2 {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .still-questions > .still-questions-content > p {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .action-button.secondary {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-300);
-    color: var(--color-gray-900);
+    background: var(--color-soft);
+    border-color: var(--color-border);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .action-button.secondary:hover {
-    background: var(--color-gray-200);
+    background: var(--color-soft);
   }
 </style>

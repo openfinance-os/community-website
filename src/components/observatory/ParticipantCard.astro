@@ -256,8 +256,8 @@ const displayCity =
 
   .participant-card {
     position: relative;
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     padding: var(--space-6) var(--space-8);
     overflow: hidden;
@@ -286,13 +286,17 @@ const displayCity =
 
   /* Header */
   .card-header {
+    min-width: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-2);
     margin-bottom: var(--space-4);
   }
 
   .header-left {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-2);
@@ -305,7 +309,7 @@ const displayCity =
     gap: var(--space-1);
     padding: var(--space-1) var(--space-3);
     border-radius: var(--radius-full);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.625rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -318,7 +322,7 @@ const displayCity =
 
   .type-blue {
     background: var(--color-primary-50);
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
   }
 
   .type-teal {
@@ -342,8 +346,8 @@ const displayCity =
   }
 
   .type-gray {
-    background: var(--color-gray-100);
-    color: var(--color-gray-600);
+    background: var(--color-soft);
+    color: var(--color-text-secondary);
   }
 
   .type-green {
@@ -357,8 +361,8 @@ const displayCity =
   }
 
   .type-default {
-    background: var(--color-gray-100);
-    color: var(--color-gray-600);
+    background: var(--color-soft);
+    color: var(--color-text-secondary);
   }
 
   .status-badge {
@@ -366,25 +370,25 @@ const displayCity =
     align-items: center;
     gap: var(--space-2);
     padding: var(--space-1) var(--space-3);
-    background: var(--color-gray-100);
+    background: var(--color-soft);
     border-radius: var(--radius-full);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.6875rem;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   .status-badge.live {
     background: var(--color-primary-50);
-    color: var(--color-success);
+    color: var(--color-success-text);
   }
 
   .status-badge.registered {
-    background: var(--color-gray-100);
-    color: var(--color-gray-500);
-    border: 1px dashed var(--color-gray-300);
+    background: var(--color-soft);
+    color: var(--color-text-secondary);
+    border: 1px dashed var(--color-border);
   }
 
   .status-dot {
@@ -408,16 +412,17 @@ const displayCity =
   }
 
   .location {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: 4px;
     font-size: 0.75rem;
     font-weight: 500;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   .location svg {
-    color: var(--color-gray-400);
+    color: var(--color-text-secondary);
   }
 
   /* Name Section */
@@ -428,7 +433,7 @@ const displayCity =
   .institution-name {
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--color-gray-900);
+    color: var(--color-text);
     line-height: 1.2;
     letter-spacing: -0.02em;
     margin-bottom: 2px;
@@ -436,7 +441,7 @@ const displayCity =
 
   .legal-name {
     font-size: 0.8125rem;
-    color: var(--color-gray-400);
+    color: var(--color-text-secondary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -449,7 +454,7 @@ const displayCity =
 
   .description {
     font-size: 0.8125rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     line-height: 1.5;
     margin-bottom: var(--space-1);
     display: -webkit-box;
@@ -460,49 +465,50 @@ const displayCity =
 
   .description.placeholder {
     font-style: italic;
-    color: var(--color-gray-400);
+    color: var(--color-text-secondary);
   }
 
   .read-more {
     font-size: 0.75rem;
     font-weight: 500;
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
     transition: color var(--transition-fast);
   }
 
   .participant-card:hover .read-more {
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
   }
 
   /* Parent Company */
   .parent-company {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-2);
     font-size: 0.75rem;
     margin-bottom: var(--space-3);
     padding: var(--space-2) var(--space-3);
-    background: var(--color-gray-50);
+    background: var(--color-surface);
     border-radius: var(--radius-md);
   }
 
   .parent-label {
     font-weight: 600;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   .parent-value {
-    color: var(--color-gray-700);
+    color: var(--color-text);
   }
 
   /* Market Position */
   .market-position {
     font-size: 0.6875rem;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
     margin-bottom: var(--space-4);
   }
 
@@ -510,17 +516,17 @@ const displayCity =
   .roles-section {
     margin-bottom: var(--space-4);
     padding-bottom: var(--space-4);
-    border-bottom: 1px solid var(--color-gray-100);
+    border-bottom: 1px solid var(--color-border);
   }
 
   .roles-label {
     display: block;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.625rem;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: var(--color-gray-400);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-2);
   }
 
@@ -528,7 +534,8 @@ const displayCity =
     font-family: var(--font-mono);
     font-size: 0.8125rem;
     font-weight: 600;
-    color: var(--color-gray-700);
+    color: var(--color-text);
+    min-width: 0;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -536,11 +543,11 @@ const displayCity =
   }
 
   .role {
-    color: var(--color-gray-700);
+    color: var(--color-text);
   }
 
   .role-separator {
-    color: var(--color-gray-300);
+    color: var(--color-text-secondary);
   }
 
   /* API Section */
@@ -550,37 +557,42 @@ const displayCity =
 
   .api-label {
     display: block;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.625rem;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: var(--color-gray-400);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-2);
   }
 
   .api-indicators {
+    min-width: 0;
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-3);
   }
 
   .api-item {
+    min-width: 0;
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: 6px;
   }
 
   .api-dot {
+    flex-shrink: 0;
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    border: 1.5px solid var(--color-gray-300);
+    border: 1.5px solid var(--color-border);
     background: transparent;
     transition: all var(--transition-fast);
   }
 
   .api-item.active .api-dot {
+    flex-shrink: 0;
     background: var(--color-primary-500);
     border-color: var(--color-primary-500);
   }
@@ -588,21 +600,24 @@ const displayCity =
   .api-name {
     font-size: 0.75rem;
     font-weight: 500;
-    color: var(--color-gray-400);
+    color: var(--color-text-secondary);
     transition: color var(--transition-fast);
   }
 
   .api-item.active .api-name {
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
   }
 
   /* Footer */
   .card-footer {
     margin-top: var(--space-4);
     padding-top: var(--space-3);
-    border-top: 1px solid var(--color-gray-100);
+    border-top: 1px solid var(--color-border);
+    min-width: 0;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-2);
     align-items: center;
     gap: var(--space-3);
   }
@@ -612,12 +627,12 @@ const displayCity =
   }
 
   .shariah-badge {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.625rem;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
     background: var(--color-primary-50);
     padding: var(--space-1) var(--space-2);
     border-radius: var(--radius-sm);
@@ -629,14 +644,14 @@ const displayCity =
     gap: 4px;
     font-size: 0.75rem;
     font-weight: 500;
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
     text-decoration: none;
     margin-left: auto;
     cursor: pointer;
   }
 
   .website-link:hover {
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
     text-decoration: underline;
   }
 
@@ -648,8 +663,8 @@ const displayCity =
 
   /* Dark mode */
   :global([data-theme='dark']) .participant-card {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .participant-card:hover {
@@ -661,72 +676,73 @@ const displayCity =
   }
 
   :global([data-theme='dark']) .institution-name {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .legal-name {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .description {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .description.placeholder {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .read-more {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .participant-card:hover .read-more {
-    color: var(--color-primary-300);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .parent-company {
-    background: var(--color-gray-200);
+    background: var(--color-soft);
   }
 
   :global([data-theme='dark']) .parent-label {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .parent-value {
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .roles-section {
-    border-bottom-color: var(--color-gray-200);
+    border-bottom-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .roles-label,
   :global([data-theme='dark']) .api-label {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .role {
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .role-separator {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .api-dot {
-    border-color: var(--color-gray-500);
+    flex-shrink: 0;
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .api-name {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .api-item.active .api-name {
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .card-footer {
-    border-top-color: var(--color-gray-200);
+    border-top-color: var(--color-border);
   }
 
   /* Responsive */

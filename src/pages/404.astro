@@ -70,6 +70,7 @@ import PageLayout from '@layouts/PageLayout.astro';
 <style>
   .not-found-page {
     min-height: 70vh;
+    min-width: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -97,18 +98,19 @@ import PageLayout from '@layouts/PageLayout.astro';
 
   h1 {
     font-size: 2rem;
-    font-weight: 700;
+    font-weight: 500;
     margin-bottom: var(--space-3);
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   .description {
     font-size: 1.125rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-8);
   }
 
   .actions {
+    min-width: 0;
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-3);
@@ -130,42 +132,42 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   .btn-primary {
-    background: var(--color-primary-600);
+    background: var(--color-primary-fill);
     color: white;
   }
 
   .btn-primary:hover {
-    background: var(--color-primary-700);
+    background: var(--color-primary-fill-strong);
     text-decoration: none;
     transform: translateY(-1px);
     box-shadow: var(--shadow-md);
   }
 
   .btn-secondary {
-    background: var(--color-gray-100);
-    color: var(--color-gray-700);
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-soft);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
   }
 
   .btn-secondary:hover {
-    background: var(--color-gray-50);
-    border-color: var(--color-gray-300);
+    background: var(--color-surface);
+    border-color: var(--color-border);
     text-decoration: none;
   }
 
   .helpful-links {
     text-align: left;
     padding-top: var(--space-8);
-    border-top: 1px solid var(--color-gray-200);
+    border-top: 1px solid var(--color-border);
   }
 
   .helpful-links h2 {
     font-size: 0.75rem;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--color-gray-400);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-4);
   }
 
@@ -173,45 +175,47 @@ import PageLayout from '@layouts/PageLayout.astro';
     list-style: none;
     padding: 0;
     margin: 0;
+    min-width: 0;
     display: grid;
     gap: var(--space-3);
   }
 
   .helpful-links li {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
     padding: var(--space-3);
-    background: var(--color-gray-50);
+    background: var(--color-surface);
     border-radius: var(--radius-md);
     transition: background-color var(--transition-fast);
   }
 
   .helpful-links li:hover {
-    background: var(--color-gray-100);
+    background: var(--color-soft);
   }
 
   .helpful-links a {
     font-weight: 500;
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
   }
 
   .helpful-links a:hover {
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
   }
 
   .helpful-links span {
     font-size: 0.875rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   /* Dark mode */
   :global([data-theme='dark']) h1 {
-    color: var(--color-gray-800);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .description {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .error-code {
@@ -222,50 +226,50 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   :global([data-theme='dark']) .btn-primary {
-    background: var(--color-primary-500);
+    background: var(--color-primary-fill);
   }
 
   :global([data-theme='dark']) .btn-primary:hover {
-    background: var(--color-primary-400);
+    background: var(--color-primary-fill-strong);
   }
 
   :global([data-theme='dark']) .btn-secondary {
-    background: var(--color-gray-200);
-    color: var(--color-gray-800);
-    border-color: var(--color-gray-300);
+    background: var(--color-soft);
+    color: var(--color-text);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .btn-secondary:hover {
-    background: var(--color-gray-300);
-    border-color: var(--color-gray-400);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .helpful-links {
-    border-top-color: var(--color-gray-300);
+    border-top-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .helpful-links h2 {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .helpful-links li {
-    background: var(--color-gray-200);
+    background: var(--color-soft);
   }
 
   :global([data-theme='dark']) .helpful-links li:hover {
-    background: var(--color-gray-300);
+    background: var(--color-soft);
   }
 
   :global([data-theme='dark']) .helpful-links a {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .helpful-links a:hover {
-    color: var(--color-primary-300);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .helpful-links span {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   @media (max-width: 480px) {

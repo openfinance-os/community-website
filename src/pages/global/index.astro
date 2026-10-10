@@ -113,7 +113,7 @@ const statusLabels: Record<string, { label: string; color: string }> = {
 >
   <div class="global-page">
     <div class="container">
-      <header class="page-header">
+      <header class="page-intro page-header">
         <h1>Global Perspective</h1>
         <p class="subtitle">
           Understanding UAE Open Finance in the context of global developments. Learn from
@@ -295,30 +295,30 @@ const statusLabels: Record<string, { label: string; color: string }> = {
   }
 
   .page-header h1 {
-    font-size: 2.5rem;
+    font-size: clamp(2rem, 4vw, 3.5rem);
     margin-bottom: var(--space-3);
   }
 
   .subtitle {
     font-size: 1.25rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     max-width: 700px;
   }
 
   .section-title {
     font-size: 1rem;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-2);
     padding-bottom: var(--space-2);
-    border-bottom: 1px solid var(--color-gray-200);
+    border-bottom: 1px solid var(--color-border);
   }
 
   .section-intro {
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-6);
   }
 
@@ -329,9 +329,9 @@ const statusLabels: Record<string, { label: string; color: string }> = {
 
   .table-wrapper {
     overflow-x: auto;
-    border: 1px solid var(--color-gray-200);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
-    background: white;
+    background: var(--color-card);
   }
 
   .benchmark-table {
@@ -343,20 +343,20 @@ const statusLabels: Record<string, { label: string; color: string }> = {
   .benchmark-table th {
     text-align: left;
     padding: var(--space-4);
-    background: var(--color-gray-50);
-    font-family: var(--font-mono);
+    background: var(--color-surface);
+    font-family: var(--font-sans);
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--color-gray-500);
-    border-bottom: 1px solid var(--color-gray-200);
+    color: var(--color-text-secondary);
+    border-bottom: 1px solid var(--color-border);
   }
 
   .benchmark-table td {
     padding: var(--space-4);
-    border-bottom: 1px solid var(--color-gray-100);
-    color: var(--color-gray-700);
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text);
   }
 
   .benchmark-table tbody tr:last-child td {
@@ -372,6 +372,7 @@ const statusLabels: Record<string, { label: string; color: string }> = {
   }
 
   .jurisdiction-cell {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-3);
@@ -383,18 +384,18 @@ const statusLabels: Record<string, { label: string; color: string }> = {
 
   .jurisdiction-cell .name {
     font-weight: 500;
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   .standard-cell {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.8125rem;
   }
 
   .status-badge {
     display: inline-block;
     padding: var(--space-1) var(--space-2);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.6875rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -418,8 +419,8 @@ const statusLabels: Record<string, { label: string; color: string }> = {
   }
 
   .status-badge.neutral {
-    background: var(--color-gray-100);
-    color: var(--color-gray-600);
+    background: var(--color-soft);
+    color: var(--color-text-secondary);
   }
 
   /* Regions Section */
@@ -428,22 +429,24 @@ const statusLabels: Record<string, { label: string; color: string }> = {
   }
 
   .region-grid {
+    min-width: 0;
     display: grid;
     gap: var(--space-4);
   }
 
   @media (min-width: 640px) {
     .region-grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
   .region-card {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     padding: var(--space-6);
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     text-decoration: none;
     transition:
@@ -460,6 +463,7 @@ const statusLabels: Record<string, { label: string; color: string }> = {
   }
 
   .region-header {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-3);
@@ -473,19 +477,19 @@ const statusLabels: Record<string, { label: string; color: string }> = {
   .region-card h3 {
     font-size: 1rem;
     font-weight: 600;
-    color: var(--color-gray-900);
+    color: var(--color-text);
     margin: 0;
   }
 
   .region-subtitle {
     font-size: 0.8125rem;
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
     font-weight: 500;
   }
 
   .region-description {
     font-size: 0.875rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     line-height: 1.6;
     flex: 1;
     margin: 0 0 var(--space-4);
@@ -494,7 +498,7 @@ const statusLabels: Record<string, { label: string; color: string }> = {
   .region-arrow {
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
     transition: transform var(--transition-fast);
   }
 
@@ -508,19 +512,20 @@ const statusLabels: Record<string, { label: string; color: string }> = {
   }
 
   .insights-grid {
+    min-width: 0;
     display: grid;
     gap: var(--space-4);
   }
 
   @media (min-width: 640px) {
     .insights-grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
   .insight-card {
     padding: var(--space-6);
-    background: var(--color-gray-50);
+    background: var(--color-surface);
     border: 1px solid transparent;
     border-radius: var(--radius-xl);
     transition:
@@ -538,13 +543,13 @@ const statusLabels: Record<string, { label: string; color: string }> = {
   .insight-card h3 {
     font-size: 1rem;
     font-weight: 600;
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
     margin-bottom: var(--space-2);
   }
 
   .insight-card p {
     font-size: 0.9375rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     line-height: 1.7;
     margin: 0;
   }
@@ -555,13 +560,14 @@ const statusLabels: Record<string, { label: string; color: string }> = {
   }
 
   .resource-card {
+    min-width: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: var(--space-6);
     padding: var(--space-6);
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     text-decoration: none;
     transition:
@@ -580,30 +586,31 @@ const statusLabels: Record<string, { label: string; color: string }> = {
   .resource-content h3 {
     font-size: 1.125rem;
     font-weight: 600;
-    color: var(--color-gray-900);
+    color: var(--color-text);
     margin-bottom: var(--space-2);
   }
 
   .resource-content p {
     font-size: 0.9375rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     line-height: 1.6;
     margin: 0;
   }
 
   .resource-link {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-2);
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
     white-space: nowrap;
     flex-shrink: 0;
   }
 
   .resource-card:hover .resource-link {
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
   }
 
   @media (max-width: 640px) {
@@ -614,8 +621,8 @@ const statusLabels: Record<string, { label: string; color: string }> = {
   }
 
   :global([data-theme='dark']) .resource-card {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   /* CTA Section */
@@ -651,8 +658,8 @@ const statusLabels: Record<string, { label: string; color: string }> = {
   .cta-button {
     display: inline-block;
     padding: var(--space-4) var(--space-8);
-    background: white;
-    color: var(--color-primary-700);
+    background: var(--color-card);
+    color: var(--color-brand-ink);
     font-weight: 600;
     border-radius: var(--radius-lg);
     text-decoration: none;
@@ -675,40 +682,40 @@ const statusLabels: Record<string, { label: string; color: string }> = {
 
   /* Dark mode */
   :global([data-theme='dark']) .page-header h1 {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .subtitle {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .section-title {
-    color: var(--color-gray-500);
-    border-bottom-color: var(--color-gray-300);
+    color: var(--color-text-secondary);
+    border-bottom-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .section-intro {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .table-wrapper {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .benchmark-table th {
-    background: var(--color-gray-200);
-    border-color: var(--color-gray-300);
-    color: var(--color-gray-500);
+    background: var(--color-soft);
+    border-color: var(--color-border);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .benchmark-table td {
-    border-color: var(--color-gray-200);
-    color: var(--color-gray-600);
+    border-color: var(--color-border);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .jurisdiction-cell .name {
-    color: var(--color-gray-800);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .benchmark-table tr.highlight {
@@ -736,13 +743,13 @@ const statusLabels: Record<string, { label: string; color: string }> = {
   }
 
   :global([data-theme='dark']) .status-badge.neutral {
-    background: var(--color-gray-200);
-    color: var(--color-gray-500);
+    background: var(--color-soft);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .region-card {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .region-card:hover {
@@ -751,23 +758,23 @@ const statusLabels: Record<string, { label: string; color: string }> = {
   }
 
   :global([data-theme='dark']) .region-card h3 {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .region-subtitle {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .region-description {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .region-arrow {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .insight-card {
-    background: var(--color-gray-100);
+    background: var(--color-soft);
     border-color: transparent;
   }
 
@@ -777,16 +784,16 @@ const statusLabels: Record<string, { label: string; color: string }> = {
   }
 
   :global([data-theme='dark']) .insight-card h3 {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .insight-card p {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .resource-card {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .resource-card:hover {
@@ -795,18 +802,18 @@ const statusLabels: Record<string, { label: string; color: string }> = {
   }
 
   :global([data-theme='dark']) .resource-content h3 {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .resource-content p {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .resource-link {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .resource-card:hover .resource-link {
-    color: var(--color-primary-300);
+    color: var(--color-brand-ink);
   }
 </style>

@@ -119,7 +119,7 @@ const opportunities = [
         <span>GCC Region</span>
       </nav>
 
-      <header class="page-header">
+      <header class="page-intro page-header">
         <div class="header-flag">🌍</div>
         <div class="header-text">
           <span class="region-label">Regional Momentum</span>
@@ -325,19 +325,21 @@ const opportunities = [
   }
 
   .breadcrumb {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-2);
     font-size: 0.875rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-6);
   }
 
   .breadcrumb a {
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
   }
 
   .page-header {
+    min-width: 0;
     display: flex;
     align-items: flex-start;
     gap: var(--space-5);
@@ -351,37 +353,37 @@ const opportunities = [
 
   .region-label {
     display: inline-block;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
     margin-bottom: var(--space-2);
   }
 
   .page-header h1 {
-    font-size: 2rem;
+    font-size: clamp(2rem, 4vw, 3.5rem);
     margin-bottom: var(--space-3);
   }
 
   .subtitle {
     font-size: 1.0625rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     line-height: 1.6;
   }
 
   /* Section Styles */
   .section-title {
     font-size: 1rem;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-4);
     padding-bottom: var(--space-2);
-    border-bottom: 1px solid var(--color-gray-200);
+    border-bottom: 1px solid var(--color-border);
   }
 
   /* Overview */
@@ -390,7 +392,7 @@ const opportunities = [
   }
 
   .overview-content p {
-    color: var(--color-gray-700);
+    color: var(--color-text);
     line-height: 1.8;
     margin-bottom: var(--space-4);
   }
@@ -405,26 +407,27 @@ const opportunities = [
   }
 
   .countries-grid {
+    min-width: 0;
     display: grid;
     gap: var(--space-4);
   }
 
   @media (min-width: 640px) {
     .countries-grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
   @media (min-width: 900px) {
     .countries-grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
   .country-card {
     padding: var(--space-5);
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
   }
 
@@ -434,6 +437,7 @@ const opportunities = [
   }
 
   .country-header {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-3);
@@ -447,17 +451,18 @@ const opportunities = [
   .country-info h3 {
     font-size: 1rem;
     font-weight: 600;
-    color: var(--color-gray-900);
+    color: var(--color-text);
     margin: 0;
   }
 
   .country-regulator {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.75rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   .country-meta {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-2);
@@ -467,7 +472,7 @@ const opportunities = [
   .status-badge {
     display: inline-block;
     padding: 2px var(--space-2);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.6875rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -492,18 +497,18 @@ const opportunities = [
 
   .status-badge.development,
   .status-badge.planning {
-    background: var(--color-gray-100);
-    color: var(--color-gray-600);
+    background: var(--color-soft);
+    color: var(--color-text-secondary);
   }
 
   .launch-year {
     font-size: 0.75rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   .country-highlight {
     font-size: 0.8125rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     line-height: 1.5;
     margin: 0;
   }
@@ -514,6 +519,7 @@ const opportunities = [
   }
 
   .insights-list {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
@@ -521,20 +527,20 @@ const opportunities = [
 
   .insight-item {
     padding: var(--space-5);
-    background: var(--color-gray-50);
+    background: var(--color-surface);
     border-radius: var(--radius-xl);
   }
 
   .insight-item h3 {
     font-size: 1rem;
     font-weight: 600;
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
     margin-bottom: var(--space-2);
   }
 
   .insight-item p {
     font-size: 0.9375rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     line-height: 1.7;
     margin: 0;
   }
@@ -545,20 +551,21 @@ const opportunities = [
   }
 
   .opportunities-grid {
+    min-width: 0;
     display: grid;
     gap: var(--space-4);
   }
 
   @media (min-width: 640px) {
     .opportunities-grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
   .opportunity-card {
     padding: var(--space-5);
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
   }
 
@@ -571,13 +578,13 @@ const opportunities = [
   .opportunity-card h3 {
     font-size: 1rem;
     font-weight: 600;
-    color: var(--color-gray-900);
+    color: var(--color-text);
     margin-bottom: var(--space-2);
   }
 
   .opportunity-card p {
     font-size: 0.875rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     line-height: 1.6;
     margin: 0;
   }
@@ -588,18 +595,20 @@ const opportunities = [
   }
 
   .resources-grid {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
   }
 
   .resource-link {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-3);
     padding: var(--space-4);
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     text-decoration: none;
     transition:
@@ -609,7 +618,7 @@ const opportunities = [
 
   .resource-link:hover {
     border-color: var(--color-primary-300);
-    background: var(--color-gray-50);
+    background: var(--color-surface);
     text-decoration: none;
   }
 
@@ -625,17 +634,17 @@ const opportunities = [
   .resource-link strong {
     display: block;
     font-size: 0.9375rem;
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   .resource-link span {
     font-size: 0.8125rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   .resource-link svg {
     flex-shrink: 0;
-    color: var(--color-gray-400);
+    color: var(--color-text-secondary);
   }
 
   /* CTA Section */
@@ -645,7 +654,7 @@ const opportunities = [
 
   .cta-content {
     padding: var(--space-8);
-    background: var(--color-gray-50);
+    background: var(--color-surface);
     border-radius: var(--radius-xl);
     text-align: center;
   }
@@ -656,7 +665,7 @@ const opportunities = [
   }
 
   .cta-content p {
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-4);
   }
 
@@ -681,14 +690,16 @@ const opportunities = [
 
   /* Page Navigation */
   .page-nav {
+    min-width: 0;
     display: flex;
     justify-content: space-between;
     gap: var(--space-4);
     padding-top: var(--space-8);
-    border-top: 1px solid var(--color-gray-200);
+    border-top: 1px solid var(--color-border);
   }
 
   .nav-link {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     padding: var(--space-4);
@@ -707,22 +718,22 @@ const opportunities = [
 
   .nav-direction {
     font-size: 0.8125rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   .nav-page {
     font-weight: 500;
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
   }
 
   .nav-link:hover .nav-page {
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
   }
 
   /* Dark mode */
   :global([data-theme='dark']) .country-card {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .country-card.highlight {
@@ -731,24 +742,24 @@ const opportunities = [
   }
 
   :global([data-theme='dark']) .insight-item {
-    background: var(--color-gray-100);
+    background: var(--color-soft);
   }
 
   :global([data-theme='dark']) .opportunity-card {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .resource-link {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .resource-link:hover {
-    background: var(--color-gray-200);
+    background: var(--color-soft);
   }
 
   :global([data-theme='dark']) .cta-content {
-    background: var(--color-gray-100);
+    background: var(--color-soft);
   }
 </style>

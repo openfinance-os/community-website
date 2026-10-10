@@ -62,8 +62,8 @@ const icons = {
 <style>
   .stat-card {
     position: relative;
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     padding: var(--space-5);
     overflow: hidden;
@@ -82,10 +82,11 @@ const icons = {
     position: absolute;
     top: var(--space-2);
     right: var(--space-2);
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-1);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.625rem;
     font-weight: 500;
     text-transform: uppercase;
@@ -95,12 +96,12 @@ const icons = {
   }
 
   .env-badge.production {
-    color: var(--color-success);
+    color: var(--color-success-text);
     background: rgba(16, 185, 129, 0.1);
   }
 
   .env-badge.sandbox {
-    color: var(--color-warning);
+    color: var(--color-warning-text);
     background: rgba(245, 158, 11, 0.1);
   }
 
@@ -112,6 +113,7 @@ const icons = {
   }
 
   .stat-header {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-2);
@@ -121,7 +123,7 @@ const icons = {
   .stat-icon {
     width: 18px;
     height: 18px;
-    color: var(--color-primary-500);
+    color: var(--color-brand-ink);
   }
 
   .stat-icon :global(svg) {
@@ -130,15 +132,16 @@ const icons = {
   }
 
   .stat-label {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.75rem;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   .stat-value {
+    min-width: 0;
     display: flex;
     align-items: baseline;
     gap: var(--space-2);
@@ -149,7 +152,7 @@ const icons = {
     font-size: 2.25rem;
     font-weight: 600;
     line-height: 1;
-    color: var(--color-gray-900);
+    color: var(--color-text);
     letter-spacing: -0.02em;
   }
 
@@ -157,7 +160,7 @@ const icons = {
     display: inline-flex;
     align-items: center;
     gap: var(--space-1);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.75rem;
     font-weight: 600;
     padding: var(--space-1) var(--space-2);
@@ -174,24 +177,24 @@ const icons = {
   }
 
   .trend-up {
-    color: var(--color-success);
+    color: var(--color-success-text);
     background: rgba(16, 185, 129, 0.1);
   }
 
   .trend-down {
-    color: var(--color-error);
+    color: var(--color-error-text);
     background: rgba(239, 68, 68, 0.1);
   }
 
   .trend-neutral {
-    color: var(--color-gray-500);
-    background: var(--color-gray-100);
+    color: var(--color-text-secondary);
+    background: var(--color-soft);
   }
 
   .stat-sublabel {
     margin-top: var(--space-1);
     font-size: 0.8125rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   .stat-decoration {
@@ -206,8 +209,8 @@ const icons = {
 
   /* Dark mode */
   :global([data-theme='dark']) .stat-card {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .stat-card:hover {
@@ -215,15 +218,15 @@ const icons = {
   }
 
   :global([data-theme='dark']) .value-number {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .stat-label {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .stat-sublabel {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .stat-decoration {
@@ -239,7 +242,7 @@ const icons = {
   }
 
   :global([data-theme='dark']) .trend-neutral {
-    color: var(--color-gray-500);
-    background: var(--color-gray-200);
+    color: var(--color-text-secondary);
+    background: var(--color-soft);
   }
 </style>

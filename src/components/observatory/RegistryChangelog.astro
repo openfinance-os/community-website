@@ -128,44 +128,47 @@ function fmtDate(iso: string): string {
   .changelog-header h2 {
     font-family: var(--font-display);
     font-size: 1.5rem;
-    font-weight: 700;
+    font-weight: 500;
     margin: 0 0 var(--space-2);
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
   .changelog-sub {
     margin: 0;
     max-width: 68ch;
     font-size: 0.9rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
   }
   .changelog-empty {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   .changelog-groups {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-8);
   }
   .group-label {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.72rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
     margin: 0 0 var(--space-3);
     padding-bottom: var(--space-2);
-    border-bottom: 1px solid var(--color-gray-200);
+    border-bottom: 1px solid var(--color-border);
   }
   .group-events {
     list-style: none;
     margin: 0;
     padding: 0;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: 2px;
   }
   .cl-entry {
+    min-width: 0;
     display: grid;
     grid-template-columns: 56px 92px 1fr;
     gap: var(--space-3);
@@ -188,7 +191,7 @@ function fmtDate(iso: string): string {
   .cl-date {
     font-family: var(--font-mono);
     font-size: 0.74rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
   }
@@ -199,7 +202,7 @@ function fmtDate(iso: string): string {
     text-transform: uppercase;
     padding: 2px 7px;
     border-radius: 4px;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     white-space: nowrap;
     justify-self: start;
   }
@@ -212,18 +215,18 @@ function fmtDate(iso: string): string {
     color: var(--chip-live-ink);
   }
   .cl-chip.role {
-    background: var(--color-gray-100);
-    color: var(--color-gray-600);
+    background: var(--color-soft);
+    color: var(--color-text-secondary);
   }
   .cl-what {
     font-size: 0.9rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
   }
   .cl-what b {
-    color: var(--color-gray-900);
+    color: var(--color-text);
     font-weight: 600;
   }
   .cl-detail {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 </style>

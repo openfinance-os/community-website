@@ -12,7 +12,7 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
     <div class="container">
       <Breadcrumb items={[{ label: 'Learn', href: '/learn' }, { label: 'Getting Started' }]} />
 
-      <header class="page-header">
+      <header class="page-intro page-header">
         <span class="badge">Start Here</span>
         <h1>Getting Started with UAE Open Finance</h1>
         <p class="subtitle">
@@ -151,16 +151,17 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
   }
 
   .breadcrumb {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-2);
     font-size: 0.875rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-6);
   }
 
   .breadcrumb a {
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
   }
 
   .page-header {
@@ -171,8 +172,8 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
     display: inline-block;
     padding: var(--space-1) var(--space-3);
     background: var(--color-accent-500);
-    color: white;
-    font-family: var(--font-mono);
+    color: #132c2b;
+    font-family: var(--font-sans);
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -182,13 +183,13 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
   }
 
   .page-header h1 {
-    font-size: 2.25rem;
+    font-size: clamp(2rem, 4vw, 3.5rem);
     margin-bottom: var(--space-3);
   }
 
   .subtitle {
     font-size: 1.125rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     line-height: 1.6;
   }
 
@@ -203,13 +204,14 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
   }
 
   section > p {
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     line-height: 1.7;
     margin-bottom: var(--space-6);
   }
 
   /* Key Points */
   .key-points {
+    min-width: 0;
     display: grid;
     gap: var(--space-4);
     margin-top: var(--space-6);
@@ -217,16 +219,17 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
 
   @media (min-width: 640px) {
     .key-points {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
   .key-point {
+    min-width: 0;
     display: flex;
     gap: var(--space-3);
     padding: var(--space-4);
-    background: var(--color-gray-50);
-    border: 1px solid var(--color-gray-100);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     transition:
       border-color var(--transition-fast),
@@ -253,7 +256,7 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
 
   .key-point p {
     font-size: 0.8125rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     margin: 0;
   }
 
@@ -270,11 +273,12 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
     top: 0;
     bottom: 0;
     width: 2px;
-    background: var(--color-gray-200);
+    background: var(--color-soft);
   }
 
   .step {
     position: relative;
+    min-width: 0;
     display: flex;
     gap: var(--space-4);
     margin-bottom: var(--space-8);
@@ -289,12 +293,13 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
     left: calc(-1 * var(--space-12));
     width: 32px;
     height: 32px;
+    min-width: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     background: var(--color-primary-fill);
     color: white;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.875rem;
     font-weight: 600;
     border-radius: 50%;
@@ -311,7 +316,7 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
   }
 
   .step-content > p {
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-3);
   }
 
@@ -319,16 +324,18 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
     list-style: none;
     padding: 0;
     margin: 0;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
   }
 
   .step-content li {
+    min-width: 0;
     display: flex;
     align-items: flex-start;
     gap: var(--space-2);
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     font-size: 0.9375rem;
   }
 
@@ -344,20 +351,21 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
 
   /* API Grid */
   .api-grid {
+    min-width: 0;
     display: grid;
     gap: var(--space-4);
   }
 
   @media (min-width: 640px) {
     .api-grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
   .api-card {
     padding: var(--space-6) var(--space-8);
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     transition:
       border-color var(--transition-fast),
@@ -374,28 +382,30 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
   .api-card h4 {
     font-size: 1rem;
     margin-bottom: var(--space-2);
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
   }
 
   .api-card p {
     font-size: 0.875rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     margin: 0;
   }
 
   /* Next Steps */
   .next-grid {
+    min-width: 0;
     display: grid;
     gap: var(--space-4);
   }
 
   @media (min-width: 640px) {
     .next-grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
   .next-card {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     padding: var(--space-6) var(--space-8);
@@ -416,19 +426,19 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
 
   .next-card h4 {
     font-size: 1rem;
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
     margin-bottom: var(--space-1);
   }
 
   .next-card p {
     font-size: 0.8125rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     margin: 0;
     flex: 1;
   }
 
   .next-card span {
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
     font-size: 1.25rem;
     margin-top: var(--space-2);
     transition: transform var(--transition-fast);
@@ -440,32 +450,32 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
 
   /* Dark mode */
   :global([data-theme='dark']) .guide-page {
-    background: var(--color-gray-50);
+    background: var(--color-surface);
   }
 
   :global([data-theme='dark']) .page-header h1 {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .subtitle {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .breadcrumb {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) section h2 {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) section > p {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .key-point {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .key-point:hover {
@@ -474,32 +484,32 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
   }
 
   :global([data-theme='dark']) .key-point h4 {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .key-point p {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .steps-timeline::before {
-    background: var(--color-gray-300);
+    background: var(--color-soft);
   }
 
   :global([data-theme='dark']) .step-content h3 {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .step-content > p {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .step-content li {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .api-card {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .api-card:hover {
@@ -508,15 +518,15 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
   }
 
   :global([data-theme='dark']) .api-card h4 {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .api-card p {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .next-card {
-    background: var(--color-primary-900);
+    background: var(--color-soft);
     border-color: var(--color-primary-800);
   }
 
@@ -526,14 +536,14 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
   }
 
   :global([data-theme='dark']) .next-card h4 {
-    color: var(--color-primary-300);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .next-card p {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .next-card span {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 </style>

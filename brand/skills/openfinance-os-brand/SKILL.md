@@ -9,7 +9,7 @@ Use this skill for OpenFinance-OS design work. This identity belongs to the inde
 
 ## Sources
 
-In the community-website repository, read `brand/openfinance-os-brand-guidelines.html` for the full v2.2 guide and use `brand/` assets. `public/brand/` is the published mirror; update both together. The website's maintained tokens are `src/styles/global.css`. The public guide is at https://openfinance-os.org/brand/openfinance-os-brand-guidelines.html; when working on an unpublished redesign, prefer the repository guide over the older deployed copy.
+In the community-website repository, read `brand/openfinance-os-brand-guidelines.html` for the full v2.3 guide and use `brand/` assets. `public/brand/` is the published mirror; update both together. The website's maintained tokens are `src/styles/global.css`. The public guide is at https://openfinance-os.org/brand/openfinance-os-brand-guidelines.html; when working on an unpublished redesign, prefer the repository guide over the older deployed copy.
 
 The canonical skill lives in `brand/skills/openfinance-os-brand/`. Keep the local discoverable copy at `~/.codex/skills/openfinance-os-brand/` synchronized when updating it. A user's implementation request does not by itself authorize publication or contacting other people.
 
@@ -39,6 +39,14 @@ Use semantic tokens such as `--color-text`, `--color-card`, and `--color-brand-i
 Keep the purpose headline, a dated directory preview, and an obvious Observatory action. Preserve useful navigation, search, saved briefing, directory coverage, ecosystem record, news, and official developer-hub handoff.
 
 Retain the approved Open Circuit media (`public/media/open-circuit-hero.mp4` and its `.webp` poster). `src/components/home/OpenCircuit.astro` owns playback. It is a separate prominent responsive section below the opening screen. Keep muted inline playback, no automatic looping, pause/play/replay controls, in-view loading, offscreen/document-hidden pausing, and poster fallback. Reduced-motion and data-saving modes must not fetch or autoplay it automatically. The user can explicitly request playback. Decorative circles and animation illustrate connection; they do not encode live traffic or maturity.
+
+## Interior pages, dark mode and mobile
+
+Apply the same identity to all routes and generated detail pages. Use the shared `PageLayout.astro` shell for navigation, search, theme persistence and the founder footer; Watch embeds its data template within this shell. Page introductions use a medium DM Sans heading, secondary description and fine border. Keep meaningful evidence labels and controls.
+
+Use semantic card, surface, border, text and brand-ink tokens at the component that owns the style. Use `--color-success-text`, `--color-warning-text` and `--color-error-text` for status words; graphical indicators use their own colors. Code uses `--color-code-surface` and `--color-code-text` in both themes. Never pair lightened numbered fills with white text or use an inverted numbered gray for a code surface.
+
+Use `minmax(0, 1fr)` tracks and `min-width: 0` for grid/flex children. Wrap long names and URLs. Wide tables and code may scroll locally; the document must remain within the viewport. Aim for 44px controls. Verify every generated page in light/dark at desktop and 390px, plus representative pages at 320px and 768px, keyboard access, 200% zoom and reduced motion. Manually inspect contrast candidates. Keep inactive capability text fully legible rather than fading the whole card. Check SVG labels and effective opacity as well as HTML text. Tooltips need theme-aware contrast, viewport-bounded placement, visible keyboard focus and Escape dismissal without moving focus. Automated checks do not replace a complete accessibility assessment.
 
 ## Voice and data
 
