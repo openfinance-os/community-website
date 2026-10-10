@@ -1,6 +1,7 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
 import Breadcrumb from '@components/common/Breadcrumb.astro';
+import EditorialNote from '@components/learn/EditorialNote.astro';
 
 const startingPoints = [
   {
@@ -214,7 +215,9 @@ const sources = [
           <dl class="glossary-grid">
             <div>
               <dt class="glossary-term">Open Finance</dt>
-              <dd>Permission-based access to financial data and services through eligible providers.</dd>
+              <dd>
+                Permission-based access to financial data and services through eligible providers.
+              </dd>
             </div>
             <div>
               <dt class="glossary-term">LFI</dt>
@@ -222,7 +225,10 @@ const sources = [
             </div>
             <div>
               <dt class="glossary-term">TPP</dt>
-              <dd>A Third-Party Provider that accesses data or initiates services within its permitted role.</dd>
+              <dd>
+                A Third-Party Provider that accesses data or initiates services within its permitted
+                role.
+              </dd>
             </div>
           </dl>
           <div class="link-actions">
@@ -292,6 +298,7 @@ const sources = [
           >
         </div>
       </aside>
+      <EditorialNote />
     </div>
   </div>
 </PageLayout>

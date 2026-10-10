@@ -1,6 +1,7 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
 import Breadcrumb from '@components/common/Breadcrumb.astro';
+import EditorialNote from '@components/learn/EditorialNote.astro';
 
 const areas = [
   {
@@ -146,6 +147,12 @@ const areas = [
             Free to use · No sign-up · Answers stay in this page and are not submitted or saved.
             Print before leaving or reloading. You can also use your browser’s Print command.
           </p>
+          <noscript>
+            <p class="meta">
+              JavaScript is off. Print a blank worksheet to complete offline; long answers typed
+              into the fields may be clipped in print.
+            </p>
+          </noscript>
         </div>
         <div class="soft-panel outcome">
           <p class="eyebrow">Bring to your next meeting</p>
@@ -400,25 +407,17 @@ const areas = [
             </p>
           </section>
 
-          <!-- Publication depends on review of the commercial-link policy and editorial ownership. -->
           <section class="optional-support" aria-labelledby="support-heading">
-            <p class="eyebrow">Optional external support</p>
+            <p class="eyebrow">Discuss your next step</p>
             <h2 id="support-heading">Need another perspective?</h2>
             <p>
-              This worksheet is free and ungated. Teams seeking paid support can review
-              <a
-                href="https://www.middleleap.com/open-finance"
-                target="_blank"
-                rel="noopener noreferrer">MiddleLeap Open Finance advisory</a
-              >
-              and decide whether it fits their needs.
-            </p>
-            <p class="meta">
-              Interest disclosed: MiddleLeap founded OpenFinance-OS. The community initiative
-              remains editorially independent. This link is not a recommendation of any regulated
-              service or an indication of official endorsement.
+              Take your unanswered questions to the product, risk, legal and delivery owners in your
+              team. If you need specialist support, compare relevant experience, scope, fees and
+              conflicts of interest. Use this worksheet to describe the evidence and decisions you
+              need help with.
             </p>
           </section>
+          <EditorialNote />
         </div>
       </div>
     </div>

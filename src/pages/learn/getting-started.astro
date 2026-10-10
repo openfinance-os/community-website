@@ -2,6 +2,7 @@
 import PageLayout from '@layouts/PageLayout.astro';
 import Breadcrumb from '@components/common/Breadcrumb.astro';
 import OperatorPointer from '@components/learn/OperatorPointer.astro';
+import EditorialNote from '@components/learn/EditorialNote.astro';
 
 const examples = [
   {
@@ -139,6 +140,14 @@ const nextSteps = [
             ))
           }
         </div>
+        <p class="review-note">
+          The linked insurance v2.1 page marks its customer-experience section as out of date. Check
+          the <a
+            href="https://openfinanceuae.atlassian.net/wiki/spaces/OF/pages/1366294554"
+            rel="noopener noreferrer">official consolidated errata for v2.1 and API Hub v8</a
+          >
+          alongside the published specifications before designing a journey.
+        </p>
       </section>
 
       <section class="guide-section" id="permission" aria-labelledby="permission-title">
@@ -323,6 +332,10 @@ const nextSteps = [
             href: 'https://github.com/Nebras-Open-Finance/api-specs/tree/main',
           },
           {
+            label: 'Official consolidated errata — v2.1 and API Hub v8',
+            href: 'https://openfinanceuae.atlassian.net/wiki/spaces/OF/pages/1366294554',
+          },
+          {
             label: 'TPP standards — community reference',
             href: 'https://nebras-open-finance.com/tech/tpp-standards',
           },
@@ -363,10 +376,11 @@ const nextSteps = [
           >
         </div>
         <p class="review-note">
-          Source links checked 10 October 2026. Published specifications describe the contract; they
-          do not prove that every institution supports every capability. Recheck versions, errata,
-          and applicable official guidance before making an implementation decision.
+          Published specifications describe the contract; they do not prove that every institution
+          supports every capability. Recheck versions, errata, and applicable official guidance
+          before making an implementation decision.
         </p>
+        <EditorialNote />
       </section>
     </div>
   </div>

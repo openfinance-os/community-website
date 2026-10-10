@@ -103,5 +103,8 @@ Open the synthetic demo, select the clinic and Median profile, and inspect accou
 - [Multi-LFI integration guide](https://data-sandbox.openfinance-os.org/src/integrate.html#multi-lfi) — maintained community implementation example.
 - [CBUAE Open Finance Framework (C 03/2025)](https://rulebook.centralbank.ae/en/rulebook/open-finance-framework-0) — official regulatory source; verify the applicable version and requirements.
 - [Official Open Finance documentation](https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview) — technical documentation; check the relevant release and errata.
+- [Official consolidated errata](https://openfinanceuae.atlassian.net/wiki/spaces/OF/pages/1366294554) — authoritative corrections for standards v2.1 and API Hub v8.
+
+AI-assisted drafting and source review by Codex, 10 October 2026. Editorial contact: [@michartmann](https://github.com/michartmann).
 
 OpenFinance-OS is a community initiative and is not affiliated with, endorsed by, or officially connected to the CBUAE, Al Tareq Platform, or any financial institution. Always verify information with official sources.
