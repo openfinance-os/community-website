@@ -29,6 +29,8 @@ We link to official sources. We don't replace them.
 
 ## Quick Start
 
+Use Node.js 22.23.1 (pinned in `.node-version`); Astro requires Node.js 22.22.0 or newer.
+
 ```bash
 # Install dependencies
 npm install
@@ -148,7 +150,7 @@ We welcome contributions! See [CONTRIBUTING.md](docs/CONTRIBUTING.md) for guidel
 
 ## Tech Stack
 
-- **Framework:** [Astro 5.0](https://astro.build)
+- **Framework:** [Astro 7.3](https://astro.build)
 - **Styling:** CSS with custom properties
 - **Fonts:** DM Sans, Fraunces, JetBrains Mono
 - **Hosting:** Cloudflare Pages
