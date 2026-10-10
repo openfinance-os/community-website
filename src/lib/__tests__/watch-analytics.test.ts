@@ -37,6 +37,24 @@ function browser(host = 'openfinance-os.org', path = '/observatory/watch/') {
 }
 
 describe('standalone Watcher analytics', () => {
+  it.each(['/learn/readiness', '/learn/readiness/'])(
+    'does not load analytics or replay on the editable worksheet at %s',
+    (path) => {
+      const b = browser('openfinance-os.org', path);
+      b.run();
+      b.run();
+      expect(b.scripts).toHaveLength(0);
+      expect(b.globals.posthog).toBeUndefined();
+      vi.stubGlobal('window', b.globals);
+      try {
+        expect(() => initEnhancedAnalytics()).not.toThrow();
+        expect(b.globals).not.toHaveProperty('__enhancedAnalyticsInitialized');
+      } finally {
+        vi.unstubAllGlobals();
+      }
+    }
+  );
+
   it('safely embeds the saved payload and preserves the no-JavaScript briefing', () => {
     const { body, styles } = renderWatchContent();
     expect(body).toContain('Saved Ecosystem Watch briefing');

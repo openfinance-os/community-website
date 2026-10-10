@@ -18,9 +18,12 @@ const date = (value: string) =>
         <p class="eyebrow">Independent Ecosystem Watch</p>
         <h2 id="briefing-title">Latest saved briefing</h2>
       </div>
-      <a class="full-link" href="/observatory/watch/">
-        Read the full Watch →
-      </a>
+      <div class="briefing-links">
+        <a class="full-link" href="/observatory/watch/">
+          Read the full Watch →
+        </a>
+        <a href="/rss.xml">News & weekly digests / RSS →</a>
+      </div>
     </header>
     <p class="briefing-date">
       Run: <time datetime={briefing.runDate}>{date(briefing.runDate)}</time> · Operational logs
@@ -70,7 +73,7 @@ const date = (value: string) =>
     margin: 0 0 8px;
     color: var(--color-primary-600);
     text-transform: uppercase;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     letter-spacing: 0.08em;
     font-size: 0.75rem;
   }
@@ -85,6 +88,12 @@ const date = (value: string) =>
   }
   .full-link {
     font-weight: 600;
+  }
+  .briefing-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 0.8125rem;
   }
   .briefing-date,
   .briefing-next {

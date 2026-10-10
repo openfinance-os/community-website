@@ -1,0 +1,191 @@
+<section class="worked-example" aria-labelledby="example-title">
+  <div class="example-inner">
+    <div class="example-copy">
+      <p class="eyebrow">A worked example / SME cash flow</p>
+      <h2 id="example-title">
+        Several bank accounts.
+        <br />
+        One clearer view.
+      </h2>
+      <p>
+        How could a small business understand its cash position across banks? Follow a fictional
+        clinic from scattered account views to the questions a useful service must answer.
+      </p>
+      <a href="/commons/sme-multi-bank-cash-flow" class="example-link">
+        Read the worked example <span aria-hidden="true">→</span>
+      </a>
+    </div>
+    <div class="example-flow" role="group" aria-label="Illustrative account aggregation journey">
+      <div class="flow-heading">
+        <strong>Crestline Wellness Clinic</strong>
+        <span>Synthetic scenario</span>
+      </div>
+      <div class="accounts">
+        <div>
+          <span aria-hidden="true">◎</span>Operating account
+        </div>
+        <div>
+          <span aria-hidden="true">◎</span>Deposit account
+        </div>
+        <div>
+          <span aria-hidden="true">◎</span>Digital account
+        </div>
+      </div>
+      <p class="permission">Chosen accounts · Clear purpose · Permission to share</p>
+      <div class="cash-view">
+        <strong>A proposed consolidated cash view</strong>
+        <span>Balances, dates, missing data, and recurring flows</span>
+      </div>
+      <p class="flow-note">Concept illustration using synthetic data. No live customer results.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .worked-example {
+    padding: 56px 24px;
+  }
+  .example-inner {
+    max-width: 1224px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 64px;
+    align-items: center;
+  }
+  .eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-secondary);
+    margin-bottom: 16px;
+  }
+  .example-copy {
+    min-width: 0;
+  }
+  h2 {
+    font-size: clamp(2rem, 3vw, 2.75rem);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
+  .example-copy > p:not(.eyebrow) {
+    color: var(--color-text-secondary);
+    line-height: 1.75;
+    max-width: 470px;
+    margin-bottom: 24px;
+  }
+  .example-link {
+    display: inline-flex;
+    gap: 28px;
+    align-items: center;
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  .example-link:hover {
+    background: var(--color-soft);
+    text-decoration: none;
+  }
+  .example-flow {
+    padding: 26px;
+    background: var(--color-soft);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    min-width: 0;
+  }
+  .flow-heading {
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+    font-size: 0.8125rem;
+  }
+  .flow-heading span {
+    font-size: 0.6875rem;
+    color: var(--color-text-secondary);
+  }
+  .accounts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .accounts > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 20px 8px;
+    font-size: 0.75rem;
+  }
+  .accounts span {
+    font-size: 1.5rem;
+    color: var(--color-brand-ink);
+  }
+  .permission {
+    margin: 20px 0;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+  }
+  .cash-view {
+    border: 1px solid var(--color-border);
+    background: var(--color-card);
+    padding: 18px;
+    border-radius: 8px;
+  }
+  .cash-view strong,
+  .cash-view span {
+    display: block;
+  }
+  .cash-view strong {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    margin-bottom: 7px;
+  }
+  .cash-view span,
+  .flow-note {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+  .flow-note {
+    margin-top: 15px;
+  }
+  @media (max-width: 760px) {
+    .worked-example {
+      padding: 36px 20px;
+    }
+    .example-inner {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .example-flow {
+      padding: 18px;
+    }
+    .flow-heading {
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+  }
+  @media (max-width: 380px) {
+    .accounts {
+      grid-template-columns: 1fr;
+    }
+    .accounts > div {
+      flex-direction: row;
+      text-align: left;
+      padding: 12px;
+    }
+  }
+</style>
