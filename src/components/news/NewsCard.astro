@@ -95,8 +95,12 @@ const formatDate = (d: Date) => {
 >
   <div class="card-header">
     <div class="badges">
-      <Badge variant={type} size="sm">{typeLabels[type]}</Badge>
-      <Badge variant={regionVariant} size="sm">{regionLabels[region]}</Badge>
+      <Badge variant={type} size="sm">
+        {typeLabels[type]}
+      </Badge>
+      <Badge variant={regionVariant} size="sm">
+        {regionLabels[region]}
+      </Badge>
     </div>
     <time datetime={date.toISOString()}>{formatDate(date)}</time>
   </div>
@@ -109,33 +113,31 @@ const formatDate = (d: Date) => {
     <span class="author">{isExternal ? `via ${sourceName}` : `By ${author}`}</span>
     <span class="read-more">
       {isExternal ? 'View source' : 'Read more'}
-      {
-        isExternal ? (
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            aria-hidden="true"
-          >
-            <path d="M7 17L17 7M17 7H7M17 7v10" />
-          </svg>
-        ) : (
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            aria-hidden="true"
-          >
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
-        )
-      }
+      {isExternal ? (
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <path d="M7 17L17 7M17 7H7M17 7v10" />
+        </svg>
+      ) : (
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
+      )}
     </span>
   </div>
 </a>

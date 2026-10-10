@@ -61,54 +61,55 @@ const citation = `OpenFinance-OS, "UAE Open Finance Registry" (dataset), openfin
   <div class="data-page">
     <div class="container">
       <header class="page-intro page-header">
-        <a href="/observatory" class="back-link">← Observatory</a>
+        <a href="/observatory" class="back-link">
+          ← Observatory
+        </a>
         <h1>Data &amp; datasets</h1>
         <p class="lede">
           The record behind the Observatory, published as open data you can cite, download and build
           on. Everything is derived from the public UAE Open Finance trust-framework directory and
-          committed to this site daily — tracking since {trackingSince} across {snapshotCount} snapshots.
+          committed to this site daily — tracking since {trackingSince} across {snapshotCount}{' '}
+          snapshots.
         </p>
       </header>
 
       <section class="datasets">
-        {
-          datasets.map((d) => (
-            <article class="dataset-card">
-              <div class="dataset-head">
-                <h2>{d.name}</h2>
-                <span class="cadence">updated {d.updated}</span>
-              </div>
-              <p class="dataset-what">{d.what}</p>
-              <p class="dataset-fields">
-                <span class="k">fields</span>
-                <code>{d.fields}</code>
-              </p>
-              <div class="dataset-actions">
-                <a class="download" href={d.path}>
-                  {d.path === '/observatory/coverage/'
-                    ? 'Open coverage & CSV export'
-                    : 'Download JSON'}
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                    <polyline points="7 10 12 15 17 10" />
-                    <line x1="12" y1="15" x2="12" y2="3" />
-                  </svg>
-                </a>
-                <code class="url">{d.path}</code>
-              </div>
-            </article>
-          ))
-        }
+        {datasets.map((d) => (
+          <article class="dataset-card">
+            <div class="dataset-head">
+              <h2>{d.name}</h2>
+              <span class="cadence">updated {d.updated}</span>
+            </div>
+            <p class="dataset-what">{d.what}</p>
+            <p class="dataset-fields">
+              <span class="k">fields</span>
+              <code>{d.fields}</code>
+            </p>
+            <div class="dataset-actions">
+              <a class="download" href={d.path}>
+                {d.path === '/observatory/coverage/'
+                  ? 'Open coverage & CSV export'
+                  : 'Download JSON'}
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+              </a>
+              <code class="url">{d.path}</code>
+            </div>
+          </article>
+        ))}
       </section>
 
       <section class="content-section">
@@ -116,20 +117,23 @@ const citation = `OpenFinance-OS, "UAE Open Finance Registry" (dataset), openfin
         <ul class="usage">
           <li>
             <strong>Licence.</strong> Published under
-            <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener">CC-BY-4.0</a> — free
-            to use with attribution.
+            <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener">
+              CC-BY-4.0
+            </a>{' '}
+            — free to use with attribution.
           </li>
           <li>
-            <strong>Not official.</strong> OpenFinance-OS is an independent, community-run project, not
-            affiliated with CBUAE or Nebras. These are our observations of the public directory, not official
-            statistics.
+            <strong>Not official.</strong> OpenFinance-OS is an independent, community-run project,
+            not affiliated with CBUAE or Nebras. These are our observations of the public directory,
+            not official statistics.
           </li>
           <li>
             <strong>Provenance.</strong> All figures come from the public
-            <a href="https://data.directory.openfinance.ae" rel="noopener"
-              >trust-framework directory</a
-            >. See the <a href="/observatory/methodology">methodology</a> for how status and counts are
-            derived.
+            <a href="https://data.directory.openfinance.ae" rel="noopener">
+              trust-framework directory
+            </a>
+            . See the <a href="/observatory/methodology">methodology</a> for how status and counts
+            are derived.
           </li>
           <li>
             <strong>Dates.</strong> Because collection is daily, changelog dates are
@@ -146,8 +150,10 @@ const citation = `OpenFinance-OS, "UAE Open Finance Registry" (dataset), openfin
           Looking for operational metrics (API call volumes, payment flows, reliability)? See the
           <a href="/observatory/watch/">weekly Ecosystem Watch</a>. Building or integrating? The
           community technical reference is at
-          <a href="https://nebras-open-finance.com/" rel="noopener">nebras-open-finance.com</a>;
-          governing documentation is linked from <a href="/learn">Learn</a>.
+          <a href="https://nebras-open-finance.com/" rel="noopener">
+            nebras-open-finance.com
+          </a>
+          ; governing documentation is linked from <a href="/learn">Learn</a>.
         </p>
       </section>
     </div>

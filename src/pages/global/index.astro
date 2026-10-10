@@ -134,23 +134,21 @@ const regionCards = [
               </tr>
             </thead>
             <tbody>
-              {
-                jurisdictions.map((j) => (
-                  <tr class={j.highlight ? 'highlight' : ''}>
-                    <td class="jurisdiction-cell">
-                      <span class="flag">{j.flag}</span>
-                      <span class="name">{j.name}</span>
-                    </td>
-                    <td class="standard-cell">{j.framework}</td>
-                    <td>{j.focus}</td>
-                    <td>
-                      <a href={j.sourceUrl} rel="noopener noreferrer">
-                        {j.sourceLabel}
-                      </a>
-                    </td>
-                  </tr>
-                ))
-              }
+              {jurisdictions.map((j) => (
+                <tr class={j.highlight ? 'highlight' : ''}>
+                  <td class="jurisdiction-cell">
+                    <span class="flag">{j.flag}</span>
+                    <span class="name">{j.name}</span>
+                  </td>
+                  <td class="standard-cell">{j.framework}</td>
+                  <td>{j.focus}</td>
+                  <td>
+                    <a href={j.sourceUrl} rel="noopener noreferrer">
+                      {j.sourceLabel}
+                    </a>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -163,21 +161,19 @@ const regionCards = [
         </p>
 
         <div class="region-grid">
-          {
-            regionCards.map((region) => (
-              <a href={region.href} class="region-card">
-                <div class="region-header">
-                  <span class="region-flag">{region.flag}</span>
-                  <div>
-                    <h3>{region.title}</h3>
-                    <span class="region-subtitle">{region.subtitle}</span>
-                  </div>
+          {regionCards.map((region) => (
+            <a href={region.href} class="region-card">
+              <div class="region-header">
+                <span class="region-flag">{region.flag}</span>
+                <div>
+                  <h3>{region.title}</h3>
+                  <span class="region-subtitle">{region.subtitle}</span>
                 </div>
-                <p class="region-description">{region.description}</p>
-                <span class="region-arrow">Explore →</span>
-              </a>
-            ))
-          }
+              </div>
+              <p class="region-description">{region.description}</p>
+              <span class="region-arrow">Explore →</span>
+            </a>
+          ))}
         </div>
       </section>
 

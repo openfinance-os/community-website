@@ -41,44 +41,41 @@ const paths: Record<string, string> = {
 <section class="starting-points" id="starting-points" aria-labelledby="starting-title">
   <div class="starting-inner">
     <div class="section-heading">
-      <h2 id="starting-title">Where would you like to begin?</h2><p>
-        From a first question to a concrete next step.
-      </p>
+      <h2 id="starting-title">Where would you like to begin?</h2>
+      <p>From a first question to a concrete next step.</p>
     </div>
     <div class="resource-grid">
-      {
-        resources.map((resource, index) => (
-          <a href={resource.href} class:list={['resource', { featured: index === 0 }]}>
-            <div class="resource-top">
-              <>
-                <svg
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d={paths[resource.icon]} />
-                </svg>
-                <span>
-                  {resource.number} / {resource.intent}
-                </span>
-              </>
-            </div>
+      {resources.map((resource, index) => (
+        <a href={resource.href} class:list={['resource', { featured: index === 0 }]}>
+          <div class="resource-top">
             <>
-              <h3>{resource.title}</h3>
-              <p>{resource.description}</p>
-              <span class="resource-link">
-                {resource.label}
-                <span aria-hidden="true">↗</span>
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d={paths[resource.icon]} />
+              </svg>
+              <span>
+                {resource.number} / {resource.intent}
               </span>
             </>
-          </a>
-        ))
-      }
+          </div>
+          <>
+            <h3>{resource.title}</h3>
+            <p>{resource.description}</p>
+            <span class="resource-link">
+              {resource.label}
+              <span aria-hidden="true">↗</span>
+            </span>
+          </>
+        </a>
+      ))}
     </div>
   </div>
 </section>

@@ -55,30 +55,28 @@ const capabilities = [
   </p>
 
   <div class="capabilities-list">
-    {
-      capabilities.map((cap) => (
-        <div class:list={['capability-item', { 'zero-state': cap.percentage === 0 }]}>
-          <div class="capability-header">
-            <div class="capability-name">
-              <span class="name-abbr">{cap.name}</span>
-              <span class="name-full">{cap.fullName}</span>
-            </div>
-            <div class="capability-stats">
-              <span class="stat-count">
-                {cap.count}/{totalParticipants}
-              </span>
-              <span class="stat-percentage">{cap.percentage}%</span>
-            </div>
+    {capabilities.map((cap) => (
+      <div class:list={['capability-item', { 'zero-state': cap.percentage === 0 }]}>
+        <div class="capability-header">
+          <div class="capability-name">
+            <span class="name-abbr">{cap.name}</span>
+            <span class="name-full">{cap.fullName}</span>
           </div>
-          <div class="capability-bar-container">
-            <div class="capability-bar" style={`width: ${Math.max(cap.percentage, 0)}%`} />
-          </div>
-          <div class="capability-description">
-            {cap.percentage === 0 ? 'Not declared true in the directory' : cap.description}
+          <div class="capability-stats">
+            <span class="stat-count">
+              {cap.count}/{totalParticipants}
+            </span>
+            <span class="stat-percentage">{cap.percentage}%</span>
           </div>
         </div>
-      ))
-    }
+        <div class="capability-bar-container">
+          <div class="capability-bar" style={`width: ${Math.max(cap.percentage, 0)}%`} />
+        </div>
+        <div class="capability-description">
+          {cap.percentage === 0 ? 'Not declared true in the directory' : cap.description}
+        </div>
+      </div>
+    ))}
   </div>
 </div>
 

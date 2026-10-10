@@ -97,10 +97,11 @@ const keyDifferences = [
         <div class="overview-content">
           <p>
             The revised Payment Services Directive (PSD2) is part of the EU payment-services
-            framework. It became applicable in January 2018. The <a
-              href="https://finance.ec.europa.eu/consumer-finance-and-payments/payment-services/payment-services_en"
-              >European Commission's payment-services reference</a
-            > links the legislation, technical rules and reform timeline.
+            framework. It became applicable in January 2018. The{' '}
+            <a href="https://finance.ec.europa.eu/consumer-finance-and-payments/payment-services/payment-services_en">
+              European Commission's payment-services reference
+            </a>{' '}
+            links the legislation, technical rules and reform timeline.
           </p>
           <p>
             Keep two reform tracks separate. PSD3 and the Payment Services Regulation (PSR) concern
@@ -110,12 +111,13 @@ const keyDifferences = [
             before relying on it.
           </p>
           <p>
-            The separate <a
-              href="https://finance.ec.europa.eu/digital-finance/framework-financial-data-access_en"
-              >Financial Data Access (FiDA) proposal</a
-            > addresses access to financial data beyond payment accounts. The Commission's reference describes
-            proposed rights, obligations and customer-control tools. Read its legislative scope and progress
-            separately from the payments reform.
+            The separate{' '}
+            <a href="https://finance.ec.europa.eu/digital-finance/framework-financial-data-access_en">
+              Financial Data Access (FiDA) proposal
+            </a>{' '}
+            addresses access to financial data beyond payment accounts. The Commission's reference
+            describes proposed rights, obligations and customer-control tools. Read its legislative
+            scope and progress separately from the payments reform.
           </p>
         </div>
       </section>
@@ -136,56 +138,56 @@ const keyDifferences = [
               </tr>
             </thead>
             <tbody>
-              {
-                keyDifferences.map((row) => (
-                  <tr>
-                    <td class="aspect-cell">{row.aspect}</td>
-                    <td>{row.psd2}</td>
-                    <td class="uae-cell">{row.uae}</td>
-                  </tr>
-                ))
-              }
+              {keyDifferences.map((row) => (
+                <tr>
+                  <td class="aspect-cell">{row.aspect}</td>
+                  <td>{row.psd2}</td>
+                  <td class="uae-cell">{row.uae}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
         <p class="source-note">
-          Sources: <a
-            href="https://www.eba.europa.eu/risk-and-data-analysis/data/registers/payment-institutions-register"
-            >EBA central PSD2 register</a
-          >,
-          <a href="https://rulebook.centralbank.ae/en/rulebook/open-finance-framework-0"
-            >CBUAE Framework (C 03/2025)</a
-          >, and
-          <a href="https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview"
-            >official UAE technical documentation</a
-          >. The EBA register is distinct from a Trust Framework directory and does not itself
-          confer legal rights; authorisation remains with national competent authorities. For UAE
-          observation limits, see the <a href="/observatory/methodology">Observatory methodology</a
-          >.
+          Sources:{' '}
+          <a href="https://www.eba.europa.eu/risk-and-data-analysis/data/registers/payment-institutions-register">
+            EBA central PSD2 register
+          </a>
+          ,
+          <a href="https://rulebook.centralbank.ae/en/rulebook/open-finance-framework-0">
+            CBUAE Framework (C 03/2025)
+          </a>
+          , and
+          <a href="https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview">
+            official UAE technical documentation
+          </a>
+          . The EBA register is distinct from a Trust Framework directory and does not itself confer
+          legal rights; authorisation remains with national competent authorities. For UAE
+          observation limits, see the <a href="/observatory/methodology">Observatory methodology</a>
+          .
         </p>
       </section>
 
       <section class="timeline-section">
         <h2 class="section-title">Selected policy milestones</h2>
         <div class="timeline">
-          {
-            timeline.map((item) => (
-              <div class="timeline-item">
-                <span class="timeline-year">{item.year}</span>
-                <span class="timeline-event">{item.event}</span>
-              </div>
-            ))
-          }
+          {timeline.map((item) => (
+            <div class="timeline-item">
+              <span class="timeline-year">{item.year}</span>
+              <span class="timeline-event">{item.event}</span>
+            </div>
+          ))}
         </div>
         <p class="source-note">
-          Sources: the Commission's <a
-            href="https://finance.ec.europa.eu/consumer-finance-and-payments/payment-services/payment-services_en"
-            >payment-services timeline</a
-          >
-          and <a
-            href="https://finance.ec.europa.eu/digital-finance/framework-financial-data-access_en"
-            >FiDA reference</a
-          >. Political agreement, formal adoption and entry into application are different stages.
+          Sources: the Commission's{' '}
+          <a href="https://finance.ec.europa.eu/consumer-finance-and-payments/payment-services/payment-services_en">
+            payment-services timeline
+          </a>
+          and{' '}
+          <a href="https://finance.ec.europa.eu/digital-finance/framework-financial-data-access_en">
+            FiDA reference
+          </a>
+          . Political agreement, formal adoption and entry into application are different stages.
           This selection does not predict an implementation date.
         </p>
       </section>
@@ -197,30 +199,28 @@ const keyDifferences = [
           findings that a regulatory model guarantees a particular outcome.
         </p>
         <div class="lessons-grid">
-          {
-            lessons.map((lesson) => (
-              <div class="lesson-card">
-                <h3>{lesson.title}</h3>
-                <p class="lesson-description">{lesson.description}</p>
-                <div class="lesson-relevance">
-                  <span class="relevance-label">UAE Relevance</span>
-                  <p>{lesson.relevance}</p>
-                </div>
+          {lessons.map((lesson) => (
+            <div class="lesson-card">
+              <h3>{lesson.title}</h3>
+              <p class="lesson-description">{lesson.description}</p>
+              <div class="lesson-relevance">
+                <span class="relevance-label">UAE Relevance</span>
+                <p>{lesson.relevance}</p>
               </div>
-            ))
-          }
+            </div>
+          ))}
         </div>
       </section>
 
       <section class="future-section">
         <h2 class="section-title">Two tracks to follow</h2>
         <p class="section-intro">
-          The Commission's <a
-            href="https://finance.ec.europa.eu/publications/financial-data-access-and-payments-package_en"
-            >June 2023 package</a
-          >
-          sets out the separate payments and financial-data access proposals. Use the linked policy references
-          to follow subsequent legislative steps.
+          The Commission's{' '}
+          <a href="https://finance.ec.europa.eu/publications/financial-data-access-and-payments-package_en">
+            June 2023 package
+          </a>
+          sets out the separate payments and financial-data access proposals. Use the linked policy
+          references to follow subsequent legislative steps.
         </p>
         <div class="future-content">
           <div class="future-card">

@@ -56,7 +56,7 @@ for (const theme of ['light', 'dark']) {
       await page.setViewportSize({ width, height: 900 });
       await page.goto('/');
       await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-        'Open finance.In full view.'
+        /^\s*Open finance\.\s*In full view\.\s*$/
       );
       await expect(
         page.getByRole('link', { name: 'Explore the Observatory', exact: true })

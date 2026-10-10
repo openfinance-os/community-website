@@ -181,16 +181,12 @@ const breadcrumbSchema =
     <!-- Structured Data (JSON-LD) -->
     <script is:inline type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
     <script is:inline type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
-    {
-      breadcrumbSchema && (
-        <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
-      )
-    }
-    {
-      articleSchema && (
-        <script is:inline type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
-      )
-    }
+    {breadcrumbSchema && (
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    )}
+    {articleSchema && (
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+    )}
 
     <!-- DM Sans is served locally; monospace is reserved for technical content. -->
     <link rel="preload" href="/fonts/dm-sans-regular.ttf" as="font" type="font/ttf" crossorigin />
@@ -204,7 +200,6 @@ const breadcrumbSchema =
 
     <!-- Shared analytics also covers the standalone Watcher endpoint. -->
     <script is:inline src="/analytics/posthog.js"></script>
-
     <!-- Theme initialization - prevent flash of wrong theme.
          Always resolve to an explicit data-theme (stored choice, else the
          system preference) so component-level [data-theme='dark'] rules

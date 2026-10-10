@@ -24,7 +24,8 @@ const date = (value: string) =>
 
 <div class="directory-snapshot" data-directory-snapshot>
   <div class="panel-label">
-    <span>The ecosystem, at a glance</span><span>UAE / Directory snapshot</span>
+    <span>The ecosystem, at a glance</span>
+    <span>UAE / Directory snapshot</span>
   </div>
   <section class="snapshot-card" aria-label="Directory snapshot preview">
     <div class="panel-top">
@@ -37,91 +38,89 @@ const date = (value: string) =>
           stroke="currentColor"
           stroke-width="1.5"
           aria-hidden="true"
-          ><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4"></circle><circle
-            cx="12"
-            cy="12"
-            r="1"></circle></svg
-        >Observatory
+        >
+          <circle cx="12" cy="12" r="9"></circle>
+          <circle cx="12" cy="12" r="4"></circle>
+          <circle cx="12" cy="12" r="1"></circle>
+        </svg>
+        Observatory
       </h2>
       <div class="directory-tabs" role="tablist" aria-label="Directory environment" hidden>
-        {
-          environments.map(({ id, label }, index) => (
-            <button
-              id={`directory-tab-${id}`}
-              data-environment={id}
-              role="tab"
-              aria-selected={index === 0 ? 'true' : 'false'}
-              aria-controls={`directory-panel-${id}`}
-              tabindex={index === 0 ? 0 : -1}
-            >
-              {label}
-            </button>
-          ))
-        }
+        {environments.map(({ id, label }, index) => (
+          <button
+            id={`directory-tab-${id}`}
+            data-environment={id}
+            role="tab"
+            aria-selected={index === 0 ? 'true' : 'false'}
+            aria-controls={`directory-panel-${id}`}
+            tabindex={index === 0 ? 0 : -1}
+          >
+            {label}
+          </button>
+        ))}
       </div>
     </div>
-    {
-      environments.map(({ id, label, data }, index) => (
-        <div
-          id={`directory-panel-${id}`}
-          role="tabpanel"
-          aria-labelledby={`directory-tab-${id}`}
-          hidden={index !== 0}
-        >
-          <div class="directory-art">
-            <div class="network-grid" aria-hidden="true" />
-            <span class="network-corner">Directory / {label}</span>
-            <div class="orbit" aria-hidden="true" />
-            <div class="hero-stat">
-              <>
-                <strong>{data.registered}</strong>
-                <span>{id} directory registrations</span>
-              </>
-            </div>
+    {environments.map(({ id, label, data }, index) => (
+      <div
+        id={`directory-panel-${id}`}
+        role="tabpanel"
+        aria-labelledby={`directory-tab-${id}`}
+        hidden={index !== 0}
+      >
+        <div class="directory-art">
+          <div class="network-grid" aria-hidden="true" />
+          <span class="network-corner">Directory / {label}</span>
+          <div class="orbit" aria-hidden="true" />
+          <div class="hero-stat">
             <>
-              <i class="orbit-node n1" aria-hidden="true" />
-              <i class="orbit-node n2" aria-hidden="true" />
-              <i class="orbit-node n3" aria-hidden="true" />
-            </>
-            <div class="network-bottom">
-              <>
-                <span>
-                  Observed <time datetime={data.observedAt}>{date(data.observedAt)} UTC</time>
-                </span>
-                <span>UAE Trust Framework</span>
-              </>
-            </div>
-          </div>
-          <div class="family-section">
-            <>
-              <div class="family-heading">
-                <>
-                  <strong>Published API families</strong>
-                  <span>{data.apiFamilies.length} families</span>
-                </>
-              </div>
-              <div class="families">
-                {data.apiFamilies.map((family) => (
-                  <span>{family}</span>
-                ))}
-              </div>
+              <strong>{data.registered}</strong>
+              <span>{id} directory registrations</span>
             </>
           </div>
-          <p class="panel-foot">
-            Directory registration does not establish operational status.
+          <>
+            <i class="orbit-node n1" aria-hidden="true" />
+            <i class="orbit-node n2" aria-hidden="true" />
+            <i class="orbit-node n3" aria-hidden="true" />
+          </>
+          <div class="network-bottom">
             <>
-              <br />
-              <a href="/observatory/coverage">Explore the source and evidence →</a>
+              <span>
+                Observed <time datetime={data.observedAt}>{date(data.observedAt)} UTC</time>
+              </span>
+              <span>UAE Trust Framework</span>
             </>
-          </p>
+          </div>
         </div>
-      ))
-    }
+        <div class="family-section">
+          <>
+            <div class="family-heading">
+              <>
+                <strong>Published API families</strong>
+                <span>{data.apiFamilies.length} families</span>
+              </>
+            </div>
+            <div class="families">
+              {data.apiFamilies.map((family) => (
+                <span>{family}</span>
+              ))}
+            </div>
+          </>
+        </div>
+        <p class="panel-foot">
+          Directory registration does not establish operational status.
+          <>
+            <br />
+            <a href="/observatory/coverage">Explore the source and evidence →</a>
+          </>
+        </p>
+      </div>
+    ))}
   </section>
   <div class="snapshot-caption">
-    <span>Saved directory observations, with source context.</span><a href="/observatory/data"
-      >Open data <span aria-hidden="true">↗</span></a
-    >
+    <span>Saved directory observations, with source context.</span>
+    <a href="/observatory/data">
+      Open data <span aria-hidden="true">↗</span>
+    </a>
   </div>
 </div>
 

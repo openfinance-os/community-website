@@ -37,7 +37,9 @@ const newsRegionLabels: Record<string, string> = {
         <p class="header-description">
           News and analysis from across the UAE Open Finance ecosystem.
         </p>
-        <p class="feed-link"><a href="/rss.xml">Follow news & weekly digests via RSS →</a></p>
+        <p class="feed-link">
+          <a href="/rss.xml">Follow news & weekly digests via RSS →</a>
+        </p>
       </div>
     </header>
 
@@ -45,60 +47,49 @@ const newsRegionLabels: Record<string, string> = {
       <div class="filter-section">
         <div class="filter-row">
           <div class="news-filter" role="group" aria-label="Filter news by type">
-            {
-              newsTypes.map((type) => (
-                <button
-                  class:list={['filter-btn', { active: type === 'all' }]}
-                  data-news-type={type}
-                >
-                  {type === 'all' ? 'All' : newsTypeLabels[type] || type}
-                </button>
-              ))
-            }
+            {newsTypes.map((type) => (
+              <button class:list={['filter-btn', { active: type === 'all' }]} data-news-type={type}>
+                {type === 'all' ? 'All' : newsTypeLabels[type] || type}
+              </button>
+            ))}
           </div>
           <div class="region-filter" role="group" aria-label="Filter news by region">
-            {
-              newsRegions.map((region) => (
-                <button
-                  class:list={['filter-btn region-btn', { active: region === 'all' }]}
-                  data-news-region={region}
-                >
-                  {region === 'all' ? 'All Regions' : newsRegionLabels[region] || region}
-                </button>
-              ))
-            }
+            {newsRegions.map((region) => (
+              <button
+                class:list={['filter-btn region-btn', { active: region === 'all' }]}
+                data-news-region={region}
+              >
+                {region === 'all' ? 'All Regions' : newsRegionLabels[region] || region}
+              </button>
+            ))}
           </div>
         </div>
       </div>
 
       <div class="news-grid" id="news-grid">
-        {
-          sortedNews.map((article) => (
-            <div data-news-type={article.data.type} data-news-region={article.data.region}>
-              <NewsCard
-                headingLevel={2}
-                title={article.data.title}
-                date={article.data.date}
-                type={article.data.type}
-                region={article.data.region}
-                author={article.data.author}
-                description={article.data.description}
-                slug={article.slug}
-                source={article.data.source}
-                external={article.data.external}
-              />
-            </div>
-          ))
-        }
+        {sortedNews.map((article) => (
+          <div data-news-type={article.data.type} data-news-region={article.data.region}>
+            <NewsCard
+              headingLevel={2}
+              title={article.data.title}
+              date={article.data.date}
+              type={article.data.type}
+              region={article.data.region}
+              author={article.data.author}
+              description={article.data.description}
+              slug={article.id}
+              source={article.data.source}
+              external={article.data.external}
+            />
+          </div>
+        ))}
       </div>
 
-      {
-        sortedNews.length === 0 && (
-          <div class="empty-state">
-            <p>No news articles yet. Check back soon!</p>
-          </div>
-        )
-      }
+      {sortedNews.length === 0 && (
+        <div class="empty-state">
+          <p>No news articles yet. Check back soon!</p>
+        </div>
+      )}
 
       <div class="external-news">
         <h2>More Global News</h2>
@@ -110,9 +101,9 @@ const newsRegionLabels: Record<string, string> = {
         >
           <div class="external-content">
             <span class="external-title">Open Conversations</span>
-            <span class="external-description"
-              >Global news and insights about open finance worldwide</span
-            >
+            <span class="external-description">
+              Global news and insights about open finance worldwide
+            </span>
           </div>
           <svg
             width="16"

@@ -12,7 +12,9 @@ const { styles, body } = renderWatchContent();
   <div class="watch-shell">
     <ObservatoryNav current="watch" />
     <style is:inline set:html={styles}></style>
-    <div class="watch-page"><Fragment set:html={body} /></div>
+    <div class="watch-page">
+      <Fragment set:html={body} />
+    </div>
   </div>
 </PageLayout>
 <style>

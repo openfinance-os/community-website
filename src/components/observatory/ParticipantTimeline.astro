@@ -35,26 +35,24 @@ const dataset =
     fields. The 8 October 2026 collector update expanded family coverage, so an addition on that
     date does not establish a deployment.
   </p>
-  {
-    events.length ? (
-      <ol>
-        {events.map((event) => (
-          <li>
-            <time datetime={event.date}>{event.date}</time>
-            <div>
-              <strong>{labels[event.type]}</strong>
-              {event.detail && <p>{event.detail}</p>}
-            </div>
-          </li>
-        ))}
-      </ol>
-    ) : (
-      <p>
-        No changes recorded for this ID in the available snapshot differences. This does not
-        establish the registration's start date.
-      </p>
-    )
-  }
+  {events.length ? (
+    <ol>
+      {events.map((event) => (
+        <li>
+          <time datetime={event.date}>{event.date}</time>
+          <div>
+            <strong>{labels[event.type]}</strong>
+            {event.detail && <p>{event.detail}</p>}
+          </div>
+        </li>
+      ))}
+    </ol>
+  ) : (
+    <p>
+      No changes recorded for this ID in the available snapshot differences. This does not establish
+      the registration's start date.
+    </p>
+  )}
   <a href={dataset}>Download the {environment} changelog and observation dates</a>
 </section>
 <style>

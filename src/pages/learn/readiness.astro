@@ -130,7 +130,10 @@ const areas = [
       <header class="page-intro readiness-intro">
         <div>
           <p class="eyebrow">An evidence worksheet for your team</p>
-          <h1>What do you need<br class="wide-break" /> to decide next?</h1>
+          <h1>
+            What do you need
+            <br class="wide-break" /> to decide next?
+          </h1>
           <p class="lead">
             Turn an Open Finance proposition into clear questions, evidence, owners and next steps.
             Work through eight areas with the people who will deliver it.
@@ -156,7 +159,13 @@ const areas = [
         </div>
         <div class="soft-panel outcome">
           <p class="eyebrow">Bring to your next meeting</p>
-          <h2>A decision.<br />The evidence behind it.<br />An owner for the gaps.</h2>
+          <h2>
+            A decision.
+            <br />
+            The evidence behind it.
+            <br />
+            An owner for the gaps.
+          </h2>
           <p>
             Start with one proposition. Record what you know, what is still uncertain and the next
             action your team can take.
@@ -173,13 +182,11 @@ const areas = [
           <nav class="panel contents" aria-label="In this worksheet">
             <p class="eyebrow">In this worksheet</p>
             <ol>
-              {
-                areas.map((area) => (
-                  <li>
-                    <a href={`#${area.id}`}>{area.shortTitle}</a>
-                  </li>
-                ))
-              }
+              {areas.map((area) => (
+                <li>
+                  <a href={`#${area.id}`}>{area.shortTitle}</a>
+                </li>
+              ))}
             </ol>
             <p class="meta">Pick a question. Record its evidence. Give the gap an owner.</p>
           </nav>
@@ -208,7 +215,8 @@ const areas = [
                   rows="2"
                   autocomplete="off"
                   placeholder="What are we trying to decide, and for whom?"
-                  data-answer></textarea>
+                  data-answer
+                ></textarea>
                 <span class="print-answer"></span>
               </label>
               <label>
@@ -243,107 +251,101 @@ const areas = [
             <div class="sample-entry soft-panel">
               <h3>A first entry, using the fictional clinic</h3>
               <p>
-                <strong>Area:</strong> Proposition &amp; customer benefit · <strong>State:</strong> Investigating
+                <strong>Area:</strong> Proposition &amp; customer benefit · <strong>State:</strong>{' '}
+                Investigating
               </p>
               <p>
-                <strong>Evidence held:</strong> The synthetic persona and combined-ledger demo explain
-                the idea. Customer benefit has not been validated.
+                <strong>Evidence held:</strong> The synthetic persona and combined-ledger demo
+                explain the idea. Customer benefit has not been validated.
               </p>
               <p>
-                <strong>Unknown:</strong> Would this view help the practice manager make a specific cash
-                decision?
+                <strong>Unknown:</strong> Would this view help the practice manager make a specific
+                cash decision?
               </p>
               <p>
-                <strong>Next action:</strong> Test the proposed view in customer interviews. Assign a
-                product owner and review date.
+                <strong>Next action:</strong> Test the proposed view in customer interviews. Assign
+                a product owner and review date.
               </p>
             </div>
 
-            {
-              areas.map((area, index) => (
-                <section
-                  class="readiness-area"
-                  id={area.id}
-                  aria-labelledby={`${area.id}-heading`}
-                  data-worksheet-area
-                >
-                  <div class="area-heading">
-                    <span class="area-number" aria-hidden="true">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                    <div>
-                      <h3 id={`${area.id}-heading`}>{area.title}</h3>
-                      <p>{area.summary}</p>
-                    </div>
-                    <button
-                      class="area-toggle"
-                      type="button"
-                      aria-expanded="true"
-                      aria-controls={`${area.id}-body`}
-                      aria-label={`Collapse ${area.title}`}
-                      data-area-toggle
-                      hidden
-                    >
-                      <span aria-hidden="true">−</span>
-                    </button>
+            {areas.map((area, index) => (
+              <section
+                class="readiness-area"
+                id={area.id}
+                aria-labelledby={`${area.id}-heading`}
+                data-worksheet-area
+              >
+                <div class="area-heading">
+                  <span class="area-number" aria-hidden="true">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <div>
+                    <h3 id={`${area.id}-heading`}>{area.title}</h3>
+                    <p>{area.summary}</p>
                   </div>
-                  <div class="area-body" id={`${area.id}-body`}>
-                    <h4>{area.question}</h4>
-                    <p>{area.explanation}</p>
-                    <div class="evidence-prompt">
-                      <h5>Evidence to collect</h5>
-                      <p>{area.evidence}</p>
-                    </div>
-                    <div class="field-grid area-fields">
-                      <label>
-                        <span>Current state</span>
-                        <select autocomplete="off" data-answer>
-                          <option>Unknown</option>
-                          <option>Investigating</option>
-                          <option>Evidence recorded</option>
-                        </select>
-                        <span class="print-answer short-answer" />
-                      </label>
-                      <label>
-                        <span>Accountable owner</span>
-                        <input
-                          type="text"
-                          autocomplete="off"
-                          placeholder="Person or team"
-                          data-answer
-                        />
-                        <span class="print-answer short-answer" />
-                      </label>
-                      <label class="wide-field">
-                        <span>Evidence held · source, version &amp; date</span>
-                        <textarea rows="2" autocomplete="off" placeholder={area.held} data-answer />
-                        <span class="print-answer" />
-                      </label>
-                      <label>
-                        <span>Remaining uncertainty</span>
-                        <textarea
-                          rows="2"
-                          autocomplete="off"
-                          placeholder={area.uncertainty}
-                          data-answer
-                        />
-                        <span class="print-answer" />
-                      </label>
-                      <label>
-                        <span>Next action</span>
-                        <textarea
-                          rows="2"
-                          autocomplete="off"
-                          placeholder={area.action}
-                          data-answer
-                        />
-                        <span class="print-answer" />
-                      </label>
-                    </div>
+                  <button
+                    class="area-toggle"
+                    type="button"
+                    aria-expanded="true"
+                    aria-controls={`${area.id}-body`}
+                    aria-label={`Collapse ${area.title}`}
+                    data-area-toggle
+                    hidden
+                  >
+                    <span aria-hidden="true">−</span>
+                  </button>
+                </div>
+                <div class="area-body" id={`${area.id}-body`}>
+                  <h4>{area.question}</h4>
+                  <p>{area.explanation}</p>
+                  <div class="evidence-prompt">
+                    <h5>Evidence to collect</h5>
+                    <p>{area.evidence}</p>
                   </div>
-                </section>
-              ))
-            }
+                  <div class="field-grid area-fields">
+                    <label>
+                      <span>Current state</span>
+                      <select autocomplete="off" data-answer>
+                        <option>Unknown</option>
+                        <option>Investigating</option>
+                        <option>Evidence recorded</option>
+                      </select>
+                      <span class="print-answer short-answer" />
+                    </label>
+                    <label>
+                      <span>Accountable owner</span>
+                      <input
+                        type="text"
+                        autocomplete="off"
+                        placeholder="Person or team"
+                        data-answer
+                      />
+                      <span class="print-answer short-answer" />
+                    </label>
+                    <label class="wide-field">
+                      <span>Evidence held · source, version &amp; date</span>
+                      <textarea rows="2" autocomplete="off" placeholder={area.held} data-answer />
+                      <span class="print-answer" />
+                    </label>
+                    <label>
+                      <span>Remaining uncertainty</span>
+                      <textarea
+                        rows="2"
+                        autocomplete="off"
+                        placeholder={area.uncertainty}
+                        data-answer
+                      />
+                      <span class="print-answer" />
+                    </label>
+                    <label>
+                      <span>Next action</span>
+                      <textarea rows="2" autocomplete="off" placeholder={area.action} data-answer />
+                      <span class="print-answer" />
+                    </label>
+                  </div>
+                </div>
+              </section>
+            ))}
           </section>
 
           <section class="soft-panel next-decision" aria-labelledby="next-decision">
@@ -359,7 +361,8 @@ const areas = [
                 rows="3"
                 autocomplete="off"
                 placeholder="Our next step is… The evidence we need is… The owner is… We will revisit on…"
-                data-answer></textarea>
+                data-answer
+              ></textarea>
               <span class="print-answer"></span>
             </label>
             <div class="actions">
@@ -380,24 +383,29 @@ const areas = [
                 <a
                   href="https://rulebook.centralbank.ae/en/rulebook/open-finance-framework-0"
                   target="_blank"
-                  rel="noopener noreferrer">CBUAE Open Finance Framework</a
-                > — the primary regulatory source; verify the provisions applicable to your role.
+                  rel="noopener noreferrer"
+                >
+                  CBUAE Open Finance Framework
+                </a>{' '}
+                — the primary regulatory source; verify the provisions applicable to your role.
               </li>
               <li>
                 <a
                   href="https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview"
                   target="_blank"
-                  rel="noopener noreferrer">Official Open Finance documentation</a
+                  rel="noopener noreferrer"
                 >
+                  Official Open Finance documentation
+                </a>
                 — participation, standards, testing and certification references.
               </li>
               <li>
-                <a href="/observatory/methodology">Observatory methodology</a> — what directory observations
-                establish, and what remains unknown.
+                <a href="/observatory/methodology">Observatory methodology</a> — what directory
+                observations establish, and what remains unknown.
               </li>
               <li>
-                <a href="/commons/sme-multi-bank-cash-flow">Synthetic SME worked example</a> — an illustration
-                for discussion, without evidence of live service availability.
+                <a href="/commons/sme-multi-bank-cash-flow">Synthetic SME worked example</a> — an
+                illustration for discussion, without evidence of live service availability.
               </li>
             </ul>
             <p class="meta disclaimer">

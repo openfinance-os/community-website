@@ -15,41 +15,41 @@ const date = (value: string) =>
   <div class="briefing-inner">
     <header>
       <div>
-        <p class="eyebrow">Independent Ecosystem Watch</p><h2 id="briefing-title">
-          Latest saved briefing
-        </h2>
+        <p class="eyebrow">Independent Ecosystem Watch</p>
+        <h2 id="briefing-title">Latest saved briefing</h2>
       </div>
       <div class="briefing-links">
-        <a class="full-link" href="/observatory/watch/">Read the full Watch →</a>
+        <a class="full-link" href="/observatory/watch/">
+          Read the full Watch →
+        </a>
         <a href="/rss.xml">News & weekly digests / RSS →</a>
       </div>
     </header>
     <p class="briefing-date">
-      Run: <time datetime={briefing.runDate}>{date(briefing.runDate)}</time> · Operational logs through
+      Run: <time datetime={briefing.runDate}>{date(briefing.runDate)}</time> · Operational logs
+      through
       <time datetime={briefing.asOfData}>{date(briefing.asOfData)}</time>. These are saved
       observations; source links and reporting windows are in the full Watch.
     </p>
     <div class="briefing-grid">
-      {
-        briefing.items.map((item) => (
-          <article>
-            <>
-              <p class="audience">{item.audience}</p>
-              <h3>
-                {item.area}
-                <span>{item.status === 'nochange' ? 'No change' : item.status}</span>
-              </h3>
-              <p>{item.text}</p>
-              <a href={item.href}>View evidence &amp; sources →</a>
-            </>
-          </article>
-        ))
-      }
+      {briefing.items.map((item) => (
+        <article>
+          <>
+            <p class="audience">{item.audience}</p>
+            <h3>
+              {item.area}
+              <span>{item.status === 'nochange' ? 'No change' : item.status}</span>
+            </h3>
+            <p>{item.text}</p>
+            <a href={item.href}>View evidence &amp; sources →</a>
+          </>
+        </article>
+      ))}
     </div>
     <p class="briefing-next">
-      Evaluating published capabilities? <a href="/observatory/coverage/"
-        >Filter API coverage and compare registrations</a
-      >. Directory declarations and operational observations have separate dates and definitions.
+      Evaluating published capabilities?{' '}
+      <a href="/observatory/coverage/">Filter API coverage and compare registrations</a>. Directory
+      declarations and operational observations have separate dates and definitions.
     </p>
   </div>
 </section>

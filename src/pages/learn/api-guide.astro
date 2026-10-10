@@ -38,17 +38,16 @@ const observedDate = latest.timestamp.slice(0, 10);
         <p>
           Customer data sharing and payment initiation require customer consent. Services such as
           Confirmation of Payee, product information and ATM information use client credentials
-          without an end-customer consent journey. <strong>FAPI</strong> supplies the financial API security
-          profile; <a href="/learn/glossary#dcr">DCR</a> registers a client and is a separate step from
-          customer authentication.
+          without an end-customer consent journey. <strong>FAPI</strong> supplies the financial API
+          security profile; <a href="/learn/glossary#dcr">DCR</a> registers a client and is a
+          separate step from customer authentication.
         </p>
         <p>
-          The production directory snapshot observed on <time datetime={observedDate}
-            >{observedDate}</time
-          >
+          The production directory snapshot observed on{' '}
+          <time datetime={observedDate}>{observedDate}</time>
           contains <strong>{families} published API family identifiers</strong>: {familyNames}. The
-          <a href="/observatory">Observatory</a> shows published resources and versions. Publication does
-          not establish successful integration, availability or live usage.
+          <a href="/observatory">Observatory</a> shows published resources and versions. Publication
+          does not establish successful integration, availability or live usage.
         </p>
       </section>
 

@@ -24,37 +24,40 @@ import { glossaryData, glossaryAnchor } from '@lib/glossary';
       </header>
 
       <nav class="letter-nav">
-        {glossaryData.map((section) => <a href={`#letter-${section.letter}`}>{section.letter}</a>)}
+        {glossaryData.map((section) => (
+          <a href={`#letter-${section.letter}`}>{section.letter}</a>
+        ))}
       </nav>
 
       <div class="glossary-content">
-        {
-          glossaryData.map((section) => (
-            <section id={`letter-${section.letter}`} class="letter-section">
-              <h2>{section.letter}</h2>
-              <dl class="terms-list">
-                {section.terms.map((item) => (
-                  <div class="term-item" id={glossaryAnchor(item.term)}>
-                    <dt>
-                      <span class="term">{item.term}</span>
-                      {item.full && <span class="full-name">{item.full}</span>}
-                    </dt>
-                    <dd>{item.definition}</dd>
-                  </div>
-                ))}
-              </dl>
-            </section>
-          ))
-        }
+        {glossaryData.map((section) => (
+          <section id={`letter-${section.letter}`} class="letter-section">
+            <h2>{section.letter}</h2>
+            <dl class="terms-list">
+              {section.terms.map((item) => (
+                <div class="term-item" id={glossaryAnchor(item.term)}>
+                  <dt>
+                    <span class="term">{item.term}</span>
+                    {item.full && <span class="full-name">{item.full}</span>}
+                  </dt>
+                  <dd>{item.definition}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        ))}
       </div>
 
       <footer class="glossary-footer">
         <p>
-          Missing a term? <a
+          Missing a term?{' '}
+          <a
             href="https://github.com/openfinance-os/community/issues"
             target="_blank"
-            rel="noopener noreferrer">Suggest additions on GitHub</a
+            rel="noopener noreferrer"
           >
+            Suggest additions on GitHub
+          </a>
         </p>
       </footer>
     </div>

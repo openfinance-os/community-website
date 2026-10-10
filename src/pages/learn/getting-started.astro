@@ -70,24 +70,29 @@ const nextSteps = [
       <Breadcrumb items={[{ label: 'Learn', href: '/learn' }, { label: 'Getting Started' }]} />
       <header class="page-intro guide-intro">
         <p class="eyebrow">Getting Started / UAE Open Finance</p>
-        <h1>More useful services.<br />Through permission.</h1>
+        <h1>
+          More useful services.
+          <br />
+          Through permission.
+        </h1>
         <p class="lead">
           Open Finance lets a customer choose to share financial information or authorise a service
           through an eligible provider. Start with what that could make possible, then check the
           conditions behind it.
         </p>
         <nav class="guide-jumps" aria-label="On this page">
-          <a href="#possibilities">Practical possibilities</a><a href="#permission"
-            >Customer permission</a
-          ><a href="#participants">Who participates</a><a href="#architecture"
-            >How requests travel</a
-          ><a href="#next-steps">Your next step</a>
+          <a href="#possibilities">Practical possibilities</a>
+          <a href="#permission">Customer permission</a>
+          <a href="#participants">Who participates</a>
+          <a href="#architecture">How requests travel</a>
+          <a href="#next-steps">Your next step</a>
         </nav>
       </header>
 
       <section class="guide-section" aria-labelledby="idea-title">
         <div class="section-heading">
-          <p class="eyebrow">The idea</p><h2 id="idea-title">Start with the customer benefit.</h2>
+          <p class="eyebrow">The idea</p>
+          <h2 id="idea-title">Start with the customer benefit.</h2>
         </div>
         <div class="prose intro-prose">
           <p>
@@ -98,63 +103,68 @@ const nextSteps = [
           <p>
             The CBUAE describes Open Finance as a way to give customers greater control and choice
             through consented financial data. That is a purpose for the framework, rather than
-            evidence that every possible service is already available. <a
+            evidence that every possible service is already available.{' '}
+            <a
               href="https://centralbank.ae/en/our-operations/fintech-digital-transformation/open-finance/"
-              rel="noopener noreferrer">Read the CBUAE overview</a
-            >.
+              rel="noopener noreferrer"
+            >
+              Read the CBUAE overview
+            </a>
+            .
           </p>
         </div>
       </section>
 
       <section class="guide-section" id="possibilities" aria-labelledby="possibilities-title">
         <div class="section-heading">
-          <h2 id="possibilities-title">Three practical possibilities.</h2><p>
+          <h2 id="possibilities-title">Three practical possibilities.</h2>
+          <p>
             Illustrative journeys to make the idea concrete. Availability depends on the provider,
             institution, supported capability, and applicable requirements.
           </p>
         </div>
         <div class="example-grid">
-          {
-            examples.map((example) => (
-              <article class="example-card">
+          {examples.map((example) => (
+            <article class="example-card">
+              <>
+                <p class="eyebrow">{example.label}</p>
+                <h3>{example.title}</h3>
+                <p>{example.description}</p>
+              </>
+              <div class="example-question">
                 <>
-                  <p class="eyebrow">{example.label}</p>
-                  <h3>{example.title}</h3>
-                  <p>{example.description}</p>
+                  <strong>A question to carry forward</strong>
+                  <p>{example.question}</p>
                 </>
-                <div class="example-question">
-                  <>
-                    <strong>A question to carry forward</strong>
-                    <p>{example.question}</p>
-                  </>
-                </div>
-                <a
-                  class="text-link"
-                  href={example.href}
-                  rel={example.href.startsWith('https:') ? 'noopener noreferrer' : undefined}
-                >
-                  {example.action}
-                  <span aria-hidden="true">{example.href.startsWith('https:') ? '↗' : '→'}</span>
-                </a>
-              </article>
-            ))
-          }
+              </div>
+              <a
+                class="text-link"
+                href={example.href}
+                rel={example.href.startsWith('https:') ? 'noopener noreferrer' : undefined}
+              >
+                {example.action}
+                <span aria-hidden="true">{example.href.startsWith('https:') ? '↗' : '→'}</span>
+              </a>
+            </article>
+          ))}
         </div>
         <p class="review-note">
           The linked insurance v2.1 page marks its customer-experience section as out of date. Check
-          the <a
+          the{' '}
+          <a
             href="https://openfinanceuae.atlassian.net/wiki/spaces/OF/pages/1366294554"
-            rel="noopener noreferrer">official consolidated errata for v2.1 and API Hub v8</a
+            rel="noopener noreferrer"
           >
+            official consolidated errata for v2.1 and API Hub v8
+          </a>
           alongside the published specifications before designing a journey.
         </p>
       </section>
 
       <section class="guide-section" id="permission" aria-labelledby="permission-title">
         <div class="section-heading">
-          <p class="eyebrow">Customer permission</p><h2 id="permission-title">
-            The purpose and boundaries come first.
-          </h2>
+          <p class="eyebrow">Customer permission</p>
+          <h2 id="permission-title">The purpose and boundaries come first.</h2>
         </div>
         <div class="permission-grid">
           <div class="prose">
@@ -167,29 +177,32 @@ const nextSteps = [
               Authentication and authorisation are also different. Authentication checks who the
               customer is. Authorisation records the access or action they approve. The supported
               journey may use the institution's channels or the Al Tareq centralised authentication
-              and authorisation solution. <a
+              and authorisation solution.{' '}
+              <a
                 href="https://openfinanceuae.atlassian.net/wiki/spaces/APIHubDocsv8/pages/874119173/AlTareq%2BCentralised%2BAuthentication%2Band%2BAuthorization%2BIntegration%2BGuide"
-                rel="noopener noreferrer">Check the official integration guidance</a
-              >.
+                rel="noopener noreferrer"
+              >
+                Check the official integration guidance
+              </a>
+              .
             </p>
           </div>
           <aside class="permission-panel" aria-labelledby="permission-questions">
             <h3 id="permission-questions">Make the choice understandable.</h3>
             <ol>
               <li>
-                <strong>What is being requested?</strong><span
-                  >The information, account, policy, or transaction involved.</span
-                >
+                <strong>What is being requested?</strong>
+                <span>The information, account, policy, or transaction involved.</span>
               </li>
               <li>
-                <strong>For what purpose and duration?</strong><span
-                  >The benefit, the recipient, and the boundaries of access.</span
-                >
+                <strong>For what purpose and duration?</strong>
+                <span>The benefit, the recipient, and the boundaries of access.</span>
               </li>
               <li>
-                <strong>What happens afterwards?</strong><span
-                  >How to manage consent, recognise its expiry or withdrawal, and get support.</span
-                >
+                <strong>What happens afterwards?</strong>
+                <span>
+                  How to manage consent, recognise its expiry or withdrawal, and get support.
+                </span>
               </li>
             </ol>
           </aside>
@@ -198,50 +211,58 @@ const nextSteps = [
 
       <section class="guide-section" id="participants" aria-labelledby="participants-title">
         <div class="section-heading">
-          <h2 id="participants-title">Who participates?</h2><p>
+          <h2 id="participants-title">Who participates?</h2>
+          <p>
             A few terms explain the roles. The official framework determines the permissions and
             obligations that apply.
           </p>
         </div>
         <dl class="participant-grid">
           <div>
-            <dt>Customer</dt><dd>
+            <dt>Customer</dt>
+            <dd>
               The person or business choosing the service and authorising the relevant access or
               action.
             </dd>
           </div>
           <div>
-            <dt>Licensed Financial Institution (LFI)</dt><dd>
+            <dt>Licensed Financial Institution (LFI)</dt>
+            <dd>
               An institution, such as a bank or insurer, holding the relevant customer account,
               policy, or financial information.
             </dd>
           </div>
           <div>
-            <dt>Third Party Provider (TPP)</dt><dd>
+            <dt>Third Party Provider (TPP)</dt>
+            <dd>
               A provider using the framework's services within its permitted role. An LFI can also
               act as a TPP; check the requirements for the activity.
             </dd>
           </div>
           <div>
-            <dt>CBUAE & the framework</dt><dd>
+            <dt>CBUAE & the framework</dt>
+            <dd>
               The regulator and the regulated infrastructure supporting participation, secure
               access, and common interfaces.
             </dd>
           </div>
         </dl>
         <p class="source-note">
-          For regulatory scope and participation requirements, use the <a
+          For regulatory scope and participation requirements, use the{' '}
+          <a
             href="https://rulebook.centralbank.ae/en/rulebook/introduction-and-scope-2"
-            rel="noopener noreferrer">CBUAE Rulebook introduction and scope, Circular 03/2025</a
-          >. For terminology, <a href="/learn/glossary">browse the glossary</a>.
+            rel="noopener noreferrer"
+          >
+            CBUAE Rulebook introduction and scope, Circular 03/2025
+          </a>
+          . For terminology, <a href="/learn/glossary">browse the glossary</a>.
         </p>
       </section>
 
       <section class="guide-section" id="architecture" aria-labelledby="architecture-title">
         <div class="section-heading">
-          <p class="eyebrow">The technical shape</p><h2 id="architecture-title">
-            The API Hub sits between providers and institutions.
-          </h2>
+          <p class="eyebrow">The technical shape</p>
+          <h2 id="architecture-title">The API Hub sits between providers and institutions.</h2>
         </div>
         <div
           class="request-flow"
@@ -249,32 +270,44 @@ const nextSteps = [
           aria-label="Requests travel from the Third Party Provider through the API Hub to the Licensed Financial Institution; responses return through the Hub."
         >
           <div>
-            <span class="flow-label">TPP</span><h3>The customer-facing service</h3><p>
-              Uses the TPP-facing Standards APIs.
-            </p>
+            <span class="flow-label">TPP</span>
+            <h3>The customer-facing service</h3>
+            <p>Uses the TPP-facing Standards APIs.</p>
           </div>
-          <span class="flow-arrow" aria-hidden="true">↔</span>
+          <span class="flow-arrow" aria-hidden="true">
+            ↔
+          </span>
           <div class="flow-hub">
-            <span class="flow-label">API Hub</span><h3>The mediation point</h3><p>
-              Manages consent and access tokens, and routes permitted requests.
-            </p>
+            <span class="flow-label">API Hub</span>
+            <h3>The mediation point</h3>
+            <p>Manages consent and access tokens, and routes permitted requests.</p>
           </div>
-          <span class="flow-arrow" aria-hidden="true">↔</span>
+          <span class="flow-arrow" aria-hidden="true">
+            ↔
+          </span>
           <div>
-            <span class="flow-label">LFI</span><h3>The institution's services</h3><p>
-              Implements the Ozone Connect interface for the Hub to call.
-            </p>
+            <span class="flow-label">LFI</span>
+            <h3>The institution's services</h3>
+            <p>Implements the Ozone Connect interface for the Hub to call.</p>
           </div>
         </div>
         <p class="source-note">
           This is a simplified request and response path, not the full customer authentication
-          sequence. TPPs do not call the institution's Ozone Connect backend directly. See the <a
+          sequence. TPPs do not call the institution's Ozone Connect backend directly. See the{' '}
+          <a
             href="https://openfinanceuae.atlassian.net/wiki/spaces/APIHubDocsv8/pages/452362297/Integration%2BOverview"
-            rel="noopener noreferrer">official API Hub integration overview</a
-          > and <a
+            rel="noopener noreferrer"
+          >
+            official API Hub integration overview
+          </a>{' '}
+          and{' '}
+          <a
             href="https://github.com/Nebras-Open-Finance/api-specs/tree/main"
-            rel="noopener noreferrer">official API specification repository</a
-          >.
+            rel="noopener noreferrer"
+          >
+            official API specification repository
+          </a>
+          .
         </p>
         <aside class="technical-note" aria-labelledby="exceptions-title">
           <h3 id="exceptions-title">Not every API uses a customer consent journey.</h3>
@@ -289,8 +322,9 @@ const nextSteps = [
             class="text-link"
             href="https://openfinanceuae.atlassian.net/wiki/spaces/standardsv2dot1final/pages/702420679/Confirmation%2Bof%2BPayee%2BAPI%2BGuide"
             rel="noopener noreferrer"
-            >Read the official Confirmation of Payee guide <span aria-hidden="true">↗</span></a
           >
+            Read the official Confirmation of Payee guide <span aria-hidden="true">↗</span>
+          </a>
         </aside>
         <div class="api-families">
           <h3>What the specifications cover</h3>
@@ -300,9 +334,9 @@ const nextSteps = [
             and available services need checking for the proposition and institutions you have in
             mind.
           </p>
-          <a class="text-link" href="/learn/api-guide"
-            >Go deeper with the API Integration Guide <span aria-hidden="true">→</span></a
-          >
+          <a class="text-link" href="/learn/api-guide">
+            Go deeper with the API Integration Guide <span aria-hidden="true">→</span>
+          </a>
         </div>
       </section>
 
@@ -314,9 +348,9 @@ const nextSteps = [
           and observed operational traffic establish different things. A saved directory observation
           cannot tell you that a customer journey is operating successfully today.
         </p>
-        <a class="text-link" href="/observatory/methodology"
-          >Read the evidence definitions and limits <span aria-hidden="true">→</span></a
-        >
+        <a class="text-link" href="/observatory/methodology">
+          Read the evidence definitions and limits <span aria-hidden="true">→</span>
+        </a>
       </aside>
 
       <OperatorPointer
@@ -348,32 +382,31 @@ const nextSteps = [
 
       <section class="guide-section" id="next-steps" aria-labelledby="next-title">
         <div class="section-heading">
-          <h2 id="next-title">Choose a useful next step.</h2><p>
-            You do not need to become an API specialist to ask a better question.
-          </p>
+          <h2 id="next-title">Choose a useful next step.</h2>
+          <p>You do not need to become an API specialist to ask a better question.</p>
         </div>
         <div class="next-grid">
-          {
-            nextSteps.map((step) => (
-              <a href={step.href} class="next-card">
-                <>
-                  <h3>{step.title}</h3>
-                  <p>{step.description}</p>
-                  <span class="card-action">
-                    {step.action}
-                    <span aria-hidden="true">→</span>
-                  </span>
-                </>
-              </a>
-            ))
-          }
+          {nextSteps.map((step) => (
+            <a href={step.href} class="next-card">
+              <>
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
+                <span class="card-action">
+                  {step.action}
+                  <span aria-hidden="true">→</span>
+                </span>
+              </>
+            </a>
+          ))}
         </div>
         <div class="role-links">
-          <p>Already know your role?</p><a class="text-link" href="/learn/bank-guide"
-            >Bank & financial institution guide <span aria-hidden="true">→</span></a
-          ><a class="text-link" href="/learn/tpp-guide"
-            >TPP guide <span aria-hidden="true">→</span></a
-          >
+          <p>Already know your role?</p>
+          <a class="text-link" href="/learn/bank-guide">
+            Bank & financial institution guide <span aria-hidden="true">→</span>
+          </a>
+          <a class="text-link" href="/learn/tpp-guide">
+            TPP guide <span aria-hidden="true">→</span>
+          </a>
         </div>
         <p class="review-note">
           Published specifications describe the contract; they do not prove that every institution
