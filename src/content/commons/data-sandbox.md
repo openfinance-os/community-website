@@ -39,7 +39,13 @@ featured: true
 
 ## Overview
 
-The [Open Finance Data Sandbox](https://data-sandbox.openfinance-os.org) is a zero-setup, browser-based explorer that shows what UAE Open Finance payloads actually look like — Bank Data Sharing, Insurance Data Sharing across all seven lines, and the ATM Locator directory. Every response is generated from a deterministic seeded PRNG and validated against the vendored OpenAPI specification, so what you see in the sandbox is what your integration will need to handle in production.
+The [Open Finance Data Sandbox](https://data-sandbox.openfinance-os.org) is a zero-setup, browser-based explorer for illustrative UAE Open Finance payloads — Bank Data Sharing, Insurance Data Sharing across all seven lines, and the ATM Locator directory. Responses are generated from a deterministic seeded PRNG and validated against the vendored OpenAPI specification. These synthetic examples help you explore payload shapes and test application behaviour; they do not establish a live bank's data availability or production readiness.
+
+## Try a multi-bank reconciliation example
+
+[Open the existing multi-bank demo](https://data-sandbox.openfinance-os.org/examples/accounting-multi-bank-demo/) and choose **Crestline Wellness Clinic LLC — Healthcare Clinic** with the **Median** profile. The example matches the primary account's beneficiary IBANs to accounts in the other synthetic bank bundles, then assembles the accounts into one ledger. With the current fixture, you can inspect **two IBAN matches and four accounts** in the resulting tables.
+
+Everything in the example is synthetic. Rich, Median, and Sparse illustrate data completeness; they are not assessments of named banks. To use the same workflow in your own demo, follow the existing [multi-LFI integration guide](https://data-sandbox.openfinance-os.org/src/integrate.html#multi-lfi).
 
 ## Key Capabilities
 
@@ -62,7 +68,7 @@ The sandbox ships an MCP server, [`@openfinance-os/sandbox-mcp`](https://github.
 
 ## TPP Integration
 
-If you are wiring sandbox personas into a TPP demo journey, the [integration guide](https://data-sandbox.openfinance-os.org/integrate.html) walks through four plug points: iframe embed, npm `loadJourney()`, PyPI `load_journey()`, and raw HTTPS fixtures at `/fixtures/v1/`.
+If you are wiring sandbox personas into a TPP demo journey, the [integration guide](https://data-sandbox.openfinance-os.org/src/integrate.html) walks through five plug points: iframe embed, npm `loadJourney()`, PyPI `load_journey()`, raw HTTPS fixtures at `/fixtures/v1/`, and MCP.
 
 ## Tech Stack
 
@@ -85,6 +91,10 @@ Get hands-on with Open Finance payload shapes and edge cases, or wire the MCP se
 ## Try It Now
 
 Open [data-sandbox.openfinance-os.org](https://data-sandbox.openfinance-os.org) — no registration, no credentials, no install.
+
+## Optional commercial support
+
+[MiddleLeap Open Finance advisory](https://www.middleleap.com/open-finance) is a commercial service for teams seeking paid support. OFOS is editorially independent, and this guide and the Sandbox remain free and ungated.
 
 ## Source & License
 
