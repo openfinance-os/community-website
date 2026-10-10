@@ -21,14 +21,13 @@ test.describe('Site Navigation', () => {
     await expect(page).toHaveURL(/.*learn/);
   });
 
-  test('should navigate from homepage to news', async ({ page }) => {
+  test('should navigate from homepage to updates', async ({ page }) => {
     await page.goto('/');
 
-    // Find and click news link
-    const newsLink = page.getByRole('link', { name: /news/i });
-    await newsLink.first().click();
+    const updatesLink = page.getByRole('link', { name: 'Updates', exact: true });
+    await updatesLink.first().click();
 
-    await expect(page).toHaveURL(/.*news/);
+    await expect(page).toHaveURL(/\/updates\/?$/);
   });
 
   test('should have working logo link to homepage', async ({ page }) => {

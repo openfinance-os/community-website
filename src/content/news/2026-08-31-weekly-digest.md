@@ -37,4 +37,6 @@ These totals and rates cover completed months, not the digest week. This archive
 - **[Ecosystem Watch →](/observatory/watch/)** — adoption, reliability and standards, week by week
 - **[Download the data →](/observatory/data)** — the snapshots and history behind this digest
 
-*This is an independent, community-run digest — not official. Building or integrating? The operator's hub is at [nebras-open-finance.com](https://nebras-open-finance.com/).*
+*This is an independent, community-run digest — not official. Building or integrating? Consult the [official Open Finance documentation](https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview). [nebras-open-finance.com](https://nebras-open-finance.com/) is a community technical reference, not an official operator site. Check the relevant version and errata.*
+
+*Source attribution corrected on 10 October 2026: the Nebras website is a community technical reference. The digest's observation dates, reporting windows and original figures are unchanged.*

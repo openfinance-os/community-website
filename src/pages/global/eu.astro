@@ -2,65 +2,74 @@
 import PageLayout from '@layouts/PageLayout.astro';
 
 const timeline = [
-  { year: '2015', event: 'PSD2 directive adopted by European Parliament' },
-  { year: '2018', event: 'PSD2 comes into force across EU member states' },
-  { year: '2019', event: 'Strong Customer Authentication (SCA) requirements active' },
-  { year: '2020', event: 'Berlin Group NextGenPSD2 framework adopted widely' },
-  { year: '2023', event: 'European Commission proposes PSD3 and PSR' },
-  { year: '2024', event: 'Open Finance framework discussions advance' },
-  { year: '2025+', event: 'Expected PSD3/PSR implementation' },
+  { year: '2015', event: 'EU adopts the revised Payment Services Directive (PSD2)' },
+  { year: 'January 2018', event: 'PSD2 becomes applicable' },
+  { year: 'September 2019', event: 'PSD2 strong customer authentication requirements apply' },
+  {
+    year: 'June 2023',
+    event: 'Commission proposes PSD3/PSR payments reform and the separate FiDA framework',
+  },
+  { year: 'November 2025', event: 'Commission records political agreement on the PSD2 review' },
 ];
 
 const lessons = [
   {
-    title: 'Principles vs Prescriptions',
+    title: 'Check the implementation evidence',
     description:
-      'PSD2 set principles but left implementation details to member states and banks. This led to 4,000+ different API implementations across Europe.',
-    relevance: "UAE's prescriptive approach via Al Tareq avoids this fragmentation.",
+      'A regulatory framework and an interface specification answer different questions from a working customer journey.',
+    relevance:
+      'For the UAE proposition, identify the relevant standard, then test coverage, version handling and failure cases with partners.',
   },
   {
-    title: 'Screen Scraping Fallback',
+    title: 'Define the fallback experience',
     description:
-      'Poor API quality forced regulators to allow fallback to screen scraping, undermining the original intent of secure, standardized access.',
-    relevance: 'UAE can learn to enforce API quality standards from the start.',
+      'A missing field, delayed update or failed connection should lead to an understandable, supported next step.',
+    relevance:
+      'Agree refresh expectations, missing-data behaviour and support ownership for the UAE customer journey.',
   },
   {
-    title: 'Consumer Awareness Gap',
+    title: 'Test customer understanding',
     description:
-      "Surveys show most EU consumers don't know about their data sharing rights. Awareness campaigns lagged behind technical implementation.",
-    relevance: 'UAE should invest in consumer education alongside technical rollout.',
+      'Technical completion does not tell a team whether a customer understands the permission or benefit.',
+    relevance:
+      'Test the purpose, data scope, recipient and withdrawal explanation with the intended users.',
   },
   {
-    title: 'Beyond Payments',
+    title: 'Keep the legislative tracks separate',
     description:
-      'PSD3 and the proposed Open Finance framework expand beyond payments to insurance, investments, and pensions.',
-    relevance: 'UAE\'s "Open Finance" framing already positions for this broader scope.',
+      'Payment-services reform and broader financial-data access should be followed through their own sources and requirements.',
+    relevance:
+      'Map the UAE proposition to its specific activities and requirements rather than treating open finance as one undifferentiated service.',
   },
 ];
 
 const keyDifferences = [
-  { aspect: 'Scope', psd2: '27 countries, varied implementations', uae: 'Single unified market' },
   {
-    aspect: 'API Standard',
-    psd2: 'Multiple (Berlin Group, STET, Polish API)',
-    uae: 'Single CBUAE standard',
+    aspect: 'Starting scope',
+    psd2: 'PSD2 payment services, including account information and payment initiation',
+    uae: 'CBUAE framework for data sharing and service initiation',
   },
   {
-    aspect: 'Central Directory',
-    psd2: 'National registries, no unified directory',
-    uae: 'Al Tareq serves as central directory',
+    aspect: 'Technical reference',
+    psd2: 'Read legislation, technical rules and the chosen interface specification separately',
+    uae: 'Check official technical documentation, the relevant role and version',
   },
   {
-    aspect: 'Enforcement',
-    psd2: 'National regulators with varied approaches',
-    uae: 'CBUAE as single authority',
+    aspect: 'Register purpose',
+    psd2: 'EBA central PSD2 register reproduces institution information supplied by national authorities',
+    uae: 'Trust Framework participant directory supports participant identity and access',
+  },
+  {
+    aspect: 'Evidence boundary',
+    psd2: 'Read the register scope and consult the relevant national authority',
+    uae: 'Registration metadata does not establish certification, go-live approval or traffic',
   },
 ];
 ---
 
 <PageLayout
-  title="European Union Open Banking"
-  description="PSD2, PSD3, and the evolution of open finance across 27 European countries."
+  title="European Union: Payments and Financial-data Access"
+  description="A sourced introduction to PSD2, PSD3/PSR payments reform and the separate FiDA financial-data access proposal, with practical questions for UAE teams."
 >
   <div class="profile-page">
     <div class="container">
@@ -73,11 +82,12 @@ const keyDifferences = [
       <header class="page-intro page-header">
         <div class="header-flag">🇪🇺</div>
         <div class="header-text">
-          <span class="region-label">PSD2 and Beyond</span>
+          <span class="region-label">Payments and financial-data access</span>
           <h1>European Union</h1>
           <p class="subtitle">
-            The world's largest open banking market by geography, with lessons on both the benefits
-            and challenges of a principles-based regulatory approach.
+            Understand the EU's payment-services framework and the separate proposal for wider
+            financial-data access. Use the distinction to ask better questions about a UAE
+            proposition.
           </p>
         </div>
       </header>
@@ -86,27 +96,36 @@ const keyDifferences = [
         <h2 class="section-title">Overview</h2>
         <div class="overview-content">
           <p>
-            The Payment Services Directive 2 (PSD2) was the European Union's landmark regulation
-            requiring banks to provide access to customer account data and payment initiation
-            services to licensed third parties. Implemented in 2018, it covers all 27 EU member
-            states plus EEA countries.
+            The revised Payment Services Directive (PSD2) is part of the EU payment-services
+            framework. It became applicable in January 2018. The <a
+              href="https://finance.ec.europa.eu/consumer-finance-and-payments/payment-services/payment-services_en"
+              >European Commission's payment-services reference</a
+            > links the legislation, technical rules and reform timeline.
           </p>
           <p>
-            Unlike the UK's prescriptive approach, PSD2 was a principles-based directive that left
-            significant implementation decisions to member states and individual banks. While this
-            created a massive market, it also led to fragmentation with thousands of different API
-            implementations.
+            Keep two reform tracks separate. PSD3 and the Payment Services Regulation (PSR) concern
+            payments. The Commission's timeline records political agreement on the PSD2 review on
+            <strong>27 November 2025</strong>. That milestone is not a claim that every reform
+            requirement is already applicable; check the final legislation and application dates
+            before relying on it.
           </p>
           <p>
-            The European Commission is now working on PSD3 and a broader Open Finance framework that
-            will address lessons learned and extend access beyond payments to other financial
-            products including insurance, investments, and pensions.
+            The separate <a
+              href="https://finance.ec.europa.eu/digital-finance/framework-financial-data-access_en"
+              >Financial Data Access (FiDA) proposal</a
+            > addresses access to financial data beyond payment accounts. The Commission's reference describes
+            proposed rights, obligations and customer-control tools. Read its legislative scope and progress
+            separately from the payments reform.
           </p>
         </div>
       </section>
 
       <section class="comparison-section">
-        <h2 class="section-title">EU vs UAE Approach</h2>
+        <h2 class="section-title">EU and UAE: reference points</h2>
+        <p class="section-intro">
+          This is a scoped reading guide, not a comparison of adoption or implementation quality.
+          The frameworks and their registers serve different purposes.
+        </p>
         <div class="comparison-table-wrapper">
           <table class="comparison-table">
             <thead>
@@ -129,10 +148,25 @@ const keyDifferences = [
             </tbody>
           </table>
         </div>
+        <p class="source-note">
+          Sources: <a
+            href="https://www.eba.europa.eu/risk-and-data-analysis/data/registers/payment-institutions-register"
+            >EBA central PSD2 register</a
+          >,
+          <a href="https://rulebook.centralbank.ae/en/rulebook/open-finance-framework-0"
+            >CBUAE Framework (C 03/2025)</a
+          >, and
+          <a href="https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview"
+            >official UAE technical documentation</a
+          >. The EBA register is distinct from a Trust Framework directory and does not itself
+          confer legal rights; authorisation remains with national competent authorities. For UAE
+          observation limits, see the <a href="/observatory/methodology">Observatory methodology</a
+          >.
+        </p>
       </section>
 
       <section class="timeline-section">
-        <h2 class="section-title">Timeline</h2>
+        <h2 class="section-title">Selected policy milestones</h2>
         <div class="timeline">
           {
             timeline.map((item) => (
@@ -143,10 +177,25 @@ const keyDifferences = [
             ))
           }
         </div>
+        <p class="source-note">
+          Sources: the Commission's <a
+            href="https://finance.ec.europa.eu/consumer-finance-and-payments/payment-services/payment-services_en"
+            >payment-services timeline</a
+          >
+          and <a
+            href="https://finance.ec.europa.eu/digital-finance/framework-financial-data-access_en"
+            >FiDA reference</a
+          >. Political agreement, formal adoption and entry into application are different stages.
+          This selection does not predict an implementation date.
+        </p>
       </section>
 
       <section class="lessons-section">
-        <h2 class="section-title">Lessons for UAE</h2>
+        <h2 class="section-title">Questions for UAE teams</h2>
+        <p class="section-intro">
+          OpenFinance-OS interpretation: practical questions to validate locally, rather than
+          findings that a regulatory model guarantees a particular outcome.
+        </p>
         <div class="lessons-grid">
           {
             lessons.map((lesson) => (
@@ -164,35 +213,44 @@ const keyDifferences = [
       </section>
 
       <section class="future-section">
-        <h2 class="section-title">What's Next: PSD3 & Open Finance</h2>
+        <h2 class="section-title">Two tracks to follow</h2>
+        <p class="section-intro">
+          The Commission's <a
+            href="https://finance.ec.europa.eu/publications/financial-data-access-and-payments-package_en"
+            >June 2023 package</a
+          >
+          sets out the separate payments and financial-data access proposals. Use the linked policy references
+          to follow subsequent legislative steps.
+        </p>
         <div class="future-content">
           <div class="future-card">
             <h3>PSD3</h3>
             <p>
-              Building on PSD2 with stronger API standards, improved SCA exemptions, and better
-              consumer protection. Expected to reduce fragmentation with more prescriptive technical
-              standards.
+              The proposed directive is part of the payments reform. Follow its final text and
+              transposition requirements through the Commission's payment-services reference.
             </p>
           </div>
           <div class="future-card">
             <h3>Payment Services Regulation (PSR)</h3>
             <p>
-              A directly applicable regulation (not a directive) that will ensure consistent
-              implementation across all member states without national interpretation.
+              The regulation track accompanies PSD3. Check the published legal text and application
+              provisions rather than assuming the political agreement means implementation is
+              complete.
             </p>
           </div>
           <div class="future-card">
-            <h3>Open Finance Framework</h3>
+            <h3>Financial Data Access (FiDA)</h3>
             <p>
-              Extends data sharing beyond payments to mortgages, savings, investments, insurance,
-              and pensions. Creates a comprehensive financial data sharing ecosystem.
+              A separate proposal for customer-data access beyond payment accounts, including
+              customer control and data-sharing obligations. Its scope and legislative progress need
+              their own source review.
             </p>
           </div>
         </div>
       </section>
 
       <section class="resources-section">
-        <h2 class="section-title">Official Resources</h2>
+        <h2 class="section-title">Sources and resources</h2>
         <div class="resources-grid">
           <a
             href="https://www.berlin-group.org/"
@@ -203,7 +261,7 @@ const keyDifferences = [
             <span class="resource-icon">🏛️</span>
             <div>
               <strong>Berlin Group</strong>
-              <span>NextGenPSD2 API framework</span>
+              <span>Industry standards reference: NextGenPSD2</span>
             </div>
             <svg
               width="16"
@@ -217,15 +275,15 @@ const keyDifferences = [
             </svg>
           </a>
           <a
-            href="https://www.eba.europa.eu/regulation-and-policy/payment-services-and-electronic-money"
+            href="https://www.eba.europa.eu/risk-and-data-analysis/data/registers/payment-institutions-register"
             class="resource-link"
             target="_blank"
             rel="noopener noreferrer"
           >
             <span class="resource-icon">📋</span>
             <div>
-              <strong>EBA Guidelines</strong>
-              <span>European Banking Authority</span>
+              <strong>EBA central PSD2 register</strong>
+              <span>Official register and scope explanation</span>
             </div>
             <svg
               width="16"
@@ -239,15 +297,37 @@ const keyDifferences = [
             </svg>
           </a>
           <a
-            href="https://finance.ec.europa.eu/publications/financial-data-access-and-payments-package_en"
+            href="https://finance.ec.europa.eu/consumer-finance-and-payments/payment-services/payment-services_en"
             class="resource-link"
             target="_blank"
             rel="noopener noreferrer"
           >
             <span class="resource-icon">📊</span>
             <div>
-              <strong>PSD3 Proposal</strong>
-              <span>European Commission</span>
+              <strong>EU payment services</strong>
+              <span>Official legislation and PSD3/PSR reform timeline</span>
+            </div>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M7 17L17 7M17 7H7M17 7v10"></path>
+            </svg>
+          </a>
+          <a
+            href="https://finance.ec.europa.eu/digital-finance/framework-financial-data-access_en"
+            class="resource-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="resource-icon">📋</span>
+            <div>
+              <strong>Financial Data Access (FiDA)</strong>
+              <span>Official proposal reference beyond payment accounts</span>
             </div>
             <svg
               width="16"
@@ -362,6 +442,19 @@ const keyDifferences = [
 
   .overview-content p:last-child {
     margin-bottom: 0;
+  }
+
+  .section-intro,
+  .source-note {
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin-bottom: var(--space-5);
+  }
+
+  .source-note {
+    font-size: 0.875rem;
+    margin-top: var(--space-4);
+    overflow-wrap: anywhere;
   }
 
   /* Comparison Table */

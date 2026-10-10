@@ -2,36 +2,37 @@
 const resources = [
   {
     number: '01',
-    intent: 'Keep up',
-    title: 'The ecosystem, decoded.',
-    description: 'A weekly view of ecosystem developments, standards, and production adoption.',
-    label: 'Read Ecosystem Watch',
-    href: '/observatory/watch/',
-    icon: 'watch',
-  },
-  {
-    number: '02',
-    intent: 'Build',
-    title: 'From questions to code.',
-    description:
-      'Explore the Data Sandbox and community tools for understanding Open Finance APIs.',
-    label: 'Explore the Data Sandbox',
-    href: '/commons/data-sandbox',
-    icon: 'code',
-  },
-  {
-    number: '03',
     intent: 'Understand',
-    title: 'Start with the essentials.',
+    title: 'Start with what it makes possible.',
     description:
-      'Find the framework, practical guides, and official resources behind UAE Open Finance.',
+      'Learn the essentials, then see a practical example of permission-based data sharing.',
     label: 'Explore the learning hub',
     href: '/learn',
     icon: 'book',
   },
+  {
+    number: '02',
+    intent: 'Prepare',
+    title: 'Turn ambition into better questions.',
+    description:
+      'Map your proposition, evidence, unknowns, and next actions with a readiness worksheet.',
+    label: 'Use the readiness worksheet',
+    href: '/learn/readiness',
+    icon: 'prepare',
+  },
+  {
+    number: '03',
+    intent: 'Build',
+    title: 'Explore the data behind the idea.',
+    description:
+      'Inspect synthetic API examples, understand the shapes, and follow the official documentation.',
+    label: 'Explore the Data Sandbox',
+    href: '/commons/data-sandbox',
+    icon: 'code',
+  },
 ];
 const paths: Record<string, string> = {
-  watch: 'M2 13h5l3-8 4 14 3-6h5',
+  prepare: 'M5 3h14v19H5zM8 10l2 2 5-5M8 16h8',
   code: 'm8 5-7 7 7 7m8-14 7 7-7 7m-3-15-2 18',
   book: 'M12 5c-3-2-6-2-10-1v15c4-1 7-1 10 1 3-2 6-2 10-1V4c-4-1-7-1-10 1Zm0 0v15',
 };
@@ -40,8 +41,8 @@ const paths: Record<string, string> = {
 <section class="starting-points" id="starting-points" aria-labelledby="starting-title">
   <div class="starting-inner">
     <div class="section-heading">
-      <h2 id="starting-title">Make sense of what’s next.</h2><p>
-        Follow the ecosystem. Find your way in.
+      <h2 id="starting-title">Where would you like to begin?</h2><p>
+        From a first question to a concrete next step.
       </p>
     </div>
     <div class="resource-grid">

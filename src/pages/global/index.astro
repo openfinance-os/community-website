@@ -4,10 +4,10 @@ import PageLayout from '@layouts/PageLayout.astro';
 interface Jurisdiction {
   name: string;
   flag: string;
-  participants: string;
-  apiStandard: string;
-  launchDate: string;
-  status: 'live' | 'live-expanding' | 'rollout' | 'pilot' | 'development';
+  framework: string;
+  focus: string;
+  sourceLabel: string;
+  sourceUrl: string;
   highlight?: boolean;
 }
 
@@ -15,76 +15,78 @@ const jurisdictions: Jurisdiction[] = [
   {
     name: 'United Kingdom',
     flag: '🇬🇧',
-    participants: '600+ TPPs, 9 CMA9 banks',
-    apiStandard: 'UK Open Banking',
-    launchDate: '2018',
-    status: 'live',
+    framework: 'UK Open Banking',
+    focus: 'Competition remedies and implementation governance',
+    sourceLabel: 'CMA retail banking investigation',
+    sourceUrl:
+      'https://www.gov.uk/cma-cases/review-of-banking-for-small-and-medium-sized-businesses-smes-in-the-uk',
   },
   {
     name: 'European Union',
     flag: '🇪🇺',
-    participants: '4,000+ ASPSPs',
-    apiStandard: 'PSD2 / Berlin Group',
-    launchDate: '2019',
-    status: 'live-expanding',
+    framework: 'PSD2 and PSD3/PSR payments reform',
+    focus: 'Payment-services legislation and reform milestones',
+    sourceLabel: 'European Commission payment services',
+    sourceUrl:
+      'https://finance.ec.europa.eu/consumer-finance-and-payments/payment-services/payment-services_en',
   },
   {
     name: 'Brazil',
     flag: '🇧🇷',
-    participants: '800+ institutions',
-    apiStandard: 'Open Finance Brasil',
-    launchDate: '2021',
-    status: 'live-expanding',
+    framework: 'Open Finance Brasil',
+    focus: 'Phased scope, participant governance and customer permission',
+    sourceLabel: 'Banco Central do Brasil Open Finance',
+    sourceUrl: 'https://www.bcb.gov.br/en/financialstability/open_finance',
   },
   {
     name: 'Australia',
     flag: '🇦🇺',
-    participants: '100+ data holders',
-    apiStandard: 'Consumer Data Right',
-    launchDate: '2020',
-    status: 'live-expanding',
+    framework: 'Consumer Data Right',
+    focus: 'Customer choice and control over data sharing',
+    sourceLabel: 'Australian Government: What is CDR?',
+    sourceUrl: 'https://www.cdr.gov.au/what-is-cdr',
   },
   {
     name: 'UAE',
     flag: '🇦🇪',
-    participants: '20+ banks, growing TPPs',
-    apiStandard: 'CBUAE Open Finance',
-    launchDate: '2024',
-    status: 'rollout',
+    framework: 'CBUAE Open Finance Framework',
+    focus: 'Trust Framework, API Hub and applicable participant requirements',
+    sourceLabel: 'CBUAE Framework (C 03/2025)',
+    sourceUrl: 'https://rulebook.centralbank.ae/en/rulebook/open-finance-framework-0',
     highlight: true,
   },
   {
     name: 'Saudi Arabia',
     flag: '🇸🇦',
-    participants: '10+ banks',
-    apiStandard: 'SAMA Open Banking',
-    launchDate: '2022',
-    status: 'live',
+    framework: 'SAMA Open Banking',
+    focus: 'Account information and payment initiation standards',
+    sourceLabel: 'SAMA framework release, September 2024',
+    sourceUrl: 'https://www.sama.gov.sa/en-us/mediacenter/news/pages/news-1036.aspx',
   },
   {
     name: 'Bahrain',
     flag: '🇧🇭',
-    participants: '30+ banks',
-    apiStandard: 'CBB Open Banking',
-    launchDate: '2020',
-    status: 'live',
+    framework: 'Bahrain Open Banking Framework',
+    focus: 'Operational, security and customer-experience guidelines',
+    sourceLabel: 'CBB report, March 2023 (PDF)',
+    sourceUrl: 'https://www.cbb.gov.bh/wp-content/uploads/2023/05/FSR-Mar-2023.pdf',
   },
 ];
 
 const regionCards = [
   {
     title: 'United Kingdom',
-    subtitle: 'The Pioneer',
+    subtitle: 'Standards and governance',
     description:
-      "Learn from the world's most mature open banking ecosystem, including lessons on adoption, standardization, and commercial models.",
+      'Explore the UK approach to standards, implementation governance and customer journeys.',
     href: '/global/uk',
     flag: '🇬🇧',
   },
   {
     title: 'European Union',
-    subtitle: 'PSD2 and Beyond',
+    subtitle: 'Payments and financial-data access',
     description:
-      'Understand the regulatory-driven approach across 27 countries and the evolution toward PSD3.',
+      'Understand PSD2, the PSD3/PSR payments reform and the separate FiDA financial-data access proposal.',
     href: '/global/eu',
     flag: '🇪🇺',
   },
@@ -97,19 +99,11 @@ const regionCards = [
     flag: '🌍',
   },
 ];
-
-const statusLabels: Record<string, { label: string; color: string }> = {
-  live: { label: 'Live', color: 'success' },
-  'live-expanding': { label: 'Live & Expanding', color: 'success' },
-  rollout: { label: 'Rollout', color: 'warning' },
-  pilot: { label: 'Pilot', color: 'info' },
-  development: { label: 'Development', color: 'neutral' },
-};
 ---
 
 <PageLayout
   title="Global Perspective"
-  description="UAE Open Finance in international context - benchmarks, lessons, and global trends."
+  description="Official framework references and practical questions for understanding UAE Open Finance in international context."
 >
   <div class="global-page">
     <div class="container">
@@ -122,9 +116,11 @@ const statusLabels: Record<string, { label: string; color: string }> = {
       </header>
 
       <section class="benchmark-section">
-        <h2 class="section-title">Global Benchmark</h2>
+        <h2 class="section-title">Frameworks to explore</h2>
         <p class="section-intro">
-          How the UAE compares to other open finance jurisdictions worldwide.
+          A starting point for reading official sources. These frameworks have different scopes,
+          reporting methods and legislative histories; this table does not rank adoption or compare
+          participant counts. Check each source's date and applicable version.
         </p>
 
         <div class="table-wrapper">
@@ -132,10 +128,9 @@ const statusLabels: Record<string, { label: string; color: string }> = {
             <thead>
               <tr>
                 <th>Jurisdiction</th>
-                <th>Participants</th>
-                <th>API Standard</th>
-                <th>Launch</th>
-                <th>Status</th>
+                <th>Framework</th>
+                <th>What to explore</th>
+                <th>Official reference</th>
               </tr>
             </thead>
             <tbody>
@@ -146,13 +141,12 @@ const statusLabels: Record<string, { label: string; color: string }> = {
                       <span class="flag">{j.flag}</span>
                       <span class="name">{j.name}</span>
                     </td>
-                    <td>{j.participants}</td>
-                    <td class="standard-cell">{j.apiStandard}</td>
-                    <td>{j.launchDate}</td>
+                    <td class="standard-cell">{j.framework}</td>
+                    <td>{j.focus}</td>
                     <td>
-                      <span class={`status-badge ${statusLabels[j.status].color}`}>
-                        {statusLabels[j.status].label}
-                      </span>
+                      <a href={j.sourceUrl} rel="noopener noreferrer">
+                        {j.sourceLabel}
+                      </a>
                     </td>
                   </tr>
                 ))
@@ -188,39 +182,44 @@ const statusLabels: Record<string, { label: string; color: string }> = {
       </section>
 
       <section class="insights-section">
-        <h2 class="section-title">Key Insights</h2>
+        <h2 class="section-title">Questions for UAE teams</h2>
+        <p class="section-intro">
+          OpenFinance-OS interpretation: prompts to investigate with your team, rather than claims
+          that one regulatory model guarantees an outcome.
+        </p>
 
         <div class="insights-grid">
           <div class="insight-card">
-            <h3>Standardization Matters</h3>
+            <h3>What does a shared standard settle?</h3>
             <p>
-              The UK's success came from mandating a single API standard. Fragmented approaches in
-              the EU (PSD2) led to inconsistent implementations. The UAE's unified approach through
-              Al Tareq follows the UK model.
+              Identify which interface and journey requirements are specified, then test data
+              completeness, version handling and failure behaviour with partners. A common standard
+              does not establish a particular participant's implementation quality.
             </p>
           </div>
           <div class="insight-card">
-            <h3>Commercial Models Drive Adoption</h3>
+            <h3>What customer problem justifies the service?</h3>
             <p>
-              Early UK open banking struggled with adoption until premium APIs and commercial models
-              emerged. Brazil's approach of mandating participation accelerated growth but required
-              massive investment.
+              Define a useful customer task before selecting a commercial model. Validate the
+              benefit, costs and operational responsibilities with evidence from the intended
+              journey, rather than assuming another market's experience will transfer.
             </p>
           </div>
           <div class="insight-card">
-            <h3>Trust is Foundational</h3>
+            <h3>Can a customer understand the permission?</h3>
             <p>
-              Consumer adoption depends on trust. Australia's Consumer Data Right started slow due
-              to privacy concerns. Strong consent management and clear data usage policies are
-              critical.
+              Test whether customers understand what data is needed, who receives it, for what
+              purpose and how to withdraw permission. Technical completion and customer
+              comprehension are separate things to investigate.
             </p>
           </div>
           <div class="insight-card">
-            <h3>Beyond Payments</h3>
+            <h3>Which scope applies to this proposition?</h3>
             <p>
-              Mature markets are expanding beyond payments into insurance, investments, and
-              pensions. The UAE's Open Finance (not just Open Banking) framing positions it for this
-              evolution.
+              Separate account-data access, payment initiation and other financial-data services.
+              Confirm the applicable requirements and available partner capabilities for the
+              particular proposition. A broad framework does not prove that every service is
+              available.
             </p>
           </div>
         </div>
@@ -390,37 +389,6 @@ const statusLabels: Record<string, { label: string; color: string }> = {
   .standard-cell {
     font-family: var(--font-sans);
     font-size: 0.8125rem;
-  }
-
-  .status-badge {
-    display: inline-block;
-    padding: var(--space-1) var(--space-2);
-    font-family: var(--font-sans);
-    font-size: 0.6875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    border-radius: var(--radius-full);
-  }
-
-  .status-badge.success {
-    background: #dcfce7;
-    color: #166534;
-  }
-
-  .status-badge.warning {
-    background: #fef3c7;
-    color: #92400e;
-  }
-
-  .status-badge.info {
-    background: #dbeafe;
-    color: #1e40af;
-  }
-
-  .status-badge.neutral {
-    background: var(--color-soft);
-    color: var(--color-text-secondary);
   }
 
   /* Regions Section */
@@ -724,27 +692,6 @@ const statusLabels: Record<string, { label: string; color: string }> = {
 
   :global([data-theme='dark']) .benchmark-table tr.highlight td {
     border-bottom-color: rgba(20, 184, 166, 0.2);
-  }
-
-  /* Dark mode status badges */
-  :global([data-theme='dark']) .status-badge.success {
-    background: rgba(34, 197, 94, 0.2);
-    color: #4ade80;
-  }
-
-  :global([data-theme='dark']) .status-badge.warning {
-    background: rgba(245, 158, 11, 0.2);
-    color: #fbbf24;
-  }
-
-  :global([data-theme='dark']) .status-badge.info {
-    background: rgba(59, 130, 246, 0.2);
-    color: #60a5fa;
-  }
-
-  :global([data-theme='dark']) .status-badge.neutral {
-    background: var(--color-soft);
-    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .region-card {

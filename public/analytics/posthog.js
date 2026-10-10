@@ -2,6 +2,8 @@
 // The project token is public. Keep reporting/query credentials out of this file.
 (function () {
   if (!['openfinance-os.org', 'www.openfinance-os.org'].includes(window.location.hostname)) return;
+  // The editable worksheet must not load autocapture, replay, or page analytics.
+  if (/^\/learn\/readiness\/?$/.test(window.location.pathname)) return;
   window.__analyticsInitialized = window.__analyticsInitialized || {};
   if (window.__analyticsInitialized.productionPostHog) return;
   window.__analyticsInitialized.productionPostHog = true;

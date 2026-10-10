@@ -109,6 +109,8 @@ let commonsItems: Array<{
   title: string;
   slug: string;
   type: string;
+  summary: string;
+  useCases: string[];
 }> = [];
 
 try {
@@ -117,6 +119,8 @@ try {
     title: item.data.title,
     slug: item.slug,
     type: item.data.type || 'resource',
+    summary: item.data.summary,
+    useCases: item.data.useCases,
   }));
 } catch (error) {
   console.warn('Could not load commons for search:', error);
@@ -173,9 +177,15 @@ const searchIndex = {
   commons: commonsItems.map((c) => ({
     type: 'resource' as const,
     title: c.title,
+    description: c.summary,
     meta: c.type,
     url: `/commons/${c.slug}`,
-    searchTerms: [c.title.toLowerCase()],
+    searchTerms: [
+      c.title.toLowerCase(),
+      c.summary.toLowerCase(),
+      c.slug.replace(/-/g, ' '),
+      ...c.useCases,
+    ],
   })),
 };
 ---
@@ -502,6 +512,13 @@ const searchIndex = {
     { type: 'page', title: 'Learn', description: 'Guides and documentation', url: '/learn' },
     {
       type: 'page',
+      title: 'Open Finance Readiness Worksheet',
+      description:
+        'Eight areas to record evidence, unknowns, owners and next actions. Free printable planning worksheet.',
+      url: '/learn/readiness',
+    },
+    {
+      type: 'page',
       title: 'Getting Started',
       description: 'Introduction to UAE Open Finance',
       url: '/learn/getting-started',
@@ -515,7 +532,7 @@ const searchIndex = {
     {
       type: 'page',
       title: 'Bank Guide',
-      description: 'Guide for banks and ASPSPs',
+      description: 'Guide for banks and Licensed Financial Institutions (LFIs)',
       url: '/learn/bank-guide',
     },
     {
