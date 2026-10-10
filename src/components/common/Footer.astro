@@ -172,6 +172,9 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
   <div class="footer-bottom">
     <div class="footer-bottom-inner">
       <p class="footer-meta">
+        <span class="founder-credit">
+          A community initiative founded by <a href="https://www.middleleap.com/">MiddleLeap</a>.
+        </span>
         <span class="meta-label">Open source under MIT License</span>
         {
           lastUpdated && (
@@ -361,6 +364,16 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
 
   .meta-separator {
     color: #adc1b9;
+  }
+
+  .founder-credit {
+    flex-basis: 100%;
+  }
+
+  .founder-credit a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 
   .meta-timestamp time {
