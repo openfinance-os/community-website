@@ -9,7 +9,7 @@ Use this skill for OpenFinance-OS design work. This identity belongs to the inde
 
 ## Sources
 
-In the community-website repository, read `brand/openfinance-os-brand-guidelines.html` for the full v2.1 guide and use `brand/` assets. `public/brand/` is the published mirror; update both together. The website's maintained tokens are `src/styles/global.css`. The public guide is at https://openfinance-os.org/brand/openfinance-os-brand-guidelines.html; when working on an unpublished redesign, prefer the repository guide over the older deployed copy.
+In the community-website repository, read `brand/openfinance-os-brand-guidelines.html` for the full v2.2 guide and use `brand/` assets. `public/brand/` is the published mirror; update both together. The website's maintained tokens are `src/styles/global.css`. The public guide is at https://openfinance-os.org/brand/openfinance-os-brand-guidelines.html; when working on an unpublished redesign, prefer the repository guide over the older deployed copy.
 
 The canonical skill lives in `brand/skills/openfinance-os-brand/`. Keep the local discoverable copy at `~/.codex/skills/openfinance-os-brand/` synchronized when updating it. A user's implementation request does not by itself authorize publication or contacting other people.
 
@@ -46,7 +46,9 @@ Retain the approved Open Circuit media (`public/media/open-circuit-hero.mp4` and
 
 MiddleLeap founded OpenFinance-OS as an open-source community initiative. The project remains community-led, with independent editorial decisions.
 
-Use “A community initiative founded by MiddleLeap.” in the footer, beside the open-source credit. Link only the name to https://www.middleleap.com/. Use the existing footer typography, colour, and size; keep the credit understated as a text link. Do not add a separate MiddleLeap logo, hero credit, or promotional call to action.
+Use “A community initiative founded by MiddleLeap.” in the footer, beside the open-source credit. Present MiddleLeap as a small linked logo beside the founder wording and above the About governance explanation. Link to https://www.middleleap.com/ with the accessible name “MiddleLeap.” Keep the attribution understated.
+
+Use the official MiddleLeap assets in `brand/middleleap/`, mirrored in `public/brand/middleleap/`. The two glyphs are the pivot mark: the settled square on the left and the ember diamond rotated 45 degrees on the right. Keep the geometry, gradient, and one square-height of clear space. The wordmark is DM Sans 600; the full lockup is at least 120px wide. Use bone/ember on dark surfaces and ink/ember-700 on light surfaces for AA text contrast. `MiddleLeapLogo.astro` renders the supplied mark and live wordmark with the correct theme. Keep this logo static and preserve Open Circuit's animation. Do not add a hero credit or promotional call to action.
 
 The About-page governance section explains: “OpenFinance-OS was founded by MiddleLeap as an open-source community initiative. It remains community-led, with independent editorial decisions.” Acknowledge the founding role openly and preserve the no-paid-placement and editorial-independence statements. Do not describe the founding role as sponsorship or imply official endorsement.
 

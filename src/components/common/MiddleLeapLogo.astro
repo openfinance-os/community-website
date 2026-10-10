@@ -1,0 +1,72 @@
+---
+import pivotMark from '../../../brand/middleleap/pivot-mark.svg?raw';
+
+interface Props {
+  tone?: 'auto' | 'dark';
+}
+const { tone = 'auto' } = Astro.props;
+const mark = pivotMark.replaceAll('ember', `middleleap-ember-${tone}`);
+---
+
+<span class:list={['middleleap-logo', { 'on-dark': tone === 'dark' }]} aria-hidden="true">
+  <span class="pivot-mark" set:html={mark} />
+  <span class="wordmark">Middle<span class="leap">Leap</span></span>
+</span>
+
+<style>
+  .middleleap-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+    color: #1b1b1b;
+    vertical-align: middle;
+  }
+
+  .pivot-mark {
+    display: inline-flex;
+    flex-shrink: 0;
+    width: 40px;
+    height: 23px;
+  }
+
+  .pivot-mark :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+
+  .wordmark {
+    font-family: var(--font-sans);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.038em;
+    line-height: 1;
+  }
+
+  .leap {
+    color: #a83614;
+  }
+
+  .on-dark,
+  :global([data-theme='dark']) .middleleap-logo {
+    color: #dedbd4;
+  }
+
+  :global([data-theme='dark']) .middleleap-logo:not(.on-dark) .leap {
+    color: #f0722e;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :global(html:not([data-theme='light'])) .middleleap-logo {
+      color: #dedbd4;
+    }
+
+    :global(html:not([data-theme='light'])) .middleleap-logo:not(.on-dark) .leap {
+      color: #f0722e;
+    }
+  }
+
+  .on-dark .leap {
+    color: #f58f55;
+  }
+</style>
