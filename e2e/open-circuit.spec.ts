@@ -101,3 +101,39 @@ test('animation waits for visibility and pauses when scrolled away', async ({ pa
   await page.evaluate(() => window.scrollTo(0, 0));
   await expect.poll(() => video.evaluate((v: HTMLVideoElement) => v.paused)).toBe(true);
 });
+
+for (const theme of ['light', 'dark'] as const) {
+  test(`mobile poster downloads a proportionate image in ${theme} mode`, async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.emulateMedia({ reducedMotion: 'reduce', colorScheme: theme });
+    const originalRequests: string[] = [];
+    page.on('request', (request) => {
+      if (request.url().endsWith('/media/open-circuit-poster.webp'))
+        originalRequests.push(request.url());
+    });
+    await page.goto('/');
+    const poster = page.locator('.circuit-poster');
+    await poster.scrollIntoViewIfNeeded();
+    await expect
+      .poll(() =>
+        poster.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)
+      )
+      .toBe(true);
+    const source = await poster.evaluate((image: HTMLImageElement) => image.currentSrc);
+    const response = await page.request.get(source);
+    expect(response.status()).toBe(200);
+    expect((await response.body()).length).toBeLessThan(8000);
+    const dimensions = await poster.evaluate(async (image: HTMLImageElement) => {
+      const bitmap = await createImageBitmap(await (await fetch(image.currentSrc)).blob());
+      const box = image.getBoundingClientRect();
+      const dimensions = { source: bitmap.width, displayed: box.width, dpr: devicePixelRatio };
+      bitmap.close();
+      return dimensions;
+    });
+    expect(dimensions.source).toBeLessThan(1440);
+    expect(dimensions.source).toBeLessThanOrEqual(dimensions.displayed * dimensions.dpr * 1.3);
+    expect(originalRequests).toEqual([]);
+    await expect(page.locator('#open-circuit-video')).not.toHaveAttribute('src');
+    await expect(page.getByRole('button', { name: 'Play animation', exact: true })).toBeVisible();
+  });
+}

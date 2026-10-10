@@ -560,6 +560,10 @@
           controls and AA text contrast. A clean automated scan is evidence, not a complete
           accessibility certification.
         </p>
+        <p>
+          Stack the homepage actions vertically on mobile. Keep their layout stable while fonts
+          load, so the directory preview does not jump between initial and completed rendering.
+        </p>
         <div class="tile">
           <a class="primary" href="../observatory">Explore the Observatory ↗</a>
           <p style="margin-top: 20px" class="muted">
@@ -590,6 +594,12 @@
           <li>
             Only fetch and play when the section is in view; pause offscreen and when the document
             is hidden. Explicit playback is available to the user.
+          </li>
+          <li>
+            Generate responsive poster variants from the approved still source, with sizes that
+            follow the displayed media box. Keep the separate still-image fallback visible until
+            video playback succeeds; avoid downloading a second full-size video poster. Preserve the
+            source video, framing and playback behavior.
           </li>
           <li>
             Keep illustrative media separate from directory observations. Decorative orbital rings
