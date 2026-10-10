@@ -88,3 +88,54 @@ for (const theme of ['light', 'dark']) {
     }
   });
 }
+
+for (const theme of ['light', 'dark'] as const) {
+  test(`mobile hero stays stable when CTA fonts load in ${theme} mode`, async ({ page }) => {
+    await page.setViewportSize({ width: 412, height: 900 });
+    await page.emulateMedia({ reducedMotion: 'reduce', colorScheme: theme });
+    let releaseFonts!: () => void;
+    let heldFonts = 0;
+    const fontGate = new Promise<void>((resolve) => {
+      releaseFonts = resolve;
+    });
+    await page.route('**/fonts/dm-sans-*.ttf', async (route) => {
+      if (/(semibold|bold)\.ttf$/.test(route.request().url())) {
+        heldFonts++;
+        await fontGate;
+      }
+      await route.continue();
+    });
+    try {
+      await page.goto('/', { waitUntil: 'domcontentloaded' });
+      await page.evaluate(async () => {
+        await Promise.all([
+          document.fonts.load('400 15px "DM Sans"'),
+          document.fonts.load('500 56px "DM Sans"'),
+        ]);
+        await new Promise<void>((resolve) =>
+          requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
+        );
+      });
+      await expect.poll(() => heldFonts).toBe(2);
+      const snapshot = page.locator('.directory-snapshot');
+      const before = await snapshot.boundingBox();
+      releaseFonts();
+      await page.evaluate(async () => {
+        await document.fonts.ready;
+        await new Promise<void>((resolve) =>
+          requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
+        );
+      });
+      const after = await snapshot.boundingBox();
+      expect(Math.abs(after!.y - before!.y)).toBeLessThanOrEqual(1);
+      await expect(
+        page.getByRole('link', { name: 'Explore the Observatory', exact: true })
+      ).toBeVisible();
+      await expect(
+        page.getByRole('link', { name: 'Find your starting point', exact: true })
+      ).toBeVisible();
+    } finally {
+      releaseFonts();
+    }
+  });
+}
