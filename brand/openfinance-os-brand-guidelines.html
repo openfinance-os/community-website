@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>OpenFinance-OS — Brand guidelines v2.2</title>
+    <title>OpenFinance-OS — Brand guidelines v2.3</title>
     <style>
       @font-face {
         font-family: 'DM Sans';
@@ -40,6 +40,7 @@
         box-sizing: border-box;
       }
       body {
+        overflow-wrap: anywhere;
         margin: 0;
         background: var(--surface);
         color: var(--ink);
@@ -129,10 +130,12 @@
       }
       .two {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 22px;
       }
       .tile {
+        min-width: 0;
+        overflow-wrap: anywhere;
         background: #fff;
         border: 1px solid var(--border);
         border-radius: 12px;
@@ -252,6 +255,7 @@
       }
       @media print {
         body {
+          overflow-wrap: anywhere;
           background: #fff;
         }
         nav {
@@ -270,7 +274,7 @@
     <header>
       <div class="wrap head">
         <img src="logo-full.svg" alt="OpenFinance-OS" /><span
-          >Brand guidelines / v2.2 / 10 October 2026</span
+          >Brand guidelines / v2.3 / 10 October 2026</span
         >
       </div>
     </header>
@@ -530,6 +534,32 @@
             viewport. Support keyboard focus, labelled controls, and reduced motion.
           </li>
         </ul>
+        <h3>Interior pages and dashboards</h3>
+        <p>
+          Keep inactive and unexposed capability descriptions fully legible. Use secondary text
+          instead of fading the whole card. Check SVG chart labels as text, and use readable,
+          viewport-bounded tooltips with keyboard access, a visible focus indicator and Escape
+          dismissal.
+        </p>
+        <p>
+          Use the same quiet introduction on directory, learning, news, community and detail pages:
+          a medium-weight DM Sans heading, descriptive secondary text, and a fine border. Use the
+          shared page layout for navigation, search, theme selection and the founder footer,
+          including Ecosystem Watch.
+        </p>
+        <p>
+          Use semantic surface and text tokens for cards, sidebars, badges and controls. Never use
+          an inverted numbered gray as a code background. Code uses a stable dark teal surface with
+          pale text; status text has separate accessible positive, warning and error colors.
+          Preserve written status labels and reporting context.
+        </p>
+        <p>
+          Allow grid tracks and children to shrink; wrap long participant names and source URLs.
+          Keep wide data tables and code in local scroll containers. Verify 320px, 390px, 768px and
+          desktop widths in both themes, plus keyboard focus and reduced motion. Aim for 44px
+          controls and AA text contrast. A clean automated scan is evidence, not a complete
+          accessibility certification.
+        </p>
         <div class="tile">
           <a class="primary" href="../observatory">Explore the Observatory ↗</a>
           <p style="margin-top: 20px" class="muted">
@@ -654,7 +684,7 @@
           </li>
         </ul>
         <p class="version">
-          Version 2.2 · Clear signal · 10 October 2026. Replaces the December 2025 visual identity.
+          Version 2.3 · Clear signal · 10 October 2026. Replaces the December 2025 visual identity.
         </p>
       </section>
     </main>

@@ -319,13 +319,14 @@ const trendAriaLabel = `Ecosystem growth chart showing ${latestCount} total part
 
 <style>
   .historical-trends {
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     padding: var(--space-6);
   }
 
   .header {
+    min-width: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -333,24 +334,25 @@ const trendAriaLabel = `Ecosystem growth chart showing ${latestCount} total part
   }
 
   .section-title {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-2);
     font-size: 1rem;
     font-weight: 600;
-    color: var(--color-gray-900);
+    color: var(--color-text);
     margin: 0;
   }
 
   .section-title svg {
-    color: var(--color-primary-500);
+    color: var(--color-brand-ink);
   }
 
   .growth-badge {
     display: inline-flex;
     align-items: center;
     gap: var(--space-1);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.75rem;
     font-weight: 600;
     padding: var(--space-1) var(--space-2);
@@ -365,25 +367,24 @@ const trendAriaLabel = `Ecosystem growth chart showing ${latestCount} total part
   .growth-badge .period-label {
     font-size: 0.625rem;
     font-weight: 500;
-    opacity: 0.7;
     margin-left: var(--space-1);
     padding-left: var(--space-1);
     border-left: 1px solid currentColor;
   }
 
   .growth-badge.positive {
-    color: var(--color-success);
+    color: var(--color-success-text);
     background: rgba(16, 185, 129, 0.1);
   }
 
   .growth-badge.negative {
-    color: var(--color-gray-500);
-    background: var(--color-gray-100);
+    color: var(--color-text-secondary);
+    background: var(--color-soft);
   }
 
   .growth-badge.neutral {
-    color: var(--color-gray-500);
-    background: var(--color-gray-100);
+    color: var(--color-text-secondary);
+    background: var(--color-soft);
   }
 
   .chart-container {
@@ -426,9 +427,9 @@ const trendAriaLabel = `Ecosystem growth chart showing ${latestCount} total part
   }
 
   .axis-label {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 10px;
-    fill: var(--color-gray-500);
+    fill: var(--color-text-secondary);
   }
 
   .y-label {
@@ -442,34 +443,36 @@ const trendAriaLabel = `Ecosystem growth chart showing ${latestCount} total part
   .no-data {
     padding: var(--space-8) var(--space-6);
     text-align: center;
-    background: var(--color-gray-50);
+    background: var(--color-surface);
     border-radius: var(--radius-lg);
-    border: 1px dashed var(--color-gray-200);
+    border: 1px dashed var(--color-border);
   }
 
   .no-data-icon {
+    min-width: 0;
     display: flex;
     justify-content: center;
     margin-bottom: var(--space-4);
-    color: var(--color-gray-300);
+    color: var(--color-text-secondary);
   }
 
   .no-data-title {
     font-size: 1rem;
     font-weight: 600;
-    color: var(--color-gray-700);
+    color: var(--color-text);
     margin-bottom: var(--space-2);
   }
 
   .no-data-description {
     font-size: 0.8125rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
     line-height: 1.5;
     max-width: 280px;
     margin: 0 auto var(--space-4);
   }
 
   .no-data-meta {
+    min-width: 0;
     display: flex;
     justify-content: center;
   }
@@ -478,12 +481,12 @@ const trendAriaLabel = `Ecosystem growth chart showing ${latestCount} total part
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.6875rem;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--color-success);
+    color: var(--color-success-text);
     background: rgba(16, 185, 129, 0.1);
     padding: var(--space-1) var(--space-3);
     border-radius: var(--radius-full);
@@ -508,7 +511,7 @@ const trendAriaLabel = `Ecosystem growth chart showing ${latestCount} total part
   }
 
   .milestones {
-    border-top: 1px solid var(--color-gray-100);
+    border-top: 1px solid var(--color-border);
     padding-top: var(--space-4);
     margin-top: var(--space-4);
   }
@@ -516,17 +519,19 @@ const trendAriaLabel = `Ecosystem growth chart showing ${latestCount} total part
   .milestones-title {
     font-size: 0.8125rem;
     font-weight: 600;
-    color: var(--color-gray-700);
+    color: var(--color-text);
     margin-bottom: var(--space-3);
   }
 
   .milestones-list {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
   }
 
   .milestone-item {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-3);
@@ -536,12 +541,12 @@ const trendAriaLabel = `Ecosystem growth chart showing ${latestCount} total part
   .milestone-date {
     font-family: var(--font-mono);
     font-size: 0.75rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
     min-width: 80px;
   }
 
   .milestone-event {
-    color: var(--color-gray-700);
+    color: var(--color-text);
   }
 
   /* Add gradient definition */
@@ -551,12 +556,12 @@ const trendAriaLabel = `Ecosystem growth chart showing ${latestCount} total part
 
   /* Dark mode */
   :global([data-theme='dark']) .historical-trends {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .section-title {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .grid-line {
@@ -564,7 +569,7 @@ const trendAriaLabel = `Ecosystem growth chart showing ${latestCount} total part
   }
 
   :global([data-theme='dark']) .axis-label {
-    fill: var(--color-gray-400);
+    fill: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .data-point {
@@ -572,36 +577,36 @@ const trendAriaLabel = `Ecosystem growth chart showing ${latestCount} total part
   }
 
   :global([data-theme='dark']) .no-data {
-    background: var(--color-gray-200);
-    border-color: var(--color-gray-300);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .no-data-icon {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .no-data-title {
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .no-data-description {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .milestones {
-    border-top-color: var(--color-gray-200);
+    border-top-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .milestones-title {
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .milestone-date {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .milestone-event {
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
   }
 </style>
 

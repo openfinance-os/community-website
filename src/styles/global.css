@@ -73,6 +73,11 @@
   --color-soft: #e7efea;
   --color-brand-ink: #0d4f4f;
   --color-card: #ffffff;
+  --color-success-text: #08744f;
+  --color-error-text: #b4232c;
+  --color-warning-text: #80501d;
+  --color-code-surface: #102423;
+  --color-code-text: #f1f7f1;
   --color-dark: #0f1419;
   --color-text: #132c2b;
   --color-text-secondary: #526662;
@@ -137,11 +142,12 @@
   --grid-pattern-dark: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%231A6B6B' fill-opacity='0.08'%3E%3Ccircle cx='20' cy='20' r='1'/%3E%3C/g%3E%3C/svg%3E");
 
   /* Color scheme for system preference detection */
-  color-scheme: light dark;
+  color-scheme: light;
 }
 
 /* Dark mode variables */
 [data-theme='dark'] {
+  color-scheme: dark;
   /* Primary - adjusted for dark backgrounds */
   --color-primary-50: #0a2e2e;
   --color-primary-100: #0d3d3d;
@@ -177,6 +183,11 @@
   --color-soft: #213c36;
   --color-brand-ink: #cce4d8;
   --color-card: #17302e;
+  --color-success-text: #78ddb0;
+  --color-error-text: #ffaaa4;
+  --color-warning-text: #f5c989;
+  --color-code-surface: #102423;
+  --color-code-text: #f1f7f1;
   --color-dark: #fafbfc;
 
   /* Text colors - inverted */
@@ -213,6 +224,7 @@
 /* System preference dark mode (when no explicit theme set) */
 @media (prefers-color-scheme: dark) {
   html:not([data-theme='light']) {
+    color-scheme: dark;
     --color-primary-50: #0a2e2e;
     --color-primary-100: #0d3d3d;
     --color-primary-200: #115252;
@@ -240,6 +252,11 @@
     --color-soft: #213c36;
     --color-brand-ink: #cce4d8;
     --color-card: #17302e;
+    --color-success-text: #78ddb0;
+    --color-error-text: #ffaaa4;
+    --color-warning-text: #f5c989;
+    --color-code-surface: #102423;
+    --color-code-text: #f1f7f1;
     --color-dark: #fafbfc;
     --color-text: #f1f7f1;
     --color-text-secondary: #adc1b9;
@@ -401,4 +418,39 @@ a:hover {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border-width: 0;
+}
+
+/* Shared interior introduction and content sizing. Homepage keeps its own hero. */
+.page-intro {
+  border-bottom: 1px solid var(--color-border);
+}
+.page-intro h1 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+}
+main
+  :where(
+    article,
+    section,
+    aside,
+    .container,
+    .content,
+    .sidebar,
+    .news-card,
+    .featured-card,
+    .participant-card-link
+  ) {
+  min-width: 0;
+}
+main :where(.news-card, .featured-card, .participant-card, .env-card, .sidebar) {
+  overflow-wrap: anywhere;
+}
+main :where(button, select, input:not([type='checkbox']):not([type='radio'])) {
+  min-height: 44px;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }

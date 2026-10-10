@@ -78,6 +78,7 @@ const { items } = Astro.props;
   }
 
   .breadcrumb-list {
+    min-width: 0;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -89,49 +90,51 @@ const { items } = Astro.props;
   }
 
   .breadcrumb-item {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-1);
   }
 
   .breadcrumb-item a {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-1);
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
     text-decoration: none;
     transition: color var(--transition-fast);
   }
 
   .breadcrumb-item a:hover {
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
     text-decoration: none;
   }
 
   .breadcrumb-item span[aria-current='page'] {
-    color: var(--color-gray-700);
+    color: var(--color-text);
     font-weight: 500;
   }
 
   .breadcrumb-separator {
-    color: var(--color-gray-300);
+    color: var(--color-text-secondary);
     flex-shrink: 0;
   }
 
   /* Dark mode */
   :global([data-theme='dark']) .breadcrumb-item a {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .breadcrumb-item a:hover {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .breadcrumb-item span[aria-current='page'] {
-    color: var(--color-gray-700);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .breadcrumb-separator {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 </style>

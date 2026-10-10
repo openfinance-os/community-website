@@ -8,7 +8,7 @@ import PageLayout from '@layouts/PageLayout.astro';
 >
   <div class="community-page">
     <!-- Hero Section -->
-    <header class="hero">
+    <header class="page-intro hero">
       <div class="container">
         <h1>Join the Community</h1>
         <p class="hero-subtitle">
@@ -338,13 +338,13 @@ import PageLayout from '@layouts/PageLayout.astro';
   .hero {
     padding: var(--space-16) var(--space-4);
     text-align: center;
-    background: linear-gradient(180deg, var(--color-primary-50) 0%, var(--color-surface) 100%);
+    background: var(--color-surface);
   }
 
   .hero h1 {
-    font-size: clamp(2rem, 5vw, 3rem);
+    font-size: clamp(2rem, 4vw, 3.5rem);
     margin-bottom: var(--space-4);
-    color: var(--color-primary-600);
+    color: var(--color-text);
   }
 
   .hero-subtitle {
@@ -356,6 +356,7 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   .hero-cta {
+    min-width: 0;
     display: flex;
     gap: var(--space-3);
     justify-content: center;
@@ -385,14 +386,14 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   .btn-secondary {
-    background: white;
+    background: var(--color-card);
     color: var(--color-text);
-    border: 1px solid var(--color-gray-300);
+    border: 1px solid var(--color-border);
   }
 
   .btn-secondary:hover {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-400);
+    background: var(--color-soft);
+    border-color: var(--color-border);
     text-decoration: none;
   }
 
@@ -434,14 +435,15 @@ import PageLayout from '@layouts/PageLayout.astro';
 
   /* Contribute Section */
   .contribute-grid {
+    min-width: 0;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: var(--space-6);
   }
 
   .contribute-card {
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     padding: var(--space-6);
     transition: all var(--transition-fast);
@@ -454,13 +456,14 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   .card-icon {
+    min-width: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 48px;
     height: 48px;
     background: var(--color-primary-50);
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
     border-radius: var(--radius-lg);
     margin-bottom: var(--space-4);
   }
@@ -506,20 +509,21 @@ import PageLayout from '@layouts/PageLayout.astro';
 
   .card-link {
     font-weight: 500;
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
     font-size: 0.875rem;
   }
 
   .card-link:hover {
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
   }
 
   /* Guidelines Section */
   .guidelines-section {
-    background: var(--color-gray-50);
+    background: var(--color-surface);
   }
 
   .guidelines-grid {
+    min-width: 0;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: var(--space-6);
@@ -540,15 +544,16 @@ import PageLayout from '@layouts/PageLayout.astro';
 
   /* Connect Section */
   .connect-grid {
+    min-width: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
     gap: var(--space-4);
   }
 
   .connect-card {
     display: block;
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     padding: var(--space-6);
     text-decoration: none;
@@ -563,7 +568,7 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   .connect-card svg {
-    color: var(--color-primary-500);
+    color: var(--color-brand-ink);
     margin-bottom: var(--space-3);
   }
 
@@ -644,39 +649,39 @@ import PageLayout from '@layouts/PageLayout.astro';
 
   /* Dark mode */
   :global([data-theme='dark']) .hero {
-    background: linear-gradient(180deg, rgba(20, 184, 166, 0.1) 0%, var(--color-surface) 100%);
+    background: var(--color-surface);
   }
 
   :global([data-theme='dark']) .hero h1 {
-    color: var(--color-primary-400);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .hero-subtitle {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .btn-secondary {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-300);
-    color: var(--color-gray-700);
+    background: var(--color-soft);
+    border-color: var(--color-border);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .btn-secondary:hover {
-    background: var(--color-gray-200);
-    border-color: var(--color-gray-400);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .section h2 {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .section-intro {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .contribute-card {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .contribute-card:hover {
@@ -686,44 +691,44 @@ import PageLayout from '@layouts/PageLayout.astro';
 
   :global([data-theme='dark']) .card-icon {
     background: rgba(20, 184, 166, 0.15);
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .contribute-card h3 {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .contribute-card > p {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .card-list li {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .card-link {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .card-link:hover {
-    color: var(--color-primary-300);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .guidelines-section {
-    background: var(--color-gray-100);
+    background: var(--color-soft);
   }
 
   :global([data-theme='dark']) .guideline-item h4 {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .guideline-item p {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .connect-card {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .connect-card:hover {
@@ -732,20 +737,20 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   :global([data-theme='dark']) .connect-card svg {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .connect-card h4 {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .connect-card p {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .connect-card.hackathon {
     border-color: var(--color-accent-500);
-    background: linear-gradient(135deg, var(--color-gray-100) 0%, rgba(232, 168, 92, 0.1) 100%);
+    background: linear-gradient(135deg, var(--color-soft) 0%, rgba(232, 168, 92, 0.1) 100%);
   }
 
   :global([data-theme='dark']) .connect-card.hackathon:hover {

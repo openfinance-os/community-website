@@ -22,9 +22,9 @@ interface Props {
 const { variant = 'active', size = 'sm' } = Astro.props;
 
 const variantConfig: Record<string, { bg: string; text: string; border?: string }> = {
-  active: { bg: 'var(--color-success)', text: 'white' },
-  inactive: { bg: 'var(--color-gray-400)', text: 'white' },
-  official: { bg: 'var(--color-primary-600)', text: 'white' },
+  active: { bg: 'var(--color-soft)', text: 'var(--color-success-text)' },
+  inactive: { bg: 'var(--color-soft)', text: 'var(--color-text-secondary)' },
+  official: { bg: 'var(--color-primary-fill)', text: 'white' },
   // Literal ink: --color-gray-900 inverts to near-white in dark mode, which
   // left amber badges with unreadable light-on-amber text.
   milestone: { bg: 'var(--color-accent-500)', text: '#1a1d21' },
@@ -61,7 +61,7 @@ const config = variantConfig[variant] || variantConfig.active;
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.02em;

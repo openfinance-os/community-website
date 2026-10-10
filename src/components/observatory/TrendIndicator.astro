@@ -74,7 +74,7 @@ const displayValue = isPositive ? `+${value}` : value.toString();
     display: inline-flex;
     align-items: center;
     gap: 2px;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-weight: 500;
     border-radius: var(--radius-sm);
     white-space: nowrap;
@@ -115,17 +115,17 @@ const displayValue = isPositive ? `+${value}` : value.toString();
   }
 
   .trend-positive {
-    color: var(--color-success);
+    color: var(--color-success-text);
     background: rgba(16, 185, 129, 0.1);
   }
 
   .trend-negative {
-    color: var(--color-error);
+    color: var(--color-error-text);
     background: rgba(239, 68, 68, 0.1);
   }
 
   .trend-neutral {
-    color: var(--color-gray-500);
-    background: var(--color-gray-100);
+    color: var(--color-text-secondary);
+    background: var(--color-soft);
   }
 </style>
