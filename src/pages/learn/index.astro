@@ -211,6 +211,20 @@ const sources = [
             <strong>A term getting in the way?</strong> Find plain explanations of the language used across
             the ecosystem.
           </p>
+          <dl class="glossary-grid">
+            <div>
+              <dt class="glossary-term">Open Finance</dt>
+              <dd>Permission-based access to financial data and services through eligible providers.</dd>
+            </div>
+            <div>
+              <dt class="glossary-term">LFI</dt>
+              <dd>A Licensed Financial Institution, such as a bank or insurer.</dd>
+            </div>
+            <div>
+              <dt class="glossary-term">TPP</dt>
+              <dd>A Third-Party Provider that accesses data or initiates services within its permitted role.</dd>
+            </div>
+          </dl>
           <div class="link-actions">
             <a class="text-link" href="/learn/glossary"
               >Browse the glossary <span aria-hidden="true">→</span></a
@@ -509,6 +523,28 @@ const sources = [
     display: block;
     font-weight: 600;
     margin-bottom: var(--space-1);
+  }
+  .glossary-grid {
+    flex: 1 1 100%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-6);
+    margin: 0;
+    font-size: 0.875rem;
+  }
+  .glossary-term {
+    color: var(--color-text);
+    font-weight: 600;
+    margin-bottom: var(--space-2);
+  }
+  .glossary-grid dd {
+    margin: 0;
+    color: var(--color-text-secondary);
+  }
+  @media (max-width: 640px) {
+    .glossary-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
   }
   .link-actions {
     display: flex;
