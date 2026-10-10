@@ -75,6 +75,7 @@ const newsRegionLabels: Record<string, string> = {
           sortedNews.map((article) => (
             <div data-news-type={article.data.type} data-news-region={article.data.region}>
               <NewsCard
+                headingLevel={2}
                 title={article.data.title}
                 date={article.data.date}
                 type={article.data.type}

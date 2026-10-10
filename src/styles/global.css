@@ -375,6 +375,12 @@ a:hover {
   text-decoration: underline;
 }
 
+/* Inline references need a cue beyond their colour in both themes. */
+main :where(p, dd, td) a {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
 /* Dark mode link colors with enhanced contrast (WCAG AA compliant) */
 [data-theme='dark'] a {
   color: var(--color-primary-700);

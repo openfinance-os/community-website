@@ -11,9 +11,22 @@ interface Props {
   slug: string;
   source?: string;
   external?: boolean;
+  headingLevel?: 2 | 3;
 }
 
-const { title, date, type, region, author, description, slug, source, external } = Astro.props;
+const {
+  title,
+  date,
+  type,
+  region,
+  author,
+  description,
+  slug,
+  source,
+  external,
+  headingLevel = 3,
+} = Astro.props;
+const Heading = headingLevel === 2 ? 'h2' : 'h3';
 
 const href = external && source ? source : `/news/${slug}`;
 const isExternal = external && source;
@@ -88,7 +101,7 @@ const formatDate = (d: Date) => {
     <time datetime={date.toISOString()}>{formatDate(date)}</time>
   </div>
 
-  <h3 class="card-title">{title}</h3>
+  <Heading class="card-title">{title}</Heading>
 
   {description && <p class="card-description">{description}</p>}
 
