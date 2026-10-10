@@ -1,885 +1,694 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
-import { roleLabels } from '@lib/taxonomy';
+import Breadcrumb from '@components/common/Breadcrumb.astro';
+import EditorialNote from '@components/learn/EditorialNote.astro';
 
-const guides = [
+const startingPoints = [
   {
-    title: 'Getting Started with UAE Open Finance',
+    step: '01 / The essentials',
+    type: 'Introduction',
+    title: 'What changes when people can choose to share?',
     description:
-      'A short introduction to the ecosystem with official documentation and community references.',
+      'Learn how permission-based access can support useful services, who participates, and where to verify the rules.',
     href: '/learn/getting-started',
-    icon: 'rocket',
-    badge: 'Start Here',
+    action: 'Read Getting Started',
   },
   {
-    title: 'For Third Party Providers (TPPs)',
+    step: '02 / In practice',
+    type: 'From Commons',
+    title: 'Several accounts. One cash view.',
     description:
-      'An overview for TPPs, with links to authoritative registration and sandbox guidance.',
-    href: '/learn/tpp-guide',
-    icon: 'building',
+      'Follow a fictional SME through the customer benefit, the synthetic data, and the questions a real service would need to answer.',
+    href: '/commons/sme-multi-bank-cash-flow',
+    action: 'Explore the SME example',
   },
   {
-    title: 'For Banks & Financial Institutions',
+    step: '03 / Your proposition',
+    type: 'Worksheet',
+    title: 'Where do the gaps sit?',
     description:
-      'An orientation for financial institutions, the API Hub and Ozone Connect integration.',
+      'Record the evidence you hold, the unknowns, and the next actions across eight areas of an Open Finance proposition.',
+    href: '/learn/readiness',
+    action: 'Use the readiness worksheet',
+  },
+];
+
+const roleGuides = [
+  {
+    title: 'For banks & financial institutions',
+    description: 'Participation context, integration boundaries, and questions for your programme.',
     href: '/learn/bank-guide',
-    icon: 'bank',
+    action: 'Read the bank guide',
   },
   {
-    title: 'API Integration Guide',
-    description:
-      'An overview of the API architecture and links to current technical specifications.',
+    title: 'For third party providers',
+    description: 'Understand the participation path, data access, and official requirements.',
+    href: '/learn/tpp-guide',
+    action: 'Read the TPP guide',
+  },
+  {
+    title: 'For builders',
+    description: 'Explore API architecture, synthetic data, and the integration references.',
     href: '/learn/api-guide',
-    icon: 'code',
-  },
-  {
-    title: 'Frequently Asked Questions',
-    description: 'Common questions about registration, APIs, compliance, and participation.',
-    href: '/learn/faq',
-    icon: 'help',
-  },
-  {
-    title: 'Global Perspective',
-    description: 'Learn from international open banking ecosystems and how the UAE compares.',
-    href: '/global',
-    icon: 'globe',
+    action: 'Open the API guide',
   },
 ];
 
-interface Link {
-  title: string;
-  description: string;
-  url: string;
-  type: 'official' | 'developer' | 'reference';
-}
-
-const officialLinks: Link[] = [
+const sources = [
   {
-    title: 'Official Open Finance Documentation',
+    label: 'Official documentation',
+    title: 'UAE Open Finance standards',
     description:
-      'The official Confluence space for participation guidance, standards and certification requirements',
-    url: 'https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview?mode=global',
-    type: 'official',
+      'Verify participation guidance, technical standards, and testing and certification requirements in the official Confluence space.',
+    href: 'https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview?mode=global',
+    action: 'Open official documentation',
   },
   {
-    title: 'CBUAE Open Finance',
+    label: 'Official specifications',
+    title: 'OpenAPI source of truth',
     description:
-      'Central Bank of UAE regulatory framework, guidelines, and policy documents for Open Finance',
-    url: 'https://www.centralbank.ae',
-    type: 'official',
+      'The Nebras API specifications repository is linked from official documentation. Check the published version and any superseding errata.',
+    href: 'https://github.com/Nebras-Open-Finance/api-specs/tree/main',
+    action: 'Read the API specifications',
   },
   {
+    label: 'Official regulatory source',
+    title: 'CBUAE framework',
+    description:
+      'Read the current regulatory framework in the CBUAE Rulebook. The introduction and scope identify Circular 03/2025 as in force.',
+    href: 'https://rulebook.centralbank.ae/en/rulebook/introduction-and-scope-2',
+    action: 'Check the regulatory scope',
+  },
+  {
+    label: 'Public evidence',
     title: 'Trust Framework Directory',
-    description: 'Inspect published registrations, role claims and resource metadata',
-    url: 'https://data.directory.openfinance.ae',
-    type: 'official',
-  },
-];
-
-const developerLinks: Link[] = [
-  {
-    title: 'API Specifications — Community Reference',
-    description: 'Versioned OpenAPI references on the Nebras community documentation site',
-    url: 'https://nebras-open-finance.com/tech/api-specs/',
-    type: 'developer',
-  },
-  {
-    title: 'OpenFinance Hackathon',
-    description: 'Community hackathon for building innovative solutions on UAE Open Finance APIs',
-    url: 'https://openfinance-hackathon.com',
-    type: 'developer',
-  },
-  {
-    title: 'Hackathon Documentation',
-    description: 'Technical guides, API references, starter templates, and code examples',
-    url: 'https://docs.openfinance-hackathon.com',
-    type: 'developer',
-  },
-];
-
-const internationalLinks: Link[] = [
-  {
-    title: 'UK Open Banking',
     description:
-      'Standards, APIs, and implementation guides from the UK Open Banking Implementation Entity',
-    url: 'https://www.openbanking.org.uk',
-    type: 'reference',
+      'Inspect published registrations and metadata. Our coverage guide explains what dated directory observations do and do not establish.',
+    href: '/observatory/coverage',
+    action: 'Understand directory evidence',
   },
   {
-    title: 'Open Finance Brazil',
+    label: 'Community reference',
+    title: 'API explanations & examples',
     description:
-      'Brazilian Open Finance ecosystem with comprehensive banking and finance data sharing',
-    url: 'https://openfinancebrasil.org.br',
-    type: 'reference',
+      'Use the Nebras community documentation for technical orientation. Check versions and requirements against official sources.',
+    href: 'https://nebras-open-finance.com/tech/api-specs/',
+    action: 'Open the community reference',
   },
   {
-    title: 'Open Conversations',
-    description: 'Global news, analysis, and insights about open finance developments worldwide',
-    url: 'https://www.open-conversations.org',
-    type: 'reference',
-  },
-  {
-    title: 'Australia CDR',
+    label: 'Community tool',
+    title: 'Data Sandbox',
     description:
-      'Consumer Data Right framework enabling secure data sharing across banking and energy sectors',
-    url: 'https://www.cdr.gov.au',
-    type: 'reference',
-  },
-  {
-    title: 'India Account Aggregator',
-    description:
-      'Financial data sharing ecosystem enabling consent-based data access across institutions',
-    url: 'https://sahamati.org.in',
-    type: 'reference',
-  },
-  {
-    title: 'Open Banking Europe',
-    description:
-      'PSD2 implementation resources and European open banking standards and best practices',
-    url: 'https://www.openbankingeurope.eu',
-    type: 'reference',
-  },
-];
-
-const linkSections = [
-  { id: 'uae-official', label: 'UAE Official', links: officialLinks },
-  { id: 'developer', label: 'Developer', links: developerLinks },
-  { id: 'international', label: 'International', links: internationalLinks },
-];
-
-const typeLabels: Record<string, string> = {
-  official: 'Official',
-  developer: 'Developer',
-  reference: 'Reference',
-};
-
-const typeColors: Record<string, string> = {
-  official: 'type-blue',
-  developer: 'type-green',
-  reference: 'type-amber',
-};
-
-const glossaryTerms = [
-  {
-    term: 'ASPSP',
-    definition: 'An open banking term for an account-holding provider; UAE guidance uses LFI',
-  },
-  { term: 'TPP', definition: 'Third Party Provider - consumes services through the API Hub' },
-  { term: 'LFI', definition: roleLabels.LFI },
-  { term: 'BDSP', definition: roleLabels.BDSP },
-  { term: 'BSIP', definition: roleLabels.BSIP },
-  { term: 'ISP', definition: roleLabels.ISP },
-  { term: 'CBUAE', definition: 'Central Bank of the United Arab Emirates' },
-  {
-    term: 'Al Tareq',
-    definition: 'The UAE Open Finance brand; Nebras operates the infrastructure',
-  },
-  { term: 'API Hub', definition: 'Central API mediator, consent store and token issuer' },
-  { term: 'Ozone Connect', definition: 'The LFI backend interface called by the API Hub' },
-  { term: 'FAPI', definition: 'Financial-grade API - security standard for Open Finance APIs' },
-  {
-    term: 'Consent',
-    definition: 'Customer authorization for data sharing or payments, managed by the Hub',
+      'Explore synthetic banking data before working with customer information. This community tool is separate from the official platform sandbox.',
+    href: '/commons/data-sandbox',
+    action: 'Explore the Data Sandbox',
   },
 ];
 ---
 
 <PageLayout
   title="Learn Open Finance"
-  description="Introductions to UAE Open Finance concepts and links to authoritative onboarding and technical resources."
+  description="Understand UAE Open Finance through customer benefits, a synthetic SME example, a readiness worksheet, and clearly labelled official and community resources."
 >
   <div class="learn-page">
-    <div class="container">
-      <header class="page-intro page-header">
-        <h1>Learn Open Finance</h1>
-        <p class="subtitle">
-          Introductions to UAE Open Finance, with official documentation and community technical
-          references for your next step.
-        </p>
+    <div class="learn-container">
+      <Breadcrumb items={[{ label: 'Learn' }]} />
+      <header class="page-intro learning-hero">
+        <div>
+          <p class="eyebrow">Learn / UAE Open Finance</p>
+          <h1>Understand the idea.<br />Find your next step.</h1>
+          <p class="lead">
+            Start with the customer benefit. See a worked example. Then explore the evidence and
+            questions behind a real proposition.
+          </p>
+        </div>
+        <aside class="reading-panel" aria-labelledby="reading-path-title">
+          <h2 class="eyebrow" id="reading-path-title">A useful first journey</h2>
+          <ol class="reading-path">
+            <li>
+              <span class="step-number" aria-hidden="true">1</span><div>
+                <strong>Understand the essentials</strong><p>
+                  Permission, participants, and practical possibilities.
+                </p>
+              </div>
+            </li>
+            <li>
+              <span class="step-number" aria-hidden="true">2</span><div>
+                <strong>See the idea in practice</strong><p>
+                  A fictional SME with accounts across banks.
+                </p>
+              </div>
+            </li>
+            <li>
+              <span class="step-number" aria-hidden="true">3</span><div>
+                <strong>Map the questions that matter</strong><p>
+                  What you know, what is missing, and what comes next.
+                </p>
+              </div>
+            </li>
+          </ol>
+        </aside>
       </header>
 
-      <section class="guides-section">
-        <h2 class="section-title">Concept Guides</h2>
-        <div class="guides-grid">
+      <section class="learning-section" aria-labelledby="start-title">
+        <div class="section-heading">
+          <h2 id="start-title">Start here. Go as far as you need.</h2><p>
+            Choose an introduction, a practical example, or a working document.
+          </p>
+        </div>
+        <div class="journey-grid">
           {
-            guides.map((guide) => (
-              <a href={guide.href} class="guide-card">
-                <div class="guide-icon">
-                  {guide.icon === 'rocket' && (
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
-                      <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
-                      <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
-                      <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
-                    </svg>
-                  )}
-                  {guide.icon === 'building' && (
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <rect x="4" y="2" width="16" height="20" rx="2" />
-                      <path d="M9 22v-4h6v4" />
-                      <path d="M8 6h.01" />
-                      <path d="M16 6h.01" />
-                      <path d="M8 10h.01" />
-                      <path d="M16 10h.01" />
-                      <path d="M8 14h.01" />
-                      <path d="M16 14h.01" />
-                    </svg>
-                  )}
-                  {guide.icon === 'bank' && (
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M3 21h18" />
-                      <path d="M3 7v1a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7" />
-                      <path d="M21 7L12 2 3 7" />
-                      <path d="M6 10v9" />
-                      <path d="M10 10v9" />
-                      <path d="M14 10v9" />
-                      <path d="M18 10v9" />
-                    </svg>
-                  )}
-                  {guide.icon === 'code' && (
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="m16 18 6-6-6-6" />
-                      <path d="m8 6-6 6 6 6" />
-                    </svg>
-                  )}
-                  {guide.icon === 'help' && (
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <circle cx="12" cy="12" r="10" />
-                      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                      <path d="M12 17h.01" />
-                    </svg>
-                  )}
-                  {guide.icon === 'globe' && (
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <circle cx="12" cy="12" r="10" />
-                      <line x1="2" y1="12" x2="22" y2="12" />
-                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-                    </svg>
-                  )}
+            startingPoints.map((item, index) => (
+              <a href={item.href} class:list={['journey-card', { featured: index === 0 }]}>
+                <div class="card-labels">
+                  <>
+                    <span>{item.step}</span>
+                    <span>{item.type}</span>
+                  </>
                 </div>
-                <div class="guide-content">
-                  {guide.badge && <span class="guide-badge">{guide.badge}</span>}
-                  <h3>{guide.title}</h3>
-                  <p>{guide.description}</p>
-                </div>
-                <span class="guide-arrow">→</span>
+                <>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                </>
+                <span class="card-action">
+                  {item.action}
+                  <span aria-hidden="true">→</span>
+                </span>
               </a>
             ))
           }
         </div>
       </section>
 
-      <section class="glossary-section">
-        <h2 class="section-title">Quick Glossary</h2>
-        <p class="glossary-intro">Key terms you'll encounter in the UAE Open Finance ecosystem.</p>
-        <dl class="glossary-grid">
+      <section class="learning-section" aria-labelledby="roles-title">
+        <div class="section-heading">
+          <h2 id="roles-title">Go deeper, with your role in mind.</h2><p>
+            A guide is an orientation. The official sources remain the authority.
+          </p>
+        </div>
+        <div class="role-guides">
           {
-            glossaryTerms.map((item) => (
-              <div class="glossary-item">
-                <dt class="glossary-term">{item.term}</dt>
-                <dd class="glossary-definition">{item.definition}</dd>
+            roleGuides.map((guide, index) => (
+              <div class="role-row">
+                <span class="resource-number" aria-hidden="true">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <div>
+                  <>
+                    <h3>{guide.title}</h3>
+                    <p>{guide.description}</p>
+                  </>
+                </div>
+                <a class="text-link" href={guide.href}>
+                  {guide.action}
+                  <span aria-hidden="true">→</span>
+                </a>
               </div>
             ))
           }
-        </dl>
-        <a href="/learn/glossary" class="view-all-link">View full glossary →</a>
-      </section>
-
-      <section class="resources-section" id="resources">
-        <h2 class="section-title">Official Resources</h2>
-        <p class="resources-intro">
-          Curated links to official documentation, developer tools, and international references.
-        </p>
-
-        <nav class="quick-nav" aria-label="Jump to section">
-          {
-            linkSections.map((section) => (
-              <a href={`#${section.id}`} class="nav-pill">
-                {section.label}
-              </a>
-            ))
-          }
-        </nav>
-
-        {
-          linkSections.map((section) => (
-            <div class="link-section" id={section.id}>
-              <h3 class="link-section-title">{section.label}</h3>
-              <div class="link-grid">
-                {section.links.map((link) => (
-                  <a href={link.url} class="link-card" target="_blank" rel="noopener noreferrer">
-                    <div class="card-header">
-                      <h4>{link.title}</h4>
-                      <span class:list={['type-badge', typeColors[link.type]]}>
-                        {typeLabels[link.type]}
-                      </span>
-                    </div>
-                    <p>{link.description}</p>
-                    <span class="link-url">{new URL(link.url).hostname}</span>
-                  </a>
-                ))}
-              </div>
+        </div>
+        <div class="glossary-strip">
+          <p>
+            <strong>A term getting in the way?</strong> Find plain explanations of the language used across
+            the ecosystem.
+          </p>
+          <dl class="glossary-grid">
+            <div>
+              <dt class="glossary-term">Open Finance</dt>
+              <dd>
+                Permission-based access to financial data and services through eligible providers.
+              </dd>
             </div>
-          ))
-        }
-
-        <p class="resources-footer">
-          See an outdated link? <a
-            href="https://github.com/openfinance-os/community/issues"
-            target="_blank"
-            rel="noopener noreferrer">Open an issue on GitHub</a
-          >
-        </p>
+            <div>
+              <dt class="glossary-term">LFI</dt>
+              <dd>A Licensed Financial Institution, such as a bank or insurer.</dd>
+            </div>
+            <div>
+              <dt class="glossary-term">TPP</dt>
+              <dd>
+                A Third-Party Provider that accesses data or initiates services within its permitted
+                role.
+              </dd>
+            </div>
+          </dl>
+          <div class="link-actions">
+            <a class="text-link" href="/learn/glossary"
+              >Browse the glossary <span aria-hidden="true">→</span></a
+            ><a class="text-link" href="/learn/faq"
+              >Read the FAQ <span aria-hidden="true">→</span></a
+            >
+          </div>
+        </div>
       </section>
+
+      <section class="learning-section" id="resources" aria-labelledby="sources-title">
+        <div class="section-heading">
+          <p class="eyebrow">Sources and resources</p><h2 id="sources-title">
+            Check the source. Keep the context.
+          </h2><p>
+            Official requirements, public evidence, and community explanations serve different
+            purposes.
+          </p>
+        </div>
+        <div class="source-grid">
+          {
+            sources.map((source) => (
+              <article class="source-card">
+                <>
+                  <span class="source-label">{source.label}</span>
+                  <h3>{source.title}</h3>
+                  <p>{source.description}</p>
+                </>
+                <a
+                  class="text-link"
+                  href={source.href}
+                  rel={source.href.startsWith('https:') ? 'noopener noreferrer' : undefined}
+                >
+                  {source.action}
+                  <span aria-hidden="true">{source.href.startsWith('https:') ? '↗' : '→'}</span>
+                </a>
+              </article>
+            ))
+          }
+        </div>
+        <div class="international-row">
+          <div>
+            <h3>Looking beyond the UAE?</h3><p>
+              Explore international context while keeping each market's rules and infrastructure
+              distinct.
+            </p>
+          </div><a class="text-link" href="/global"
+            >Explore the global perspective <span aria-hidden="true">→</span></a
+          >
+        </div>
+      </section>
+
+      <aside class="watch-row" aria-labelledby="keep-learning-title">
+        <div>
+          <h2 id="keep-learning-title">Keep learning as the ecosystem changes.</h2><p>
+            Return to Ecosystem Watch for saved observations, or follow the news feed for articles
+            and weekly digests.
+          </p>
+        </div>
+        <div class="link-actions">
+          <a class="text-link" href="/observatory/watch"
+            >Read Ecosystem Watch <span aria-hidden="true">→</span></a
+          ><a class="text-link" href="/rss.xml"
+            >News & weekly digests RSS <span aria-hidden="true">→</span></a
+          >
+        </div>
+      </aside>
+      <EditorialNote />
     </div>
   </div>
 </PageLayout>
 
 <style>
   .learn-page {
-    padding: var(--space-12) var(--space-4);
+    padding: var(--space-8) var(--space-5) var(--space-16);
   }
-
-  .container {
-    max-width: 1000px;
+  .learn-container {
+    max-width: 1224px;
     margin: 0 auto;
   }
-
-  .page-header {
-    margin-bottom: var(--space-12);
-  }
-
-  .page-header h1 {
-    font-size: clamp(2rem, 4vw, 3.5rem);
-    margin-bottom: var(--space-3);
-  }
-
-  .subtitle {
-    font-size: 1.25rem;
-    color: var(--color-text-secondary);
-    max-width: 600px;
-  }
-
-  .section-title {
-    font-size: 1rem;
-    font-family: var(--font-sans);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-text-secondary);
-    margin-bottom: var(--space-6);
-    padding-bottom: var(--space-2);
+  .learning-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.85fr);
+    gap: var(--space-12);
+    padding: var(--space-6) 0 var(--space-12);
+    align-items: center;
     border-bottom: 1px solid var(--color-border);
   }
-
-  /* Guides Section */
-  .guides-section {
-    margin-bottom: var(--space-16);
-  }
-
-  .guides-grid {
+  .learning-hero > *,
+  .reading-path div,
+  .role-row > *,
+  .watch-row > * {
     min-width: 0;
+  }
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-4);
+  }
+  .learning-hero h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1.08;
+    letter-spacing: -0.045em;
+    margin-bottom: var(--space-6);
+  }
+  .lead {
+    max-width: 39rem;
+    font-size: 1.125rem;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin: 0;
+  }
+  .reading-panel {
+    padding: var(--space-8);
+    background: var(--color-soft);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+  }
+  .reading-panel h2 {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+  }
+  .reading-path {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     display: grid;
-    gap: var(--space-4);
+    gap: var(--space-6);
   }
-
-  @media (min-width: 640px) {
-    .guides-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  .guide-card {
-    min-width: 0;
+  .reading-path li {
     display: flex;
     align-items: flex-start;
     gap: var(--space-4);
-    padding: var(--space-6);
-    background: var(--color-card);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-xl);
-    text-decoration: none;
-    transition:
-      border-color var(--transition-fast),
-      box-shadow var(--transition-fast),
-      transform var(--transition-fast);
   }
-
-  .guide-card:hover {
-    border-color: var(--color-primary-300);
-    box-shadow: var(--shadow-md);
-    transform: translateY(-2px);
-    text-decoration: none;
-  }
-
-  .guide-icon {
-    flex-shrink: 0;
-    width: 48px;
-    height: 48px;
-    min-width: 0;
+  .step-number {
+    flex: 0 0 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--color-primary-50);
-    border-radius: var(--radius-lg);
-    color: var(--color-brand-ink);
-  }
-
-  .guide-icon svg {
-    width: 24px;
-    height: 24px;
-  }
-
-  .guide-content {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .guide-badge {
-    display: inline-block;
-    padding: var(--space-1) var(--space-2);
-    background: var(--color-accent-500);
-    color: #132c2b;
-    font-family: var(--font-sans);
-    font-size: 0.6875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border-radius: var(--radius-sm);
-    margin-bottom: var(--space-2);
-  }
-
-  .guide-card h3 {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--color-text);
-    margin-bottom: var(--space-1);
-  }
-
-  .guide-card:hover h3 {
-    color: var(--color-brand-ink);
-  }
-
-  .guide-card p {
-    font-size: 0.875rem;
-    color: var(--color-text-secondary);
-    line-height: 1.5;
-  }
-
-  .guide-arrow {
-    flex-shrink: 0;
-    color: var(--color-text-secondary);
-    font-size: 1.25rem;
-    transition:
-      transform var(--transition-fast),
-      color var(--transition-fast);
-  }
-
-  .guide-card:hover .guide-arrow {
-    transform: translateX(4px);
-    color: var(--color-brand-ink);
-  }
-
-  /* Glossary Section */
-  .glossary-section {
-    margin-bottom: var(--space-16);
-  }
-
-  .glossary-intro {
-    color: var(--color-text-secondary);
-    margin-bottom: var(--space-6);
-    margin-top: calc(-1 * var(--space-4));
-  }
-
-  .glossary-grid {
-    min-width: 0;
-    display: grid;
-    gap: var(--space-3);
-  }
-
-  @media (min-width: 640px) {
-    .glossary-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  .glossary-item {
-    padding: var(--space-4);
-    background: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    transition:
-      border-color var(--transition-fast),
-      box-shadow var(--transition-fast),
-      transform var(--transition-fast);
-  }
-
-  .glossary-item:hover {
-    border-color: var(--color-primary-200);
-    box-shadow: var(--shadow-sm);
-    transform: translateY(-1px);
-  }
-
-  .glossary-term {
-    font-family: var(--font-sans);
-    font-size: 0.875rem;
-    font-weight: 600;
+    border-radius: 50%;
+    background: var(--color-card);
     color: var(--color-brand-ink);
-    margin-bottom: var(--space-1);
-  }
-
-  .glossary-definition {
-    font-size: 0.875rem;
-    color: var(--color-text-secondary);
-    margin: 0;
-  }
-
-  .view-all-link {
-    display: inline-block;
-    margin-top: var(--space-4);
     font-weight: 500;
-    color: var(--color-brand-ink);
   }
-
-  .view-all-link:hover {
-    color: var(--color-brand-ink);
-  }
-
-  /* Resources Section */
-  .resources-section {
-    margin-bottom: var(--space-8);
-    scroll-margin-top: var(--space-8);
-  }
-
-  .resources-intro {
-    color: var(--color-text-secondary);
-    margin-bottom: var(--space-6);
-    margin-top: calc(-1 * var(--space-4));
-  }
-
-  /* Quick Navigation */
-  .quick-nav {
-    min-width: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-    margin-bottom: var(--space-10);
-  }
-
-  .nav-pill {
-    padding: var(--space-2) var(--space-5);
-    background: transparent;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-full);
+  .reading-path strong {
+    display: block;
+    font-weight: 600;
     font-size: 0.9375rem;
-    font-weight: 500;
+  }
+  .reading-path p {
+    font-size: 0.875rem;
     color: var(--color-text-secondary);
-    text-decoration: none;
-    transition: all var(--transition-fast);
+    margin: var(--space-1) 0 0;
   }
-
-  .nav-pill:hover {
-    border-color: var(--color-primary-300);
-    color: var(--color-brand-ink);
-    text-decoration: none;
-  }
-
-  /* Link Sections */
-  .link-section {
-    margin-bottom: var(--space-12);
+  .learning-section {
+    padding-top: var(--space-16);
     scroll-margin-top: var(--space-8);
   }
-
-  .link-section-title {
-    font-size: 1.0625rem;
-    font-family: var(--font-sans);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-text-secondary);
-    margin-bottom: var(--space-6);
-    padding-left: var(--space-4);
-    border-left: 4px solid var(--color-primary-500);
+  .section-heading {
+    margin-bottom: var(--space-8);
   }
-
-  .link-grid {
-    min-width: 0;
+  .section-heading h2 {
+    font-size: clamp(1.65rem, 3vw, 2.1rem);
+    letter-spacing: -0.035em;
+    margin-bottom: var(--space-3);
+  }
+  .section-heading p {
+    color: var(--color-text-secondary);
+    margin-bottom: 0;
+  }
+  .section-heading .eyebrow {
+    margin-bottom: var(--space-3);
+  }
+  .journey-grid,
+  .source-grid {
     display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--space-5);
   }
-
-  @media (min-width: 640px) {
-    .link-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  /* Link Cards */
-  .link-card {
+  .journey-card {
     min-width: 0;
     display: flex;
     flex-direction: column;
-    padding: var(--space-5);
-    background: var(--color-card);
+    padding: var(--space-8);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-xl);
+    border-radius: 16px;
+    background: var(--color-card);
     text-decoration: none;
-    transition:
-      border-color var(--transition-fast),
-      box-shadow var(--transition-fast),
-      transform var(--transition-fast);
+    color: var(--color-text);
   }
-
-  .link-card:hover {
-    border-color: var(--color-primary-300);
-    box-shadow: var(--shadow-lg);
-    transform: translateY(-3px);
+  .journey-card.featured {
+    background: var(--color-soft);
+  }
+  .journey-card:hover {
     text-decoration: none;
+    border-color: var(--color-brand-ink);
   }
-
-  .card-header {
-    min-width: 0;
+  .card-labels {
     display: flex;
-    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-3);
+    justify-content: space-between;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-8);
+  }
+  .journey-card h3 {
+    font-size: 1.65rem;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.035em;
+    margin-bottom: var(--space-4);
+  }
+  .journey-card p {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-8);
+  }
+  .card-action {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
     justify-content: space-between;
     gap: var(--space-3);
-    margin-bottom: var(--space-2);
-  }
-
-  .link-card h4 {
-    font-size: 1rem;
     font-weight: 600;
-    color: var(--color-text);
-    line-height: 1.4;
-  }
-
-  .link-card:hover h4 {
     color: var(--color-brand-ink);
-  }
-
-  .type-badge {
-    flex-shrink: 0;
-    padding: var(--space-1) var(--space-2);
-    font-family: var(--font-sans);
-    font-size: 0.625rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    border-radius: var(--radius-full);
-  }
-
-  .type-blue {
-    background: var(--color-primary-50);
-    color: var(--color-brand-ink);
-  }
-
-  .type-green {
-    background: #dcfce7;
-    color: #166534;
-  }
-
-  .type-amber {
-    background: #fef3c7;
-    color: #92400e;
-  }
-
-  .link-card p {
-    color: var(--color-text-secondary);
     font-size: 0.875rem;
-    line-height: 1.5;
-    margin-bottom: var(--space-3);
-    flex-grow: 1;
   }
-
-  .link-url {
+  .role-guides {
+    border-top: 1px solid var(--color-border);
+  }
+  .role-row {
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--space-5);
+    padding: var(--space-6) 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .resource-number {
+    color: var(--color-text-secondary);
+    font-size: 0.8125rem;
+  }
+  .role-row h3,
+  .international-row h3 {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    margin-bottom: var(--space-1);
+  }
+  .role-row p,
+  .international-row p {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 0.9375rem;
+  }
+  .text-link {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-1);
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
+    gap: var(--space-2);
+    min-height: 44px;
     color: var(--color-brand-ink);
-  }
-
-  .link-url::after {
-    content: '→';
-    display: inline-block;
-    transition: transform var(--transition-fast);
-  }
-
-  .link-card:hover .link-url::after {
-    transform: translateX(4px);
-  }
-
-  .resources-footer {
-    margin-top: var(--space-8);
-    padding-top: var(--space-6);
-    border-top: 1px solid var(--color-border);
-    text-align: center;
     font-size: 0.875rem;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+  .text-link span {
+    flex-shrink: 0;
+  }
+  .glossary-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5);
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-6) var(--space-8);
+    margin-top: var(--space-8);
+    background: var(--color-soft);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+  }
+  .glossary-strip p {
+    flex: 1 1 400px;
     color: var(--color-text-secondary);
+    margin: 0;
+    font-size: 0.9375rem;
   }
-
-  .resources-footer a {
-    color: var(--color-brand-ink);
-  }
-
-  /* Dark mode */
-  :global([data-theme='dark']) .learn-page {
-    background: var(--color-surface);
-  }
-
-  :global([data-theme='dark']) .page-header h1 {
+  .glossary-strip strong {
     color: var(--color-text);
+    display: block;
+    font-weight: 600;
+    margin-bottom: var(--space-1);
   }
-
-  :global([data-theme='dark']) .subtitle {
-    color: var(--color-text-secondary);
+  .glossary-grid {
+    flex: 1 1 100%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-6);
+    margin: 0;
+    font-size: 0.875rem;
   }
-
-  :global([data-theme='dark']) .section-title {
-    color: var(--color-text-secondary);
-    border-bottom-color: var(--color-border);
-  }
-
-  :global([data-theme='dark']) .guide-card {
-    background: var(--color-soft);
-    border-color: var(--color-border);
-  }
-
-  :global([data-theme='dark']) .guide-card:hover {
-    border-color: var(--color-primary-700);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  }
-
-  :global([data-theme='dark']) .guide-icon {
-    background: var(--color-soft);
-    color: var(--color-brand-ink);
-  }
-
-  :global([data-theme='dark']) .guide-card h3 {
+  .glossary-term {
     color: var(--color-text);
+    font-weight: 600;
+    margin-bottom: var(--space-2);
   }
-
-  :global([data-theme='dark']) .guide-card:hover h3 {
-    color: var(--color-brand-ink);
-  }
-
-  :global([data-theme='dark']) .guide-card p {
+  .glossary-grid dd {
+    margin: 0;
     color: var(--color-text-secondary);
   }
-
-  :global([data-theme='dark']) .guide-arrow {
+  @media (max-width: 640px) {
+    .glossary-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  .link-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-6);
+  }
+  .source-card {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-6);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+  }
+  .source-label {
+    width: fit-content;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    padding: var(--space-1) var(--space-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
     color: var(--color-text-secondary);
+    margin-bottom: var(--space-5);
   }
-
-  :global([data-theme='dark']) .guide-card:hover .guide-arrow {
-    color: var(--color-brand-ink);
+  .source-card h3 {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    margin-bottom: var(--space-3);
   }
-
-  :global([data-theme='dark']) .glossary-intro {
+  .source-card p {
+    font-size: 0.875rem;
+    line-height: 1.7;
     color: var(--color-text-secondary);
+    margin-bottom: var(--space-4);
   }
-
-  :global([data-theme='dark']) .glossary-item {
+  .source-card .text-link {
+    margin-top: auto;
+  }
+  .international-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+    padding: var(--space-6) 0;
+    margin-top: var(--space-4);
+  }
+  .international-row > div {
+    flex: 1 1 400px;
+  }
+  .watch-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
+    gap: var(--space-8);
+    padding: var(--space-8);
+    margin-top: var(--space-8);
     background: var(--color-soft);
-    border-color: var(--color-border);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    align-items: center;
   }
-
-  :global([data-theme='dark']) .glossary-item:hover {
-    border-color: var(--color-primary-700);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  .watch-row h2 {
+    font-size: 1.4rem;
+    letter-spacing: -0.025em;
+    margin-bottom: var(--space-3);
   }
-
-  :global([data-theme='dark']) .glossary-term {
-    color: var(--color-brand-ink);
-  }
-
-  :global([data-theme='dark']) .glossary-definition {
+  .watch-row p {
+    font-size: 0.9375rem;
+    line-height: 1.7;
     color: var(--color-text-secondary);
+    margin: 0;
   }
-
-  :global([data-theme='dark']) .view-all-link {
-    color: var(--color-brand-ink);
+  .watch-row .link-actions {
+    justify-content: flex-end;
   }
-
-  :global([data-theme='dark']) .view-all-link:hover {
-    color: var(--color-brand-ink);
+  @media (max-width: 960px) {
+    .learning-hero {
+      gap: var(--space-8);
+    }
+    .journey-card {
+      padding: var(--space-6);
+    }
+    .card-labels {
+      flex-direction: column;
+    }
+    .role-row {
+      grid-template-columns: 28px minmax(0, 1fr);
+    }
+    .role-row .text-link {
+      grid-column: 2;
+    }
   }
-
-  :global([data-theme='dark']) .resource-card {
-    background: var(--color-soft);
-    border-color: var(--color-border);
+  @media (max-width: 700px) {
+    .learning-hero,
+    .journey-grid,
+    .source-grid,
+    .watch-row {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .learning-hero {
+      padding-top: var(--space-4);
+    }
+    .learning-hero h1 {
+      font-size: clamp(2.35rem, 9vw, 3.3rem);
+    }
+    .reading-panel,
+    .glossary-strip,
+    .watch-row {
+      padding: var(--space-6);
+    }
+    .learning-section {
+      padding-top: var(--space-12);
+    }
+    .card-labels {
+      flex-direction: row;
+    }
+    .journey-card h3 {
+      font-size: 1.5rem;
+    }
+    .watch-row .link-actions {
+      justify-content: flex-start;
+    }
   }
-
-  :global([data-theme='dark']) .resource-card:hover {
-    border-color: var(--color-primary-700);
-    background: var(--color-soft);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  }
-
-  :global([data-theme='dark']) .resources-intro {
-    color: var(--color-text-secondary);
-  }
-
-  :global([data-theme='dark']) .nav-pill {
-    border-color: var(--color-border);
-    color: var(--color-text-secondary);
-  }
-
-  :global([data-theme='dark']) .nav-pill:hover {
-    border-color: var(--color-primary-400);
-    color: var(--color-brand-ink);
-  }
-
-  :global([data-theme='dark']) .link-section-title {
-    color: var(--color-text-secondary);
-  }
-
-  :global([data-theme='dark']) .link-card {
-    background: var(--color-soft);
-    border-color: var(--color-border);
-  }
-
-  :global([data-theme='dark']) .link-card:hover {
-    border-color: var(--color-border);
-  }
-
-  :global([data-theme='dark']) .link-card h4 {
-    color: var(--color-text);
-  }
-
-  :global([data-theme='dark']) .link-card:hover h4 {
-    color: var(--color-brand-ink);
-  }
-
-  :global([data-theme='dark']) .link-card p {
-    color: var(--color-text-secondary);
-  }
-
-  :global([data-theme='dark']) .type-blue {
-    background: rgba(59, 130, 246, 0.2);
-    color: var(--color-brand-ink);
-  }
-
-  :global([data-theme='dark']) .type-green {
-    background: rgba(34, 197, 94, 0.2);
-    color: #4ade80;
-  }
-
-  :global([data-theme='dark']) .type-amber {
-    background: rgba(245, 158, 11, 0.2);
-    color: #fbbf24;
-  }
-
-  :global([data-theme='dark']) .link-url {
-    color: var(--color-brand-ink);
-  }
-
-  :global([data-theme='dark']) .resources-footer {
-    border-top-color: var(--color-border);
-  }
-
-  :global([data-theme='dark']) .resources-footer a {
-    color: var(--color-brand-ink);
+  @media print {
+    .learn-page {
+      padding: 0;
+    }
+    .learning-hero,
+    .journey-grid,
+    .source-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .journey-card,
+    .source-card,
+    .reading-panel {
+      break-inside: avoid;
+    }
   }
 </style>

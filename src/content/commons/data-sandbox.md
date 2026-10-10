@@ -92,10 +92,6 @@ Get hands-on with Open Finance payload shapes and edge cases, or wire the MCP se
 
 Open [data-sandbox.openfinance-os.org](https://data-sandbox.openfinance-os.org) — no registration, no credentials, no install.
 
-## Optional commercial support
-
-[MiddleLeap Open Finance advisory](https://www.middleleap.com/open-finance) is a commercial service for teams seeking paid support. OFOS is editorially independent, and this guide and the Sandbox remain free and ungated.
-
 ## Source & License
 
 The sandbox is open source on [GitHub](https://github.com/openfinance-os/data-sandbox). Code is MIT-licensed; synthetic data and fixtures are released under CC0 (public domain). The vendored OpenAPI specification inherits its upstream license. Contributions and issue reports are welcome.

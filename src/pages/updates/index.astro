@@ -37,6 +37,7 @@ const newsRegionLabels: Record<string, string> = {
         <p class="header-description">
           News and analysis from across the UAE Open Finance ecosystem.
         </p>
+        <p class="feed-link"><a href="/rss.xml">Follow news & weekly digests via RSS →</a></p>
       </div>
     </header>
 
@@ -130,6 +131,10 @@ const newsRegionLabels: Record<string, string> = {
 </PageLayout>
 
 <style>
+  .feed-link {
+    margin-top: var(--space-4);
+    font-size: 0.875rem;
+  }
   .updates-page {
     min-height: 100vh;
   }

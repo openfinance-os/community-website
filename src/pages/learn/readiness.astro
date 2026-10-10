@@ -1,0 +1,1395 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import Breadcrumb from '@components/common/Breadcrumb.astro';
+import EditorialNote from '@components/learn/EditorialNote.astro';
+
+const areas = [
+  {
+    id: 'proposition',
+    title: 'Proposition & customer benefit',
+    shortTitle: 'Proposition & benefit',
+    summary: 'Start with the problem you want to solve.',
+    question: 'What would become better for the customer or partner?',
+    explanation:
+      'Describe the current task, the proposed improvement and why Open Finance helps. A multi-bank cash-flow view might reduce manual reconciliation; the benefit still needs testing with customers.',
+    evidence:
+      'Customer interviews, a journey or process map, the assumptions behind your proposition and a clear test of whether it helps.',
+    held: 'What do we have, where is it, and when was it reviewed?',
+    uncertainty: 'What might change our decision?',
+    action: 'What will we do, and by when?',
+  },
+  {
+    id: 'role',
+    title: 'Role & participation requirements',
+    shortTitle: 'Role & requirements',
+    summary: 'Clarify the role your organisation intends to take.',
+    question: 'Which activities will you perform, and what requirements apply?',
+    explanation:
+      'Distinguish providing data or services, accessing them, and supporting another participant. The participation questions for a Licensed Financial Institution (LFI), a Third-Party Provider (TPP) and a technology provider can differ.',
+    evidence:
+      'A role and activity map; the applicable official participation guidance and requirements, with versions and dates; unresolved questions for the relevant authority or operator.',
+    held: 'Record the official source and the activities it covers.',
+    uncertainty: 'Which role or requirement needs clarification?',
+    action: 'Who will verify the requirement, and by when?',
+  },
+  {
+    id: 'capabilities',
+    title: 'API capabilities & data quality',
+    shortTitle: 'Capabilities & quality',
+    summary: 'Map the data and capabilities your proposition depends on.',
+    question: 'Can the required data and functions support your intended use?',
+    explanation:
+      'List the capabilities, versions and fields you need. Test assumptions about coverage, freshness, completeness and reconciliation rather than inferring them from a directory entry.',
+    evidence:
+      'Selected specifications and versions; dated directory declarations; partner confirmation; representative test results and documented gaps. Keep synthetic results separate from live-data evidence.',
+    held: 'Record required capabilities, source versions, environment and test dates.',
+    uncertainty: 'Which missing field, capability or assumption matters?',
+    action: 'Which gap will we validate with a partner or test?',
+  },
+  {
+    id: 'journey',
+    title: 'Customer journey, authentication & consent',
+    shortTitle: 'Journey & permission',
+    summary: 'Follow permission through the whole experience.',
+    question: 'What will the customer understand, authorise and be able to change?',
+    explanation:
+      'For journeys that require customer permission, consider account selection, authentication, the purpose and duration of access, withdrawal and failure. Identify the applicable flow rather than assuming all APIs use the same one.',
+    evidence:
+      'A journey diagram, proposed customer language, applicable authoritative guidance and test results for success, refusal, expiry, withdrawal and recovery.',
+    held: 'Link the journey and tests; name the applicable flow and source.',
+    uncertainty: 'Where could the customer be confused or unable to recover?',
+    action: 'Which journey decision or test needs an owner?',
+  },
+  {
+    id: 'partners',
+    title: 'Partners & external dependencies',
+    shortTitle: 'Partners & dependencies',
+    summary: 'Separate declared availability from a confirmed dependency.',
+    question: 'Who must do what for your proposition to work?',
+    explanation:
+      'Map participants, vendors and internal teams. A public registration or published capability can help you investigate a partner; it does not establish a working service relationship or an agreed delivery date.',
+    evidence:
+      'Dependency owners, confirmed scope and environments, relevant agreements, testing arrangements and explicit assumptions about access, support and timing.',
+    held: 'Record the confirmation, environment, owner and date.',
+    uncertainty: 'Which dependency is unconfirmed or outside our control?',
+    action: 'Which assumption will we resolve with whom?',
+  },
+  {
+    id: 'controls',
+    title: 'Security, risk & control evidence',
+    shortTitle: 'Controls & risk',
+    summary: 'Give each important control a source and an owner.',
+    question: 'What evidence supports the way you protect customers and their information?',
+    explanation:
+      'Bring the relevant security, privacy and risk owners into the decision. Consider the data lifecycle, access boundaries, retention, incident handling and the assurance required for your intended role and scope.',
+    evidence:
+      'A data-flow map, applicable requirements, control owners, threat and risk reviews, assurance and test evidence, plus accepted or unresolved risks.',
+    held: 'Link the reviewed control evidence and identify its scope.',
+    uncertainty: 'Which control, risk or assurance question is unresolved?',
+    action: 'What review or test is needed before the next decision?',
+  },
+  {
+    id: 'operations',
+    title: 'Operations, support & change',
+    shortTitle: 'Operations & change',
+    summary: 'Plan for the days when things change or fail.',
+    question: 'Who owns service failures, customer support and changes?',
+    explanation:
+      'Describe the responsibilities between your organisation and its partners. Include failed or delayed requests, stale data, customer questions, incidents and changes to specifications or partner services.',
+    evidence:
+      'Operating responsibilities, escalation routes, monitoring and reconciliation plans, incident exercises, change processes and customer-support guidance.',
+    held: 'Record the operating document, test or agreement and its date.',
+    uncertainty: 'Where is ownership or recovery still unclear?',
+    action: 'Which responsibility will we agree or exercise next?',
+  },
+  {
+    id: 'delivery',
+    title: 'Economics, sequencing & delivery evidence',
+    shortTitle: 'Economics & next stage',
+    summary: 'Decide the smallest useful next step.',
+    question: 'What would justify moving to the next stage?',
+    explanation:
+      'Make the commercial and delivery assumptions explicit. Separate exploration, a controlled test and a launch decision. Define the evidence needed at each stage, including any applicable approvals.',
+    evidence:
+      'Costs and assumptions, expected benefit, dependency sequence, test criteria, relevant control and approval evidence, and the people accountable for the next decision.',
+    held: 'Record assumptions and decision criteria with their sources.',
+    uncertainty: 'Which assumption could change scope, timing or value?',
+    action: 'What is the next stage, its evidence and its decision owner?',
+  },
+];
+---
+
+<PageLayout
+  title="Open Finance Readiness Worksheet"
+  description="A free, printable UAE Open Finance worksheet: record your proposition, evidence, owners, uncertainties and next actions across eight areas."
+>
+  <div class="readiness-page">
+    <div class="container">
+      <Breadcrumb items={[{ label: 'Learn', href: '/learn' }, { label: 'Readiness worksheet' }]} />
+
+      <header class="page-intro readiness-intro">
+        <div>
+          <p class="eyebrow">An evidence worksheet for your team</p>
+          <h1>What do you need<br class="wide-break" /> to decide next?</h1>
+          <p class="lead">
+            Turn an Open Finance proposition into clear questions, evidence, owners and next steps.
+            Work through eight areas with the people who will deliver it.
+          </p>
+          <div class="actions">
+            <button class="primary-button" type="button" data-print-worksheet hidden>
+              Print or save the worksheet <span aria-hidden="true">↗</span>
+            </button>
+            <a class="text-link" href="/commons/sme-multi-bank-cash-flow">
+              See the SME worked example <span aria-hidden="true">→</span>
+            </a>
+          </div>
+          <p class="meta">
+            Free to use · No sign-up · Answers stay in this page and are not submitted or saved.
+            Print before leaving or reloading. You can also use your browser’s Print command.
+          </p>
+          <noscript>
+            <p class="meta">
+              JavaScript is off. Print a blank worksheet to complete offline; long answers typed
+              into the fields may be clipped in print.
+            </p>
+          </noscript>
+        </div>
+        <div class="soft-panel outcome">
+          <p class="eyebrow">Bring to your next meeting</p>
+          <h2>A decision.<br />The evidence behind it.<br />An owner for the gaps.</h2>
+          <p>
+            Start with one proposition. Record what you know, what is still uncertain and the next
+            action your team can take.
+          </p>
+          <div class="outcome-rule">
+            <span class="signal" aria-hidden="true"></span>
+            <span>A discussion aid, not a certification or a go-live recommendation.</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="worksheet-layout">
+        <aside class="worksheet-aside" aria-label="Worksheet guide">
+          <nav class="panel contents" aria-label="In this worksheet">
+            <p class="eyebrow">In this worksheet</p>
+            <ol>
+              {
+                areas.map((area) => (
+                  <li>
+                    <a href={`#${area.id}`}>{area.shortTitle}</a>
+                  </li>
+                ))
+              }
+            </ol>
+            <p class="meta">Pick a question. Record its evidence. Give the gap an owner.</p>
+          </nav>
+          <div class="aside-note">
+            <h2>Try it with an example.</h2>
+            <p>
+              Follow a synthetic SME’s multi-bank cash-flow question from idea to evidence gaps.
+            </p>
+            <a class="text-link" href="/commons/sme-multi-bank-cash-flow">
+              Open the SME example <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </aside>
+        <div class="worksheet ph-no-capture ph-sensitive" data-worksheet>
+          <section class="panel decision-context" aria-labelledby="decision-context">
+            <p class="eyebrow">Before you begin</p>
+            <h2 id="decision-context">Name the decision.</h2>
+            <p>
+              Keep the scope small enough to resolve. For example: “Can we test a multi-bank
+              cash-flow view with a small group of SME customers?”
+            </p>
+            <div class="field-grid context-fields">
+              <label class="wide-field">
+                <span>Decision or proposition</span>
+                <textarea
+                  rows="2"
+                  autocomplete="off"
+                  placeholder="What are we trying to decide, and for whom?"
+                  data-answer></textarea>
+                <span class="print-answer"></span>
+              </label>
+              <label>
+                <span>Discussion owner</span>
+                <input type="text" autocomplete="off" placeholder="Person or team" data-answer />
+                <span class="print-answer short-answer"></span>
+              </label>
+              <label>
+                <span>Discussion date</span>
+                <input type="date" autocomplete="off" data-answer />
+                <span class="print-answer short-answer"></span>
+              </label>
+            </div>
+          </section>
+
+          <section class="worksheet-areas" aria-labelledby="worksheet-heading">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">Eight areas to work through</p>
+                <h2 id="worksheet-heading">Make the unknowns useful.</h2>
+              </div>
+              <button class="secondary-button" type="button" data-expand-worksheet hidden>
+                Expand all
+              </button>
+            </div>
+            <p class="worksheet-description">
+              Start with the one or two areas most likely to change your decision. “Evidence
+              recorded” means you have a source to discuss; it does not mean the requirement has
+              been satisfied.
+            </p>
+
+            <div class="sample-entry soft-panel">
+              <h3>A first entry, using the fictional clinic</h3>
+              <p>
+                <strong>Area:</strong> Proposition &amp; customer benefit · <strong>State:</strong> Investigating
+              </p>
+              <p>
+                <strong>Evidence held:</strong> The synthetic persona and combined-ledger demo explain
+                the idea. Customer benefit has not been validated.
+              </p>
+              <p>
+                <strong>Unknown:</strong> Would this view help the practice manager make a specific cash
+                decision?
+              </p>
+              <p>
+                <strong>Next action:</strong> Test the proposed view in customer interviews. Assign a
+                product owner and review date.
+              </p>
+            </div>
+
+            {
+              areas.map((area, index) => (
+                <section
+                  class="readiness-area"
+                  id={area.id}
+                  aria-labelledby={`${area.id}-heading`}
+                  data-worksheet-area
+                >
+                  <div class="area-heading">
+                    <span class="area-number" aria-hidden="true">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    <div>
+                      <h3 id={`${area.id}-heading`}>{area.title}</h3>
+                      <p>{area.summary}</p>
+                    </div>
+                    <button
+                      class="area-toggle"
+                      type="button"
+                      aria-expanded="true"
+                      aria-controls={`${area.id}-body`}
+                      aria-label={`Collapse ${area.title}`}
+                      data-area-toggle
+                      hidden
+                    >
+                      <span aria-hidden="true">−</span>
+                    </button>
+                  </div>
+                  <div class="area-body" id={`${area.id}-body`}>
+                    <h4>{area.question}</h4>
+                    <p>{area.explanation}</p>
+                    <div class="evidence-prompt">
+                      <h5>Evidence to collect</h5>
+                      <p>{area.evidence}</p>
+                    </div>
+                    <div class="field-grid area-fields">
+                      <label>
+                        <span>Current state</span>
+                        <select autocomplete="off" data-answer>
+                          <option>Unknown</option>
+                          <option>Investigating</option>
+                          <option>Evidence recorded</option>
+                        </select>
+                        <span class="print-answer short-answer" />
+                      </label>
+                      <label>
+                        <span>Accountable owner</span>
+                        <input
+                          type="text"
+                          autocomplete="off"
+                          placeholder="Person or team"
+                          data-answer
+                        />
+                        <span class="print-answer short-answer" />
+                      </label>
+                      <label class="wide-field">
+                        <span>Evidence held · source, version &amp; date</span>
+                        <textarea rows="2" autocomplete="off" placeholder={area.held} data-answer />
+                        <span class="print-answer" />
+                      </label>
+                      <label>
+                        <span>Remaining uncertainty</span>
+                        <textarea
+                          rows="2"
+                          autocomplete="off"
+                          placeholder={area.uncertainty}
+                          data-answer
+                        />
+                        <span class="print-answer" />
+                      </label>
+                      <label>
+                        <span>Next action</span>
+                        <textarea
+                          rows="2"
+                          autocomplete="off"
+                          placeholder={area.action}
+                          data-answer
+                        />
+                        <span class="print-answer" />
+                      </label>
+                    </div>
+                  </div>
+                </section>
+              ))
+            }
+          </section>
+
+          <section class="soft-panel next-decision" aria-labelledby="next-decision">
+            <p class="eyebrow">Bring it back to one decision</p>
+            <h2 id="next-decision">What will you do with the gaps?</h2>
+            <p>
+              Choose the uncertainties that could change your decision. Agree who will resolve them,
+              where the evidence will be recorded and when the team will discuss it again.
+            </p>
+            <label>
+              <span>Next discussion and decisions</span>
+              <textarea
+                rows="3"
+                autocomplete="off"
+                placeholder="Our next step is… The evidence we need is… The owner is… We will revisit on…"
+                data-answer></textarea>
+              <span class="print-answer"></span>
+            </label>
+            <div class="actions">
+              <button class="primary-button" type="button" data-print-worksheet hidden>
+                Print or save this worksheet <span aria-hidden="true">↗</span>
+              </button>
+              <a class="text-link" href="/commons/sme-multi-bank-cash-flow">
+                Try the worked example <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </section>
+
+          <section class="sources" aria-labelledby="source-heading">
+            <p class="eyebrow">Verify the evidence</p>
+            <h2 id="source-heading">Use the right source for the question.</h2>
+            <ul>
+              <li>
+                <a
+                  href="https://rulebook.centralbank.ae/en/rulebook/open-finance-framework-0"
+                  target="_blank"
+                  rel="noopener noreferrer">CBUAE Open Finance Framework</a
+                > — the primary regulatory source; verify the provisions applicable to your role.
+              </li>
+              <li>
+                <a
+                  href="https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview"
+                  target="_blank"
+                  rel="noopener noreferrer">Official Open Finance documentation</a
+                >
+                — participation, standards, testing and certification references.
+              </li>
+              <li>
+                <a href="/observatory/methodology">Observatory methodology</a> — what directory observations
+                establish, and what remains unknown.
+              </li>
+              <li>
+                <a href="/commons/sme-multi-bank-cash-flow">Synthetic SME worked example</a> — an illustration
+                for discussion, without evidence of live service availability.
+              </li>
+            </ul>
+            <p class="meta disclaimer">
+              OpenFinance-OS is a community initiative and is not affiliated with, endorsed by, or
+              officially connected to the CBUAE, Al Tareq Platform, or any financial institution.
+              Always verify information with official sources.
+            </p>
+          </section>
+
+          <section class="optional-support" aria-labelledby="support-heading">
+            <p class="eyebrow">Discuss your next step</p>
+            <h2 id="support-heading">Need another perspective?</h2>
+            <p>
+              Take your unanswered questions to the product, risk, legal and delivery owners in your
+              team. If you need specialist support, compare relevant experience, scope, fees and
+              conflicts of interest. Use this worksheet to describe the evidence and decisions you
+              need help with.
+            </p>
+          </section>
+          <EditorialNote />
+        </div>
+      </div>
+    </div>
+  </div>
+</PageLayout>
+
+<script>
+  // Progressive enhancement only: prompts and blank print fields exist in the HTML.
+  // Answers are never submitted, persisted, or added to analytics events.
+  const worksheet = document.querySelector<HTMLElement>('[data-worksheet]');
+
+  if (worksheet) {
+    const areas = Array.from(worksheet.querySelectorAll<HTMLElement>('[data-worksheet-area]'));
+    const expandAll = worksheet.querySelector<HTMLButtonElement>('[data-expand-worksheet]');
+
+    const updateExpandAll = () => {
+      if (expandAll) {
+        expandAll.textContent = areas.every((area) => !area.classList.contains('is-collapsed'))
+          ? 'Collapse all'
+          : 'Expand all';
+      }
+    };
+
+    const setExpanded = (area: HTMLElement, expanded: boolean) => {
+      area.classList.toggle('is-collapsed', !expanded);
+      const button = area.querySelector<HTMLButtonElement>('[data-area-toggle]');
+      const title = area.querySelector('h3')?.textContent || 'worksheet area';
+      if (button) {
+        button.setAttribute('aria-expanded', String(expanded));
+        button.setAttribute('aria-label', `${expanded ? 'Collapse' : 'Expand'} ${title}`);
+        const icon = button.querySelector('span');
+        if (icon) icon.textContent = expanded ? '−' : '+';
+      }
+      updateExpandAll();
+    };
+
+    const revealHashTarget = () => {
+      const area = areas.find((item) => `#${item.id}` === window.location.hash);
+      if (area) setExpanded(area, true);
+    };
+
+    areas.forEach((area, index) => {
+      const button = area.querySelector<HTMLButtonElement>('[data-area-toggle]');
+      if (!button) return;
+      button.hidden = false;
+      button.addEventListener('click', () => {
+        setExpanded(area, area.classList.contains('is-collapsed'));
+      });
+      setExpanded(area, index === 0 || `#${area.id}` === window.location.hash);
+    });
+
+    if (expandAll) {
+      expandAll.hidden = false;
+      expandAll.addEventListener('click', () => {
+        const expand = areas.some((area) => area.classList.contains('is-collapsed'));
+        areas.forEach((area) => setExpanded(area, expand));
+      });
+    }
+
+    window.addEventListener('hashchange', revealHashTarget);
+    // Clicking the current anchor also reveals it after a manual collapse.
+    document.querySelectorAll<HTMLAnchorElement>('.contents a[href^="#"]').forEach((link) => {
+      link.addEventListener('click', () => {
+        const area = areas.find((item) => `#${item.id}` === link.hash);
+        if (area) setExpanded(area, true);
+      });
+    });
+
+    const fields = Array.from(
+      worksheet.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>(
+        '[data-answer]'
+      )
+    );
+    const syncPrintAnswers = () => {
+      fields.forEach((field) => {
+        const output = field.parentElement?.querySelector<HTMLElement>('.print-answer');
+        if (output) output.textContent = field.value;
+      });
+    };
+    fields.forEach((field) => {
+      field.addEventListener('input', syncPrintAnswers);
+      field.addEventListener('change', syncPrintAnswers);
+    });
+    syncPrintAnswers();
+    worksheet.classList.add('worksheet-enhanced');
+    window.addEventListener('beforeprint', syncPrintAnswers);
+
+    document.querySelectorAll<HTMLButtonElement>('[data-print-worksheet]').forEach((button) => {
+      button.hidden = false;
+      button.addEventListener('click', () => {
+        syncPrintAnswers();
+        window.print();
+      });
+    });
+  }
+</script>
+
+<style>
+  .readiness-page {
+    padding: var(--space-8) var(--space-6) var(--space-16);
+  }
+
+  .container {
+    max-width: 1224px;
+    margin: 0 auto;
+  }
+
+  .readiness-page :is(input, textarea, select, button) {
+    font-family: var(--font-sans);
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  .eyebrow {
+    color: var(--color-brand-ink);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    margin: 0 0 var(--space-4);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-weight: 500;
+  }
+
+  .readiness-intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+    gap: var(--space-16);
+    align-items: center;
+    padding: var(--space-8) 0 var(--space-12);
+    margin: 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 4.6vw, 3.75rem);
+    line-height: 1.08;
+    letter-spacing: -0.05em;
+    margin: 0 0 var(--space-6);
+  }
+
+  .lead {
+    max-width: 690px;
+    font-size: 1.125rem;
+    color: var(--color-text-secondary);
+    line-height: 1.65;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-5);
+    margin: var(--space-6) 0 var(--space-4);
+  }
+
+  .primary-button,
+  .secondary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    min-height: 44px;
+    padding: 12px 18px;
+    border: 1px solid var(--color-primary-fill);
+    border-radius: var(--radius-lg);
+    background: var(--color-primary-fill);
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .primary-button:hover {
+    background: var(--color-primary-fill-strong);
+  }
+
+  .secondary-button {
+    background: var(--color-card);
+    color: var(--color-text);
+    border-color: var(--color-border);
+    flex: none;
+  }
+
+  .text-link {
+    color: var(--color-brand-ink);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-underline-offset: 4px;
+  }
+
+  .meta {
+    color: var(--color-text-secondary);
+    font-size: 0.8125rem;
+    line-height: 1.65;
+  }
+
+  .panel,
+  .soft-panel {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-8);
+    background: var(--color-card);
+  }
+
+  .soft-panel {
+    background: var(--color-soft);
+  }
+
+  .outcome h2 {
+    font-size: clamp(1.5rem, 2.3vw, 1.9375rem);
+    line-height: 1.25;
+    letter-spacing: -0.035em;
+    margin: var(--space-5) 0 var(--space-6);
+  }
+
+  .outcome > p:not(.eyebrow) {
+    color: var(--color-text-secondary);
+    font-size: 0.9375rem;
+  }
+
+  .outcome-rule {
+    display: flex;
+    gap: var(--space-3);
+    align-items: flex-start;
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-5);
+    margin-top: var(--space-6);
+    font-size: 0.8125rem;
+    line-height: 1.55;
+  }
+
+  .signal {
+    width: 8px;
+    height: 8px;
+    background: var(--color-accent);
+    border-radius: 50%;
+    flex: none;
+    margin-top: 6px;
+  }
+
+  .worksheet-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 280px);
+    gap: var(--space-12);
+    align-items: start;
+    padding-top: var(--space-12);
+  }
+
+  .worksheet-layout > *,
+  .readiness-intro > * {
+    min-width: 0;
+  }
+
+  .worksheet {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+    line-height: 1.2;
+    letter-spacing: -0.035em;
+    margin: 0 0 var(--space-4);
+  }
+
+  .decision-context > p:not(.eyebrow),
+  .worksheet-description,
+  .next-decision > p:not(.eyebrow) {
+    color: var(--color-text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+  }
+
+  .field-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-5);
+  }
+
+  .context-fields {
+    margin-top: var(--space-6);
+  }
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-width: 0;
+    font-size: 0.8125rem;
+    font-weight: 500;
+  }
+
+  input,
+  textarea,
+  select {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.55;
+    color: var(--color-text);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 92px;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-text-secondary);
+    opacity: 1;
+  }
+
+  :is(input, textarea, select, button, a):focus-visible {
+    outline: 2px solid var(--color-brand-ink);
+    outline-offset: 4px;
+  }
+
+  .wide-field {
+    grid-column: 1 / -1;
+  }
+
+  .print-answer {
+    display: none;
+  }
+
+  .worksheet-areas {
+    padding-top: var(--space-12);
+  }
+
+  .section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+  }
+
+  .worksheet-description {
+    margin: var(--space-2) 0 var(--space-6);
+  }
+
+  .sample-entry {
+    padding: var(--space-5) var(--space-6);
+    margin-bottom: var(--space-6);
+  }
+
+  .sample-entry h3 {
+    font-size: 0.9375rem;
+    line-height: 1.4;
+    margin: 0 0 var(--space-4);
+  }
+
+  .sample-entry p {
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-2);
+  }
+
+  .sample-entry p:last-child {
+    margin-bottom: 0;
+  }
+
+  .sample-entry strong {
+    color: var(--color-text);
+    font-weight: 500;
+  }
+
+  .readiness-area {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    background: var(--color-card);
+    margin-bottom: var(--space-3);
+    scroll-margin-top: 110px;
+  }
+
+  .area-heading {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-6);
+  }
+
+  .area-heading > div {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .area-heading h3 {
+    font-size: 1.125rem;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  .area-heading p {
+    color: var(--color-text-secondary);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    margin: var(--space-2) 0 0;
+  }
+
+  .area-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    color: var(--color-brand-ink);
+    font-size: 0.8125rem;
+    flex: none;
+  }
+
+  .area-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    flex: none;
+    color: var(--color-brand-ink);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    font-size: 1.375rem;
+  }
+
+  .area-body {
+    padding: var(--space-6);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .area-body h4 {
+    font-size: 1.3125rem;
+    line-height: 1.3;
+    letter-spacing: -0.025em;
+    margin: 0 0 var(--space-3);
+  }
+
+  .area-body > p {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--color-text-secondary);
+  }
+
+  .evidence-prompt {
+    background: var(--color-soft);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    margin: var(--space-6) 0;
+  }
+
+  .evidence-prompt h5 {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-brand-ink);
+    margin: 0 0 var(--space-2);
+  }
+
+  .evidence-prompt p {
+    font-size: 0.875rem;
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  .next-decision {
+    margin-top: var(--space-6);
+  }
+
+  .next-decision > label {
+    margin-top: var(--space-6);
+  }
+
+  .next-decision .actions {
+    margin-bottom: 0;
+  }
+
+  .sources,
+  .optional-support {
+    margin-top: var(--space-10);
+    padding-top: var(--space-10);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .sources ul {
+    padding-left: var(--space-5);
+  }
+
+  .sources li {
+    margin-bottom: var(--space-3);
+    color: var(--color-text-secondary);
+    font-size: 0.9375rem;
+  }
+
+  .sources a,
+  .optional-support a {
+    color: var(--color-brand-ink);
+    text-underline-offset: 4px;
+    overflow-wrap: anywhere;
+  }
+
+  .disclaimer {
+    margin-top: var(--space-6);
+  }
+
+  .optional-support h2 {
+    font-size: 1.5rem;
+  }
+
+  .optional-support > p:not(.eyebrow, .meta) {
+    color: var(--color-text-secondary);
+    font-size: 0.9375rem;
+  }
+
+  .worksheet-aside {
+    grid-column: 2;
+    grid-row: 1;
+    position: sticky;
+    top: 110px;
+  }
+
+  .contents {
+    padding: var(--space-6);
+  }
+
+  .contents ol {
+    list-style: none;
+    counter-reset: area;
+    padding: 0;
+    margin: 0 0 var(--space-5);
+  }
+
+  .contents li {
+    counter-increment: area;
+  }
+
+  .contents a {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: 44px;
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+
+  .contents a::before {
+    content: counter(area, decimal-leading-zero);
+    color: var(--color-text-secondary);
+    font-size: 0.6875rem;
+    width: 20px;
+    flex: none;
+  }
+
+  .contents a:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .aside-note {
+    padding: var(--space-6) var(--space-2);
+  }
+
+  .aside-note h2 {
+    font-size: 1.1875rem;
+  }
+
+  .aside-note p {
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+  }
+
+  @media screen {
+    .is-collapsed .area-body {
+      display: none;
+    }
+  }
+
+  @media (max-width: 1000px) {
+    .readiness-intro {
+      gap: var(--space-8);
+    }
+
+    .worksheet-layout {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 240px);
+      gap: var(--space-6);
+    }
+
+    .outcome {
+      padding: var(--space-6);
+    }
+  }
+
+  @media (max-width: 760px) {
+    .readiness-intro,
+    .worksheet-layout {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .wide-break {
+      display: none;
+    }
+
+    .worksheet-aside {
+      position: static;
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .worksheet {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .contents ol {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0 var(--space-4);
+    }
+
+    .aside-note {
+      display: none;
+    }
+
+    .panel,
+    .soft-panel {
+      padding: var(--space-6);
+    }
+
+    .area-heading,
+    .area-body {
+      padding: var(--space-5);
+    }
+
+    .area-heading {
+      gap: var(--space-3);
+    }
+  }
+
+  @media (max-width: 440px) {
+    .readiness-page {
+      padding-inline: var(--space-5);
+    }
+
+    .field-grid,
+    .contents ol {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .section-head {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-3);
+    }
+
+    .actions .primary-button {
+      width: 100%;
+    }
+
+    .area-number {
+      width: 28px;
+      height: 28px;
+      font-size: 0.75rem;
+    }
+
+    .area-heading h3 {
+      font-size: 1rem;
+    }
+
+    .area-body h4 {
+      font-size: 1.1875rem;
+    }
+  }
+
+  @media print {
+    @page {
+      margin: 14mm;
+    }
+
+    :global(html),
+    :global(body) {
+      background: white !important;
+      color: #132c2b !important;
+      --color-text: #132c2b;
+      --color-text-secondary: #526662;
+      --color-brand-ink: #0d4f4f;
+      --color-card: white;
+      --color-soft: white;
+      --color-border: #a7b5ad;
+    }
+
+    :global(.header),
+    :global(.footer),
+    :global(.skip-link),
+    :global(.breadcrumb),
+    .outcome,
+    .worksheet-aside,
+    .actions,
+    .area-toggle,
+    [data-expand-worksheet],
+    .optional-support {
+      display: none !important;
+    }
+
+    .readiness-page {
+      padding: 0;
+      font-size: 10pt;
+    }
+
+    .container {
+      width: 100%;
+      max-width: none;
+    }
+
+    .readiness-intro {
+      display: block;
+      padding: 0 0 5mm;
+    }
+
+    h1 {
+      font-size: 25pt;
+      margin-bottom: 3mm;
+      break-after: avoid;
+    }
+
+    .wide-break {
+      display: none;
+    }
+
+    .lead {
+      font-size: 10pt;
+      margin-bottom: 2mm;
+    }
+
+    .meta,
+    .eyebrow {
+      font-size: 8pt;
+      margin-bottom: 2mm;
+    }
+
+    .worksheet-layout {
+      display: block;
+      padding-top: 5mm;
+    }
+
+    .panel,
+    .soft-panel {
+      background: white;
+      border-radius: 0;
+      padding: 4mm;
+    }
+
+    h2 {
+      font-size: 15pt;
+      margin-bottom: 2mm;
+      break-after: avoid;
+    }
+
+    .decision-context,
+    .sample-entry,
+    .next-decision {
+      break-inside: avoid;
+    }
+
+    .decision-context > p:not(.eyebrow),
+    .worksheet-description,
+    .next-decision > p:not(.eyebrow) {
+      font-size: 9pt;
+      line-height: 1.5;
+      margin-bottom: 2mm;
+    }
+
+    .worksheet-areas {
+      padding-top: 5mm;
+    }
+
+    .worksheet-description {
+      margin: 0 0 3mm;
+    }
+
+    .sample-entry {
+      margin-bottom: 4mm;
+    }
+
+    .sample-entry h3 {
+      font-size: 10pt;
+      margin-bottom: 2mm;
+    }
+
+    .sample-entry p {
+      font-size: 8pt;
+      margin-bottom: 1mm;
+    }
+
+    .readiness-area {
+      border: 0;
+      border-top: 1px solid var(--color-border);
+      border-radius: 0;
+      margin: 0 0 5mm;
+    }
+
+    .area-heading {
+      padding: 3mm 0 2mm;
+      gap: 3mm;
+      break-after: avoid;
+    }
+
+    .area-heading h3 {
+      font-size: 12pt;
+    }
+
+    .area-heading p {
+      font-size: 8pt;
+      margin-top: 1mm;
+    }
+
+    .area-number {
+      width: 7mm;
+      height: 7mm;
+      font-size: 8pt;
+    }
+
+    .area-body {
+      display: block !important;
+      padding: 0;
+      border: 0;
+    }
+
+    .area-body h4 {
+      font-size: 10pt;
+      margin-bottom: 1mm;
+      break-after: avoid;
+    }
+
+    .area-body > p {
+      font-size: 8.5pt;
+      line-height: 1.5;
+      margin-bottom: 2mm;
+      break-after: avoid;
+    }
+
+    .evidence-prompt {
+      background: white;
+      border-radius: 0;
+      padding: 0;
+      margin: 0 0 3mm;
+      break-inside: avoid;
+    }
+
+    .evidence-prompt h5 {
+      font-size: 8pt;
+      margin-bottom: 1mm;
+    }
+
+    .evidence-prompt p {
+      font-size: 8.5pt;
+      line-height: 1.5;
+    }
+
+    .field-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 3mm;
+      margin-top: 3mm;
+    }
+
+    label {
+      display: block;
+      font-size: 8pt;
+      break-inside: avoid;
+    }
+
+    label > span:first-child {
+      display: block;
+      margin-bottom: 1mm;
+    }
+
+    input,
+    select,
+    textarea {
+      background: white;
+      border: 1px solid var(--color-border);
+      border-radius: 0;
+      padding: 2mm;
+      font-size: 8pt;
+      min-height: 9mm;
+    }
+
+    textarea {
+      height: 17mm;
+      min-height: 17mm;
+      resize: none;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: transparent;
+    }
+
+    .worksheet-enhanced :is(input, select, textarea) {
+      display: none;
+    }
+
+    .worksheet-enhanced .print-answer {
+      display: block;
+      min-height: 17mm;
+      padding: 2mm;
+      border: 1px solid var(--color-border);
+      font-size: 9pt;
+      font-weight: 400;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .worksheet-enhanced .short-answer {
+      min-height: 9mm;
+    }
+
+    .next-decision {
+      margin-top: 3mm;
+    }
+
+    .next-decision > label {
+      margin-top: 3mm;
+    }
+
+    .sources {
+      margin-top: 4mm;
+      padding-top: 4mm;
+      break-inside: avoid;
+    }
+
+    .sources h2 {
+      font-size: 11pt;
+    }
+
+    .sources ul {
+      margin-bottom: 2mm;
+    }
+
+    .sources li {
+      font-size: 8pt;
+      margin-bottom: 1mm;
+    }
+
+    .disclaimer {
+      font-size: 7.5pt;
+      margin-top: 2mm;
+      margin-bottom: 0;
+    }
+
+    a {
+      color: #0d4f4f;
+    }
+  }
+</style>

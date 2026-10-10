@@ -3,6 +3,7 @@ import PageLayout from '@layouts/PageLayout.astro';
 import Hero from '@components/home/Hero.astro';
 import OpenCircuit from '@components/home/OpenCircuit.astro';
 import StartingPoints from '@components/home/StartingPoints.astro';
+import WorkedExample from '@components/home/WorkedExample.astro';
 import ObservatoryPreview from '@components/home/ObservatoryPreview.astro';
 import EcosystemRecord from '@components/home/EcosystemRecord.astro';
 import LatestNews from '@components/home/LatestNews.astro';
@@ -61,8 +62,9 @@ const quickLinks = [
     icon: 'book',
   },
   {
-    title: 'Official Resources',
-    description: 'Links to Al Tareq, CBUAE, and other official documentation.',
+    title: 'Sources & community references',
+    description:
+      'Official documentation and independent resources, with their roles clearly labelled.',
     href: '/learn#resources',
     icon: 'link',
   },
@@ -101,8 +103,9 @@ const icons: Record<string, string> = {
         }
       : null}
   />
-  <OpenCircuit />
   <StartingPoints />
+  <OpenCircuit />
+  <WorkedExample />
 
   <ObservatoryPreview stats={ecosystemStats} />
 
@@ -176,10 +179,13 @@ const icons: Record<string, string> = {
       >
     </div>
     <p class="operator-handoff">
-      Building or integrating on Al Tareq? Visit the <a
+      Building or integrating on Al Tareq? Start with the <a
+        href="https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview"
+        rel="noopener">official documentation</a
+      > for standards and onboarding guidance. The <a
         href="https://nebras-open-finance.com/"
-        rel="noopener">Nebras developer hub</a
-      > for API specifications, certification, and the service desk.
+        rel="noopener">Nebras community reference</a
+      > offers independent technical context.
     </p>
   </section>
 </PageLayout>
