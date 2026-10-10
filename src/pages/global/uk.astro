@@ -72,14 +72,12 @@ const stats = [
 
       <section class="stats-section">
         <div class="stats-grid">
-          {
-            stats.map((stat) => (
-              <div class="stat-card">
-                <span class="stat-value">{stat.value}</span>
-                <span class="stat-label">{stat.label}</span>
-              </div>
-            ))
-          }
+          {stats.map((stat) => (
+            <div class="stat-card">
+              <span class="stat-value">{stat.value}</span>
+              <span class="stat-label">{stat.label}</span>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -110,32 +108,28 @@ const stats = [
       <section class="timeline-section">
         <h2 class="section-title">Timeline</h2>
         <div class="timeline">
-          {
-            timeline.map((item, index) => (
-              <div class="timeline-item">
-                <span class="timeline-year">{item.year}</span>
-                <span class="timeline-event">{item.event}</span>
-              </div>
-            ))
-          }
+          {timeline.map((item, index) => (
+            <div class="timeline-item">
+              <span class="timeline-year">{item.year}</span>
+              <span class="timeline-event">{item.event}</span>
+            </div>
+          ))}
         </div>
       </section>
 
       <section class="lessons-section">
         <h2 class="section-title">Lessons for UAE</h2>
         <div class="lessons-grid">
-          {
-            lessons.map((lesson) => (
-              <div class="lesson-card">
-                <h3>{lesson.title}</h3>
-                <p class="lesson-description">{lesson.description}</p>
-                <div class="lesson-relevance">
-                  <span class="relevance-label">UAE Relevance</span>
-                  <p>{lesson.relevance}</p>
-                </div>
+          {lessons.map((lesson) => (
+            <div class="lesson-card">
+              <h3>{lesson.title}</h3>
+              <p class="lesson-description">{lesson.description}</p>
+              <div class="lesson-relevance">
+                <span class="relevance-label">UAE Relevance</span>
+                <p>{lesson.relevance}</p>
               </div>
-            ))
-          }
+            </div>
+          ))}
         </div>
       </section>
 

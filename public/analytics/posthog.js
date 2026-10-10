@@ -74,15 +74,23 @@
     if (link.closest('.nav') && /^#[a-z0-9_-]{1,64}$/i.test(href || '')) {
       const section = href.slice(1);
       if (document.getElementById(section)) {
-        window.posthog.capture('watch_section_selected', { section });
+        window.posthog.capture('watch_section_selected', {
+          section,
+          action: 'section_request',
+          measurement_version: 2,
+        });
       }
       return;
     }
+    if (!href || event.defaultPrevented) return;
     try {
       const url = new URL(href, window.location.href);
       if (!['https:', 'http:'].includes(url.protocol)) return;
-      if (url.hostname === window.location.hostname) return;
+      if (url.username || url.password) return;
+      if (['openfinance-os.org', 'www.openfinance-os.org'].includes(url.hostname)) return;
       window.posthog.capture('watch_source_opened', {
+        action: 'navigation_attempt',
+        measurement_version: 2,
         destination_host: url.hostname,
         destination_path: url.pathname.slice(0, 250),
       });

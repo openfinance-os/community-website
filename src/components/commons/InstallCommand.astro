@@ -33,54 +33,52 @@ const firstCommand = resolvedCommands[0];
 const hasMultiple = resolvedCommands.length > 1;
 ---
 
-{
-  compact ? (
-    <div class="install-compact">
-      <code class="install-code-compact">{firstCommand?.command}</code>
-    </div>
-  ) : (
-    <div class="install-command" data-commands={JSON.stringify(resolvedCommands)}>
-      {hasMultiple && (
-        <div class="install-tabs">
-          {resolvedCommands.map((cmd, i) => (
-            <button class:list={['install-tab', i === 0 && 'active']} data-index={i} type="button">
-              {cmd.label}
-            </button>
-          ))}
-        </div>
-      )}
-      <div class="install-body">
-        <code class="install-code">{firstCommand?.command}</code>
-        <button class="copy-btn" type="button" title="Copy to clipboard" aria-label="Copy command">
-          <svg
-            class="copy-icon"
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-          </svg>
-          <svg
-            class="check-icon"
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            style="display:none"
-          >
-            <polyline points="20 6 9 17 4 12" />
-          </svg>
-        </button>
+{compact ? (
+  <div class="install-compact">
+    <code class="install-code-compact">{firstCommand?.command}</code>
+  </div>
+) : (
+  <div class="install-command" data-commands={JSON.stringify(resolvedCommands)}>
+    {hasMultiple && (
+      <div class="install-tabs">
+        {resolvedCommands.map((cmd, i) => (
+          <button class:list={['install-tab', i === 0 && 'active']} data-index={i} type="button">
+            {cmd.label}
+          </button>
+        ))}
       </div>
+    )}
+    <div class="install-body">
+      <code class="install-code">{firstCommand?.command}</code>
+      <button class="copy-btn" type="button" title="Copy to clipboard" aria-label="Copy command">
+        <svg
+          class="copy-icon"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+        </svg>
+        <svg
+          class="check-icon"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          style="display:none"
+        >
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+      </button>
     </div>
-  )
-}
+  </div>
+)}
 
 <script>
   document.querySelectorAll('.install-command').forEach((container) => {

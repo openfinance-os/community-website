@@ -17,7 +17,9 @@ const { participantCount, activeCount, observedAt } = Astro.props;
 
     <h1 class="hero-title" id="hero-title">
       <span class="title-line title-line-1">Open</span>
-      <span class="title-line title-line-2">Finance<span class="title-suffix">-os</span></span>
+      <span class="title-line title-line-2">
+        Finance<span class="title-suffix">-os</span>
+      </span>
     </h1>
 
     <div class="hero-circuit" data-open-circuit>
@@ -58,22 +60,22 @@ const { participantCount, activeCount, observedAt } = Astro.props;
     </div>
 
     <p class="hero-tagline">
-      The independent record of <span class="highlight">UAE Open Finance</span> — the data, the global
-      context, the community.
+      The independent record of <span class="highlight">UAE Open Finance</span> — the data, the
+      global context, the community.
     </p>
 
     <p class="hero-mission">
-      Not official, not affiliated — <span class="mission-emphasis">independent by design,</span> so the
-      view stays neutral.
+      Not official, not affiliated — <span class="mission-emphasis">independent by design,</span> so
+      the view stays neutral.
     </p>
 
     <div class="hero-stat">
       <div class="stat-number">{participantCount}</div>
       <div class="stat-details">
         <span class="stat-label">production directory registrations</span>
-        <span class="stat-sublabel"
-          >{activeCount} marked Active · Observed {observedAt.slice(0, 10)} UTC</span
-        >
+        <span class="stat-sublabel">
+          {activeCount} marked Active · Observed {observedAt.slice(0, 10)} UTC
+        </span>
       </div>
     </div>
 
@@ -137,9 +139,9 @@ const { participantCount, activeCount, observedAt } = Astro.props;
     <p class="hero-footer">
       Building or integrating on Al Tareq? The operator's developer hub has the API specs,
       certification and service desk —
-      <a href="https://nebras-open-finance.com/" rel="noopener" class="hero-handoff-link"
-        >head to Nebras →</a
-      >
+      <a href="https://nebras-open-finance.com/" rel="noopener" class="hero-handoff-link">
+        head to Nebras →
+      </a>
     </p>
   </div>
 </section>

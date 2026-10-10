@@ -1,4 +1,5 @@
 import { defineCollection, z } from 'astro:content';
+import { glob } from 'astro/loaders';
 
 const newsTypes = ['official', 'milestone', 'community', 'global', 'opinion'] as const;
 const newsRegions = ['uae', 'mena', 'global'] as const;
@@ -57,7 +58,7 @@ const aiAccelerates = [
 ] as const;
 
 const newsCollection = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: './src/content/news' }),
   schema: z.object({
     title: z.string(),
     date: z.coerce.date(),
@@ -72,7 +73,7 @@ const newsCollection = defineCollection({
 });
 
 const commonsCollection = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: './src/content/commons' }),
   schema: z.object({
     // Core fields
     title: z.string(),

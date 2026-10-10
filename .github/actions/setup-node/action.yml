@@ -5,7 +5,7 @@ inputs:
   node-version:
     description: 'Node.js version to use'
     required: false
-    default: '20'
+    default: '22.23.1'
   install-deps:
     description: 'Whether to install npm dependencies'
     required: false

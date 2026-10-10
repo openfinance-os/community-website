@@ -19,6 +19,7 @@ import { readFileSync } from 'node:fs';
 import type { APIRoute } from 'astro';
 import { watchBriefing } from '@lib/watch-briefing';
 import { observatoryNavigation } from '@lib/observatory-navigation';
+import { renderWatchSummary } from '@lib/watch-summary';
 
 const SITE = 'https://openfinance-os.org';
 const PAGE_URL = `${SITE}/observatory/watch/`;
@@ -43,7 +44,13 @@ export const GET: APIRoute = () => {
     throw new Error('tools/watch/watch.template.html is missing the __DATA__ placeholder');
   }
   // Validate the payload parses before baking it into the page.
-  const briefing = watchBriefing(JSON.parse(payload));
+  const data = JSON.parse(payload);
+  const briefing = watchBriefing(data);
+  const summaryMarker = '<div class="wrap"><script>';
+  const rendererMarker = 'document.write(H());';
+  if (!template.includes(summaryMarker) || !template.includes(rendererMarker)) {
+    throw new Error('Watch template is missing the summary insertion or renderer marker');
+  }
   const entities: Record<string, string> = {
     '&': '&amp;',
     '<': '&lt;',
@@ -61,11 +68,16 @@ export const GET: APIRoute = () => {
       )
       .join('') +
     '</nav>';
-  const fallback = `<noscript><section style="max-width:1200px;margin:auto;padding:16px"><h1>Saved Ecosystem Watch briefing</h1><p>Run ${esc(briefing.runDate)}; operational logs through ${esc(briefing.asOfData)}.</p>${briefing.items.map((item) => `<article><h2>${esc(item.area)}</h2><p>${esc(item.text)}</p></article>`).join('')}<p>Enable JavaScript for the full charts and source tables, or <a href="/observatory/briefing/">read the integrated briefing</a>.</p></section></noscript>`;
+  const summary = renderWatchSummary({ ...data, summary: briefing.items });
 
   const html = template
     .replace('__DATA__', () => payload.replace(/</g, '\\u003c'))
-    .replace('<body>', `<body>${navigation}<main id="main-content">${fallback}`)
+    .replace(summaryMarker, () => `<div class="wrap">${summary}<script>`)
+    .replace(
+      rendererMarker,
+      `${rendererMarker}document.getElementById('watch-summary').hidden=true;`
+    )
+    .replace('<body>', `<body>${navigation}<main id="main-content">`)
     .replace('</body>', '</main></body>')
     .replace('</title>', `</title>${HEAD_META}`);
 

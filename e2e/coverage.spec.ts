@@ -116,8 +116,11 @@ test('mobile coverage and comparison scroll within their regions', async ({ page
   await expect(page.locator('#coverage-empty')).toBeHidden();
 });
 
-test('briefing, coverage and the Watch remain readable without JavaScript', async ({ browser }) => {
-  const context = await browser.newContext({ javaScriptEnabled: false });
+test('briefing, coverage and the Watch remain readable without JavaScript', async ({
+  browser,
+  baseURL,
+}) => {
+  const context = await browser.newContext({ javaScriptEnabled: false, baseURL });
   const page = await context.newPage();
   await page.goto('/');
   await expect(page.getByRole('heading', { name: 'Latest saved briefing' })).toBeVisible();

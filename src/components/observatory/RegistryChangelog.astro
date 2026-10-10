@@ -58,42 +58,39 @@ function fmtDate(iso: string): string {
   <header class="changelog-header">
     <h2 id="changelog-title">Registry changelog</h2>
     <p class="changelog-sub">
-      Every registration, authorization-server and role change in the production registry — {
-        all.length
-      } events observed by diffing daily snapshots since {trackingSince}. Dates are when a change
-      was observed, not necessarily when it took effect. The 8 October 2026 collector update
-      expanded family coverage; those additions can reflect a measurement correction rather than a
-      new deployment.
+      Every registration, authorization-server and role change in the production registry —{' '}
+      {all.length} events observed by diffing daily snapshots since {trackingSince}. Dates are when
+      a change was observed, not necessarily when it took effect. The 8 October 2026 collector
+      update expanded family coverage; those additions can reflect a measurement correction rather
+      than a new deployment.
     </p>
   </header>
 
-  {
-    all.length === 0 ? (
-      <p class="changelog-empty">No registry changes recorded yet.</p>
-    ) : (
-      <div class="changelog-groups">
-        {groups.map((g) => (
-          <div class="changelog-group">
-            <h3 class="group-label">{g.label}</h3>
-            <ol class="group-events">
-              {g.events.map((e) => (
-                <li class="cl-entry">
-                  <span class="cl-date">{fmtDate(e.date)}</span>
-                  <span class={`cl-chip ${eventLabels[e.type].cls}`}>
-                    {eventLabels[e.type].label}
-                  </span>
-                  <span class="cl-what">
-                    <b>{e.name}</b>
-                    {e.detail && <span class="cl-detail"> — {e.detail}</span>}
-                  </span>
-                </li>
-              ))}
-            </ol>
-          </div>
-        ))}
-      </div>
-    )
-  }
+  {all.length === 0 ? (
+    <p class="changelog-empty">No registry changes recorded yet.</p>
+  ) : (
+    <div class="changelog-groups">
+      {groups.map((g) => (
+        <div class="changelog-group">
+          <h3 class="group-label">{g.label}</h3>
+          <ol class="group-events">
+            {g.events.map((e) => (
+              <li class="cl-entry">
+                <span class="cl-date">{fmtDate(e.date)}</span>
+                <span class={`cl-chip ${eventLabels[e.type].cls}`}>
+                  {eventLabels[e.type].label}
+                </span>
+                <span class="cl-what">
+                  <b>{e.name}</b>
+                  {e.detail && <span class="cl-detail"> — {e.detail}</span>}
+                </span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      ))}
+    </div>
+  )}
 </section>
 
 <style>

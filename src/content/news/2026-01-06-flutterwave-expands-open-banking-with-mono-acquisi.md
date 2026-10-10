@@ -5,9 +5,7 @@ type: global
 region: global
 author: The Punch
 source: https://punchng.com/flutterwave-expands-open-banking-with-mono-acquisition/
-description: "Flutterwave acquires Nigerian open banking startup Mono in a deal to deepen its financial infrastructure and support alternative payments across Africa.
-
-Read More: https://punchng.com/flutterwave-expands-open-banking-with-mono-acquisition/"
+description: "Flutterwave acquires Nigerian open banking startup Mono in a deal to deepen its financial infrastructure and support alternative payments across Africa."
 external: true
 ---
 

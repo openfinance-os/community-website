@@ -6,6 +6,9 @@ export default defineConfig({
 
   output: 'static',
 
+  // Preserve the HTML-aware inline whitespace behavior used before Astro 7.
+  compressHTML: true,
+
   // Production redirects live in public/_redirects (Cloudflare, server-side
   // 301s) — see that file. astro.config redirects are intentionally NOT used:
   // on Cloudflare they generate meta-refresh pages that get served instead of
@@ -25,6 +28,7 @@ export default defineConfig({
 
   integrations: [
     sitemap({
+      customPages: ['https://openfinance-os.org/observatory/watch/'],
       filter: (page) => !page.includes('/github'),
     }),
   ],

@@ -2,7 +2,7 @@
 /**
  * The ecosystem, on the record — homepage record band.
  *
- * Left: stepped trend of registered vs live production participants,
+ * Left: stepped trend of production registrations vs published authorization servers,
  * built at compile time from data/observatory/history.json.
  * Right: the registry changelog ledger (events observed in the last 30
  * days, falling back to the most recent events), derived by diffing the
@@ -23,7 +23,12 @@ interface HistoryPoint {
   liveInProduction: number;
 }
 
-const points = (history.dataPoints as HistoryPoint[]).map((p) => ({
+interface Props {
+  historyPoints?: HistoryPoint[];
+}
+
+const { historyPoints = history.productionHistory ?? history.dataPoints } = Astro.props;
+const points = historyPoints.map((p) => ({
   d: p.date,
   t: p.totalParticipants,
   l: p.liveInProduction,
@@ -130,23 +135,19 @@ const snapshotCount = getSnapshotCount();
             role="img"
             aria-label={`Registrations and published authorization servers in production, ${trackingSince} to ${last.d}. Registered: ${last.t}. With authorization servers: ${last.l}.`}
           >
-            {
-              gridVals.map((v) => (
-                <>
-                  <line class="grid-line" x1={M.left} x2={M.left + iw} y1={y(v)} y2={y(v)} />
-                  <text class="axis-txt" x={M.left - 8} y={y(v) + 4} text-anchor="end">
-                    {v}
-                  </text>
-                </>
-              ))
-            }
-            {
-              xTicks.map((tick) => (
-                <text class="axis-txt" x={x(tick.d)} y={H - 6} text-anchor="middle">
-                  {tick.label}
+            {gridVals.map((v) => (
+              <>
+                <line class="grid-line" x1={M.left} x2={M.left + iw} y1={y(v)} y2={y(v)} />
+                <text class="axis-txt" x={M.left - 8} y={y(v) + 4} text-anchor="end">
+                  {v}
                 </text>
-              ))
-            }
+              </>
+            ))}
+            {xTicks.map((tick) => (
+              <text class="axis-txt" x={x(tick.d)} y={H - 6} text-anchor="middle">
+                {tick.label}
+              </text>
+            ))}
             <path class="chart-line line-total" d={stepPath('t')}></path>
             <path class="chart-line line-live" d={stepPath('l')}></path>
             <circle class="end-dot dot-total" cx={x(last.d)} cy={y(last.t)} r="4.5"></circle>
@@ -160,31 +161,33 @@ const snapshotCount = getSnapshotCount();
           </svg>
         </div>
         <div class="legend" aria-hidden="true">
-          <span class="key"><span class="swatch swatch-total"></span>Registered in production</span>
-          <span class="key"><span class="swatch swatch-live"></span>Auth server published</span>
+          <span class="key">
+            <span class="swatch swatch-total"></span>Registered in production
+          </span>
+          <span class="key">
+            <span class="swatch swatch-live"></span>Auth server published
+          </span>
         </div>
         <details class="table-view">
           <summary>View as table</summary>
           <table>
             <thead>
-              <tr
-                ><th scope="col">Date</th><th scope="col">Registered</th><th scope="col"
-                  >With auth server</th
-                ></tr
-              >
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Registered</th>
+                <th scope="col">With auth server</th>
+              </tr>
             </thead>
             <tbody>
-              {
-                compact.map((p) => (
-                  <tr>
-                    <>
-                      <td>{p.d}</td>
-                      <td>{p.t}</td>
-                      <td>{p.l}</td>
-                    </>
-                  </tr>
-                ))
-              }
+              {compact.map((p) => (
+                <tr>
+                  <>
+                    <td>{p.d}</td>
+                    <td>{p.t}</td>
+                    <td>{p.l}</td>
+                  </>
+                </tr>
+              ))}
             </tbody>
           </table>
         </details>
@@ -193,21 +196,21 @@ const snapshotCount = getSnapshotCount();
       <div class="record-panel ledger">
         <h3 class="ledger-title">Registry changelog</h3>
         <p class="ledger-note">{ledgerNote}</p>
-        {
-          events.map((e) => (
-            <div class="entry">
-              <span class="entry-date">{fmtDate(e.date)}</span>
-              <span class="entry-what">
-                <span class={`event-chip ${eventLabels[e.type].cls}`}>
-                  {eventLabels[e.type].label}
-                </span>
-                <b>{e.name}</b>
-                {e.detail && <span class="entry-detail"> — {e.detail}</span>}
+        {events.map((e) => (
+          <div class="entry">
+            <span class="entry-date">{fmtDate(e.date)}</span>
+            <span class="entry-what">
+              <span class={`event-chip ${eventLabels[e.type].cls}`}>
+                {eventLabels[e.type].label}
               </span>
-            </div>
-          ))
-        }
-        <p class="all-link"><a href="/observatory#changelog">Full changelog →</a></p>
+              <b>{e.name}</b>
+              {e.detail && <span class="entry-detail"> — {e.detail}</span>}
+            </span>
+          </div>
+        ))}
+        <p class="all-link">
+          <a href="/observatory#changelog">Full changelog →</a>
+        </p>
       </div>
     </div>
   </div>

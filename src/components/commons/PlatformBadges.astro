@@ -24,7 +24,9 @@ const remaining = platforms.length - maxShow;
 ---
 
 <div class:list={['platform-badges', compact && 'compact']}>
-  {visible.map((p) => <span class="platform-badge">{platformLabels[p] || p}</span>)}
+  {visible.map((p) => (
+    <span class="platform-badge">{platformLabels[p] || p}</span>
+  ))}
   {remaining > 0 && <span class="platform-badge more">+{remaining}</span>}
 </div>
 
