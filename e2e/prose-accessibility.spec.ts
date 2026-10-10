@@ -41,7 +41,7 @@ for (const theme of ['light', 'dark'] as const) {
     await page.goto('/updates/');
     await expect(page.locator('.news-card h2.card-title').first()).toBeVisible();
     await expect(page.locator('.news-card h3.card-title')).toHaveCount(0);
-    await page.goto('/news/');
+    await page.goto('/');
     await expect(page.locator('.news-card h3.card-title').first()).toBeVisible();
   });
 }
