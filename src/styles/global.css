@@ -1,3 +1,32 @@
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/dm-sans-regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/dm-sans-medium.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/dm-sans-semibold.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/dm-sans-bold.ttf') format('truetype');
+}
+
 /* OpenFinance-OS Design Tokens */
 /* Brand colors from /brand/logo-preview.html */
 :root {
@@ -39,11 +68,19 @@
   --color-primary-fill-strong: #0a3d3d;
 
   /* Neutral - Brand values */
-  --color-surface: #fafbfc;
+  --color-surface: #f6f8f5;
+  --color-border: #dce5df;
+  --color-soft: #e7efea;
+  --color-brand-ink: #0d4f4f;
   --color-card: #ffffff;
+  --color-success-text: #08744f;
+  --color-error-text: #b4232c;
+  --color-warning-text: #80501d;
+  --color-code-surface: #102423;
+  --color-code-text: #f1f7f1;
   --color-dark: #0f1419;
-  --color-text: #1a1d21;
-  --color-text-secondary: #5a6169;
+  --color-text: #132c2b;
+  --color-text-secondary: #526662;
   --color-gray-50: #fafbfc;
   --color-gray-100: #f3f4f6;
   --color-gray-200: #e5e7eb;
@@ -63,7 +100,7 @@
   /* Typography - Brand fonts */
   --font-sans:
     'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-display: 'Fraunces', Georgia, serif;
+  --font-display: var(--font-sans);
   --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', ui-monospace, monospace;
 
   /* Spacing */
@@ -105,11 +142,12 @@
   --grid-pattern-dark: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%231A6B6B' fill-opacity='0.08'%3E%3Ccircle cx='20' cy='20' r='1'/%3E%3C/g%3E%3C/svg%3E");
 
   /* Color scheme for system preference detection */
-  color-scheme: light dark;
+  color-scheme: light;
 }
 
 /* Dark mode variables */
 [data-theme='dark'] {
+  color-scheme: dark;
   /* Primary - adjusted for dark backgrounds */
   --color-primary-50: #0a2e2e;
   --color-primary-100: #0d3d3d;
@@ -140,13 +178,21 @@
   --color-primary-fill-strong: #0d4f4f;
 
   /* Surface and backgrounds */
-  --color-surface: #0f1419;
-  --color-card: #1a1f26;
+  --color-surface: #102423;
+  --color-border: #2f4944;
+  --color-soft: #213c36;
+  --color-brand-ink: #cce4d8;
+  --color-card: #17302e;
+  --color-success-text: #78ddb0;
+  --color-error-text: #ffaaa4;
+  --color-warning-text: #f5c989;
+  --color-code-surface: #102423;
+  --color-code-text: #f1f7f1;
   --color-dark: #fafbfc;
 
   /* Text colors - inverted */
-  --color-text: #e4e7eb;
-  --color-text-secondary: #9ca3af;
+  --color-text: #f1f7f1;
+  --color-text-secondary: #adc1b9;
 
   /* Gray scale - inverted for dark mode */
   --color-gray-50: #1a1f26;
@@ -178,6 +224,7 @@
 /* System preference dark mode (when no explicit theme set) */
 @media (prefers-color-scheme: dark) {
   html:not([data-theme='light']) {
+    color-scheme: dark;
     --color-primary-50: #0a2e2e;
     --color-primary-100: #0d3d3d;
     --color-primary-200: #115252;
@@ -200,11 +247,19 @@
     --color-accent-900: #fdf0d9;
     --color-primary-fill: #1a6b6b;
     --color-primary-fill-strong: #0d4f4f;
-    --color-surface: #0f1419;
-    --color-card: #1a1f26;
+    --color-surface: #102423;
+    --color-border: #2f4944;
+    --color-soft: #213c36;
+    --color-brand-ink: #cce4d8;
+    --color-card: #17302e;
+    --color-success-text: #78ddb0;
+    --color-error-text: #ffaaa4;
+    --color-warning-text: #f5c989;
+    --color-code-surface: #102423;
+    --color-code-text: #f1f7f1;
     --color-dark: #fafbfc;
-    --color-text: #e4e7eb;
-    --color-text-secondary: #9ca3af;
+    --color-text: #f1f7f1;
+    --color-text-secondary: #adc1b9;
     --color-gray-50: #1a1f26;
     --color-gray-100: #1f2937;
     --color-gray-200: #2d3748;
@@ -293,7 +348,8 @@ h6 {
 h1,
 h2 {
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 500;
+  letter-spacing: -0.035em;
 }
 
 h1 {
@@ -317,6 +373,12 @@ a {
 a:hover {
   color: var(--color-primary-700);
   text-decoration: underline;
+}
+
+/* Inline references need a cue beyond their colour in both themes. */
+main :where(p, dd, td) a {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
 }
 
 /* Dark mode link colors with enhanced contrast (WCAG AA compliant) */
@@ -362,4 +424,39 @@ a:hover {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border-width: 0;
+}
+
+/* Shared interior introduction and content sizing. Homepage keeps its own hero. */
+.page-intro {
+  border-bottom: 1px solid var(--color-border);
+}
+.page-intro h1 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+}
+main
+  :where(
+    article,
+    section,
+    aside,
+    .container,
+    .content,
+    .sidebar,
+    .news-card,
+    .featured-card,
+    .participant-card-link
+  ) {
+  min-width: 0;
+}
+main :where(.news-card, .featured-card, .participant-card, .env-card, .sidebar) {
+  overflow-wrap: anywhere;
+}
+main :where(button, select, input:not([type='checkbox']):not([type='radio'])) {
+  min-height: 44px;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }

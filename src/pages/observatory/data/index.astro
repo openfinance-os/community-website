@@ -60,7 +60,7 @@ const citation = `OpenFinance-OS, "UAE Open Finance Registry" (dataset), openfin
   <ObservatoryNav current="data" />
   <div class="data-page">
     <div class="container">
-      <header class="page-header">
+      <header class="page-intro page-header">
         <a href="/observatory" class="back-link">
           ← Observatory
         </a>
@@ -171,38 +171,40 @@ const citation = `OpenFinance-OS, "UAE Open Finance Registry" (dataset), openfin
   .back-link {
     display: inline-block;
     font-size: 0.85rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
     text-decoration: none;
     margin-bottom: var(--space-4);
   }
   .page-header h1 {
     font-family: var(--font-display);
-    font-size: clamp(1.9rem, 4vw, 2.5rem);
-    font-weight: 700;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 500;
     margin: 0 0 var(--space-3);
-    color: var(--color-gray-900);
+    color: var(--color-text);
     letter-spacing: -0.02em;
   }
   .lede {
     margin: 0;
     max-width: 66ch;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     font-size: 1.02rem;
   }
 
   .datasets {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
     margin: var(--space-10) 0;
   }
   .dataset-card {
-    background: var(--color-gray-50);
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     padding: var(--space-6);
   }
   .dataset-head {
+    min-width: 0;
     display: flex;
     align-items: baseline;
     justify-content: space-between;
@@ -213,27 +215,27 @@ const citation = `OpenFinance-OS, "UAE Open Finance Registry" (dataset), openfin
     font-family: var(--font-display);
     font-size: 1.15rem;
     margin: 0;
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
   .cadence {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.68rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--color-primary-500);
+    color: var(--color-brand-ink);
   }
   .dataset-what {
     margin: var(--space-3) 0;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     font-size: 0.92rem;
   }
   .dataset-fields {
     margin: 0 0 var(--space-4);
     font-size: 0.82rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
   .dataset-fields .k {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.66rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -242,9 +244,10 @@ const citation = `OpenFinance-OS, "UAE Open Finance Registry" (dataset), openfin
   .dataset-fields code {
     font-family: var(--font-mono);
     font-size: 0.8rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
   }
   .dataset-actions {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-4);
@@ -269,7 +272,7 @@ const citation = `OpenFinance-OS, "UAE Open Finance Registry" (dataset), openfin
   .url {
     font-family: var(--font-mono);
     font-size: 0.78rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
     word-break: break-all;
   }
 
@@ -279,46 +282,47 @@ const citation = `OpenFinance-OS, "UAE Open Finance Registry" (dataset), openfin
   .content-section h2 {
     font-family: var(--font-display);
     font-size: 1.4rem;
-    color: var(--color-gray-900);
+    color: var(--color-text);
     margin: 0 0 var(--space-4);
   }
   .content-section h3 {
     font-family: var(--font-display);
     font-size: 1.05rem;
-    color: var(--color-gray-900);
+    color: var(--color-text);
     margin: var(--space-8) 0 var(--space-3);
   }
   .usage {
     list-style: none;
     margin: 0;
     padding: 0;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
   }
   .usage li {
     font-size: 0.92rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     padding-left: var(--space-4);
-    border-left: 2px solid var(--color-gray-200);
+    border-left: 2px solid var(--color-border);
   }
   .usage strong {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
   .citation {
-    background: var(--color-gray-100);
+    background: var(--color-soft);
     border-radius: var(--radius-lg);
     padding: var(--space-4);
   }
   .citation code {
     font-family: var(--font-mono);
     font-size: 0.82rem;
-    color: var(--color-gray-700);
+    color: var(--color-text);
     line-height: 1.6;
   }
   .footnote {
     margin-top: var(--space-8);
     font-size: 0.88rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 </style>

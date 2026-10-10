@@ -190,7 +190,7 @@ const glossaryTerms = [
 >
   <div class="learn-page">
     <div class="container">
-      <header class="page-header">
+      <header class="page-intro page-header">
         <h1>Learn Open Finance</h1>
         <p class="subtitle">
           Introductions to UAE Open Finance, with official documentation and community technical
@@ -270,14 +270,14 @@ const glossaryTerms = [
       <section class="glossary-section">
         <h2 class="section-title">Quick Glossary</h2>
         <p class="glossary-intro">Key terms you'll encounter in the UAE Open Finance ecosystem.</p>
-        <div class="glossary-grid">
+        <dl class="glossary-grid">
           {glossaryTerms.map((item) => (
             <div class="glossary-item">
               <dt class="glossary-term">{item.term}</dt>
               <dd class="glossary-definition">{item.definition}</dd>
             </div>
           ))}
-        </div>
+        </dl>
         <a href="/learn/glossary" class="view-all-link">
           View full glossary →
         </a>
@@ -347,26 +347,26 @@ const glossaryTerms = [
   }
 
   .page-header h1 {
-    font-size: 2.5rem;
+    font-size: clamp(2rem, 4vw, 3.5rem);
     margin-bottom: var(--space-3);
   }
 
   .subtitle {
     font-size: 1.25rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     max-width: 600px;
   }
 
   .section-title {
     font-size: 1rem;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-6);
     padding-bottom: var(--space-2);
-    border-bottom: 1px solid var(--color-gray-200);
+    border-bottom: 1px solid var(--color-border);
   }
 
   /* Guides Section */
@@ -375,23 +375,25 @@ const glossaryTerms = [
   }
 
   .guides-grid {
+    min-width: 0;
     display: grid;
     gap: var(--space-4);
   }
 
   @media (min-width: 640px) {
     .guides-grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
   .guide-card {
+    min-width: 0;
     display: flex;
     align-items: flex-start;
     gap: var(--space-4);
     padding: var(--space-6);
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     text-decoration: none;
     transition:
@@ -411,12 +413,13 @@ const glossaryTerms = [
     flex-shrink: 0;
     width: 48px;
     height: 48px;
+    min-width: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     background: var(--color-primary-50);
     border-radius: var(--radius-lg);
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
   }
 
   .guide-icon svg {
@@ -433,8 +436,8 @@ const glossaryTerms = [
     display: inline-block;
     padding: var(--space-1) var(--space-2);
     background: var(--color-accent-500);
-    color: white;
-    font-family: var(--font-mono);
+    color: #132c2b;
+    font-family: var(--font-sans);
     font-size: 0.6875rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -446,23 +449,23 @@ const glossaryTerms = [
   .guide-card h3 {
     font-size: 1rem;
     font-weight: 600;
-    color: var(--color-gray-900);
+    color: var(--color-text);
     margin-bottom: var(--space-1);
   }
 
   .guide-card:hover h3 {
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
   }
 
   .guide-card p {
     font-size: 0.875rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     line-height: 1.5;
   }
 
   .guide-arrow {
     flex-shrink: 0;
-    color: var(--color-gray-400);
+    color: var(--color-text-secondary);
     font-size: 1.25rem;
     transition:
       transform var(--transition-fast),
@@ -471,7 +474,7 @@ const glossaryTerms = [
 
   .guide-card:hover .guide-arrow {
     transform: translateX(4px);
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
   }
 
   /* Glossary Section */
@@ -480,26 +483,27 @@ const glossaryTerms = [
   }
 
   .glossary-intro {
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-6);
     margin-top: calc(-1 * var(--space-4));
   }
 
   .glossary-grid {
+    min-width: 0;
     display: grid;
     gap: var(--space-3);
   }
 
   @media (min-width: 640px) {
     .glossary-grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
   .glossary-item {
     padding: var(--space-4);
-    background: var(--color-gray-50);
-    border: 1px solid var(--color-gray-100);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     transition:
       border-color var(--transition-fast),
@@ -514,16 +518,16 @@ const glossaryTerms = [
   }
 
   .glossary-term {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.875rem;
     font-weight: 600;
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
     margin-bottom: var(--space-1);
   }
 
   .glossary-definition {
     font-size: 0.875rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     margin: 0;
   }
 
@@ -531,11 +535,11 @@ const glossaryTerms = [
     display: inline-block;
     margin-top: var(--space-4);
     font-weight: 500;
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
   }
 
   .view-all-link:hover {
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
   }
 
   /* Resources Section */
@@ -545,13 +549,14 @@ const glossaryTerms = [
   }
 
   .resources-intro {
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-6);
     margin-top: calc(-1 * var(--space-4));
   }
 
   /* Quick Navigation */
   .quick-nav {
+    min-width: 0;
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2);
@@ -561,18 +566,18 @@ const glossaryTerms = [
   .nav-pill {
     padding: var(--space-2) var(--space-5);
     background: transparent;
-    border: 1px solid var(--color-gray-200);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-full);
     font-size: 0.9375rem;
     font-weight: 500;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     text-decoration: none;
     transition: all var(--transition-fast);
   }
 
   .nav-pill:hover {
     border-color: var(--color-primary-300);
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
     text-decoration: none;
   }
 
@@ -584,34 +589,36 @@ const glossaryTerms = [
 
   .link-section-title {
     font-size: 1.0625rem;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-6);
     padding-left: var(--space-4);
     border-left: 4px solid var(--color-primary-500);
   }
 
   .link-grid {
+    min-width: 0;
     display: grid;
     gap: var(--space-5);
   }
 
   @media (min-width: 640px) {
     .link-grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
   /* Link Cards */
   .link-card {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     padding: var(--space-5);
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     text-decoration: none;
     transition:
@@ -628,6 +635,7 @@ const glossaryTerms = [
   }
 
   .card-header {
+    min-width: 0;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
@@ -638,18 +646,18 @@ const glossaryTerms = [
   .link-card h4 {
     font-size: 1rem;
     font-weight: 600;
-    color: var(--color-gray-900);
+    color: var(--color-text);
     line-height: 1.4;
   }
 
   .link-card:hover h4 {
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
   }
 
   .type-badge {
     flex-shrink: 0;
     padding: var(--space-1) var(--space-2);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.625rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -659,7 +667,7 @@ const glossaryTerms = [
 
   .type-blue {
     background: var(--color-primary-50);
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
   }
 
   .type-green {
@@ -673,7 +681,7 @@ const glossaryTerms = [
   }
 
   .link-card p {
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     font-size: 0.875rem;
     line-height: 1.5;
     margin-bottom: var(--space-3);
@@ -686,7 +694,7 @@ const glossaryTerms = [
     gap: var(--space-1);
     font-family: var(--font-mono);
     font-size: 0.8125rem;
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
   }
 
   .link-url::after {
@@ -702,37 +710,37 @@ const glossaryTerms = [
   .resources-footer {
     margin-top: var(--space-8);
     padding-top: var(--space-6);
-    border-top: 1px solid var(--color-gray-200);
+    border-top: 1px solid var(--color-border);
     text-align: center;
     font-size: 0.875rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   .resources-footer a {
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
   }
 
   /* Dark mode */
   :global([data-theme='dark']) .learn-page {
-    background: var(--color-gray-50);
+    background: var(--color-surface);
   }
 
   :global([data-theme='dark']) .page-header h1 {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .subtitle {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .section-title {
-    color: var(--color-gray-500);
-    border-bottom-color: var(--color-gray-200);
+    color: var(--color-text-secondary);
+    border-bottom-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .guide-card {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .guide-card:hover {
@@ -741,37 +749,37 @@ const glossaryTerms = [
   }
 
   :global([data-theme='dark']) .guide-icon {
-    background: var(--color-primary-900);
-    color: var(--color-primary-400);
+    background: var(--color-soft);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .guide-card h3 {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .guide-card:hover h3 {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .guide-card p {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .guide-arrow {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .guide-card:hover .guide-arrow {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .glossary-intro {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .glossary-item {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .glossary-item:hover {
@@ -780,74 +788,74 @@ const glossaryTerms = [
   }
 
   :global([data-theme='dark']) .glossary-term {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .glossary-definition {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .view-all-link {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .view-all-link:hover {
-    color: var(--color-primary-300);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .resource-card {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .resource-card:hover {
     border-color: var(--color-primary-700);
-    background: var(--color-gray-200);
+    background: var(--color-soft);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
 
   :global([data-theme='dark']) .resources-intro {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .nav-pill {
-    border-color: var(--color-gray-300);
-    color: var(--color-gray-500);
+    border-color: var(--color-border);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .nav-pill:hover {
     border-color: var(--color-primary-400);
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .link-section-title {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .link-card {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .link-card:hover {
-    border-color: var(--color-gray-300);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .link-card h4 {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .link-card:hover h4 {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .link-card p {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .type-blue {
     background: rgba(59, 130, 246, 0.2);
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .type-green {
@@ -861,14 +869,14 @@ const glossaryTerms = [
   }
 
   :global([data-theme='dark']) .link-url {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .resources-footer {
-    border-top-color: var(--color-gray-200);
+    border-top-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .resources-footer a {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 </style>

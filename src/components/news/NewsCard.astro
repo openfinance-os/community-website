@@ -11,9 +11,22 @@ interface Props {
   slug: string;
   source?: string;
   external?: boolean;
+  headingLevel?: 2 | 3;
 }
 
-const { title, date, type, region, author, description, slug, source, external } = Astro.props;
+const {
+  title,
+  date,
+  type,
+  region,
+  author,
+  description,
+  slug,
+  source,
+  external,
+  headingLevel = 3,
+} = Astro.props;
+const Heading = headingLevel === 2 ? 'h2' : 'h3';
 
 const href = external && source ? source : `/news/${slug}`;
 const isExternal = external && source;
@@ -92,7 +105,7 @@ const formatDate = (d: Date) => {
     <time datetime={date.toISOString()}>{formatDate(date)}</time>
   </div>
 
-  <h3 class="card-title">{title}</h3>
+  <Heading class="card-title">{title}</Heading>
 
   {description && <p class="card-description">{description}</p>}
 
@@ -131,11 +144,12 @@ const formatDate = (d: Date) => {
 
 <style>
   .news-card {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     padding: var(--space-6) var(--space-8);
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     text-decoration: none;
     color: inherit;
@@ -153,6 +167,7 @@ const formatDate = (d: Date) => {
   }
 
   .card-header {
+    min-width: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -162,10 +177,11 @@ const formatDate = (d: Date) => {
   .card-header time {
     font-family: var(--font-mono);
     font-size: 0.75rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   .badges {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-2);
@@ -174,48 +190,50 @@ const formatDate = (d: Date) => {
   .card-title {
     font-size: 1.125rem;
     font-weight: 600;
-    color: var(--color-gray-900);
+    color: var(--color-text);
     margin-bottom: var(--space-3);
     line-height: 1.4;
   }
 
   .news-card:hover .card-title {
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
   }
 
   .card-description {
     font-size: 0.875rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     line-height: 1.6;
     margin-bottom: var(--space-4);
     flex: 1;
   }
 
   .card-footer {
+    min-width: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding-top: var(--space-3);
-    border-top: 1px solid var(--color-gray-100);
+    border-top: 1px solid var(--color-border);
     margin-top: auto;
   }
 
   .author {
     font-size: 0.8125rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   .read-more {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-1);
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
   }
 
   .news-card:hover .read-more {
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
   }
 
   .news-card:hover .read-more svg {
@@ -228,8 +246,8 @@ const formatDate = (d: Date) => {
 
   /* Dark mode */
   :global([data-theme='dark']) .news-card {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .news-card:hover {
@@ -238,35 +256,35 @@ const formatDate = (d: Date) => {
   }
 
   :global([data-theme='dark']) .card-header time {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .card-title {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .news-card:hover .card-title {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .card-description {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .card-footer {
-    border-top-color: var(--color-gray-300);
+    border-top-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .author {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .read-more {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .news-card:hover .read-more {
-    color: var(--color-primary-300);
+    color: var(--color-brand-ink);
   }
 </style>
 

@@ -82,33 +82,35 @@ const capabilities = [
 
 <style>
   .auth-capabilities {
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     padding: var(--space-6);
   }
 
   .section-title {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-2);
     font-size: 1rem;
     font-weight: 600;
-    color: var(--color-gray-900);
+    color: var(--color-text);
     margin-bottom: var(--space-1);
   }
 
   .section-title svg {
-    color: var(--color-primary-500);
+    color: var(--color-brand-ink);
   }
 
   .section-description {
     font-size: 0.8125rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-6);
   }
 
   .capabilities-list {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-5);
@@ -116,7 +118,7 @@ const capabilities = [
 
   .capability-item {
     padding-bottom: var(--space-4);
-    border-bottom: 1px solid var(--color-gray-100);
+    border-bottom: 1px solid var(--color-border);
   }
 
   .capability-item:last-child {
@@ -125,6 +127,7 @@ const capabilities = [
   }
 
   .capability-header {
+    min-width: 0;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -132,45 +135,47 @@ const capabilities = [
   }
 
   .capability-name {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: 2px;
   }
 
   .name-abbr {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.875rem;
     font-weight: 600;
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   .name-full {
     font-size: 0.75rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   .capability-stats {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-3);
   }
 
   .stat-count {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.8125rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
   }
 
   .stat-percentage {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.875rem;
     font-weight: 600;
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
   }
 
   .capability-bar-container {
     height: 6px;
-    background: var(--color-gray-100);
+    background: var(--color-soft);
     border-radius: var(--radius-full);
     overflow: hidden;
     margin-bottom: var(--space-2);
@@ -185,90 +190,86 @@ const capabilities = [
 
   .capability-description {
     font-size: 0.75rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   /* Zero state styling for 0% capabilities */
-  .capability-item.zero-state {
-    opacity: 0.6;
-  }
-
   .capability-item.zero-state .name-abbr {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   .capability-item.zero-state .stat-percentage {
-    color: var(--color-gray-400);
+    color: var(--color-text-secondary);
   }
 
   .capability-item.zero-state .capability-bar-container {
     background: repeating-linear-gradient(
       -45deg,
-      var(--color-gray-100),
-      var(--color-gray-100) 4px,
-      var(--color-gray-50) 4px,
-      var(--color-gray-50) 8px
+      var(--color-soft),
+      var(--color-soft) 4px,
+      var(--color-surface) 4px,
+      var(--color-surface) 8px
     );
   }
 
   .capability-item.zero-state .capability-description {
     font-style: italic;
-    color: var(--color-gray-400);
+    color: var(--color-text-secondary);
   }
 
   /* Dark mode */
   :global([data-theme='dark']) .auth-capabilities {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .section-title {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .section-description {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .capability-item {
-    border-bottom-color: var(--color-gray-200);
+    border-bottom-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .name-abbr {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .name-full {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .stat-count {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .capability-bar-container {
-    background: var(--color-gray-200);
+    background: var(--color-soft);
   }
 
   :global([data-theme='dark']) .capability-description {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .capability-item.zero-state .name-abbr {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .capability-item.zero-state .capability-bar-container {
     background: repeating-linear-gradient(
       -45deg,
-      var(--color-gray-200),
-      var(--color-gray-200) 4px,
-      var(--color-gray-300) 4px,
-      var(--color-gray-300) 8px
+      var(--color-soft),
+      var(--color-soft) 4px,
+      var(--color-soft) 4px,
+      var(--color-soft) 8px
     );
   }
 
   :global([data-theme='dark']) .capability-item.zero-state .capability-description {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 </style>

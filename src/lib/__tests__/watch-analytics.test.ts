@@ -1,7 +1,8 @@
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
-import { describe, expect, it } from 'vitest';
-import { GET } from '../../pages/observatory/watch/index.html';
+import { describe, expect, it, vi } from 'vitest';
+import { initEnhancedAnalytics } from '../../scripts/enhanced-analytics';
+import { renderWatchContent } from '../watch-document';
 
 const bootstrap = readFileSync('public/analytics/posthog.js', 'utf8');
 
@@ -36,12 +37,22 @@ function browser(host = 'openfinance-os.org', path = '/observatory/watch/') {
 }
 
 describe('standalone Watcher analytics', () => {
-  it('is included by the rendered endpoint with its canonical URL', async () => {
-    const response = (GET as () => Response)();
-    const html = await response.text();
-    expect(html).toContain('<script src="/analytics/posthog.js"></script>');
-    expect(html).toContain('href="https://openfinance-os.org/observatory/watch/"');
-    expect(html).not.toContain('__DATA__');
+  it('safely embeds the saved payload and preserves the no-JavaScript briefing', () => {
+    const { body, styles } = renderWatchContent();
+    expect(body).toContain('Saved Ecosystem Watch briefing');
+    expect(body).not.toContain('__DATA__');
+    expect(styles).toContain('[data-theme="dark"] .watch-page');
+  });
+
+  it('does not add general-site tracking when Watch uses the shared layout', () => {
+    const windowStub = { location: { pathname: '/observatory/watch/' } };
+    vi.stubGlobal('window', windowStub);
+    try {
+      expect(() => initEnhancedAnalytics()).not.toThrow();
+      expect(windowStub).not.toHaveProperty('__enhancedAnalyticsInitialized');
+    } finally {
+      vi.unstubAllGlobals();
+    }
   });
 
   it.each(['localhost', 'preview.pages.dev', 'demoapp.openfinance-os.org'])(

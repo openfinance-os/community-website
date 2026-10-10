@@ -223,7 +223,7 @@ const formatDate = (dateStr: string) => {
 >
   <ObservatoryNav current="sandbox" />
   <div class="observatory-page">
-    <header class="page-header sandbox-header">
+    <header class="page-intro page-header sandbox-header">
       <div class="header-content">
         <div class="header-badge sandbox-badge">
           <span class="sandbox-indicator"></span>
@@ -665,32 +665,31 @@ const formatDate = (dateStr: string) => {
   .measurement-note {
     max-width: 1000px;
     margin: var(--space-6) 0;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     font-size: 0.875rem;
   }
   .observatory-page {
     padding-bottom: var(--space-16);
   }
 
-  /* Always-dark banner: literal colours so the inverted dark-mode primary
-     scale cannot turn it light behind white text. */
+  /* Shared Clear signal introduction. */
   .page-header {
-    background: linear-gradient(180deg, #041919 0%, #072b2b 100%);
-    color: white;
+    background: var(--color-surface);
+    color: var(--color-text);
     padding: var(--space-12) var(--space-4);
     position: relative;
     overflow: hidden;
   }
 
   .page-header.sandbox-header {
-    background: linear-gradient(180deg, #78350f 0%, #92400e 100%);
+    background: var(--color-surface);
   }
 
   .page-header::before {
     content: '';
     position: absolute;
     inset: 0;
-    background-image: var(--grid-pattern-dark);
+    background-image: none;
     pointer-events: none;
   }
 
@@ -705,10 +704,10 @@ const formatDate = (dateStr: string) => {
     align-items: center;
     gap: var(--space-2);
     padding: var(--space-1) var(--space-3);
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: var(--color-soft);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-full);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.75rem;
     font-weight: 500;
     text-transform: uppercase;
@@ -717,8 +716,8 @@ const formatDate = (dateStr: string) => {
   }
 
   .sandbox-badge {
-    background: rgba(251, 191, 36, 0.2);
-    border-color: rgba(251, 191, 36, 0.4);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   .sandbox-indicator {
@@ -729,15 +728,15 @@ const formatDate = (dateStr: string) => {
   }
 
   .page-header h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: white;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 500;
+    color: var(--color-text);
     margin-bottom: var(--space-2);
   }
 
   .header-description {
     font-size: 1.125rem;
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--color-text-secondary);
     max-width: 500px;
   }
 
@@ -745,17 +744,20 @@ const formatDate = (dateStr: string) => {
     position: relative;
     max-width: 1200px;
     margin: var(--space-6) auto 0;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
   }
 
   .header-controls {
+    min-width: 0;
     display: flex;
     justify-content: flex-start;
   }
 
   .header-info {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
@@ -772,27 +774,28 @@ const formatDate = (dateStr: string) => {
   .last-updated {
     font-family: var(--font-mono);
     font-size: 0.8125rem;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--color-text-secondary);
   }
 
   .last-updated time {
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--color-text-secondary);
   }
 
   .header-links {
+    min-width: 0;
     display: flex;
     gap: var(--space-4);
   }
 
   .header-link {
     font-size: 0.875rem;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--color-brand-ink);
     text-decoration: none;
     transition: color var(--transition-fast);
   }
 
   .header-link:hover {
-    color: white;
+    color: var(--color-brand-ink);
     text-decoration: underline;
   }
 
@@ -809,24 +812,26 @@ const formatDate = (dateStr: string) => {
   }
 
   .stats-grid {
+    min-width: 0;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--space-4);
   }
 
   .stats-grid-secondary {
+    min-width: 0;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--space-4);
   }
 
   @media (min-width: 768px) {
     .stats-grid {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 
     .stats-grid-secondary {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
 
@@ -837,6 +842,7 @@ const formatDate = (dateStr: string) => {
   }
 
   .charts-grid {
+    min-width: 0;
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--space-6);
@@ -844,72 +850,76 @@ const formatDate = (dateStr: string) => {
 
   @media (min-width: 768px) {
     .charts-grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
   @media (min-width: 1024px) {
     .charts-grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
   .chart-card {
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     padding: var(--space-6);
   }
 
   .chart-title {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-2);
     font-size: 1rem;
     font-weight: 600;
-    color: var(--color-gray-900);
+    color: var(--color-text);
     margin-bottom: var(--space-1);
   }
 
   .chart-title svg {
-    color: var(--color-primary-500);
+    color: var(--color-brand-ink);
   }
 
   .chart-description {
     font-size: 0.8125rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-6);
   }
 
   .chart-container {
+    min-width: 0;
     display: flex;
     justify-content: center;
     margin-bottom: var(--space-4);
   }
 
   .role-legend {
-    border-top: 1px solid var(--color-gray-100);
+    border-top: 1px solid var(--color-border);
     padding-top: var(--space-4);
   }
 
   .role-item {
     font-size: 0.75rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-1);
   }
 
   .role-item strong {
-    font-family: var(--font-mono);
-    color: var(--color-gray-700);
+    font-family: var(--font-sans);
+    color: var(--color-text);
   }
 
   .api-matrix {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
   }
 
   .api-row {
+    min-width: 0;
     display: grid;
     grid-template-columns: 140px 1fr 50px;
     align-items: center;
@@ -919,12 +929,12 @@ const formatDate = (dateStr: string) => {
   .api-name {
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--color-gray-700);
+    color: var(--color-text);
   }
 
   .api-bar-container {
     height: 8px;
-    background: var(--color-gray-100);
+    background: var(--color-soft);
     border-radius: var(--radius-full);
     overflow: hidden;
   }
@@ -937,10 +947,10 @@ const formatDate = (dateStr: string) => {
   }
 
   .api-count {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.8125rem;
     font-weight: 500;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     text-align: right;
   }
 
@@ -951,6 +961,7 @@ const formatDate = (dateStr: string) => {
   }
 
   .capabilities-grid {
+    min-width: 0;
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--space-6);
@@ -958,7 +969,7 @@ const formatDate = (dateStr: string) => {
 
   @media (min-width: 768px) {
     .capabilities-grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
@@ -974,17 +985,18 @@ const formatDate = (dateStr: string) => {
 
   .section-header h2 {
     font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--color-gray-900);
+    font-weight: 500;
+    color: var(--color-text);
     margin-bottom: var(--space-1);
   }
 
   .section-header p {
     font-size: 0.9375rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   .participants-grid {
+    min-width: 0;
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--space-8);
@@ -992,14 +1004,14 @@ const formatDate = (dateStr: string) => {
 
   @media (min-width: 640px) {
     .participants-grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: var(--space-8);
     }
   }
 
   @media (min-width: 1024px) {
     .participants-grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: var(--space-10);
     }
   }
@@ -1011,8 +1023,8 @@ const formatDate = (dateStr: string) => {
   }
 
   .disclaimer {
-    background: var(--color-gray-100);
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-soft);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     padding: var(--space-6);
   }
@@ -1025,13 +1037,13 @@ const formatDate = (dateStr: string) => {
   .disclaimer h3 {
     font-size: 1rem;
     font-weight: 600;
-    color: var(--color-gray-900);
+    color: var(--color-text);
     margin-bottom: var(--space-3);
   }
 
   .disclaimer p {
     font-size: 0.875rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     line-height: 1.6;
     margin-bottom: var(--space-2);
   }
@@ -1041,11 +1053,12 @@ const formatDate = (dateStr: string) => {
   }
 
   .disclaimer a {
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
   }
 
   /* Search and Filters */
   .section-header-top {
+    min-width: 0;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -1058,12 +1071,13 @@ const formatDate = (dateStr: string) => {
   }
 
   .filter-bar-inner {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-4);
     padding: var(--space-3);
-    background: var(--color-gray-50);
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
   }
 
@@ -1079,7 +1093,7 @@ const formatDate = (dateStr: string) => {
     left: var(--space-4);
     top: 50%;
     transform: translateY(-50%);
-    color: var(--color-gray-400);
+    color: var(--color-text-secondary);
     pointer-events: none;
   }
 
@@ -1089,9 +1103,9 @@ const formatDate = (dateStr: string) => {
     padding: 0 var(--space-4) 0 48px;
     font-size: 0.9375rem;
     font-family: var(--font-sans);
-    color: var(--color-gray-900);
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    color: var(--color-text);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     outline: none;
     transition:
@@ -1100,7 +1114,7 @@ const formatDate = (dateStr: string) => {
   }
 
   .search-field-input::placeholder {
-    color: var(--color-gray-400);
+    color: var(--color-text-secondary);
   }
 
   .search-field-input:focus {
@@ -1111,29 +1125,31 @@ const formatDate = (dateStr: string) => {
   .filter-divider {
     width: 1px;
     height: 28px;
-    background: var(--color-gray-200);
+    background: var(--color-soft);
     flex-shrink: 0;
   }
 
   .filter-group {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-4);
   }
 
   .filter-field {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: 2px;
   }
 
   .filter-label {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.625rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
     padding-left: 2px;
   }
 
@@ -1144,9 +1160,9 @@ const formatDate = (dateStr: string) => {
     font-size: 0.8125rem;
     font-family: var(--font-sans);
     font-weight: 500;
-    color: var(--color-gray-700);
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    color: var(--color-text);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     outline: none;
     cursor: pointer;
@@ -1160,8 +1176,8 @@ const formatDate = (dateStr: string) => {
   }
 
   .filter-dropdown:hover {
-    background-color: var(--color-gray-50);
-    border-color: var(--color-gray-300);
+    background-color: var(--color-surface);
+    border-color: var(--color-border);
   }
 
   .filter-dropdown:focus {
@@ -1195,6 +1211,7 @@ const formatDate = (dateStr: string) => {
   }
 
   .participant-card-wrapper {
+    min-width: 0;
     display: block;
   }
 
@@ -1206,7 +1223,7 @@ const formatDate = (dateStr: string) => {
     grid-column: 1 / -1;
     text-align: center;
     padding: var(--space-12);
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   .no-results-icon {
@@ -1255,91 +1272,91 @@ const formatDate = (dateStr: string) => {
 
   /* Dark mode for filter bar */
   :global([data-theme='dark']) .filter-bar-inner {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .search-field-input {
-    background: var(--color-gray-200);
-    border-color: var(--color-gray-300);
-    color: var(--color-gray-900);
+    background: var(--color-soft);
+    border-color: var(--color-border);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .search-field-input::placeholder {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .search-field-icon {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .filter-divider {
-    background: var(--color-gray-300);
+    background: var(--color-soft);
   }
 
   :global([data-theme='dark']) .filter-label {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .filter-dropdown {
-    background-color: var(--color-gray-200);
-    border-color: var(--color-gray-300);
-    color: var(--color-gray-900);
+    background-color: var(--color-soft);
+    border-color: var(--color-border);
+    color: var(--color-text);
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   }
 
   :global([data-theme='dark']) .filter-dropdown:hover {
-    background-color: var(--color-gray-300);
+    background-color: var(--color-soft);
   }
 
   :global([data-theme='dark']) .chart-card {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .chart-title {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .chart-description {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .role-legend {
-    border-top-color: var(--color-gray-200);
+    border-top-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .role-item {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .role-item strong {
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .api-name {
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .api-bar-container {
-    background: var(--color-gray-200);
+    background: var(--color-soft);
   }
 
   :global([data-theme='dark']) .api-count {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .section-header h2 {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .section-header p {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .disclaimer {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .sandbox-disclaimer {
@@ -1348,11 +1365,11 @@ const formatDate = (dateStr: string) => {
   }
 
   :global([data-theme='dark']) .disclaimer h3 {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .disclaimer p {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 </style>
 

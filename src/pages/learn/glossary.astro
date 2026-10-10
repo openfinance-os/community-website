@@ -16,7 +16,7 @@ import { glossaryData, glossaryAnchor } from '@lib/glossary';
         <span>Glossary</span>
       </nav>
 
-      <header class="page-header">
+      <header class="page-intro page-header">
         <h1>Open Finance Glossary</h1>
         <p class="subtitle">
           A comprehensive reference of terms and acronyms used in the UAE Open Finance ecosystem.
@@ -75,16 +75,17 @@ import { glossaryData, glossaryAnchor } from '@lib/glossary';
   }
 
   .breadcrumb {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-2);
     font-size: 0.875rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-6);
   }
 
   .breadcrumb a {
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
   }
 
   .page-header {
@@ -92,22 +93,23 @@ import { glossaryData, glossaryAnchor } from '@lib/glossary';
   }
 
   .page-header h1 {
-    font-size: 2.25rem;
+    font-size: clamp(2rem, 4vw, 3.5rem);
     margin-bottom: var(--space-3);
   }
 
   .subtitle {
     font-size: 1.125rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
   }
 
   /* Letter Navigation */
   .letter-nav {
+    min-width: 0;
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2);
     padding: var(--space-4);
-    background: var(--color-gray-50);
+    background: var(--color-surface);
     border-radius: var(--radius-lg);
     margin-bottom: var(--space-8);
     position: sticky;
@@ -116,15 +118,16 @@ import { glossaryData, glossaryAnchor } from '@lib/glossary';
   }
 
   .letter-nav a {
+    min-width: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 36px;
     height: 36px;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-weight: 600;
-    color: var(--color-gray-600);
-    background: white;
+    color: var(--color-text-secondary);
+    background: var(--color-card);
     border-radius: var(--radius-md);
     text-decoration: none;
     transition:
@@ -134,7 +137,7 @@ import { glossaryData, glossaryAnchor } from '@lib/glossary';
 
   .letter-nav a:hover {
     background: var(--color-primary-100);
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
     text-decoration: none;
   }
 
@@ -145,15 +148,16 @@ import { glossaryData, glossaryAnchor } from '@lib/glossary';
   }
 
   .letter-section h2 {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 2rem;
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
     margin-bottom: var(--space-4);
     padding-bottom: var(--space-2);
     border-bottom: 2px solid var(--color-primary-100);
   }
 
   .terms-list {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
@@ -161,8 +165,8 @@ import { glossaryData, glossaryAnchor } from '@lib/glossary';
 
   .term-item {
     padding: var(--space-4);
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     transition:
       border-color var(--transition-fast),
@@ -175,6 +179,7 @@ import { glossaryData, glossaryAnchor } from '@lib/glossary';
   }
 
   .term-item dt {
+    min-width: 0;
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
@@ -183,15 +188,15 @@ import { glossaryData, glossaryAnchor } from '@lib/glossary';
   }
 
   .term {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 1rem;
     font-weight: 700;
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
   }
 
   .full-name {
     font-size: 0.875rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   .full-name::before {
@@ -200,7 +205,7 @@ import { glossaryData, glossaryAnchor } from '@lib/glossary';
 
   .term-item dd {
     font-size: 0.9375rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     line-height: 1.6;
     margin: 0;
   }
@@ -209,58 +214,58 @@ import { glossaryData, glossaryAnchor } from '@lib/glossary';
   .glossary-footer {
     margin-top: var(--space-12);
     padding-top: var(--space-6);
-    border-top: 1px solid var(--color-gray-200);
+    border-top: 1px solid var(--color-border);
     text-align: center;
   }
 
   .glossary-footer p {
     font-size: 0.875rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   .glossary-footer a {
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
   }
 
   /* Dark mode */
   :global([data-theme='dark']) .glossary-page {
-    background: var(--color-gray-50);
+    background: var(--color-surface);
   }
 
   :global([data-theme='dark']) .page-header h1 {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .subtitle {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .breadcrumb {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .letter-nav {
-    background: var(--color-gray-100);
+    background: var(--color-soft);
   }
 
   :global([data-theme='dark']) .letter-nav a {
-    background: var(--color-gray-200);
-    color: var(--color-gray-500);
+    background: var(--color-soft);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .letter-nav a:hover {
-    background: var(--color-primary-900);
-    color: var(--color-primary-300);
+    background: var(--color-soft);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .letter-section h2 {
-    color: var(--color-primary-400);
-    border-bottom-color: var(--color-gray-200);
+    color: var(--color-brand-ink);
+    border-bottom-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .term-item {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .term-item:hover {
@@ -269,26 +274,26 @@ import { glossaryData, glossaryAnchor } from '@lib/glossary';
   }
 
   :global([data-theme='dark']) .term {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .full-name {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .term-item dd {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .glossary-footer {
-    border-top-color: var(--color-gray-200);
+    border-top-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .glossary-footer p {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .glossary-footer a {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 </style>

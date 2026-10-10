@@ -1,0 +1,194 @@
+---
+const resources = [
+  {
+    number: '01',
+    intent: 'Keep up',
+    title: 'The ecosystem, decoded.',
+    description: 'A weekly view of ecosystem developments, standards, and production adoption.',
+    label: 'Read Ecosystem Watch',
+    href: '/observatory/watch/',
+    icon: 'watch',
+  },
+  {
+    number: '02',
+    intent: 'Build',
+    title: 'From questions to code.',
+    description:
+      'Explore the Data Sandbox and community tools for understanding Open Finance APIs.',
+    label: 'Explore the Data Sandbox',
+    href: '/commons/data-sandbox',
+    icon: 'code',
+  },
+  {
+    number: '03',
+    intent: 'Understand',
+    title: 'Start with the essentials.',
+    description:
+      'Find the framework, practical guides, and official resources behind UAE Open Finance.',
+    label: 'Explore the learning hub',
+    href: '/learn',
+    icon: 'book',
+  },
+];
+const paths: Record<string, string> = {
+  watch: 'M2 13h5l3-8 4 14 3-6h5',
+  code: 'm8 5-7 7 7 7m8-14 7 7-7 7m-3-15-2 18',
+  book: 'M12 5c-3-2-6-2-10-1v15c4-1 7-1 10 1 3-2 6-2 10-1V4c-4-1-7-1-10 1Zm0 0v15',
+};
+---
+
+<section class="starting-points" id="starting-points" aria-labelledby="starting-title">
+  <div class="starting-inner">
+    <div class="section-heading">
+      <h2 id="starting-title">Make sense of what’s next.</h2>
+      <p>Follow the ecosystem. Find your way in.</p>
+    </div>
+    <div class="resource-grid">
+      {resources.map((resource, index) => (
+        <a href={resource.href} class:list={['resource', { featured: index === 0 }]}>
+          <div class="resource-top">
+            <>
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d={paths[resource.icon]} />
+              </svg>
+              <span>
+                {resource.number} / {resource.intent}
+              </span>
+            </>
+          </div>
+          <>
+            <h3>{resource.title}</h3>
+            <p>{resource.description}</p>
+            <span class="resource-link">
+              {resource.label}
+              <span aria-hidden="true">↗</span>
+            </span>
+          </>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+<style>
+  .starting-points {
+    padding: 0 24px 64px;
+  }
+  .starting-inner {
+    max-width: 1224px;
+    margin: 0 auto;
+  }
+  .section-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 27px;
+  }
+  h2 {
+    font-size: 2.125rem;
+    font-weight: 500;
+    letter-spacing: -0.04em;
+  }
+  .section-heading p {
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+  }
+  .resource-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+  .resource {
+    padding: 24px 25px 22px;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    background: var(--color-card);
+    color: var(--color-text);
+    display: flex;
+    flex-direction: column;
+    min-height: 260px;
+    transition:
+      transform var(--transition-fast),
+      border-color var(--transition-fast);
+  }
+  .resource:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-text-secondary);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+  .featured {
+    background: var(--color-soft);
+  }
+  .resource-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--color-text-secondary);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .resource-top svg {
+    color: var(--color-brand-ink);
+  }
+  h3 {
+    font-size: 1.375rem;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    margin: 24px 0 10px;
+  }
+  .resource p {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    margin-bottom: 25px;
+  }
+  .resource-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+  .resource-link > span {
+    font-size: 1.125rem;
+  }
+  @media (max-width: 760px) {
+    .starting-points {
+      padding: 0 20px 40px;
+    }
+    .section-heading {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    h2 {
+      font-size: 1.875rem;
+    }
+    .resource-grid {
+      grid-template-columns: 1fr;
+    }
+    .resource {
+      min-height: 210px;
+    }
+    h3 {
+      margin-top: 18px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .resource {
+      transition: none;
+    }
+  }
+</style>

@@ -1,5 +1,6 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
+import MiddleLeapLogo from '@components/common/MiddleLeapLogo.astro';
 ---
 
 <PageLayout
@@ -8,7 +9,7 @@ import PageLayout from '@layouts/PageLayout.astro';
 >
   <div class="about-page">
     <!-- Hero Section -->
-    <header class="hero">
+    <header class="page-intro hero">
       <div class="container">
         <h1>About OpenFinance-OS</h1>
         <p class="hero-subtitle">Independent by design — the neutral record of UAE Open Finance.</p>
@@ -298,6 +299,14 @@ import PageLayout from '@layouts/PageLayout.astro';
         <h2>Governance</h2>
         <div class="governance-content">
           <div class="governance-text">
+            <a href="https://www.middleleap.com/" aria-label="MiddleLeap" class="founder-logo">
+              <MiddleLeapLogo />
+            </a>
+            <p>
+              OpenFinance-OS was founded by <a href="https://www.middleleap.com/">MiddleLeap</a> as
+              an open-source community initiative. It remains community-led, with independent
+              editorial decisions.
+            </p>
             <p>
               OpenFinance-OS is community-owned and open source. The codebase is maintained on
               GitHub under the{' '}
@@ -307,8 +316,8 @@ import PageLayout from '@layouts/PageLayout.astro';
               organization.
             </p>
             <p>
-              We accept no corporate sponsorship, have no paid placement, and maintain editorial
-              independence.
+              MiddleLeap's founding role is acknowledged openly. We have no paid placement and
+              maintain editorial independence.
             </p>
           </div>
           <div class="governance-badges">
@@ -340,7 +349,7 @@ import PageLayout from '@layouts/PageLayout.astro';
                 <line x1="10" y1="1" x2="10" y2="4"></line>
                 <line x1="14" y1="1" x2="14" y2="4"></line>
               </svg>
-              <span>No Sponsors</span>
+              <span>No Paid Placement</span>
             </div>
             <div class="badge">
               <svg
@@ -601,19 +610,19 @@ import PageLayout from '@layouts/PageLayout.astro';
   .hero {
     padding: var(--space-16) var(--space-4);
     text-align: center;
-    background: linear-gradient(180deg, var(--color-primary-50) 0%, var(--color-surface) 100%);
+    background: var(--color-surface);
   }
 
   .hero h1 {
-    font-size: clamp(2rem, 5vw, 3rem);
+    font-size: clamp(2rem, 4vw, 3.5rem);
     margin-bottom: var(--space-4);
-    color: var(--color-primary-700);
+    color: var(--color-text);
   }
 
   .hero-subtitle {
     font-size: 1.25rem;
     font-weight: 500;
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
     max-width: 600px;
     margin: 0 auto var(--space-4);
     line-height: 1.5;
@@ -628,6 +637,7 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   .hero-cta {
+    min-width: 0;
     display: flex;
     gap: var(--space-3);
     justify-content: center;
@@ -647,24 +657,24 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   .btn-primary {
-    background: var(--color-gray-900);
+    background: var(--color-primary-fill);
     color: white;
   }
 
   .btn-primary:hover {
-    background: var(--color-gray-800);
+    background: var(--color-card);
     text-decoration: none;
   }
 
   .btn-secondary {
-    background: white;
+    background: var(--color-card);
     color: var(--color-text);
-    border: 1px solid var(--color-gray-300);
+    border: 1px solid var(--color-border);
   }
 
   .btn-secondary:hover {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-400);
+    background: var(--color-soft);
+    border-color: var(--color-border);
     text-decoration: none;
   }
 
@@ -715,14 +725,15 @@ import PageLayout from '@layouts/PageLayout.astro';
 
   /* Values Grid */
   .values-grid {
+    min-width: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
     gap: var(--space-5);
   }
 
   .value-card {
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     padding: var(--space-6);
     transition: all var(--transition-fast);
@@ -735,13 +746,14 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   .card-icon {
+    min-width: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 48px;
     height: 48px;
     background: var(--color-primary-50);
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
     border-radius: var(--radius-lg);
     margin-bottom: var(--space-4);
   }
@@ -766,6 +778,7 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   .callout-box {
+    min-width: 0;
     display: flex;
     gap: var(--space-4);
     align-items: flex-start;
@@ -777,13 +790,14 @@ import PageLayout from '@layouts/PageLayout.astro';
 
   .callout-icon {
     flex-shrink: 0;
+    min-width: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 40px;
     height: 40px;
     background: var(--color-accent-100);
-    color: var(--color-accent-600);
+    color: var(--color-warning-text);
     border-radius: var(--radius-full);
   }
 
@@ -799,52 +813,55 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   .callout-description {
-    color: var(--color-accent-700);
+    color: var(--color-warning-text);
     font-size: 0.9375rem;
     line-height: 1.5;
   }
 
   /* What We're Not Section */
   .not-section {
-    background: var(--color-gray-50);
+    background: var(--color-surface);
   }
 
   .not-grid {
+    min-width: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
     gap: var(--space-4);
   }
 
   .not-item {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-3);
     padding: var(--space-4);
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
   }
 
   .not-item svg {
     flex-shrink: 0;
-    color: var(--color-gray-400);
+    color: var(--color-text-secondary);
   }
 
   .not-item span {
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     font-size: 0.9375rem;
   }
 
   .nongoals-intro {
     margin: var(--space-6) 0 0;
     max-width: 70ch;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     font-size: 0.95rem;
     line-height: 1.7;
   }
 
   /* Which site do you need? */
   .routing-grid {
+    min-width: 0;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--space-4);
@@ -852,10 +869,10 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   .routing-card {
-    border: 1px solid var(--color-gray-200);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     padding: var(--space-6);
-    background: white;
+    background: var(--color-card);
   }
 
   .routing-card.here {
@@ -868,12 +885,12 @@ import PageLayout from '@layouts/PageLayout.astro';
     letter-spacing: 0.12em;
     text-transform: uppercase;
     font-weight: 600;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   .routing-card p {
     margin: var(--space-2) 0 var(--space-4);
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     font-size: 0.95rem;
     line-height: 1.6;
   }
@@ -881,7 +898,7 @@ import PageLayout from '@layouts/PageLayout.astro';
   .routing-link {
     font-weight: 600;
     font-size: 0.95rem;
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
     text-decoration: none;
   }
 
@@ -890,8 +907,8 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   :global([data-theme='dark']) .routing-card {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .routing-card.here {
@@ -900,15 +917,16 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   :global([data-theme='dark']) .nongoals-intro {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .routing-link {
-    color: var(--color-primary-300);
+    color: var(--color-brand-ink);
   }
 
   /* Governance Section */
   .governance-content {
+    min-width: 0;
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--space-6);
@@ -928,15 +946,16 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   .governance-text a {
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
     font-weight: 500;
   }
 
   .governance-text a:hover {
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
   }
 
   .governance-badges {
+    min-width: 0;
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-3);
@@ -954,45 +973,47 @@ import PageLayout from '@layouts/PageLayout.astro';
     gap: var(--space-2);
     padding: var(--space-2) var(--space-4);
     background: var(--color-primary-50);
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
     border-radius: var(--radius-full);
     font-size: 0.875rem;
     font-weight: 500;
   }
 
   .badge svg {
-    color: var(--color-primary-500);
+    color: var(--color-brand-ink);
   }
 
   /* Documentation Grid */
   .docs-section {
-    background: var(--color-gray-50);
+    background: var(--color-surface);
   }
 
   .docs-grid {
+    min-width: 0;
     display: grid;
     gap: var(--space-3);
   }
 
   @media (min-width: 500px) {
     .docs-grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
   @media (min-width: 768px) {
     .docs-grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
   .doc-link {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-3);
     padding: var(--space-4) var(--space-5);
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     text-decoration: none;
     transition:
@@ -1004,7 +1025,7 @@ import PageLayout from '@layouts/PageLayout.astro';
 
   .doc-link:hover {
     border-color: var(--color-primary-300);
-    background: white;
+    background: var(--color-card);
     box-shadow: var(--shadow-sm);
     transform: translateY(-2px);
     text-decoration: none;
@@ -1017,18 +1038,20 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   .doc-icon {
+    min-width: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 40px;
     height: 40px;
     background: var(--color-primary-50);
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
     border-radius: var(--radius-md);
     flex-shrink: 0;
   }
 
   .doc-link div {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: 2px;
@@ -1037,23 +1060,23 @@ import PageLayout from '@layouts/PageLayout.astro';
 
   .doc-link strong {
     font-size: 0.9375rem;
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   .doc-link span {
     font-size: 0.8125rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   .arrow-icon {
     flex-shrink: 0;
-    color: var(--color-gray-400);
+    color: var(--color-text-secondary);
     transition: transform var(--transition-fast);
   }
 
   .doc-link:hover .arrow-icon {
     transform: translate(2px, -2px);
-    color: var(--color-primary-500);
+    color: var(--color-brand-ink);
   }
 
   /* CTA Section */
@@ -1086,6 +1109,7 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   .cta-buttons {
+    min-width: 0;
     display: flex;
     gap: var(--space-3);
     justify-content: center;
@@ -1127,52 +1151,52 @@ import PageLayout from '@layouts/PageLayout.astro';
 
   /* Dark mode */
   :global([data-theme='dark']) .hero {
-    background: linear-gradient(180deg, rgba(20, 184, 166, 0.1) 0%, var(--color-surface) 100%);
+    background: var(--color-surface);
   }
 
   :global([data-theme='dark']) .hero h1 {
-    color: var(--color-primary-400);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .hero-subtitle {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .hero-description {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .btn-primary {
-    background: var(--color-gray-100);
-    color: var(--color-gray-900);
+    background: var(--color-soft);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .btn-primary:hover {
-    background: var(--color-gray-200);
+    background: var(--color-soft);
   }
 
   :global([data-theme='dark']) .btn-secondary {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-300);
-    color: var(--color-gray-700);
+    background: var(--color-soft);
+    border-color: var(--color-border);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .btn-secondary:hover {
-    background: var(--color-gray-200);
-    border-color: var(--color-gray-400);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .section h2 {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .section-intro {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .value-card {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .value-card:hover {
@@ -1182,15 +1206,15 @@ import PageLayout from '@layouts/PageLayout.astro';
 
   :global([data-theme='dark']) .card-icon {
     background: rgba(20, 184, 166, 0.15);
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .value-card h3 {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .value-card p {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .callout-box {
@@ -1208,80 +1232,80 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   :global([data-theme='dark']) .callout-description {
-    color: var(--color-accent-300);
+    color: var(--color-warning-text);
   }
 
   :global([data-theme='dark']) .not-section {
-    background: var(--color-gray-100);
+    background: var(--color-soft);
   }
 
   :global([data-theme='dark']) .not-item {
-    background: var(--color-gray-200);
-    border-color: var(--color-gray-300);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .not-item svg {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .not-item span {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .governance-text p {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .governance-text a {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .governance-text a:hover {
-    color: var(--color-primary-300);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .badge {
     background: rgba(20, 184, 166, 0.15);
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .badge svg {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .docs-section {
-    background: var(--color-gray-100);
+    background: var(--color-soft);
   }
 
   :global([data-theme='dark']) .doc-link {
-    background: var(--color-gray-200);
-    border-color: var(--color-gray-300);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .doc-link:hover {
-    background: var(--color-gray-200);
+    background: var(--color-soft);
     border-color: var(--color-primary-400);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
 
   :global([data-theme='dark']) .doc-icon {
     background: rgba(20, 184, 166, 0.15);
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .doc-link strong {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .doc-link span {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .arrow-icon {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .doc-link:hover .arrow-icon {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 </style>

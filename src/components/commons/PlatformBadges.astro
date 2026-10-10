@@ -32,6 +32,7 @@ const remaining = platforms.length - maxShow;
 
 <style>
   .platform-badges {
+    min-width: 0;
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-1);
@@ -43,15 +44,15 @@ const remaining = platforms.length - maxShow;
     padding: var(--space-1) var(--space-2);
     font-size: 0.625rem;
     font-weight: 500;
-    color: var(--color-gray-600);
-    background: var(--color-gray-100);
+    color: var(--color-text-secondary);
+    background: var(--color-soft);
     border-radius: var(--radius-sm);
     line-height: 1.4;
     white-space: nowrap;
   }
 
   .platform-badge.more {
-    color: var(--color-gray-400);
+    color: var(--color-text-secondary);
   }
 
   .compact .platform-badge {
@@ -60,11 +61,11 @@ const remaining = platforms.length - maxShow;
   }
 
   :global([data-theme='dark']) .platform-badge {
-    background: var(--color-gray-700);
-    color: var(--color-gray-300);
+    background: var(--color-soft);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .platform-badge.more {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 </style>

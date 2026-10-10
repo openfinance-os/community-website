@@ -1,0 +1,32 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import ObservatoryNav from '@components/observatory/ObservatoryNav.astro';
+import { renderWatchContent } from '@lib/watch-document';
+const { styles, body } = renderWatchContent();
+---
+
+<PageLayout
+  title="UAE Open Finance — Ecosystem Watch"
+  description="An independent weekly monitor of the UAE Open Finance ecosystem: API and payment volumes, standards changes, and release compliance."
+>
+  <div class="watch-shell">
+    <ObservatoryNav current="watch" />
+    <style is:inline set:html={styles}></style>
+    <div class="watch-page">
+      <Fragment set:html={body} />
+    </div>
+  </div>
+</PageLayout>
+<style>
+  .watch-shell {
+    padding-top: var(--space-6);
+  }
+  :global(.watch-fallback) {
+    max-width: 1180px;
+    margin: auto;
+    padding: var(--space-6);
+  }
+  :global(.watch-fallback article) {
+    margin-top: var(--space-6);
+  }
+</style>

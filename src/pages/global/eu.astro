@@ -70,7 +70,7 @@ const keyDifferences = [
         <span>European Union</span>
       </nav>
 
-      <header class="page-header">
+      <header class="page-intro page-header">
         <div class="header-flag">🇪🇺</div>
         <div class="header-text">
           <span class="region-label">PSD2 and Beyond</span>
@@ -282,19 +282,21 @@ const keyDifferences = [
   }
 
   .breadcrumb {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-2);
     font-size: 0.875rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-6);
   }
 
   .breadcrumb a {
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
   }
 
   .page-header {
+    min-width: 0;
     display: flex;
     align-items: flex-start;
     gap: var(--space-5);
@@ -308,37 +310,37 @@ const keyDifferences = [
 
   .region-label {
     display: inline-block;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
     margin-bottom: var(--space-2);
   }
 
   .page-header h1 {
-    font-size: 2rem;
+    font-size: clamp(2rem, 4vw, 3.5rem);
     margin-bottom: var(--space-3);
   }
 
   .subtitle {
     font-size: 1.0625rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     line-height: 1.6;
   }
 
   /* Section Styles */
   .section-title {
     font-size: 1rem;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-4);
     padding-bottom: var(--space-2);
-    border-bottom: 1px solid var(--color-gray-200);
+    border-bottom: 1px solid var(--color-border);
   }
 
   /* Overview */
@@ -347,7 +349,7 @@ const keyDifferences = [
   }
 
   .overview-content p {
-    color: var(--color-gray-700);
+    color: var(--color-text);
     line-height: 1.8;
     margin-bottom: var(--space-4);
   }
@@ -363,9 +365,9 @@ const keyDifferences = [
 
   .comparison-table-wrapper {
     overflow-x: auto;
-    border: 1px solid var(--color-gray-200);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
-    background: white;
+    background: var(--color-card);
   }
 
   .comparison-table {
@@ -377,20 +379,20 @@ const keyDifferences = [
   .comparison-table th {
     text-align: left;
     padding: var(--space-4);
-    background: var(--color-gray-50);
-    font-family: var(--font-mono);
+    background: var(--color-surface);
+    font-family: var(--font-sans);
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--color-gray-500);
-    border-bottom: 1px solid var(--color-gray-200);
+    color: var(--color-text-secondary);
+    border-bottom: 1px solid var(--color-border);
   }
 
   .comparison-table td {
     padding: var(--space-4);
-    border-bottom: 1px solid var(--color-gray-100);
-    color: var(--color-gray-700);
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text);
     vertical-align: top;
   }
 
@@ -400,11 +402,11 @@ const keyDifferences = [
 
   .aspect-cell {
     font-weight: 500;
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   .uae-cell {
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
   }
 
   /* Timeline */
@@ -413,16 +415,18 @@ const keyDifferences = [
   }
 
   .timeline {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
   }
 
   .timeline-item {
+    min-width: 0;
     display: flex;
     gap: var(--space-4);
     padding: var(--space-3) 0;
-    border-bottom: 1px solid var(--color-gray-100);
+    border-bottom: 1px solid var(--color-border);
   }
 
   .timeline-item:last-child {
@@ -434,11 +438,11 @@ const keyDifferences = [
     width: 60px;
     font-family: var(--font-mono);
     font-weight: 600;
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
   }
 
   .timeline-event {
-    color: var(--color-gray-700);
+    color: var(--color-text);
   }
 
   /* Lessons */
@@ -447,33 +451,34 @@ const keyDifferences = [
   }
 
   .lessons-grid {
+    min-width: 0;
     display: grid;
     gap: var(--space-4);
   }
 
   @media (min-width: 640px) {
     .lessons-grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
   .lesson-card {
     padding: var(--space-5);
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
   }
 
   .lesson-card h3 {
     font-size: 1rem;
     font-weight: 600;
-    color: var(--color-gray-900);
+    color: var(--color-text);
     margin-bottom: var(--space-2);
   }
 
   .lesson-description {
     font-size: 0.9375rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     line-height: 1.6;
     margin-bottom: var(--space-4);
   }
@@ -486,18 +491,18 @@ const keyDifferences = [
 
   .relevance-label {
     display: block;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.6875rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
     margin-bottom: var(--space-1);
   }
 
   .lesson-relevance p {
     font-size: 0.8125rem;
-    color: var(--color-primary-800);
+    color: var(--color-brand-ink);
     margin: 0;
     line-height: 1.5;
   }
@@ -508,32 +513,33 @@ const keyDifferences = [
   }
 
   .future-content {
+    min-width: 0;
     display: grid;
     gap: var(--space-4);
   }
 
   @media (min-width: 640px) {
     .future-content {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
   .future-card {
     padding: var(--space-5);
-    background: var(--color-gray-50);
+    background: var(--color-surface);
     border-radius: var(--radius-xl);
   }
 
   .future-card h3 {
     font-size: 1rem;
     font-weight: 600;
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
     margin-bottom: var(--space-2);
   }
 
   .future-card p {
     font-size: 0.875rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     line-height: 1.6;
     margin: 0;
   }
@@ -544,18 +550,20 @@ const keyDifferences = [
   }
 
   .resources-grid {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
   }
 
   .resource-link {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-3);
     padding: var(--space-4);
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     text-decoration: none;
     transition:
@@ -565,7 +573,7 @@ const keyDifferences = [
 
   .resource-link:hover {
     border-color: var(--color-primary-300);
-    background: var(--color-gray-50);
+    background: var(--color-surface);
     text-decoration: none;
   }
 
@@ -581,29 +589,31 @@ const keyDifferences = [
   .resource-link strong {
     display: block;
     font-size: 0.9375rem;
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   .resource-link span {
     font-size: 0.8125rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   .resource-link svg {
     flex-shrink: 0;
-    color: var(--color-gray-400);
+    color: var(--color-text-secondary);
   }
 
   /* Page Navigation */
   .page-nav {
+    min-width: 0;
     display: flex;
     justify-content: space-between;
     gap: var(--space-4);
     padding-top: var(--space-8);
-    border-top: 1px solid var(--color-gray-200);
+    border-top: 1px solid var(--color-border);
   }
 
   .nav-link {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     padding: var(--space-4);
@@ -622,36 +632,36 @@ const keyDifferences = [
 
   .nav-direction {
     font-size: 0.8125rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   .nav-page {
     font-weight: 500;
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
   }
 
   .nav-link:hover .nav-page {
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
   }
 
   /* Dark mode */
   :global([data-theme='dark']) .comparison-table-wrapper {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .comparison-table th {
-    background: var(--color-gray-200);
-    border-color: var(--color-gray-300);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .comparison-table td {
-    border-color: var(--color-gray-200);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .lesson-card {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .lesson-relevance {
@@ -659,15 +669,15 @@ const keyDifferences = [
   }
 
   :global([data-theme='dark']) .future-card {
-    background: var(--color-gray-100);
+    background: var(--color-soft);
   }
 
   :global([data-theme='dark']) .resource-link {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .resource-link:hover {
-    background: var(--color-gray-200);
+    background: var(--color-soft);
   }
 </style>

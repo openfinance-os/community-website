@@ -108,6 +108,7 @@ const ariaLabel = centerLabel
 
 <style>
   .donut-chart {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -143,6 +144,7 @@ const ariaLabel = centerLabel
   .chart-center {
     position: absolute;
     inset: 0;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -156,13 +158,13 @@ const ariaLabel = centerLabel
     font-size: 1.75rem;
     font-weight: 600;
     line-height: 1;
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   .center-label {
     font-size: 0.75rem;
     font-weight: 500;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
     margin-top: var(--space-1);
   }
 
@@ -170,6 +172,7 @@ const ariaLabel = centerLabel
     list-style: none;
     padding: 0;
     margin: 0;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
@@ -178,6 +181,7 @@ const ariaLabel = centerLabel
   }
 
   .legend-item {
+    min-width: 0;
     display: grid;
     grid-template-columns: auto 1fr auto auto;
     align-items: center;
@@ -193,7 +197,7 @@ const ariaLabel = centerLabel
   }
 
   .legend-label {
-    color: var(--color-gray-700);
+    color: var(--color-text);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -202,14 +206,14 @@ const ariaLabel = centerLabel
   .legend-value {
     font-family: var(--font-mono);
     font-weight: 500;
-    color: var(--color-gray-900);
+    color: var(--color-text);
     text-align: right;
   }
 
   .legend-percent {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.75rem;
-    color: var(--color-gray-400);
+    color: var(--color-text-secondary);
     text-align: right;
     min-width: 32px;
   }
@@ -220,22 +224,22 @@ const ariaLabel = centerLabel
   }
 
   :global([data-theme='dark']) .center-value {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .center-label {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .legend-label {
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .legend-value {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .legend-percent {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 </style>
