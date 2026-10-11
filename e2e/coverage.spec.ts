@@ -116,7 +116,9 @@ test('mobile coverage and comparison scroll within their regions', async ({ page
   await expect(page.locator('#coverage-empty')).toBeHidden();
 });
 
-test('briefing, coverage and the Watch remain readable without JavaScript', async ({ browser }) => {
+test('homepage briefing, coverage and the Watch remain readable without JavaScript', async ({
+  browser,
+}) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   await page.goto('/');
@@ -132,4 +134,49 @@ test('briefing, coverage and the Watch remain readable without JavaScript', asyn
   await expect(page.getByRole('heading', { name: 'Saved Ecosystem Watch briefing' })).toBeVisible();
   await expect(page.getByRole('navigation', { name: 'Observatory' })).toBeVisible();
   await context.close();
+});
+
+test('direct briefing preserves saved dates and full-Watch evidence links without JavaScript', async ({
+  browser,
+  baseURL,
+}) => {
+  const context = await browser.newContext({ javaScriptEnabled: false, baseURL });
+  try {
+    const page = await context.newPage();
+    const response = await page.goto('/observatory/briefing/');
+    expect(response!.status()).toBe(200);
+    await expect(
+      page.getByRole('heading', { name: 'Ecosystem briefing', exact: true })
+    ).toBeVisible();
+    const dates = page.locator('.briefing-date');
+    await expect(dates).toContainText('Run:');
+    await expect(dates).toContainText('Operational logs through');
+    await expect(dates.locator('time').nth(0)).toHaveAttribute('datetime', watchPayload.runDate);
+    await expect(dates.locator('time').nth(1)).toHaveAttribute('datetime', watchPayload.asOfData);
+    await expect(dates.locator('time').nth(0)).toBeVisible();
+    await expect(dates.locator('time').nth(1)).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Read the full Watch' })).toHaveAttribute(
+      'href',
+      '/observatory/watch/'
+    );
+    const sections: Record<string, string> = {
+      Standards: 'standards',
+      Operations: 'operations',
+      Adoption: 'adoption',
+      Deadlines: 'compliance',
+      Alerts: 'alerts',
+    };
+    const articles = page.locator('.briefing-grid article');
+    await expect(articles).toHaveCount(watchPayload.summary.length);
+    for (const item of watchPayload.summary) {
+      const article = articles.filter({ has: page.getByRole('heading', { name: item.area }) });
+      await expect(article.locator('p').last()).toBeVisible();
+      await expect(article.getByRole('link', { name: 'View evidence & sources' })).toHaveAttribute(
+        'href',
+        `/observatory/watch/#${sections[item.area]}`
+      );
+    }
+  } finally {
+    await context.close();
+  }
 });
