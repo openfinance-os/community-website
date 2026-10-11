@@ -1,7 +1,7 @@
 ---
-title: "Ecosystem Watcher: UAE Open Finance Adoption Dashboard"
+title: "Ecosystem Watcher: UAE Open Finance Evidence Dashboard"
 type: utility
-summary: "A live dashboard tracking the real-world rollout of UAE Open Finance — showing which licensed financial institutions are demonstrably live against each CBUAE mandate release, based on real API traffic rather than self-reported claims."
+summary: "A saved weekly dashboard of UAE Open Finance standards, production-directory registrations and observed public-log traffic, with source dates, reporting windows and coverage limits."
 date: 2026-06-22
 
 useCases:
@@ -24,39 +24,42 @@ contributorUrl: https://github.com/openfinance-os
 links:
   demo: https://openfinance-os.org/observatory/watch/
 
-whyItMatters: "The regulatory calendar tells you who is supposed to be live, but not who actually is. Ecosystem Watcher turns the CBUAE mandate timeline and on-the-ground adoption into a single at-a-glance view, giving practitioners an objective, evidence-based read on rollout progress rather than relying on self-reported status."
+whyItMatters: "Compare the release calendar with dated registration and traffic observations, while keeping published metadata separate from operational evidence. Sources, reporting windows and observation limits help practitioners judge what the evidence supports."
 
 disclaimers:
-  - "Adoption status is inferred from observed API traffic and may lag real-world changes"
-  - "Not an official CBUAE or Nebras source — provided for situational awareness"
-  - "Coverage reflects what is observable and may not capture every institution or release"
+  - "Directory registration, published API families and declared certification do not establish working services or regulatory compliance."
+  - "Public traffic logs omit environment labels; successful calls cannot be assumed to be production traffic."
+  - "Coverage is limited to the source snapshots and log windows shown; missing observations do not establish unavailability."
+  - "OpenFinance-OS is a community initiative and is not affiliated with, endorsed by, or officially connected to the CBUAE, Al Tareq Platform, or any financial institution. Always verify information with official sources."
 featured: true
 ---
 
 ## Overview
 
-Ecosystem Watcher is a live dashboard that tracks the real-world rollout of UAE Open Finance. It shows which licensed financial institutions (LFIs) are actually live against each CBUAE mandate release — not just who is supposed to be, but who is demonstrably serving traffic. By combining the regulatory calendar with on-the-ground adoption signals, it turns a sprawling rollout into a single at-a-glance view.
+Ecosystem Watcher brings together a saved weekly briefing, the regulatory release calendar, dated production-directory registrations and aggregate public traffic logs. It reports what each source shows and when it was checked; it does not independently test institutions' services or determine regulatory compliance.
+
+The dashboard distinguishes its latest data run, last source check and operational-log cutoff. Directory metadata and traffic observations remain separate evidence: the public logs omit environment labels, so matching successful calls to a production-directory registration does not prove production traffic. See the [Observatory methodology](/observatory/methodology/) for registration definitions and collection limits.
 
 ## Key Features
 
-- **Adoption radar** — a per-release view showing "LFIs live n/10" for each CBUAE mandate release (e.g. R1, R2, v2.1), so you can see coverage progress at a glance.
-- **Evidence-based status** — live/not-live determinations are drawn from real API traffic rather than self-reported claims, giving an objective read on who is genuinely online.
-- **CBUAE mandate timeline** — the regulatory release schedule rendered alongside tiered LFI groupings, connecting deadlines to actual adoption.
-- **Change alerts** — notifications when an institution comes online or a release's coverage shifts, so you can stay current without manually polling the ecosystem.
+- **Release registration coverage** — Active API-family registrations in the production directory, compared with the CBUAE release calendar. Family registration does not prove that every required function works or establish compliance.
+- **Traffic observations** — successful calls in the public logs, with explicit reporting periods. Adoption heatmaps use the last two full months and distinguish observed traffic, exposed capabilities and missing evidence.
+- **Standards and deadlines** — source-linked standards changes and the mandate timeline, with dates that can be checked against the underlying sources.
+- **Dated changes and alerts** — the saved dashboard marks new, changed and standing observations from its weekly run or source check.
 
 ## Who It's For
 
 Open Finance practitioners across the UAE ecosystem:
 
 ### LFIs and banks
-Benchmark your own go-live status against peers and the mandate timeline, and see where the ecosystem stands release by release.
+Compare published API-family registrations with the release calendar, and assess traffic observations within their stated source windows.
 
 ### TPPs and fintechs
-Know which institutions are actually serving traffic before you plan integrations or customer journeys against a given release.
+Identify published capabilities and observed activity, then confirm service availability and integration requirements with the operator before planning customer journeys.
 
 ### Regulator-adjacent and Nebras community
-Get an objective, evidence-based read on adoption progress across the ecosystem rather than relying on self-reported claims.
+Explore dated observations and their sources as context for ecosystem research, with the coverage limits visible alongside the evidence.
 
 ## Try It Now
 
-Visit [openfinance-os.org/observatory/watch](https://openfinance-os.org/observatory/watch/) to explore the live dashboard. (The former ecosystem-watcher.openfinance-os.org address redirects here.)
+Visit [openfinance-os.org/observatory/watch](https://openfinance-os.org/observatory/watch/) to explore the saved weekly dashboard. Check the run date, source-check date and log cutoff before using its figures. (The former ecosystem-watcher.openfinance-os.org address redirects here.)
