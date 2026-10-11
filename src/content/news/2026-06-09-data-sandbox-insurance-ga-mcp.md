@@ -34,7 +34,7 @@ The synthetic dataset ships as versioned packages your CI can pin: [`@openfinanc
 
 ### TPP integration guide
 
-A worked [integration guide](https://data-sandbox.openfinance-os.org/integrate.html) covers four plug points for wiring sandbox personas into a TPP demo journey: iframe embed, npm `loadJourney()`, PyPI `load_journey()`, and raw HTTPS fixtures.
+A worked [integration guide](https://data-sandbox.openfinance-os.org/src/integrate.html) covers four plug points for wiring sandbox personas into a TPP demo journey: iframe embed, npm `loadJourney()`, PyPI `load_journey()`, and raw HTTPS fixtures.
 
 ## Unchanged — and still the point
 
