@@ -282,6 +282,7 @@ var hasAll=A.allTime!=null,fullCalls=A.fullTotal!=null?A.fullTotal:D.headline.to
 o+='<div><div style="font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em">Total API calls · '+(hasAll?'all-time to '+esc(fmtDay(D.asOfData)):nFull+' full months')+inf('Every API call across all banks and TPPs since the public logs began, up to the latest log date — the same all-time total the Nebras dashboard shows. The full-months figure below excludes the current, incomplete month; the rates in the tiles use full months only.')+'</div>';
 o+='<div class="bignum">'+(hasAll?A.allTime:fullCalls).toLocaleString()+'</div>';
 o+='<div class="sub" style="margin-top:4px">'+(hasAll?nFull+' full months: '+fullCalls.toLocaleString()+' · '+esc(A.partialLabel)+' to date: '+A.partialVal.toLocaleString()+' ':'')+wow('totalFull',function(x){return x.toLocaleString()+' full-month calls';})+'</div>';
+if(D.sectors&&D.sectors.bank&&D.sectors.insurer){o+='<div class="sub">Banking + insurance. Full months: Banking '+D.sectors.bank.fullCalls.toLocaleString()+' · Insurance '+D.sectors.insurer.fullCalls.toLocaleString()+inf('The Nebras dashboard opens on its Banking tab, so its default totals exclude insurers; its Insurance tab holds the rest. The Watch adds both.')+'</div>';}
 o+='<div class="tiles">';
 var T1=[
  [k(A.lastFullVal||0)+' <span class="delta '+((A.momPct||0)>=0?'up':'down')+'">'+dArrow(A.momPct||0)+'</span>', esc(A.lastFullLabel||'')+' run-rate (MoM)','API calls in the most recent full month, and the % change vs the month before. A proxy for how fast ecosystem activity is growing.'],
@@ -313,7 +314,9 @@ o+='<div class="card mtd"><div class="mtdh">'+esc(PT.label)+' to date · logs th
  [m(PT.valueAED),'Accepted payment value','Value (AED) of payments the banks accepted so far this month.'],
  [esc(PT.paySuccessPct)+'%','Payment success',PT.payAccepted.toLocaleString()+' of '+PT.payCount.toLocaleString()+' payment instructions accepted so far this month (rejected, pending and received count as not accepted).']
 ].forEach(function(t){o+='<div class="tile"><div class="v">'+t[0]+'</div><div class="l">'+t[1]+inf(t[2])+'</div></div>';});
-o+='</div></div>';}
+o+='</div>';
+if(D.sectors&&D.sectors.insurer&&D.sectors.insurer.partialCalls){o+='<div class="note" style="margin-top:6px">Includes '+D.sectors.insurer.partialCalls.toLocaleString()+' insurance calls; the Nebras dashboard shows these on its Insurance tab.</div>';}
+o+='</div>';}
 /* payment value card */
 if(D.payActivity){var P=D.payActivity,W=D.payWho||{};
 o+='<div class="card hero" style="margin-top:12px">';
@@ -488,10 +491,15 @@ o+='</tbody></table><div class="note">HTTP 5xx observations; the public logs do 
 o+='</div>';
 /* auth gauge + payment funnel */
 o+='<div class="grid g2" style="margin-top:12px">';
-o+='<div class="card"><h3>Authorisation conversion'+inf('Share of logged authorization calls returning HTTP 2xx. The aggregate does not prove token issuance or identify cancellation, expiry or SCA outcomes. An HTTP-response signal in the public logs; environment and user-level outcomes are unavailable.')+'</h3>';
-o+='<div style="font-size:30px;font-weight:600;line-height:1">'+esc(D.authPct)+'%</div><div class="note" style="margin-top:2px">of authorisation requests succeed (2xx)</div>';
-o+='<div class="gauge" style="margin-top:9px"><i style="width:'+D.authPct+'%"></i></div>';
-o+='<div class="note">'+(100-D.authPct).toFixed(0)+'% of auth attempts fail before a token is issued — a consent-funnel drop-off (cancelled/expired/SCA failures) worth watching for the whole ecosystem.</div></div>';
+if(D.consent&&D.consent.full){var CF=D.consent.full,CL=D.consent.lastFull||{},CP=D.consent.partial||{};
+o+='<div class="card"><h3>Consent conversion · banking'+inf('Banking keys only, with the Nebras dashboard definitions: requests = calls to /auth; consents authorised = doConfirm calls; cancelled = doFail calls. The confirm and cancel steps answer with HTTP 3xx redirects by design, so they are counted by step, not by response code. Insurers are excluded, as on the Nebras Banking tab.')+'</h3>';
+o+='<div style="font-size:30px;font-weight:600;line-height:1">'+esc(CF.convPct)+'%</div><div class="note" style="margin-top:2px">of authorisation requests end in an authorised consent ('+CF.consents.toLocaleString()+' of '+CF.requests.toLocaleString()+', '+nFull+' full months)</div>';
+o+='<div class="gauge" style="margin-top:9px"><i style="width:'+CF.convPct+'%"></i></div>';
+o+='<div class="note">'+esc(CF.cancelPct)+'% are cancelled ('+CF.cancelled.toLocaleString()+'). The remainder ended without a confirm or cancel step in the logs — for example abandoned or expired journeys, which the aggregate cannot tell apart.';
+if(CL.month)o+=' '+esc(CL.label)+': '+esc(CL.convPct)+'% converted, '+CL.consents.toLocaleString()+' consents.';
+if(CP.month&&CP.requests)o+=' '+esc(CP.label)+' to date: '+esc(CP.convPct)+'% converted, '+CP.consents.toLocaleString()+' consents, '+esc(CP.cancelPct)+'% cancelled.';
+o+=' '+lk('https://nebras-open-finance.com/metrics?section=auth-conversion','Compare on the Nebras dashboard')+'</div></div>';}
+else{o+='<div class="card"><h3>Authorisation responses'+inf('Share of logged authorization calls returning HTTP 2xx. Confirm and cancel steps answer with 3xx redirects, so this is not a success or conversion rate.')+'</h3><div style="font-size:30px;font-weight:600;line-height:1">'+esc(D.authPct)+'%</div><div class="note" style="margin-top:2px">of authorisation-log calls returned HTTP 2xx</div></div>';}
 if(D.payments&&D.payments.rows){var pm={},tot=0;D.payments.rows.forEach(function(r){pm[r[0]]=r[1];tot+=r[1];});
 var accepted=(pm['AcceptedWithoutPosting']||0)+(pm['AcceptedSettlementCompleted']||0)+(pm['AcceptedCreditSettlementCompleted']||0);
 var settled=(pm['AcceptedSettlementCompleted']||0)+(pm['AcceptedCreditSettlementCompleted']||0);

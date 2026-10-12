@@ -170,7 +170,17 @@ def _mom(vals_full):
 
 
 # ------------------------------------------------------------------ compute
-def compute(api, auth, pay):
+def _kinds():
+    import of_watch_entities
+    return {k: v.get("kind", "bank") for k, v in of_watch_entities.log_keys().items()}
+
+
+def compute(api, auth, pay, kinds=None):
+    """kinds: lfinamekey -> "bank" | "insurer" (default: entities.json).
+    Unknown keys count as bank, the Nebras dashboard's default tab; verify
+    separately reports any key missing from the registry."""
+    kinds = _kinds() if kinds is None else kinds
+    kind = lambda r: kinds.get(r["lfinamekey"], "bank")
     ms, full, partial = _months(api)
     fullset = set(full)
     is_full = lambda r: r["date"][:7] in fullset
@@ -256,6 +266,38 @@ def compute(api, auth, pay):
         "valueAED": round(pay_month_fils[partial] / 100, 2),
     }
 
+    # -- per-sector calls (the Nebras dashboard splits Banking / Insurance) ----
+    sectors = {}
+    for sk in ("bank", "insurer"):
+        rs = [r for r in api if kind(r) == sk]
+        fr = [r for r in rs if is_full(r)]
+        sectors[sk] = {
+            "fullCalls": int(sum(r["totalapicalls"] for r in fr)),
+            "fullErrors": int(sum(r["totalapicalls"] for r in fr
+                                  if r["tppresponsecodegroup"] in ("4xx", "5xx"))),
+            "allCalls": int(sum(r["totalapicalls"] for r in rs)),
+            "partialCalls": int(sum(r["totalapicalls"] for r in rs if in_partial(r))),
+        }
+
+    # -- consent funnel, banking keys (same definitions as the Nebras dashboard):
+    # requests = /auth calls; consents = doConfirm calls; cancelled = doFail
+    # calls; every response group counts (the confirm/fail steps are 3xx
+    # redirects by design, so an HTTP-2xx share would misread them as failures).
+    def funnel(pred):
+        rs = [r for r in auth if kind(r) == "bank" and pred(r)]
+        step = lambda name: int(sum(r["totalapicalls"] for r in rs
+                                    if r["url"].rstrip("/").split("/")[-1] == name))
+        req, conf, fail = step("auth"), step("doConfirm"), step("doFail")
+        pct = lambda x: round(100 * x / req, 1) if req else 0.0
+        return {"requests": req, "consents": conf, "cancelled": fail,
+                "convPct": pct(conf), "cancelPct": pct(fail)}
+    last_full = full[-1] if full else None
+    consent = {"basis": "bank",
+               "full": funnel(is_full),
+               "lastFull": dict(funnel(lambda r: r["date"][:7] == last_full),
+                                month=last_full, label=_abbr(last_full) if last_full else ""),
+               "partial": dict(funnel(in_partial), month=partial, label=_abbr(partial))}
+
     # -- auth 2xx share (full-months, weight by totalapicalls) ---------------
     a2 = sum(r["totalapicalls"] for r in auth
              if is_full(r) and r["tppresponsecodegroup"] == "2xx")
@@ -283,6 +325,8 @@ def compute(api, auth, pay):
         "payments": payments,
         "payActivity": pay_activity,
         "partial": partial_block,
+        "sectors": sectors,
+        "consent": consent,
         "authPct": auth_pct,
         "eco": {"top1": top1, "top1share": top1_share, "hhi": hhi,
                 "attributed": round(attributed, 1)},
@@ -356,12 +400,28 @@ def verify(payload, computed):
                 "paySuccessPct", "valueAED"):
         _cmp(c, f"partial.{key}", pt.get(key), cpt[key])
 
+    for sk, cs in computed["sectors"].items():
+        ps = (payload.get("sectors") or {}).get(sk) or {}
+        for key, val in cs.items():
+            _cmp(c, f"sectors.{sk}.{key}", ps.get(key), val)
+    pc = payload.get("consent") or {}
+    for win, cw in computed["consent"].items():
+        if not isinstance(cw, dict):
+            _cmp(c, f"consent.{win}", pc.get(win), cw)
+            continue
+        for key, val in cw.items():
+            _cmp(c, f"consent.{win}.{key}", (pc.get(win) or {}).get(key), val)
+
     # internal-consistency assertions from the routine (independent of source)
     a = payload["activity"]
     _cmp(c, "assert(a): totalAll==activity.allTime==sum(vals)",
          h["totalAll"] == a["allTime"] == sum(a["vals"]), True)
     _cmp(c, "assert(b): totalFull==activity.fullTotal==sum(full vals)",
          h["totalFull"] == a["fullTotal"] == sum(a["vals"][:a["partialIdx"]]), True)
+    sec = payload.get("sectors") or {}
+    _cmp(c, "assert(f): sectors bank+insurer == totalFull and totalAll",
+         sum(v.get("fullCalls", 0) for v in sec.values()) == h["totalFull"]
+         and sum(v.get("allCalls", 0) for v in sec.values()) == h["totalAll"], True)
     pa = payload["payActivity"]
     _cmp(c, "assert(d): payActivity.allTime==sum(vals) & fullTotal==sum(full)",
          round(pa["allTime"], 2) == round(sum(pa["vals"]), 2)
@@ -486,8 +546,9 @@ def main():
     payload = json.load(open(a.payload))
     checks = verify(payload, computed)
     import of_watch_entities
-    unmapped = of_watch_entities.unmapped_log_keys(api)
-    checks.append(("entities: every log key is in entities.json", not unmapped, unmapped, []))
+    unmapped = of_watch_entities.unmapped_log_keys(api + auth + pay)
+    checks.append(("entities: every api/auth/payments log key is in entities.json",
+                   not unmapped, unmapped, []))
     import of_watch_payload
     for problem in of_watch_payload.lint(payload):
         checks.append((f"lint: {problem}", False, None, None))

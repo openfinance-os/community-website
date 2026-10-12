@@ -94,6 +94,39 @@ def main():
     eq("partial.valueAED", c["partial"]["valueAED"], 1.0)
     eq("partial.calls==activity.partialVal", c["partial"]["calls"], c["activity"]["partialVal"])
 
+    # sectors + consent funnel, with an explicit kind map (insurer = uae-dibrt)
+    AUTH2 = [
+        {"date": "2026-02-01", "lfinamekey": "uae-mashrt", "url": "/auth",
+         "tppresponsecodegroup": "2xx", "totalapicalls": 8},
+        {"date": "2026-02-01", "lfinamekey": "uae-mashrt", "url": "/auth",
+         "tppresponsecodegroup": "4xx", "totalapicalls": 2},
+        {"date": "2026-02-01", "lfinamekey": "uae-mashrt", "url": "/auth/:interactionId/doConfirm",
+         "tppresponsecodegroup": "3xx", "totalapicalls": 5},
+        {"date": "2026-02-01", "lfinamekey": "uae-mashrt", "url": "/auth/:interactionId/doConfirm",
+         "tppresponsecodegroup": "4xx", "totalapicalls": 1},
+        {"date": "2026-02-01", "lfinamekey": "uae-mashrt", "url": "/auth/:interactionId/doFail",
+         "tppresponsecodegroup": "3xx", "totalapicalls": 1},
+        {"date": "2026-02-01", "lfinamekey": "uae-dibrt", "url": "/auth/:interactionId/doConfirm",
+         "tppresponsecodegroup": "3xx", "totalapicalls": 50},  # insurer: excluded
+        {"date": "2026-03-01", "lfinamekey": "uae-mashrt", "url": "/auth",
+         "tppresponsecodegroup": "2xx", "totalapicalls": 4},
+        {"date": "2026-03-01", "lfinamekey": "uae-mashrt", "url": "/auth/:interactionId/doConfirm",
+         "tppresponsecodegroup": "3xx", "totalapicalls": 3},
+    ]
+    k = {"uae-mashrt": "bank", "uae-dibrt": "insurer"}
+    c2 = m.compute(API, AUTH2, PAY, kinds=k)
+    eq("sectors.bank.fullCalls", c2["sectors"]["bank"]["fullCalls"], 110)
+    eq("sectors.insurer.fullCalls", c2["sectors"]["insurer"]["fullCalls"], 40)
+    eq("sectors.insurer.allCalls", c2["sectors"]["insurer"]["allCalls"], 47)
+    eq("sectors.insurer.partialCalls", c2["sectors"]["insurer"]["partialCalls"], 7)
+    eq("sectors.bank.fullErrors", c2["sectors"]["bank"]["fullErrors"], 10)
+    # requests 10 (any group), consents 6 (3xx + 4xx), cancelled 1
+    eq("consent.full", {x: c2["consent"]["full"][x] for x in ("requests", "consents", "cancelled", "convPct", "cancelPct")},
+       {"requests": 10, "consents": 6, "cancelled": 1, "convPct": 60.0, "cancelPct": 10.0})
+    eq("consent.lastFull.month", c2["consent"]["lastFull"]["month"], "2026-02")
+    eq("consent.partial", (c2["consent"]["partial"]["requests"], c2["consent"]["partial"]["consents"],
+                           c2["consent"]["partial"]["convPct"]), (4, 3, 75.0))
+
     # internal consistency the verifier relies on
     eq("sum(vals)==allTime", sum(c["activity"]["vals"]), c["activity"]["allTime"])
     eq("sum(pay vals)==allTime", round(sum(c["payActivity"]["vals"]), 2),

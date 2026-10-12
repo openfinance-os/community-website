@@ -1777,6 +1777,48 @@
   "paySuccessPct": 91.5,
   "valueAED": 28379858.05
  },
+ "sectors": {
+  "bank": {
+   "fullCalls": 1416331,
+   "fullErrors": 260243,
+   "allCalls": 1548117,
+   "partialCalls": 131786
+  },
+  "insurer": {
+   "fullCalls": 556,
+   "fullErrors": 293,
+   "allCalls": 556,
+   "partialCalls": 0
+  }
+ },
+ "consent": {
+  "basis": "bank",
+  "full": {
+   "requests": 123793,
+   "consents": 79037,
+   "cancelled": 11435,
+   "convPct": 63.8,
+   "cancelPct": 9.2
+  },
+  "lastFull": {
+   "requests": 36001,
+   "consents": 25170,
+   "cancelled": 2919,
+   "convPct": 69.9,
+   "cancelPct": 8.1,
+   "month": "2026-09",
+   "label": "Sep"
+  },
+  "partial": {
+   "requests": 11652,
+   "consents": 7943,
+   "cancelled": 1189,
+   "convPct": 68.2,
+   "cancelPct": 10.2,
+   "month": "2026-10",
+   "label": "Oct"
+  }
+ },
  "movers": {
   "lfiUp": [
    [
