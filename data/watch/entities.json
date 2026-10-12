@@ -16,7 +16,11 @@
   "uae-fabbusiness": {"name": "FAB business (unconfirmed)", "short": "FAB business", "kind": "bank", "tier": "other", "org": null, "segment": true, "confirmed": false},
   "uae-aaic": {"name": "Alain Ahlia Insurance Company", "short": "Alain Ahlia", "kind": "insurer", "tier": "ins", "org": null, "confirmed": true},
   "uae-orient": {"name": "Orient Insurance PJSC", "short": "Orient", "kind": "insurer", "tier": "ins", "org": null, "confirmed": true},
-  "uae-awnic": {"name": "Al Wathba National Insurance Co (unconfirmed)", "short": "Al Wathba", "kind": "insurer", "tier": "ins", "org": null, "confirmed": false}
+  "uae-awnic": {"name": "Al Wathba National Insurance Co (unconfirmed)", "short": "Al Wathba", "kind": "insurer", "tier": "ins", "org": null, "confirmed": false},
+  "uae-adnic": {"name": "ADNIC", "short": "ADNIC", "kind": "insurer", "tier": "ins", "org": "ADNIC", "confirmed": true, "note": "Seen in the auth log only so far."},
+  "uae-liva": {"name": "LIVA Insurance", "short": "LIVA", "kind": "insurer", "tier": "ins", "org": "LIVA", "confirmed": true, "note": "Seen in the auth log only so far."},
+  "uae-uic": {"name": "UIC (unidentified)", "short": "UIC", "kind": "bank", "tier": "other", "org": null, "confirmed": false, "note": "Seen in the auth log only so far. Unidentified key; the Nebras dashboard counts it under Banking, so it is classed as bank here."},
+  "uae-cbdcorp": {"name": "CBD corporate (unconfirmed)", "short": "CBD corporate", "kind": "bank", "tier": "other", "org": null, "segment": true, "confirmed": false, "note": "Seen in the auth log only so far."}
  },
  "orgs": {
   "FAB": {"name": "First Abu Dhabi Bank", "tier": "t1"},
