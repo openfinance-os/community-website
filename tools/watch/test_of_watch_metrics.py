@@ -86,6 +86,14 @@ def main():
     eq("eco.attributed", c["eco"]["attributed"], 150.0)
     eq("eco.top1share", c["eco"]["top1share"], round(100 * 110 / 150, 1))
 
+    # partial month to date (Mar): 7 calls, all 5xx; one accepted payment of 1.00
+    eq("partial.month", c["partial"]["month"], "2026-03")
+    eq("partial.calls", c["partial"]["calls"], 7)
+    eq("partial.errPct", c["partial"]["errPct"], 100.0)
+    eq("partial.paySuccessPct", c["partial"]["paySuccessPct"], 100.0)
+    eq("partial.valueAED", c["partial"]["valueAED"], 1.0)
+    eq("partial.calls==activity.partialVal", c["partial"]["calls"], c["activity"]["partialVal"])
+
     # internal consistency the verifier relies on
     eq("sum(vals)==allTime", sum(c["activity"]["vals"]), c["activity"]["allTime"])
     eq("sum(pay vals)==allTime", round(sum(c["payActivity"]["vals"]), 2),

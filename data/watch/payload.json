@@ -1766,6 +1766,17 @@
   "partialVal": 28379858.05,
   "ccy": "AED"
  },
+ "partial": {
+  "month": "2026-10",
+  "label": "Oct",
+  "calls": 131786,
+  "errors": 6218,
+  "errPct": 4.7,
+  "payCount": 6036,
+  "payAccepted": 5520,
+  "paySuccessPct": 91.5,
+  "valueAED": 28379858.05
+ },
  "movers": {
   "lfiUp": [
    [

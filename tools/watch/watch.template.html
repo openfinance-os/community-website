@@ -121,10 +121,27 @@ a{color:var(--ac);text-decoration:underline;text-underline-offset:.15em}a:hover{
 .sw{width:13px;height:13px;border-radius:3px;display:inline-block}
 .dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none}
 .dot.g{background:var(--green)}.dot.a{background:var(--amber)}.dot.r{background:var(--red)}
-.relrow{display:grid;grid-template-columns:150px 1fr 64px 120px;gap:10px;align-items:center;padding:5px 0;border-bottom:1px solid var(--bd);font-size:12px}
+.mtd{margin-top:12px}
+.mtdh{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em;display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+.mtdl{margin-left:auto;text-transform:none;letter-spacing:0}
+.mtdt{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:780px){.mtdt{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.relrow{display:grid;grid-template-columns:150px 1fr 64px 52px 120px;gap:10px;align-items:center;padding:5px 0;border-bottom:1px solid var(--bd);font-size:12px}
+.relrow .num{text-align:right;font-variant-numeric:tabular-nums;color:var(--mut)}
+.relrow .ep{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+.relrow .tg{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:3px}
+.relhd{border-bottom:0;padding:0 0 2px;font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em}
+.track{position:relative;height:14px}
+.track .tk{position:absolute;top:-2px;bottom:-2px;border-left:1px dashed var(--bd)}
+.axis{position:relative;height:12px}
+.axis span{position:absolute;transform:translateX(-50%);font-size:9.5px;color:var(--mut);font-variant-numeric:tabular-nums}
+.relsort{display:flex;gap:4px;align-items:center;font-size:11px;color:var(--mut);margin:2px 0 8px}
+.relsort button{font:inherit;font-size:11px;padding:2px 9px;border-radius:999px;border:1px solid var(--bd);background:var(--panel2);color:var(--tx);cursor:pointer}
+.relsort button[aria-pressed="true"]{background:var(--ac);color:var(--bg);border-color:transparent}
+.dtag.lv{background:var(--panel2);color:var(--mut);border:1px dashed var(--bd)}
 .relrow .nm{display:flex;align-items:center;gap:7px;min-width:0}
 .relrow .nm b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.stack{display:flex;height:14px;border-radius:7px;overflow:hidden;background:var(--stripe);border:1px solid var(--bd)}
+.stack{position:relative;display:flex;height:14px;border-radius:7px;overflow:hidden;background:var(--stripe);border:1px solid var(--bd)}
 .stack i{display:block;height:100%}
 .s2{background:var(--green)}.s4{background:var(--amber)}.s5{background:var(--red)}
 .dtag{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.02em;padding:1px 6px;border-radius:5px;white-space:nowrap}
@@ -136,7 +153,7 @@ a{color:var(--ac);text-decoration:underline;text-underline-offset:.15em}a:hover{
 .funnel{display:flex;flex-direction:column;gap:7px}
 .fstep .fl{display:flex;justify-content:space-between;align-items:baseline;font-size:12px}
 .fstep .fb{height:9px;border-radius:5px;background:linear-gradient(90deg,#1f6feb,#56d364);margin-top:3px;min-width:2px}
-@media(max-width:780px){.relrow{grid-template-columns:120px 1fr 92px}.relrow>div:nth-child(3){display:none}}
+@media(max-width:780px){.relrow{grid-template-columns:96px 1fr 52px 40px;gap:2px 7px}.relrow:not(.low)>div:nth-child(5){display:none}.relrow.low>div:nth-child(5){grid-column:1/-1;justify-content:flex-start;padding-left:15px}.relrow.low .dtag:not(.lv){display:none}.axis span:nth-child(odd){display:none}}
 .xs{overflow-x:auto}
 .note{font-size:11px;color:var(--mut);margin-top:8px;line-height:1.45}
 .info{background:transparent;padding:0;display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:6px;border:0;color:var(--mut);font-size:9px;font-weight:700;font-style:normal;cursor:help;position:relative;margin-left:5px;vertical-align:middle;text-transform:none;letter-spacing:0;flex:none}
@@ -288,6 +305,15 @@ M.lfiUp.slice(0,4).forEach(function(m){o+='<div class="mv"><b>'+esc(m[0])+'</b> 
 (M.lfiDown||[]).slice(0,1).forEach(function(m){o+='<div class="mv"><b>'+esc(m[0])+'</b> <span class="p down">'+dArrow(m[3])+'</span> <span style="color:var(--mut)">'+k(m[1])+'→'+k(m[2])+'</span></div>';});
 o+='</div>';}
 o+='</div></div>';
+/* current month to date — same window as the Nebras dashboard month filter */
+if(D.partial&&D.partial.calls!=null){var PT=D.partial;
+o+='<div class="card mtd"><div class="mtdh">'+esc(PT.label)+' to date · logs through '+esc(fmtDay(D.asOfData))+inf('The current, incomplete month on its own, from the first of the month to the latest log date. Same window as the Nebras dashboard with that month selected; the headline rates above use full months only.')+' <span class="mtdl">'+lk('https://nebras-open-finance.com/metrics?month='+encodeURIComponent(PT.month),'Compare on the Nebras dashboard')+'</span></div><div class="tiles mtdt">';
+[[PT.calls.toLocaleString(),'API calls','All API calls logged so far this month.'],
+ [esc(PT.errPct)+'%','Error rate',PT.errors.toLocaleString()+' of '+PT.calls.toLocaleString()+' calls returned a 4xx or 5xx response so far this month.'],
+ [m(PT.valueAED),'Accepted payment value','Value (AED) of payments the banks accepted so far this month.'],
+ [esc(PT.paySuccessPct)+'%','Payment success',PT.payAccepted.toLocaleString()+' of '+PT.payCount.toLocaleString()+' payment instructions accepted so far this month (rejected, pending and received count as not accepted).']
+].forEach(function(t){o+='<div class="tile"><div class="v">'+t[0]+'</div><div class="l">'+t[1]+inf(t[2])+'</div></div>';});
+o+='</div></div>';}
 /* payment value card */
 if(D.payActivity){var P=D.payActivity,W=D.payWho||{};
 o+='<div class="card hero" style="margin-top:12px">';
@@ -432,16 +458,23 @@ o+='<div class="note">'+esc(D.adoptionNote)+'</div></section>';
 o+='<section id="operations"><div class="seg"><div class="n">4</div><h2>Operations &amp; Reliability'+inf('Reliability and payment health: where errors come from, whose problem they are (client vs backend), how authorisation converts, and how payments progress from initiation to settlement.')+'</h2><div class="d">Where the errors are, whose problem they are, and how payments convert</div></div>';
 /* reliability board */
 o+='<div class="card"><h3>HTTP response mix by LFI key'+inf('Logged HTTP response groups: green 2xx, amber 4xx, red 5xx. The aggregate does not identify root cause, environment or incident ownership.')+'</h3>';
-var lf=D.lfi.slice().sort(function(a,b){return b[2]-a[2];});
-lf.forEach(function(r){var err=r[2],p4=r[3],p5=r[4],ok=Math.max(0,100-err);
+var lf=D.lfi.slice().sort(function(a,b){return b[2]-a[2];}),LOWV=1000;
+var lmax=Math.log10(Math.max.apply(null,lf.map(function(r){return r[1];}).concat([10])));
+function lw(n){return n>1?Math.max(4,Math.round(1000*Math.log10(n)/lmax)/10):4;}
+var ticks=[100,1000,10000,100000,1000000].filter(function(t){return Math.log10(t)<lmax;});
+o+='<div class="relsort" role="group" aria-label="Sort LFI keys">Sort by <button type="button" data-relsort="err" aria-pressed="true">Error rate</button><button type="button" data-relsort="vol" aria-pressed="false">Volume</button></div>';
+o+='<div class="relrow relhd"><div></div><div class="axis">'+ticks.map(function(t){return '<span style="left:'+lw(t)+'%">'+({100:'100',1000:'1k',10000:'10k',100000:'100k',1000000:'1M'})[t]+'</span>';}).join('')+'</div><div class="num">Calls</div><div class="ep">Err</div><div></div></div>';
+o+='<div id="relrows">';
+lf.forEach(function(r){var err=r[2],p4=r[3],p5=r[4],ok=Math.max(0,100-p4-p5),low=r[1]<LOWV;
 var dot=(err>50||p5>30)?'r':((err>15||p5>10)?'a':'g');
 var tag=err<=15?['ok','Low error share']:(p4>=p5?['cons','4xx dominant']:['back','5xx dominant']);
-o+='<div class="relrow"><div class="nm"><span class="dot '+dot+'"></span><b>'+esc(r[0])+'</b></div>';
-o+='<div class="stack"><i class="s2" style="width:'+ok+'%"></i><i class="s4" style="width:'+p4+'%"></i><i class="s5" style="width:'+p5+'%"></i></div>';
-o+='<div style="text-align:right;font-variant-numeric:tabular-nums;color:var(--mut)">'+r[1].toLocaleString()+'</div>';
-o+='<div style="text-align:right"><span class="dtag '+tag[0]+'">'+tag[1]+'</span></div></div>';});
+o+='<div class="relrow'+(low?' low':'')+'" data-err="'+err+'" data-vol="'+r[1]+'"><div class="nm"><span class="dot '+dot+'"></span><b title="'+esc(r[0])+'">'+esc(r[0])+'</b></div>';
+o+='<div class="track">'+ticks.map(function(t){return '<s class="tk" style="left:'+lw(t)+'%"></s>';}).join('')+'<div class="stack" style="width:'+lw(r[1])+'%"><i class="s2" style="width:'+ok+'%"></i><i class="s4" style="width:'+p4+'%"></i><i class="s5" style="width:'+p5+'%"></i></div></div>';
+o+='<div class="num">'+r[1].toLocaleString()+'</div><div class="ep">'+esc(err)+'%</div>';
+o+='<div class="tg"><span class="dtag '+tag[0]+'">'+tag[1]+'</span>'+(low?'<span class="dtag lv" title="Fewer than '+LOWV.toLocaleString()+' calls in the full months — thin evidence">Low volume</span>':'')+'</div></div>';});
+o+='</div>';
 o+='<div class="lgd"><span><span class="sw" style="background:var(--green)"></span>2xx success</span><span><span class="sw" style="background:var(--amber)"></span>4xx consent/client</span><span><span class="sw" style="background:var(--red)"></span>5xx backend</span></div>';
-o+='<div class="note">Sorted by error rate. HTTP groups do not establish root cause or incident ownership. Response times on the '+lk('https://nebras-open-finance.com/metrics','live dashboard')+'.</div></div>';
+o+='<div class="note">Bar length shows call volume over the '+nFull+' full months on a log scale (each gridline is 10× the one before); colours show the response mix. <i>Low volume</i> marks keys with fewer than '+LOWV.toLocaleString()+' calls, where an error rate rests on little evidence. HTTP groups do not establish root cause or incident ownership. Response times on the '+lk('https://nebras-open-finance.com/metrics','live dashboard')+'.</div></div>';
 /* 4xx vs 5xx split */
 o+='<div class="grid g2" style="margin-top:12px">';
 var by4=D.lfi.slice().filter(function(r){return r[3]>0;}).sort(function(a,b){return b[3]-a[3];});
@@ -516,6 +549,7 @@ if(D.audit){var AU=D.audit;o+='<section id="audit"><details class="more" style="
 o+='<div class="foot">Tiers &amp; deadlines per the '+lk('https://openfinanceuae.atlassian.net/wiki/spaces/OF/pages/6259008/Roadmap','Open Finance Roadmap (Nebras OF Confluence)')+'. Public Nebras logs omit environment labels. Registration and successful calls are separate observations; absence of calls does not prove an LFI is not certified. '+lk('https://nebras-open-finance.com/metrics','metrics')+' · '+lk('https://openfinanceuae.atlassian.net/wiki/spaces/OF/pages/6259008/Roadmap','OF Roadmap')+'</div>';
 return o;}
 document.write(H());
+(function(){var box=document.getElementById('relrows');if(!box)return;var bs=document.querySelectorAll('[data-relsort]');for(var i=0;i<bs.length;i++){bs[i].addEventListener('click',function(){var key=this.getAttribute('data-relsort');for(var j=0;j<bs.length;j++)bs[j].setAttribute('aria-pressed',String(bs[j]===this));var rows=Array.prototype.slice.call(box.children);rows.sort(function(a,b){return Number(b.getAttribute('data-'+key))-Number(a.getAttribute('data-'+key));});rows.forEach(function(r){box.appendChild(r);});});}})();
 (function(){var ns=document.querySelectorAll('.nav a[href^="#"]');for(var i=0;i<ns.length;i++){(function(a){a.addEventListener('click',function(e){e.preventDefault();var el=document.getElementById(a.getAttribute('href').slice(1));if(el){el.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});}});})(ns[i]);}})();
 /* Keep explanatory tooltips readable and inside the viewport when focused or hovered. */
 function placeInfo(button){var tip=button.querySelector('.tip');if(!tip||getComputedStyle(tip).display==='none')return;var box=button.getBoundingClientRect();if(box.bottom<=0||box.top>=window.innerHeight||box.right<=0||box.left>=window.innerWidth){button.classList.add('dismissed');return;}var w=tip.offsetWidth,h=tip.offsetHeight;tip.style.left=Math.max(12,Math.min(window.innerWidth-w-12,box.left+box.width/2-w/2))+'px';var below=box.bottom+8;tip.style.top=(below+h<=window.innerHeight-12?below:Math.max(12,box.top-h-8))+'px';}

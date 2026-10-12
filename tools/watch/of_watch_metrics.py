@@ -236,6 +236,26 @@ def compute(api, auth, pay):
                            partial, money=True)
     pay_activity["ccy"] = "AED"
 
+    # -- current partial month to date (same basis as the Nebras month filter) --
+    in_partial = lambda r: r["date"][:7] == partial
+    p_calls = int(sum(r["totalapicalls"] for r in api if in_partial(r)))
+    p_err = int(sum(r["totalapicalls"] for r in api
+                    if in_partial(r) and r["tppresponsecodegroup"] in ("4xx", "5xx")))
+    p_pay = [r for r in pay if in_partial(r)]
+    p_pay_ct = int(sum(r["count"] for r in p_pay))
+    p_acc_ct = int(sum(r["count"] for r in p_pay if accepted(r)))
+    partial_block = {
+        "month": partial,
+        "label": _abbr(partial),
+        "calls": p_calls,
+        "errors": p_err,
+        "errPct": round(100 * p_err / p_calls, 1) if p_calls else 0.0,
+        "payCount": p_pay_ct,
+        "payAccepted": p_acc_ct,
+        "paySuccessPct": round(100 * p_acc_ct / p_pay_ct, 1) if p_pay_ct else 0.0,
+        "valueAED": round(pay_month_fils[partial] / 100, 2),
+    }
+
     # -- auth 2xx share (full-months, weight by totalapicalls) ---------------
     a2 = sum(r["totalapicalls"] for r in auth
              if is_full(r) and r["tppresponsecodegroup"] == "2xx")
@@ -262,6 +282,7 @@ def compute(api, auth, pay):
         "activity": activity,
         "payments": payments,
         "payActivity": pay_activity,
+        "partial": partial_block,
         "authPct": auth_pct,
         "eco": {"top1": top1, "top1share": top1_share, "hhi": hhi,
                 "attributed": round(attributed, 1)},
@@ -329,6 +350,11 @@ def verify(payload, computed):
         for key in ("vals", "allTime", "fullTotal", "momPct", "lastFullVal",
                     "peakVal", "partialVal", "partialIdx"):
             _cmp(c, f"{block}.{key}", pv.get(key), cv.get(key))
+
+    pt, cpt = payload.get("partial") or {}, computed["partial"]
+    for key in ("month", "calls", "errors", "errPct", "payCount", "payAccepted",
+                "paySuccessPct", "valueAED"):
+        _cmp(c, f"partial.{key}", pt.get(key), cpt[key])
 
     # internal-consistency assertions from the routine (independent of source)
     a = payload["activity"]
