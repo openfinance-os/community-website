@@ -261,10 +261,10 @@ if(AL.length){var mv=AL.filter(isMoving),st=AL.filter(function(a){return !isMovi
 /* ===== OVERVIEW / ACTIVITY HERO ===== */
 o+='<section id="overview"><div class="card hero">';
 /* left: transaction headline + tiles */
-o+='<div><div style="font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em">Total API calls · '+nFull+' full months'+inf('Every API call across all banks and TPPs over the full months shown (the current, incomplete month is excluded from this headline). The all-time figure below includes the partial month.')+'</div>';
-o+='<div class="bignum">'+(A.fullTotal!=null?A.fullTotal.toLocaleString():D.headline.totalFull.toLocaleString())+'</div>';
-o+=wow('totalFull',function(x){return x.toLocaleString()+' calls';});
-o+='<div class="sub" style="margin-top:4px">'+(A.allTime!=null?A.allTime.toLocaleString()+' all-time incl. '+esc(A.partialLabel)+' partial ('+A.partialVal.toLocaleString()+')':'')+'</div>';
+var hasAll=A.allTime!=null,fullCalls=A.fullTotal!=null?A.fullTotal:D.headline.totalFull;
+o+='<div><div style="font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em">Total API calls · '+(hasAll?'all-time to '+esc(fmtDay(D.asOfData)):nFull+' full months')+inf('Every API call across all banks and TPPs since the public logs began, up to the latest log date — the same all-time total the Nebras dashboard shows. The full-months figure below excludes the current, incomplete month; the rates in the tiles use full months only.')+'</div>';
+o+='<div class="bignum">'+(hasAll?A.allTime:fullCalls).toLocaleString()+'</div>';
+o+='<div class="sub" style="margin-top:4px">'+(hasAll?nFull+' full months: '+fullCalls.toLocaleString()+' · '+esc(A.partialLabel)+' to date: '+A.partialVal.toLocaleString()+' ':'')+wow('totalFull',function(x){return x.toLocaleString()+' full-month calls';})+'</div>';
 o+='<div class="tiles">';
 var T1=[
  [k(A.lastFullVal||0)+' <span class="delta '+((A.momPct||0)>=0?'up':'down')+'">'+dArrow(A.momPct||0)+'</span>', esc(A.lastFullLabel||'')+' run-rate (MoM)','API calls in the most recent full month, and the % change vs the month before. A proxy for how fast ecosystem activity is growing.'],
@@ -291,9 +291,10 @@ o+='</div></div>';
 /* payment value card */
 if(D.payActivity){var P=D.payActivity,W=D.payWho||{};
 o+='<div class="card hero" style="margin-top:12px">';
-o+='<div><div style="font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em">Paid through Open Finance · accepted value · '+(P.partialIdx!=null?P.partialIdx:P.months.length)+' full months'+inf('Total value (AED) of payments the banks accepted, over the full months shown. Accepted means approved — not necessarily fully settled. The all-time figure includes the partial month.')+'</div>';
-o+='<div class="bignum">'+m(P.fullTotal)+'</div>';
-o+='<div class="sub" style="margin-top:4px">'+m(P.allTime)+' all-time incl. '+esc(P.partialLabel)+' partial ('+m(P.partialVal)+')</div>';
+var pFull=P.partialIdx!=null?P.partialIdx:P.months.length;
+o+='<div><div style="font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em">Paid through Open Finance · accepted value · all-time to '+esc(fmtDay(D.asOfData))+inf('Total value (AED) of payments the banks accepted since the public logs began, up to the latest log date — the same all-time total the Nebras dashboard shows. Accepted means approved — not necessarily fully settled. The full-months figure below excludes the current, incomplete month.')+'</div>';
+o+='<div class="bignum">'+m(P.allTime)+'</div>';
+o+='<div class="sub" style="margin-top:4px">'+pFull+' full months: '+m(P.fullTotal)+' · '+esc(P.partialLabel)+' to date: '+m(P.partialVal)+'</div>';
 o+='<div class="tiles">';
 var T2=[
  [mc(P.lastFullVal)+' <span class="delta '+((P.momPct||0)>=0?'up':'down')+'">'+dArrow(P.momPct||0)+'</span>', esc(P.lastFullLabel)+' value (MoM)','Accepted payment value (AED) in the most recent full month, and the % change vs the month before.'],
