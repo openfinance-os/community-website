@@ -13,7 +13,7 @@ test.describe('Open Circuit section', () => {
     expect(
       await video.evaluate((v: HTMLVideoElement) => ({
         muted: v.muted,
-        inline: v.playsInline,
+        inline: v.hasAttribute('playsinline'),
         loop: v.loop,
       }))
     ).toEqual({ muted: true, inline: true, loop: false });

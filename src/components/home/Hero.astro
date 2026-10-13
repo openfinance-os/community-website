@@ -1,5 +1,6 @@
 ---
 import DirectorySnapshot from './DirectorySnapshot.astro';
+import HeroFilm from './HeroFilm.astro';
 interface DirectoryObservation {
   registered: number;
   apiFamilies: string[];
@@ -13,6 +14,7 @@ const { production, sandbox } = Astro.props;
 ---
 
 <section class="hero" aria-labelledby="hero-title">
+  <HeroFilm />
   <div class="hero-inner">
     <div class="hero-content">
       <p class="hero-eyebrow">
@@ -78,10 +80,15 @@ const { production, sandbox } = Astro.props;
 
 <style>
   .hero {
-    padding: 72px 24px 64px;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 72px 24px 176px;
     background: var(--color-surface);
   }
   .hero-inner {
+    position: relative;
+    z-index: 1;
     max-width: 1224px;
     margin: 0 auto;
     display: grid;
@@ -91,6 +98,11 @@ const { production, sandbox } = Astro.props;
   }
   .hero-content {
     min-width: 0;
+  }
+  .hero-inner :global(.panel-label),
+  .hero-inner :global(.snapshot-caption) {
+    background: color-mix(in srgb, var(--color-surface) 94%, transparent);
+    border-radius: 4px;
   }
   .hero-eyebrow {
     display: flex;
@@ -241,7 +253,7 @@ const { production, sandbox } = Astro.props;
   }
   @media (max-width: 700px) {
     .hero {
-      padding: 44px 20px 35px;
+      padding: 44px 20px 130px;
     }
     .hero-inner {
       grid-template-columns: 1fr;
