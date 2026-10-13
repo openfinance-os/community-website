@@ -18,11 +18,11 @@ Poster SHA-256: `2316780320cb61a71db0c6c95a9d6d8db8f22cce4e9830e1f716c239e582c8d
 
 ## Playback and presentation
 
-The film starts silently and loops on desktop when the hero is visible. A keyboard-operable play/pause control preserves the user's pause choice. The component pauses when the hero leaves view or the document becomes hidden. A separate still remains beneath the video and is retained if playback fails or is blocked.
+The film starts silently and loops on desktop and mobile when the hero is visible. At the user's request, the opening hero has no playback control. The component pauses when the hero leaves view or the document becomes hidden. A separate still remains beneath the video and is retained if playback fails or is blocked.
 
-Reduced-motion, data-saving and viewport widths up to 700px start with the still and do not automatically fetch the MP4. Explicit play is available. New preference changes return playback to the appropriate still policy. Dark mode blends the illustration into the site's deep teal surface; protective surface gradients preserve the headline, actions and source captions.
+Reduced-motion and data-saving visits use the still and do not automatically fetch the MP4. Preference changes immediately apply the appropriate playback or still policy. Dark mode blends the illustration into the site's deep teal surface; protective surface gradients preserve the headline, actions and source captions.
 
-## Validation
+## Initial integration validation
 
 The repository's pinned Node 22.23.1 was used from a task-local runtime because the installed Homebrew copy could not load its simdutf dependency.
 
@@ -36,3 +36,9 @@ The repository's pinned Node 22.23.1 was used from a task-local runtime because 
 The existing Open Circuit test now checks the `playsinline` attribute, which is portable across the three browsers. Its media and runtime behavior are unchanged.
 
 This evidence is local build and preview validation. It does not establish a production deployment or a complete accessibility certification.
+
+## Automatic-loop follow-up
+
+The user requested removal of the opening hero's play/pause control on 13 October 2026. Its markup, styling and manual-play state have been removed. Silent inline automatic looping now applies at all viewport widths. Reduced-motion and data-saving guards, visibility pausing and the still fallback remain. The separate Open Circuit section retains its own controls and playback policy.
+
+Follow-up local validation: production build passed (325 pages); Astro/TypeScript check returned zero errors and zero warnings; formatting and diff checks passed; 30 hero-film checks passed across Chromium, Firefox and WebKit with no failures or skips. Desktop and 390px preview playback were also observed directly without a hero control.
