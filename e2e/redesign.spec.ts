@@ -37,15 +37,17 @@ test('offscreen and data-saving animation avoid automatic video requests', async
   );
   const requests: string[] = [];
   page.on('request', (request) => {
-    if (request.url().includes('open-circuit-hero.mp4')) requests.push(request.url());
+    if (request.url().includes('permission-connection.mp4')) requests.push(request.url());
   });
   await page.goto('/');
   await expect(page.locator('#open-circuit-video')).not.toHaveAttribute('src');
   await page.locator('[data-open-circuit]').scrollIntoViewIfNeeded();
-  await expect(page.getByRole('button', { name: 'Play animation', exact: true })).toBeVisible();
+  await expect(page.locator('.circuit-poster')).toBeVisible();
+  await page.waitForTimeout(300);
+  await expect(page.locator('#open-circuit-video')).not.toHaveAttribute('src');
+  await expect(page.locator('#open-circuit-video')).toHaveCSS('opacity', '0');
+  await expect(page.locator('.circuit-control')).toHaveCount(0);
   expect(requests).toHaveLength(0);
-  await page.getByRole('button', { name: 'Play animation', exact: true }).click();
-  await expect(page.getByRole('button', { name: 'Pause animation', exact: true })).toBeVisible();
 });
 
 for (const theme of ['light', 'dark']) {
