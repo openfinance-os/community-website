@@ -2,8 +2,6 @@ import { test, expect, type Page } from '@playwright/test';
 
 const filmSelector = '[data-hero-film]';
 const videoSelector = '#shared-horizon-video';
-const playLabel = 'Play background film';
-const pauseLabel = 'Pause background film';
 
 function watchFilmRequests(page: Page) {
   const requests: string[] = [];
@@ -16,7 +14,6 @@ function watchFilmRequests(page: Page) {
 }
 
 async function expectStillWithoutFetch(page: Page, requests: string[]) {
-  await expect(page.getByRole('button', { name: playLabel, exact: true })).toBeVisible();
   const poster = page.locator('.hero-film-poster');
   await expect(poster).toBeVisible();
   await expect
@@ -27,6 +24,7 @@ async function expectStillWithoutFetch(page: Page, requests: string[]) {
   // Give the initial intersection callback time to run before checking the request guard.
   await page.waitForTimeout(300);
   await expect(page.locator(videoSelector)).not.toHaveAttribute('src');
+  await expect(page.locator(videoSelector)).toHaveCSS('opacity', '0');
   expect(
     await page.locator(videoSelector).evaluate((video: HTMLVideoElement) => video.currentSrc)
   ).toBe('');
@@ -34,7 +32,6 @@ async function expectStillWithoutFetch(page: Page, requests: string[]) {
 }
 
 async function expectPlaying(page: Page) {
-  await expect(page.getByRole('button', { name: pauseLabel, exact: true })).toBeVisible();
   await expect
     .poll(() =>
       page.locator(videoSelector).evaluate((video: HTMLVideoElement) => video.currentTime)
@@ -51,7 +48,7 @@ test.describe('Homepage background film', () => {
     await page.emulateMedia({ reducedMotion: 'no-preference' });
   });
 
-  test('plays a silent inline loop and supports a persistent keyboard pause', async ({ page }) => {
+  test('automatically plays a silent inline loop without film controls', async ({ page }) => {
     await page.goto('/');
     const video = page.locator(videoSelector);
     await expectPlaying(page);
@@ -62,8 +59,22 @@ test.describe('Homepage background film', () => {
         loop: element.loop,
         decorative: Boolean(element.closest('[aria-hidden="true"]')),
         tabIndex: element.tabIndex,
+        controls: element.controls,
       }))
-    ).toEqual({ muted: true, inline: true, loop: true, decorative: true, tabIndex: -1 });
+    ).toEqual({
+      muted: true,
+      inline: true,
+      loop: true,
+      decorative: true,
+      tabIndex: -1,
+      controls: false,
+    });
+    await expect(
+      page.locator(
+        '[data-hero-film-control], .hero-film-control, button[aria-controls="shared-horizon-video"]'
+      )
+    ).toHaveCount(0);
+    await expect(page.locator(filmSelector).locator('button')).toHaveCount(0);
 
     // Exercise the end of the actual media rather than only checking the loop attribute.
     await expect
@@ -76,39 +87,16 @@ test.describe('Homepage background film', () => {
       .poll(() => video.evaluate((element: HTMLVideoElement) => element.currentTime))
       .toBeLessThan(2);
     expect(await video.evaluate((element: HTMLVideoElement) => element.ended)).toBe(false);
-
-    const pause = page.getByRole('button', { name: pauseLabel, exact: true });
-    await expect(pause).toHaveAttribute('aria-controls', 'shared-horizon-video');
-    await pause.focus();
-    await page.keyboard.press('Enter');
-    const play = page.getByRole('button', { name: playLabel, exact: true });
-    await expect(play).toBeFocused();
-    const stoppedAt = await video.evaluate((element: HTMLVideoElement) => element.currentTime);
-    await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
-    await page.locator('.hero').scrollIntoViewIfNeeded();
-    await page.waitForTimeout(300);
-    expect(await video.evaluate((element: HTMLVideoElement) => element.currentTime)).toBe(
-      stoppedAt
-    );
-    await expect(play).toBeVisible();
-    await play.focus();
-    await page.keyboard.press('Space');
-    await expectPlaying(page);
   });
 
-  test('reduced motion starts with a still and permits explicit playback', async ({ page }) => {
+  test('reduced motion retains a still without fetching the film', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     const requests = watchFilmRequests(page);
     await page.goto('/');
     await expectStillWithoutFetch(page, requests);
-    await page.getByRole('button', { name: playLabel, exact: true }).click();
-    await expectPlaying(page);
-    expect(requests.length).toBeGreaterThan(0);
   });
 
-  test('data-saving preference avoids automatic fetch but permits explicit playback', async ({
-    page,
-  }) => {
+  test('data-saving preference retains a still without fetching the film', async ({ page }) => {
     await page.addInitScript(() => {
       Object.defineProperty(navigator, 'connection', {
         configurable: true,
@@ -118,35 +106,26 @@ test.describe('Homepage background film', () => {
     const requests = watchFilmRequests(page);
     await page.goto('/');
     await expectStillWithoutFetch(page, requests);
-    await page.getByRole('button', { name: playLabel, exact: true }).click();
-    await expectPlaying(page);
-    expect(requests.length).toBeGreaterThan(0);
   });
 
-  test('a narrow viewport uses a still until the user requests playback', async ({ page }) => {
+  test('a narrow viewport automatically plays the muted inline loop', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     const requests = watchFilmRequests(page);
     await page.goto('/');
-    await expectStillWithoutFetch(page, requests);
-    await page.getByRole('button', { name: playLabel, exact: true }).click();
     await expectPlaying(page);
     expect(requests.length).toBeGreaterThan(0);
-  });
-
-  test('automatic playback begins only above the mobile breakpoint', async ({ page }) => {
-    await page.setViewportSize({ width: 700, height: 1000 });
-    const requests = watchFilmRequests(page);
-    await page.goto('/');
-    await expectStillWithoutFetch(page, requests);
+    expect(
+      await page.locator(videoSelector).evaluate((video: HTMLVideoElement) => ({
+        muted: video.muted,
+        inline: video.hasAttribute('playsinline'),
+        loop: video.loop,
+      }))
+    ).toEqual({ muted: true, inline: true, loop: true });
+    // Crossing the old mobile breakpoint must not interrupt automatic playback.
     await page.setViewportSize({ width: 701, height: 1000 });
     await expectPlaying(page);
-    expect(requests.length).toBeGreaterThan(0);
     await page.setViewportSize({ width: 700, height: 1000 });
-    await expect
-      .poll(() => page.locator(videoSelector).evaluate((video: HTMLVideoElement) => video.paused))
-      .toBe(true);
-    await expect(page.getByRole('button', { name: playLabel, exact: true })).toBeVisible();
-    await expect(page.locator(videoSelector)).toHaveCSS('opacity', '0');
+    await expectPlaying(page);
   });
 
   test('failed media retains the still, heading and usable navigation', async ({ page }) => {
@@ -157,7 +136,6 @@ test.describe('Homepage background film', () => {
         page.locator(videoSelector).evaluate((video: HTMLVideoElement) => video.error !== null)
       )
       .toBe(true);
-    await expect(page.locator('[data-hero-film-control]')).toBeHidden();
     const poster = page.locator('.hero-film-poster');
     await expect(poster).toBeVisible();
     await expect
@@ -186,7 +164,9 @@ test.describe('Homepage background film', () => {
     await expectPlaying(page);
   });
 
-  test('pauses on page visibility changes without clearing a user pause', async ({ page }) => {
+  test('pauses when the page is hidden and automatically resumes when visible', async ({
+    page,
+  }) => {
     await page.goto('/');
     await expectPlaying(page);
     const video = page.locator(videoSelector);
@@ -203,15 +183,18 @@ test.describe('Homepage background film', () => {
       .toBe(true);
     await setHidden(false);
     await expectPlaying(page);
-    await page.getByRole('button', { name: pauseLabel, exact: true }).click();
-    await setHidden(true);
-    await setHidden(false);
-    await page.waitForTimeout(300);
-    expect(await video.evaluate((element: HTMLVideoElement) => element.paused)).toBe(true);
-    await expect(page.getByRole('button', { name: playLabel, exact: true })).toBeVisible();
   });
 
-  test('a new reduced-motion preference returns the film to its still', async ({ page }) => {
+  test('motion and data-saving preference changes return the film to its still', async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      const connection = Object.assign(new EventTarget(), { saveData: false });
+      Object.defineProperty(navigator, 'connection', {
+        configurable: true,
+        value: connection,
+      });
+    });
     await page.goto('/');
     await expectPlaying(page);
     await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -220,16 +203,27 @@ test.describe('Homepage background film', () => {
       .poll(() => video.evaluate((element: HTMLVideoElement) => element.paused))
       .toBe(true);
     await expect(video).toHaveCSS('opacity', '0');
-    await expect(page.getByRole('button', { name: playLabel, exact: true })).toBeVisible();
-    await page.getByRole('button', { name: playLabel, exact: true }).click();
-    await expectPlaying(page);
     await page.emulateMedia({ reducedMotion: 'no-preference' });
-    await page.waitForTimeout(100);
-    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await expectPlaying(page);
+    await page.evaluate(() => {
+      const connection = (
+        navigator as Navigator & { connection: EventTarget & { saveData: boolean } }
+      ).connection;
+      connection.saveData = true;
+      connection.dispatchEvent(new Event('change'));
+    });
     await expect
       .poll(() => video.evaluate((element: HTMLVideoElement) => element.paused))
       .toBe(true);
     await expect(video).toHaveCSS('opacity', '0');
+    await page.evaluate(() => {
+      const connection = (
+        navigator as Navigator & { connection: EventTarget & { saveData: boolean } }
+      ).connection;
+      connection.saveData = false;
+      connection.dispatchEvent(new Event('change'));
+    });
+    await expectPlaying(page);
   });
 
   for (const theme of ['light', 'dark'] as const) {

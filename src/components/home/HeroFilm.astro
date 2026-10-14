@@ -39,84 +39,45 @@ const heightRatio = poster.height / poster.width;
     </div>
     <div class="hero-film-protection"></div>
   </div>
-  <button
-    class="hero-film-control"
-    data-hero-film-control
-    type="button"
-    aria-controls="shared-horizon-video"
-    hidden
-  >
-    <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-      <path data-hero-film-icon d="M5 3 13 8 5 13Z"></path>
-    </svg>
-    <span data-hero-film-label>Play background film</span>
-  </button>
 </div>
 
 <script>
   const film = document.querySelector<HTMLElement>('[data-hero-film]');
   const video = film?.querySelector<HTMLVideoElement>('video');
-  const control = film?.querySelector<HTMLButtonElement>('[data-hero-film-control]');
-  const label = film?.querySelector<HTMLElement>('[data-hero-film-label]');
-  const icon = film?.querySelector<SVGPathElement>('[data-hero-film-icon]');
 
-  if (film && video && control && label && icon) {
+  if (film && video) {
     const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const mobilePreference = window.matchMedia('(max-width: 700px)');
     const connection = (
       navigator as Navigator & {
         connection?: EventTarget & { saveData?: boolean };
       }
     ).connection;
     let inView = !('IntersectionObserver' in window);
-    let userPaused = false;
-    let explicitlyRequested = false;
     let failed = false;
 
-    const automaticPlaybackAllowed = () =>
-      !motionPreference.matches && !mobilePreference.matches && !connection?.saveData;
-
+    const automaticPlaybackAllowed = () => !motionPreference.matches && !connection?.saveData;
     const playbackAllowed = () =>
-      !failed &&
-      inView &&
-      !document.hidden &&
-      !userPaused &&
-      (automaticPlaybackAllowed() || explicitlyRequested);
-
-    const updateControl = () => {
-      const playing = !video.paused;
-      label.textContent = playing ? 'Pause background film' : 'Play background film';
-      icon.setAttribute('d', playing ? 'M4 3h3v10H4Zm5 0h3v10H9Z' : 'M5 3 13 8 5 13Z');
-    };
+      !failed && inView && !document.hidden && automaticPlaybackAllowed();
 
     const play = async () => {
       if (!playbackAllowed() || !video.paused) return;
-      // A data attribute keeps mobile, motion-reduced and data-saving visits unfetched.
+      // Keep motion-reduced and data-saving visits on the still without fetching the film.
       if (!video.getAttribute('src')) video.src = video.dataset.src!;
       video.muted = true;
       try {
         await video.play();
       } catch {
         film.classList.remove('has-video');
-        updateControl();
       }
     };
 
     const syncPlayback = () => {
       if (!playbackAllowed()) {
         video.pause();
-        if (!automaticPlaybackAllowed() && !explicitlyRequested) {
-          film.classList.remove('has-video');
-        }
+        if (!automaticPlaybackAllowed()) film.classList.remove('has-video');
       } else {
         void play();
       }
-    };
-
-    const preferenceChanged = () => {
-      // A new device or preference setting takes precedence over an earlier manual play.
-      explicitlyRequested = false;
-      syncPlayback();
     };
 
     video.addEventListener('playing', () => {
@@ -125,29 +86,14 @@ const heightRatio = poster.height / poster.width;
         return;
       }
       film.classList.add('has-video');
-      updateControl();
     });
-    video.addEventListener('pause', updateControl);
     video.addEventListener('error', () => {
       failed = true;
       film.classList.remove('has-video');
       video.pause();
-      control.hidden = true;
     });
-    control.addEventListener('click', () => {
-      if (!video.paused) {
-        userPaused = true;
-        explicitlyRequested = false;
-        video.pause();
-      } else {
-        userPaused = false;
-        explicitlyRequested = true;
-        syncPlayback();
-      }
-    });
-    motionPreference.addEventListener('change', preferenceChanged);
-    mobilePreference.addEventListener('change', preferenceChanged);
-    connection?.addEventListener?.('change', preferenceChanged);
+    motionPreference.addEventListener('change', syncPlayback);
+    connection?.addEventListener?.('change', syncPlayback);
     document.addEventListener('visibilitychange', syncPlayback);
 
     if ('IntersectionObserver' in window) {
@@ -160,7 +106,6 @@ const heightRatio = poster.height / poster.width;
       ).observe(film);
     }
 
-    control.hidden = false;
     syncPlayback();
   }
 </script>
@@ -226,33 +171,6 @@ const heightRatio = poster.height / poster.width;
         transparent 58%
       );
   }
-  .hero-film-control {
-    position: absolute;
-    left: max(24px, calc((100% - 1224px) / 2));
-    bottom: 24px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    min-height: 44px;
-    padding: 8px 12px;
-    color: var(--color-text);
-    background: var(--color-card);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    font-size: 0.75rem;
-    pointer-events: auto;
-    cursor: pointer;
-  }
-  .hero-film-control[hidden] {
-    display: none;
-  }
-  .hero-film-control:hover {
-    border-color: var(--color-brand-ink);
-  }
-  .hero-film-control:focus-visible {
-    outline: 2px solid var(--color-brand-ink);
-    outline-offset: 3px;
-  }
   :global([data-theme='dark']) .hero-film {
     --film-blend: soft-light;
   }
@@ -276,11 +194,6 @@ const heightRatio = poster.height / poster.width;
         color-mix(in srgb, var(--color-surface) 86%, transparent) 76%,
         transparent 94%
       );
-    }
-    .hero-film-control {
-      left: auto;
-      right: 20px;
-      bottom: 14px;
     }
   }
   @media (prefers-reduced-motion: reduce) {
