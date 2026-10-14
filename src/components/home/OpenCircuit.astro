@@ -43,17 +43,12 @@ import poster from '../../../public/media/permission-connection-poster.webp';
           preload="none"
           muted
           playsinline
+          loop
           tabindex="-1"
         ></video>
       </div>
       <div class="circuit-caption">
         <span>A connection you control</span>
-        <button class="circuit-control" type="button" aria-controls="open-circuit-video" hidden>
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-            <path data-control-icon d="M5 3 13 8 5 13Z"></path>
-          </svg>
-          <span data-control-label>Play animation</span>
-        </button>
       </div>
     </div>
   </div>
@@ -62,85 +57,56 @@ import poster from '../../../public/media/permission-connection-poster.webp';
 <script>
   const circuit = document.querySelector<HTMLElement>('[data-open-circuit]');
   const video = circuit?.querySelector<HTMLVideoElement>('video');
-  const control = circuit?.querySelector<HTMLButtonElement>('.circuit-control');
-  const label = circuit?.querySelector<HTMLElement>('[data-control-label]');
-  const icon = circuit?.querySelector<SVGPathElement>('[data-control-icon]');
 
-  if (circuit && video && control && label && icon) {
+  if (circuit && video) {
     const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
     const connection = (
       navigator as Navigator & {
         connection?: EventTarget & { saveData?: boolean };
       }
     ).connection;
-    let userPaused = false;
     let inView = !('IntersectionObserver' in window);
     let failed = false;
 
-    const updateControl = () => {
-      const playing = !video.paused && !video.ended;
-      label.textContent = playing
-        ? 'Pause animation'
-        : video.ended
-          ? 'Replay animation'
-          : 'Play animation';
-      icon.setAttribute('d', playing ? 'M4 3h3v10H4Zm5 0h3v10H9Z' : 'M5 3 13 8 5 13Z');
-    };
+    const automaticPlaybackAllowed = () => !motionPreference.matches && !connection?.saveData;
+    const playbackAllowed = () =>
+      !failed && inView && !document.hidden && automaticPlaybackAllowed();
 
     const play = async () => {
-      if (failed || !inView || document.hidden) return;
-      // Keep the video unfetched until playback is appropriate or explicitly requested.
+      if (!playbackAllowed() || !video.paused) return;
+      // Keep motion-reduced and data-saving visits on the still without fetching the film.
       if (!video.getAttribute('src')) video.src = video.dataset.src!;
       video.muted = true;
       try {
         await video.play();
       } catch {
-        // Autoplay can be blocked; the poster and explicit play control remain available.
-        updateControl();
+        circuit.classList.remove('has-video');
       }
     };
 
     const syncPlayback = () => {
-      if (!inView || document.hidden || motionPreference.matches || connection?.saveData) {
+      if (!playbackAllowed()) {
         video.pause();
-      } else if (!userPaused && !video.ended) {
+        if (!automaticPlaybackAllowed()) circuit.classList.remove('has-video');
+      } else {
         void play();
       }
     };
 
     video.addEventListener('playing', () => {
-      if (!inView || document.hidden) {
+      if (!playbackAllowed()) {
         video.pause();
         return;
       }
       circuit.classList.add('has-video');
-      updateControl();
     });
-    video.addEventListener('pause', updateControl);
-    video.addEventListener('ended', updateControl);
     video.addEventListener('error', () => {
       failed = true;
       circuit.classList.remove('has-video');
-      control.hidden = true;
+      video.pause();
     });
-    control.addEventListener('click', () => {
-      if (!video.paused) {
-        userPaused = true;
-        video.pause();
-      } else {
-        userPaused = false;
-        if (video.ended) video.currentTime = 0;
-        void play();
-      }
-    });
-    const preferenceChanged = () => {
-      if (motionPreference.matches || connection?.saveData) {
-        circuit.classList.remove('has-video');
-      }
-      syncPlayback();
-    };
-    motionPreference.addEventListener('change', preferenceChanged);
-    connection?.addEventListener?.('change', preferenceChanged);
+    motionPreference.addEventListener('change', syncPlayback);
+    connection?.addEventListener?.('change', syncPlayback);
     document.addEventListener('visibilitychange', syncPlayback);
 
     if ('IntersectionObserver' in window) {
@@ -153,7 +119,6 @@ import poster from '../../../public/media/permission-connection-poster.webp';
       ).observe(circuit);
     }
 
-    control.hidden = false;
     syncPlayback();
   }
 </script>
@@ -244,29 +209,6 @@ import poster from '../../../public/media/permission-connection-poster.webp';
     color: var(--color-text-secondary);
     font-size: 0.75rem;
   }
-  .circuit-control {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    min-height: 44px;
-    padding: 8px 12px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    background: var(--color-card);
-    color: var(--color-text);
-    font-size: 0.75rem;
-    cursor: pointer;
-  }
-  .circuit-control[hidden] {
-    display: none;
-  }
-  .circuit-control:hover {
-    border-color: var(--color-brand-ink);
-  }
-  .circuit-control:focus-visible {
-    outline-color: var(--color-brand-ink);
-    outline-offset: 4px;
-  }
   @media (max-width: 760px) {
     .open-circuit {
       padding: 0 20px 40px;
@@ -286,9 +228,6 @@ import poster from '../../../public/media/permission-connection-poster.webp';
     .circuit-caption {
       align-items: flex-start;
       flex-direction: column;
-    }
-    .circuit-control {
-      align-self: flex-end;
     }
   }
   @media (prefers-reduced-motion: reduce) {

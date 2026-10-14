@@ -8,7 +8,7 @@ The user approved the new script and concept, reviewed the generated eight-secon
 
 A rounded personal source controls a telescoping glass connection to one selected destination. The lower branch stays disconnected and unlit. A restrained amber reflection follows the joined upper route, then the selected connection retracts and the scene returns to a quiet closed state. The film illustrates permission, scope and withdrawal; it conveys no live traffic, transaction or participant-status evidence.
 
-The full 16:9 frame is visible on desktop and mobile so both routes can be seen. Semantic light/dark surfaces replace the old fixed dark illustration panel. The heading, description, framework link and playback controls remain coded UI. The scene plays silently once when viewed, supports keyboard pause/play/replay, pauses offscreen or when hidden, and retains the responsive still until playback succeeds. Reduced-motion and data-saving visits do not automatically fetch or play the video; explicit playback is available.
+The full 16:9 frame is visible on desktop and mobile so both routes can be seen. Semantic light/dark surfaces replace the old fixed dark illustration panel. The heading, description and framework link remain coded UI. At the user’s request, the scene loops silently and automatically while in view, with no play, pause or replay button. It pauses offscreen or when hidden and retains the responsive still until playback succeeds. Reduced-motion and data-saving visits show the still without fetching or playing the video.
 
 ![Closed permission scene](../../public/media/permission-connection-poster.webp)
 
