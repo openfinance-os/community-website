@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import poster from '../../../public/media/open-circuit-poster.webp';
+import poster from '../../../public/media/permission-connection-poster.webp';
 ---
 
 <section class="open-circuit" aria-labelledby="circuit-title">
@@ -25,19 +25,21 @@ import poster from '../../../public/media/open-circuit-poster.webp';
         <Image
           class="circuit-poster"
           src={poster}
-          widths={[480, 640, 960, 1280, 1440]}
-          sizes="auto, (max-width: 760px) calc(160vw - 64px), (max-width: 1272px) calc(85.6vw - 41px), 1048px"
+          widths={[320, 480, 640, 960, 1280]}
+          sizes="auto, (max-width: 760px) calc(100vw - 82px), (max-width: 1272px) calc(57.143vw - 52.571px), 674px"
+          format="webp"
+          quality={78}
           alt=""
-          width="1440"
-          height="810"
+          width={poster.width}
+          height={poster.height}
           loading="lazy"
         />
         <video
           id="open-circuit-video"
           class="circuit-video"
-          data-src="/media/open-circuit-hero.mp4"
-          width="1440"
-          height="810"
+          data-src="/media/permission-connection.mp4"
+          width="1920"
+          height="1080"
           preload="none"
           muted
           playsinline
@@ -45,7 +47,7 @@ import poster from '../../../public/media/open-circuit-poster.webp';
         ></video>
       </div>
       <div class="circuit-caption">
-        <span>Open Circuit</span>
+        <span>A connection you control</span>
         <button class="circuit-control" type="button" aria-controls="open-circuit-video" hidden>
           <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
             <path data-control-icon d="M5 3 13 8 5 13Z"></path>
@@ -66,8 +68,11 @@ import poster from '../../../public/media/open-circuit-poster.webp';
 
   if (circuit && video && control && label && icon) {
     const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } })
-      .connection;
+    const connection = (
+      navigator as Navigator & {
+        connection?: EventTarget & { saveData?: boolean };
+      }
+    ).connection;
     let userPaused = false;
     let inView = !('IntersectionObserver' in window);
     let failed = false;
@@ -83,7 +88,7 @@ import poster from '../../../public/media/open-circuit-poster.webp';
     };
 
     const play = async () => {
-      if (failed) return;
+      if (failed || !inView || document.hidden) return;
       // Keep the video unfetched until playback is appropriate or explicitly requested.
       if (!video.getAttribute('src')) video.src = video.dataset.src!;
       video.muted = true;
@@ -104,6 +109,10 @@ import poster from '../../../public/media/open-circuit-poster.webp';
     };
 
     video.addEventListener('playing', () => {
+      if (!inView || document.hidden) {
+        video.pause();
+        return;
+      }
       circuit.classList.add('has-video');
       updateControl();
     });
@@ -124,10 +133,14 @@ import poster from '../../../public/media/open-circuit-poster.webp';
         void play();
       }
     });
-    motionPreference.addEventListener('change', () => {
-      if (motionPreference.matches) circuit.classList.remove('has-video');
+    const preferenceChanged = () => {
+      if (motionPreference.matches || connection?.saveData) {
+        circuit.classList.remove('has-video');
+      }
       syncPlayback();
-    });
+    };
+    motionPreference.addEventListener('change', preferenceChanged);
+    connection?.addEventListener?.('change', preferenceChanged);
     document.addEventListener('visibilitychange', syncPlayback);
 
     if ('IntersectionObserver' in window) {
@@ -153,19 +166,19 @@ import poster from '../../../public/media/open-circuit-poster.webp';
     max-width: 1224px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 1fr 1.15fr;
-    background: #082e30;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.2fr);
+    align-items: center;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-2xl);
     overflow: hidden;
   }
   .circuit-copy {
-    padding: 60px 48px;
-    align-self: center;
-    position: relative;
-    z-index: 1;
+    min-width: 0;
+    padding: 48px 40px;
   }
   .circuit-people {
-    color: #c1d5ce;
+    color: var(--color-text-secondary);
     font-size: 0.75rem;
     letter-spacing: 0.06em;
     margin-bottom: 24px;
@@ -174,12 +187,12 @@ import poster from '../../../public/media/open-circuit-poster.webp';
     font-size: clamp(2rem, 3.1vw, 2.75rem);
     font-weight: 500;
     letter-spacing: -0.04em;
-    color: #f2f5ef;
+    color: var(--color-text);
     line-height: 1.1;
     margin-bottom: 22px;
   }
   .circuit-description {
-    color: #c1d5ce;
+    color: var(--color-text-secondary);
     font-size: 0.9375rem;
     line-height: 1.7;
     max-width: 36ch;
@@ -187,37 +200,33 @@ import poster from '../../../public/media/open-circuit-poster.webp';
   }
   .circuit-copy a {
     display: inline-flex;
+    align-items: center;
+    min-height: 44px;
     gap: 18px;
-    color: #e8a85c;
+    color: var(--color-brand-ink);
     font-size: 0.875rem;
     text-underline-offset: 4px;
   }
   .hero-circuit {
-    position: relative;
-    min-height: 400px;
+    min-width: 0;
+    padding: 24px 24px 24px 0;
   }
   .circuit-media {
-    position: absolute;
-    inset: 0 0 65px;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
     overflow: hidden;
-    /* The wide source extends left of this viewport; soften that clipped edge too. */
-    mask-image: linear-gradient(90deg, transparent, #000 20%);
+    background: var(--color-soft);
+    border-radius: var(--radius-lg);
   }
   .circuit-poster,
   .circuit-video {
     position: absolute;
-    inset: 0 auto 0 20%;
-    width: auto;
-    max-width: none;
+    inset: 0;
+    width: 100%;
     height: 100%;
-    transform: translateX(-50%);
     object-fit: contain;
     object-position: center;
-    /* Fade every edge of the source rectangle into the shared teal surface. */
-    mask-image:
-      linear-gradient(90deg, transparent, #000 12%, #000 82%, transparent),
-      linear-gradient(180deg, transparent, #000 16%, #000 78%, transparent);
-    mask-composite: intersect;
   }
   .circuit-video {
     opacity: 0;
@@ -227,15 +236,12 @@ import poster from '../../../public/media/open-circuit-poster.webp';
     opacity: 1;
   }
   .circuit-caption {
-    position: absolute;
-    left: 28px;
-    right: 28px;
-    bottom: 20px;
+    margin-top: 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    color: #c1d5ce;
+    color: var(--color-text-secondary);
     font-size: 0.75rem;
   }
   .circuit-control {
@@ -244,10 +250,10 @@ import poster from '../../../public/media/open-circuit-poster.webp';
     gap: 8px;
     min-height: 44px;
     padding: 8px 12px;
-    border: 1px solid #c1d5ce66;
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
-    background: #082e30;
-    color: #f2f5ef;
+    background: var(--color-card);
+    color: var(--color-text);
     font-size: 0.75rem;
     cursor: pointer;
   }
@@ -255,11 +261,10 @@ import poster from '../../../public/media/open-circuit-poster.webp';
     display: none;
   }
   .circuit-control:hover {
-    border-color: #e8a85c;
-    color: #f5c989;
+    border-color: var(--color-brand-ink);
   }
   .circuit-control:focus-visible {
-    outline-color: #e8a85c;
+    outline-color: var(--color-brand-ink);
     outline-offset: 4px;
   }
   @media (max-width: 760px) {
@@ -267,23 +272,23 @@ import poster from '../../../public/media/open-circuit-poster.webp';
       padding: 0 20px 40px;
     }
     .circuit-inner {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
     }
     .circuit-copy {
-      padding: 32px 28px 0;
+      padding: 32px 28px 12px;
     }
     .circuit-description {
       max-width: 48ch;
     }
     .hero-circuit {
-      min-height: 320px;
-    }
-    .circuit-media {
-      bottom: 70px;
+      padding: 12px 20px 24px;
     }
     .circuit-caption {
-      left: 24px;
-      right: 24px;
+      align-items: flex-start;
+      flex-direction: column;
+    }
+    .circuit-control {
+      align-self: flex-end;
     }
   }
   @media (prefers-reduced-motion: reduce) {

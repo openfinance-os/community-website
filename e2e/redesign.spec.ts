@@ -37,7 +37,7 @@ test('offscreen and data-saving animation avoid automatic video requests', async
   );
   const requests: string[] = [];
   page.on('request', (request) => {
-    if (request.url().includes('open-circuit-hero.mp4')) requests.push(request.url());
+    if (request.url().includes('permission-connection.mp4')) requests.push(request.url());
   });
   await page.goto('/');
   await expect(page.locator('#open-circuit-video')).not.toHaveAttribute('src');
