@@ -136,9 +136,6 @@ for (const theme of ['light', 'dark'] as const) {
     const source = await poster.evaluate((image: HTMLImageElement) => image.currentSrc);
     const response = await page.request.get(source);
     expect(response.status()).toBe(200);
-    // The 320px photographic WebP measures 11,834 bytes at 390px / 1x in all three engines.
-    // Keep a ceiling below the 21,930-byte 480px variant so mobile cannot overfetch it.
-    expect((await response.body()).length).toBeLessThan(16000);
     const dimensions = await poster.evaluate(async (image: HTMLImageElement) => {
       const bitmap = await createImageBitmap(await (await fetch(image.currentSrc)).blob());
       const box = image.getBoundingClientRect();
@@ -146,6 +143,10 @@ for (const theme of ['light', 'dark'] as const) {
       bitmap.close();
       return dimensions;
     });
+    // Measured downloads: 320px / 1x is 11,834 bytes; Safari's 640px / 2x is 34,400.
+    // Each ceiling stays below its next candidate (480px: 21,930; 960px: 61,918).
+    const byteBudget = dimensions.dpr === 1 ? 16000 : 40000;
+    expect((await response.body()).length).toBeLessThan(byteBudget);
     expect(dimensions.source).toBeLessThan(1440);
     expect(dimensions.source).toBeLessThanOrEqual(dimensions.displayed * dimensions.dpr * 1.3);
     expect(originalRequests).toEqual([]);
