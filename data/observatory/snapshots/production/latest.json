@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-10-14T11:12:45.325Z",
+  "timestamp": "2026-10-15T10:52:53.182Z",
   "source": "https://data.directory.openfinance.ae",
   "version": "2.1.0",
   "environment": "production",
@@ -14,6 +14,7 @@
       "LFI": 19,
       "ISP": 7,
       "API Read_Write": 3,
+      "Cert_Management": 1,
       "TSP": 3,
       "pki-test-harness": 1
     },
@@ -40,10 +41,10 @@
       "redirect": 0
     },
     "byCertificationStatus": {
-      "Self-Certified": 50
+      "Self-Certified": 51
     },
     "byApiVersion": {
-      "2.1": 40,
+      "2.1": 41,
       "1.2": 7,
       "2.0": 3
     }
@@ -425,6 +426,7 @@
       "registrationNumber": "01.01.01.003.1963.02",
       "apiFamilies": [
         "accounts",
+        "atm",
         "cop",
         "payments",
         "products"
@@ -459,6 +461,20 @@
           "familyComplete": false
         },
         {
+          "family": "atm",
+          "rawFamily": "atm",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "accounts",
+          "rawFamily": "account-information",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
           "family": "accounts",
           "rawFamily": "account-information",
           "version": "2.1",
@@ -478,13 +494,6 @@
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
-        },
-        {
-          "family": "accounts",
-          "rawFamily": "account-information",
-          "version": "2.1",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
         },
         {
           "family": "payments",
@@ -793,6 +802,7 @@
       "status": "Active",
       "roles": [
         "API Read_Write",
+        "Cert_Management",
         "TSP"
       ],
       "city": "Unknown",
@@ -1125,7 +1135,11 @@
     "participantChange": 0,
     "newParticipants": [],
     "removedParticipants": [],
-    "roleChanges": {},
-    "apiFamilyChanges": {}
+    "roleChanges": {
+      "Cert_Management": 1
+    },
+    "apiFamilyChanges": {
+      "atm": 1
+    }
   }
 }

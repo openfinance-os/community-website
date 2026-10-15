@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-10-14T11:12:47.007Z",
+  "timestamp": "2026-10-15T10:52:54.860Z",
   "source": "https://data.sandbox.directory.openfinance.ae",
   "version": "2.1.0",
   "environment": "sandbox",
@@ -44,11 +44,11 @@
       "redirect": 0
     },
     "byCertificationStatus": {
-      "Self-Certified": 86
+      "Self-Certified": 87
     },
     "byApiVersion": {
       "2.0": 7,
-      "2.1": 43,
+      "2.1": 44,
       "1.2.0": 5,
       "1.0.0": 21,
       "2.0.0": 6,
@@ -1051,6 +1051,7 @@
       "registrationNumber": "01.01.01.003.1963.02",
       "apiFamilies": [
         "accounts",
+        "atm",
         "cop",
         "payments",
         "products"
@@ -1087,6 +1088,13 @@
         {
           "family": "cop",
           "rawFamily": "confirmation",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "atm",
+          "rawFamily": "atm",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
@@ -2752,6 +2760,8 @@
     "newParticipants": [],
     "removedParticipants": [],
     "roleChanges": {},
-    "apiFamilyChanges": {}
+    "apiFamilyChanges": {
+      "atm": 1
+    }
   }
 }
