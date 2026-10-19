@@ -1,17 +1,17 @@
 {
-  "timestamp": "2026-10-18T10:25:08.555Z",
+  "timestamp": "2026-10-19T12:10:15.683Z",
   "source": "https://data.directory.openfinance.ae",
   "version": "2.1.0",
   "environment": "production",
   "summary": {
-    "totalParticipants": 27,
+    "totalParticipants": 28,
     "byStatus": {
-      "Active": 27
+      "Active": 28
     },
     "byRole": {
       "BDSP": 16,
       "BSIP": 15,
-      "LFI": 19,
+      "LFI": 20,
       "ISP": 7,
       "API Read_Write": 3,
       "Cert_Management": 1,
@@ -20,7 +20,7 @@
     },
     "byCity": {
       "Abu Dhabi": 5,
-      "Unknown": 15,
+      "Unknown": 16,
       "Dubai": 7
     },
     "apiFamilies": [
@@ -1129,13 +1129,40 @@
       ],
       "authServerCount": 1,
       "isLive": true
+    },
+    {
+      "id": "a90b2761-560d-45a9-9b32-67465c603059",
+      "name": "Zurich",
+      "legalName": "Zurich International Life Limited",
+      "shortName": "Zurich",
+      "status": "Active",
+      "roles": [
+        "LFI"
+      ],
+      "city": "Unknown",
+      "registrationNumber": "Foreign062",
+      "apiFamilies": [],
+      "hasAuthServer": false,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 0,
+      "isLive": false
     }
   ],
   "trends": {
-    "participantChange": 0,
-    "newParticipants": [],
+    "participantChange": 1,
+    "newParticipants": [
+      "a90b2761-560d-45a9-9b32-67465c603059"
+    ],
     "removedParticipants": [],
-    "roleChanges": {},
+    "roleChanges": {
+      "LFI": 1
+    },
     "apiFamilyChanges": {}
   }
 }
