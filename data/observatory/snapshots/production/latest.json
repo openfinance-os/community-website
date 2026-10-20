@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-10-19T12:10:15.683Z",
+  "timestamp": "2026-10-20T10:56:47.784Z",
   "source": "https://data.directory.openfinance.ae",
   "version": "2.1.0",
   "environment": "production",
   "summary": {
-    "totalParticipants": 28,
+    "totalParticipants": 29,
     "byStatus": {
-      "Active": 28
+      "Active": 29
     },
     "byRole": {
       "BDSP": 16,
@@ -20,7 +20,7 @@
     },
     "byCity": {
       "Abu Dhabi": 5,
-      "Unknown": 16,
+      "Unknown": 17,
       "Dubai": 7
     },
     "apiFamilies": [
@@ -375,6 +375,27 @@
       ],
       "city": "Unknown",
       "registrationNumber": "National004",
+      "apiFamilies": [],
+      "hasAuthServer": false,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 0,
+      "isLive": false
+    },
+    {
+      "id": "37f353bf-0f2a-48f2-8c5a-10b40b7bc7b3",
+      "name": "EIB",
+      "legalName": "EIB",
+      "shortName": "EIB",
+      "status": "Active",
+      "roles": [],
+      "city": "Unknown",
+      "registrationNumber": "01.01.02.031.1976.02",
       "apiFamilies": [],
       "hasAuthServer": false,
       "isShariahCompliant": false,
@@ -1157,12 +1178,10 @@
   "trends": {
     "participantChange": 1,
     "newParticipants": [
-      "a90b2761-560d-45a9-9b32-67465c603059"
+      "37f353bf-0f2a-48f2-8c5a-10b40b7bc7b3"
     ],
     "removedParticipants": [],
-    "roleChanges": {
-      "LFI": 1
-    },
+    "roleChanges": {},
     "apiFamilyChanges": {}
   }
 }
