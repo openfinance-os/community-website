@@ -1,17 +1,17 @@
 {
-  "timestamp": "2026-10-18T10:25:08.555Z",
+  "timestamp": "2026-10-20T10:56:47.784Z",
   "source": "https://data.directory.openfinance.ae",
   "version": "2.1.0",
   "environment": "production",
   "summary": {
-    "totalParticipants": 27,
+    "totalParticipants": 29,
     "byStatus": {
-      "Active": 27
+      "Active": 29
     },
     "byRole": {
       "BDSP": 16,
       "BSIP": 15,
-      "LFI": 19,
+      "LFI": 20,
       "ISP": 7,
       "API Read_Write": 3,
       "Cert_Management": 1,
@@ -20,7 +20,7 @@
     },
     "byCity": {
       "Abu Dhabi": 5,
-      "Unknown": 15,
+      "Unknown": 17,
       "Dubai": 7
     },
     "apiFamilies": [
@@ -375,6 +375,27 @@
       ],
       "city": "Unknown",
       "registrationNumber": "National004",
+      "apiFamilies": [],
+      "hasAuthServer": false,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 0,
+      "isLive": false
+    },
+    {
+      "id": "37f353bf-0f2a-48f2-8c5a-10b40b7bc7b3",
+      "name": "EIB",
+      "legalName": "EIB",
+      "shortName": "EIB",
+      "status": "Active",
+      "roles": [],
+      "city": "Unknown",
+      "registrationNumber": "01.01.02.031.1976.02",
       "apiFamilies": [],
       "hasAuthServer": false,
       "isShariahCompliant": false,
@@ -1129,11 +1150,36 @@
       ],
       "authServerCount": 1,
       "isLive": true
+    },
+    {
+      "id": "a90b2761-560d-45a9-9b32-67465c603059",
+      "name": "Zurich",
+      "legalName": "Zurich International Life Limited",
+      "shortName": "Zurich",
+      "status": "Active",
+      "roles": [
+        "LFI"
+      ],
+      "city": "Unknown",
+      "registrationNumber": "Foreign062",
+      "apiFamilies": [],
+      "hasAuthServer": false,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 0,
+      "isLive": false
     }
   ],
   "trends": {
-    "participantChange": 0,
-    "newParticipants": [],
+    "participantChange": 1,
+    "newParticipants": [
+      "37f353bf-0f2a-48f2-8c5a-10b40b7bc7b3"
+    ],
     "removedParticipants": [],
     "roleChanges": {},
     "apiFamilyChanges": {}
