@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-10-20T10:56:49.496Z",
+  "timestamp": "2026-10-21T11:12:00.425Z",
   "version": "2.1.0",
   "production": {
-    "timestamp": "2026-10-20T10:56:47.784Z",
+    "timestamp": "2026-10-21T11:11:58.638Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.1.0",
     "environment": "production",
@@ -14,7 +14,7 @@
       "byRole": {
         "BDSP": 16,
         "BSIP": 15,
-        "LFI": 20,
+        "LFI": 21,
         "ISP": 7,
         "API Read_Write": 3,
         "Cert_Management": 1,
@@ -396,7 +396,9 @@
         "legalName": "EIB",
         "shortName": "EIB",
         "status": "Active",
-        "roles": [],
+        "roles": [
+          "LFI"
+        ],
         "city": "Unknown",
         "registrationNumber": "01.01.02.031.1976.02",
         "apiFamilies": [],
@@ -1179,17 +1181,17 @@
       }
     ],
     "trends": {
-      "participantChange": 1,
-      "newParticipants": [
-        "37f353bf-0f2a-48f2-8c5a-10b40b7bc7b3"
-      ],
+      "participantChange": 0,
+      "newParticipants": [],
       "removedParticipants": [],
-      "roleChanges": {},
+      "roleChanges": {
+        "LFI": 1
+      },
       "apiFamilyChanges": {}
     }
   },
   "sandbox": {
-    "timestamp": "2026-10-20T10:56:49.487Z",
+    "timestamp": "2026-10-21T11:12:00.418Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.1.0",
     "environment": "sandbox",
