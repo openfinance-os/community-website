@@ -2,7 +2,7 @@
 title: "TPP Customer Terms & Conditions Template"
 type: artifact
 summary: "A starting template for TPPs to develop customer-facing terms and conditions for Open Finance data access services in the UAE."
-date: 2024-10-05
+date: 2025-12-30
 
 useCases:
   - compliance
