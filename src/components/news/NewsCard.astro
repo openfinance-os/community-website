@@ -53,7 +53,19 @@ const getSourceName = (url: string): string => {
   }
 };
 
-const sourceName = isExternal && source ? getSourceName(source) : null;
+// Aggregator links (Google News) redirect to the real outlet, so their
+// hostname says nothing useful. The curator stores the publisher as author.
+const AGGREGATOR_HOSTS = new Set(['news.google.com']);
+const isAggregator = (url: string): boolean => {
+  try {
+    return AGGREGATOR_HOSTS.has(new URL(url).hostname.replace('www.', ''));
+  } catch {
+    return false;
+  }
+};
+
+const sourceName =
+  isExternal && source ? (isAggregator(source) && author ? author : getSourceName(source)) : null;
 
 const typeLabels: Record<string, string> = {
   official: 'Regulatory',
@@ -169,12 +181,15 @@ const formatDate = (d: Date) => {
   .card-header {
     min-width: 0;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
+    gap: var(--space-2) var(--space-3);
     margin-bottom: var(--space-3);
   }
 
   .card-header time {
+    white-space: nowrap;
     font-family: var(--font-mono);
     font-size: 0.75rem;
     color: var(--color-text-secondary);
@@ -183,6 +198,7 @@ const formatDate = (d: Date) => {
   .badges {
     min-width: 0;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: var(--space-2);
   }
@@ -212,6 +228,7 @@ const formatDate = (d: Date) => {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: var(--space-3);
     padding-top: var(--space-3);
     border-top: 1px solid var(--color-border);
     margin-top: auto;
@@ -224,6 +241,8 @@ const formatDate = (d: Date) => {
 
   .read-more {
     min-width: 0;
+    flex-shrink: 0;
+    white-space: nowrap;
     display: flex;
     align-items: center;
     gap: var(--space-1);

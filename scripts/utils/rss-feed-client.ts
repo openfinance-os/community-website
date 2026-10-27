@@ -55,6 +55,7 @@ function decodeHtmlEntities(text: string): string {
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
+    .replace(/&nbsp;/g, ' ')
     .replace(/&#39;/g, "'")
     .replace(/&apos;/g, "'")
     .replace(/&#x([0-9A-Fa-f]+);/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
@@ -64,11 +65,34 @@ function decodeHtmlEntities(text: string): string {
 /**
  * Strip HTML tags from content
  */
-function stripHtml(html: string): string {
-  return html
+export function stripHtml(html: string): string {
+  // Feeds often double-encode markup (e.g. `&amp;nbsp;`), so entities can
+  // survive the first decode. Decode again once tags are gone.
+  return decodeHtmlEntities(html.replace(/<[^>]*>/g, ' '))
     .replace(/<[^>]*>/g, ' ')
-    .replace(/\s+/g, ' ')
+    .replace(/[\s\u00a0]+/g, ' ')
     .trim();
+}
+
+/**
+ * Google News descriptions only repeat the headline and the publisher name,
+ * so they carry no summary. Return '' for those and keep anything longer.
+ */
+export function cleanGoogleNewsDescription(
+  description: string,
+  title: string,
+  publisher: string
+): string {
+  const normalize = (text: string) =>
+    text
+      .toLowerCase()
+      .replace(/[^\p{L}\p{N}]+/gu, ' ')
+      .trim();
+  const remainder = normalize(description)
+    .replace(normalize(title), '')
+    .replace(normalize(publisher), '')
+    .trim();
+  return remainder.length === 0 ? '' : description;
 }
 
 /**
@@ -157,7 +181,7 @@ export function parseFeed(
         content = extractTagContent(item, 'content');
       }
 
-      const description = extractTagContent(item, 'description');
+      let description = stripHtml(extractTagContent(item, 'description'));
 
       let title = extractTagContent(item, 'title');
       let source = sourceName;
@@ -165,14 +189,15 @@ export function parseFeed(
         const normalized = normalizeGoogleNewsItem(item, title, sourceName);
         title = normalized.title;
         source = normalized.source;
+        description = cleanGoogleNewsDescription(description, title, source);
       }
 
       articles.push({
         title,
         link: extractTagContent(item, 'link') || extractTagContent(item, 'guid'),
         pubDate: extractTagContent(item, 'pubDate') || extractTagContent(item, 'dc:date'),
-        description: stripHtml(description || ''),
-        content: stripHtml(content || description || ''),
+        description,
+        content: content ? stripHtml(content) : description,
         source,
         categories: extractAllTags(item, 'category'),
       });

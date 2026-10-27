@@ -17,7 +17,11 @@ import {
   scoreArticle,
   thresholdForRegion,
 } from '../news-api-client.js';
-import { normalizeGoogleNewsItem, parseFeed } from '../rss-feed-client.js';
+import {
+  cleanGoogleNewsDescription,
+  normalizeGoogleNewsItem,
+  parseFeed,
+} from '../rss-feed-client.js';
 
 const NOW = new Date('2026-09-12T12:00:00Z');
 
@@ -272,6 +276,28 @@ describe('Google News feed handling', () => {
 <description>&lt;a href="https://x"&gt;CBUAE confirms open finance go-live for insurance&lt;/a&gt;&amp;nbsp;&amp;nbsp;The National</description>
 <source url="https://www.thenationalnews.com">The National</source></item>
 </channel></rss>`;
+
+  it('drops descriptions that only repeat the headline and publisher', () => {
+    const [item] = parseFeed(xml, 'Google News - Open Finance UAE', 'google-news');
+    expect(item.description).toBe('');
+    expect(item.content).toBe('');
+  });
+
+  it('keeps Google News descriptions that add real text', () => {
+    expect(
+      cleanGoogleNewsDescription(
+        'CBUAE confirms go-live The National Insurers must connect by March',
+        'CBUAE confirms go-live',
+        'The National'
+      )
+    ).toBe('CBUAE confirms go-live The National Insurers must connect by March');
+  });
+
+  it('decodes double-encoded entities in plain RSS descriptions', () => {
+    const [item] = parseFeed(xml, 'Some Feed');
+    expect(item.description).not.toContain('&nbsp;');
+    expect(item.description).toBe('CBUAE confirms open finance go-live for insurance The National');
+  });
 
   it('uses the publisher as the source and strips the title suffix', () => {
     const [item] = parseFeed(xml, 'Google News - Open Finance UAE', 'google-news');
