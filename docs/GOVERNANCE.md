@@ -168,4 +168,4 @@ This governance document may be updated through the significant decision process
 
 ---
 
-Questions about governance? Open a [Discussion](https://github.com/openfinance-os/community/discussions).
+Questions about governance? Open a [Discussion](https://github.com/openfinance-os/community-website/discussions).

@@ -45,7 +45,7 @@ The domain directly ties to the **OpenFinance-OS** GitHub organization, reinforc
 |-------|-----|
 | Website | openfinance-os.org |
 | GitHub | github.com/organizations/openfinance-os/ |
-| Discussions | github.com/openfinance-os/community/discussions |
+| Discussions | github.com/openfinance-os/community-website/discussions |
 
 One name, one identity, one community.
 
@@ -393,7 +393,7 @@ Position UAE Open Finance in international context. Learn from other jurisdictio
 - Spreading the word
 
 **Communication:**
-- GitHub Discussions (primary): github.com/openfinance-os/community/discussions
+- GitHub Discussions (primary): github.com/openfinance-os/community-website/discussions
 - Optional future: Discord/Slack if demand exists
 
 **Working groups** (future):

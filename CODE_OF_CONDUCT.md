@@ -80,4 +80,4 @@ This Code of Conduct is adapted from the [Contributor Covenant](https://www.cont
 
 ---
 
-Questions about this code of conduct? Open a [Discussion](https://github.com/openfinance-os/community/discussions).
+Questions about this code of conduct? Open a [Discussion](https://github.com/openfinance-os/community-website/discussions).
