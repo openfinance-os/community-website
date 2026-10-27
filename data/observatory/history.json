@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-26T12:16:57.057Z",
+  "lastUpdated": "2026-10-27T11:37:16.667Z",
   "dataPoints": [
     {
       "date": "2025-12-26",
@@ -6841,6 +6841,36 @@
       "byCity": {
         "Abu Dhabi": 5,
         "Unknown": 17,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "atm": 2,
+        "cop": 9,
+        "insurance": 2,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-10-27",
+      "totalParticipants": 30,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 22,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "Cert_Management": 1,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 18,
         "Dubai": 7
       },
       "apiFamilyCoverage": {
@@ -13708,6 +13738,36 @@
       },
       "tppCount": 0,
       "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-10-27",
+      "totalParticipants": 30,
+      "liveInProduction": 12,
+      "byRole": {
+        "BDSP": 16,
+        "BSIP": 15,
+        "LFI": 22,
+        "ISP": 7,
+        "API Read_Write": 3,
+        "Cert_Management": 1,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 5,
+        "Unknown": 18,
+        "Dubai": 7
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "atm": 2,
+        "cop": 9,
+        "insurance": 2,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
     }
   ],
   "sandboxHistory": [
@@ -19520,6 +19580,39 @@
       },
       "tppCount": 0,
       "shariahCompliantCount": 9
+    },
+    {
+      "date": "2026-10-27",
+      "totalParticipants": 79,
+      "liveInProduction": 19,
+      "byRole": {
+        "BDSP": 75,
+        "BSIP": 75,
+        "LFI": 53,
+        "ISP": 57,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 60,
+        "Abu Dhabi": 6,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "account": 6,
+        "accounts": 8,
+        "atm": 2,
+        "cop": 8,
+        "insurance": 4,
+        "onboarding": 1,
+        "payments": 13,
+        "products": 9,
+        "reporting": 1
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 8
     }
   ],
   "milestones": [
@@ -19852,6 +19945,12 @@
       "event": "EIB joined production",
       "participantId": "37f353bf-0f2a-48f2-8c5a-10b40b7bc7b3",
       "participantName": "EIB"
+    },
+    {
+      "date": "2026-10-27",
+      "event": "Al Buharia National Insurance Co joined production",
+      "participantId": "f8655450-519d-48ce-ba63-29a3547929f5",
+      "participantName": "Al Buharia National Insurance Co"
     }
   ]
 }

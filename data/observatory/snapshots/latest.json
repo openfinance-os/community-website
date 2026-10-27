@@ -1,20 +1,20 @@
 {
-  "timestamp": "2026-10-26T12:16:57.058Z",
+  "timestamp": "2026-10-27T11:37:16.669Z",
   "version": "2.1.0",
   "production": {
-    "timestamp": "2026-10-26T12:16:55.236Z",
+    "timestamp": "2026-10-27T11:37:14.957Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.1.0",
     "environment": "production",
     "summary": {
-      "totalParticipants": 29,
+      "totalParticipants": 30,
       "byStatus": {
-        "Active": 29
+        "Active": 30
       },
       "byRole": {
         "BDSP": 16,
         "BSIP": 15,
-        "LFI": 21,
+        "LFI": 22,
         "ISP": 7,
         "API Read_Write": 3,
         "Cert_Management": 1,
@@ -23,7 +23,7 @@
       },
       "byCity": {
         "Abu Dhabi": 5,
-        "Unknown": 17,
+        "Unknown": 18,
         "Dubai": 7
       },
       "apiFamilies": [
@@ -196,6 +196,29 @@
         ],
         "authServerCount": 1,
         "isLive": true
+      },
+      {
+        "id": "f8655450-519d-48ce-ba63-29a3547929f5",
+        "name": "Al Buharia National Insurance Co",
+        "legalName": "Al Buharia National Insurance Co",
+        "shortName": "Al Buharia National Insurance Co",
+        "status": "Active",
+        "roles": [
+          "LFI"
+        ],
+        "city": "Unknown",
+        "registrationNumber": "National015",
+        "apiFamilies": [],
+        "hasAuthServer": false,
+        "isShariahCompliant": false,
+        "authCapabilities": {
+          "supportsCiba": false,
+          "supportsDCR": false,
+          "supportsRedirect": false
+        },
+        "apiResources": [],
+        "authServerCount": 0,
+        "isLive": false
       },
       {
         "id": "473cbc09-d58d-4656-8e70-11e467f37cfe",
@@ -1181,15 +1204,19 @@
       }
     ],
     "trends": {
-      "participantChange": 0,
-      "newParticipants": [],
+      "participantChange": 1,
+      "newParticipants": [
+        "f8655450-519d-48ce-ba63-29a3547929f5"
+      ],
       "removedParticipants": [],
-      "roleChanges": {},
+      "roleChanges": {
+        "LFI": 1
+      },
       "apiFamilyChanges": {}
     }
   },
   "sandbox": {
-    "timestamp": "2026-10-26T12:16:57.053Z",
+    "timestamp": "2026-10-27T11:37:16.663Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.1.0",
     "environment": "sandbox",
@@ -1225,7 +1252,7 @@
         "reporting"
       ],
       "liveInProduction": 19,
-      "shariahCompliantCount": 9,
+      "shariahCompliantCount": 8,
       "multiRoleCount": 76,
       "tppCount": 0,
       "byAuthCapabilities": {
@@ -1315,7 +1342,7 @@
           "payments"
         ],
         "hasAuthServer": true,
-        "isShariahCompliant": true,
+        "isShariahCompliant": false,
         "authCapabilities": {
           "supportsCiba": false,
           "supportsDCR": false,
@@ -3958,6 +3985,7 @@
       "36b067c3-8017-4144-bb7e-49cf794089c9",
       "1b4f7317-8b67-4179-bdfb-8054f74c25d0",
       "b1b75d1a-648e-4e88-8d1f-a2a3cf43de5c",
+      "f8655450-519d-48ce-ba63-29a3547929f5",
       "473cbc09-d58d-4656-8e70-11e467f37cfe",
       "2f9981d9-47e6-4cd5-ba04-d6bdadf52591",
       "7c618e0b-0acc-4642-bdbb-180eb419be95",
@@ -3992,7 +4020,6 @@
       "efc97cf6-2d7b-4b37-8a9a-ac9c1958b17a",
       "a9d14b51-08f0-4a5a-8603-e284670e0015",
       "176874d6-e4db-48cb-935c-e9bc11193a8f",
-      "f8655450-519d-48ce-ba63-29a3547929f5",
       "3ae85b57-7a70-4be2-84fe-97fbb4d8ec45",
       "341a8d2e-ccc9-4512-acb3-8497c13c9b6c",
       "9b16b09b-fde8-4a15-89d0-b376e8a55ef7",
