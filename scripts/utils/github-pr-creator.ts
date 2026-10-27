@@ -33,8 +33,17 @@ interface GitHubPRResponse {
   html_url: string;
 }
 
-function generateMarkdownContent(article: CuratedArticle): string {
+/** Fallback strings the summarizer emits when it has nothing to say. */
+const PLACEHOLDER_SUMMARIES = new Set([
+  'read the full article for more details.',
+  'no summary available.',
+]);
+
+export function generateMarkdownContent(article: CuratedArticle): string {
   const date = new Date(article.publishedAt).toISOString().split('T')[0];
+  const summary = (article.summary || '').trim();
+  const hasSummary = summary.length > 0 && !PLACEHOLDER_SUMMARIES.has(summary.toLowerCase());
+  const descriptionLine = hasSummary ? `description: "${summary.replace(/"/g, '\\"')}"\n` : '';
 
   return `---
 title: "${article.title.replace(/"/g, '\\"')}"
@@ -43,12 +52,9 @@ type: ${article.type}
 region: ${article.region}
 author: ${article.source}
 source: ${article.sourceUrl}
-description: "${article.summary.replace(/"/g, '\\"')}"
-external: true
+${descriptionLine}external: true
 ---
-
-${article.summary}
-`;
+${hasSummary ? `\n${summary}\n` : ''}`;
 }
 
 function generatePRBody(article: CuratedArticle): string {

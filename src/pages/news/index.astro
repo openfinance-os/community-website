@@ -70,9 +70,11 @@ const getFeaturedHref = () => {
     : `/news/${featuredArticle.id}`;
 };
 
-const getSourceName = (url: string): string => {
+const getSourceName = (url: string, author?: string): string => {
   try {
     const hostname = new URL(url).hostname.replace('www.', '');
+    // Google News links redirect to the outlet; the publisher is the author.
+    if (hostname === 'news.google.com' && author) return author;
     const domainNames: Record<string, string> = {
       'gulfbusiness.com': 'Gulf Business',
       'gulfnews.com': 'Gulf News',
@@ -154,7 +156,7 @@ const getSourceName = (url: string): string => {
               <div class="featured-footer">
                 <span class="featured-author">
                   {featuredArticle.data.external && featuredArticle.data.source
-                    ? `via ${getSourceName(featuredArticle.data.source)}`
+                    ? `via ${getSourceName(featuredArticle.data.source, featuredArticle.data.author)}`
                     : `By ${featuredArticle.data.author}`}
                 </span>
                 <span class="featured-cta">
