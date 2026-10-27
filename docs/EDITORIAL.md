@@ -144,7 +144,7 @@ The Observatory pulls data directly from the Raidiam Trust Framework Directory. 
 
 ## Questions
 
-Unsure about guidelines? Ask in a [GitHub Discussion](https://github.com/openfinance-os/community/discussions) before submitting.
+Unsure about guidelines? Ask in a [GitHub Discussion](https://github.com/openfinance-os/community-website/discussions) before submitting.
 
 ---
 

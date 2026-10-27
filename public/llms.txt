@@ -69,7 +69,7 @@ How to contribute, connect with maintainers, and help build the ecosystem.
 ## Contact
 
 - GitHub: https://github.com/openfinance-os
-- Discussions: https://github.com/openfinance-os/community/discussions
+- Discussions: https://github.com/openfinance-os/community-website/discussions
 
 ## Site Information
 

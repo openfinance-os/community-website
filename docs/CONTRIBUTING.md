@@ -134,7 +134,7 @@ Use clear, descriptive commit messages:
 
 ## Getting Help
 
-- **Questions?** Open a [Discussion](https://github.com/openfinance-os/community/discussions)
+- **Questions?** Open a [Discussion](https://github.com/openfinance-os/community-website/discussions)
 - **Found a bug?** Open an [Issue](https://github.com/openfinance-os/community-website/issues)
 - **Want to chat?** Join the conversation on GitHub Discussions
 
