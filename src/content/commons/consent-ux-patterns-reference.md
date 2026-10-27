@@ -2,7 +2,7 @@
 title: "The UX of Consent Models in Open Banking"
 type: reference
 summary: "A comprehensive analysis of consent user experience patterns from the UK Open Banking Implementation Entity, with lessons applicable to UAE's Al Tareq ecosystem."
-date: 2024-11-20
+date: 2025-12-30
 
 whyItMatters: "Customer consent is the foundation of Open Finance trust. This article from Scott Logic provides battle-tested UX patterns from the UK's mature Open Banking ecosystem. Understanding these patterns helps UAE TPPs and banks design consent flows that are both compliant and user-friendly, reducing drop-off rates while maintaining regulatory alignment."
 

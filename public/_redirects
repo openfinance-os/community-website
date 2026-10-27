@@ -28,3 +28,6 @@ https://www.openfinance-os.org/* https://openfinance-os.org/:splat 301
 # the bare rule covers /learn/global with no trailing slash.
 /learn/global /global 301
 /learn/global/* /global/:splat 301
+
+# News item re-dated to the actual CBUAE announcement date (was mis-dated 2024-09-15)
+/news/2024-09-15-cbuae-open-finance-framework/* /news/2024-06-27-cbuae-open-finance-regulation/ 301

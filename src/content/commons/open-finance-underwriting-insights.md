@@ -2,7 +2,7 @@
 title: "Leveraging Open Finance Data for Credit Underwriting in the UAE"
 type: insight
 summary: "A practical framework for integrating Open Finance transaction data with traditional credit assessment to enable faster, more inclusive underwriting decisions."
-date: 2024-12-15
+date: 2025-12-30
 
 useCases:
   - underwriting
