@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-10-27T11:37:16.663Z",
+  "timestamp": "2026-10-28T12:08:26.030Z",
   "source": "https://data.sandbox.directory.openfinance.ae",
   "version": "2.1.0",
   "environment": "sandbox",
@@ -35,7 +35,7 @@
       "reporting"
     ],
     "liveInProduction": 19,
-    "shariahCompliantCount": 8,
+    "shariahCompliantCount": 9,
     "multiRoleCount": 76,
     "tppCount": 0,
     "byAuthCapabilities": {
@@ -125,7 +125,7 @@
         "payments"
       ],
       "hasAuthServer": true,
-      "isShariahCompliant": false,
+      "isShariahCompliant": true,
       "authCapabilities": {
         "supportsCiba": false,
         "supportsDCR": false,

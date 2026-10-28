@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-10-27T11:37:16.669Z",
+  "timestamp": "2026-10-28T12:08:26.035Z",
   "version": "2.1.0",
   "production": {
-    "timestamp": "2026-10-27T11:37:14.957Z",
+    "timestamp": "2026-10-28T12:08:24.194Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.1.0",
     "environment": "production",
@@ -1204,19 +1204,15 @@
       }
     ],
     "trends": {
-      "participantChange": 1,
-      "newParticipants": [
-        "f8655450-519d-48ce-ba63-29a3547929f5"
-      ],
+      "participantChange": 0,
+      "newParticipants": [],
       "removedParticipants": [],
-      "roleChanges": {
-        "LFI": 1
-      },
+      "roleChanges": {},
       "apiFamilyChanges": {}
     }
   },
   "sandbox": {
-    "timestamp": "2026-10-27T11:37:16.663Z",
+    "timestamp": "2026-10-28T12:08:26.030Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.1.0",
     "environment": "sandbox",
@@ -1252,7 +1248,7 @@
         "reporting"
       ],
       "liveInProduction": 19,
-      "shariahCompliantCount": 8,
+      "shariahCompliantCount": 9,
       "multiRoleCount": 76,
       "tppCount": 0,
       "byAuthCapabilities": {
@@ -1342,7 +1338,7 @@
           "payments"
         ],
         "hasAuthServer": true,
-        "isShariahCompliant": false,
+        "isShariahCompliant": true,
         "authCapabilities": {
           "supportsCiba": false,
           "supportsDCR": false,
