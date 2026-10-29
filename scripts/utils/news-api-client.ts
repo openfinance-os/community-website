@@ -10,9 +10,11 @@ import {
   inferRegion,
   normalizeUrl,
   preFilterArticle,
+  stripTrackingParams,
   summarizeRejections,
   type RejectionReason,
 } from './article-filters.js';
+import { assessRelevance } from './relevance-gate.js';
 
 const NEWSAPI_BASE_URL = 'https://newsapi.org/v2';
 
@@ -116,7 +118,7 @@ export async function fetchNewsArticles(options: FetchNewsOptions): Promise<News
           // Skip [Removed] articles
           if (article.title === '[Removed]' || article.content === '[Removed]') continue;
 
-          allArticles.push(article);
+          allArticles.push({ ...article, url: stripTrackingParams(article.url) });
         }
         console.log(`  Found ${data.articles.length} articles for ${keyword}`);
       }
@@ -148,6 +150,17 @@ export const CORE_TERMS: ReadonlyArray<{ term: string; weight: number }> = [
   { term: 'al tareq', weight: 25 },
   { term: 'altareq', weight: 25 },
   { term: 'nebras', weight: 22 },
+  { term: 'api hub', weight: 22 },
+  { term: 'ozone connect', weight: 22 },
+  { term: 'ozone api', weight: 18 },
+  { term: 'caap', weight: 18 },
+  { term: 'aani', weight: 18 },
+  { term: 'service initiation', weight: 18 },
+  { term: 'bank service initiation', weight: 18 },
+  { term: 'bank data sharing', weight: 18 },
+  { term: 'confirmation of payee', weight: 15 },
+  { term: 'deemed licence', weight: 18 },
+  { term: 'deemed license', weight: 18 },
   { term: 'open finance framework', weight: 22 },
   { term: 'psd2', weight: 20 },
   { term: 'psd3', weight: 20 },
@@ -159,6 +172,14 @@ export const CORE_TERMS: ReadonlyArray<{ term: string; weight: number }> = [
   { term: 'variable recurring payment', weight: 18 },
   { term: 'pay by bank', weight: 15 },
   { term: 'pay-by-bank', weight: 15 },
+  { term: 'agentic payments', weight: 25 },
+  { term: 'agentic commerce', weight: 25 },
+  { term: 'agentic payment', weight: 25 },
+  { term: 'visa intelligent commerce', weight: 25 },
+  { term: 'mastercard agent pay', weight: 25 },
+  { term: 'agent pay', weight: 22 },
+  { term: 'delegated consent', weight: 22 },
+  { term: 'model context protocol', weight: 18 },
   { term: 'aisp', weight: 15 },
   { term: 'pisp', weight: 15 },
   { term: 'third party provider', weight: 15 },
@@ -652,13 +673,42 @@ export function rankArticles(
 
   // Filter by minimum score for the article's region (UAE stories need a
   // lower bar than global ones on a UAE community site).
-  const relevantArticles = scoredArticles.filter((item) => item.score >= item.threshold);
+  const aboveThreshold = scoredArticles.filter((item) => item.score >= item.threshold);
+
+  const gateReasons = new Map<string, number>();
+  let beatBelowScore = 0;
+  const relevantArticles = scoredArticles.filter((item) => {
+    const decision = assessRelevance(item.article, config);
+    const aboveScore = item.score >= item.threshold;
+    // The agentic-access beat is accepted even when the keyword score is low.
+    if (!aboveScore && !decision.beat) return false;
+    if (!decision.accept) {
+      if (aboveScore) {
+        gateReasons.set(decision.reason, (gateReasons.get(decision.reason) || 0) + 1);
+        if (options.verbose) {
+          console.log(
+            `  Rejected (${decision.reason}, confidence ${decision.confidence.toFixed(2)}): ${item.article.title.substring(0, 60)}`
+          );
+        }
+      }
+      return false;
+    }
+    if (!aboveScore) beatBelowScore += 1;
+    return true;
+  });
 
   const thresholdSummary = (['uae', 'mena', 'global'] as const)
     .map((region) => `${region}>=${thresholdForRegion(region, config)}`)
     .join(', ');
+  const gateSummary =
+    gateReasons.size === 0
+      ? 'none'
+      : [...gateReasons.entries()].map(([reason, count]) => `${reason}=${count}`).join(', ');
   console.log(
-    `Filtered ${scoredArticles.length} articles to ${relevantArticles.length} above region thresholds (${thresholdSummary})`
+    `Filtered ${scoredArticles.length} articles to ${aboveThreshold.length} above region thresholds (${thresholdSummary})`
+  );
+  console.log(
+    `Relevance gate kept ${relevantArticles.length} of ${aboveThreshold.length} above the score bar (rejected: ${gateSummary}; agentic-access beat below the score bar: ${beatBelowScore})`
   );
 
   // Log top articles with scores
@@ -670,7 +720,9 @@ export function rankArticles(
     );
   });
 
-  if (relevantArticles.length === 0 && scoredArticles.length > 0) {
+  if (relevantArticles.length === 0 && aboveThreshold.length > 0) {
+    console.log('  No articles passed the relevance gate.');
+  } else if (relevantArticles.length === 0 && scoredArticles.length > 0) {
     console.log('  No articles met the minimum score threshold.');
     console.log('  Top 3 rejected articles:');
     scoredArticles.slice(0, 3).forEach((item, index) => {

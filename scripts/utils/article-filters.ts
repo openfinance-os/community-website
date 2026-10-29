@@ -101,6 +101,25 @@ const TRACKING_PARAMS = new Set([
 ]);
 
 /**
+ * Remove tracking parameters and the fragment from a URL that will be published.
+ * The host, path, and non-tracking query parameters are left as written.
+ */
+export function stripTrackingParams(rawUrl: string): string {
+  try {
+    const url = new URL(rawUrl.trim());
+    url.hash = '';
+    for (const key of [...url.searchParams.keys()]) {
+      if (TRACKING_PARAMS.has(key.toLowerCase())) {
+        url.searchParams.delete(key);
+      }
+    }
+    return url.toString();
+  } catch {
+    return rawUrl.trim();
+  }
+}
+
+/**
  * Canonicalise a URL for de-duplication: lower-case host, strip tracking
  * query parameters, hash fragments and trailing slashes.
  */

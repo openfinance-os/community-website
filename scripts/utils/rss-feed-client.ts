@@ -5,7 +5,7 @@ import type {
   NewsSourceConfig,
   NewsApiArticle,
 } from '../types/news-curation.js';
-import { normalizeUrl } from './article-filters.js';
+import { normalizeUrl, stripTrackingParams } from './article-filters.js';
 
 interface RssFetchOptions {
   config: NewsSourceConfig;
@@ -49,7 +49,7 @@ function extractAllTags(xml: string, tagName: string): string[] {
 /**
  * Decode common HTML entities
  */
-function decodeHtmlEntities(text: string): string {
+export function decodeHtmlEntities(text: string): string {
   return text
     .replace(/&amp;/g, '&')
     .replace(/&lt;/g, '<')
@@ -251,9 +251,10 @@ async function fetchFeed(feed: RssFeedSource, retries: number = 3): Promise<RssA
 }
 
 /**
- * Convert RSS article to NewsAPI article format for compatibility
+ * Convert RSS article to NewsAPI article format for compatibility.
+ * Tracking parameters are removed from the stored link.
  */
-function rssToNewsApiFormat(rssArticle: RssArticle): NewsApiArticle {
+export function toNewsApiArticle(rssArticle: RssArticle): NewsApiArticle {
   // Parse the date
   let publishedAt: string;
   try {
@@ -271,7 +272,7 @@ function rssToNewsApiFormat(rssArticle: RssArticle): NewsApiArticle {
     author: null,
     title: rssArticle.title,
     description: rssArticle.description || null,
-    url: rssArticle.link,
+    url: stripTrackingParams(rssArticle.link),
     urlToImage: null,
     publishedAt,
     content: rssArticle.content || null,
@@ -343,7 +344,7 @@ export async function fetchRssArticles(options: RssFetchOptions): Promise<NewsAp
   console.log(`\nTotal unique RSS articles: ${allArticles.length}`);
 
   // Convert to NewsAPI format for compatibility with existing scoring/ranking
-  return allArticles.map(rssToNewsApiFormat);
+  return allArticles.map(toNewsApiArticle);
 }
 
 /**

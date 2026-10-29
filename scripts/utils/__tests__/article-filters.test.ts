@@ -8,6 +8,7 @@ import {
   isExcludedDomain,
   normalizeUrl,
   preFilterArticle,
+  stripTrackingParams,
   titleSlug,
 } from '../article-filters.js';
 import {
@@ -51,6 +52,16 @@ const baseConfig: NewsSourceConfig = {
   requireCoreTermForGlobal: true,
   minDescriptionLength: 50,
 };
+
+describe('stripTrackingParams', () => {
+  it('drops utm parameters and keeps the rest of the URL', () => {
+    expect(
+      stripTrackingParams(
+        'https://www.finextra.com/newsarticle/1/foo?utm_medium=rssfinextra&utm_source=finextrafeed&id=9'
+      )
+    ).toBe('https://www.finextra.com/newsarticle/1/foo?id=9');
+  });
+});
 
 describe('normalizeUrl', () => {
   it('strips tracking parameters, fragments and trailing slashes', () => {

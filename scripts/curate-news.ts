@@ -3,11 +3,11 @@
  * News Curation Script
  *
  * This script:
- * 1. Fetches open finance news from RSS feeds (primary) and NewsAPI.org (secondary)
- * 2. Ranks articles by relevance with bonuses for trusted RSS sources
- * 3. Summarizes top articles (using Claude AI if available, otherwise uses article descriptions)
- * 4. Creates draft PRs for each article
- * 5. Sends Slack notification with PR links
+ * 1. Fetches open finance news from RSS feeds, direct HTML pages, and NewsAPI.org
+ * 2. Ranks articles, then applies a confidence gate for open finance / UAE programme news
+ * 3. Writes original summaries and rejects any summary that is copied or ungrounded
+ * 4. Opens one daily digest PR for the accepted articles
+ * 5. Sends one Slack notification for that digest
  *
  * RSS feeds are configured in data/news-curation/sources.json under "rssFeeds".
  * Priority 1 feeds get higher scoring bonus than priority 2 feeds.
@@ -19,7 +19,8 @@
  *
  * Optional:
  * - NEWSAPI_KEY: NewsAPI.org API key (for additional coverage beyond RSS feeds)
- * - ANTHROPIC_API_KEY: Anthropic API key for AI summarization (if not set, uses article descriptions)
+ * - ANTHROPIC_API_KEY: Anthropic API key for AI summarization (without it, copied descriptions are rejected)
+ * - ANTHROPIC_MODEL: Claude model id (default claude-haiku-5-5). Same provider and API key.
  */
 
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
@@ -27,9 +28,16 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { fetchNewsArticles, rankArticles, scoreArticle } from './utils/news-api-client.js';
 import { fetchRssArticles, getRssSourceBonus } from './utils/rss-feed-client.js';
-import { processArticles } from './utils/article-summarizer.js';
-import { createAllPRs, closeOldPRs, fetchProposedSlugs } from './utils/github-pr-creator.js';
-import { inferRegion, isDuplicateTitle, normalizeUrl, titleSlug } from './utils/article-filters.js';
+import { fetchHtmlArticles } from './utils/html-news-client.js';
+import { processArticles, resolveSummarizerModel } from './utils/article-summarizer.js';
+import { createDigestPR, closeOldPRs, fetchProposedSlugs } from './utils/github-pr-creator.js';
+import {
+  isDuplicateTitle,
+  normalizeUrl,
+  stripTrackingParams,
+  titleSlug,
+} from './utils/article-filters.js';
+import { assessRelevance } from './utils/relevance-gate.js';
 import { sendSlackNotification, sendErrorNotification } from './utils/slack-notifier.js';
 import type { NewsSourceConfig, CuratedArticle, NewsApiArticle } from './types/news-curation.js';
 
@@ -194,6 +202,21 @@ async function main() {
       console.log('\n(NewsAPI skipped - no NEWSAPI_KEY configured)');
     }
 
+    // 1c: Direct HTML pages (CBUAE and Nebras do not publish a usable feed)
+    console.log('\n--- HTML pages ---');
+    const htmlArticles = await fetchHtmlArticles({ config });
+    for (const article of htmlArticles) {
+      const canonical = normalizeUrl(article.url);
+      if (!seenUrls.has(canonical)) {
+        seenUrls.add(canonical);
+        allArticles.push(article);
+      }
+    }
+
+    for (const article of allArticles) {
+      article.url = stripTrackingParams(article.url);
+    }
+
     console.log(`\nTotal combined articles: ${allArticles.length}`);
 
     if (allArticles.length === 0) {
@@ -212,9 +235,10 @@ async function main() {
 
     if (rankedArticles.length === 0) {
       console.log(
-        '\nNo articles passed the relevance threshold. Try lowering minRelevanceScore or regionThresholds in sources.json'
+        '\nNo articles passed the score thresholds and the relevance gate. See minRelevanceScore, regionThresholds, and minConfidence in sources.json'
       );
-      console.log('Current threshold:', config.minRelevanceScore || 0);
+      console.log('Current score threshold:', config.minRelevanceScore || 0);
+      console.log('Current confidence threshold:', config.minConfidence ?? 0.55);
       return;
     }
 
@@ -252,70 +276,76 @@ async function main() {
     // Take only top N
     const topArticles = newArticles.slice(0, config.maxArticlesPerRun);
 
-    // Step 4: Summarize articles
-    const hasAI = !!process.env.ANTHROPIC_API_KEY;
-    console.log(
-      `\nStep 4: Processing articles${hasAI ? ' with AI summaries' : ' (free mode - using descriptions)'}...\n`
-    );
     const scores = new Map<string, number>();
+    const confidences = new Map<string, number>();
     topArticles.forEach((article) => {
       scores.set(article.url, scoreArticle(article, config));
+      confidences.set(article.url, assessRelevance(article, config).confidence);
     });
-
-    let curatedArticles: CuratedArticle[];
-
-    if (isDryRun) {
-      // In dry run, create mock summaries with region inference
-      curatedArticles = topArticles.map((article) => ({
-        id: Math.random().toString(36).substring(7),
-        title: article.title,
-        source: article.source.name,
-        sourceUrl: article.url,
-        publishedAt: article.publishedAt,
-        description: article.description || '',
-        summary: article.description || 'No summary available.',
-        relevanceScore: scores.get(article.url) || 0,
-        type: 'global' as const,
-        region: inferRegion(article),
-        slug: `${article.publishedAt.split('T')[0]}-${titleSlug(article.title)}`,
-      }));
-    } else {
-      curatedArticles = await processArticles(topArticles, scores, {
-        apiKey: process.env.ANTHROPIC_API_KEY, // Optional - falls back to descriptions if not set
-      });
-    }
-
-    console.log(`\nProcessed ${curatedArticles.length} articles`);
 
     if (isDryRun) {
       console.log('\n--- DRY RUN RESULTS ---\n');
-      curatedArticles.forEach((article, index) => {
+      console.log(`Summariser model: ${resolveSummarizerModel()}`);
+      console.log('Summaries are not generated in dry run.\n');
+      topArticles.forEach((article, index) => {
+        const decision = assessRelevance(article, config);
         console.log(`${index + 1}. ${article.title}`);
-        console.log(`   Source: ${article.source}`);
-        console.log(`   Type: ${article.type}`);
-        console.log(`   Region: ${article.region.toUpperCase()}`);
-        console.log(`   Score: ${article.relevanceScore}`);
-        console.log(`   Summary: ${article.summary.substring(0, 100)}...`);
-        console.log(`   Slug: ${article.slug}`);
+        console.log(`   Source: ${article.source.name}`);
+        console.log(`   URL: ${stripTrackingParams(article.url)}`);
+        console.log(`   Score: ${scores.get(article.url) || 0}`);
+        console.log(
+          `   Confidence: ${decision.confidence.toFixed(2)} (${decision.matchedTerms.join(', ')})`
+        );
+        if (decision.beat) console.log(`   Beat: ${decision.beat}`);
+        console.log(`   Slug: ${article.publishedAt.split('T')[0]}-${titleSlug(article.title)}`);
         console.log('');
       });
       return;
     }
 
-    // Step 5: Create PRs
-    console.log('\nStep 5: Creating GitHub PRs...\n');
-    const articlesWithPRs = await createAllPRs(curatedArticles, githubOptions);
+    // Step 4: Summarize articles and drop copied or ungrounded prose
+    const hasAI = !!process.env.ANTHROPIC_API_KEY;
+    console.log(
+      `\nStep 4: Processing articles${hasAI ? ` with ${resolveSummarizerModel()}` : ' (no model key — copied descriptions are rejected)'}...\n`
+    );
 
-    if (articlesWithPRs.length === 0) {
-      console.log('No PRs were created. Exiting.');
+    const curatedArticles: CuratedArticle[] = await processArticles(
+      topArticles,
+      scores,
+      { apiKey: process.env.ANTHROPIC_API_KEY },
+      confidences
+    );
+
+    for (const curated of curatedArticles) {
+      const source = topArticles.find((article) => article.url === curated.sourceUrl);
+      if (!source) continue;
+      const decision = assessRelevance(source, config);
+      if (decision.beat) curated.beat = decision.beat;
+    }
+
+    console.log(`\nProcessed ${curatedArticles.length} grounded articles`);
+
+    if (curatedArticles.length === 0) {
+      console.log('No articles left after summary grounding. No digest opened.');
       return;
     }
 
-    // Step 6: Send Slack notification
+    // Step 5: One digest PR for the day
+    const digestDate = new Date().toISOString().slice(0, 10);
+    console.log(`\nStep 5: Creating daily digest PR for ${digestDate}...\n`);
+    const digestPr = await createDigestPR(curatedArticles, githubOptions, digestDate);
+
+    // Step 6: One Slack notification for the digest
     console.log('\nStep 6: Sending Slack notification...\n');
-    await sendSlackNotification(articlesWithPRs, {
-      webhookUrl: process.env.SLACK_WEBHOOK_URL || '',
-    });
+    await sendSlackNotification(
+      {
+        prUrl: digestPr.url,
+        prNumber: digestPr.number,
+        date: digestDate,
+        articles: curatedArticles,
+      },
+      { webhookUrl: process.env.SLACK_WEBHOOK_URL || '' }
+    );
 
     // Step 7: Cleanup old PRs
     console.log('\nStep 7: Cleaning up old PRs...\n');
@@ -323,7 +353,7 @@ async function main() {
 
     console.log('\n============================');
     console.log('News curation complete!');
-    console.log(`Created ${articlesWithPRs.length} PRs for review.`);
+    console.log(`Opened one digest PR with ${curatedArticles.length} articles.`);
   } catch (error) {
     console.error('News curation failed:', error);
 

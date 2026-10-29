@@ -87,9 +87,13 @@ npm run collect
 ## News Curation
 
 A daily workflow (`.github/workflows/news-curation.yml`) runs `scripts/curate-news.ts`, which
-pulls candidate stories from RSS and Google News search feeds (plus NewsAPI when a key is set),
-scores them for UAE open finance relevance and opens one review PR per story. Sources, weights
-and thresholds live in `data/news-curation/sources.json`.
+pulls candidate stories from RSS and Google News search feeds, the Nebras news page, the CBUAE
+homepage (plus NewsAPI when a key is set), scores them, and keeps only items that clear a
+confidence gate for open finance, open banking, and the UAE programme (CBUAE Open Finance,
+Nebras, Al Tareq). Accepted stories are summarised with Claude (`ANTHROPIC_MODEL`, default
+`claude-haiku-5-5`) and opened as one daily digest PR. Summaries that copy the source
+description, or that introduce numbers or names the source does not contain, are dropped.
+Sources, weights and thresholds live in `data/news-curation/sources.json`.
 
 What gets filtered out before scoring:
 
@@ -98,10 +102,18 @@ What gets filtered out before scoring:
 - Items dated in the future (event listings) or older than `lookbackHours`
 - Global stories that never mention an open banking / open finance term
   (`requireCoreTermForGlobal`)
-- Anything already published, or already proposed in an open or closed PR
+- Anything already published, or already proposed in an open or closed PR (including items
+  inside a previous digest)
 
 Minimum scores are tiered by region (`regionThresholds`): UAE stories need the least, global
-stories the most.
+stories the most. The confidence gate then requires an open-finance or open-banking term, or a UAE programme
+term (AlTareq, Nebras, the API Hub, Ozone Connect, CAAP, Aani). A core term in the title is
+enough; a mention that only appears in the body is not, unless the item is also about the
+UAE programme. AI-agent stories pass only on the beat "Open Finance and agentic access to data
+and payments": agents accessing financial data or initiating payments (agentic
+commerce, Agent Pay, Intelligent Commerce, AP2, MCP or agent APIs, delegated
+consent). Internal bank-AI stories stay out. Those items are tagged with the
+beat in the daily digest. Google News queries for the beat are in `sources.json`.
 
 ```bash
 # Preview what the curator would propose (no PRs, no Slack)
