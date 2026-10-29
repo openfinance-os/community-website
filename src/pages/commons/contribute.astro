@@ -11,6 +11,7 @@ import PageLayout from '@layouts/PageLayout.astro';
       <!-- Back Link -->
       <a href="/commons" class="back-link">
         <svg
+          aria-hidden="true"
           width="16"
           height="16"
           viewBox="0 0 24 24"
@@ -39,6 +40,7 @@ import PageLayout from '@layouts/PageLayout.astro';
           <div class="type-card">
             <div class="type-icon insight">
               <svg
+                aria-hidden="true"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -65,6 +67,7 @@ import PageLayout from '@layouts/PageLayout.astro';
           <div class="type-card">
             <div class="type-icon reference">
               <svg
+                aria-hidden="true"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -92,6 +95,7 @@ import PageLayout from '@layouts/PageLayout.astro';
           <div class="type-card">
             <div class="type-icon artifact">
               <svg
+                aria-hidden="true"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -119,6 +123,7 @@ import PageLayout from '@layouts/PageLayout.astro';
           <div class="type-card">
             <div class="type-icon utility">
               <svg
+                aria-hidden="true"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -157,7 +162,7 @@ import PageLayout from '@layouts/PageLayout.astro';
           <div class="step">
             <div class="step-number">1</div>
             <div class="step-content">
-              <h4>Fork the Repository</h4>
+              <h3>Fork the Repository</h3>
               <p>
                 Fork the{' '}
                 <a
@@ -175,7 +180,7 @@ import PageLayout from '@layouts/PageLayout.astro';
           <div class="step">
             <div class="step-number">2</div>
             <div class="step-content">
-              <h4>Create Your Contribution</h4>
+              <h3>Create Your Contribution</h3>
               <p>
                 Add a new Markdown file in <code>src/content/commons/</code> with the required
                 frontmatter metadata and your content.
@@ -186,7 +191,7 @@ import PageLayout from '@layouts/PageLayout.astro';
           <div class="step">
             <div class="step-number">3</div>
             <div class="step-content">
-              <h4>Open a Pull Request</h4>
+              <h3>Open a Pull Request</h3>
               <p>
                 Submit a PR with a clear description. Include why this contribution is valuable to
                 the ecosystem.
@@ -197,7 +202,7 @@ import PageLayout from '@layouts/PageLayout.astro';
           <div class="step">
             <div class="step-number">4</div>
             <div class="step-content">
-              <h4>Community Review</h4>
+              <h3>Community Review</h3>
               <p>
                 Maintainers will review for clarity, relevance, and compliance with guidelines.
                 Minor edits may be suggested.
@@ -286,6 +291,7 @@ Organize with clear headings.
           <div class="guideline">
             <div class="guideline-icon allowed">
               <svg
+                aria-hidden="true"
                 width="20"
                 height="20"
                 viewBox="0 0 24 24"
@@ -297,7 +303,7 @@ Organize with clear headings.
                 <polyline points="22 4 12 14.01 9 11.01"></polyline>
               </svg>
             </div>
-            <h4>Do</h4>
+            <h3>Do</h3>
             <ul>
               <li>Provide clear, actionable content</li>
               <li>Include proper attribution</li>
@@ -311,6 +317,7 @@ Organize with clear headings.
           <div class="guideline">
             <div class="guideline-icon not-allowed">
               <svg
+                aria-hidden="true"
                 width="20"
                 height="20"
                 viewBox="0 0 24 24"
@@ -323,7 +330,7 @@ Organize with clear headings.
                 <line x1="9" y1="9" x2="15" y2="15"></line>
               </svg>
             </div>
-            <h4>Don't</h4>
+            <h3>Don't</h3>
             <ul>
               <li>Include confidential or proprietary data</li>
               <li>Re-host full external articles</li>
@@ -345,7 +352,7 @@ Organize with clear headings.
 
         <div class="reference-rules">
           <div class="rule">
-            <h4>Always Required</h4>
+            <h3>Always Required</h3>
             <ul>
               <li>
                 <strong>Link to original source</strong> - never re-host content
@@ -362,7 +369,7 @@ Organize with clear headings.
             </ul>
           </div>
           <div class="rule">
-            <h4>Your Added Value</h4>
+            <h3>Your Added Value</h3>
             <ul>
               <li>Explain relevance to UAE Open Finance</li>
               <li>Highlight key takeaways</li>
@@ -388,7 +395,13 @@ Organize with clear headings.
               target="_blank"
               rel="noopener noreferrer"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <svg
+                aria-hidden="true"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
                 <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path>
               </svg>
               Fork Repository
@@ -608,7 +621,8 @@ Organize with clear headings.
     flex-shrink: 0;
   }
 
-  .step-content h4 {
+  .step-content h3 {
+    font-family: var(--font-sans);
     font-size: 1rem;
     color: var(--color-text);
     margin-bottom: var(--space-1);
@@ -723,7 +737,7 @@ Organize with clear headings.
     color: #dc2626;
   }
 
-  .guideline h4 {
+  .guideline h3 {
     font-size: 1rem;
     color: var(--color-text);
     margin-bottom: var(--space-3);
@@ -776,7 +790,7 @@ Organize with clear headings.
     border-radius: var(--radius-xl);
   }
 
-  .rule h4 {
+  .rule h3 {
     font-size: 0.875rem;
     font-weight: 600;
     color: var(--color-text);
@@ -916,7 +930,7 @@ Organize with clear headings.
     background: var(--color-card);
   }
 
-  :global([data-theme='dark']) .step-content h4 {
+  :global([data-theme='dark']) .step-content h3 {
     color: var(--color-text);
   }
 
@@ -953,7 +967,7 @@ Organize with clear headings.
     border-color: var(--color-border);
   }
 
-  :global([data-theme='dark']) .guideline h4 {
+  :global([data-theme='dark']) .guideline h3 {
     color: var(--color-text);
   }
 
@@ -965,7 +979,7 @@ Organize with clear headings.
     background: var(--color-card);
   }
 
-  :global([data-theme='dark']) .rule h4 {
+  :global([data-theme='dark']) .rule h3 {
     color: var(--color-text);
   }
 

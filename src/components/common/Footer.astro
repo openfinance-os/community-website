@@ -28,6 +28,7 @@ const resources = [
   },
   { label: 'CBUAE', href: 'https://www.centralbank.ae', external: true },
   { label: 'GitHub', href: 'https://github.com/openfinance-os', external: true },
+  { label: 'News RSS', href: '/rss.xml', external: false },
 ];
 
 const formatDate = (dateStr: string) => {
@@ -66,7 +67,7 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
       <a href="/" class="footer-logo">
         <img
           src="/brand/logo-icon-dark.svg"
-          alt="OpenFinance-OS Logo - UAE Open Finance and Open Banking Community"
+          alt=""
           width="28"
           height="28"
           class="footer-logo-img"
@@ -81,7 +82,7 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
     </div>
 
     <div class="footer-links">
-      <h3 class="footer-heading">Quick Links</h3>
+      <h2 class="footer-heading">Quick Links</h2>
       <ul class="footer-list">
         {quickLinks.map((link) => (
           <li>
@@ -94,7 +95,7 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
     </div>
 
     <div class="footer-links">
-      <h3 class="footer-heading">Resources</h3>
+      <h2 class="footer-heading">Resources</h2>
       <ul class="footer-list">
         {resources.map((link) => (
           <li>
@@ -125,7 +126,7 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
     </div>
 
     <div class="footer-links">
-      <h3 class="footer-heading">Connect</h3>
+      <h2 class="footer-heading">Connect</h2>
       <ul class="footer-list">
         <li>
           <a

@@ -12,6 +12,7 @@ interface Props {
   publishedTime?: string;
   modifiedTime?: string;
   articleSchema?: object;
+  robots?: string;
 }
 
 const {
@@ -23,6 +24,7 @@ const {
   publishedTime,
   modifiedTime,
   articleSchema,
+  robots,
 } = Astro.props;
 ---
 
@@ -34,6 +36,7 @@ const {
   publishedTime={publishedTime}
   modifiedTime={modifiedTime}
   articleSchema={articleSchema}
+  robots={robots}
 >
   <a href="#main-content" class="skip-link">
     Skip to main content

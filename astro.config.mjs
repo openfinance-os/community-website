@@ -1,5 +1,9 @@
+import { join } from 'node:path';
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import { includeInSitemap, loadNewsLastModified } from './src/lib/sitemap-pages.mjs';
+
+const newsLastModified = loadNewsLastModified(join(process.cwd(), 'src/content/news'));
 
 export default defineConfig({
   site: 'https://openfinance-os.org',
@@ -28,7 +32,17 @@ export default defineConfig({
 
   integrations: [
     sitemap({
-      filter: (page) => !page.includes('/github'),
+      filter: includeInSitemap,
+      customPages: [
+        'https://openfinance-os.org/brand/openfinance-os-brand-guidelines.html',
+        'https://openfinance-os.org/brand/logo-preview.html',
+      ],
+      serialize(item) {
+        const pathname = new URL(item.url).pathname;
+        const newsDate = newsLastModified.get(pathname.endsWith('/') ? pathname : `${pathname}/`);
+        if (newsDate) item.lastmod = newsDate;
+        return item;
+      },
     }),
   ],
 
