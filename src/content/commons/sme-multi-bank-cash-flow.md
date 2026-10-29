@@ -12,7 +12,7 @@ audience:
   - developer
 maturity: concept
 authoredByContributor: true
-contributor: "OpenFinance-OS"
+contributor: "Open Finance OS"
 links:
   demo: https://data-sandbox.openfinance-os.org/examples/accounting-multi-bank-demo/
   github: https://github.com/openfinance-os/data-sandbox/tree/4fe782c7e6c8e4c7c3384ccf21210db63b105db9/examples/accounting-multi-bank-demo
@@ -29,7 +29,7 @@ featured: false
 
 A business with several bank relationships can look at each account separately. Bringing the permitted account data together could make its next cash conversation more useful: which receipts have arrived, which payments are approaching, and whether money has simply moved between its own accounts.
 
-This worked example helps product and programme teams explore that question. It is an OpenFinance-OS interpretation of a community fixture, rather than evidence of a live service or a business outcome.
+This worked example helps product and programme teams explore that question. It is an Open Finance OS interpretation of a community fixture, rather than evidence of a live service or a business outcome.
 
 ## Meet the scenario
 
@@ -107,4 +107,4 @@ Open the synthetic demo, select the clinic and Median profile, and inspect accou
 
 AI-assisted drafting and source review by Codex, 10 October 2026. Editorial contact: [@michartmann](https://github.com/michartmann).
 
-OpenFinance-OS is a community initiative and is not affiliated with, endorsed by, or officially connected to the CBUAE, Al Tareq Platform, or any financial institution. Always verify information with official sources.
+Open Finance OS is a community initiative and is not affiliated with, endorsed by, or officially connected to the CBUAE, Al Tareq Platform, or any financial institution. Always verify information with official sources.

@@ -2,7 +2,7 @@ Done. Updated throughout:
 
 ---
 
-## Revised PRD — OpenFinance-OS.org
+## Revised PRD — Open Finance OS.org
 
 ### Community Ecosystem Hub & Observatory
 
@@ -12,7 +12,7 @@ Done. Updated throughout:
 
 ### 1.1 What This Is
 
-**OpenFinance-OS.org** is a community-owned website that serves as the grassroots home for the UAE Open Finance ecosystem. It provides:
+**Open Finance OS.org** is a community-owned website that serves as the grassroots home for the UAE Open Finance ecosystem. It provides:
 
 - **Visibility** into ecosystem activity (the Observatory dashboard)
 - **News and updates** curated by the community
@@ -20,7 +20,7 @@ Done. Updated throughout:
 - **A gathering point** for community efforts, events, and collaboration
 - **International context** to benchmark UAE progress globally
 
-The domain directly ties to the **OpenFinance-OS** GitHub organization, reinforcing that this is an open-source, community-driven effort.
+The domain directly ties to the **Open Finance OS** GitHub organization, reinforcing that this is an open-source, community-driven effort.
 
 ### 1.2 What This Is Not
 
@@ -57,7 +57,7 @@ One name, one identity, one community.
 
 - **Domain ownership:** Held by a neutral community entity or trusted individual with documented handover terms
 - **Content:** Contributed by community members, moderated by maintainers
-- **Code:** Open source under OpenFinance-OS GitHub organization
+- **Code:** Open source under Open Finance OS GitHub organization
 - **Funding:** Community-funded (no corporate sponsorship tiers, no ads)
 
 ### 2.2 Organizational Structure
@@ -127,7 +127,7 @@ openfinance-os.org/
 
 **Hero section:**
 ```
-OpenFinance-OS
+Open Finance OS
 The community home for UAE Open Finance
 
 [Key metric from Observatory]
@@ -441,7 +441,7 @@ See an outdated link? [Open an issue](https://github.com/openfinance-os/...)
 
 **Mission:**
 ```
-OpenFinance-OS exists to make the UAE Open Finance ecosystem 
+Open Finance OS exists to make the UAE Open Finance ecosystem 
 visible, accessible, and welcoming.
 
 We are a community of developers, fintechs, bankers, and 
@@ -822,7 +822,7 @@ But ecosystems don't thrive on infrastructure alone. They need:
 - **Accessibility** — Can newcomers find their way in?
 - **Community** — Is there a place to gather, share, learn?
 
-Official channels handle compliance and operations. **OpenFinance-OS.org** handles the rest.
+Official channels handle compliance and operations. **Open Finance OS.org** handles the rest.
 
 Built by the community. Open source. For everyone who wants this ecosystem to flourish.
 

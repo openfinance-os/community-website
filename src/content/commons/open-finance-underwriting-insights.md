@@ -17,7 +17,7 @@ maturity: concept
 license: cc-by-4.0
 
 authoredByContributor: true
-contributor: "OpenFinance-OS Community"
+contributor: "Open Finance OS Community"
 contributorUrl: https://github.com/openfinance-os
 
 disclaimers:

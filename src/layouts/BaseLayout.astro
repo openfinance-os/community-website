@@ -38,11 +38,11 @@ const canonicalPath =
 const canonicalURL = new URL(canonicalPath, Astro.site);
 const ogImageURL = new URL(ogImage, Astro.site);
 const ogAlt =
-  ogImageAlt || 'OpenFinance-OS - The community home for UAE Open Finance and Open Banking';
+  ogImageAlt || 'Open Finance OS - The community home for UAE Open Finance and Open Banking';
 const twitterAlt =
-  ogImageAlt || 'OpenFinance-OS - UAE Open Finance and Open Banking community platform';
+  ogImageAlt || 'Open Finance OS - UAE Open Finance and Open Banking community platform';
 const isHome = canonicalPath === '/';
-const documentTitle = `${title} | OpenFinance-OS`;
+const documentTitle = `${title} | Open Finance OS`;
 const ogImageType = ogImageURL.pathname.endsWith('.png')
   ? 'image/png'
   : ogImageURL.pathname.endsWith('.webp')
@@ -83,7 +83,7 @@ const siteOrigin = new URL('/', Astro.site).toString();
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'OpenFinance-OS',
+  name: 'Open Finance OS',
   url: siteOrigin,
   logo: {
     '@type': 'ImageObject',
@@ -106,13 +106,13 @@ const organizationSchema = {
 const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'OpenFinance-OS',
-  alternateName: ['OpenFinance-OS', 'UAE Open Finance Hub', 'Open Banking UAE'],
+  name: 'Open Finance OS',
+  alternateName: ['Open Finance OS', 'UAE Open Finance Hub', 'Open Banking UAE'],
   url: siteOrigin,
   description,
   publisher: {
     '@type': 'Organization',
-    name: 'OpenFinance-OS',
+    name: 'Open Finance OS',
   },
 };
 
@@ -189,7 +189,7 @@ const breadcrumbSchema =
       sizes="180x180"
       href="/brand/apple-touch-icon.png?v=clear-signal-2.3"
     />
-    <link rel="alternate" type="application/rss+xml" title="OpenFinance-OS News" href="/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Open Finance OS News" href="/rss.xml" />
 
     <!-- SEO -->
     <title>{documentTitle}</title>
@@ -198,7 +198,7 @@ const breadcrumbSchema =
     <link rel="canonical" href={canonicalURL} />
 
     <!-- Additional SEO meta tags -->
-    <meta name="author" content="OpenFinance-OS Community" />
+    <meta name="author" content="Open Finance OS Community" />
     <meta name="robots" content={robots} />
     <meta name="geo.region" content="AE" />
     <meta name="geo.placename" content="United Arab Emirates" />
@@ -208,7 +208,7 @@ const breadcrumbSchema =
     <meta property="og:title" content={documentTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
-    <meta property="og:site_name" content="OpenFinance-OS" />
+    <meta property="og:site_name" content="Open Finance OS" />
     <meta property="og:type" content={type} />
     <meta property="og:image" content={ogImageURL} />
     {ogImageType && <meta property="og:image:type" content={ogImageType} />}

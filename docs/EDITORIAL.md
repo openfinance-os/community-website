@@ -1,6 +1,6 @@
 # Editorial Guidelines
 
-These guidelines ensure consistent, high-quality content across OpenFinance-OS. They apply to all content on the website, including news, events, learn articles, and documentation.
+These guidelines ensure consistent, high-quality content across Open Finance OS. They apply to all content on the website, including news, events, learn articles, and documentation.
 
 ## Content Types
 
@@ -35,7 +35,7 @@ International Open Banking/Finance news relevant to UAE practitioners.
 ### Opinion
 Clearly labeled perspectives and analysis.
 - Must be marked as "Opinion" or "Analysis"
-- Represent author's views, not OpenFinance-OS position
+- Represent author's views, not Open Finance OS position
 - Based on factual foundation
 - Open to respectful disagreement
 

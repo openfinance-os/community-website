@@ -124,7 +124,7 @@ title: "${title.replace(/"/g, '\\"')}"
 date: ${observedDate}
 type: milestone
 region: uae
-author: OpenFinance-OS
+author: Open Finance OS
 description: "${description.replace(/"/g, '\\"')}"
 ---
 

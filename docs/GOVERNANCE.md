@@ -1,10 +1,10 @@
 # Governance
 
-This document describes how OpenFinance-OS is organized, how decisions are made, and how the project ensures long-term sustainability.
+This document describes how Open Finance OS is organized, how decisions are made, and how the project ensures long-term sustainability.
 
 ## Mission
 
-OpenFinance-OS exists to make the UAE Open Finance ecosystem visible, accessible, and welcoming. We are a grassroots community initiative, independent of any bank, regulator, or official body.
+Open Finance OS exists to make the UAE Open Finance ecosystem visible, accessible, and welcoming. We are a grassroots community initiative, independent of any bank, regulator, or official body.
 
 Our goals:
 - Provide clear, accurate information about UAE Open Finance
@@ -121,7 +121,7 @@ To ensure the project's longevity:
 
 ### Branding
 
-- The OpenFinance-OS name and logo are used to identify this community project
+- The Open Finance OS name and logo are used to identify this community project
 - They should not be used to imply official endorsement by regulators or financial institutions
 - Community members may reference the project with proper attribution
 
@@ -129,7 +129,7 @@ To ensure the project's longevity:
 
 ### Current Model
 
-OpenFinance-OS operates on volunteer effort. There are currently:
+Open Finance OS operates on volunteer effort. There are currently:
 - No commercial sponsors
 - No paid maintainers
 - No revenue generation
@@ -151,7 +151,7 @@ Current project costs:
 
 ## Independence
 
-OpenFinance-OS is:
+Open Finance OS is:
 - **Not** affiliated with CBUAE or any regulator
 - **Not** affiliated with any bank or financial institution
 - **Not** an official industry body

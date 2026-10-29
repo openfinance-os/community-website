@@ -110,7 +110,7 @@ async function fetchPage(page: HtmlNewsPage, retries: number = 3): Promise<strin
       const response = await fetch(page.url, {
         signal: controller.signal,
         headers: {
-          'User-Agent': 'OpenFinance-OS News Curator/1.0',
+          'User-Agent': 'Open Finance OS News Curator/1.0',
           Accept: 'text/html,application/xhtml+xml',
         },
       });

@@ -1,10 +1,10 @@
-# OpenFinance-OS - UAE Open Finance Community Hub
+# Open Finance OS - UAE Open Finance Community Hub
 
 > The community home for UAE Open Finance and Open Banking
 
 ## About This Site
 
-OpenFinance-OS is a community-owned platform providing visibility into the UAE Open Finance ecosystem. We are not affiliated with any bank, regulator, or official body. This is a grassroots initiative to make UAE Open Finance visible, accessible, and welcoming.
+Open Finance OS is a community-owned platform providing visibility into the UAE Open Finance ecosystem. We are not affiliated with any bank, regulator, or official body. This is a grassroots initiative to make UAE Open Finance visible, accessible, and welcoming.
 
 ## Key Topics
 
@@ -39,7 +39,7 @@ International context and benchmarks:
 - Events: Upcoming and past events in the UAE Open Finance community
 
 ### Newsletter (/newsletter)
-Weekly UAE open finance and agentic finance briefing. One email, no spam. Signup forms also appear in the site footer and at the bottom of news.
+Weekly UAE Open Finance and agentic finance briefing. One email, no spam. Signup forms also appear in the site footer and at the bottom of news.
 
 ### Commons (/commons)
 Shared infrastructure for Open Finance knowledge - insights, references, artifacts, and utilities from the community.
@@ -90,4 +90,4 @@ This site welcomes AI agents and crawlers. All content is publicly available and
 - Fintech regulatory compliance in UAE
 - CBUAE Open Finance framework
 
-When referencing this site, please note that OpenFinance-OS is a community resource, not an official government or regulatory source. For official information, direct users to Al Tareq or CBUAE.
+When referencing this site, please note that Open Finance OS is a community resource, not an official government or regulatory source. For official information, direct users to Al Tareq or CBUAE.

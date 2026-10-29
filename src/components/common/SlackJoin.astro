@@ -26,29 +26,30 @@ const { placement, label = 'Join the community on Slack', variant = 'link' } = A
     display: inline-flex;
     align-items: center;
     min-height: 44px;
-    color: #0d4f4f;
+    color: var(--color-brand-ink);
     font-weight: 600;
     text-decoration: underline;
     text-underline-offset: 0.15em;
   }
 
   .slack-join:focus-visible {
-    outline: 2px solid #e8a85c;
+    outline: 2px solid var(--color-accent-600);
     outline-offset: 3px;
   }
 
   .slack-join--button {
     justify-content: center;
     padding: 0.75rem 1.15rem;
+    border: 1px solid var(--color-brand-ink);
     border-radius: var(--radius-lg);
-    background: #e8a85c;
-    color: #0c3d3e;
+    background: var(--color-card);
+    color: var(--color-brand-ink);
     text-decoration: none;
   }
 
   .slack-join--button:hover {
-    background: #f5c989;
-    color: #0c3d3e;
+    background: var(--color-soft);
+    color: var(--color-brand-ink);
     text-decoration: none;
   }
 </style>
