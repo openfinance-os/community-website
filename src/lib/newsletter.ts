@@ -19,7 +19,7 @@ export const SLACK_JOIN_PLACEMENTS = {
 export type SlackJoinPlacement = (typeof SLACK_JOIN_PLACEMENTS)[keyof typeof SLACK_JOIN_PLACEMENTS];
 
 export const NEWSLETTER_PITCH =
-  'Weekly UAE open finance & agentic finance briefing. One email, no spam.';
+  'Weekly UAE Open Finance and agentic finance briefing. One email, no spam.';
 
 /** Hidden `tag` values sent with the Buttondown embed form. */
 export const NEWSLETTER_SOURCES = {

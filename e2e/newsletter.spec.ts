@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-const pitch = 'The 5-minute weekly on UAE open finance, for the people building it';
+const pitch = 'The 5-minute weekly on UAE Open Finance, for the people building it';
 const action = 'https://buttondown.com/api/emails/embed-subscribe/openfinance-os';
 
 test.beforeEach(async ({ page }) => {

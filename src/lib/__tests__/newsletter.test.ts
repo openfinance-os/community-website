@@ -53,7 +53,7 @@ describe('newsletter signup contract', () => {
 
   it('uses the public briefing pitch', () => {
     expect(NEWSLETTER_PITCH).toBe(
-      'Weekly UAE open finance & agentic finance briefing. One email, no spam.'
+      'Weekly UAE Open Finance and agentic finance briefing. One email, no spam.'
     );
   });
 });

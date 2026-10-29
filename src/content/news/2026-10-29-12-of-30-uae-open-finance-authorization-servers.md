@@ -290,4 +290,4 @@ Every figure in this post is reproducible. [Download the registry snapshot and h
 - Observatory methodology: /observatory/methodology
 - Ecosystem Watch: /observatory/watch/
 - Weekly digest, 26 Oct 2026: /news/2026-10-26-weekly-digest
-- UAE architecture rules: Middleleap Open Finance UAE skill (github.com/middleleap/ai-dlc), summarising CBUAE / Nebras sources
+- UAE architecture rules: MiddleLeap Open Finance UAE skill (github.com/middleleap/ai-dlc), summarising CBUAE / Nebras sources
