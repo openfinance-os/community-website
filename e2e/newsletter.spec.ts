@@ -172,6 +172,91 @@ test('footer and news forms post to Buttondown with a source tag', async ({ page
   await expect(articleForm.locator('input[name="email"]')).toHaveAttribute('required', '');
 });
 
+test('confirmed subscribers land on a noindex welcome page', async ({ page }) => {
+  await page.goto('/newsletter/welcome/');
+
+  await expect(page).toHaveTitle('Thanks for subscribing | OpenFinance-OS');
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    'href',
+    'https://openfinance-os.org/newsletter/welcome/'
+  );
+  await expect(
+    page.getByRole('heading', { level: 1, name: 'Thanks for subscribing' })
+  ).toBeVisible();
+  await expect(page.locator('main')).toContainText('every Monday at noon Dubai time');
+  await expect(page.locator('main')).toContainText('29 organisations');
+  await expect(page.locator('main')).toContainText('30 registration IDs');
+  await expect(page.locator('main')).toContainText('12 publish an auth server');
+  await expect(page.locator('main')).toContainText('28 Oct 2026');
+  await expect(page.locator('main')).toContainText(
+    'Independent, community-run. Not an official CBUAE or Nebras publication.'
+  );
+
+  const download = page.locator('a[data-snapshot-download="newsletter_welcome"]');
+  await expect(download).toHaveAttribute('href', '/registry-snapshot.pdf');
+  await expect(download).toHaveText(/Download/);
+  await download.evaluate((element) => {
+    element.addEventListener(
+      'click',
+      (event) => {
+        event.preventDefault();
+      },
+      true
+    );
+  });
+  await download.click();
+  await expect
+    .poll(() =>
+      page.evaluate(() =>
+        (window as unknown as { __newsletterCaptures: unknown[][] }).__newsletterCaptures.filter(
+          (call) => call[0] === 'snapshot_download_click'
+        )
+      )
+    )
+    .toEqual([
+      ['snapshot_download_click', expect.objectContaining({ placement: 'newsletter_welcome' })],
+    ]);
+
+  const slackUrl =
+    'https://join.slack.com/t/openfinance-os/shared_invite/zt-4f6yrsi0w-qPd32ve~7Czekf0BWJRgLQ';
+  const join = page.locator('a[data-slack-join="newsletter_welcome"]');
+  await expect(join).toHaveAttribute('href', slackUrl);
+  await expect(join).toHaveAttribute('target', '_blank');
+  await expect(join).toHaveAttribute('rel', 'noopener noreferrer');
+  await expect(join).toContainText('Join the Slack community');
+  await join.evaluate((element) => {
+    element.addEventListener(
+      'click',
+      (event) => {
+        event.preventDefault();
+      },
+      true
+    );
+  });
+  await join.click();
+  await expect
+    .poll(() =>
+      page.evaluate(() =>
+        (window as unknown as { __newsletterCaptures: unknown[][] }).__newsletterCaptures.filter(
+          (call) => call[0] === 'slack_join_click'
+        )
+      )
+    )
+    .toEqual([['slack_join_click', expect.objectContaining({ placement: 'newsletter_welcome' })]]);
+
+  await expect(
+    page.locator('main').getByRole('link', { name: 'Observatory', exact: true })
+  ).toHaveAttribute('href', '/observatory');
+  const archive = page.locator('main').getByRole('link', { name: /Newsletter archive/ });
+  await expect(archive).toHaveAttribute('href', 'https://buttondown.com/openfinance-os/archive/');
+  await expect(archive).toHaveAttribute('target', '_blank');
+  await expect(
+    page.locator('nav[aria-label="Main navigation"] a[href="/newsletter"]')
+  ).toBeVisible();
+  await expect(page.locator('a[href="/newsletter/welcome"]')).toHaveCount(0);
+});
+
 test('submitting a signup fires newsletter_signup_submit when PostHog is present', async ({
   page,
 }) => {
