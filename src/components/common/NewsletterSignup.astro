@@ -3,15 +3,17 @@ import { BUTTONDOWN_EMBED_ACTION, type NewsletterSource } from '../../lib/newsle
 
 interface Props {
   source: NewsletterSource;
-  variant?: 'footer' | 'card' | 'page';
+  variant?: 'footer' | 'card' | 'page' | 'band';
   heading?: string;
   description?: string;
+  idSuffix?: string;
 }
 
-const { source, variant = 'card', heading, description } = Astro.props;
-const headingId = `newsletter-heading-${source}`;
-const pitchId = `newsletter-pitch-${source}`;
-const emailId = `newsletter-email-${source}`;
+const { source, variant = 'card', heading, description, idSuffix } = Astro.props;
+const fieldKey = idSuffix ? `${source}-${idSuffix}` : source;
+const headingId = `newsletter-heading-${fieldKey}`;
+const pitchId = `newsletter-pitch-${fieldKey}`;
+const emailId = `newsletter-email-${fieldKey}`;
 ---
 
 <section class:list={['newsletter-signup', `newsletter-signup--${variant}`]}>
@@ -68,9 +70,13 @@ const emailId = `newsletter-email-${source}`;
       </form>
     </div>
 
-    {variant === 'page' && (
+    {(variant === 'page' || variant === 'band') && (
       <div class="newsletter-thanks" role="status">
-        <p class="newsletter-thanks-title" tabindex="-1" data-newsletter-thanks-title>
+        <p
+          class="newsletter-thanks-title"
+          tabindex={variant === 'page' ? -1 : undefined}
+          data-newsletter-thanks-title={variant === 'page' ? true : undefined}
+        >
           Thanks for subscribing.
         </p>
         <p>Check your inbox to confirm. One email, no spam.</p>
@@ -267,6 +273,43 @@ const emailId = `newsletter-email-${source}`;
     box-shadow: 0 0 0 4px rgba(245, 201, 137, 0.35);
   }
 
+  .newsletter-signup--band {
+    max-width: 36rem;
+    margin-top: var(--space-6);
+  }
+
+  .newsletter-signup--band .newsletter-pitch,
+  .newsletter-signup--band .newsletter-label,
+  .newsletter-signup--band .newsletter-thanks,
+  .newsletter-signup--band .newsletter-thanks-title {
+    color: #f1f7f1;
+  }
+
+  .newsletter-signup--band .newsletter-input {
+    color: #132c2b;
+    background: #fff;
+    border-color: transparent;
+  }
+
+  .newsletter-signup--band .newsletter-input::placeholder {
+    color: #526662;
+  }
+
+  .newsletter-signup--band .newsletter-submit {
+    color: #0c3d3e;
+    background: #e8a85c;
+  }
+
+  .newsletter-signup--band .newsletter-submit:hover {
+    background: #f5c989;
+  }
+
+  .newsletter-signup--band .newsletter-input:focus-visible,
+  .newsletter-signup--band .newsletter-submit:focus-visible {
+    outline-color: #f5c989;
+    box-shadow: 0 0 0 4px rgba(245, 201, 137, 0.45);
+  }
+
   @media (max-width: 640px) {
     .newsletter-submit {
       width: 100%;
@@ -275,11 +318,13 @@ const emailId = `newsletter-email-${source}`;
 </style>
 
 <style is:global>
-  html.newsletter-subscribed .newsletter-signup--page .newsletter-form-wrap {
+  html.newsletter-subscribed .newsletter-signup--page .newsletter-form-wrap,
+  html.newsletter-subscribed .newsletter-signup--band .newsletter-form-wrap {
     display: none;
   }
 
-  html.newsletter-subscribed .newsletter-signup--page .newsletter-thanks {
+  html.newsletter-subscribed .newsletter-signup--page .newsletter-thanks,
+  html.newsletter-subscribed .newsletter-signup--band .newsletter-thanks {
     display: block;
   }
 </style>
