@@ -5,9 +5,10 @@
  */
 import { chromium } from '@playwright/test';
 import sharp from 'sharp';
-import { readFileSync } from 'node:fs';
+import { mkdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { issueOgPath, normalizeOpenFinanceCasing } from '../src/lib/newsletter-images.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const fontURL = (file: string) =>
@@ -56,6 +57,20 @@ const stories: Story[] = [
     eyebrow: 'UAE banks',
     headline: 'NBF Direct',
     detail: 'adds Open Finance with multi-bank access',
+    source: 'Issue #1, 29 October 2026',
+  },
+  {
+    file: 'story-commercial-light.webp',
+    eyebrow: 'Sibos 2026',
+    headline: 'Commercial models',
+    detail: 'to scale account-to-account payments and AI services',
+    source: 'Issue #1, 29 October 2026',
+  },
+  {
+    file: 'story-europe-light.webp',
+    eyebrow: 'Europe',
+    headline: '9 markets',
+    detail: 'Pay by Bank via Mastercard Open Finance',
     source: 'Issue #1, 29 October 2026',
   },
 ];
@@ -207,21 +222,24 @@ const topicsHTML = `<!doctype html><html lang="en"><head><meta charset="utf-8"><
   </dl>
 </main></body></html>`;
 
-// `scale` renders extra device pixels so in-page images stay sharp on high-density screens.
+// `scale` renders extra device pixels so archive images stay sharp at about
+// 1440px (card) and 1240px (article) on retina screens.
 const outputs: { file: string; html: string; width: number; height: number; scale: number }[] = [
-  { file: 'header.webp', html: headerHTML, width: 600, height: 200, scale: 1 },
-  { file: 'agent-access.webp', html: agentHTML, width: 600, height: 450, scale: 3 },
-  { file: 'topics.webp', html: topicsHTML, width: 600, height: 260, scale: 3 },
+  { file: 'header.webp', html: headerHTML, width: 600, height: 200, scale: 5 },
+  { file: 'agent-access.webp', html: agentHTML, width: 600, height: 450, scale: 5 },
+  { file: 'topics.webp', html: topicsHTML, width: 600, height: 260, scale: 5 },
   ...stories.map((story) => ({
     file: story.file,
     html: storyHTML(story),
     width: 1200,
     height: 500,
-    scale: 2,
+    scale: 3,
   })),
 ];
 
-const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH });
+const browser = await chromium.launch(
+  process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}
+);
 try {
   for (const { file, html, width, height, scale } of outputs) {
     const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: scale });
@@ -240,6 +258,62 @@ try {
       .toFile(join(root, 'public/newsletter', file));
     await page.close();
     console.log(`Generated public/newsletter/${file} (${width * scale}×${height * scale}).`);
+  }
+
+  const issues = JSON.parse(readFileSync(join(root, 'data/newsletter/issues.json'), 'utf8')) as {
+    slug: string;
+    subject: string;
+    publish_date: string;
+  }[];
+  for (const issue of issues) {
+    const subject = normalizeOpenFinanceCasing(issue.subject);
+    const published = new Date(issue.publish_date).toLocaleDateString('en-GB', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      timeZone: 'UTC',
+    });
+    const ogHTML = `<!doctype html><html lang="en"><head><meta charset="utf-8"><style>
+      ${base}
+      body { background: #f6f8f5; }
+      main {
+        width: 1200px;
+        height: 630px;
+        padding: 72px 80px 56px;
+        display: flex;
+        flex-direction: column;
+        background: #f6f8f5;
+        border-top: 12px solid #e8a85c;
+      }
+      img { width: 280px; height: auto; }
+      p.kicker { margin-top: 36px; font-size: 22px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #526662; }
+      h1 { max-width: 980px; margin-top: 18px; font-size: 54px; font-weight: 500; line-height: 1.12; letter-spacing: -0.03em; color: #0d4f4f; }
+      p.date { margin-top: auto; font-size: 24px; color: #526662; }
+    </style></head><body><main>
+      <img src="${svgURL('logo-full.svg')}" alt="">
+      <p class="kicker">Newsletter</p>
+      <h1>${subject.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</h1>
+      <p class="date">${published} · openfinance-os.org</p>
+    </main></body></html>`;
+    const page = await browser.newPage({
+      viewport: { width: 1200, height: 630 },
+      deviceScaleFactor: 1,
+    });
+    await page.setContent(ogHTML);
+    await page.evaluate(async () => {
+      await document.fonts.ready;
+    });
+    const overflow = await page.evaluate(() => {
+      const main = document.querySelector('main')!;
+      return main.scrollHeight > main.clientHeight || main.scrollWidth > main.clientWidth;
+    });
+    if (overflow) throw new Error(`${issue.slug}: social card overflows 1200×630`);
+    const relative = issueOgPath(issue.slug).replace(/^\//, '');
+    const target = join(root, 'public', relative);
+    mkdirSync(join(target, '..'), { recursive: true });
+    await page.screenshot({ path: target, type: 'png' });
+    await page.close();
+    console.log(`Generated public/${relative} (1200×630).`);
   }
 } finally {
   await browser.close();

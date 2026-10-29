@@ -10,9 +10,10 @@ import {
   issueImage,
   sortIssuesNewestFirst,
 } from '@lib/newsletter-archive';
+import { lookupNewsletterImage } from '@lib/newsletter-images.mjs';
 
 const issues = sortIssuesNewestFirst(assertIssues(rawIssues));
-const description = 'Past issues of the weekly UAE open finance briefing.';
+const description = 'Past issues of the weekly UAE Open Finance briefing.';
 const headerAlt = 'Open Finance OS weekly briefing.';
 
 const formatCardDate = (iso: string) =>
@@ -64,9 +65,21 @@ const formatCardDate = (iso: string) =>
           <div class="news-grid">
             {issues.map((issue) => {
               const image = issueImage(issue);
+              const known = image ? lookupNewsletterImage(image) : undefined;
               return (
                 <a class="news-card" href={`/newsletter/archive/${issue.slug}`}>
-                  {image && <img src={image} alt="" loading="lazy" decoding="async" />}
+                  {image && (
+                    <img
+                      src={known?.src ?? image}
+                      srcset={known ? `${known.src} ${known.width}w` : undefined}
+                      sizes={known?.sizes}
+                      width={known?.width}
+                      height={known?.height}
+                      alt={known?.alt ?? ''}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  )}
                   <div class="card-header">
                     <Badge variant="community" size="sm">
                       Newsletter

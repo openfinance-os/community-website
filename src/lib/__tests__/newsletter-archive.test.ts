@@ -114,9 +114,15 @@ describe('committed newsletter archive', () => {
     expect(issue.body).toContain('buttondown-editor-mode');
     expect(clean).not.toContain('buttondown-editor-mode');
     expect(clean).not.toContain('<script');
-    expect(clean).toContain('This week in UAE open finance');
+    expect(issue.subject).toBe(
+      'UAE Open Finance: why 12 of 30 registrations publish an auth server'
+    );
+    expect(clean).toContain('This week in UAE Open Finance');
+    expect(clean).not.toContain('assets.buttondown.email');
+    expect(clean).not.toContain('buttondown.com');
+    expect(clean).toContain('srcset="/newsletter/story-registry-light.webp 3600w"');
     expect(clean).toContain('width: 100%');
     expect(clean).toContain('height: auto');
-    expect(issueImage(issue)).toMatch(/^https:\/\/assets\.buttondown\.email\//);
+    expect(issueImage(issue)).toBe('/newsletter/header.webp');
   });
 });

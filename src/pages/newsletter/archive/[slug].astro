@@ -8,10 +8,10 @@ import { NEWSLETTER_PITCH, NEWSLETTER_SOURCES, SLACK_JOIN_PLACEMENTS } from '@li
 import {
   assertIssues,
   issueExcerpt,
-  issueImage,
   sanitizeIssueHtml,
   type NewsletterIssue,
 } from '@lib/newsletter-archive';
+import { ISSUE_OG_HEIGHT, ISSUE_OG_WIDTH, issueOgPath } from '@lib/newsletter-images.mjs';
 
 export function getStaticPaths() {
   return assertIssues(rawIssues).map((issue) => ({
@@ -26,7 +26,7 @@ interface Props {
 
 const { issue } = Astro.props;
 const description = issueExcerpt(issue, 160);
-const image = issueImage(issue);
+const ogImage = issueOgPath(issue.slug);
 const published = issue.publish_date;
 const pageUrl = new URL(`/newsletter/archive/${issue.slug}/`, Astro.site).toString();
 const body = sanitizeIssueHtml(issue.body);
@@ -43,7 +43,7 @@ const articleSchema = {
   description,
   datePublished: published,
   dateModified: published,
-  image: [new URL(image || '/newsletter/header.webp', Astro.site).toString()],
+  image: [new URL(ogImage, Astro.site).toString()],
   mainEntityOfPage: pageUrl,
   url: pageUrl,
   author: {
@@ -62,10 +62,11 @@ const articleSchema = {
 <PageLayout
   title={issue.subject}
   description={description}
-  ogImage={image || '/newsletter/header.webp'}
+  ogImage={ogImage}
   ogImageAlt={issue.subject}
-  ogImageWidth={image ? 1200 : 600}
-  ogImageHeight={image ? 630 : 200}
+  ogImageWidth={ISSUE_OG_WIDTH}
+  ogImageHeight={ISSUE_OG_HEIGHT}
+  breadcrumbCurrent={issue.subject}
   type="article"
   publishedTime={published}
   modifiedTime={published}

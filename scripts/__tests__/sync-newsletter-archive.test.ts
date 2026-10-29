@@ -93,6 +93,34 @@ describe('fetchAllSentEmails', () => {
     expect(issues[0].image).toBe('https://assets.example/two.png');
   });
 
+  it('maps known Buttondown images to site files and normalises UAE Open Finance casing', async () => {
+    const issues = await fetchAllSentEmails({
+      apiKey: 'secret',
+      fetchImpl: async () => ({
+        ok: true,
+        json: async () => ({
+          results: [
+            email({
+              subject: 'UAE open finance: a weekly note',
+              description: 'Notes on UAE open finance',
+              image:
+                'https://assets.buttondown.email/images/d8343b7a-3a46-49e8-a3aa-164e05ff9efb.png',
+              body: '<p>This week in UAE open finance</p><img src="https://assets.buttondown.email/images/696a561d-ad0b-49d3-92fc-b1b9ab99ed95.png" alt="12 of 30">',
+            }),
+          ],
+          next: null,
+        }),
+      }),
+    });
+
+    expect(issues[0].subject).toBe('UAE Open Finance: a weekly note');
+    expect(issues[0].description).toBe('Notes on UAE Open Finance');
+    expect(issues[0].image).toBe('/newsletter/header.webp');
+    expect(issues[0].body).toContain('This week in UAE Open Finance');
+    expect(issues[0].body).toContain('/newsletter/story-registry-light.webp');
+    expect(issues[0].body).not.toContain('assets.buttondown.email');
+  });
+
   it('requires the API key and a results array', async () => {
     await expect(fetchAllSentEmails({ apiKey: ' ' })).rejects.toThrow(/BUTTONDOWN_API_KEY/);
     await expect(
