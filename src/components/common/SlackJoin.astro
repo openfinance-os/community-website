@@ -4,13 +4,14 @@ import { SLACK_JOIN_URL, type SlackJoinPlacement } from '../../lib/newsletter';
 interface Props {
   placement: SlackJoinPlacement;
   label?: string;
+  variant?: 'link' | 'button';
 }
 
-const { placement, label = 'Join the community on Slack' } = Astro.props;
+const { placement, label = 'Join the community on Slack', variant = 'link' } = Astro.props;
 ---
 
 <a
-  class="slack-join"
+  class:list={['slack-join', variant === 'button' && 'slack-join--button']}
   href={SLACK_JOIN_URL}
   data-slack-join={placement}
   target="_blank"
@@ -34,5 +35,20 @@ const { placement, label = 'Join the community on Slack' } = Astro.props;
   .slack-join:focus-visible {
     outline: 2px solid #e8a85c;
     outline-offset: 3px;
+  }
+
+  .slack-join--button {
+    justify-content: center;
+    padding: 0.75rem 1.15rem;
+    border-radius: var(--radius-lg);
+    background: #e8a85c;
+    color: #0c3d3e;
+    text-decoration: none;
+  }
+
+  .slack-join--button:hover {
+    background: #f5c989;
+    color: #0c3d3e;
+    text-decoration: none;
   }
 </style>

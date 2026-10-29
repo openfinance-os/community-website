@@ -8,7 +8,7 @@ import SlackJoin from './SlackJoin.astro';
 
 interface Props {
   source: NewsletterSource;
-  variant?: 'footer' | 'card' | 'page' | 'band';
+  variant?: 'footer' | 'card' | 'page' | 'band' | 'home';
   heading?: string;
   description?: string;
   idSuffix?: string;
@@ -285,6 +285,34 @@ const emailId = `newsletter-email-${fieldKey}`;
   .newsletter-signup--footer .newsletter-submit:focus-visible {
     outline-color: #f5c989;
     box-shadow: 0 0 0 4px rgba(245, 201, 137, 0.35);
+  }
+
+  .newsletter-signup--home {
+    margin: 0;
+    max-width: none;
+  }
+
+  .newsletter-signup--home .newsletter-form {
+    margin: 0;
+  }
+
+  .newsletter-signup--home .newsletter-label,
+  .newsletter-signup--home .newsletter-input {
+    color: #132c2b;
+  }
+
+  .newsletter-signup--home .newsletter-input {
+    background: #fff;
+    border-color: #d7ebe4;
+  }
+
+  .newsletter-signup--home .newsletter-submit {
+    background: #0d4f4f;
+    color: #fff;
+  }
+
+  .newsletter-signup--home .newsletter-submit:hover {
+    background: #0a3d3d;
   }
 
   .newsletter-signup--band {

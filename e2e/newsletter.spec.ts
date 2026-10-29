@@ -133,6 +133,24 @@ test('newsletter page has metadata, the embed form, and a thank-you state', asyn
   await expect(page.locator('[data-newsletter-thanks-title]')).toBeFocused();
 });
 
+test('homepage strip and nav expose the newsletter and Slack invite', async ({ page }) => {
+  await page.goto('/');
+  const slackUrl =
+    'https://join.slack.com/t/openfinance-os/shared_invite/zt-4f6yrsi0w-qPd32ve~7Czekf0BWJRgLQ';
+  await expect(page.getByRole('heading', { name: 'Stay in the loop' })).toBeVisible();
+  await expect(
+    page.locator('.stay-loop form[data-newsletter-signup] input[name="tag"]')
+  ).toHaveValue('home');
+  const homeSlack = page.locator('a[data-slack-join="home"]');
+  await expect(homeSlack).toHaveAttribute('href', slackUrl);
+  await expect(homeSlack).toHaveText(/Join the Slack/);
+  const navSlack = page.locator('a[data-slack-join="nav"]').first();
+  await expect(navSlack).toHaveAttribute('href', slackUrl);
+  await expect(
+    page.locator('nav[aria-label="Main navigation"] a[href="/newsletter"]')
+  ).toBeVisible();
+});
+
 test('footer and news forms post to Buttondown with a source tag', async ({ page }) => {
   await page.goto('/');
   const footerForm = page.locator('footer.footer form[data-newsletter-signup]');

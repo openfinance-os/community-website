@@ -1,8 +1,14 @@
 ---
 import SearchDialog from './SearchDialog.astro';
 import BrandMark from './BrandMark.astro';
+import { SLACK_JOIN_PLACEMENTS, SLACK_JOIN_URL } from '../../lib/newsletter';
 
-const navItems = [
+const navItems: {
+  label: string;
+  href: string;
+  external?: boolean;
+  slack?: string;
+}[] = [
   { label: 'Observatory', href: '/observatory' },
   { label: 'Global', href: '/global' },
   { label: 'Updates', href: '/updates' },
@@ -10,6 +16,8 @@ const navItems = [
   { label: 'Commons', href: '/commons' },
   { label: 'Community', href: '/community' },
   { label: 'About', href: '/about' },
+  { label: 'Newsletter', href: '/newsletter' },
+  { label: 'Slack', href: SLACK_JOIN_URL, external: true, slack: SLACK_JOIN_PLACEMENTS.nav },
 ];
 
 const currentPath = Astro.url.pathname;
@@ -31,9 +39,16 @@ const currentPath = Astro.url.pathname;
           <li>
             <a
               href={item.href}
-              class:list={['nav-link', { active: currentPath.startsWith(item.href) }]}
+              class:list={[
+                'nav-link',
+                { active: !item.external && currentPath.startsWith(item.href) },
+              ]}
+              target={item.external ? '_blank' : undefined}
+              rel={item.external ? 'noopener noreferrer' : undefined}
+              data-slack-join={item.slack}
             >
               {item.label}
+              {item.external && <span class="sr-only"> (opens in a new tab)</span>}
             </a>
           </li>
         ))}
@@ -106,9 +121,16 @@ const currentPath = Astro.url.pathname;
         <li>
           <a
             href={item.href}
-            class:list={['nav-link-mobile', { active: currentPath.startsWith(item.href) }]}
+            class:list={[
+              'nav-link-mobile',
+              { active: !item.external && currentPath.startsWith(item.href) },
+            ]}
+            target={item.external ? '_blank' : undefined}
+            rel={item.external ? 'noopener noreferrer' : undefined}
+            data-slack-join={item.slack}
           >
             {item.label}
+            {item.external && <span class="sr-only"> (opens in a new tab)</span>}
           </a>
         </li>
       ))}

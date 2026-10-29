@@ -47,6 +47,7 @@ describe('newsletter signup contract', () => {
       footer: 'footer',
       news: 'news',
       page: 'newsletter-page',
+      home: 'home',
     });
   });
 
