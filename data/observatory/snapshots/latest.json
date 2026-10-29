@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-10-28T12:08:26.035Z",
+  "timestamp": "2026-10-29T12:18:30.906Z",
   "version": "2.1.0",
   "production": {
-    "timestamp": "2026-10-28T12:08:24.194Z",
+    "timestamp": "2026-10-29T12:18:29.229Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.1.0",
     "environment": "production",
@@ -23,8 +23,8 @@
       },
       "byCity": {
         "Abu Dhabi": 5,
-        "Unknown": 18,
-        "Dubai": 7
+        "Unknown": 17,
+        "Dubai": 8
       },
       "apiFamilies": [
         "accounts",
@@ -34,7 +34,7 @@
         "payments",
         "products"
       ],
-      "liveInProduction": 12,
+      "liveInProduction": 13,
       "shariahCompliantCount": 1,
       "multiRoleCount": 25,
       "tppCount": 0,
@@ -1082,10 +1082,10 @@
         "roles": [
           "LFI"
         ],
-        "city": "Unknown",
+        "city": "Dubai",
         "registrationNumber": "01.02.01.002.1958.02",
         "apiFamilies": [],
-        "hasAuthServer": false,
+        "hasAuthServer": true,
         "isShariahCompliant": false,
         "authCapabilities": {
           "supportsCiba": false,
@@ -1093,8 +1093,8 @@
           "supportsRedirect": false
         },
         "apiResources": [],
-        "authServerCount": 0,
-        "isLive": false
+        "authServerCount": 1,
+        "isLive": true
       },
       {
         "id": "c8e1896a-9c6c-4d1d-8f98-1a771a1ccd85",
@@ -1212,7 +1212,7 @@
     }
   },
   "sandbox": {
-    "timestamp": "2026-10-28T12:08:26.030Z",
+    "timestamp": "2026-10-29T12:18:30.901Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.1.0",
     "environment": "sandbox",
