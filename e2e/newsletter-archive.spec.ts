@@ -24,7 +24,7 @@ test.beforeEach(async ({ page }) => {
 test('archive lists sent issues newest first', async ({ page }) => {
   await page.goto('/newsletter/archive/');
 
-  await expect(page).toHaveTitle('Newsletter archive | OpenFinance-OS');
+  await expect(page).toHaveTitle('Newsletter archive | Open Finance OS');
   await expect(page.locator('meta[name="description"]')).toHaveAttribute(
     'content',
     'Past issues of the weekly UAE open finance briefing.'
@@ -50,14 +50,14 @@ test('issue page renders the briefing on the site with subscribe and Slack calls
 }) => {
   await page.goto(`${issuePath}/`);
 
-  await expect(page).toHaveTitle(`${subject} | OpenFinance-OS`);
+  await expect(page).toHaveTitle(`${subject} | Open Finance OS`);
   await expect(page.locator('meta[name="description"]')).toHaveAttribute(
     'content',
     /welcome to the first issue/i
   );
   await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
     'content',
-    `${subject} | OpenFinance-OS`
+    `${subject} | Open Finance OS`
   );
   await expect(page.locator('meta[property="og:description"]')).toHaveAttribute(
     'content',

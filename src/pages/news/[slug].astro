@@ -61,10 +61,10 @@ const publishedLabel = entry.data.date.toLocaleDateString('en-GB', {
   year: 'numeric',
   timeZone: 'UTC',
 });
-const articleSummary = entry.data.description || `${entry.data.title} — OpenFinance-OS news.`;
+const articleSummary = entry.data.description || `${entry.data.title} — Open Finance OS news.`;
 const articleDescription = `${articleSummary} Published ${publishedLabel}.`;
 const articleUrl = new URL(`/news/${entry.id}/`, Astro.site).toString();
-const authorName = entry.data.author || 'OpenFinance-OS Community';
+const authorName = entry.data.author || 'Open Finance OS Community';
 const authorIsOrganization =
   authorName === 'Community' || authorName.includes(' - ') || /openfinance-os/i.test(authorName);
 
@@ -83,7 +83,7 @@ const articleSchema = {
   },
   publisher: {
     '@type': 'Organization',
-    name: 'OpenFinance-OS',
+    name: 'Open Finance OS',
     url: new URL('/', Astro.site).toString(),
     logo: {
       '@type': 'ImageObject',

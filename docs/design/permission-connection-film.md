@@ -1,6 +1,6 @@
 # A connection you control
 
-Approved OpenFinance-OS permission film · 14 October 2026
+Approved Open Finance OS permission film · 14 October 2026
 
 The user approved the new script and concept, reviewed the generated eight-second film, and authorized homepage integration. This replaces the orbital illustration in the “Connected through permission.” section with a distinct scene in the existing hero's coastal glass style. The hero film and the original Open Circuit source assets remain unchanged.
 

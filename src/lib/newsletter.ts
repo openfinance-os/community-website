@@ -15,12 +15,22 @@ export const SLACK_JOIN_PLACEMENTS = {
   home: 'home',
   nav: 'nav',
   archive: 'newsletter_archive',
+  welcome: 'newsletter_welcome',
 } as const;
+
+/** Public registry snapshot offered after a subscriber confirms. */
+export const REGISTRY_SNAPSHOT = {
+  href: '/registry-snapshot.pdf',
+  event: 'snapshot_download_click',
+  placement: 'newsletter_welcome',
+} as const;
+
+export const SNAPSHOT_DOWNLOAD_EVENT = REGISTRY_SNAPSHOT.event;
 
 export type SlackJoinPlacement = (typeof SLACK_JOIN_PLACEMENTS)[keyof typeof SLACK_JOIN_PLACEMENTS];
 
 export const NEWSLETTER_PITCH =
-  'Weekly UAE open finance & agentic finance briefing. One email, no spam.';
+  'Weekly UAE Open Finance and agentic finance briefing. One email, no spam.';
 
 /** Hidden `tag` values sent with the Buttondown embed form. */
 export const NEWSLETTER_SOURCES = {
@@ -97,9 +107,30 @@ export function bindSlackJoinLinks(root: ParentNode): void {
   });
 }
 
+/** Fires `snapshot_download_click` when PostHog is loaded. The link still works without it. */
+export function trackSnapshotDownloadClick(placement?: string): void {
+  if (typeof window === 'undefined' || !window.posthog) return;
+  window.posthog.capture(SNAPSHOT_DOWNLOAD_EVENT, {
+    placement,
+    page_url: window.location.pathname,
+    page_title: document.title,
+  });
+}
+
+export function bindSnapshotDownloadLinks(root: ParentNode): void {
+  root.querySelectorAll<HTMLAnchorElement>('a[data-snapshot-download]').forEach((link) => {
+    if (link.dataset.snapshotBound === 'true') return;
+    link.dataset.snapshotBound = 'true';
+    link.addEventListener('click', () => {
+      trackSnapshotDownloadClick(link.dataset.snapshotDownload);
+    });
+  });
+}
+
 export function initNewsletterSignup(root: ParentNode, search: string): void {
   markNewsletterSubscribed(search);
   bindNewsletterSignupForms(root);
   bindSlackJoinLinks(root);
+  bindSnapshotDownloadLinks(root);
   focusNewsletterThanks(root, search);
 }

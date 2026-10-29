@@ -3,7 +3,7 @@ title: "This week in UAE Open Finance — 12 Oct–19 Oct"
 date: 2026-10-19
 type: milestone
 region: uae
-author: OpenFinance-OS
+author: Open Finance OS
 description: "UAE Open Finance: 28 production registrations, 12 with a published authorization server; 4 registry changes. Dated activity measures with explicit reporting windows."
 ---
 

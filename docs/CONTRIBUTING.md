@@ -1,6 +1,6 @@
-# Contributing to OpenFinance-OS
+# Contributing to Open Finance OS
 
-Welcome! We're glad you're interested in contributing to the OpenFinance-OS community website. This project is built by the community, for the community, and every contribution matters.
+Welcome! We're glad you're interested in contributing to the Open Finance OS community website. This project is built by the community, for the community, and every contribution matters.
 
 ## Ways to Contribute
 
@@ -144,4 +144,4 @@ All contributors are expected to follow our [Code of Conduct](../CODE_OF_CONDUCT
 
 ---
 
-Thank you for contributing to OpenFinance-OS! Together, we're making UAE Open Finance more visible and accessible for everyone.
+Thank you for contributing to Open Finance OS! Together, we're making UAE Open Finance more visible and accessible for everyone.

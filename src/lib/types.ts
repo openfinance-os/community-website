@@ -1,5 +1,5 @@
 /**
- * Shared types for the OpenFinance-OS website
+ * Shared types for the Open Finance OS website
  */
 
 // Observatory participant profile

@@ -48,11 +48,11 @@ const articleSchema = {
   url: pageUrl,
   author: {
     '@type': 'Organization',
-    name: 'OpenFinance-OS Community',
+    name: 'Open Finance OS Community',
   },
   publisher: {
     '@type': 'Organization',
-    name: 'OpenFinance-OS',
+    name: 'Open Finance OS',
     url: new URL('/', Astro.site).toString(),
   },
   isAccessibleForFree: true,
@@ -85,7 +85,7 @@ const articleSchema = {
         <div class="article-meta">
           <time datetime={published}>{publishedLabel}</time>
           <span class="meta-separator">·</span>
-          <span class="author">OpenFinance-OS Community</span>
+          <span class="author">Open Finance OS Community</span>
         </div>
         <h1>{issue.subject}</h1>
       </header>

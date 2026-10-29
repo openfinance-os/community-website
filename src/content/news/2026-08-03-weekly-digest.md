@@ -3,7 +3,7 @@ title: "This week in UAE Open Finance — 27 Jul–3 Aug"
 date: 2026-08-03
 type: milestone
 region: uae
-author: OpenFinance-OS
+author: Open Finance OS
 description: "The week in the UAE Open Finance ecosystem: 25 production registrations, 11 with a published authorization server; 1 registry change. Reported cumulative traffic measures."
 ---
 

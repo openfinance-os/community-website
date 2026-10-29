@@ -634,7 +634,7 @@ async function main() {
   const productionOnly = process.argv.includes('--production-only');
   const sandboxOnly = process.argv.includes('--sandbox-only');
 
-  console.log('OpenFinance-OS Observatory Collector v2.1');
+  console.log('Open Finance OS Observatory Collector v2.1');
   console.log('=========================================');
   if (isDryRun) {
     console.log('DRY RUN MODE - No files will be written\n');

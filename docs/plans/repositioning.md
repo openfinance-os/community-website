@@ -2,7 +2,7 @@
 
 > **Source correction, 10 October 2026:** The operator affiliation assigned below to nebras-open-finance.com was not established; that site identifies itself as a community reference. Published JSON and technical explanations are community sources unless their upstream authority is verified. The July positioning assumptions below are historical. Current public handoffs distinguish [official Al Tareq documentation](https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview), community references and independent observations. See the [current learning and readiness implementation record](../reviews/2026-10-10-learning-readiness-implementation.md).
 
-_Last updated: 2026-07-12. Owner: @michartmann. Working prototype of the redesigned homepage: see the session artifact ("OpenFinance-OS — Redesign Prototype")._
+_Last updated: 2026-07-12. Owner: @michartmann. Working prototype of the redesigned homepage: see the session artifact ("Open Finance OS — Redesign Prototype")._
 
 ## Context & diagnosis
 

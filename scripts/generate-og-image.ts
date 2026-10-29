@@ -8,13 +8,13 @@ const root = fileURLToPath(new URL('../', import.meta.url));
 const dataURL = (path: string, type: string) =>
   `data:${type};base64,${readFileSync(join(root, 'public', path)).toString('base64')}`;
 
-// v2.3's existing outlined wordmark and self-hosted fonts are the only inputs.
+// v2.4's outlined wordmark and self-hosted fonts are the only inputs.
 // Center the content inside a 630px square as well as the full 1200×630 card.
 const html = `<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>OpenFinance-OS social card</title>
+  <title>Open Finance OS social card</title>
   <style>
     @font-face { font-family: 'DM Sans'; font-weight: 400; src: url('${dataURL('fonts/dm-sans-regular.ttf', 'font/ttf')}'); }
     @font-face { font-family: 'DM Sans'; font-weight: 500; src: url('${dataURL('fonts/dm-sans-medium.ttf', 'font/ttf')}'); }
@@ -29,7 +29,7 @@ const html = `<!doctype html>
 </head>
 <body>
   <main>
-    <img src="${dataURL('brand/logo-full.svg', 'image/svg+xml')}" alt="OpenFinance-OS">
+    <img src="${dataURL('brand/logo-full.svg', 'image/svg+xml')}" alt="Open Finance OS">
     <h1>Open finance.<br>In full view.</h1>
     <p>The independent view of<br>UAE Open Finance.</p>
     <footer>openfinance-os.org</footer>
@@ -37,7 +37,7 @@ const html = `<!doctype html>
 </body>
 </html>`;
 
-const browser = await chromium.launch();
+const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH });
 try {
   const page = await browser.newPage({
     viewport: { width: 1200, height: 630 },
@@ -54,7 +54,7 @@ try {
     }
   });
   await page.screenshot({ path: join(root, 'public/og-image.png'), type: 'png' });
-  console.log('Generated public/og-image.png (1200×630) from approved v2.3 assets.');
+  console.log('Generated public/og-image.png (1200×630) from approved v2.4 assets.');
 } finally {
   await browser.close();
 }

@@ -1,6 +1,6 @@
-# OpenFinance-OS site-wide Clear signal alignment
+# Open Finance OS site-wide Clear signal alignment
 
-Audit date: 10 October 2026. Baseline: main `07356b49fccf1f90b00720d133b212e0089f1b86` (MiddleLeap logo PR #603). Scope: brand guide v2.2 and the canonical OpenFinance-OS brand skill. No product source files were changed during this audit.
+Audit date: 10 October 2026. Baseline: main `07356b49fccf1f90b00720d133b212e0089f1b86` (MiddleLeap logo PR #603). Scope: brand guide v2.2 and the canonical Open Finance OS brand skill. No product source files were changed during this audit.
 
 ## Coverage and evidence
 
@@ -27,7 +27,7 @@ Local evidence artifacts are in the `site-design-audit/` visualization folder (n
 
 ### 1. Shared foundations
 
-Update `src/styles/global.css` with semantic text, surface, border, link, and status-text roles. Migrate affected shared components to those roles instead of relying on inverted numbered palettes. Fix active navigation, search hints, footer metadata, badges, and card surfaces at their owners. Keep the approved OpenFinance-OS mark, MiddleLeap lockup, homepage composition, and Open Circuit media/playback behavior intact. Preserve existing raw directory labels and evidence distinctions.
+Update `src/styles/global.css` with semantic text, surface, border, link, and status-text roles. Migrate affected shared components to those roles instead of relying on inverted numbered palettes. Fix active navigation, search hints, footer metadata, badges, and card surfaces at their owners. Keep the approved Open Finance OS mark, MiddleLeap lockup, homepage composition, and Open Circuit media/playback behavior intact. Preserve existing raw directory labels and evidence distinctions.
 
 ### 2. Interior page design
 
