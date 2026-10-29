@@ -33,13 +33,13 @@ test('archive lists sent issues newest first', async ({ page }) => {
     'href',
     'https://openfinance-os.org/newsletter/archive/'
   );
-  await expect(page.getByRole('heading', { level: 1, name: 'Archive' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: 'Newsletter archive' })).toBeVisible();
 
-  const card = page.locator('.issue-card');
+  const card = page.locator('.news-card');
   await expect(card).toHaveCount(1);
-  await expect(card.locator('time')).toHaveText('29 October 2026');
+  await expect(card.locator('time')).toHaveText('Oct 29, 2026');
   await expect(card.getByRole('heading', { name: subject })).toBeVisible();
-  await expect(card.getByRole('link', { name: subject })).toHaveAttribute('href', issuePath);
+  await expect(card).toHaveAttribute('href', issuePath);
   await expect(card).toContainText('Hello, and welcome to the first issue');
   await expect(card.locator('img')).toHaveAttribute('src', image);
   await expect(page.locator('footer a[href="/newsletter/archive"]')).toBeVisible();
