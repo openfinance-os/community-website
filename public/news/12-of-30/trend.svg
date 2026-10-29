@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 620" width="320" height="620">
+  <g aria-hidden="true" font-family="DM Sans, system-ui, sans-serif">
+    <rect width="320" height="620" fill="var(--color-card, #ffffff)" />
+
+    <rect x="16" y="18" width="14" height="14" rx="3" fill="var(--color-brand-ink, #0d4f4f)" />
+    <text x="36" y="30" fill="var(--color-text, #132c2b)" font-size="15">Registrations</text>
+    <rect x="168" y="18" width="14" height="14" rx="3" fill="var(--color-accent, #e8a85c)" />
+    <text x="188" y="30" fill="var(--color-text, #132c2b)" font-size="15">With issuer</text>
+
+    <!-- 26 Dec 2025: 17 registrations, 9 with issuer. Bar width is value / 30 × 288. -->
+    <text x="16" y="68" fill="var(--color-text, #132c2b)" font-size="16" font-weight="500">26 Dec 2025</text>
+    <text x="16" y="96" fill="var(--color-text-secondary, #526662)" font-size="15">Registrations</text>
+    <text x="304" y="96" text-anchor="end" fill="var(--color-text, #132c2b)" font-size="16" font-weight="500">17</text>
+    <rect x="16" y="108" width="288" height="14" rx="4" fill="var(--color-border, #dce5df)" />
+    <rect x="16" y="108" width="163.2" height="14" rx="4" fill="var(--color-brand-ink, #0d4f4f)" />
+    <text x="16" y="150" fill="var(--color-text-secondary, #526662)" font-size="15">With issuer</text>
+    <text x="304" y="150" text-anchor="end" fill="var(--color-text, #132c2b)" font-size="16" font-weight="500">9</text>
+    <rect x="16" y="162" width="288" height="14" rx="4" fill="var(--color-border, #dce5df)" />
+    <rect x="16" y="162" width="86.4" height="14" rx="4" fill="var(--color-accent, #e8a85c)" />
+
+    <!-- 13 Jul 2026: 23 and 11 -->
+    <text x="16" y="204" fill="var(--color-text, #132c2b)" font-size="16" font-weight="500">13 Jul 2026</text>
+    <text x="16" y="232" fill="var(--color-text-secondary, #526662)" font-size="15">Registrations</text>
+    <text x="304" y="232" text-anchor="end" fill="var(--color-text, #132c2b)" font-size="16" font-weight="500">23</text>
+    <rect x="16" y="244" width="288" height="14" rx="4" fill="var(--color-border, #dce5df)" />
+    <rect x="16" y="244" width="220.8" height="14" rx="4" fill="var(--color-brand-ink, #0d4f4f)" />
+    <text x="16" y="286" fill="var(--color-text-secondary, #526662)" font-size="15">With issuer</text>
+    <text x="304" y="286" text-anchor="end" fill="var(--color-text, #132c2b)" font-size="16" font-weight="500">11</text>
+    <rect x="16" y="298" width="288" height="14" rx="4" fill="var(--color-border, #dce5df)" />
+    <rect x="16" y="298" width="105.6" height="14" rx="4" fill="var(--color-accent, #e8a85c)" />
+
+    <!-- 15 Sep 2026: 26 and 12 -->
+    <text x="16" y="340" fill="var(--color-text, #132c2b)" font-size="16" font-weight="500">15 Sep 2026</text>
+    <text x="16" y="368" fill="var(--color-text-secondary, #526662)" font-size="15">Registrations</text>
+    <text x="304" y="368" text-anchor="end" fill="var(--color-text, #132c2b)" font-size="16" font-weight="500">26</text>
+    <rect x="16" y="380" width="288" height="14" rx="4" fill="var(--color-border, #dce5df)" />
+    <rect x="16" y="380" width="249.6" height="14" rx="4" fill="var(--color-brand-ink, #0d4f4f)" />
+    <text x="16" y="422" fill="var(--color-text-secondary, #526662)" font-size="15">With issuer</text>
+    <text x="304" y="422" text-anchor="end" fill="var(--color-text, #132c2b)" font-size="16" font-weight="500">12</text>
+    <rect x="16" y="434" width="288" height="14" rx="4" fill="var(--color-border, #dce5df)" />
+    <rect x="16" y="434" width="115.2" height="14" rx="4" fill="var(--color-accent, #e8a85c)" />
+
+    <!-- 28 Oct 2026: 30 and 12 -->
+    <text x="16" y="476" fill="var(--color-text, #132c2b)" font-size="16" font-weight="500">28 Oct 2026</text>
+    <text x="16" y="504" fill="var(--color-text-secondary, #526662)" font-size="15">Registrations</text>
+    <text x="304" y="504" text-anchor="end" fill="var(--color-text, #132c2b)" font-size="16" font-weight="500">30</text>
+    <rect x="16" y="516" width="288" height="14" rx="4" fill="var(--color-border, #dce5df)" />
+    <rect x="16" y="516" width="288" height="14" rx="4" fill="var(--color-brand-ink, #0d4f4f)" />
+    <text x="16" y="558" fill="var(--color-text-secondary, #526662)" font-size="15">With issuer</text>
+    <text x="304" y="558" text-anchor="end" fill="var(--color-text, #132c2b)" font-size="16" font-weight="500">12</text>
+    <rect x="16" y="570" width="288" height="14" rx="4" fill="var(--color-border, #dce5df)" />
+    <rect x="16" y="570" width="115.2" height="14" rx="4" fill="var(--color-accent, #e8a85c)" />
+  </g>
+</svg>

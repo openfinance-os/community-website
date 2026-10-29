@@ -3,6 +3,7 @@ interface Props {
   title: string;
   description?: string;
   ogImage?: string;
+  ogImageAlt?: string;
   type?: 'website' | 'article';
   publishedTime?: string;
   modifiedTime?: string;
@@ -15,6 +16,7 @@ const {
   title,
   description = 'The community home for UAE Open Finance and Open Banking. Ecosystem visibility, resources, and community collaboration for the UAE financial services industry.',
   ogImage = '/og-image.png',
+  ogImageAlt,
   type = 'website',
   publishedTime,
   modifiedTime,
@@ -31,6 +33,10 @@ const canonicalPath =
       : `${Astro.url.pathname}/`;
 const canonicalURL = new URL(canonicalPath, Astro.site);
 const ogImageURL = new URL(ogImage, Astro.site);
+const ogAlt =
+  ogImageAlt || 'OpenFinance-OS - The community home for UAE Open Finance and Open Banking';
+const twitterAlt =
+  ogImageAlt || 'OpenFinance-OS - UAE Open Finance and Open Banking community platform';
 const isHome = canonicalPath === '/';
 const documentTitle = `${title} | OpenFinance-OS`;
 const ogImageType = ogImageURL.pathname.endsWith('.png')
@@ -204,10 +210,7 @@ const breadcrumbSchema =
     {ogImageType && <meta property="og:image:type" content={ogImageType} />}
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta
-      property="og:image:alt"
-      content="OpenFinance-OS - The community home for UAE Open Finance and Open Banking"
-    />
+    <meta property="og:image:alt" content={ogAlt} />
     <meta property="og:locale" content="en_US" />
     {publishedTime && <meta property="article:published_time" content={publishedTime} />}
     {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
@@ -220,10 +223,7 @@ const breadcrumbSchema =
     <meta name="twitter:title" content={documentTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL} />
-    <meta
-      name="twitter:image:alt"
-      content="OpenFinance-OS - UAE Open Finance and Open Banking community platform"
-    />
+    <meta name="twitter:image:alt" content={twitterAlt} />
 
     <!-- Structured Data (JSON-LD) -->
     {isHome && (

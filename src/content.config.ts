@@ -67,6 +67,10 @@ const newsCollection = defineCollection({
     author: z.string().default('Community'),
     source: z.string().url().optional(),
     description: z.string().optional(),
+    // Public path. SVG covers are inlined; a same-name PNG is the social image.
+    image: z.string().optional(),
+    imageAlt: z.string().optional(),
+    imageCaption: z.string().optional(),
     featured: z.boolean().default(false),
     external: z.boolean().default(false),
   }),
