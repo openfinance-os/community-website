@@ -207,22 +207,24 @@ const topicsHTML = `<!doctype html><html lang="en"><head><meta charset="utf-8"><
   </dl>
 </main></body></html>`;
 
-const outputs: { file: string; html: string; width: number; height: number }[] = [
-  { file: 'header.webp', html: headerHTML, width: 600, height: 200 },
-  { file: 'agent-access.webp', html: agentHTML, width: 600, height: 450 },
-  { file: 'topics.webp', html: topicsHTML, width: 600, height: 260 },
+// `scale` renders extra device pixels so in-page images stay sharp on high-density screens.
+const outputs: { file: string; html: string; width: number; height: number; scale: number }[] = [
+  { file: 'header.webp', html: headerHTML, width: 600, height: 200, scale: 1 },
+  { file: 'agent-access.webp', html: agentHTML, width: 600, height: 450, scale: 3 },
+  { file: 'topics.webp', html: topicsHTML, width: 600, height: 260, scale: 3 },
   ...stories.map((story) => ({
     file: story.file,
     html: storyHTML(story),
     width: 1200,
     height: 500,
+    scale: 2,
   })),
 ];
 
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH });
 try {
-  for (const { file, html, width, height } of outputs) {
-    const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: 1 });
+  for (const { file, html, width, height, scale } of outputs) {
+    const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: scale });
     await page.setContent(html);
     await page.evaluate(async () => {
       await document.fonts.ready;
@@ -237,7 +239,7 @@ try {
       .webp({ quality: 90 })
       .toFile(join(root, 'public/newsletter', file));
     await page.close();
-    console.log(`Generated public/newsletter/${file} (${width}×${height}).`);
+    console.log(`Generated public/newsletter/${file} (${width * scale}×${height * scale}).`);
   }
 } finally {
   await browser.close();
