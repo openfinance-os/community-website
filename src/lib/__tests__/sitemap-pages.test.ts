@@ -2,7 +2,11 @@ import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
-import { includeInSitemap, loadNewsLastModified } from '../sitemap-pages.mjs';
+import {
+  includeInSitemap,
+  loadNewsLastModified,
+  loadNewsletterLastModified,
+} from '../sitemap-pages.mjs';
 
 const tempDirs: string[] = [];
 
@@ -17,6 +21,12 @@ describe('includeInSitemap', () => {
     ).toBe(true);
     expect(includeInSitemap('https://openfinance-os.org/updates/')).toBe(true);
     expect(includeInSitemap('https://openfinance-os.org/newsletter/')).toBe(true);
+    expect(includeInSitemap('https://openfinance-os.org/newsletter/archive/')).toBe(true);
+    expect(
+      includeInSitemap(
+        'https://openfinance-os.org/newsletter/archive/uae-open-finance-why-12-of-30-registrations/'
+      )
+    ).toBe(true);
     expect(includeInSitemap('https://openfinance-os.org/newsletter')).toBe(true);
     expect(includeInSitemap('https://openfinance-os.org/observatory/participant/abc/')).toBe(true);
   });
@@ -48,5 +58,31 @@ describe('loadNewsLastModified', () => {
     );
     const dates = loadNewsLastModified(dir);
     expect(dates.get('/news/2026-10-28-example/')).toBe('2026-10-28');
+  });
+});
+
+describe('loadNewsletterLastModified', () => {
+  it('maps the archive index and each issue to the publish day', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'newsletter-'));
+    tempDirs.push(dir);
+    const issuesPath = join(dir, 'issues.json');
+    writeFileSync(
+      issuesPath,
+      JSON.stringify([
+        {
+          slug: 'older-issue',
+          publish_date: '2026-10-01T00:00:00Z',
+        },
+        {
+          slug: 'newer-issue',
+          publish_date: '2026-10-29T09:09:36.055178Z',
+        },
+      ])
+    );
+
+    const dates = loadNewsletterLastModified(issuesPath);
+    expect(dates.get('/newsletter/archive/older-issue/')).toBe('2026-10-01');
+    expect(dates.get('/newsletter/archive/newer-issue/')).toBe('2026-10-29');
+    expect(dates.get('/newsletter/archive/')).toBe('2026-10-29');
   });
 });

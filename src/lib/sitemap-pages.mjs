@@ -26,6 +26,33 @@ export function includeInSitemap(page) {
   return true;
 }
 
+/** Publication dates for sent newsletter issues, keyed by canonical pathname. */
+export function loadNewsletterLastModified(issuesPath) {
+  const dates = new Map();
+  let issues = [];
+  try {
+    issues = JSON.parse(readFileSync(issuesPath, 'utf8'));
+  } catch {
+    return dates;
+  }
+  if (!Array.isArray(issues)) return dates;
+
+  let newest = '';
+  for (const issue of issues) {
+    if (!issue || typeof issue.slug !== 'string' || typeof issue.publish_date !== 'string') {
+      continue;
+    }
+    const day = issue.publish_date.slice(0, 10);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(day) || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(issue.slug)) {
+      continue;
+    }
+    dates.set(`/newsletter/archive/${issue.slug}/`, day);
+    if (day > newest) newest = day;
+  }
+  if (newest) dates.set('/newsletter/archive/', newest);
+  return dates;
+}
+
 /** Publication dates for news posts, keyed by canonical pathname. */
 export function loadNewsLastModified(newsDir) {
   const dates = new Map();

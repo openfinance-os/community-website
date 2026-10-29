@@ -14,6 +14,7 @@ export const SLACK_JOIN_PLACEMENTS = {
   footer: 'footer',
   home: 'home',
   nav: 'nav',
+  archive: 'newsletter_archive',
   welcome: 'newsletter_welcome',
 } as const;
 
@@ -37,6 +38,7 @@ export const NEWSLETTER_SOURCES = {
   news: 'news',
   page: 'newsletter-page',
   home: 'home',
+  archive: 'newsletter_archive',
 } as const;
 
 export type NewsletterSource = (typeof NEWSLETTER_SOURCES)[keyof typeof NEWSLETTER_SOURCES];

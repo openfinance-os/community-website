@@ -53,6 +53,7 @@ describe('newsletter signup contract', () => {
       news: 'news',
       page: 'newsletter-page',
       home: 'home',
+      archive: 'newsletter_archive',
     });
   });
 

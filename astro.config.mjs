@@ -1,9 +1,16 @@
 import { join } from 'node:path';
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
-import { includeInSitemap, loadNewsLastModified } from './src/lib/sitemap-pages.mjs';
+import {
+  includeInSitemap,
+  loadNewsLastModified,
+  loadNewsletterLastModified,
+} from './src/lib/sitemap-pages.mjs';
 
 const newsLastModified = loadNewsLastModified(join(process.cwd(), 'src/content/news'));
+const newsletterLastModified = loadNewsletterLastModified(
+  join(process.cwd(), 'data/newsletter/issues.json')
+);
 
 export default defineConfig({
   site: 'https://openfinance-os.org',
@@ -39,8 +46,11 @@ export default defineConfig({
       ],
       serialize(item) {
         const pathname = new URL(item.url).pathname;
-        const newsDate = newsLastModified.get(pathname.endsWith('/') ? pathname : `${pathname}/`);
+        const key = pathname.endsWith('/') ? pathname : `${pathname}/`;
+        const newsDate = newsLastModified.get(key);
+        const issueDate = newsletterLastModified.get(key);
         if (newsDate) item.lastmod = newsDate;
+        else if (issueDate) item.lastmod = issueDate;
         return item;
       },
     }),

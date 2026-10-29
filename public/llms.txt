@@ -41,6 +41,9 @@ International context and benchmarks:
 ### Newsletter (/newsletter)
 Weekly UAE Open Finance and agentic finance briefing. One email, no spam. Signup forms also appear in the site footer and at the bottom of news.
 
+### Newsletter archive (/newsletter/archive)
+Sent issues of the weekly briefing, newest first. Each issue is published on the site at /newsletter/archive/{slug}.
+
 ### Commons (/commons)
 Shared infrastructure for Open Finance knowledge - insights, references, artifacts, and utilities from the community.
 

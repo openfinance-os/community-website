@@ -1,0 +1,305 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import Breadcrumb from '@components/common/Breadcrumb.astro';
+import NewsletterSignup from '@components/common/NewsletterSignup.astro';
+import SlackJoin from '@components/common/SlackJoin.astro';
+import rawIssues from '@data/newsletter/issues.json';
+import { NEWSLETTER_PITCH, NEWSLETTER_SOURCES, SLACK_JOIN_PLACEMENTS } from '@lib/newsletter';
+import {
+  assertIssues,
+  issueExcerpt,
+  issueImage,
+  sanitizeIssueHtml,
+  type NewsletterIssue,
+} from '@lib/newsletter-archive';
+
+export function getStaticPaths() {
+  return assertIssues(rawIssues).map((issue) => ({
+    params: { slug: issue.slug },
+    props: { issue },
+  }));
+}
+
+interface Props {
+  issue: NewsletterIssue;
+}
+
+const { issue } = Astro.props;
+const description = issueExcerpt(issue, 160);
+const image = issueImage(issue);
+const published = issue.publish_date;
+const pageUrl = new URL(`/newsletter/archive/${issue.slug}/`, Astro.site).toString();
+const body = sanitizeIssueHtml(issue.body);
+const publishedLabel = new Date(published).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'UTC',
+});
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: issue.subject,
+  description,
+  datePublished: published,
+  dateModified: published,
+  image: [new URL(image || '/newsletter/header.webp', Astro.site).toString()],
+  mainEntityOfPage: pageUrl,
+  url: pageUrl,
+  author: {
+    '@type': 'Organization',
+    name: 'Open Finance OS Community',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Open Finance OS',
+    url: new URL('/', Astro.site).toString(),
+  },
+  isAccessibleForFree: true,
+};
+---
+
+<PageLayout
+  title={issue.subject}
+  description={description}
+  ogImage={image || '/newsletter/header.webp'}
+  ogImageAlt={issue.subject}
+  ogImageWidth={image ? 1200 : 600}
+  ogImageHeight={image ? 630 : 200}
+  type="article"
+  publishedTime={published}
+  modifiedTime={published}
+  articleSchema={articleSchema}
+>
+  <article class="article-page">
+    <div class="container">
+      <Breadcrumb
+        items={[
+          { label: 'Newsletter', href: '/newsletter' },
+          { label: 'Archive', href: '/newsletter/archive' },
+          { label: issue.subject },
+        ]}
+      />
+
+      <header class="article-header">
+        <div class="article-meta">
+          <time datetime={published}>{publishedLabel}</time>
+          <span class="meta-separator">·</span>
+          <span class="author">Open Finance OS Community</span>
+        </div>
+        <h1>{issue.subject}</h1>
+      </header>
+
+      <div class="article-content issue-body" set:html={body} />
+
+      <div class="article-nav">
+        <a href="/newsletter/archive" class="nav-link">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <path d="M19 12H5M12 19l-7-7 7-7"></path>
+          </svg>
+          All issues
+        </a>
+      </div>
+
+      <NewsletterSignup
+        source={NEWSLETTER_SOURCES.archive}
+        variant="card"
+        heading="Newsletter"
+        description={NEWSLETTER_PITCH}
+      />
+      <p class="slack-cta">
+        <SlackJoin placement={SLACK_JOIN_PLACEMENTS.archive} label="Join the community on Slack" />
+      </p>
+    </div>
+  </article>
+</PageLayout>
+
+<style>
+  .article-page {
+    padding: var(--space-8) var(--space-4) var(--space-16);
+    background: var(--color-surface);
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .article-header {
+    margin-bottom: var(--space-8);
+  }
+
+  .article-meta {
+    min-width: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .article-meta time {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+
+  .meta-separator,
+  .author {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+
+  .article-header h1 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 500;
+    color: var(--color-text);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  .article-content {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    margin-bottom: var(--space-6);
+    overflow-wrap: anywhere;
+  }
+
+  /* Email HTML ships inline styles. These overrides make it read as a site article. */
+  .article-content :global(*) {
+    font-family: var(--font-sans) !important;
+    max-width: 100% !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+  }
+
+  .article-content :global(table),
+  .article-content :global(tbody),
+  .article-content :global(thead),
+  .article-content :global(tfoot),
+  .article-content :global(tr),
+  .article-content :global(td),
+  .article-content :global(th) {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+  }
+
+  .article-content :global(h2) {
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+    line-height: 1.3 !important;
+    letter-spacing: -0.02em !important;
+    color: var(--color-text) !important;
+    margin: var(--space-8) 0 var(--space-4) !important;
+    padding: 0 !important;
+    border: 0 !important;
+  }
+
+  .article-content :global(h3) {
+    font-size: 1.25rem !important;
+    font-weight: 600 !important;
+    color: var(--color-text) !important;
+    margin: var(--space-6) 0 var(--space-3) !important;
+    padding: 0 !important;
+    border: 0 !important;
+  }
+
+  .article-content :global(p),
+  .article-content :global(li) {
+    font-size: 1.0625rem !important;
+    line-height: 1.7 !important;
+    color: var(--color-text) !important;
+  }
+
+  .article-content :global(div) {
+    height: auto !important;
+    color: var(--color-text) !important;
+  }
+
+  .article-content :global(p) {
+    margin: 0 0 var(--space-4) !important;
+  }
+
+  .article-content :global(ul),
+  .article-content :global(ol) {
+    margin: 0 0 var(--space-4) !important;
+    padding-left: var(--space-6) !important;
+  }
+
+  .article-content :global(li) {
+    margin-bottom: var(--space-2) !important;
+  }
+
+  .article-content :global(a),
+  .article-content :global(a *) {
+    color: var(--color-brand-ink) !important;
+    font-weight: inherit !important;
+    text-decoration: underline !important;
+    text-decoration-color: var(--color-brand-ink) !important;
+    text-underline-offset: 2px !important;
+    border: 0 !important;
+    background: transparent !important;
+  }
+
+  .article-content :global(strong) {
+    font-weight: 600 !important;
+    color: var(--color-text) !important;
+  }
+
+  .article-content :global(img) {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    margin: var(--space-6) 0 !important;
+    border: 1px solid var(--color-border) !important;
+    border-radius: var(--radius-xl) !important;
+    background: var(--color-card) !important;
+  }
+
+  .article-nav {
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-brand-ink);
+    text-decoration: none;
+  }
+
+  .nav-link:hover {
+    color: var(--color-brand-ink);
+    text-decoration: none;
+  }
+
+  .slack-cta {
+    margin-top: var(--space-6);
+  }
+
+  @media (max-width: 640px) {
+    .article-content {
+      padding: var(--space-5);
+    }
+  }
+</style>
