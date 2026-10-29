@@ -1,119 +1,77 @@
 // Slack Webhook Integration for News Curation Notifications
-import type { CuratedArticle, GitHubPR } from '../types/news-curation.js';
+import type { CuratedArticle } from '../types/news-curation.js';
 
 export interface SlackNotifierOptions {
   webhookUrl: string;
 }
 
-interface ArticleWithPR {
-  article: CuratedArticle;
-  pr: GitHubPR;
+export interface DigestNotice {
+  prUrl: string;
+  prNumber: number;
+  /** YYYY-MM-DD, the digest date. */
+  date: string;
+  articles: CuratedArticle[];
 }
 
-function formatTimeAgo(dateStr: string): string {
-  const date = new Date(dateStr);
-  const now = new Date();
-  const diffMs = now.getTime() - date.getTime();
-  const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-
-  if (diffHours < 1) {
-    const diffMins = Math.floor(diffMs / (1000 * 60));
-    return `${diffMins}m ago`;
-  } else if (diffHours < 24) {
-    return `${diffHours}h ago`;
-  } else {
-    const diffDays = Math.floor(diffHours / 24);
-    return `${diffDays}d ago`;
-  }
+function excerpt(summary: string, max: number = 180): string {
+  const flat = summary.replace(/\s+/g, ' ').trim();
+  return flat.length > max ? `${flat.slice(0, max - 1)}…` : flat;
 }
 
-function buildSlackMessage(articlesWithPRs: ArticleWithPR[]): object {
-  const today = new Date().toLocaleDateString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
+/** One Slack message for the day's digest, not one message per article. */
+export function buildDigestSlackMessage(notice: DigestNotice): { blocks: object[] } {
+  const dateLabel = new Date(`${notice.date}T00:00:00Z`).toLocaleDateString('en-GB', {
     day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
   });
+  const lines = notice.articles
+    .map((article, index) => {
+      const confidence = article.confidence.toFixed(2);
+      return `*${index + 1}. ${article.title}*\n${getTypeEmoji(article.type)} ${article.source} · confidence ${confidence}\n${excerpt(article.summary)}`;
+    })
+    .join('\n\n');
 
-  const blocks: object[] = [
-    {
-      type: 'header',
-      text: {
-        type: 'plain_text',
-        text: 'Daily News Digest',
-        emoji: true,
-      },
-    },
-    {
-      type: 'context',
-      elements: [
-        {
-          type: 'mrkdwn',
-          text: `${today} | ${articlesWithPRs.length} articles curated for review`,
-        },
-      ],
-    },
-    {
-      type: 'divider',
-    },
-  ];
-
-  // Add each article
-  articlesWithPRs.forEach((item, index) => {
-    const { article, pr } = item;
-    const timeAgo = formatTimeAgo(article.publishedAt);
-    const typeEmoji = getTypeEmoji(article.type);
-
-    blocks.push({
-      type: 'section',
-      text: {
-        type: 'mrkdwn',
-        text: `*${index + 1}. ${article.title}*\n${typeEmoji} ${article.source} | ${timeAgo}\n\n${article.summary}`,
-      },
-    });
-
-    blocks.push({
-      type: 'actions',
-      elements: [
-        {
-          type: 'button',
-          text: {
-            type: 'plain_text',
-            text: 'Merge PR to Publish',
-            emoji: true,
-          },
-          style: 'primary',
-          url: pr.url,
-        },
-        {
-          type: 'button',
-          text: {
-            type: 'plain_text',
-            text: 'View Original',
-            emoji: true,
-          },
-          url: article.sourceUrl,
-        },
-      ],
-    });
-
-    blocks.push({
-      type: 'divider',
-    });
-  });
-
-  // Footer
-  blocks.push({
-    type: 'context',
-    elements: [
+  return {
+    blocks: [
       {
-        type: 'mrkdwn',
-        text: 'PRs auto-close in 48 hours if not merged | <https://github.com/openfinance-os/community-website/pulls|View all PRs>',
+        type: 'header',
+        text: { type: 'plain_text', text: 'Daily News Digest', emoji: true },
+      },
+      {
+        type: 'context',
+        elements: [
+          {
+            type: 'mrkdwn',
+            text: `${dateLabel} | ${notice.articles.length} ${notice.articles.length === 1 ? 'story' : 'stories'} in one review PR`,
+          },
+        ],
+      },
+      { type: 'divider' },
+      { type: 'section', text: { type: 'mrkdwn', text: lines } },
+      {
+        type: 'actions',
+        elements: [
+          {
+            type: 'button',
+            text: { type: 'plain_text', text: 'Review digest PR', emoji: true },
+            style: 'primary',
+            url: notice.prUrl,
+          },
+        ],
+      },
+      {
+        type: 'context',
+        elements: [
+          {
+            type: 'mrkdwn',
+            text: 'The digest auto-closes in 48 hours if not merged | <https://github.com/openfinance-os/community-website/pulls|View all PRs>',
+          },
+        ],
       },
     ],
-  });
-
-  return { blocks };
+  };
 }
 
 function getTypeEmoji(type: string): string {
@@ -128,15 +86,15 @@ function getTypeEmoji(type: string): string {
 }
 
 export async function sendSlackNotification(
-  articlesWithPRs: ArticleWithPR[],
+  notice: DigestNotice,
   options: SlackNotifierOptions
 ): Promise<boolean> {
-  if (articlesWithPRs.length === 0) {
+  if (notice.articles.length === 0) {
     console.log('No articles to notify about');
     return true;
   }
 
-  const message = buildSlackMessage(articlesWithPRs);
+  const message = buildDigestSlackMessage(notice);
 
   try {
     const response = await fetch(options.webhookUrl, {

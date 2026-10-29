@@ -104,6 +104,9 @@
     "press release"
   ],
   "preferredSources": [
+    "CBUAE",
+    "Central Bank of the UAE",
+    "Nebras Open Finance",
     "Finextra",
     "PYMNTS",
     "Fintech Futures",
@@ -130,6 +133,24 @@
     "Open Banking Excellence",
     "TechCrunch",
     "Wired"
+  ],
+  "htmlPages": [
+    {
+      "name": "Nebras Open Finance",
+      "url": "https://nebras-open-finance.com/news",
+      "priority": 1,
+      "category": "regulatory",
+      "format": "nebras-news",
+      "lookbackHours": 1080
+    },
+    {
+      "name": "CBUAE",
+      "url": "https://www.centralbank.ae/en",
+      "priority": 1,
+      "category": "regulatory",
+      "format": "cbuae-home",
+      "lookbackHours": 1080
+    }
   ],
   "rssFeeds": [
     {
@@ -329,6 +350,7 @@
   ],
   "maxArticlesPerRun": 5,
   "lookbackHours": 168,
+  "minConfidence": 0.55,
   "futureToleranceHours": 6,
   "minRelevanceScore": 20,
   "regionThresholds": {

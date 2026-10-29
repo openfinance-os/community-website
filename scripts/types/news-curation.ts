@@ -29,6 +29,8 @@ export interface CuratedArticle {
   description: string;
   summary: string;
   relevanceScore: number;
+  /** Gate confidence from 0 to 1. Items below the configured threshold are not proposed. */
+  confidence: number;
   type: 'global' | 'community' | 'milestone' | 'official' | 'opinion';
   region: 'uae' | 'mena' | 'global';
   slug: string;
@@ -83,6 +85,17 @@ export interface GitHubPR {
   url: string;
   title: string;
   branch: string;
+}
+
+/** A news page with stable HTML and no usable feed. */
+export interface HtmlNewsPage {
+  name: string;
+  url: string;
+  priority: number;
+  category?: 'regulatory' | 'regional' | 'industry';
+  format: 'nebras-news' | 'cbuae-home';
+  /** Overrides the global lookback. Official pages publish less often than news wires. */
+  lookbackHours?: number;
 }
 
 export interface RssFeedSource {
@@ -149,6 +162,17 @@ export interface NewsSourceConfig {
   requireCoreTermForGlobal?: boolean;
   /** Reject items published more than this many hours in the future (default 6). */
   futureToleranceHours?: number;
+  /**
+   * Minimum relevance-gate confidence (0–1). Defaults to 0.55, which a core
+   * open-finance term in the title clears on its own.
+   */
+  minConfidence?: number;
+  /** Overrides the gate's core-term list when non-empty. */
+  relevanceCoreTerms?: string[];
+  /** Overrides the gate's hard exclusions when non-empty. */
+  relevanceExclusions?: string[];
+  /** HTML news pages scraped when the publisher has no feed. */
+  htmlPages?: HtmlNewsPage[];
   /** URL path fragments identifying event, webinar or gated-content pages. */
   eventUrlPatterns?: string[];
   /** Title/description phrases identifying event listings or promos. */

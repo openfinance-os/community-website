@@ -40,6 +40,7 @@ jobs:
         env:
           NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           GH_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
@@ -56,4 +57,4 @@ jobs:
           echo "### News Curation Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "News curation workflow completed" >> $GITHUB_STEP_SUMMARY
-          echo "Check Slack for notification with PR links" >> $GITHUB_STEP_SUMMARY
+          echo "Accepted stories are opened as one daily digest PR. Check Slack for the notification." >> $GITHUB_STEP_SUMMARY

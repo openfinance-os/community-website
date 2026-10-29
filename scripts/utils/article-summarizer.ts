@@ -1,9 +1,22 @@
 // AI-powered article summarization using Anthropic Claude API
 // Falls back to article description if no API key is provided (free mode)
 import type { NewsApiArticle, CuratedArticle } from '../types/news-curation.js';
-import { titleSlug } from './article-filters.js';
+import { stripTrackingParams, titleSlug } from './article-filters.js';
+import { reviewSummary } from './summary-grounding.js';
 
 const ANTHROPIC_API_URL = 'https://api.anthropic.com/v1/messages';
+
+/**
+ * Current small Claude model for high-volume summarisation.
+ * Override with ANTHROPIC_MODEL (same API key, no new secret).
+ * claude-haiku-5-5 was released 7 October 2026 and replaces claude-3-haiku-20240307.
+ */
+export const DEFAULT_SUMMARIZER_MODEL = 'claude-haiku-5-5';
+
+export function resolveSummarizerModel(explicit?: string): string {
+  const fromEnv = process.env.ANTHROPIC_MODEL?.trim();
+  return explicit?.trim() || fromEnv || DEFAULT_SUMMARIZER_MODEL;
+}
 
 export interface SummarizerOptions {
   apiKey?: string; // Optional - falls back to description if not provided
@@ -279,8 +292,8 @@ async function callClaude(
       'anthropic-version': '2023-06-01',
     },
     body: JSON.stringify({
-      model: options.model || 'claude-3-haiku-20240307',
-      max_tokens: options.enhanced ? 400 : 200,
+      model: resolveSummarizerModel(options.model),
+      max_tokens: options.enhanced ? 1024 : 512,
       system: systemPrompt,
       messages: [{ role: 'user', content: prompt }],
     }),
@@ -292,7 +305,12 @@ async function callClaude(
   }
 
   const data: AnthropicResponse = await response.json();
-  return data.content[0]?.text || '';
+  // Current models may lead with an adaptive-thinking block. Publish only text.
+  return data.content
+    .filter((block) => block.type === 'text' && block.text)
+    .map((block) => block.text)
+    .join('\n')
+    .trim();
 }
 
 // Enhanced system prompt for better article analysis
@@ -300,7 +318,7 @@ const ENHANCED_SYSTEM_PROMPT = `You are an expert open banking analyst for the U
 
 For each article, provide a JSON response with:
 
-1. "summary": A 2-3 sentence summary that captures the key news and its significance. Focus on facts and impact, not just repeating the headline.
+1. "summary": A 2-3 sentence summary in your own words. Do not copy or lightly edit the source description or the headline. Use only facts that appear in the title, description, or content. Do not add numbers, dates, names, quotes, or other claims that are not in that text. If the source is too thin to summarise without guessing, return an empty summary.
 
 2. "type": Classify as one of:
    - "official" - Regulatory announcements, central bank news, licensing, policy updates
@@ -333,7 +351,7 @@ Respond ONLY with valid JSON, no other text.`;
 
 const BASIC_SYSTEM_PROMPT = `You are a news summarizer for the UAE Open Finance community website.
 Your task is to:
-1. Write a 2-3 sentence summary of the article that is informative and relevant to the open finance/fintech community
+1. Write an original 2-3 sentence summary. Do not copy the source description. Use only facts present in the supplied text, and do not invent numbers, names, or quotes.
 2. Classify the article type as one of: global (international news), community (local ecosystem), milestone (significant achievement), official (regulatory/government), opinion (analysis/commentary)
 3. Classify the article region as one of: uae (specifically about the UAE), mena (Middle East & North Africa excluding UAE), global (international/worldwide)
 
@@ -426,15 +444,20 @@ Respond only with valid JSON.`;
 export async function processArticles(
   articles: NewsApiArticle[],
   scores: Map<string, number>,
-  options: SummarizerOptions
+  options: SummarizerOptions,
+  confidences: Map<string, number> = new Map()
 ): Promise<CuratedArticle[]> {
   const curatedArticles: CuratedArticle[] = [];
   const useAI = !!options.apiKey;
 
   if (!useAI) {
-    console.log('\nNo ANTHROPIC_API_KEY provided - using free mode (article descriptions)\n');
+    console.log(
+      '\nNo ANTHROPIC_API_KEY provided - summaries that copy the description will be rejected\n'
+    );
   } else {
-    console.log('\nUsing enhanced AI summarization with relevance analysis\n');
+    console.log(
+      `\nUsing ${resolveSummarizerModel(options.model)} for original, grounded summaries\n`
+    );
   }
 
   for (const article of articles) {
@@ -442,16 +465,27 @@ export async function processArticles(
 
     try {
       const result = await summarizeArticle(article, { ...options, enhanced: true });
+      const sourceUrl = stripTrackingParams(article.url);
+      const review = reviewSummary(result.summary, {
+        title: article.title,
+        description: article.description || '',
+        content: article.content,
+      });
+      if (!review.ok) {
+        console.log(`  Rejected summary (${review.reasons.join(', ')})`);
+        continue;
+      }
 
       const curated: CuratedArticle = {
-        id: generateArticleId(article.url),
+        id: generateArticleId(sourceUrl),
         title: article.title,
         source: article.source.name,
-        sourceUrl: article.url,
+        sourceUrl,
         publishedAt: article.publishedAt,
         description: article.description || '',
         summary: result.summary,
         relevanceScore: scores.get(article.url) || 0,
+        confidence: confidences.get(article.url) ?? 0,
         type: result.type,
         region: result.region,
         slug: generateSlug(article.title, article.publishedAt),

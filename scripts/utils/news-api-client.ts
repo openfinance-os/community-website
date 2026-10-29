@@ -10,9 +10,11 @@ import {
   inferRegion,
   normalizeUrl,
   preFilterArticle,
+  stripTrackingParams,
   summarizeRejections,
   type RejectionReason,
 } from './article-filters.js';
+import { assessRelevance } from './relevance-gate.js';
 
 const NEWSAPI_BASE_URL = 'https://newsapi.org/v2';
 
@@ -116,7 +118,7 @@ export async function fetchNewsArticles(options: FetchNewsOptions): Promise<News
           // Skip [Removed] articles
           if (article.title === '[Removed]' || article.content === '[Removed]') continue;
 
-          allArticles.push(article);
+          allArticles.push({ ...article, url: stripTrackingParams(article.url) });
         }
         console.log(`  Found ${data.articles.length} articles for ${keyword}`);
       }
@@ -652,13 +654,35 @@ export function rankArticles(
 
   // Filter by minimum score for the article's region (UAE stories need a
   // lower bar than global ones on a UAE community site).
-  const relevantArticles = scoredArticles.filter((item) => item.score >= item.threshold);
+  const aboveThreshold = scoredArticles.filter((item) => item.score >= item.threshold);
+
+  const gateReasons = new Map<string, number>();
+  const relevantArticles = aboveThreshold.filter((item) => {
+    const decision = assessRelevance(item.article, config);
+    if (!decision.accept) {
+      gateReasons.set(decision.reason, (gateReasons.get(decision.reason) || 0) + 1);
+      if (options.verbose) {
+        console.log(
+          `  Rejected (${decision.reason}, confidence ${decision.confidence.toFixed(2)}): ${item.article.title.substring(0, 60)}`
+        );
+      }
+      return false;
+    }
+    return true;
+  });
 
   const thresholdSummary = (['uae', 'mena', 'global'] as const)
     .map((region) => `${region}>=${thresholdForRegion(region, config)}`)
     .join(', ');
+  const gateSummary =
+    gateReasons.size === 0
+      ? 'none'
+      : [...gateReasons.entries()].map(([reason, count]) => `${reason}=${count}`).join(', ');
   console.log(
-    `Filtered ${scoredArticles.length} articles to ${relevantArticles.length} above region thresholds (${thresholdSummary})`
+    `Filtered ${scoredArticles.length} articles to ${aboveThreshold.length} above region thresholds (${thresholdSummary})`
+  );
+  console.log(
+    `Relevance gate kept ${relevantArticles.length} of ${aboveThreshold.length} (rejected: ${gateSummary})`
   );
 
   // Log top articles with scores
@@ -670,7 +694,9 @@ export function rankArticles(
     );
   });
 
-  if (relevantArticles.length === 0 && scoredArticles.length > 0) {
+  if (relevantArticles.length === 0 && aboveThreshold.length > 0) {
+    console.log('  No articles passed the relevance gate.');
+  } else if (relevantArticles.length === 0 && scoredArticles.length > 0) {
     console.log('  No articles met the minimum score threshold.');
     console.log('  Top 3 rejected articles:');
     scoredArticles.slice(0, 3).forEach((item, index) => {
