@@ -1,0 +1,285 @@
+---
+import { BUTTONDOWN_EMBED_ACTION, type NewsletterSource } from '../../lib/newsletter';
+
+interface Props {
+  source: NewsletterSource;
+  variant?: 'footer' | 'card' | 'page';
+  heading?: string;
+  description?: string;
+}
+
+const { source, variant = 'card', heading, description } = Astro.props;
+const headingId = `newsletter-heading-${source}`;
+const pitchId = `newsletter-pitch-${source}`;
+const emailId = `newsletter-email-${source}`;
+---
+
+<section class:list={['newsletter-signup', `newsletter-signup--${variant}`]}>
+  {variant === 'page' && <script is:inline>
+    if (new URLSearchParams(location.search).get('subscribed') === '1') {
+      document.documentElement.classList.add('newsletter-subscribed');
+    }
+  </script>}
+  <div class="newsletter-layout">
+    {(heading || description) && (
+      <div class="newsletter-copy">
+        {heading && (
+          <h2 id={headingId} class="newsletter-heading">
+            {heading}
+          </h2>
+        )}
+        {description && (
+          <p id={pitchId} class="newsletter-pitch">
+            {description}
+          </p>
+        )}
+      </div>
+    )}
+
+    <div class="newsletter-form-wrap">
+      <form
+        class="newsletter-form"
+        action={BUTTONDOWN_EMBED_ACTION}
+        method="post"
+        data-newsletter-signup
+        aria-labelledby={heading ? headingId : undefined}
+      >
+        <div class="newsletter-field">
+          <label class="newsletter-label" for={emailId}>
+            Email address
+          </label>
+          <input
+            id={emailId}
+            class="newsletter-input"
+            type="email"
+            name="email"
+            autocomplete="email"
+            autocapitalize="none"
+            spellcheck="false"
+            required
+            placeholder="you@example.com"
+            aria-describedby={description ? pitchId : undefined}
+          />
+        </div>
+        <input type="hidden" name="tag" value={source} />
+        <button class="newsletter-submit" type="submit">
+          Subscribe
+        </button>
+      </form>
+    </div>
+
+    {variant === 'page' && (
+      <div class="newsletter-thanks" role="status">
+        <p class="newsletter-thanks-title" tabindex="-1" data-newsletter-thanks-title>
+          Thanks for subscribing.
+        </p>
+        <p>Check your inbox to confirm. One email, no spam.</p>
+      </div>
+    )}
+  </div>
+</section>
+
+<script>
+  import { initNewsletterSignup } from '../../lib/newsletter';
+
+  initNewsletterSignup(document, window.location.search);
+</script>
+
+<style>
+  .newsletter-signup--card,
+  .newsletter-signup--page {
+    margin-top: var(--space-8);
+    max-width: 40rem;
+  }
+
+  .newsletter-signup--card {
+    padding: var(--space-6);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+  }
+
+  .newsletter-heading {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
+  }
+
+  .newsletter-pitch {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-4);
+  }
+
+  .newsletter-signup--page .newsletter-pitch {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    max-width: 38rem;
+    margin-bottom: var(--space-6);
+  }
+
+  .newsletter-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--space-3);
+  }
+
+  .newsletter-field {
+    flex: 1 1 14rem;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .newsletter-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .newsletter-input {
+    width: 100%;
+    min-height: 44px;
+    padding: var(--space-3) var(--space-4);
+    font: inherit;
+    color: var(--color-text);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+  }
+
+  .newsletter-input::placeholder {
+    color: var(--color-text-secondary);
+  }
+
+  .newsletter-submit {
+    min-height: 44px;
+    padding: var(--space-3) var(--space-5);
+    font: inherit;
+    font-weight: 600;
+    color: white;
+    background: var(--color-primary-fill);
+    border: 1px solid transparent;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+  }
+
+  .newsletter-submit:hover {
+    background: var(--color-primary-fill-strong);
+  }
+
+  .newsletter-input:focus-visible,
+  .newsletter-submit:focus-visible {
+    outline: 2px solid var(--color-accent-600);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 4px rgba(232, 168, 92, 0.35);
+  }
+
+  .newsletter-thanks {
+    display: none;
+  }
+
+  .newsletter-thanks-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
+  }
+
+  .newsletter-thanks-title:focus {
+    outline: none;
+  }
+
+  .newsletter-thanks-title:focus-visible {
+    outline: 2px solid var(--color-accent-600);
+    outline-offset: 3px;
+  }
+
+  .newsletter-signup--footer {
+    border-top: 1px solid #365a55;
+    padding: var(--space-8) var(--space-4);
+  }
+
+  .newsletter-signup--footer .newsletter-layout {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-6);
+  }
+
+  .newsletter-signup--footer .newsletter-copy,
+  .newsletter-signup--footer .newsletter-form-wrap {
+    flex: 1 1 18rem;
+    max-width: 36rem;
+  }
+
+  .newsletter-signup--footer .newsletter-heading {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #adc1b9;
+  }
+
+  .newsletter-signup--footer .newsletter-pitch {
+    color: #c1d5ce;
+  }
+
+  .newsletter-signup--footer .newsletter-label {
+    color: #f1f7f1;
+  }
+
+  .newsletter-signup--footer .newsletter-pitch {
+    margin-bottom: 0;
+  }
+
+  .newsletter-signup--footer .newsletter-input {
+    color: #132c2b;
+    background: #f1f7f1;
+    border-color: #c1d5ce;
+  }
+
+  .newsletter-signup--footer .newsletter-input::placeholder {
+    color: #526662;
+  }
+
+  .newsletter-signup--footer .newsletter-submit {
+    color: #0c3d3e;
+    background: #e8a85c;
+  }
+
+  .newsletter-signup--footer .newsletter-submit:hover {
+    background: #f5c989;
+  }
+
+  .newsletter-signup--footer .newsletter-input:focus-visible,
+  .newsletter-signup--footer .newsletter-submit:focus-visible {
+    outline-color: #f5c989;
+    box-shadow: 0 0 0 4px rgba(245, 201, 137, 0.35);
+  }
+
+  @media (max-width: 640px) {
+    .newsletter-submit {
+      width: 100%;
+    }
+  }
+</style>
+
+<style is:global>
+  html.newsletter-subscribed .newsletter-signup--page .newsletter-form-wrap {
+    display: none;
+  }
+
+  html.newsletter-subscribed .newsletter-signup--page .newsletter-thanks {
+    display: block;
+  }
+</style>

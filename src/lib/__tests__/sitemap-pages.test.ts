@@ -16,6 +16,8 @@ describe('includeInSitemap', () => {
       includeInSitemap('https://openfinance-os.org/news/2026-10-28-zencom-and-mastercard/')
     ).toBe(true);
     expect(includeInSitemap('https://openfinance-os.org/updates/')).toBe(true);
+    expect(includeInSitemap('https://openfinance-os.org/newsletter/')).toBe(true);
+    expect(includeInSitemap('https://openfinance-os.org/newsletter')).toBe(true);
     expect(includeInSitemap('https://openfinance-os.org/observatory/participant/abc/')).toBe(true);
   });
 

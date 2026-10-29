@@ -1,0 +1,385 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import NewsletterSignup from '@components/common/NewsletterSignup.astro';
+import { NEWSLETTER_PITCH, NEWSLETTER_SOURCES } from '@lib/newsletter';
+
+const headerAlt = 'Open Finance OS weekly briefing, issue 1, 29 October 2026.';
+---
+
+<PageLayout
+  title="Newsletter"
+  description={NEWSLETTER_PITCH}
+  ogImage="/newsletter/header.webp"
+  ogImageAlt={headerAlt}
+  ogImageWidth={600}
+  ogImageHeight={200}
+>
+  <div class="newsletter-page">
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Issue #1 · 29 October 2026</p>
+          <h1>Newsletter</h1>
+          <NewsletterSignup
+            source={NEWSLETTER_SOURCES.page}
+            variant="page"
+            description={NEWSLETTER_PITCH}
+          />
+        </div>
+        <figure class="hero-figure">
+          <img
+            src="/newsletter/header.webp"
+            width="600"
+            height="200"
+            alt={headerAlt}
+            decoding="async"
+            fetchpriority="high"
+          />
+        </figure>
+      </div>
+    </section>
+
+    <section class="band" aria-labelledby="weekly-heading">
+      <div class="section-inner">
+        <h2 id="weekly-heading">What you get each week</h2>
+        <p class="section-lead">Three kinds of note, in the same short email.</p>
+        <div class="points">
+          <article class="point">
+            <img
+              src="/newsletter/story-registry.webp"
+              width="600"
+              height="250"
+              alt="UAE registry: 12 of 30 registrations publish an authorization server."
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="point-body">
+              <h3>UAE open finance news</h3>
+              <p>
+                Registry changes, bank launches, and the regulatory notes that matter this week.
+              </p>
+            </div>
+          </article>
+
+          <article class="point">
+            <div class="agent-flow" aria-hidden="true">
+              <span>Customer</span>
+              <span class="flow-arrow">→</span>
+              <span>Agent</span>
+              <span class="flow-hub">Hub</span>
+              <span class="flow-arrow">→</span>
+              <span>Bank</span>
+            </div>
+            <div class="point-body">
+              <h3>Agentic finance</h3>
+              <p>
+                How an agent, a consent, and a payment rail reach a bank, without the marketing fog.
+              </p>
+            </div>
+          </article>
+
+          <article class="point">
+            <img
+              src="/newsletter/topics.webp"
+              width="600"
+              height="260"
+              alt="Bar chart of this issue’s seven stories: three on the UAE ecosystem, two on agentic payments, one on Pay by Bank in Europe, and one on commercial models."
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="point-body">
+              <h3>Data and charts</h3>
+              <p>Counts and comparisons from the public record, with the dates attached.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="band band-issue" aria-labelledby="issue-heading">
+      <div class="section-inner">
+        <h2 id="issue-heading">Inside an issue</h2>
+        <p class="section-lead">A sample of the 29 October briefing. The pictures are the email.</p>
+        <figure class="issue-frame">
+          <figcaption class="issue-chrome">
+            <span class="chrome-dots" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+            <span>Sample issue · Issue #1</span>
+          </figcaption>
+          <div class="issue-body">
+            <img
+              src="/newsletter/header.webp"
+              width="600"
+              height="200"
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
+            <img
+              src="/newsletter/story-registry.webp"
+              width="600"
+              height="250"
+              alt="UAE registry: 12 of 30 registrations publish an authorization server."
+              loading="lazy"
+              decoding="async"
+            />
+            <img
+              src="/newsletter/story-calls.webp"
+              width="600"
+              height="250"
+              alt="Weekly digest: 1.42 million cumulative API calls from November 2025 to September 2026."
+              loading="lazy"
+              decoding="async"
+            />
+            <img
+              src="/newsletter/story-nbf.webp"
+              width="600"
+              height="250"
+              alt="UAE banks: NBF Direct adds open finance with multi-bank access."
+              loading="lazy"
+              decoding="async"
+            />
+            <img
+              src="/newsletter/agent-access.webp"
+              width="600"
+              height="450"
+              alt="Diagram of how an AI agent reaches a UAE bank: the customer gives consent, a licensed TPP acts within it, the Nebras API Hub stores authorization, and the bank returns data or executes the payment. AlTareq is the customer-facing brand and Aani is the instant payment rail. Simplified community illustration, not an official diagram."
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </figure>
+      </div>
+    </section>
+  </div>
+</PageLayout>
+
+<style>
+  .newsletter-page {
+    background: var(--color-surface);
+    color: var(--color-text);
+  }
+
+  .hero {
+    padding: var(--space-16) var(--space-4) var(--space-12);
+  }
+
+  .hero-grid,
+  .section-inner {
+    width: 100%;
+    max-width: 1080px;
+    margin-inline: auto;
+  }
+
+  .hero-grid {
+    display: grid;
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  .eyebrow {
+    margin-bottom: var(--space-3);
+    color: var(--color-accent-800);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 5vw, 3.25rem);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+  }
+
+  .hero :global(.newsletter-signup--page) {
+    max-width: none;
+    margin-top: var(--space-5);
+  }
+
+  .hero-figure {
+    margin: 0;
+  }
+
+  .hero-figure img,
+  .point img,
+  .issue-body img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .hero-figure img {
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .band {
+    padding: var(--space-12) var(--space-4) var(--space-16);
+  }
+
+  .band-issue {
+    background:
+      linear-gradient(180deg, rgba(13, 79, 79, 0.06), transparent 120px), var(--color-surface);
+  }
+
+  .band h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+  }
+
+  .section-lead {
+    max-width: 38rem;
+    margin-top: var(--space-3);
+    margin-bottom: var(--space-8);
+    color: var(--color-text-secondary);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+
+  .points {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .point {
+    min-width: 0;
+    overflow: hidden;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .point-body {
+    padding: var(--space-5);
+  }
+
+  .point h3 {
+    margin-bottom: var(--space-2);
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .point p {
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+
+  .agent-flow {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 0.75rem 0.4rem;
+    align-content: center;
+    aspect-ratio: 600 / 250;
+    padding: var(--space-4);
+    background: #0d4f4f;
+    color: #f1f7f1;
+  }
+
+  .agent-flow span {
+    padding: 0.35rem 0.55rem;
+    border-radius: var(--radius-md);
+    background: rgba(241, 247, 241, 0.12);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .agent-flow .flow-arrow {
+    padding: 0;
+    background: transparent;
+    color: #e8a85c;
+    font-weight: 500;
+  }
+
+  .agent-flow .flow-hub {
+    background: #e8a85c;
+    color: #0c3d3e;
+  }
+
+  .issue-frame {
+    max-width: 680px;
+    margin: 0 auto;
+    overflow: hidden;
+    background: #f6f8f5;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .issue-chrome {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    background: #0d4f4f;
+    color: #f1f7f1;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .chrome-dots {
+    display: inline-flex;
+    gap: 6px;
+  }
+
+  .chrome-dots span {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: #e8a85c;
+  }
+
+  .chrome-dots span:nth-child(2) {
+    opacity: 0.7;
+  }
+
+  .chrome-dots span:nth-child(3) {
+    opacity: 0.4;
+  }
+
+  .issue-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-4);
+  }
+
+  .issue-body img {
+    border-radius: var(--radius-lg);
+  }
+
+  @media (min-width: 800px) {
+    .points {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: stretch;
+    }
+  }
+
+  @media (min-width: 900px) {
+    .hero-grid {
+      grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
+      gap: var(--space-12);
+    }
+  }
+
+  @media (max-width: 899px) {
+    .hero {
+      padding-top: var(--space-10);
+    }
+
+    .hero-figure {
+      order: -1;
+    }
+  }
+</style>

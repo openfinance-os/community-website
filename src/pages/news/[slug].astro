@@ -3,8 +3,10 @@ import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import PageLayout from '@layouts/PageLayout.astro';
 import Badge from '@components/common/Badge.astro';
+import NewsletterSignup from '@components/common/NewsletterSignup.astro';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import { inlinePublicSvg } from '@lib/inline-public-svg.mjs';
+import { NEWSLETTER_PITCH, NEWSLETTER_SOURCES } from '@lib/newsletter';
 
 export async function getStaticPaths() {
   const newsEntries = await getCollection('news');
@@ -190,6 +192,13 @@ const articleSchema = {
           All News
         </a>
       </div>
+
+      <NewsletterSignup
+        source={NEWSLETTER_SOURCES.news}
+        variant="card"
+        heading="Newsletter"
+        description={NEWSLETTER_PITCH}
+      />
     </div>
   </article>
 </PageLayout>

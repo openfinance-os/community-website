@@ -3,7 +3,9 @@ import PageLayout from '@layouts/PageLayout.astro';
 import NewsCard from '@components/news/NewsCard.astro';
 import NewsFilter from '@components/news/NewsFilter.astro';
 import Badge from '@components/common/Badge.astro';
+import NewsletterSignup from '@components/common/NewsletterSignup.astro';
 import { getCollection } from 'astro:content';
+import { NEWSLETTER_PITCH, NEWSLETTER_SOURCES } from '@lib/newsletter';
 
 // Get all news entries, sorted by date descending
 const allNews = await getCollection('news');
@@ -272,6 +274,13 @@ const getSourceName = (url: string, author?: string): string => {
             </svg>
           </a>
         </div>
+
+        <NewsletterSignup
+          source={NEWSLETTER_SOURCES.news}
+          variant="card"
+          heading="Newsletter"
+          description={NEWSLETTER_PITCH}
+        />
       </div>
     </section>
   </div>

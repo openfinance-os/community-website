@@ -1,7 +1,9 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
 import NewsCard from '@components/news/NewsCard.astro';
+import NewsletterSignup from '@components/common/NewsletterSignup.astro';
 import { getCollection } from 'astro:content';
+import { NEWSLETTER_PITCH, NEWSLETTER_SOURCES } from '@lib/newsletter';
 
 // Get all news, newest first
 const allNews = await getCollection('news');
@@ -117,6 +119,13 @@ const newsRegionLabels: Record<string, string> = {
           </svg>
         </a>
       </div>
+
+      <NewsletterSignup
+        source={NEWSLETTER_SOURCES.news}
+        variant="card"
+        heading="Newsletter"
+        description={NEWSLETTER_PITCH}
+      />
     </div>
   </div>
 </PageLayout>
