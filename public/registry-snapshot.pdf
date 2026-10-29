@@ -1,0 +1,830 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 842 595] /Contents 4 0 R /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 11763 >>
+stream
+0.969 0.984 0.980 rg
+0 0 842 595 re
+f
+BT
+0.051 0.310 0.310 rg
+/F2 18 Tf
+1 0 0 1 36 556 Tm
+(UAE Open Finance registry snapshot) Tj
+ET
+0.910 0.659 0.361 rg
+36 544 150 3 re
+f
+BT
+0.075 0.173 0.169 rg
+/F1 11 Tf
+1 0 0 1 36 522 Tm
+(29 organisations. 30 registration IDs. 12 publish an authorization server.) Tj
+ET
+BT
+0.322 0.400 0.384 rg
+/F1 10 Tf
+1 0 0 1 36 506 Tm
+(Data as of 28 Oct 2026. Production directory observation.) Tj
+ET
+BT
+0.322 0.400 0.384 rg
+/F1 9 Tf
+1 0 0 1 36 488 Tm
+(Independent, community-run. Not an official CBUAE or Nebras publication.) Tj
+ET
+BT
+0.322 0.400 0.384 rg
+/F1 8 Tf
+1 0 0 1 36 474 Tm
+(Authorization server means published issuer metadata, not tested availability or traffic.) Tj
+ET
+0.941 0.969 0.969 rg
+28 448 786 16 re
+f
+BT
+0.051 0.310 0.310 rg
+/F2 8 Tf
+1 0 0 1 36 453 Tm
+(Name) Tj
+ET
+BT
+0.051 0.310 0.310 rg
+/F2 8 Tf
+1 0 0 1 250 453 Tm
+(Legal name) Tj
+ET
+BT
+0.051 0.310 0.310 rg
+/F2 8 Tf
+1 0 0 1 510 453 Tm
+(Roles) Tj
+ET
+BT
+0.051 0.310 0.310 rg
+/F2 8 Tf
+1 0 0 1 740 453 Tm
+(Auth server) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 432 Tm
+(ADCB) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 432 Tm
+(Abu Dhabi Commercial Bank PBJC) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 432 Tm
+(BDSP, BSIP, LFI) Tj
+ET
+BT
+0.051 0.310 0.310 rg
+/F1 8 Tf
+1 0 0 1 740 432 Tm
+(Yes) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 419.8 Tm
+(ADIB) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 419.8 Tm
+(Abu Dhabi Islamic Bank P.J.S.C) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 419.8 Tm
+(BDSP, BSIP, LFI) Tj
+ET
+BT
+0.051 0.310 0.310 rg
+/F1 8 Tf
+1 0 0 1 740 419.8 Tm
+(Yes) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 407.6 Tm
+(ADNIC) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 407.6 Tm
+(ABU DHABI NATIONAL INSURANCE COMPANY PJSC) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 407.6 Tm
+(ISP, LFI) Tj
+ET
+BT
+0.051 0.310 0.310 rg
+/F1 8 Tf
+1 0 0 1 740 407.6 Tm
+(Yes) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 395.40000000000003 Tm
+(Al Buharia National Insurance Co) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 395.40000000000003 Tm
+(Al Buharia National Insurance Co) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 395.40000000000003 Tm
+(LFI) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 740 395.40000000000003 Tm
+(No) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 383.20000000000005 Tm
+(Al Wathba National Insurance Co) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 383.20000000000005 Tm
+(Al Wathba National Insurance Co) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 383.20000000000005 Tm
+(ISP, LFI) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 740 383.20000000000005 Tm
+(No) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 371.00000000000006 Tm
+(CBD) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 371.00000000000006 Tm
+(COMMERCIAL BANK OF DUBAI) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 371.00000000000006 Tm
+(BDSP, BSIP, LFI) Tj
+ET
+BT
+0.051 0.310 0.310 rg
+/F1 8 Tf
+1 0 0 1 740 371.00000000000006 Tm
+(Yes) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 358.80000000000007 Tm
+(DIB) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 358.80000000000007 Tm
+(Dubai Islamic Bank P.J.S.C) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 358.80000000000007 Tm
+(BDSP, BSIP, LFI) Tj
+ET
+BT
+0.051 0.310 0.310 rg
+/F1 8 Tf
+1 0 0 1 740 358.80000000000007 Tm
+(Yes) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 346.6000000000001 Tm
+(Dubai Insurance Company) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 346.6000000000001 Tm
+(Dubai Insurance Company) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 346.6000000000001 Tm
+(LFI) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 740 346.6000000000001 Tm
+(No) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 334.4000000000001 Tm
+(EIB) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 334.4000000000001 Tm
+(EIB) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 334.4000000000001 Tm
+(LFI) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 740 334.4000000000001 Tm
+(No) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 322.2000000000001 Tm
+(Emirates Insurance Company) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 322.2000000000001 Tm
+(Emirates Insurance Company) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 322.2000000000001 Tm
+(ISP, LFI) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 740 322.2000000000001 Tm
+(No) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 310.0000000000001 Tm
+(Emirates NBD) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 310.0000000000001 Tm
+(EMIRATES NBD BANK PJSC) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 310.0000000000001 Tm
+(BDSP, BSIP, LFI) Tj
+ET
+BT
+0.051 0.310 0.310 rg
+/F1 8 Tf
+1 0 0 1 740 310.0000000000001 Tm
+(Yes) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 297.8000000000001 Tm
+(FAB) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 297.8000000000001 Tm
+(First Abu Dhabi Islamic Finance PJSC) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 297.8000000000001 Tm
+(BDSP, BSIP, LFI) Tj
+ET
+BT
+0.051 0.310 0.310 rg
+/F1 8 Tf
+1 0 0 1 740 297.8000000000001 Tm
+(Yes) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 285.60000000000014 Tm
+(HSBC) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 285.60000000000014 Tm
+(HSBC Bank Middle East Limited) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 285.60000000000014 Tm
+(BDSP, BSIP, LFI) Tj
+ET
+BT
+0.051 0.310 0.310 rg
+/F1 8 Tf
+1 0 0 1 740 285.60000000000014 Tm
+(Yes) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 273.40000000000015 Tm
+(Lean Technologies) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 273.40000000000015 Tm
+(Lean Technologies Ltd) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 273.40000000000015 Tm
+(BDSP, BSIP) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 740 273.40000000000015 Tm
+(No) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 261.20000000000016 Tm
+(LIVA) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 261.20000000000016 Tm
+(Liva Insurance BSC \(c\)) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 261.20000000000016 Tm
+(ISP, LFI) Tj
+ET
+BT
+0.051 0.310 0.310 rg
+/F1 8 Tf
+1 0 0 1 740 261.20000000000016 Tm
+(Yes) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 249.00000000000017 Tm
+(Mashreq) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 249.00000000000017 Tm
+(MASHREQ BANK PSC) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 249.00000000000017 Tm
+(BDSP, BSIP, LFI) Tj
+ET
+BT
+0.051 0.310 0.310 rg
+/F1 8 Tf
+1 0 0 1 740 249.00000000000017 Tm
+(Yes) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 236.80000000000018 Tm
+(Mercury) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 236.80000000000018 Tm
+(Mercury Payments Services LLC) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 236.80000000000018 Tm
+(API Read_Write, Cert_Management, TSP) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 740 236.80000000000018 Tm
+(No) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 224.6000000000002 Tm
+(Mercury) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 224.6000000000002 Tm
+(Mercury Payments Services LLC) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 224.6000000000002 Tm
+(BDSP, BSIP) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 740 224.6000000000002 Tm
+(No) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 212.4000000000002 Tm
+(NBF) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 212.4000000000002 Tm
+(National Bank of Fujairah PJSC) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 212.4000000000002 Tm
+(BDSP, BSIP, LFI) Tj
+ET
+BT
+0.051 0.310 0.310 rg
+/F1 8 Tf
+1 0 0 1 740 212.4000000000002 Tm
+(Yes) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 200.20000000000022 Tm
+(NymCard Payment Services L.L.C.) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 200.20000000000022 Tm
+(NymCard Payment Services L.L.C.) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 200.20000000000022 Tm
+(BDSP, BSIP) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 740 200.20000000000022 Tm
+(No) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 188.00000000000023 Tm
+(Orient Insurance) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 188.00000000000023 Tm
+(Orient Insurance) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 188.00000000000023 Tm
+(ISP, LFI) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 740 188.00000000000023 Tm
+(No) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 175.80000000000024 Tm
+(Ozone API) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 175.80000000000024 Tm
+(Ozone API) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 175.80000000000024 Tm
+(API Read_Write, BDSP, TSP) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 740 175.80000000000024 Tm
+(No) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 163.60000000000025 Tm
+(PAY TEN PAYMENT SERVICES PROVIDER LLC) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 163.60000000000025 Tm
+(PAY TEN PAYMENT SERVICES PROVIDER LLC) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 163.60000000000025 Tm
+(BDSP, BSIP) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 740 163.60000000000025 Tm
+(No) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 151.40000000000026 Tm
+(Raidiam Services Limited) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 151.40000000000026 Tm
+(Raidiam Services Limited) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 151.40000000000026 Tm
+(API Read_Write, TSP, pki-test-harness) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 740 151.40000000000026 Tm
+(No) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 139.20000000000027 Tm
+(Salama) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 139.20000000000027 Tm
+(Salama) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 139.20000000000027 Tm
+(ISP, LFI) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 740 139.20000000000027 Tm
+(No) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 127.00000000000027 Tm
+(Spare Digital Technologies LLC S.O.C) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 127.00000000000027 Tm
+(Spare Digital Technologies LLC S.O.C) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 127.00000000000027 Tm
+(BDSP, BSIP) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 740 127.00000000000027 Tm
+(No) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 114.80000000000027 Tm
+(Standard Chartered) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 114.80000000000027 Tm
+(Standard Chartered Bank) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 114.80000000000027 Tm
+(LFI) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 740 114.80000000000027 Tm
+(No) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 102.60000000000026 Tm
+(Union Insurance) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 102.60000000000026 Tm
+(Union Insurance) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 102.60000000000026 Tm
+(ISP, LFI) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 740 102.60000000000026 Tm
+(No) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 90.40000000000026 Tm
+(WIO Bank) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 90.40000000000026 Tm
+(WIO Bank) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 90.40000000000026 Tm
+(BDSP, BSIP, LFI) Tj
+ET
+BT
+0.051 0.310 0.310 rg
+/F1 8 Tf
+1 0 0 1 740 90.40000000000026 Tm
+(Yes) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 36 78.20000000000026 Tm
+(Zurich) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 250 78.20000000000026 Tm
+(Zurich International Life Limited) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 510 78.20000000000026 Tm
+(LFI) Tj
+ET
+BT
+0.075 0.173 0.169 rg
+/F1 8 Tf
+1 0 0 1 740 78.20000000000026 Tm
+(No) Tj
+ET
+BT
+0.322 0.400 0.384 rg
+/F1 8 Tf
+1 0 0 1 36 42 Tm
+(Source: https://data.directory.openfinance.ae) Tj
+ET
+BT
+0.322 0.400 0.384 rg
+/F1 8 Tf
+1 0 0 1 36 30 Tm
+(Observed 2026-10-28 12:08 UTC. Registration IDs, not legal entities. https://openfinance-os.org/observatory) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000251 00000 n 
+0000012067 00000 n 
+0000012137 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+12212
+%%EOF

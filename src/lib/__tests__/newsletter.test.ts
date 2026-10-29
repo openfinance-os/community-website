@@ -7,11 +7,16 @@ import {
   NEWSLETTER_PITCH,
   NEWSLETTER_SIGNUP_EVENT,
   NEWSLETTER_SOURCES,
+  REGISTRY_SNAPSHOT,
   SLACK_JOIN_EVENT,
+  SLACK_JOIN_PLACEMENTS,
   SLACK_JOIN_URL,
+  SNAPSHOT_DOWNLOAD_EVENT,
   bindNewsletterSignupForms,
   bindSlackJoinLinks,
+  bindSnapshotDownloadLinks,
   trackSlackJoinClick,
+  trackSnapshotDownloadClick,
   focusNewsletterThanks,
   initNewsletterSignup,
   isNewsletterSubscribed,
@@ -260,6 +265,75 @@ describe('Slack join', () => {
     expect(capture).toHaveBeenCalledWith(
       SLACK_JOIN_EVENT,
       expect.objectContaining({ placement: 'newsletter-thanks' })
+    );
+  });
+
+  it('names the post-confirm welcome placement', () => {
+    expect(SLACK_JOIN_PLACEMENTS.welcome).toBe('newsletter_welcome');
+  });
+});
+
+describe('registry snapshot download', () => {
+  it('points at the public snapshot and the welcome placement', () => {
+    expect(REGISTRY_SNAPSHOT).toEqual({
+      href: '/registry-snapshot.pdf',
+      event: 'snapshot_download_click',
+      placement: 'newsletter_welcome',
+    });
+    expect(SNAPSHOT_DOWNLOAD_EVENT).toBe('snapshot_download_click');
+  });
+
+  it('captures snapshot_download_click with placement when PostHog is present', () => {
+    const capture = vi.fn();
+    installPostHog(capture);
+    window.history.pushState({}, '', '/newsletter/welcome/');
+    document.title = 'Thanks for subscribing | OpenFinance-OS';
+
+    trackSnapshotDownloadClick('newsletter_welcome');
+
+    expect(capture).toHaveBeenCalledWith(SNAPSHOT_DOWNLOAD_EVENT, {
+      placement: 'newsletter_welcome',
+      page_url: '/newsletter/welcome/',
+      page_title: 'Thanks for subscribing | OpenFinance-OS',
+    });
+  });
+
+  it('does nothing when PostHog is absent', () => {
+    expect(() => trackSnapshotDownloadClick('newsletter_welcome')).not.toThrow();
+  });
+
+  it('binds each download link once and still lets it navigate', () => {
+    const capture = vi.fn();
+    installPostHog(capture);
+    document.body.innerHTML =
+      '<a data-snapshot-download="newsletter_welcome" href="/registry-snapshot.pdf">Download</a>';
+    const link = document.querySelector('a')!;
+    bindSnapshotDownloadLinks(document);
+    bindSnapshotDownloadLinks(document);
+
+    const event = new Event('click', { cancelable: true, bubbles: true });
+    link.dispatchEvent(event);
+
+    expect(event.defaultPrevented).toBe(false);
+    expect(capture).toHaveBeenCalledTimes(1);
+    expect(capture).toHaveBeenCalledWith(
+      SNAPSHOT_DOWNLOAD_EVENT,
+      expect.objectContaining({ placement: 'newsletter_welcome' })
+    );
+  });
+
+  it('binds snapshot downloads from the shared newsletter init', () => {
+    const capture = vi.fn();
+    installPostHog(capture);
+    document.body.innerHTML =
+      '<a data-snapshot-download="newsletter_welcome" href="/registry-snapshot.pdf">Download</a>';
+
+    initNewsletterSignup(document, '');
+    document.querySelector('a')!.dispatchEvent(new Event('click', { cancelable: true }));
+
+    expect(capture).toHaveBeenCalledWith(
+      SNAPSHOT_DOWNLOAD_EVENT,
+      expect.objectContaining({ placement: 'newsletter_welcome' })
     );
   });
 });

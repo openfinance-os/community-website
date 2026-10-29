@@ -21,7 +21,7 @@ describe('includeInSitemap', () => {
     expect(includeInSitemap('https://openfinance-os.org/observatory/participant/abc/')).toBe(true);
   });
 
-  it('drops the news index, the 404, JSON endpoints, and github', () => {
+  it('drops the news index, the 404, JSON endpoints, github, and the noindex welcome page', () => {
     expect(includeInSitemap('https://openfinance-os.org/news/')).toBe(false);
     expect(includeInSitemap('https://openfinance-os.org/news')).toBe(false);
     expect(includeInSitemap('https://openfinance-os.org/404/')).toBe(false);
@@ -30,6 +30,11 @@ describe('includeInSitemap', () => {
       includeInSitemap('https://openfinance-os.org/observatory/data/registry-latest.json')
     ).toBe(false);
     expect(includeInSitemap('https://openfinance-os.org/github/')).toBe(false);
+    expect(includeInSitemap('https://openfinance-os.org/newsletter/welcome/')).toBe(false);
+    expect(includeInSitemap('https://openfinance-os.org/newsletter/welcome')).toBe(false);
+    expect(includeInSitemap('https://openfinance-os.org/newsletter/welcome/index.html')).toBe(
+      false
+    );
   });
 });
 
