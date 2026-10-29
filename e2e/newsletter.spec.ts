@@ -66,12 +66,9 @@ test('newsletter page has metadata, the embed form, and a thank-you state', asyn
   await expect(page.getByRole('heading', { level: 1, name: pitch })).toBeVisible();
   await expect(page.getByRole('link', { name: /Read issue #1/ })).toHaveAttribute(
     'href',
-    'https://buttondown.com/openfinance-os/archive/'
+    '/newsletter/archive'
   );
-  await expect(page.getByRole('link', { name: /Read issue #1/ })).toHaveAttribute(
-    'target',
-    '_blank'
-  );
+  await expect(page.locator('footer a[href="/newsletter/archive"]')).toBeVisible();
   const schemas = await page.locator('script[type="application/ld+json"]').allTextContents();
   expect(schemas.some((schema) => schema.includes('FAQPage'))).toBe(true);
   await expect(page.getByText('How often does it arrive?')).toBeVisible();

@@ -1,0 +1,253 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import NewsletterSignup from '@components/common/NewsletterSignup.astro';
+import SlackJoin from '@components/common/SlackJoin.astro';
+import rawIssues from '@data/newsletter/issues.json';
+import { NEWSLETTER_SOURCES, SLACK_JOIN_PLACEMENTS } from '@lib/newsletter';
+import {
+  assertIssues,
+  formatIssueDate,
+  issueExcerpt,
+  issueImage,
+  sanitizeIssueHtml,
+  type NewsletterIssue,
+} from '@lib/newsletter-archive';
+
+export function getStaticPaths() {
+  return assertIssues(rawIssues).map((issue) => ({
+    params: { slug: issue.slug },
+    props: { issue },
+  }));
+}
+
+interface Props {
+  issue: NewsletterIssue;
+}
+
+const { issue } = Astro.props;
+const description = issueExcerpt(issue, 160);
+const image = issueImage(issue);
+const published = issue.publish_date;
+const pageUrl = new URL(`/newsletter/archive/${issue.slug}/`, Astro.site).toString();
+const body = sanitizeIssueHtml(issue.body);
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: issue.subject,
+  description,
+  datePublished: published,
+  dateModified: published,
+  image: [new URL(image || '/newsletter/header.webp', Astro.site).toString()],
+  mainEntityOfPage: pageUrl,
+  url: pageUrl,
+  author: {
+    '@type': 'Organization',
+    name: 'OpenFinance-OS Community',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'OpenFinance-OS',
+    url: new URL('/', Astro.site).toString(),
+  },
+  isAccessibleForFree: true,
+};
+---
+
+<PageLayout
+  title={issue.subject}
+  description={description}
+  ogImage={image || '/newsletter/header.webp'}
+  ogImageAlt={issue.subject}
+  ogImageWidth={image ? 1200 : 600}
+  ogImageHeight={image ? 630 : 200}
+  type="article"
+  publishedTime={published}
+  modifiedTime={published}
+  articleSchema={articleSchema}
+>
+  <article class="issue-page">
+    <div class="issue-wrap">
+      <header class="issue-intro">
+        <p class="back">
+          <a href="/newsletter/archive">Newsletter archive</a>
+        </p>
+        <time datetime={published}>{formatIssueDate(published)}</time>
+        <h1>{issue.subject}</h1>
+      </header>
+      <div class="issue-body" set:html={body} />
+      <aside class="issue-cta" aria-label="Keep reading">
+        <NewsletterSignup
+          source={NEWSLETTER_SOURCES.archive}
+          variant="card"
+          heading="Get the next issue"
+          description="Weekly UAE open finance briefing. One email, no spam."
+        />
+        <SlackJoin
+          placement={SLACK_JOIN_PLACEMENTS.archive}
+          label="Join the community on Slack"
+          variant="button"
+        />
+      </aside>
+    </div>
+  </article>
+</PageLayout>
+
+<style>
+  .issue-page {
+    background: #fff;
+    color: #132c2b;
+    font-family: 'DM Sans', system-ui, sans-serif;
+  }
+
+  .issue-wrap {
+    width: min(100% - 2rem, 46rem);
+    margin: 0 auto;
+    padding: 2.5rem 0 4.5rem;
+  }
+
+  .back {
+    margin-bottom: 1rem;
+  }
+
+  .back a {
+    color: #0d4f4f;
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 1px solid #e8a85c;
+  }
+
+  .back a:focus-visible,
+  .issue-cta :global(a:focus-visible),
+  .issue-cta :global(button:focus-visible),
+  .issue-cta :global(input:focus-visible) {
+    outline: 2px solid #e8a85c;
+    outline-offset: 3px;
+  }
+
+  .issue-intro time {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #0d4f4f;
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+
+  .issue-intro h1 {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.12em;
+    color: #0d4f4f;
+    font-size: clamp(1.75rem, 4vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    border-bottom: 3px solid #e8a85c;
+  }
+
+  .issue-body {
+    padding: 0.25rem 0 0.5rem;
+    overflow-wrap: anywhere;
+    background: #f7fbfa !important;
+    color: #132c2b !important;
+    font-family: 'DM Sans', system-ui, sans-serif !important;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .issue-body :global(*) {
+    font-family: 'DM Sans', system-ui, sans-serif !important;
+    background-color: transparent !important;
+    background-image: none !important;
+  }
+
+  .issue-body :global(table) {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .issue-body :global(p),
+  .issue-body :global(li),
+  .issue-body :global(td),
+  .issue-body :global(div) {
+    color: #132c2b !important;
+  }
+
+  .issue-body :global(h1),
+  .issue-body :global(h2),
+  .issue-body :global(h3),
+  .issue-body :global(h4),
+  .issue-body :global(a),
+  .issue-body :global(strong) {
+    color: #0d4f4f !important;
+  }
+
+  .issue-body :global(h1),
+  .issue-body :global(h2),
+  .issue-body :global(h3) {
+    border-left: 4px solid #e8a85c !important;
+    padding-left: 0.6rem !important;
+  }
+
+  .issue-body :global(a) {
+    font-weight: 700;
+    text-decoration: none !important;
+    border-bottom: 1px solid #e8a85c !important;
+  }
+
+  .issue-body :global(img) {
+    display: block;
+    width: auto !important;
+    max-width: 100% !important;
+    height: auto !important;
+    margin: 0 0 1rem;
+    border: 0;
+    border-radius: 0.5rem;
+  }
+
+  .issue-cta {
+    display: grid;
+    gap: 1rem;
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #d7ebe4;
+  }
+
+  .issue-cta :global(.newsletter-signup--card) {
+    margin-top: 0;
+    max-width: none;
+    background: #f7fbfa;
+    border: 1px solid #d7ebe4;
+    border-top: 3px solid #e8a85c;
+    box-shadow: none;
+  }
+
+  .issue-cta :global(.newsletter-heading),
+  .issue-cta :global(.newsletter-label),
+  .issue-cta :global(.newsletter-thanks-title) {
+    color: #132c2b;
+  }
+
+  .issue-cta :global(.newsletter-pitch) {
+    color: #526662;
+  }
+
+  .issue-cta :global(.newsletter-input) {
+    color: #132c2b;
+    background: #fff;
+    border-color: #d7ebe4;
+  }
+
+  .issue-cta :global(.newsletter-submit) {
+    color: #fff;
+    background: #0d4f4f;
+  }
+
+  .issue-cta :global(.newsletter-submit:hover) {
+    background: #0a3d3d;
+  }
+
+  .issue-cta :global(.slack-join--button) {
+    width: fit-content;
+  }
+</style>

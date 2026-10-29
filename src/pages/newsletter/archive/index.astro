@@ -1,0 +1,182 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import rawIssues from '@data/newsletter/issues.json';
+import {
+  assertIssues,
+  formatIssueDate,
+  issueExcerpt,
+  issueImage,
+  sortIssuesNewestFirst,
+} from '@lib/newsletter-archive';
+
+const issues = sortIssuesNewestFirst(assertIssues(rawIssues));
+const description = 'Past issues of the weekly UAE open finance briefing.';
+const headerAlt = 'Open Finance OS weekly briefing.';
+---
+
+<PageLayout
+  title="Newsletter archive"
+  description={description}
+  ogImage="/newsletter/header.webp"
+  ogImageAlt={headerAlt}
+  ogImageWidth={600}
+  ogImageHeight={200}
+>
+  <div class="archive-page">
+    <div class="archive-wrap">
+      <header class="archive-intro">
+        <p class="eyebrow">Newsletter</p>
+        <h1>Archive</h1>
+        <p class="lede">{description}</p>
+        <p class="subscribe-link">
+          <a href="/newsletter">Subscribe to the next issue</a>
+        </p>
+      </header>
+
+      {issues.length === 0 ? (
+        <p class="empty">No issues have been published yet.</p>
+      ) : (
+        <ul class="issue-list">
+          {issues.map((issue) => {
+            const image = issueImage(issue);
+            return (
+              <li>
+                <article class="issue-card">
+                  {image && <img src={image} alt="" loading="lazy" decoding="async" />}
+                  <div>
+                    <time datetime={issue.publish_date}>{formatIssueDate(issue.publish_date)}</time>
+                    <h2>
+                      <a href={`/newsletter/archive/${issue.slug}`}>{issue.subject}</a>
+                    </h2>
+                    <p>{issueExcerpt(issue)}</p>
+                  </div>
+                </article>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .archive-page {
+    background: #fff;
+    color: #132c2b;
+    font-family: 'DM Sans', system-ui, sans-serif;
+  }
+
+  .archive-wrap {
+    width: min(100% - 2rem, 52rem);
+    margin: 0 auto;
+    padding: 3rem 0 4.5rem;
+  }
+
+  .eyebrow {
+    margin-bottom: 0.5rem;
+    color: #0d4f4f;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .archive-intro h1 {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.12em;
+    color: #0d4f4f;
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 650;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    border-bottom: 3px solid #e8a85c;
+  }
+
+  .lede,
+  .empty {
+    max-width: 38rem;
+    color: #526662;
+    font-size: 1.125rem;
+    line-height: 1.6;
+  }
+
+  .subscribe-link {
+    margin-top: 1rem;
+  }
+
+  .subscribe-link a,
+  .issue-card h2 a {
+    color: #0d4f4f;
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 1px solid #e8a85c;
+  }
+
+  .subscribe-link a:hover,
+  .issue-card h2 a:hover {
+    color: #0a3d3d;
+  }
+
+  .subscribe-link a:focus-visible,
+  .issue-card h2 a:focus-visible {
+    outline: 2px solid #e8a85c;
+    outline-offset: 3px;
+  }
+
+  .issue-list {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: 2rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .issue-card {
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f7fbfa;
+    border: 1px solid #d7ebe4;
+    border-top: 3px solid #e8a85c;
+    border-radius: 0.75rem;
+  }
+
+  .issue-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    background: #fff;
+  }
+
+  .issue-card time {
+    display: block;
+    margin-bottom: 0.35rem;
+    color: #0d4f4f;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .issue-card h2 {
+    margin-bottom: 0.5rem;
+    color: #0d4f4f;
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+  }
+
+  .issue-card p {
+    color: #132c2b;
+    line-height: 1.6;
+  }
+
+  @media (min-width: 720px) {
+    .issue-card:has(img) {
+      grid-template-columns: 220px 1fr;
+      align-items: center;
+    }
+  }
+</style>

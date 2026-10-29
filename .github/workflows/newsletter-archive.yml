@@ -1,0 +1,69 @@
+name: Sync newsletter archive
+
+on:
+  schedule:
+    # Daily at 09:00 UTC, after the morning news curation run.
+    - cron: '0 9 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    name: Refresh sent issues
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: ./.github/actions/setup-node
+
+      - name: Fetch sent Buttondown issues
+        env:
+          BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
+        run: node scripts/sync-newsletter-archive.mjs
+
+      - name: Open a pull request when issues change
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- data/newsletter/issues.json; then
+            echo "Newsletter archive is already up to date." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          branch="newsletter/archive-sync-${GITHUB_RUN_ID}"
+          git checkout -b "$branch"
+          git add data/newsletter/issues.json
+          git commit -m "Update newsletter archive from Buttondown"
+          git push -u origin "$branch"
+
+          gh pr create \
+            --base main \
+            --head "$branch" \
+            --title "Update newsletter archive" \
+            --body "$(cat <<'EOF'
+          ## Summary
+
+          Refreshes sent Buttondown issues in `data/newsletter/issues.json`.
+
+          The `BUTTONDOWN_API_KEY` secret must be added in the repository settings (Settings → Secrets and variables → Actions) before this workflow can call the Buttondown API.
+
+          ## Test plan
+
+          - [ ] Confirm the diff only updates sent-issue archive data
+          - [ ] Preview `/newsletter/archive` and the changed issue pages
+          EOF
+          )"

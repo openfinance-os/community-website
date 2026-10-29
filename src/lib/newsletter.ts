@@ -14,6 +14,7 @@ export const SLACK_JOIN_PLACEMENTS = {
   footer: 'footer',
   home: 'home',
   nav: 'nav',
+  archive: 'newsletter_archive',
 } as const;
 
 export type SlackJoinPlacement = (typeof SLACK_JOIN_PLACEMENTS)[keyof typeof SLACK_JOIN_PLACEMENTS];
@@ -27,6 +28,7 @@ export const NEWSLETTER_SOURCES = {
   news: 'news',
   page: 'newsletter-page',
   home: 'home',
+  archive: 'newsletter_archive',
 } as const;
 
 export type NewsletterSource = (typeof NEWSLETTER_SOURCES)[keyof typeof NEWSLETTER_SOURCES];
