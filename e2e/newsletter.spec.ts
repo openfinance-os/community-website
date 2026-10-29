@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-const pitch = 'Weekly UAE open finance & agentic finance briefing. One email, no spam.';
+const pitch = 'The 5-minute weekly on UAE open finance, for the people building it';
 const action = 'https://buttondown.com/api/emails/embed-subscribe/openfinance-os';
 
 test.beforeEach(async ({ page }) => {
@@ -47,9 +47,14 @@ test('newsletter page has metadata, the embed form, and a thank-you state', asyn
   );
   await expect(page.getByRole('heading', { name: 'What you get each week' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Inside an issue' })).toBeVisible();
-  const hero = page.locator('.hero-figure img');
-  await expect(hero).toHaveAttribute('width', '600');
-  await expect(hero).toHaveAttribute('height', '200');
+  await expect(page.getByText('Issue #1 out now')).toBeVisible();
+  await expect(page.locator('.hero-art')).toContainText('12 of 30');
+  await expect(page.locator('.hero-art')).toContainText('1.42M');
+  await expect(page.locator('img[src="/newsletter/story-registry-light.webp"]')).toHaveAttribute(
+    'loading',
+    'lazy'
+  );
+  await expect(page.locator('img[src="/newsletter/story-registry.webp"]')).toHaveCount(0);
   await expect(page.locator('img[src="/newsletter/agent-access.webp"]')).toHaveAttribute(
     'loading',
     'lazy'
@@ -58,27 +63,92 @@ test('newsletter page has metadata, the embed form, and a thank-you state', asyn
     'href',
     'https://openfinance-os.org/newsletter/'
   );
-  await expect(page.getByRole('heading', { level: 1, name: 'Newsletter' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: pitch })).toBeVisible();
+  await expect(page.getByRole('link', { name: /Read issue #1/ })).toHaveAttribute(
+    'href',
+    'https://buttondown.com/openfinance-os/archive/'
+  );
+  await expect(page.getByRole('link', { name: /Read issue #1/ })).toHaveAttribute(
+    'target',
+    '_blank'
+  );
+  const schemas = await page.locator('script[type="application/ld+json"]').allTextContents();
+  expect(schemas.some((schema) => schema.includes('FAQPage'))).toBe(true);
+  await expect(page.getByText('How often does it arrive?')).toBeVisible();
+  const slackUrl =
+    'https://join.slack.com/t/openfinance-os/shared_invite/zt-4f6yrsi0w-qPd32ve~7Czekf0BWJRgLQ';
+  const join = page.locator('a[data-slack-join="newsletter"]');
+  await expect(join).toHaveAttribute('href', slackUrl);
+  await expect(join).toHaveAttribute('target', '_blank');
+  await expect(join).toHaveAttribute('rel', 'noopener noreferrer');
+  await expect(page.locator('footer a[data-slack-join="footer"]')).toHaveAttribute(
+    'href',
+    slackUrl
+  );
+  await join.evaluate((element) => {
+    element.addEventListener(
+      'click',
+      (event) => {
+        event.preventDefault();
+      },
+      true
+    );
+  });
+  await join.click();
+  await expect
+    .poll(() =>
+      page.evaluate(() =>
+        (window as unknown as { __newsletterCaptures: unknown[][] }).__newsletterCaptures.filter(
+          (call) => call[0] === 'slack_join_click'
+        )
+      )
+    )
+    .toEqual([['slack_join_click', expect.objectContaining({ placement: 'newsletter' })]]);
   await expect(page.locator('main')).toContainText(pitch);
 
-  const form = page.locator('main form[data-newsletter-signup]');
+  const form = page.locator('.hero form[data-newsletter-signup]');
   await expect(form).toHaveAttribute('action', action);
   await expect(form).toHaveAttribute('method', 'post');
   await expect(form.locator('input[name="email"]')).toHaveAttribute('type', 'email');
   await expect(form.locator('input[name="tag"]')).toHaveValue('newsletter-page');
-  await expect(page.getByRole('main').getByLabel('Email address')).toBeVisible();
-  await expect(page.locator('main .newsletter-thanks')).toBeHidden();
+  await expect(page.locator('.signup-band form[data-newsletter-signup]')).toHaveAttribute(
+    'action',
+    action
+  );
+  await expect(page.locator('.hero').getByLabel('Email address')).toBeVisible();
+  await expect(page.locator('main .newsletter-thanks')).toHaveCount(2);
 
-  const email = page.getByRole('main').getByLabel('Email address');
+  const email = page.locator('.hero').getByLabel('Email address');
   await email.focus();
   await expect(email).toBeFocused();
 
   await page.goto('/newsletter/?subscribed=1');
-  await expect(page.locator('main .newsletter-thanks')).toBeVisible();
-  await expect(page.locator('main .newsletter-thanks')).toContainText('Thanks for subscribing.');
-  await expect(page.locator('main form[data-newsletter-signup]')).toBeHidden();
+  await expect(page.locator('.hero .newsletter-thanks')).toBeVisible();
+  await expect(page.locator('.hero .newsletter-thanks')).toContainText('Thanks for subscribing.');
+  await expect(page.locator('.signup-band .newsletter-thanks')).toBeVisible();
+  await expect(page.locator('a[data-slack-join="newsletter-thanks"]')).toBeVisible();
+  await expect(page.locator('.hero form[data-newsletter-signup]')).toBeHidden();
+  await expect(page.locator('.signup-band form[data-newsletter-signup]')).toBeHidden();
   await expect(page.locator('main')).toContainText(pitch);
   await expect(page.locator('[data-newsletter-thanks-title]')).toBeFocused();
+});
+
+test('homepage strip and nav expose the newsletter and Slack invite', async ({ page }) => {
+  await page.goto('/');
+  const slackUrl =
+    'https://join.slack.com/t/openfinance-os/shared_invite/zt-4f6yrsi0w-qPd32ve~7Czekf0BWJRgLQ';
+  await expect(page.getByRole('heading', { name: 'Stay in the loop' })).toBeVisible();
+  await expect(
+    page.locator('.stay-loop form[data-newsletter-signup] input[name="tag"]')
+  ).toHaveValue('home');
+  const homeSlack = page.locator('a[data-slack-join="home"]');
+  await expect(homeSlack).toHaveAttribute('href', slackUrl);
+  await expect(homeSlack).toHaveText(/Join the Slack/);
+  const navSlack = page.locator('a[data-slack-join="nav"]').first();
+  await expect(navSlack).toHaveAttribute('href', slackUrl);
+  await expect(
+    page.locator('nav[aria-label="Main navigation"] a[href="/newsletter"]')
+  ).toBeVisible();
 });
 
 test('footer and news forms post to Buttondown with a source tag', async ({ page }) => {
@@ -106,7 +176,7 @@ test('submitting a signup fires newsletter_signup_submit when PostHog is present
   page,
 }) => {
   await page.goto('/newsletter/');
-  const form = page.locator('main form[data-newsletter-signup]');
+  const form = page.locator('.hero form[data-newsletter-signup]');
   await form.evaluate((element) => {
     element.addEventListener(
       'submit',

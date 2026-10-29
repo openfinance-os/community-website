@@ -3,6 +3,21 @@ export const BUTTONDOWN_EMBED_ACTION =
 
 export const NEWSLETTER_SIGNUP_EVENT = 'newsletter_signup_submit';
 
+export const SLACK_JOIN_URL =
+  'https://join.slack.com/t/openfinance-os/shared_invite/zt-4f6yrsi0w-qPd32ve~7Czekf0BWJRgLQ';
+
+export const SLACK_JOIN_EVENT = 'slack_join_click';
+
+export const SLACK_JOIN_PLACEMENTS = {
+  newsletter: 'newsletter',
+  thanks: 'newsletter-thanks',
+  footer: 'footer',
+  home: 'home',
+  nav: 'nav',
+} as const;
+
+export type SlackJoinPlacement = (typeof SLACK_JOIN_PLACEMENTS)[keyof typeof SLACK_JOIN_PLACEMENTS];
+
 export const NEWSLETTER_PITCH =
   'Weekly UAE open finance & agentic finance briefing. One email, no spam.';
 
@@ -11,6 +26,7 @@ export const NEWSLETTER_SOURCES = {
   footer: 'footer',
   news: 'news',
   page: 'newsletter-page',
+  home: 'home',
 } as const;
 
 export type NewsletterSource = (typeof NEWSLETTER_SOURCES)[keyof typeof NEWSLETTER_SOURCES];
@@ -59,8 +75,29 @@ export function focusNewsletterThanks(root: ParentNode, search: string): void {
   root.querySelector<HTMLElement>('[data-newsletter-thanks-title]')?.focus();
 }
 
+/** Fires `slack_join_click` when PostHog is loaded. The link still works without it. */
+export function trackSlackJoinClick(placement?: string): void {
+  if (typeof window === 'undefined' || !window.posthog) return;
+  window.posthog.capture(SLACK_JOIN_EVENT, {
+    placement,
+    page_url: window.location.pathname,
+    page_title: document.title,
+  });
+}
+
+export function bindSlackJoinLinks(root: ParentNode): void {
+  root.querySelectorAll<HTMLAnchorElement>('a[data-slack-join]').forEach((link) => {
+    if (link.dataset.slackBound === 'true') return;
+    link.dataset.slackBound = 'true';
+    link.addEventListener('click', () => {
+      trackSlackJoinClick(link.dataset.slackJoin);
+    });
+  });
+}
+
 export function initNewsletterSignup(root: ParentNode, search: string): void {
   markNewsletterSubscribed(search);
   bindNewsletterSignupForms(root);
+  bindSlackJoinLinks(root);
   focusNewsletterThanks(root, search);
 }

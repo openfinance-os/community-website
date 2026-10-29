@@ -71,12 +71,15 @@ for (const theme of ['light', 'dark'] as const) {
       expect(dimensions.bottom).toBeLessThanOrEqual(viewport.height);
       expect(dimensions.scrollHeight).toBeGreaterThan(dimensions.clientHeight);
       await nav.getByRole('link', { name: 'About', exact: true }).focus();
-      await page.keyboard.press('Tab');
-      await page.keyboard.press('Tab');
       const toggle = nav.getByRole('button', {
         name: theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode',
         exact: true,
       });
+      // About, then Newsletter, Slack, and GitHub, then the theme control.
+      for (let step = 0; step < 6; step += 1) {
+        if (await toggle.evaluate((element) => element === document.activeElement)) break;
+        await page.keyboard.press('Tab');
+      }
       await expect(toggle).toBeFocused();
       const box = await toggle.boundingBox();
       expect(box!.y).toBeGreaterThanOrEqual(0);

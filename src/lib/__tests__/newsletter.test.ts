@@ -7,7 +7,11 @@ import {
   NEWSLETTER_PITCH,
   NEWSLETTER_SIGNUP_EVENT,
   NEWSLETTER_SOURCES,
+  SLACK_JOIN_EVENT,
+  SLACK_JOIN_URL,
   bindNewsletterSignupForms,
+  bindSlackJoinLinks,
+  trackSlackJoinClick,
   focusNewsletterThanks,
   initNewsletterSignup,
   isNewsletterSubscribed,
@@ -43,6 +47,7 @@ describe('newsletter signup contract', () => {
       footer: 'footer',
       news: 'news',
       page: 'newsletter-page',
+      home: 'home',
     });
   });
 
@@ -209,6 +214,52 @@ describe('initNewsletterSignup', () => {
     expect(capture).toHaveBeenCalledWith(
       NEWSLETTER_SIGNUP_EVENT,
       expect.objectContaining({ source: 'newsletter-page' })
+    );
+  });
+});
+
+describe('Slack join', () => {
+  it('keeps the invite URL in one place', () => {
+    expect(SLACK_JOIN_URL).toBe(
+      'https://join.slack.com/t/openfinance-os/shared_invite/zt-4f6yrsi0w-qPd32ve~7Czekf0BWJRgLQ'
+    );
+  });
+
+  it('captures slack_join_click with placement when PostHog is present', () => {
+    const capture = vi.fn();
+    installPostHog(capture);
+    window.history.pushState({}, '', '/newsletter/');
+    document.title = 'Newsletter | OpenFinance-OS';
+
+    trackSlackJoinClick('footer');
+
+    expect(capture).toHaveBeenCalledWith(SLACK_JOIN_EVENT, {
+      placement: 'footer',
+      page_url: '/newsletter/',
+      page_title: 'Newsletter | OpenFinance-OS',
+    });
+  });
+
+  it('does nothing when PostHog is absent', () => {
+    expect(() => trackSlackJoinClick('newsletter')).not.toThrow();
+  });
+
+  it('binds each invite link once and still lets it navigate', () => {
+    const capture = vi.fn();
+    installPostHog(capture);
+    document.body.innerHTML = `<a data-slack-join="newsletter-thanks" href="${SLACK_JOIN_URL}">Join</a>`;
+    const link = document.querySelector('a')!;
+    bindSlackJoinLinks(document);
+    bindSlackJoinLinks(document);
+
+    const event = new Event('click', { cancelable: true, bubbles: true });
+    link.dispatchEvent(event);
+
+    expect(event.defaultPrevented).toBe(false);
+    expect(capture).toHaveBeenCalledTimes(1);
+    expect(capture).toHaveBeenCalledWith(
+      SLACK_JOIN_EVENT,
+      expect.objectContaining({ placement: 'newsletter-thanks' })
     );
   });
 });

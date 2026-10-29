@@ -8,6 +8,9 @@ import ObservatoryPreview from '@components/home/ObservatoryPreview.astro';
 import EcosystemRecord from '@components/home/EcosystemRecord.astro';
 import LatestNews from '@components/home/LatestNews.astro';
 import WatchBriefing from '@components/home/WatchBriefing.astro';
+import NewsletterSignup from '@components/common/NewsletterSignup.astro';
+import SlackJoin from '@components/common/SlackJoin.astro';
+import { NEWSLETTER_PITCH, NEWSLETTER_SOURCES, SLACK_JOIN_PLACEMENTS } from '@lib/newsletter';
 import type { ObservatorySnapshot } from '@lib/types';
 // Import observatory data
 import snapshot from '../../data/observatory/snapshots/latest.json';
@@ -116,6 +119,21 @@ const icons: Record<string, string> = {
   <EcosystemRecord />
 
   <LatestNews limit={4} />
+
+  <section class="stay-loop" aria-labelledby="stay-loop-title">
+    <div class="stay-loop-inner">
+      <div class="stay-loop-copy">
+        <h2 id="stay-loop-title">
+          <span>Stay in the loop</span>
+        </h2>
+        <p>{NEWSLETTER_PITCH}</p>
+      </div>
+      <div class="stay-loop-actions">
+        <NewsletterSignup source={NEWSLETTER_SOURCES.home} variant="home" />
+        <SlackJoin placement={SLACK_JOIN_PLACEMENTS.home} label="Join the Slack" variant="button" />
+      </div>
+    </div>
+  </section>
 
   <section class="quick-links-section">
     <div class="container">
@@ -363,6 +381,63 @@ const icons: Record<string, string> = {
   :global([data-theme='dark']) .quick-link-card:hover .quick-link-arrow {
     color: var(--color-brand-ink);
   }
+
+  .stay-loop {
+    padding: var(--space-12) var(--space-4);
+    background: #f4faf8;
+    border-block: 1px solid #d7ebe4;
+  }
+
+  .stay-loop-inner {
+    display: grid;
+    gap: var(--space-6);
+    max-width: 1224px;
+    margin: 0 auto;
+    align-items: end;
+  }
+
+  .stay-loop h2 {
+    color: #132c2b;
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+  }
+
+  .stay-loop h2 span {
+    border-bottom: 3px solid #e8a85c;
+    padding-bottom: 0.12em;
+  }
+
+  .stay-loop-copy p {
+    max-width: 36rem;
+    margin-top: var(--space-3);
+    color: #526662;
+    line-height: 1.6;
+  }
+
+  .stay-loop-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--space-3);
+  }
+
+  .stay-loop :global(.newsletter-signup--home) {
+    flex: 1 1 18rem;
+  }
+
+  @media (min-width: 900px) {
+    .stay-loop-inner {
+      grid-template-columns: minmax(16rem, 0.8fr) minmax(0, 1.4fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .stay-loop :global(.slack-join--button) {
+      width: 100%;
+    }
+  }
+
   .community-section {
     max-width: 1272px;
     margin: 0 auto;

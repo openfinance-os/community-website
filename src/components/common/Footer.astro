@@ -1,7 +1,7 @@
 ---
 import MiddleLeapLogo from './MiddleLeapLogo.astro';
 import NewsletterSignup from './NewsletterSignup.astro';
-import { NEWSLETTER_SOURCES } from '../../lib/newsletter';
+import { NEWSLETTER_SOURCES, SLACK_JOIN_PLACEMENTS, SLACK_JOIN_URL } from '../../lib/newsletter';
 
 interface Props {
   lastUpdated?: string;
@@ -152,6 +152,28 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
             rel="noopener noreferrer"
           >
             Discussions
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <path d="M7 17L17 7M17 7H7M17 7v10"></path>
+            </svg>
+          </a>
+        </li>
+        <li>
+          <a
+            href={SLACK_JOIN_URL}
+            class="footer-link"
+            data-slack-join={SLACK_JOIN_PLACEMENTS.footer}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Slack
             <svg
               width="12"
               height="12"
