@@ -1,5 +1,5 @@
 ---
-title: "UAE open finance, AI agents and the price of being chosen"
+title: "UAE Open Finance, AI agents and the price of being chosen"
 date: 2026-09-30
 type: community
 region: uae
