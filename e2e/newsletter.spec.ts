@@ -33,17 +33,17 @@ test('newsletter page has metadata, the embed form, and a thank-you state', asyn
   );
   await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
     'content',
-    'https://openfinance-os.org/newsletter/header.webp'
+    'https://openfinance-os.org/newsletter/og/newsletter.png'
   );
   await expect(page.locator('meta[property="og:image:type"]')).toHaveAttribute(
     'content',
-    'image/webp'
+    'image/png'
   );
-  await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute('content', '600');
-  await expect(page.locator('meta[property="og:image:height"]')).toHaveAttribute('content', '200');
+  await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute('content', '1200');
+  await expect(page.locator('meta[property="og:image:height"]')).toHaveAttribute('content', '630');
   await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute(
     'content',
-    /weekly briefing, issue 1/i
+    /weekly briefing/i
   );
   await expect(page.getByRole('heading', { name: 'What you get each week' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Inside an issue' })).toBeVisible();

@@ -33,6 +33,12 @@ test('archive lists sent issues newest first', async ({ page }) => {
     'href',
     'https://openfinance-os.org/newsletter/archive/'
   );
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    'content',
+    'https://openfinance-os.org/newsletter/og/archive.png'
+  );
+  await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute('content', '1200');
+  await expect(page.locator('meta[property="og:image:height"]')).toHaveAttribute('content', '630');
   await expect(page.getByRole('heading', { level: 1, name: 'Newsletter archive' })).toBeVisible();
 
   const card = page.locator('.news-card');

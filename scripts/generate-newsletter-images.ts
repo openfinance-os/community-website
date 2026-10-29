@@ -8,7 +8,12 @@ import sharp from 'sharp';
 import { mkdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { issueOgPath, normalizeOpenFinanceCasing } from '../src/lib/newsletter-images.mjs';
+import {
+  ARCHIVE_OG_PATH,
+  NEWSLETTER_OG_PATH,
+  issueOgPath,
+  normalizeOpenFinanceCasing,
+} from '../src/lib/newsletter-images.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const fontURL = (file: string) =>
@@ -260,19 +265,8 @@ try {
     console.log(`Generated public/newsletter/${file} (${width * scale}×${height * scale}).`);
   }
 
-  const issues = JSON.parse(readFileSync(join(root, 'data/newsletter/issues.json'), 'utf8')) as {
-    slug: string;
-    subject: string;
-    publish_date: string;
-  }[];
-  for (const issue of issues) {
-    const subject = normalizeOpenFinanceCasing(issue.subject);
-    const published = new Date(issue.publish_date).toLocaleDateString('en-GB', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
-      timeZone: 'UTC',
-    });
+  const escapeHTML = (value: string) => value.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  const renderOgCard = async (path: string, kicker: string, title: string, footer: string) => {
     const ogHTML = `<!doctype html><html lang="en"><head><meta charset="utf-8"><style>
       ${base}
       body { background: #f6f8f5; }
@@ -291,9 +285,9 @@ try {
       p.date { margin-top: auto; font-size: 24px; color: #526662; }
     </style></head><body><main>
       <img src="${svgURL('logo-full.svg')}" alt="">
-      <p class="kicker">Newsletter</p>
-      <h1>${subject.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</h1>
-      <p class="date">${published} · openfinance-os.org</p>
+      <p class="kicker">${escapeHTML(kicker)}</p>
+      <h1>${escapeHTML(title)}</h1>
+      <p class="date">${escapeHTML(footer)}</p>
     </main></body></html>`;
     const page = await browser.newPage({
       viewport: { width: 1200, height: 630 },
@@ -307,13 +301,46 @@ try {
       const main = document.querySelector('main')!;
       return main.scrollHeight > main.clientHeight || main.scrollWidth > main.clientWidth;
     });
-    if (overflow) throw new Error(`${issue.slug}: social card overflows 1200×630`);
-    const relative = issueOgPath(issue.slug).replace(/^\//, '');
+    if (overflow) throw new Error(`${path}: social card overflows 1200×630`);
+    const relative = path.replace(/^\//, '');
     const target = join(root, 'public', relative);
     mkdirSync(join(target, '..'), { recursive: true });
     await page.screenshot({ path: target, type: 'png' });
     await page.close();
     console.log(`Generated public/${relative} (1200×630).`);
+  };
+
+  await renderOgCard(
+    NEWSLETTER_OG_PATH,
+    'Weekly briefing',
+    'The 5-minute weekly on UAE Open Finance, for the people building it',
+    'Free · Weekly · openfinance-os.org/newsletter'
+  );
+  await renderOgCard(
+    ARCHIVE_OG_PATH,
+    'Newsletter archive',
+    'Past issues of the weekly UAE Open Finance briefing',
+    'openfinance-os.org/newsletter/archive'
+  );
+
+  const issues = JSON.parse(readFileSync(join(root, 'data/newsletter/issues.json'), 'utf8')) as {
+    slug: string;
+    subject: string;
+    publish_date: string;
+  }[];
+  for (const issue of issues) {
+    const published = new Date(issue.publish_date).toLocaleDateString('en-GB', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      timeZone: 'UTC',
+    });
+    await renderOgCard(
+      issueOgPath(issue.slug),
+      'Newsletter',
+      normalizeOpenFinanceCasing(issue.subject),
+      `${published} · openfinance-os.org`
+    );
   }
 } finally {
   await browser.close();

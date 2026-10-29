@@ -5,13 +5,15 @@ import { NEWSLETTER_SOURCES, SLACK_JOIN_PLACEMENTS } from '@lib/newsletter';
 import { assertIssues, sortIssuesNewestFirst } from '@lib/newsletter-archive';
 import rawIssues from '@data/newsletter/issues.json';
 import SlackJoin from '@components/common/SlackJoin.astro';
+import { ISSUE_OG_HEIGHT, ISSUE_OG_WIDTH, NEWSLETTER_OG_PATH } from '@lib/newsletter-images.mjs';
 
 const latestIssue = sortIssuesNewestFirst(assertIssues(rawIssues))[0];
 const latestIssuePath = latestIssue
   ? `/newsletter/archive/${latestIssue.slug}`
   : '/newsletter/archive';
 
-const headerAlt = 'Open Finance OS weekly briefing, issue 1, 29 October 2026.';
+const ogAlt =
+  'Open Finance OS weekly briefing: the 5-minute weekly on UAE Open Finance, for the people building it.';
 const pageDescription = 'The 5-minute weekly on UAE Open Finance, for the people building it';
 const leadMagnet =
   'Subscribe and get the UAE Open Finance registry snapshot: every licensed LFI and TPP on one page.';
@@ -56,10 +58,10 @@ const faqSchema = {
 <PageLayout
   title="Newsletter"
   description={pageDescription}
-  ogImage="/newsletter/header.webp"
-  ogImageAlt={headerAlt}
-  ogImageWidth={600}
-  ogImageHeight={200}
+  ogImage={NEWSLETTER_OG_PATH}
+  ogImageAlt={ogAlt}
+  ogImageWidth={ISSUE_OG_WIDTH}
+  ogImageHeight={ISSUE_OG_HEIGHT}
   articleSchema={faqSchema}
 >
   <div class="newsletter-page">
