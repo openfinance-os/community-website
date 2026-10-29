@@ -38,6 +38,9 @@ International context and benchmarks:
 - News: Community-curated news from the UAE Open Finance ecosystem
 - Events: Upcoming and past events in the UAE Open Finance community
 
+### Newsletter (/newsletter)
+Weekly UAE open finance and agentic finance briefing. One email, no spam. Signup forms also appear in the site footer and at the bottom of news.
+
 ### Commons (/commons)
 Shared infrastructure for Open Finance knowledge - insights, references, artifacts, and utilities from the community.
 

@@ -1,5 +1,7 @@
 ---
 import MiddleLeapLogo from './MiddleLeapLogo.astro';
+import NewsletterSignup from './NewsletterSignup.astro';
+import { NEWSLETTER_SOURCES } from '../../lib/newsletter';
 
 interface Props {
   lastUpdated?: string;
@@ -13,6 +15,7 @@ const quickLinks = [
   { label: 'Learn', href: '/learn' },
   { label: 'Community', href: '/community' },
   { label: 'About', href: '/about' },
+  { label: 'Newsletter', href: '/newsletter' },
 ];
 
 const resources = [
@@ -165,6 +168,13 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
       </ul>
     </div>
   </div>
+
+  <NewsletterSignup
+    source={NEWSLETTER_SOURCES.footer}
+    variant="footer"
+    heading="Newsletter"
+    description="Weekly UAE open finance briefing. One email, no spam."
+  />
 
   <div class="footer-bottom">
     <div class="footer-bottom-inner">
