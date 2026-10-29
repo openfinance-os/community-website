@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-const pitch = 'Weekly UAE open finance & agentic finance briefing. One email, no spam.';
+const pitch = 'The 5-minute weekly on UAE open finance, for the people building it';
 const action = 'https://buttondown.com/api/emails/embed-subscribe/openfinance-os';
 
 test.beforeEach(async ({ page }) => {
@@ -63,7 +63,47 @@ test('newsletter page has metadata, the embed form, and a thank-you state', asyn
     'href',
     'https://openfinance-os.org/newsletter/'
   );
-  await expect(page.getByRole('heading', { level: 1, name: 'Newsletter' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: pitch })).toBeVisible();
+  await expect(page.getByRole('link', { name: /Read issue #1/ })).toHaveAttribute(
+    'href',
+    'https://buttondown.com/openfinance-os/archive/'
+  );
+  await expect(page.getByRole('link', { name: /Read issue #1/ })).toHaveAttribute(
+    'target',
+    '_blank'
+  );
+  const schemas = await page.locator('script[type="application/ld+json"]').allTextContents();
+  expect(schemas.some((schema) => schema.includes('FAQPage'))).toBe(true);
+  await expect(page.getByText('How often does it arrive?')).toBeVisible();
+  const slackUrl =
+    'https://join.slack.com/t/openfinance-os/shared_invite/zt-4f6yrsi0w-qPd32ve~7Czekf0BWJRgLQ';
+  const join = page.locator('a[data-slack-join="newsletter"]');
+  await expect(join).toHaveAttribute('href', slackUrl);
+  await expect(join).toHaveAttribute('target', '_blank');
+  await expect(join).toHaveAttribute('rel', 'noopener noreferrer');
+  await expect(page.locator('footer a[data-slack-join="footer"]')).toHaveAttribute(
+    'href',
+    slackUrl
+  );
+  await join.evaluate((element) => {
+    element.addEventListener(
+      'click',
+      (event) => {
+        event.preventDefault();
+      },
+      true
+    );
+  });
+  await join.click();
+  await expect
+    .poll(() =>
+      page.evaluate(() =>
+        (window as unknown as { __newsletterCaptures: unknown[][] }).__newsletterCaptures.filter(
+          (call) => call[0] === 'slack_join_click'
+        )
+      )
+    )
+    .toEqual([['slack_join_click', expect.objectContaining({ placement: 'newsletter' })]]);
   await expect(page.locator('main')).toContainText(pitch);
 
   const form = page.locator('.hero form[data-newsletter-signup]');
@@ -86,6 +126,7 @@ test('newsletter page has metadata, the embed form, and a thank-you state', asyn
   await expect(page.locator('.hero .newsletter-thanks')).toBeVisible();
   await expect(page.locator('.hero .newsletter-thanks')).toContainText('Thanks for subscribing.');
   await expect(page.locator('.signup-band .newsletter-thanks')).toBeVisible();
+  await expect(page.locator('a[data-slack-join="newsletter-thanks"]')).toBeVisible();
   await expect(page.locator('.hero form[data-newsletter-signup]')).toBeHidden();
   await expect(page.locator('.signup-band form[data-newsletter-signup]')).toBeHidden();
   await expect(page.locator('main')).toContainText(pitch);

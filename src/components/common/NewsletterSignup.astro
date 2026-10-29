@@ -1,5 +1,10 @@
 ---
-import { BUTTONDOWN_EMBED_ACTION, type NewsletterSource } from '../../lib/newsletter';
+import {
+  BUTTONDOWN_EMBED_ACTION,
+  SLACK_JOIN_PLACEMENTS,
+  type NewsletterSource,
+} from '../../lib/newsletter';
+import SlackJoin from './SlackJoin.astro';
 
 interface Props {
   source: NewsletterSource;
@@ -80,6 +85,11 @@ const emailId = `newsletter-email-${fieldKey}`;
           Thanks for subscribing.
         </p>
         <p>Check your inbox to confirm. One email, no spam.</p>
+        {variant === 'page' && (
+          <p class="thanks-next">
+            <SlackJoin placement={SLACK_JOIN_PLACEMENTS.thanks} />
+          </p>
+        )}
       </div>
     )}
   </div>
@@ -196,6 +206,10 @@ const emailId = `newsletter-email-${fieldKey}`;
     font-weight: 600;
     color: var(--color-text);
     margin-bottom: var(--space-2);
+  }
+
+  .thanks-next {
+    margin-top: var(--space-4);
   }
 
   .newsletter-thanks-title:focus {

@@ -1,32 +1,99 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
 import NewsletterSignup from '@components/common/NewsletterSignup.astro';
-import { NEWSLETTER_PITCH, NEWSLETTER_SOURCES } from '@lib/newsletter';
+import MiddleLeapLogo from '@components/common/MiddleLeapLogo.astro';
+import { NEWSLETTER_SOURCES, SLACK_JOIN_PLACEMENTS } from '@lib/newsletter';
+import SlackJoin from '@components/common/SlackJoin.astro';
 
 const headerAlt = 'Open Finance OS weekly briefing, issue 1, 29 October 2026.';
+const pageDescription = 'The 5-minute weekly on UAE open finance, for the people building it';
+const leadMagnet =
+  'Subscribe and get the UAE open finance registry snapshot: every licensed LFI and TPP on one page.';
+
+const faq = [
+  {
+    question: 'How often does it arrive?',
+    answer: 'Once a week. One email, about a five-minute read.',
+  },
+  {
+    question: 'Who writes it?',
+    answer:
+      'The Open Finance OS community. Issues are written from the public registry and platform data this site already tracks.',
+  },
+  {
+    question: 'Is it vendor-neutral?',
+    answer:
+      'Yes. Open Finance OS is not affiliated with the CBUAE, Al Tareq, Nebras, or any bank or TPP. The briefing reports the public record.',
+  },
+  {
+    question: 'What does it cost?',
+    answer: 'Nothing. The briefing is free.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  name: 'Open Finance OS newsletter FAQ',
+  description: pageDescription,
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
 ---
 
 <PageLayout
   title="Newsletter"
-  description={NEWSLETTER_PITCH}
+  description={pageDescription}
   ogImage="/newsletter/header.webp"
   ogImageAlt={headerAlt}
   ogImageWidth={600}
   ogImageHeight={200}
+  articleSchema={faqSchema}
 >
   <div class="newsletter-page">
     <section class="hero">
       <div class="hero-grid">
         <div class="hero-copy">
           <p class="issue-badge">Issue #1 out now</p>
-          <h1>
-            <span>Newsletter</span>
-          </h1>
+          <h1>The 5-minute weekly on UAE open finance, for the people building it</h1>
+          <p class="audience">
+            For banks and LFIs, TPPs and fintechs, product teams, and policy people.
+          </p>
+          <p class="issue-link">
+            <a
+              href="https://buttondown.com/openfinance-os/archive/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Read issue #1
+              <span class="sr-only"> (opens in a new tab)</span>
+            </a>
+          </p>
+          <!-- TODO: deliver the UAE open finance registry snapshot to new subscribers. -->
           <NewsletterSignup
             source={NEWSLETTER_SOURCES.page}
             variant="page"
-            description={NEWSLETTER_PITCH}
+            description={leadMagnet}
           />
+          <p class="trust">
+            Curated by the Open Finance OS community · Free · Weekly · Unsubscribe anytime
+          </p>
+          <p class="founder">
+            <span>A community initiative founded by</span>
+            <a href="https://www.middleleap.com/" aria-label="MiddleLeap">
+              <MiddleLeapLogo />
+            </a>
+          </p>
+          <!--
+            TODO: social proof slot. Do not add invented subscriber counts or testimonials.
+            When a real quote or a verified count exists, render it here.
+          -->
         </div>
         <figure class="hero-art">
           <svg class="hero-arc" viewBox="0 0 480 320" aria-hidden="true">
@@ -54,7 +121,22 @@ const headerAlt = 'Open Finance OS weekly briefing, issue 1, 29 October 2026.';
       </div>
     </section>
 
-    <section class="band band-tint" aria-labelledby="weekly-heading">
+    <section class="band band-tint" aria-labelledby="why-heading">
+      <div class="section-inner">
+        <h2 id="why-heading">
+          <span>Why subscribe</span>
+        </h2>
+        <p class="section-lead">What changed in the ecosystem this week, with the numbers.</p>
+        <p class="why-source">Built from the public registry and platform data this site tracks.</p>
+        <ul class="why-list">
+          <li>New LFI and TPP registrations</li>
+          <li>API call volumes</li>
+          <li>Payment success rates</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="band" aria-labelledby="weekly-heading">
       <div class="section-inner">
         <h2 id="weekly-heading">
           <span>What you get each week</span>
@@ -121,6 +203,17 @@ const headerAlt = 'Open Finance OS weekly briefing, issue 1, 29 October 2026.';
       </div>
     </section>
 
+    <section class="band band-tint" aria-labelledby="agentic-heading">
+      <div class="section-inner">
+        <h2 id="agentic-heading">
+          <span>As it happens</span>
+        </h2>
+        <p class="hook">
+          How AI agents will access UAE bank data and payments, explained as it happens.
+        </p>
+      </div>
+    </section>
+
     <section class="band" aria-labelledby="issue-heading">
       <div class="section-inner">
         <h2 id="issue-heading">
@@ -173,6 +266,32 @@ const headerAlt = 'Open Finance OS weekly briefing, issue 1, 29 October 2026.';
             />
           </div>
         </figure>
+      </div>
+    </section>
+
+    <section class="band band-tint" aria-labelledby="faq-heading">
+      <div class="section-inner">
+        <h2 id="faq-heading">
+          <span>Questions</span>
+        </h2>
+        <div class="faq">
+          {faq.map((item) => (
+            <details>
+              <summary>{item.question}</summary>
+              <p>{item.answer}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="band" aria-labelledby="join-heading">
+      <div class="section-inner">
+        <h2 id="join-heading">
+          <span>Join the conversation</span>
+        </h2>
+        <p class="section-lead">Talk with the people building UAE open finance between issues.</p>
+        <SlackJoin placement={SLACK_JOIN_PLACEMENTS.newsletter} />
       </div>
     </section>
 
@@ -247,8 +366,137 @@ const headerAlt = 'Open Finance OS weekly briefing, issue 1, 29 October 2026.';
   }
 
   .newsletter-page h1 {
-    font-size: clamp(2.25rem, 5vw, 3.25rem);
-    line-height: 1.05;
+    max-width: 18em;
+    font-size: clamp(1.85rem, 3.2vw, 2.6rem);
+    line-height: 1.15;
+  }
+
+  .hero h1::after {
+    content: '';
+    display: block;
+    width: 4.5rem;
+    height: 3px;
+    margin-top: 0.7rem;
+    background: #e8a85c;
+  }
+
+  .audience {
+    max-width: 36rem;
+    margin-top: var(--space-4);
+    color: #526662;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+
+  .issue-link {
+    margin-top: var(--space-4);
+  }
+
+  .issue-link a {
+    color: #0d4f4f;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  .issue-link a:focus-visible {
+    outline: 2px solid #e8a85c;
+    outline-offset: 3px;
+  }
+
+  .trust,
+  .founder {
+    max-width: 36rem;
+    color: #526662;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .trust {
+    margin-top: var(--space-4);
+  }
+
+  .founder {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: var(--space-3);
+  }
+
+  .founder a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .founder :global(.middleleap-logo) {
+    padding: 0;
+    gap: 6px;
+  }
+
+  .founder :global(.pivot-mark) {
+    width: 28px;
+    height: 16px;
+  }
+
+  .why-source {
+    max-width: 40rem;
+    margin-bottom: var(--space-5);
+    color: #526662;
+    line-height: 1.6;
+  }
+
+  .why-list {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .why-list li {
+    padding: var(--space-4);
+    background: #fff;
+    border-left: 3px solid #0d4f4f;
+    border-radius: var(--radius-md);
+    color: #132c2b;
+    font-weight: 600;
+  }
+
+  .hook {
+    max-width: 40rem;
+    margin-top: var(--space-4);
+    color: #0d4f4f;
+    font-size: clamp(1.25rem, 2vw, 1.6rem);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .faq details {
+    border-top: 1px solid #d7ebe4;
+  }
+
+  .faq details:last-child {
+    border-bottom: 1px solid #d7ebe4;
+  }
+
+  .faq summary {
+    padding: var(--space-4) 0;
+    color: #132c2b;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .faq summary:focus-visible {
+    outline: 2px solid #e8a85c;
+    outline-offset: 3px;
+  }
+
+  .faq details p {
+    max-width: 42rem;
+    margin-bottom: var(--space-4);
+    color: #526662;
+    line-height: 1.6;
   }
 
   .newsletter-page h2 {
@@ -429,6 +677,7 @@ const headerAlt = 'Open Finance OS weekly briefing, issue 1, 29 October 2026.';
   }
 
   @media (min-width: 800px) {
+    .why-list,
     .points {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
