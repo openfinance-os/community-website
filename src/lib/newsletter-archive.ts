@@ -1,3 +1,5 @@
+import { lookupNewsletterImage, normalizeOpenFinanceCasing } from './newsletter-images.mjs';
+
 export interface NewsletterIssue {
   id: string;
   slug: string;
@@ -268,11 +270,13 @@ export function sanitizeIssueHtml(html: string): string {
     index = tagEnd;
   }
 
-  return out
-    .replace(/<script[\s\S]*?(?:<\/script>|$)/gi, '')
-    .replace(/javascript\s*:/gi, '')
-    .replace(/buttondown-editor-mode:[^<\n]*/gi, '')
-    .trim();
+  return normalizeOpenFinanceCasing(
+    out
+      .replace(/<script[\s\S]*?(?:<\/script>|$)/gi, '')
+      .replace(/javascript\s*:/gi, '')
+      .replace(/buttondown-editor-mode:[^<\n]*/gi, '')
+      .trim()
+  );
 }
 
 function escapeTextChar(char: string): string {
@@ -372,13 +376,24 @@ function sanitizedAttrs(tag: ParsedTag): Array<[string, string]> {
     }
   }
   if (tag.name === 'img') {
-    const src = safeUrl(tag.attrs.get('src') ?? '');
-    if (src && !isTrackingPixel(tag.attrs)) {
-      attrs.push(['src', src]);
-      attrs.push(['alt', tag.attrs.get('alt') ?? '']);
-      for (const key of ['width', 'height'] as const) {
-        const value = tag.attrs.get(key);
-        if (value && /^\d+(\.\d+)?%?$/.test(value)) attrs.push([key, value]);
+    const rawSrc = tag.attrs.get('src') ?? '';
+    const known = lookupNewsletterImage(rawSrc);
+    const src = known?.src ?? safeUrl(rawSrc);
+    if (src && (known || !isTrackingPixel(tag.attrs))) {
+      if (known) {
+        attrs.push(['src', known.src]);
+        attrs.push(['srcset', `${known.src} ${known.width}w`]);
+        attrs.push(['sizes', known.sizes]);
+        attrs.push(['width', String(known.width)]);
+        attrs.push(['height', String(known.height)]);
+        attrs.push(['alt', known.alt]);
+      } else {
+        attrs.push(['src', src]);
+        attrs.push(['alt', tag.attrs.get('alt') ?? '']);
+        for (const key of ['width', 'height'] as const) {
+          const value = tag.attrs.get(key);
+          if (value && /^\d+(\.\d+)?%?$/.test(value)) attrs.push([key, value]);
+        }
       }
     }
   }

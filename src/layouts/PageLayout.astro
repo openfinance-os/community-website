@@ -16,6 +16,7 @@ interface Props {
   modifiedTime?: string;
   articleSchema?: object;
   robots?: string;
+  breadcrumbCurrent?: string;
 }
 
 const {
@@ -31,6 +32,7 @@ const {
   modifiedTime,
   articleSchema,
   robots,
+  breadcrumbCurrent,
 } = Astro.props;
 ---
 
@@ -46,6 +48,7 @@ const {
   modifiedTime={modifiedTime}
   articleSchema={articleSchema}
   robots={robots}
+  breadcrumbCurrent={breadcrumbCurrent}
 >
   <a href="#main-content" class="skip-link">
     Skip to main content

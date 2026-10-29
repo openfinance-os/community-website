@@ -2,7 +2,14 @@
 import PageLayout from '@layouts/PageLayout.astro';
 import NewsletterSignup from '@components/common/NewsletterSignup.astro';
 import { NEWSLETTER_SOURCES, SLACK_JOIN_PLACEMENTS } from '@lib/newsletter';
+import { assertIssues, sortIssuesNewestFirst } from '@lib/newsletter-archive';
+import rawIssues from '@data/newsletter/issues.json';
 import SlackJoin from '@components/common/SlackJoin.astro';
+
+const latestIssue = sortIssuesNewestFirst(assertIssues(rawIssues))[0];
+const latestIssuePath = latestIssue
+  ? `/newsletter/archive/${latestIssue.slug}`
+  : '/newsletter/archive';
 
 const headerAlt = 'Open Finance OS weekly briefing, issue 1, 29 October 2026.';
 const pageDescription = 'The 5-minute weekly on UAE Open Finance, for the people building it';
@@ -65,7 +72,7 @@ const faqSchema = {
             For banks and LFIs, TPPs and fintechs, product teams, and policy people.
           </p>
           <p class="issue-link">
-            <a href="/newsletter/archive">Read issue #1</a>
+            <a href={latestIssuePath}>Read issue #1</a>
           </p>
           <!-- Confirmed subscribers land on /newsletter/welcome for the registry snapshot. -->
           <NewsletterSignup

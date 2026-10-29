@@ -1,6 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { prepareIssueContent } from '../src/lib/newsletter-images.mjs';
 
 export const BUTTONDOWN_SENT_URL = 'https://api.buttondown.com/v1/emails?status=sent';
 
@@ -15,14 +16,20 @@ export function normalizeIssue(email) {
   const slug = stringField(email.slug, 'slug');
   if (!SLUG_RE.test(slug)) throw new Error(`Unexpected newsletter slug: ${slug}`);
   const image = email.image;
+  const prepared = prepareIssueContent({
+    subject: stringField(email.subject ?? '', 'subject'),
+    description: stringField(email.description ?? '', 'description'),
+    body: stringField(email.body ?? '', 'body'),
+    image: typeof image === 'string' && image.trim() ? image : '',
+  });
   return {
     id: stringField(email.id, 'id'),
     slug,
-    subject: stringField(email.subject ?? '', 'subject'),
-    description: stringField(email.description ?? '', 'description'),
+    subject: prepared.subject,
+    description: prepared.description,
     publish_date: stringField(email.publish_date ?? '', 'publish_date'),
-    body: stringField(email.body ?? '', 'body'),
-    image: typeof image === 'string' && image.trim() ? image : null,
+    body: prepared.body,
+    image: prepared.image,
     absolute_url: stringField(email.absolute_url ?? '', 'absolute_url'),
   };
 }
