@@ -114,6 +114,29 @@ function numberIsGrounded(raw: string, source: string): boolean {
   return new RegExp(`(^|[^0-9])${digits}([^0-9]|$)`).test(flat);
 }
 
+/**
+ * Spelling and short-form pairs from the UAE Open Finance skill. A summary may
+ * use the canonical form when the source used another form of the same name.
+ */
+const TERM_ALIASES: ReadonlyArray<readonly string[]> = [
+  ['altareq', 'al tareq', 'al-tareq'],
+  ['lfi', 'licensed financial institution'],
+  ['tpp', 'third party provider', 'third-party provider', 'open finance provider'],
+  ['psu', 'payment service user'],
+  ['caap', 'centralized auth', 'centralised auth'],
+  ['api hub', 'nebras api hub'],
+];
+
+function aliasGrounded(phrase: string, source: string): boolean {
+  const normalized = phrase.toLowerCase().replace(/[’']/g, '');
+  for (const group of TERM_ALIASES) {
+    const inSummary = group.some((alias) => normalized === alias);
+    if (!inSummary) continue;
+    return group.some((alias) => source.includes(alias));
+  }
+  return false;
+}
+
 /** Numbers, percentages, acronyms, and multi-word proper names introduced by the summary. */
 export function findUngroundedClaims(summary: string, sourceText: string): string[] {
   const source = sourceText.toLowerCase();
@@ -126,13 +149,17 @@ export function findUngroundedClaims(summary: string, sourceText: string): strin
 
   const acronyms = summary.match(/\b[A-Z]{2,6}\b/g) || [];
   for (const acronym of acronyms) {
-    if (!source.includes(acronym.toLowerCase())) claims.push(`acronym:${acronym}`);
+    if (!source.includes(acronym.toLowerCase()) && !aliasGrounded(acronym, source)) {
+      claims.push(`acronym:${acronym}`);
+    }
   }
 
   const phrases =
     summary.match(/\b[A-Z][A-Za-z0-9&'’-]+(?:\s+[A-Z][A-Za-z0-9&'’-]+){1,5}\b/g) || [];
   for (const phrase of phrases) {
-    if (!source.includes(phrase.toLowerCase())) claims.push(`name:${phrase}`);
+    if (!source.includes(phrase.toLowerCase()) && !aliasGrounded(phrase, source)) {
+      claims.push(`name:${phrase}`);
+    }
   }
 
   const quoted = summary.match(/"([^"]{8,200})"|“([^”]{8,200})”/g) || [];

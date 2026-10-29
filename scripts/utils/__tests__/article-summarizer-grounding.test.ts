@@ -51,6 +51,8 @@ describe('processArticles grounding', () => {
       const body = JSON.parse(String(init.body));
       expect(body.model).toBe('claude-haiku-5-5');
       expect(body.system).toContain('Do not copy');
+      expect(body.system).toContain('AlTareq');
+      expect(body.system).toContain('Ozone Connect');
       return jsonResponse(
         'Three banks have joined the Nebras API Hub. The Central Bank of the UAE reported 12000 consents during the first week of Al Tareq.'
       );

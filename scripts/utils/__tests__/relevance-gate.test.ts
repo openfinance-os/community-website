@@ -69,6 +69,23 @@ describe('relevance gate on labelled news PRs', () => {
     expect(report.falseNegatives.map((item) => item.number).sort()).toEqual([647, 668]);
   });
 
+  it('keeps the merged AI-agent essays out because they are not about payments, APIs, or open finance', () => {
+    for (const number of [647, 668]) {
+      const example = examples.find((item) => item.number === number);
+      expect(example).toBeTruthy();
+      const decision = assessRelevance(
+        article({
+          title: example!.title,
+          description: example!.summary,
+          content: example!.summary,
+        }),
+        looseConfig
+      );
+      expect(decision.accept).toBe(false);
+      expect(decision.reason).toBe('no-core-term');
+    }
+  });
+
   it('rejects the open off-topic items that previously reached review', () => {
     const messi = examples.find((item) => item.title.includes('Messi'));
     const qatar = examples.find((item) => item.title.includes('Asset Management'));
@@ -132,5 +149,37 @@ describe('assessRelevance', () => {
       'CBUAE brings open finance data sharing live',
     ]);
     expect(assessRelevance(messi).reason).toBe('excluded-topic');
+  });
+
+  it('accepts UAE programme vocabulary and AI agents only with a payments or open-finance link', () => {
+    expect(
+      assessRelevance(
+        article({
+          title: 'Ozone Connect goes live on the API Hub',
+          description:
+            'Nebras has switched on Ozone Connect so licensed financial institutions can execute AlTareq payments through the hub.',
+        })
+      ).accept
+    ).toBe(true);
+
+    expect(
+      assessRelevance(
+        article({
+          title: 'Banks deploy AI agents for pay-by-bank checkout',
+          description:
+            'The agents prepare a service initiation against the customer account and hand it to the API Hub.',
+        })
+      ).accept
+    ).toBe(true);
+
+    const software = assessRelevance(
+      article({
+        title: 'Backbase launches AI agents to speed up banking software delivery',
+        description:
+          'The vendor paired delivery teams with specialist AI agents for the software development lifecycle.',
+      })
+    );
+    expect(software.accept).toBe(false);
+    expect(software.reason).toBe('no-core-term');
   });
 });

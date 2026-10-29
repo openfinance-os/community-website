@@ -320,6 +320,13 @@ For each article, provide a JSON response with:
 
 1. "summary": A 2-3 sentence summary in your own words. Do not copy or lightly edit the source description or the headline. Use only facts that appear in the title, description, or content. Do not add numbers, dates, names, quotes, or other claims that are not in that text. If the source is too thin to summarise without guessing, return an empty summary.
 
+UAE Open Finance terminology — use the canonical name when the source refers to the same thing, and do not introduce a name the source never mentions:
+- AlTareq is the consumer brand (sources may say Al Tareq, Altareq, or Al-Tareq). Nebras is the operator of the API Hub, not the brand. CBUAE is the regulator.
+- LFI means licensed financial institution (bank, insurer, exchange house, finance company). TPP means third-party provider / open finance provider. PSU means the customer. TPPs do not call an LFI directly; traffic goes through the API Hub.
+- The LFI-side component is Ozone Connect. Do not call it the bank's resource server. Consent and access tokens are held by the API Hub. The PSU authenticates at the LFI via CAAP (the AlTareq app, with UAE Pass and EFR) when the source says so.
+- Bank Data Sharing and Bank Service Initiation are the banking API families. "Pay by bank using AlTareq" is service initiation. Domestic inter-bank execution uses Aani (IPP), with UAEFTS as fallback, only when the source says so.
+- AI agents are worth mentioning when the source ties them to payments, a banking API, or open finance. Do not reframe a generic banking-AI story as open finance.
+
 2. "type": Classify as one of:
    - "official" - Regulatory announcements, central bank news, licensing, policy updates
    - "milestone" - Product launches, funding rounds, partnerships, acquisitions, market firsts
@@ -351,7 +358,7 @@ Respond ONLY with valid JSON, no other text.`;
 
 const BASIC_SYSTEM_PROMPT = `You are a news summarizer for the UAE Open Finance community website.
 Your task is to:
-1. Write an original 2-3 sentence summary. Do not copy the source description. Use only facts present in the supplied text, and do not invent numbers, names, or quotes.
+1. Write an original 2-3 sentence summary. Do not copy the source description. Use only facts present in the supplied text, and do not invent numbers, names, or quotes. When the source mentions the UAE programme, say AlTareq for the brand, Nebras for the operator, API Hub for the hub, LFI and TPP for the actors, and Ozone Connect for the LFI component. Do not add those names if the source does not refer to them.
 2. Classify the article type as one of: global (international news), community (local ecosystem), milestone (significant achievement), official (regulatory/government), opinion (analysis/commentary)
 3. Classify the article region as one of: uae (specifically about the UAE), mena (Middle East & North Africa excluding UAE), global (international/worldwide)
 

@@ -5,7 +5,10 @@
 // threshold for stories that are not about open finance (a Messi card
 // giveaway, a Qatar asset-management scheme). This gate asks a narrower
 // question: is the item about open finance, open banking, or the UAE
-// programme (CBUAE Open Finance, Nebras, Al Tareq, Aperta)?
+// programme (CBUAE Open Finance, Nebras, AlTareq, the API Hub, Ozone Connect,
+// CAAP, Aani)? Vocabulary follows the MiddleLeap UAE Open Finance skill:
+// AlTareq is the consumer brand, Nebras operates the API Hub, CBUAE regulates,
+// LFIs execute, and TPPs never call an LFI directly.
 //
 // Confidence is calibrated on the last 72 bot news PRs (10 merged, 54 closed,
 // 8 open) stored in scripts/utils/__tests__/fixtures/news-pr-labels.json.
@@ -35,6 +38,21 @@ export const DEFAULT_CORE_TERMS: readonly string[] = [
   'aperta',
   'aisp',
   'pisp',
+  // UAE programme actors and standards (AlTareq brand, Nebras-operated hub).
+  'api hub',
+  'ozone connect',
+  'ozone api',
+  'caap',
+  'aani',
+  'service initiation',
+  'bank service initiation',
+  'bank data sharing',
+  'confirmation of payee',
+  'deemed licence',
+  'deemed license',
+  'screen scraping',
+  'data scraping',
+  'fapi',
 ];
 
 /**
@@ -78,6 +96,43 @@ const UAE_PROGRAMME_TERMS = [
   'central bank of the united arab emirates',
   'project aperta',
   'aperta',
+  'api hub',
+  'ozone connect',
+  'ozone api',
+  'caap',
+  'aani',
+  'deemed licence',
+  'deemed license',
+];
+
+/**
+ * AI agents are in scope only together with payments, a banking API, or open
+ * finance. A banking software or governance story that merely says "AI agents"
+ * is not enough — that is what kept generic agent launches out of the digest.
+ */
+const AI_AGENT_TERMS = ['ai agent', 'ai agents', 'agentic ai'];
+
+const AI_TOPIC_CONTEXT = [
+  'payment',
+  'payments',
+  'pay by bank',
+  'pay-by-bank',
+  'banking api',
+  'banking apis',
+  'open finance',
+  'open banking',
+  'openfinance',
+  'openbanking',
+  'api hub',
+  'ozone connect',
+  'nebras',
+  'al tareq',
+  'altareq',
+  'al-tareq',
+  'service initiation',
+  'account information',
+  'aani',
+  'caap',
 ];
 
 export const DEFAULT_MIN_CONFIDENCE = 0.55;
@@ -141,10 +196,28 @@ function termFamily(term: string): string {
     term === 'altareq' ||
     term === 'al-tareq' ||
     term === 'aperta' ||
-    term === 'project aperta'
+    term === 'project aperta' ||
+    term === 'api hub' ||
+    term === 'ozone connect' ||
+    term === 'ozone api' ||
+    term === 'caap' ||
+    term === 'aani' ||
+    term === 'fapi' ||
+    term === 'deemed licence' ||
+    term === 'deemed license' ||
+    term === 'ai agents'
   ) {
     return 'uae-programme';
   }
+  if (
+    term === 'screen scraping' ||
+    term === 'data scraping' ||
+    term === 'bank data sharing' ||
+    term === 'confirmation of payee'
+  ) {
+    return 'data-access';
+  }
+  if (term.includes('service initiation')) return 'tpp-service';
   if (
     term === 'aisp' ||
     term === 'pisp' ||
@@ -196,6 +269,16 @@ export function assessRelevance(
   const matchedTerms = coreTerms
     .map((term) => term.toLowerCase())
     .filter((term) => containsTerm(text, term));
+
+  // AI agents count only when the same item is also about payments, a banking
+  // API, or open finance. The two merged agent essays (credit-memo ownership,
+  // bank ROI) do not make that link, so they stay out.
+  const aiAgents = AI_AGENT_TERMS.some((term) => text.includes(term));
+  const aiContext = AI_TOPIC_CONTEXT.some((term) => text.includes(term));
+  if (aiAgents && aiContext && !matchedTerms.includes('ai agents')) {
+    matchedTerms.push('ai agents');
+  }
+
   if (matchedTerms.length === 0) {
     return {
       accept: false,

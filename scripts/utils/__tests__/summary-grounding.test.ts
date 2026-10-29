@@ -35,6 +35,19 @@ describe('reviewSummary', () => {
     expect(review.ok).toBe(true);
   });
 
+  it('accepts the AlTareq and TPP short forms when the source used the long form', () => {
+    const review = reviewSummary(
+      'Three banks have joined the Nebras API Hub under Al Tareq. The Central Bank of the UAE reported 12000 consents, and each TPP authenticates the PSU at the LFI.',
+      {
+        ...source,
+        description:
+          'The Central Bank of the UAE said three banks have connected to the Nebras API Hub under Altareq, with 12000 consents in the first week. Each third-party provider authenticates the payment service user at the licensed financial institution.',
+      }
+    );
+    expect(review.reasons).toEqual([]);
+    expect(review.ok).toBe(true);
+  });
+
   it('treats 12,000 and 12000 as the same figure', () => {
     const review = reviewSummary(
       'Three banks have joined the Nebras API Hub. The Central Bank of the UAE reported 12,000 consents during the first week of Al Tareq.',

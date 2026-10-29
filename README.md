@@ -106,9 +106,11 @@ What gets filtered out before scoring:
   inside a previous digest)
 
 Minimum scores are tiered by region (`regionThresholds`): UAE stories need the least, global
-stories the most. The confidence gate then requires an open-finance or open-banking term.
-A core term in the title is enough; a mention that only appears in the body is not, unless
-the item is also about the UAE programme.
+stories the most. The confidence gate then requires an open-finance or open-banking term, or a UAE programme
+term (AlTareq, Nebras, the API Hub, Ozone Connect, CAAP, Aani). A core term in the title is
+enough; a mention that only appears in the body is not, unless the item is also about the
+UAE programme. AI-agent stories pass only when they also concern payments, a banking API,
+or open finance.
 
 ```bash
 # Preview what the curator would propose (no PRs, no Slack)
