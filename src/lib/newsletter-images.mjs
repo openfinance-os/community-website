@@ -75,6 +75,10 @@ for (const image of NEWSLETTER_IMAGE_MAP) {
 export const ISSUE_OG_WIDTH = 1200;
 export const ISSUE_OG_HEIGHT = 630;
 
+/** 1200×630 social cards for the newsletter landing page and the archive index. */
+export const NEWSLETTER_OG_PATH = '/newsletter/og/newsletter.png';
+export const ARCHIVE_OG_PATH = '/newsletter/og/archive.png';
+
 export function issueOgPath(slug) {
   return `/newsletter/og/${slug}.png`;
 }

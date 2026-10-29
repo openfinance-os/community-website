@@ -10,11 +10,17 @@ import {
   issueImage,
   sortIssuesNewestFirst,
 } from '@lib/newsletter-archive';
-import { lookupNewsletterImage } from '@lib/newsletter-images.mjs';
+import {
+  ARCHIVE_OG_PATH,
+  ISSUE_OG_HEIGHT,
+  ISSUE_OG_WIDTH,
+  lookupNewsletterImage,
+} from '@lib/newsletter-images.mjs';
 
 const issues = sortIssuesNewestFirst(assertIssues(rawIssues));
 const description = 'Past issues of the weekly UAE Open Finance briefing.';
-const headerAlt = 'Open Finance OS weekly briefing.';
+const ogAlt =
+  'Open Finance OS newsletter archive: past issues of the weekly UAE Open Finance briefing.';
 
 const formatCardDate = (iso: string) =>
   new Date(iso).toLocaleDateString('en-US', {
@@ -28,10 +34,10 @@ const formatCardDate = (iso: string) =>
 <PageLayout
   title="Newsletter archive"
   description={description}
-  ogImage="/newsletter/header.webp"
-  ogImageAlt={headerAlt}
-  ogImageWidth={600}
-  ogImageHeight={200}
+  ogImage={ARCHIVE_OG_PATH}
+  ogImageAlt={ogAlt}
+  ogImageWidth={ISSUE_OG_WIDTH}
+  ogImageHeight={ISSUE_OG_HEIGHT}
 >
   <div class="archive-page">
     <header class="page-intro page-header">
