@@ -12,13 +12,16 @@ export function canonicalPathname(page) {
 /**
  * HTML pages that should appear in the sitemap.
  * Drops the 404, the /news index (it 301s to /updates), extension endpoints,
- * and the legacy /github path.
+ * the legacy /github path, and the noindex post-confirm newsletter welcome page.
  */
 export function includeInSitemap(page) {
   const pathname = canonicalPathname(page);
   if (pathname.includes('/github')) return false;
   if (pathname === '/404/' || pathname === '/404.html') return false;
   if (pathname === '/news/' || pathname === '/news/index.html') return false;
+  if (pathname === '/newsletter/welcome/' || pathname === '/newsletter/welcome/index.html') {
+    return false;
+  }
   if (pathname.endsWith('.json')) return false;
   return true;
 }
