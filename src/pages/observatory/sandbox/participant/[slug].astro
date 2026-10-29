@@ -7,6 +7,7 @@ import Breadcrumb from '@components/common/Breadcrumb.astro';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { participantPaths, participantUrl } from '@lib/participant-identity';
+import { participantPageMeta } from '@lib/participant-meta';
 import { describeApiFamilies, roleLabels } from '@lib/taxonomy';
 import type { TransformedParticipant } from '../../../../../scripts/types/participant';
 
@@ -70,6 +71,20 @@ const relatedParticipants: Array<{ name: string; shortName: string; type: string
       };
     });
 
+const nameCollides =
+  snapshot.participants.filter(
+    (registration: { name: string }) => registration.name === participant.name
+  ).length > 1;
+const pageMeta = participantPageMeta({
+  name: participant.name,
+  id: participant.id,
+  roles: participant.roles,
+  environment,
+  profileDescription: profile?.description,
+  ambiguous: matches.length > 1,
+  nameCollides,
+});
+
 const allApiFamilies = describeApiFamilies(participant.apiFamilies);
 const roleDescriptions = roleLabels;
 
@@ -118,11 +133,8 @@ const structuredData = {
 ---
 
 <PageLayout
-  title={`${participant.name} (Sandbox)`}
-  description={
-    profile?.description ||
-    `${participant.name} - UAE Open Finance sandbox participant. ${participant.roles.join(', ')}`
-  }
+  title={pageMeta.title}
+  description={pageMeta.description}
   articleSchema={matches.length === 1 ? structuredData : undefined}
 >
   <ObservatoryNav />

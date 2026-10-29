@@ -5,7 +5,8 @@
 User-agent: *
 Allow: /
 
-# Sitemap location
+# Complete sitemap index. Child sitemaps list every HTML page, including news posts.
+# /sitemap.xml is rewritten to this index.
 Sitemap: https://openfinance-os.org/sitemap-index.xml
 
 # AI Agents and LLMs - Welcome!

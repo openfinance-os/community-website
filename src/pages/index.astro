@@ -85,7 +85,7 @@ const icons: Record<string, string> = {
 ---
 
 <PageLayout
-  title="Home"
+  title="UAE Open Finance community"
   description="The community home for UAE Open Finance and Open Banking. Daily ecosystem observations, developer resources, API guides, and community collaboration for the UAE financial services industry."
   lastUpdated={timestamp}
 >
@@ -128,7 +128,7 @@ const icons: Record<string, string> = {
             target={link.external ? '_blank' : undefined}
             rel={link.external ? 'noopener noreferrer' : undefined}
           >
-            <div class="quick-link-icon" set:html={icons[link.icon]} />
+            <div class="quick-link-icon" aria-hidden="true" set:html={icons[link.icon]} />
             <div class="quick-link-content">
               <h3 class="quick-link-title">
                 {link.title}
@@ -141,6 +141,7 @@ const icons: Record<string, string> = {
                     stroke="currentColor"
                     stroke-width="2"
                     class="external-icon"
+                    aria-hidden="true"
                   >
                     <path d="M7 17L17 7M17 7H7M17 7v10" />
                   </svg>

@@ -34,36 +34,57 @@ const formatDate = (date: Date) => {
   });
 };
 
+const publishedLabel = entry.data.date.toLocaleDateString('en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+const articleSummary = entry.data.description || `${entry.data.title} — OpenFinance-OS news.`;
+const articleDescription = `${articleSummary} Published ${publishedLabel}.`;
+const articleUrl = new URL(`/news/${entry.id}/`, Astro.site).toString();
+const authorName = entry.data.author || 'OpenFinance-OS Community';
+const authorIsOrganization =
+  authorName === 'Community' || authorName.includes(' - ') || /openfinance-os/i.test(authorName);
+
 // NewsArticle structured data (JSON-LD)
 const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'NewsArticle',
   headline: entry.data.title,
-  description: entry.data.description || `${entry.data.title} - OpenFinance-OS News`,
+  description: articleDescription,
+  image: [new URL('/og-image.png', Astro.site).toString()],
   datePublished: entry.data.date.toISOString(),
   dateModified: entry.data.date.toISOString(),
   author: {
-    '@type': 'Person',
-    name: entry.data.author,
+    '@type': authorIsOrganization ? 'Organization' : 'Person',
+    name: authorName,
   },
   publisher: {
     '@type': 'Organization',
     name: 'OpenFinance-OS',
+    url: new URL('/', Astro.site).toString(),
     logo: {
       '@type': 'ImageObject',
-      url: new URL('/brand/logo-full.svg', Astro.site).toString(),
+      url: new URL('/brand/logo-icon-512.png', Astro.site).toString(),
+      width: 512,
+      height: 512,
     },
   },
   mainEntityOfPage: {
     '@type': 'WebPage',
-    '@id': new URL(`/news/${entry.id}`, Astro.site).toString(),
+    '@id': articleUrl,
   },
+  url: articleUrl,
+  articleSection: typeLabels[entry.data.type] || 'News',
+  inLanguage: 'en',
+  isAccessibleForFree: true,
 };
 ---
 
 <PageLayout
   title={entry.data.title}
-  description={entry.data.description || `${entry.data.title} - OpenFinance-OS News`}
+  description={articleDescription}
   type="article"
   publishedTime={entry.data.date.toISOString()}
   articleSchema={articleSchema}
