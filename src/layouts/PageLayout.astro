@@ -9,6 +9,8 @@ interface Props {
   lastUpdated?: string;
   ogImage?: string;
   ogImageAlt?: string;
+  ogImageWidth?: number;
+  ogImageHeight?: number;
   type?: 'website' | 'article';
   publishedTime?: string;
   modifiedTime?: string;
@@ -22,6 +24,8 @@ const {
   lastUpdated,
   ogImage,
   ogImageAlt,
+  ogImageWidth,
+  ogImageHeight,
   type,
   publishedTime,
   modifiedTime,
@@ -35,6 +39,8 @@ const {
   description={description}
   ogImage={ogImage}
   ogImageAlt={ogImageAlt}
+  ogImageWidth={ogImageWidth}
+  ogImageHeight={ogImageHeight}
   type={type}
   publishedTime={publishedTime}
   modifiedTime={modifiedTime}
