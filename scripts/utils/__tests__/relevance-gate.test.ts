@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import type { NewsApiArticle, NewsSourceConfig } from '../../types/news-curation.js';
 import { rankArticles } from '../news-api-client.js';
 import {
+  AGENTIC_ACCESS_BEAT,
   assessRelevance,
   evaluateRelevanceGate,
   type LabelledNewsExample,
@@ -59,13 +60,13 @@ describe('relevance gate on labelled news PRs', () => {
     expect(report.before.precision).toBeCloseTo(10 / 64, 5);
 
     expect(report.after.truePositives).toBe(8);
-    expect(report.after.falsePositives).toBe(2);
+    expect(report.after.falsePositives).toBe(3);
     expect(report.after.falseNegatives).toBe(2);
-    expect(report.after.precision).toBeCloseTo(0.8, 5);
+    expect(report.after.precision).toBeCloseTo(8 / 11, 5);
     expect(report.after.recall).toBeCloseTo(0.8, 5);
     expect(report.after.precision).toBeGreaterThan(report.before.precision);
 
-    expect(report.falsePositives.map((item) => item.number).sort()).toEqual([630, 676]);
+    expect(report.falsePositives.map((item) => item.number).sort()).toEqual([630, 640, 676]);
     expect(report.falseNegatives.map((item) => item.number).sort()).toEqual([647, 668]);
   });
 
@@ -149,6 +150,88 @@ describe('assessRelevance', () => {
       'CBUAE brings open finance data sharing live',
     ]);
     expect(assessRelevance(messi).reason).toBe('excluded-topic');
+  });
+
+  it('accepts the agentic-access beat and leaves internal bank AI out', () => {
+    const cases: Array<{ title: string; description: string; accept: boolean }> = [
+      {
+        title: 'Visa Intelligent Commerce lets agents pay at checkout',
+        description:
+          'The network described agentic commerce where an agent pays a merchant on a user behalf.',
+        accept: true,
+      },
+      {
+        title: 'Mastercard Agent Pay goes live',
+        description:
+          'Agent Pay initiates a card-free payment after the customer approves the agent.',
+        accept: true,
+      },
+      {
+        title: 'AP2 sets an agent payments protocol',
+        description: 'The draft covers how an agent proves identity before a payment.',
+        accept: true,
+      },
+      {
+        title: 'MCP server exposes banking data to agents',
+        description:
+          'A model context protocol endpoint can read account data with delegated consent.',
+        accept: true,
+      },
+      {
+        title: 'CBUAE consults on agent access to open finance APIs',
+        description:
+          'The consultation asks how an agent should receive delegated authorisation before data sharing.',
+        accept: true,
+      },
+      {
+        title: 'Banks Are Using More AI Agents. Who Actually Owns Them?',
+        description:
+          'A relationship manager reviews a credit memo drafted by an agent and checks which customer records informed the lending assessment.',
+        accept: false,
+      },
+      {
+        title: 'Why Banks Are Looking Beyond AI Tools to AI Agents',
+        description:
+          'Bank executives now ask AI agents to show ROI rather than only shave costs off operations.',
+        accept: false,
+      },
+      {
+        title: 'Backbase launches AI agents to speed up banking software delivery',
+        description:
+          'Delivery teams pair with specialist AI agents through the software development lifecycle.',
+        accept: false,
+      },
+    ];
+
+    for (const item of cases) {
+      const decision = assessRelevance(article(item));
+      expect(decision.accept, item.title).toBe(item.accept);
+      if (item.accept) expect(decision.beat).toBe(AGENTIC_ACCESS_BEAT);
+      else expect(decision.beat).toBeUndefined();
+    }
+  });
+
+  it('keeps a below-score agentic-access story that the keyword score would drop', () => {
+    const ranked = rankArticles(
+      [
+        article({
+          title: 'Mastercard Agent Pay lets an agent check out',
+          description:
+            'The product initiates a payment after delegated consent. It does not mention open banking by name, but the agent pays the merchant.',
+          publishedAt: '2026-10-28T09:00:00Z',
+        }),
+      ],
+      {
+        ...looseConfig,
+        minRelevanceScore: 500,
+        regionThresholds: { uae: 500, mena: 500, global: 500 },
+      },
+      5,
+      { now: new Date('2026-10-29T08:00:00Z') }
+    );
+    expect(ranked.map((item) => item.title)).toEqual([
+      'Mastercard Agent Pay lets an agent check out',
+    ]);
   });
 
   it('accepts UAE programme vocabulary and AI agents only with a payments or open-finance link', () => {

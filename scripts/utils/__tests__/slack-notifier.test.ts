@@ -39,6 +39,22 @@ describe('buildDigestSlackMessage', () => {
     expect(text).toContain('confidence 0.74');
     expect(text).toContain('Finextra');
     expect(text).toContain('CBUAE');
+    expect(text).not.toContain('Beat:');
+    expect(text.match(/pull\/800/g)).toHaveLength(1);
+  });
+
+  it('tags an agentic-access story with the beat', () => {
+    const tagged = article('Visa Intelligent Commerce', 'Finextra');
+    tagged.beat = 'Open Finance and agentic access to data and payments';
+    const text = JSON.stringify(
+      buildDigestSlackMessage({
+        prUrl: 'https://github.com/openfinance-os/community-website/pull/800',
+        prNumber: 800,
+        date: '2026-10-29',
+        articles: [tagged],
+      })
+    );
+    expect(text).toContain('Beat: Open Finance and agentic access to data and payments');
     expect(text.match(/pull\/800/g)).toHaveLength(1);
   });
 });

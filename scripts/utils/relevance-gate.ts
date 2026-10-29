@@ -106,33 +106,62 @@ const UAE_PROGRAMME_TERMS = [
 ];
 
 /**
- * AI agents are in scope only together with payments, a banking API, or open
- * finance. A banking software or governance story that merely says "AI agents"
- * is not enough — that is what kept generic agent launches out of the digest.
+ * Accepted beat: agents that access financial data or initiate payments for a
+ * user. Internal "banks use AI agents" stories (ROI, credit memos, software
+ * delivery) are not this beat.
  */
-const AI_AGENT_TERMS = ['ai agent', 'ai agents', 'agentic ai'];
+export const AGENTIC_ACCESS_BEAT = 'Open Finance and agentic access to data and payments';
 
-const AI_TOPIC_CONTEXT = [
+const AGENTIC_ACTORS = ['ai agent', 'ai agents', 'agentic ai', 'agentic', 'autonomous agent'];
+
+/** Product, protocol, and consent phrases that are the beat on their own. */
+const AGENTIC_STRONG = [
+  'agentic payments',
+  'agentic commerce',
+  'agentic payment',
+  'visa intelligent commerce',
+  'intelligent commerce',
+  'mastercard agent pay',
+  'agent pay',
+  'agent payments protocol',
+  'agent payment protocol',
+  'delegated consent',
+  'model context protocol',
+];
+
+/**
+ * What the agent is doing. Only counts together with an agent actor, so a
+ * credit-memo or software-delivery story does not qualify.
+ */
+const AGENTIC_ACCESS = [
   'payment',
   'payments',
   'pay by bank',
   'pay-by-bank',
+  'commerce',
   'banking api',
   'banking apis',
+  'agent api',
+  'agent apis',
   'open finance',
   'open banking',
   'openfinance',
   'openbanking',
   'api hub',
   'ozone connect',
-  'nebras',
-  'al tareq',
-  'altareq',
-  'al-tareq',
-  'service initiation',
-  'account information',
-  'aani',
-  'caap',
+  'financial data',
+  'banking data',
+  'account data',
+  'consent',
+  'authorization',
+  'authorisation',
+  'delegated',
+  'credential sharing',
+  'screen scraping',
+  'data scraping',
+  'on behalf',
+  "user's behalf",
+  'users behalf',
 ];
 
 export const DEFAULT_MIN_CONFIDENCE = 0.55;
@@ -146,6 +175,8 @@ export interface RelevanceDecision {
   reason: RelevanceReason;
   matchedTerms: string[];
   matchedExclusions: string[];
+  /** Set when the item is the agentic-access beat, including items that also match open finance. */
+  beat?: string;
 }
 
 export interface LabelledNewsExample {
@@ -230,6 +261,30 @@ function termFamily(term: string): string {
   return term;
 }
 
+/** True when the text is about agents accessing financial data or initiating payments. */
+export function isAgenticAccessBeat(text: string): boolean {
+  const lower = text.toLowerCase();
+  if (AGENTIC_STRONG.some((term) => lower.includes(term))) return true;
+  if (containsTerm(lower, 'ap2')) return true;
+
+  const actor = AGENTIC_ACTORS.some((term) => lower.includes(term));
+  const access = AGENTIC_ACCESS.some((term) => lower.includes(term));
+  if (actor && access) return true;
+
+  const mcp = containsTerm(lower, 'mcp');
+  const financeContext =
+    lower.includes('bank') ||
+    lower.includes('payment') ||
+    lower.includes('finance') ||
+    lower.includes('financial data');
+  if (mcp && financeContext) return true;
+
+  const agentAccess = lower.includes('agent access') || lower.includes('agents access');
+  if (agentAccess && financeContext) return true;
+
+  return false;
+}
+
 function articleText(article: Pick<NewsApiArticle, 'title' | 'description' | 'content'>): string {
   return `${article.title} ${article.description || ''} ${article.content || ''}`.toLowerCase();
 }
@@ -270,14 +325,10 @@ export function assessRelevance(
     .map((term) => term.toLowerCase())
     .filter((term) => containsTerm(text, term));
 
-  // AI agents count only when the same item is also about payments, a banking
-  // API, or open finance. The two merged agent essays (credit-memo ownership,
-  // bank ROI) do not make that link, so they stay out.
-  const aiAgents = AI_AGENT_TERMS.some((term) => text.includes(term));
-  const aiContext = AI_TOPIC_CONTEXT.some((term) => text.includes(term));
-  if (aiAgents && aiContext && !matchedTerms.includes('ai agents')) {
-    matchedTerms.push('ai agents');
-  }
+  // Agents that access data or initiate payments are an explicit beat. Generic
+  // internal AI (ROI, credit memos, software delivery) does not match.
+  const beat = isAgenticAccessBeat(text) ? AGENTIC_ACCESS_BEAT : undefined;
+  if (beat && !matchedTerms.includes('ai agents')) matchedTerms.push('ai agents');
 
   if (matchedTerms.length === 0) {
     return {
@@ -298,6 +349,10 @@ export function assessRelevance(
   const uaeProgramme = UAE_PROGRAMME_TERMS.some((term) => containsTerm(text, term));
   if (uaeProgramme) confidence += 0.12;
 
+  // The beat is an explicit accept. "AI agents" alone is not a title hit, so
+  // lift a matched agentic-access story over the default 0.55 threshold.
+  if (beat) confidence = Math.max(confidence, 0.62);
+
   confidence = roundConfidence(confidence);
   const accept = confidence >= threshold;
   return {
@@ -306,6 +361,7 @@ export function assessRelevance(
     reason: accept ? 'ok' : 'below-confidence',
     matchedTerms,
     matchedExclusions: [],
+    beat: accept ? beat : undefined,
   };
 }
 

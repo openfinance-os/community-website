@@ -296,6 +296,7 @@ async function main() {
         console.log(
           `   Confidence: ${decision.confidence.toFixed(2)} (${decision.matchedTerms.join(', ')})`
         );
+        if (decision.beat) console.log(`   Beat: ${decision.beat}`);
         console.log(`   Slug: ${article.publishedAt.split('T')[0]}-${titleSlug(article.title)}`);
         console.log('');
       });
@@ -314,6 +315,13 @@ async function main() {
       { apiKey: process.env.ANTHROPIC_API_KEY },
       confidences
     );
+
+    for (const curated of curatedArticles) {
+      const source = topArticles.find((article) => article.url === curated.sourceUrl);
+      if (!source) continue;
+      const decision = assessRelevance(source, config);
+      if (decision.beat) curated.beat = decision.beat;
+    }
 
     console.log(`\nProcessed ${curatedArticles.length} grounded articles`);
 

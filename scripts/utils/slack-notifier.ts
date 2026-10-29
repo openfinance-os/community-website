@@ -29,7 +29,8 @@ export function buildDigestSlackMessage(notice: DigestNotice): { blocks: object[
   const lines = notice.articles
     .map((article, index) => {
       const confidence = article.confidence.toFixed(2);
-      return `*${index + 1}. ${article.title}*\n${getTypeEmoji(article.type)} ${article.source} · confidence ${confidence}\n${excerpt(article.summary)}`;
+      const beat = article.beat ? `\nBeat: ${article.beat}` : '';
+      return `*${index + 1}. ${article.title}*\n${getTypeEmoji(article.type)} ${article.source} · confidence ${confidence}${beat}\n${excerpt(article.summary)}`;
     })
     .join('\n\n');
 

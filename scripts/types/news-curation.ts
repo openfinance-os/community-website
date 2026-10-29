@@ -31,6 +31,8 @@ export interface CuratedArticle {
   relevanceScore: number;
   /** Gate confidence from 0 to 1. Items below the configured threshold are not proposed. */
   confidence: number;
+  /** Set for the agentic-access beat. Omitted for other accepted stories. */
+  beat?: string;
   type: 'global' | 'community' | 'milestone' | 'official' | 'opinion';
   region: 'uae' | 'mena' | 'global';
   slug: string;

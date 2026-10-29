@@ -15,7 +15,10 @@
     "PSD3",
     "\"account-to-account\" payments",
     "\"open banking\" Saudi",
-    "\"open banking\" Bahrain"
+    "\"open banking\" Bahrain",
+    "\"agentic payments\"",
+    "\"agentic commerce\"",
+    "\"AI agent\" \"open banking\""
   ],
   "excludeDomains": [
     "youtube.com",
@@ -179,6 +182,27 @@
       "url": "https://news.google.com/rss/search?q=%22Al+Tareq%22+OR+Nebras+%22open+finance%22&hl=en-AE&gl=AE&ceid=AE:en",
       "priority": 1,
       "category": "regional",
+      "format": "google-news"
+    },
+    {
+      "name": "Google News - Agentic payments",
+      "url": "https://news.google.com/rss/search?q=%22agentic+payments%22+OR+%22agentic+commerce%22&hl=en-AE&gl=AE&ceid=AE:en",
+      "priority": 1,
+      "category": "industry",
+      "format": "google-news"
+    },
+    {
+      "name": "Google News - AI agent open banking",
+      "url": "https://news.google.com/rss/search?q=%22AI+agent%22+(%22open+banking%22+OR+%22open+finance%22)&hl=en-AE&gl=AE&ceid=AE:en",
+      "priority": 1,
+      "category": "industry",
+      "format": "google-news"
+    },
+    {
+      "name": "Google News - Agent Pay and Intelligent Commerce",
+      "url": "https://news.google.com/rss/search?q=%22Agent+Pay%22+OR+%22Intelligent+Commerce%22+OR+%22agent+payments+protocol%22+OR+AP2&hl=en-AE&gl=AE&ceid=AE:en",
+      "priority": 2,
+      "category": "industry",
       "format": "google-news"
     },
     {

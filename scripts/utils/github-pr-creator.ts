@@ -131,7 +131,8 @@ export function generateDigestBody(articles: CuratedArticle[], date: string): st
   const table = articles
     .map((article, index) => {
       const title = article.title.replace(/\|/g, '\\|');
-      return `| ${index + 1} | ${formatConfidence(article.confidence)} | ${article.region.toUpperCase()} | ${article.source} | ${title} |`;
+      const beat = article.beat ?? '—';
+      return `| ${index + 1} | ${formatConfidence(article.confidence)} | ${article.region.toUpperCase()} | ${article.source} | ${beat} | ${title} |`;
     })
     .join('\n');
 
@@ -143,7 +144,7 @@ export function generateDigestBody(articles: CuratedArticle[], date: string): st
 - **Confidence:** ${formatConfidence(article.confidence)}
 - **Source:** ${article.source}
 - **Region:** ${article.region.toUpperCase()}
-- **Link:** ${link}
+${article.beat ? `- **Beat:** ${article.beat}\n` : ''}- **Link:** ${link}
 
 ${article.summary}`;
     })
@@ -155,8 +156,8 @@ ${article.summary}`;
 
 ${articles.length} ${articles.length === 1 ? 'story' : 'stories'} passed the open-finance relevance gate. Merge this PR to publish all of them. Close it to reject the batch. To drop a single item, delete its file from the branch before merging.
 
-| # | Confidence | Region | Source | Title |
-|---|------------|--------|--------|-------|
+| # | Confidence | Region | Source | Beat | Title |
+|---|------------|--------|--------|------|-------|
 ${table}
 
 ${sections}

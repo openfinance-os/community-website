@@ -109,8 +109,11 @@ Minimum scores are tiered by region (`regionThresholds`): UAE stories need the l
 stories the most. The confidence gate then requires an open-finance or open-banking term, or a UAE programme
 term (AlTareq, Nebras, the API Hub, Ozone Connect, CAAP, Aani). A core term in the title is
 enough; a mention that only appears in the body is not, unless the item is also about the
-UAE programme. AI-agent stories pass only when they also concern payments, a banking API,
-or open finance.
+UAE programme. AI-agent stories pass only on the beat "Open Finance and agentic access to data
+and payments": agents accessing financial data or initiating payments (agentic
+commerce, Agent Pay, Intelligent Commerce, AP2, MCP or agent APIs, delegated
+consent). Internal bank-AI stories stay out. Those items are tagged with the
+beat in the daily digest. Google News queries for the beat are in `sources.json`.
 
 ```bash
 # Preview what the curator would propose (no PRs, no Slack)

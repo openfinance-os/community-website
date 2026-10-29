@@ -42,12 +42,27 @@ describe('generateDigestBody', () => {
   it('lists confidence and source for each item and records slugs', () => {
     const body = generateDigestBody([article], '2026-10-29');
     expect(body).toContain('Daily news digest');
-    expect(body).toContain('| 1 | 0.86 | GLOBAL | Finextra |');
+    expect(body).toContain('| 1 | 0.86 | GLOBAL | Finextra | — |');
     expect(body).toContain('**Confidence:** 0.86');
     expect(body).toContain('**Source:** Finextra');
     expect(body).toContain('https://www.finextra.com/newsarticle/48659/zen');
     expect(body).not.toContain('utm_');
     expect(body).toContain('<!-- news-slugs: 2026-10-28-zencom -->');
+    expect(body).not.toContain('**Beat:**');
+  });
+
+  it('tags an agentic-access item with its beat', () => {
+    const body = generateDigestBody(
+      [
+        {
+          ...article,
+          beat: 'Open Finance and agentic access to data and payments',
+        },
+      ],
+      '2026-10-29'
+    );
+    expect(body).toContain('| Open Finance and agentic access to data and payments |');
+    expect(body).toContain('**Beat:** Open Finance and agentic access to data and payments');
   });
 });
 

@@ -172,6 +172,14 @@ export const CORE_TERMS: ReadonlyArray<{ term: string; weight: number }> = [
   { term: 'variable recurring payment', weight: 18 },
   { term: 'pay by bank', weight: 15 },
   { term: 'pay-by-bank', weight: 15 },
+  { term: 'agentic payments', weight: 25 },
+  { term: 'agentic commerce', weight: 25 },
+  { term: 'agentic payment', weight: 25 },
+  { term: 'visa intelligent commerce', weight: 25 },
+  { term: 'mastercard agent pay', weight: 25 },
+  { term: 'agent pay', weight: 22 },
+  { term: 'delegated consent', weight: 22 },
+  { term: 'model context protocol', weight: 18 },
   { term: 'aisp', weight: 15 },
   { term: 'pisp', weight: 15 },
   { term: 'third party provider', weight: 15 },
@@ -668,17 +676,24 @@ export function rankArticles(
   const aboveThreshold = scoredArticles.filter((item) => item.score >= item.threshold);
 
   const gateReasons = new Map<string, number>();
-  const relevantArticles = aboveThreshold.filter((item) => {
+  let beatBelowScore = 0;
+  const relevantArticles = scoredArticles.filter((item) => {
     const decision = assessRelevance(item.article, config);
+    const aboveScore = item.score >= item.threshold;
+    // The agentic-access beat is accepted even when the keyword score is low.
+    if (!aboveScore && !decision.beat) return false;
     if (!decision.accept) {
-      gateReasons.set(decision.reason, (gateReasons.get(decision.reason) || 0) + 1);
-      if (options.verbose) {
-        console.log(
-          `  Rejected (${decision.reason}, confidence ${decision.confidence.toFixed(2)}): ${item.article.title.substring(0, 60)}`
-        );
+      if (aboveScore) {
+        gateReasons.set(decision.reason, (gateReasons.get(decision.reason) || 0) + 1);
+        if (options.verbose) {
+          console.log(
+            `  Rejected (${decision.reason}, confidence ${decision.confidence.toFixed(2)}): ${item.article.title.substring(0, 60)}`
+          );
+        }
       }
       return false;
     }
+    if (!aboveScore) beatBelowScore += 1;
     return true;
   });
 
@@ -693,7 +708,7 @@ export function rankArticles(
     `Filtered ${scoredArticles.length} articles to ${aboveThreshold.length} above region thresholds (${thresholdSummary})`
   );
   console.log(
-    `Relevance gate kept ${relevantArticles.length} of ${aboveThreshold.length} (rejected: ${gateSummary})`
+    `Relevance gate kept ${relevantArticles.length} of ${aboveThreshold.length} above the score bar (rejected: ${gateSummary}; agentic-access beat below the score bar: ${beatBelowScore})`
   );
 
   // Log top articles with scores
