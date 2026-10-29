@@ -1,7 +1,10 @@
 ---
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import PageLayout from '@layouts/PageLayout.astro';
 import Badge from '@components/common/Badge.astro';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { inlinePublicSvg } from '@lib/inline-public-svg.mjs';
 
 export async function getStaticPaths() {
   const newsEntries = await getCollection('news');
@@ -17,6 +20,22 @@ interface Props {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+
+const imagePath = entry.data.image;
+const imageAlt = entry.data.imageAlt?.trim() ?? '';
+if (imagePath && !imageAlt) {
+  throw new Error(`News post "${entry.id}" sets image without imageAlt`);
+}
+
+function publicFile(urlPath: string) {
+  const relative = urlPath.replace(/^\//, '');
+  if (relative.includes('..')) throw new Error(`Unsafe image path ${urlPath}`);
+  return join(process.cwd(), 'public', relative);
+}
+
+const pngSibling = imagePath?.endsWith('.svg') ? imagePath.replace(/\.svg$/, '.png') : undefined;
+const ogImage = pngSibling && existsSync(publicFile(pngSibling)) ? pngSibling : imagePath;
+const coverSvg = imagePath?.endsWith('.svg') ? inlinePublicSvg(imagePath, imageAlt) : '';
 
 const typeLabels: Record<string, string> = {
   official: 'Regulatory',
@@ -53,7 +72,7 @@ const articleSchema = {
   '@type': 'NewsArticle',
   headline: entry.data.title,
   description: articleDescription,
-  image: [new URL('/og-image.png', Astro.site).toString()],
+  image: [new URL(ogImage || '/og-image.png', Astro.site).toString()],
   datePublished: entry.data.date.toISOString(),
   dateModified: entry.data.date.toISOString(),
   author: {
@@ -85,6 +104,8 @@ const articleSchema = {
 <PageLayout
   title={entry.data.title}
   description={articleDescription}
+  ogImage={ogImage}
+  ogImageAlt={imageAlt || undefined}
   type="article"
   publishedTime={entry.data.date.toISOString()}
   articleSchema={articleSchema}
@@ -117,6 +138,17 @@ const articleSchema = {
         </div>
 
         <h1>{entry.data.title}</h1>
+        {coverSvg ? (
+          <figure class="cover-visual">
+            <Fragment set:html={coverSvg} />
+            {entry.data.imageCaption && <figcaption>{entry.data.imageCaption}</figcaption>}
+          </figure>
+        ) : imagePath ? (
+          <figure class="cover-visual">
+            <img src={imagePath} alt={imageAlt} />
+            {entry.data.imageCaption && <figcaption>{entry.data.imageCaption}</figcaption>}
+          </figure>
+        ) : null}
       </header>
 
       <div class="article-content">
@@ -227,6 +259,69 @@ const articleSchema = {
     letter-spacing: -0.02em;
   }
 
+  .cover-visual {
+    margin: var(--space-8) 0 0;
+  }
+
+  .cover-visual :global(svg),
+  .cover-visual img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    background: var(--color-card);
+    overflow: hidden;
+  }
+
+  .cover-visual figcaption,
+  :global(figure.post-visual figcaption) {
+    margin-top: var(--space-3);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+  }
+
+  :global(figure.post-visual) {
+    margin: var(--space-6) 0 var(--space-8);
+  }
+
+  :global(figure.post-visual svg) {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    background: var(--color-card);
+    overflow: hidden;
+  }
+
+  @media (max-width: 640px) {
+    :global(figure.post-visual.fit) {
+      margin-left: calc(var(--space-5) * -1);
+      margin-right: calc(var(--space-5) * -1);
+    }
+
+    :global(figure.post-visual.fit figcaption) {
+      padding-left: var(--space-5);
+      padding-right: var(--space-5);
+    }
+
+    :global(figure.post-visual.fit svg) {
+      border-left: none;
+      border-right: none;
+      border-radius: 0;
+    }
+  }
+
+  @media (min-width: 641px) {
+    :global(figure.post-visual.fit) {
+      max-width: 22.5rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
   .article-content {
     background: var(--color-card);
     border: 1px solid var(--color-border);
@@ -300,7 +395,10 @@ const articleSchema = {
   }
 
   .article-content :global(table) {
+    display: block;
     width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
     border-collapse: collapse;
     margin: var(--space-6) 0;
     font-size: 0.9375rem;

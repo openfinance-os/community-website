@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="640" height="400">
+  <g aria-hidden="true" font-family="DM Sans, system-ui, sans-serif">
+    <rect width="640" height="400" fill="var(--color-card, #ffffff)" />
+    <text
+      x="320"
+      y="64"
+      text-anchor="middle"
+      fill="var(--color-text-secondary, #526662)"
+      font-size="32"
+      font-weight="500"
+    >
+      28 October 2026
+    </text>
+    <text
+      x="320"
+      y="176"
+      text-anchor="middle"
+      fill="var(--color-brand-ink, #0d4f4f)"
+      font-size="104"
+      font-weight="500"
+    >
+      12 of 30
+    </text>
+    <text x="320" y="228" text-anchor="middle" fill="var(--color-text, #132c2b)" font-size="32">
+      publish an authorization server
+    </text>
+    <defs>
+      <clipPath id="of12-hero-bar">
+        <rect x="40" y="264" width="560" height="44" rx="12" />
+      </clipPath>
+    </defs>
+    <g clip-path="url(#of12-hero-bar)">
+      <rect x="40" y="264" width="560" height="44" fill="var(--color-soft, #e7efea)" />
+      <rect x="40" y="264" width="224" height="44" fill="var(--color-brand-ink, #0d4f4f)" />
+    </g>
+    <text x="320" y="356" text-anchor="middle" fill="var(--color-text, #132c2b)" font-size="32">
+      12 with an issuer, 18 without
+    </text>
+  </g>
+</svg>
