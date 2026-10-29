@@ -18,7 +18,7 @@ source:
   url: https://openfinance-os.org/observatory/watch/
 
 authoredByContributor: true
-contributor: "OpenFinance-OS Community"
+contributor: "Open Finance OS Community"
 contributorUrl: https://github.com/openfinance-os
 
 links:
@@ -30,7 +30,7 @@ disclaimers:
   - "Directory registration, published API families and declared certification do not establish working services or regulatory compliance."
   - "Public traffic logs omit environment labels; successful calls cannot be assumed to be production traffic."
   - "Coverage is limited to the source snapshots and log windows shown; missing observations do not establish unavailability."
-  - "OpenFinance-OS is a community initiative and is not affiliated with, endorsed by, or officially connected to the CBUAE, Al Tareq Platform, or any financial institution. Always verify information with official sources."
+  - "Open Finance OS is a community initiative and is not affiliated with, endorsed by, or officially connected to the CBUAE, Al Tareq Platform, or any financial institution. Always verify information with official sources."
 featured: true
 ---
 

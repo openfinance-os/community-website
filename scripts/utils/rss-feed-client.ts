@@ -221,7 +221,7 @@ async function fetchFeed(feed: RssFeedSource, retries: number = 3): Promise<RssA
       const response = await fetch(feed.url, {
         signal: controller.signal,
         headers: {
-          'User-Agent': 'OpenFinance-OS News Curator/1.0',
+          'User-Agent': 'Open Finance OS News Curator/1.0',
           Accept: 'application/rss+xml, application/xml, text/xml, application/atom+xml',
         },
       });

@@ -1,4 +1,4 @@
-# PRD: OpenFinance-OS Chat AI Agent
+# PRD: Open Finance OS Chat AI Agent
 
 ## Habibi — The UAE Open Finance Assistant
 
@@ -8,7 +8,7 @@
 
 ### 1.1 What This Is
 
-**Habibi** is an AI-powered chat assistant embedded in the OpenFinance-OS.org website that provides conversational access to UAE Open Finance ecosystem data, documentation, and community knowledge. It serves as the intelligent interface layer connecting users to:
+**Habibi** is an AI-powered chat assistant embedded in the Open Finance OS.org website that provides conversational access to UAE Open Finance ecosystem data, documentation, and community knowledge. It serves as the intelligent interface layer connecting users to:
 
 - **Live ecosystem data** from the Observatory (participants, APIs, roles, trends)
 - **Historical analytics** (growth trends, adoption curves, comparisons)
@@ -39,7 +39,7 @@ Open Finance ecosystems are complex. Developers, fintechs, and curious stakehold
 | **Fintechs** | Quick comparison of potential banking partners |
 | **Community** | 24/7 knowledge assistant, scales community support |
 | **Ecosystem** | Lower barrier to entry, faster onboarding |
-| **OpenFinance-OS** | Differentiated offering, increased engagement |
+| **Open Finance OS** | Differentiated offering, increased engagement |
 
 ---
 
@@ -58,7 +58,7 @@ Open Finance ecosystems are complex. Developers, fintechs, and curious stakehold
                                          │
                                          ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                        OpenFinance-OS.org                                │
+│                        Open Finance OS.org                                │
 │  ┌─────────────────────────────────────────────────────────────────┐    │
 │  │                     AI Agent Backend                             │    │
 │  │   ┌─────────────┐  ┌─────────────┐  ┌─────────────┐             │    │
@@ -238,7 +238,7 @@ Real-time notification system that detects and broadcasts ecosystem changes.
 | `ROLE_CHANGE` | Participant adds/removes role (LFI, TPP, etc.) | Medium |
 | `AUTH_CAPABILITY_CHANGE` | CIBA, DCR, or redirect support changed | Medium |
 | `REGULATORY_UPDATE` | New CBUAE guidance detected | High |
-| `COMMUNITY_NEWS` | New article published on OpenFinance-OS | Low |
+| `COMMUNITY_NEWS` | New article published on Open Finance OS | Low |
 
 #### 3.2.2 Detection Pipeline
 
@@ -333,7 +333,7 @@ Real-time notification system that detects and broadcasts ecosystem changes.
 
 **Email (Immediate):**
 ```
-Subject: [OpenFinance-OS] New participant: WIO Bank is now live
+Subject: [Open Finance OS] New participant: WIO Bank is now live
 
 ──────────────────────────────────────────────────
 
@@ -392,7 +392,7 @@ Bring Habibi's capabilities directly into team workspaces.
 | Slack | Habibi | `@habibi` |
 | Teams | Habibi - OpenFinance Assistant | `@Habibi` |
 
-**Bot Avatar:** OpenFinance-OS logo icon with chat bubble overlay
+**Bot Avatar:** Open Finance OS logo icon with chat bubble overlay
 
 #### 3.3.2 Interaction Modes
 
@@ -643,7 +643,7 @@ The MCP (Model Context Protocol) server exposes SDK functionality as tools that 
     },
     {
       "name": "search_content",
-      "description": "Search OpenFinance-OS content including docs, news, and learn resources",
+      "description": "Search Open Finance OS content including docs, news, and learn resources",
       "parameters": {
         "query": "Search query",
         "content_type": "all | news | learn | glossary | faq (optional)"
@@ -858,7 +858,7 @@ The agent understands temporal and comparative queries:
 #### 4.1.2 System Prompt
 
 ```
-You are Habibi, the AI assistant for OpenFinance-OS.org, the community
+You are Habibi, the AI assistant for Open Finance OS.org, the community
 hub for the UAE Open Finance ecosystem.
 
 Your role:
@@ -887,7 +887,7 @@ Personality:
 - Friendly and professional
 - Use "Marhaba" for greetings when appropriate
 - Be genuinely helpful, not salesy
-- Acknowledge the community-driven nature of OpenFinance-OS
+- Acknowledge the community-driven nature of Open Finance OS
 ```
 
 ### 4.2 Data Flow
@@ -970,7 +970,7 @@ The MCP server enables the same capabilities in:
 | Claude Desktop | MCP config | Query ecosystem from desktop |
 | Cursor | MCP config | Ecosystem data while coding |
 | ChatGPT | Plugin (future) | Broader accessibility |
-| Custom agents | npm package | Build on OpenFinance-OS data |
+| Custom agents | npm package | Build on Open Finance OS data |
 
 ### 5.3 API Access (Future)
 
@@ -1236,12 +1236,12 @@ See `/docs/samples/prompt-engineering.md` for system prompt development.
 
 ## 12. Conclusion
 
-Habibi transforms OpenFinance-OS from a static information hub into an interactive knowledge assistant. By packaging ecosystem access as a Community SDK and MCP Server, we:
+Habibi transforms Open Finance OS from a static information hub into an interactive knowledge assistant. By packaging ecosystem access as a Community SDK and MCP Server, we:
 
 1. **Lower barriers** for developers exploring UAE Open Finance
 2. **Scale community support** with AI-powered assistance
 3. **Enable ecosystem integration** for AI coding tools
-4. **Differentiate OpenFinance-OS** as the intelligent community hub
+4. **Differentiate Open Finance OS** as the intelligent community hub
 
 The phased approach starts with proven capabilities (Observatory data) and expands based on real usage patterns.
 

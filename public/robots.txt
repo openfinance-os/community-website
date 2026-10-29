@@ -1,4 +1,4 @@
-# OpenFinance-OS Robots.txt
+# Open Finance OS Robots.txt
 # https://openfinance-os.org
 
 # Allow all crawlers full access

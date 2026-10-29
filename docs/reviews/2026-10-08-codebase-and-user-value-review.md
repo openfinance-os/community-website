@@ -1,4 +1,4 @@
-# OpenFinance-OS: codebase and user-value review
+# Open Finance OS: codebase and user-value review
 
 Reviewed 8 October 2026 · local revision `06f9da8` on `main` · public website checked alongside the repository.
 
@@ -6,7 +6,7 @@ Reviewed 8 October 2026 · local revision `06f9da8` on `main` · public website 
 
 Delivery update, 8 October 2026: the [credibility and access batch](./2026-10-08-credibility-and-access-implementation.md) and [principal user tasks batch](./2026-10-08-principal-user-tasks-implementation.md) are implemented. The findings below describe the original review baseline; the delivery notes record behavior and local validation, with release status recorded separately in GitHub. Public feedback routing and practitioner task sessions remain pending.
 
-OpenFinance-OS has a valuable foundation: an independent historical record of UAE Open Finance, backed by public directory observations, operational analysis, and reusable community resources. Its greatest opportunity is to help a practitioner **answer a question, assess the evidence, and decide what to do next**.
+Open Finance OS has a valuable foundation: an independent historical record of UAE Open Finance, backed by public directory observations, operational analysis, and reusable community resources. Its greatest opportunity is to help a practitioner **answer a question, assess the evidence, and decide what to do next**.
 
 The site currently makes visitors do too much interpretation. They encounter several different meanings of “live,” statistics whose labels exceed what the underlying fields establish, news without a clear UAE implication, and separate interfaces for registry and operational evidence. Some important information is lost during collection. The public contribution paths also fail for anonymous visitors.
 

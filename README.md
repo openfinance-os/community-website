@@ -1,4 +1,4 @@
-# OpenFinance-OS
+# Open Finance OS
 
 **The community home for UAE Open Finance**
 
@@ -11,7 +11,7 @@ A community-owned website providing visibility into the UAE Open Finance ecosyst
 
 ## What is this?
 
-OpenFinance-OS.org is a grassroots initiative that provides:
+Open Finance OS.org is a grassroots initiative that provides:
 
 - **Observatory** — Real-time dashboard showing ecosystem participants, roles, and API coverage
 - **Ecosystem Watch** — Independent weekly monitor of volumes, standards changes, and CBUAE release compliance ([/observatory/watch/](https://openfinance-os.org/observatory/watch/), see [tools/watch/README.md](tools/watch/README.md))

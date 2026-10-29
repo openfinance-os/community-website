@@ -13,7 +13,7 @@ export async function GET(context: APIContext) {
   const site = context.site?.toString() || 'https://openfinance-os.org/';
 
   return rss({
-    title: 'OpenFinance-OS News',
+    title: 'Open Finance OS News',
     description: 'News posts and weekly digests from the UAE Open Finance community, newest first.',
     site,
     xmlns: { atom: 'http://www.w3.org/2005/Atom' },

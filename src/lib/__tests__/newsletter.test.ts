@@ -91,14 +91,14 @@ describe('trackNewsletterSignupSubmit', () => {
     const capture = vi.fn();
     installPostHog(capture);
     window.history.pushState({}, '', '/newsletter/');
-    document.title = 'Newsletter | OpenFinance-OS';
+    document.title = 'Newsletter | Open Finance OS';
 
     trackNewsletterSignupSubmit('newsletter-page');
 
     expect(capture).toHaveBeenCalledWith(NEWSLETTER_SIGNUP_EVENT, {
       source: 'newsletter-page',
       page_url: '/newsletter/',
-      page_title: 'Newsletter | OpenFinance-OS',
+      page_title: 'Newsletter | Open Finance OS',
     });
   });
 
@@ -234,14 +234,14 @@ describe('Slack join', () => {
     const capture = vi.fn();
     installPostHog(capture);
     window.history.pushState({}, '', '/newsletter/');
-    document.title = 'Newsletter | OpenFinance-OS';
+    document.title = 'Newsletter | Open Finance OS';
 
     trackSlackJoinClick('footer');
 
     expect(capture).toHaveBeenCalledWith(SLACK_JOIN_EVENT, {
       placement: 'footer',
       page_url: '/newsletter/',
-      page_title: 'Newsletter | OpenFinance-OS',
+      page_title: 'Newsletter | Open Finance OS',
     });
   });
 
@@ -287,14 +287,14 @@ describe('registry snapshot download', () => {
     const capture = vi.fn();
     installPostHog(capture);
     window.history.pushState({}, '', '/newsletter/welcome/');
-    document.title = 'Thanks for subscribing | OpenFinance-OS';
+    document.title = 'Thanks for subscribing | Open Finance OS';
 
     trackSnapshotDownloadClick('newsletter_welcome');
 
     expect(capture).toHaveBeenCalledWith(SNAPSHOT_DOWNLOAD_EVENT, {
       placement: 'newsletter_welcome',
       page_url: '/newsletter/welcome/',
-      page_title: 'Thanks for subscribing | OpenFinance-OS',
+      page_title: 'Thanks for subscribing | Open Finance OS',
     });
   });
 

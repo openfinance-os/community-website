@@ -20,11 +20,11 @@ test.beforeEach(async ({ page }) => {
 test('newsletter page has metadata, the embed form, and a thank-you state', async ({ page }) => {
   await page.goto('/newsletter/');
 
-  await expect(page).toHaveTitle('Newsletter | OpenFinance-OS');
+  await expect(page).toHaveTitle('Newsletter | Open Finance OS');
   await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', pitch);
   await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
     'content',
-    'Newsletter | OpenFinance-OS'
+    'Newsletter | Open Finance OS'
   );
   await expect(page.locator('meta[property="og:description"]')).toHaveAttribute('content', pitch);
   await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
@@ -175,7 +175,7 @@ test('footer and news forms post to Buttondown with a source tag', async ({ page
 test('confirmed subscribers land on a noindex welcome page', async ({ page }) => {
   await page.goto('/newsletter/welcome/');
 
-  await expect(page).toHaveTitle('Thanks for subscribing | OpenFinance-OS');
+  await expect(page).toHaveTitle('Thanks for subscribing | Open Finance OS');
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     'href',

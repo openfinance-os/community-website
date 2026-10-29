@@ -118,7 +118,7 @@ function getRepoInfo(): { owner: string; repo: string } {
 }
 
 async function main() {
-  console.log('OpenFinance-OS News Curation');
+  console.log('Open Finance OS News Curation');
   console.log('============================\n');
 
   const isDryRun = process.argv.includes('--dry-run');

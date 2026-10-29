@@ -21,14 +21,14 @@ source:
   url: https://blog.scottlogic.com/2018/08/24/the-ux-of-consent-models-in-open-banking.html
 
 authoredByContributor: false
-contributor: "OpenFinance-OS Community"
+contributor: "Open Finance OS Community"
 contributorUrl: https://github.com/openfinance-os
 
 links:
   article: https://blog.scottlogic.com/2018/08/24/the-ux-of-consent-models-in-open-banking.html
 
 disclaimers:
-  - "External content - not authored by OpenFinance-OS"
+  - "External content - not authored by Open Finance OS"
   - "UK-specific patterns may require adaptation for UAE context"
 featured: false
 ---

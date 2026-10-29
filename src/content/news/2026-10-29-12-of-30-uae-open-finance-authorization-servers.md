@@ -3,7 +3,7 @@ title: "12 of 30: Why Most UAE Open Finance Registrations Don't Publish an Autho
 date: 2026-10-29
 type: opinion
 region: uae
-author: OpenFinance-OS
+author: Open Finance OS
 description: "Only 12 of 30 production registrations in the UAE Open Finance directory publish an active authorization server. We break down the other 18 and what the gap does and doesn't mean."
 image: /news/12-of-30/hero.svg
 imageAlt: "12 of 30 production registrations publish an authorization server on 28 October 2026. A bar shows 12 with an issuer and 18 without."
@@ -285,8 +285,8 @@ Every figure in this post is reproducible. [Download the registry snapshot and h
 *This is an independent, community-run analysis, not official. Building or integrating? Consult the [official Open Finance documentation](https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview).*
 
 ### Sources
-- OpenFinance-OS registry snapshot, observed 2026-10-28 12:08 UTC: /observatory/data/registry-latest.json
-- OpenFinance-OS registry history (since 2025-12-26): /observatory/data/registry-history.json
+- Open Finance OS registry snapshot, observed 2026-10-28 12:08 UTC: /observatory/data/registry-latest.json
+- Open Finance OS registry history (since 2025-12-26): /observatory/data/registry-history.json
 - Observatory methodology: /observatory/methodology
 - Ecosystem Watch: /observatory/watch/
 - Weekly digest, 26 Oct 2026: /news/2026-10-26-weekly-digest

@@ -4,7 +4,7 @@ import NewsletterSignup from '@components/common/NewsletterSignup.astro';
 import { NEWSLETTER_SOURCES, SLACK_JOIN_PLACEMENTS } from '@lib/newsletter';
 import SlackJoin from '@components/common/SlackJoin.astro';
 
-const headerAlt = 'OpenFinance-OS weekly briefing, issue 1, 29 October 2026.';
+const headerAlt = 'Open Finance OS weekly briefing, issue 1, 29 October 2026.';
 const pageDescription = 'The 5-minute weekly on UAE Open Finance, for the people building it';
 const leadMagnet =
   'Subscribe and get the UAE Open Finance registry snapshot: every licensed LFI and TPP on one page.';
@@ -17,12 +17,12 @@ const faq = [
   {
     question: 'Who writes it?',
     answer:
-      'The OpenFinance-OS community. Issues are written from the public registry and platform data this site already tracks.',
+      'The Open Finance OS community. Issues are written from the public registry and platform data this site already tracks.',
   },
   {
     question: 'Is it vendor-neutral?',
     answer:
-      'Yes. OpenFinance-OS is a community initiative and is not affiliated with, endorsed by, or officially connected to the CBUAE, Al Tareq Platform, Nebras, or any financial institution. The briefing reports the public record; always verify with official sources.',
+      'Yes. Open Finance OS is a community initiative and is not affiliated with, endorsed by, or officially connected to the CBUAE, Al Tareq Platform, Nebras, or any financial institution. The briefing reports the public record; always verify with official sources.',
   },
   {
     question: 'What does it cost?',
@@ -33,7 +33,7 @@ const faq = [
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  name: 'OpenFinance-OS newsletter FAQ',
+  name: 'Open Finance OS newsletter FAQ',
   description: pageDescription,
   mainEntity: faq.map((item) => ({
     '@type': 'Question',
@@ -81,7 +81,7 @@ const faqSchema = {
             description={leadMagnet}
           />
           <p class="trust">
-            Curated by the OpenFinance-OS community · Free · Weekly · Unsubscribe anytime
+            Curated by the Open Finance OS community · Free · Weekly · Unsubscribe anytime
           </p>
           <!--
             TODO: social proof slot. Do not add invented subscriber counts or testimonials.

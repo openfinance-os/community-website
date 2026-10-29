@@ -2,7 +2,7 @@
 
 > **Source correction, 10 October 2026:** This historical proposal incorrectly treats nebras-open-finance.com as the operator hub. The site identifies itself as an independent community reference. Use [official Al Tareq documentation](https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview) for authoritative standards and onboarding guidance. The operator affiliation, feed provenance and organisational capabilities asserted below were not established. This unsent proposal is retained as history and must not guide current source labels or outreach.
 
-**From:** OpenFinance-OS (openfinance-os.org) — independent, community-run
+**From:** Open Finance OS (openfinance-os.org) — independent, community-run
 **To:** Nebras Open Finance
 **Re:** How our two UAE Open Finance sites can complement rather than duplicate each other
 
