@@ -340,6 +340,46 @@ const articleSchema = {
   }
 
   /* Markdown content styles */
+  .article-content :global(.glance) {
+    margin: 0 0 var(--space-8);
+    padding: var(--space-5) var(--space-6);
+    background: #f6f8f5;
+    border: 1px solid #dce5df;
+    border-left: 4px solid #e8a85c;
+    border-radius: var(--radius-xl);
+    color: #132c2b;
+  }
+
+  .article-content :global(.glance-label) {
+    margin: 0 0 var(--space-3);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #0d4f4f;
+  }
+
+  .article-content :global(.glance ul) {
+    margin: 0;
+    padding-left: 1.15rem;
+  }
+
+  .article-content :global(.glance li) {
+    color: #132c2b;
+  }
+
+  .article-content :global(.glance li:last-child) {
+    margin-bottom: 0;
+  }
+
+  .article-content :global(.glance strong) {
+    color: #0d4f4f;
+  }
+
+  .article-content :global(.glance a) {
+    color: #0d4f4f;
+  }
+
   .article-content :global(h2) {
     font-size: 1.5rem;
     font-weight: 600;
