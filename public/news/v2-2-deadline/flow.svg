@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 640" width="320" height="640" role="img" aria-labelledby="fig-news-v22-flow-svg" focusable="false"><title id="fig-news-v22-flow-svg">Sequence of the v2.2 payment-log contract on AANI and UAEFTS. The TPP calls POST /payments through the API Hub, and the LFI returns 201. Within 3 seconds, the LFI screens the payment, submits it to the rail and patches the payment log to AcceptedSettlementCompleted, naming the rail. When the rail responds, the LFI patches the terminal status: AcceptedWithoutPosting on AANI, AcceptedCreditSettlementCompleted on UAEFTS, or Rejected.</title>
+  <g aria-hidden="true" font-family="DM Sans, system-ui, sans-serif">
+    <rect width="320" height="640" fill="var(--color-card, #ffffff)" />
+    <g fill="none" stroke="var(--color-text-secondary, #526662)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M160 76 V96 M154 90 L160 100 L166 90" />
+      <path d="M160 176 V196 M154 190 L160 200 L166 190" />
+      <path d="M160 384 V404 M154 398 L160 408 L166 398" />
+    </g>
+    <rect x="40" y="16" width="240" height="56" rx="12" fill="var(--color-card, #ffffff)" stroke="var(--color-border, #dce5df)" stroke-width="1.5" />
+    <text x="160" y="40" text-anchor="middle" fill="var(--color-text, #132c2b)" font-size="16" font-weight="500">TPP → API Hub → LFI</text>
+    <text x="160" y="62" text-anchor="middle" fill="var(--color-text-secondary, #526662)" font-size="15">POST /payments</text>
+    <rect x="40" y="104" width="240" height="68" rx="12" fill="var(--color-soft, #e7efea)" stroke="var(--color-brand-ink, #0d4f4f)" stroke-width="2" />
+    <text x="160" y="134" text-anchor="middle" fill="var(--color-brand-ink, #0d4f4f)" font-size="20" font-weight="500">LFI returns 201</text>
+    <text x="160" y="158" text-anchor="middle" fill="var(--color-text-secondary, #526662)" font-size="15">the 3-second clock starts</text>
+    <rect x="16" y="204" width="288" height="176" rx="14" fill="var(--color-card, #ffffff)" stroke="var(--color-accent, #e8a85c)" stroke-width="2" />
+    <text x="160" y="236" text-anchor="middle" fill="var(--color-text, #132c2b)" font-size="18" font-weight="500">Within 3 seconds</text>
+    <text x="160" y="266" text-anchor="middle" fill="var(--color-text, #132c2b)" font-size="15">Screen (fraud, monitoring, AML)</text>
+    <text x="160" y="290" text-anchor="middle" fill="var(--color-text, #132c2b)" font-size="15">Submit to AANI or UAEFTS</text>
+    <text x="160" y="314" text-anchor="middle" fill="var(--color-text, #132c2b)" font-size="15">PATCH payment log:</text>
+    <text x="160" y="338" text-anchor="middle" fill="var(--color-brand-ink, #0d4f4f)" font-size="15" font-weight="500">AcceptedSettlementCompleted</text>
+    <text x="160" y="362" text-anchor="middle" fill="var(--color-text-secondary, #526662)" font-size="14">with paymentRail (not terminal)</text>
+    <rect x="16" y="412" width="288" height="176" rx="14" fill="var(--color-soft, #e7efea)" stroke="var(--color-brand-ink, #0d4f4f)" stroke-width="2" />
+    <text x="160" y="444" text-anchor="middle" fill="var(--color-text, #132c2b)" font-size="18" font-weight="500">When the rail responds</text>
+    <text x="160" y="472" text-anchor="middle" fill="var(--color-text, #132c2b)" font-size="15">PATCH the terminal status:</text>
+    <text x="160" y="500" text-anchor="middle" fill="var(--color-brand-ink, #0d4f4f)" font-size="14" font-weight="500">AANI: AcceptedWithoutPosting</text>
+    <text x="160" y="526" text-anchor="middle" fill="var(--color-brand-ink, #0d4f4f)" font-size="14" font-weight="500">UAEFTS: AcceptedCredit-</text>
+    <text x="160" y="546" text-anchor="middle" fill="var(--color-brand-ink, #0d4f4f)" font-size="14" font-weight="500">SettlementCompleted</text>
+    <text x="160" y="572" text-anchor="middle" fill="var(--color-text-secondary, #526662)" font-size="14">or Rejected on either rail</text>
+    <text x="16" y="620" fill="var(--color-text-secondary, #526662)" font-size="13">Nebras v2.2-rc2 changelog. Draft.</text>
+  </g>
+</svg>
