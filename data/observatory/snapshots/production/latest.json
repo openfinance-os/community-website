@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-02T14:47:48.358Z",
+  "timestamp": "2026-11-03T13:39:09.436Z",
   "source": "https://data.directory.openfinance.ae",
   "version": "2.1.0",
   "environment": "production",
@@ -9,8 +9,8 @@
       "Active": 30
     },
     "byRole": {
-      "BDSP": 16,
-      "BSIP": 15,
+      "BDSP": 17,
+      "BSIP": 16,
       "LFI": 22,
       "ISP": 7,
       "API Read_Write": 3,
@@ -33,7 +33,7 @@
     ],
     "liveInProduction": 13,
     "shariahCompliantCount": 1,
-    "multiRoleCount": 25,
+    "multiRoleCount": 26,
     "tppCount": 0,
     "byAuthCapabilities": {
       "ciba": 0,
@@ -143,15 +143,15 @@
           "familyComplete": true
         },
         {
-          "family": "payments",
-          "rawFamily": "payment",
+          "family": "accounts",
+          "rawFamily": "account-information",
           "version": "1.2",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
         },
         {
-          "family": "accounts",
-          "rawFamily": "account-information",
+          "family": "payments",
+          "rawFamily": "payment",
           "version": "1.2",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
@@ -276,13 +276,6 @@
           "familyComplete": true
         },
         {
-          "family": "payments",
-          "rawFamily": "payment",
-          "version": "2.1",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
           "family": "cop",
           "rawFamily": "confirmation",
           "version": "2.1",
@@ -295,6 +288,13 @@
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
+        },
+        {
+          "family": "payments",
+          "rawFamily": "payment",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
         }
       ],
       "authServerCount": 2,
@@ -500,13 +500,6 @@
           "familyComplete": true
         },
         {
-          "family": "payments",
-          "rawFamily": "payment",
-          "version": "2.1",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
           "family": "atm",
           "rawFamily": "atm",
           "version": "2.1",
@@ -516,6 +509,13 @@
         {
           "family": "accounts",
           "rawFamily": "account-information",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "payments",
+          "rawFamily": "payment",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
@@ -535,15 +535,15 @@
           "familyComplete": true
         },
         {
-          "family": "payments",
-          "rawFamily": "payment",
+          "family": "accounts",
+          "rawFamily": "account-information",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
         },
         {
-          "family": "accounts",
-          "rawFamily": "account-information",
+          "family": "payments",
+          "rawFamily": "payment",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
@@ -580,13 +580,6 @@
       },
       "apiResources": [
         {
-          "family": "payments",
-          "rawFamily": "payment",
-          "version": "2.1",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        },
-        {
           "family": "cop",
           "rawFamily": "confirmation",
           "version": "2.1",
@@ -603,6 +596,13 @@
         {
           "family": "accounts",
           "rawFamily": "account-information",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "payments",
+          "rawFamily": "payment",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
@@ -654,13 +654,6 @@
           "familyComplete": false
         },
         {
-          "family": "payments",
-          "rawFamily": "payment",
-          "version": "2.1",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
           "family": "atm",
           "rawFamily": "atm",
           "version": "2.1",
@@ -677,6 +670,13 @@
         {
           "family": "products",
           "rawFamily": "product",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "payments",
+          "rawFamily": "payment",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
@@ -1077,6 +1077,8 @@
       "shortName": "Standard Chartered",
       "status": "Active",
       "roles": [
+        "BDSP",
+        "BSIP",
         "LFI"
       ],
       "city": "Dubai",
@@ -1159,15 +1161,15 @@
           "familyComplete": true
         },
         {
-          "family": "payments",
-          "rawFamily": "payment",
+          "family": "accounts",
+          "rawFamily": "account-information",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
         },
         {
-          "family": "accounts",
-          "rawFamily": "account-information",
+          "family": "payments",
+          "rawFamily": "payment",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
@@ -1204,7 +1206,10 @@
     "participantChange": 0,
     "newParticipants": [],
     "removedParticipants": [],
-    "roleChanges": {},
+    "roleChanges": {
+      "BDSP": 1,
+      "BSIP": 1
+    },
     "apiFamilyChanges": {}
   }
 }
