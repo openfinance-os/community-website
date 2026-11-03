@@ -4,7 +4,7 @@ date: 2026-11-03
 type: opinion
 region: uae
 author: OpenFinance-OS
-description: "UAE open finance API calls hit an 18.4% error rate over 11 months, yet 95.3% of payments were accepted. What the gap means for LFIs and TPPs on Al Tareq."
+description: "UAE Open Finance API calls hit an 18.4% error rate over 11 months, yet 95.3% of payments were accepted. What the gap means for LFIs and TPPs on Al Tareq."
 image: /news/api-error-rate/hero.svg
 imageAlt: "Large figure reading 18.4% of API calls returned errors, beside a grid of 50 dots with 9 highlighted, and a note that 95.3% of payments were accepted."
 imageCaption: "Full-month API error rate, November 2025 to September 2026. Source: Ecosystem Watch, run 26 October 2026."
