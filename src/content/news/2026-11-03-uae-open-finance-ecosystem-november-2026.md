@@ -1,144 +1,74 @@
 ---
-title: "UAE Open Finance: where the ecosystem stands in November 2026"
+title: "UAE Open Finance is showing up in the banking app"
 date: 2026-11-03
 type: community
 region: uae
 author: Open Finance OS
-description: "A 3 November 2026 reading of UAE Open Finance from the public directory and Ecosystem Watch: who publishes an authorization server, which API versions are declared, and what the logs show."
+description: "In November 2026, UAE Open Finance is something a customer can open in a banking app. Here is what that does and does not yet mean, and what has to move before the 31 December V2.2 deadline."
 image: /news/dfs-2026/cover.svg
-imageAlt: "UAE Open Finance in November 2026. A bar shows 13 of 30 production registrations publishing an authorization server on 2 November 2026."
-imageCaption: "Production directory snapshot, 2 November 2026, 14:47 UTC. 13 of 30 registrations publish an authorization server."
+imageAlt: "UAE Open Finance is showing up in the banking app, November 2026. A bar shows 13 of 30 production registrations publishing an authorization server on 2 November 2026."
+imageCaption: "Production directory snapshot, 2 November 2026. 13 of 30 registrations publish an authorization server."
 ---
 
-This note is dated 3 November 2026, during Dubai FinTech Summit at Madinat Jumeirah. The picture below is the public record of UAE Open Finance.
+Open a banking app in the UAE and, at one bank, open finance is no longer only a regulatory project. [Fintech News UAE reported on 22 October 2026](/news/2026-10-22-open-finance-arrives-on-the-nbf-direct-app-with-mu) that National Bank of Fujairah had added it to NBF Direct, with the rollout starting in September. Customers can share account data with approved third-party apps, link accounts at other banks, and see them in one place. They choose which approved firms can see the data. The report says the UAE central bank is bringing the model in step by step under its UAE Open Finance rules.
 
-<aside class="glance" aria-label="At a glance">
-<p class="glance-label">At a glance</p>
-<ul>
-<li><strong>Directory, 2 November 2026, 14:47 UTC.</strong> 30 production registrations. 13 publish an authorization server. 17 do not.</li>
-<li><strong>LFI role.</strong> 22 of the 30 hold it. 13 of those 22 publish an authorization server.</li>
-<li><strong>API declarations, same snapshot.</strong> 51 resources: 41 on v2.1, 7 on v1.2, 3 on v2.0, none on v2.2.</li>
-<li><strong>Baseline, 28 October 2026, 12:08 UTC.</strong> 12 of 30 published an authorization server.</li>
-<li><strong>Logs.</strong> 1,416,887 API calls in full months from November 2025 through September 2026. Ecosystem Watch run 2 November 2026, source data through 25 October 2026.</li>
-</ul>
-</aside>
+That is the shift this month. A person can meet UAE Open Finance inside an app they already use. The questions that follow are plain. What can a customer actually do? What is still plumbing? What has to change before 31 December 2026?
 
-## The directory
+## What can a customer actually do?
 
-The newest Observatory production snapshot is 2 November 2026, 14:47 UTC, from the public directory at data.directory.openfinance.ae. It lists **30** registrations. **13** publish an active authorization server with a nonempty issuer. **17** do not. That count is published metadata. Reachability, certification and traffic are separate questions. The [methodology](/observatory/methodology) is the definition.
+The NBF report is one bank, one app, and a rollout that began in September 2026. It describes a permission and a view: share data with an approved firm, link other banks, look at them together. It does not say every bank offers that screen, and it does not say how far the rollout had reached on the day of the report.
 
-On 28 October 2026, 12:08 UTC, the same count was **12 of 30**, with **18** not publishing an issuer. That baseline is the one in [12 of 30: Why Most UAE Open Finance Registrations Don't Publish an Authorization Server](/news/2026-10-29-12-of-30-uae-open-finance-authorization-servers).
+For a customer, UAE Open Finance becomes a button. For a fintech, there is a journey someone can try. For a bank, the screen a person sees and the directory record are not the same fact.
+
+## What is still plumbing?
+
+The public directory is the plumbing anyone can check. On 2 November 2026, at 14:47 UTC, **13 of 30** production registrations publish an active authorization server. The figure is from that day's Observatory snapshot of the trust-framework directory at data.directory.openfinance.ae. Publishing an authorization server means the registration has an active one with a nonempty issuer. It does not mean a customer can open a feature, and it does not measure traffic. The [methodology](/observatory/methodology) is the definition we use.
 
 <figure class="post-visual">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 440" width="1440" height="880" role="img" aria-labelledby="fig-eco-auth" focusable="false"><title id="fig-eco-auth">Two bars scaled from 0 to 30. On 28 October 2026 at 12:08 UTC, 12 of 30 production registrations publish an authorization server. On 2 November 2026 at 14:47 UTC, 13 of 30 do. Source: data.directory.openfinance.ae.</title>
-  <rect width="720" height="440" fill="#ffffff" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" width="1440" height="600" role="img" aria-labelledby="fig-eco-auth" focusable="false"><title id="fig-eco-auth">On 2 November 2026 at 14:47 UTC, 13 of 30 production registrations publish an authorization server. The bar is 13 parts in teal out of 30. Source: data.directory.openfinance.ae.</title>
+  <rect width="720" height="300" fill="#ffffff" />
   <rect width="720" height="6" fill="#E8A85C" />
   <g aria-hidden="true" font-family="DM Sans, system-ui, sans-serif">
-    <text x="40" y="48" fill="#526662" font-size="16" font-weight="600" letter-spacing="1.1">AUTHORIZATION SERVERS</text>
-    <text x="40" y="108" fill="#0D4F4F" font-size="48" font-weight="500">13 of 30</text>
-    <text x="40" y="148" fill="#132C2B" font-size="22">publish one, 2 November 2026</text>
-    <text x="40" y="206" fill="#132C2B" font-size="18">28 Oct</text>
+    <text x="40" y="52" fill="#526662" font-size="16" font-weight="600" letter-spacing="1.1">2 NOVEMBER 2026, 14:47 UTC</text>
+    <text x="40" y="118" fill="#0D4F4F" font-size="56" font-weight="500">13 of 30</text>
+    <text x="40" y="158" fill="#132C2B" font-size="22">publish an authorization server</text>
     <defs>
-      <clipPath id="eco-bar-oct">
-        <rect x="150" y="184" width="480" height="32" rx="8" />
-      </clipPath>
-      <clipPath id="eco-bar-nov">
-        <rect x="150" y="236" width="480" height="32" rx="8" />
+      <clipPath id="eco-auth-bar">
+        <rect x="40" y="186" width="630" height="40" rx="10" />
       </clipPath>
     </defs>
-    <g clip-path="url(#eco-bar-oct)">
-      <rect x="150" y="184" width="480" height="32" fill="#E7EFEA" />
-      <rect x="150" y="184" width="192" height="32" fill="#0D4F4F" />
+    <g clip-path="url(#eco-auth-bar)">
+      <rect x="40" y="186" width="630" height="40" fill="#E7EFEA" />
+      <rect x="40" y="186" width="273" height="40" fill="#0D4F4F" />
     </g>
-    <text x="648" y="206" fill="#0D4F4F" font-size="18" font-weight="600">12</text>
-    <text x="40" y="258" fill="#132C2B" font-size="18">2 Nov</text>
-    <g clip-path="url(#eco-bar-nov)">
-      <rect x="150" y="236" width="480" height="32" fill="#E7EFEA" />
-      <rect x="150" y="236" width="208" height="32" fill="#0D4F4F" />
-    </g>
-    <text x="648" y="258" fill="#0D4F4F" font-size="18" font-weight="600">13</text>
-    <text x="40" y="312" fill="#526662" font-size="16">Bars run from 0 to 30. 2 November: 13 with an issuer, 17 without.</text>
-    <text x="40" y="340" fill="#526662" font-size="16">28 October: 12 with an issuer, 18 without.</text>
-    <text x="40" y="388" fill="#526662" font-size="16">Source: data.directory.openfinance.ae. Snapshots at 12:08 UTC</text>
-    <text x="40" y="416" fill="#526662" font-size="16">on 28 October and 14:47 UTC on 2 November 2026.</text>
+    <text x="40" y="268" fill="#526662" font-size="16">Production directory snapshot. Source: data.directory.openfinance.ae.</text>
   </g>
 </svg>
-<figcaption>13 of 30 on 2 November 2026, 14:47 UTC. 17 do not publish an issuer. The 28 October baseline, 12:08 UTC, was 12 of 30. Public directory at data.directory.openfinance.ae.</figcaption>
+<figcaption>13 of 30 production registrations publish an authorization server. Snapshot of 2 November 2026, 14:47 UTC. Public directory at data.directory.openfinance.ae.</figcaption>
 </figure>
 
-**22** of the 30 registrations hold the LFI role. All **13** that publish an authorization server are in that group, so **9** LFI registrations do not. The other **8** registrations do not hold LFI and do not publish an authorization server. **25** of the 30 hold more than one directory role, so role counts are not a headcount of institutions. The snapshot's legacy TPP count is 0. That field is not a count of third-party providers.
+Read the bar as a map of what is published, not of what a customer can tap. A registration can publish the server and still have no journey in an app. The directory tells you who has published the authorization server. It does not tell you whose customers can already link another bank.
 
-Two dated registry changes sit behind the move from 12 to 13:
+Traffic is the other signal. Between November 2025 and September 2026, [Ecosystem Watch](/observatory/watch/) records **1,416,887** API calls. The run is dated 2 November 2026, and the logs run through 25 October 2026. October is left out because that month was still incomplete. Calls mean the pipes carried requests. They do not say which of those requests a person would recognise as the NBF Direct feature.
 
-- **27 October 2026, 11:37 UTC.** Al Buharia National Insurance Co joins the production directory as an LFI, with no authorization server and no API family. Registrations go from 29 to 30. The authorization-server count stays 12.
-- **29 October 2026, 12:18 UTC.** Standard Chartered first publishes an authorization server. It still has no API family on 2 November. The count becomes 13 of 30.
+## What has to change before 31 December?
 
-A [22 October 2026 item on this site](/news/2026-10-22-open-finance-arrives-on-the-nbf-direct-app-with-mu), sourced from fintechnews.ae, reports that the NBF Direct app added an open-finance feature and began rolling the changes out in September 2026. In the 2 November snapshot, NBF publishes an authorization server and an accounts family.
+Tier-1 banks are due to release V2.2 of the UAE Open Finance standards into production by 31 December 2026. The final text is not out. It is still a release candidate, and the roadmap still lists the publication date as TBC.
 
-UAE Open Finance is supervised by the Central Bank of the UAE. Banking and insurance services go through a central API Hub. The Hub is the OIDC/FAPI authorization server and token issuer. The [FAQ](/learn/faq) separates the CBUAE, the Al Tareq brand and Nebras, which operates the Hub.
+On the Ecosystem Watch run of 2 November 2026, **0 of 8** Tier-1 banks are registering V2.2. The text they would register against is not final, so the zero is expected. The deadline is fixed anyway.
 
-## What the APIs declare
+The countdown, and what a bank or a fintech can do while the wording is still moving, is in [UAE Open Finance V2.2: Due by Year-End, Still Not Final](/news/2026-11-02-uae-open-finance-v2-2-deadline/). Read that next. This note will not walk the same ground.
 
-The same 2 November snapshot lists **51** API resource declarations. **41** are v2.1, **7** are v1.2, **3** are v2.0, and **none** are v2.2. All 51 are marked Self-Certified. By family, the declarations are accounts 14, payments 12, confirmation of payee 11, products 10, insurance 2 and ATM 2.
+## What should you watch?
 
-<figure class="post-visual">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" width="1440" height="840" role="img" aria-labelledby="fig-eco-versions" focusable="false"><title id="fig-eco-versions">Bar chart of 51 production API resource declarations on 2 November 2026. v2.1 has 41, v1.2 has 7, v2.0 has 3, and v2.2 has 0. Bars are scaled from 0 to 51. Source: data.directory.openfinance.ae.</title>
-  <rect width="720" height="420" fill="#ffffff" />
-  <rect width="720" height="6" fill="#E8A85C" />
-  <g aria-hidden="true" font-family="DM Sans, system-ui, sans-serif">
-    <text x="40" y="44" fill="#526662" font-size="16" font-weight="600" letter-spacing="1.1">API VERSIONS</text>
-    <text x="40" y="92" fill="#0D4F4F" font-size="36" font-weight="500">51 declarations</text>
-    <text x="40" y="124" fill="#132C2B" font-size="18">Production directory, 2 November 2026, 14:47 UTC</text>
-    <text x="40" y="176" fill="#132C2B" font-size="18" font-weight="600">v2.1</text>
-    <rect x="120" y="156" width="510" height="28" rx="8" fill="#E7EFEA" />
-    <rect x="120" y="156" width="410" height="28" rx="8" fill="#0D4F4F" />
-    <text x="648" y="176" fill="#0D4F4F" font-size="18" font-weight="600">41</text>
-    <text x="40" y="228" fill="#132C2B" font-size="18" font-weight="600">v1.2</text>
-    <rect x="120" y="208" width="510" height="28" rx="8" fill="#E7EFEA" />
-    <rect x="120" y="208" width="70" height="28" rx="8" fill="#0D4F4F" />
-    <text x="648" y="228" fill="#0D4F4F" font-size="18" font-weight="600">7</text>
-    <text x="40" y="280" fill="#132C2B" font-size="18" font-weight="600">v2.0</text>
-    <rect x="120" y="260" width="510" height="28" rx="8" fill="#E7EFEA" />
-    <rect x="120" y="260" width="30" height="28" rx="8" fill="#0D4F4F" />
-    <text x="648" y="280" fill="#0D4F4F" font-size="18" font-weight="600">3</text>
-    <text x="40" y="332" fill="#132C2B" font-size="18" font-weight="600">v2.2</text>
-    <rect x="120" y="312" width="510" height="28" rx="8" fill="#F6F8F5" stroke="#E8A85C" stroke-width="2" />
-    <text x="648" y="332" fill="#0D4F4F" font-size="18" font-weight="600">0</text>
-    <text x="40" y="376" fill="#526662" font-size="16">Bars run from 0 to 51. Source: data.directory.openfinance.ae.</text>
-    <text x="40" y="402" fill="#526662" font-size="16">All 51 declarations are Self-Certified in this snapshot.</text>
-  </g>
-</svg>
-<figcaption>API resource declarations by version, production directory, 2 November 2026, 14:47 UTC. 41 on v2.1, 7 on v1.2, 3 on v2.0, none on v2.2.</figcaption>
-</figure>
+Watch for more apps that do what the NBF report describes: a person chooses an approved firm, shares an account, and sees other banks in one place. One reported rollout is a start. It is not yet the market.
 
-## What the logs show
+Watch the directory as metadata. An authorization server on a registration is the start of a question, not proof that a customer feature is live.
 
-[Ecosystem Watch](/observatory/watch/) reads the public Al Tareq platform logs. The newest run in the repo is 2 November 2026. Its source data runs through 25 October 2026. Full months are November 2025 through September 2026. October is still a partial month, so the rates below use full months only.
-
-- **1,416,887** API calls across those full months.
-- **September 2026** is the busiest full month, at **405,147** calls, recorded in the Watch as **31.8%** above the previous full month.
-- **18.4%** of full-month API calls returned a 4xx or 5xx response.
-- **95.3%** of full-month payment instructions were accepted. Acceptance is not final settlement.
-- **16** distinct LFI log keys had calls in the full months, including error-only keys and bank segments. That is not a count of licensed institutions.
-- **17** distinct non-empty TPP names had calls in those full months. The Watch does not treat that as a licensing count.
-- Of full-month calls, the Watch records **51.0%** on v2.1, **36.1%** on v1.2 and **13.0%** on v2.0. Those shares round to 100.1.
-
-The directory and the logs answer different questions. A published authorization server is metadata. A log key is observed traffic.
-
-## What to watch next
-
-The [2 November note on V2.2](/news/2026-11-02-uae-open-finance-v2-2-deadline) cites the Nebras roadmap, version 3.0, published 25 March 2026: Tier-1 banks and Tier-1 insurers have an LFI release deadline of **31 December 2026**. The Ecosystem Watch run of 2 November records **0 of 8** Tier-1 banks and **0 of 16** Tier-1 insurers with V2.2 registered. The 2 November directory snapshot agrees on the declarations: **0 of 51** are v2.2. The same note says the final text is still a release candidate and its publication date is TBC.
-
-Three directory facts are still open in the 2 November snapshot:
-
-1. **9** LFI registrations do not publish an authorization server.
-2. Standard Chartered publishes an authorization server and no API family.
-3. Al Buharia National Insurance Co is on the directory, as of 27 October, with neither an authorization server nor an API family.
-
-October's logs are not a full month yet. The 2 November Watch run counts **552,359** API calls in October through 25 October. The next full-month comparison is against September's 405,147.
+Watch V2.2. The 31 December deadline is close, the final text is still TBC, and the 2 November Watch run still shows no Tier-1 bank registering it. When the text lands, or the first registration appears, [that briefing](/news/2026-11-02-uae-open-finance-v2-2-deadline/) is where the detail sits.
 
 ## Stay in touch
 
 - **Subscribe to the newsletter** at [openfinance-os.org/newsletter](/newsletter).
 - **Join the community Slack** with [this invite link](https://join.slack.com/t/openfinance-os/shared_invite/zt-4f6yrsi0w-qPd32ve~7Czekf0BWJRgLQ).
-- **Read issue #1**, [UAE Open Finance: why 12 of 30 registrations publish an auth server](/newsletter/archive/uae-open-finance-why-12-of-30-registrations).
+- **Read issue #1** of the newsletter, on [why a registration publishes an authorization server](/newsletter/archive/uae-open-finance-why-12-of-30-registrations).

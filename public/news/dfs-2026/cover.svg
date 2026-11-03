@@ -2,14 +2,14 @@
   <rect width="1200" height="630" fill="#F6F8F5" />
   <rect width="1200" height="12" fill="#E8A85C" />
   <g aria-hidden="true" font-family="DM Sans, system-ui, sans-serif">
-    <g transform="translate(582 48)">
+    <g transform="translate(582 44)">
       <path d="M29 8a15 15 0 1 0 6 12" stroke="#0D4F4F" stroke-width="5.5" fill="none" />
       <path d="M12 20h16" stroke="#0D4F4F" stroke-width="4" />
       <circle cx="33" cy="7" r="4" fill="#E8A85C" />
     </g>
     <text
       x="600"
-      y="128"
+      y="124"
       text-anchor="middle"
       fill="#526662"
       font-size="20"
@@ -18,31 +18,31 @@
     >
       NOVEMBER 2026
     </text>
-    <text x="600" y="206" text-anchor="middle" fill="#0D4F4F" font-size="46" font-weight="500">
-      Where the ecosystem
-    </text>
-    <text x="600" y="264" text-anchor="middle" fill="#0D4F4F" font-size="46" font-weight="500">
-      stands
-    </text>
-    <text x="600" y="322" text-anchor="middle" fill="#132C2B" font-size="26">
+    <text x="600" y="200" text-anchor="middle" fill="#0D4F4F" font-size="44" font-weight="500">
       UAE Open Finance
+    </text>
+    <text x="600" y="258" text-anchor="middle" fill="#0D4F4F" font-size="40" font-weight="500">
+      is showing up in the
+    </text>
+    <text x="600" y="312" text-anchor="middle" fill="#0D4F4F" font-size="40" font-weight="500">
+      banking app
     </text>
     <defs>
       <clipPath id="dfs-cover-bar">
-        <rect x="390" y="378" width="420" height="28" rx="8" />
+        <rect x="390" y="360" width="420" height="28" rx="8" />
       </clipPath>
     </defs>
     <g clip-path="url(#dfs-cover-bar)">
-      <rect x="390" y="378" width="420" height="28" fill="#E7EFEA" />
-      <rect x="390" y="378" width="182" height="28" fill="#0D4F4F" />
+      <rect x="390" y="360" width="420" height="28" fill="#E7EFEA" />
+      <rect x="390" y="360" width="182" height="28" fill="#0D4F4F" />
     </g>
-    <text x="600" y="462" text-anchor="middle" fill="#0D4F4F" font-size="36" font-weight="500">
+    <text x="600" y="444" text-anchor="middle" fill="#0D4F4F" font-size="36" font-weight="500">
       13 of 30
     </text>
-    <text x="600" y="500" text-anchor="middle" fill="#132C2B" font-size="22">
+    <text x="600" y="484" text-anchor="middle" fill="#132C2B" font-size="22">
       publish an authorization server
     </text>
-    <text x="600" y="556" text-anchor="middle" fill="#526662" font-size="18">
+    <text x="600" y="548" text-anchor="middle" fill="#526662" font-size="18">
       Production directory snapshot, 2 November 2026
     </text>
   </g>
