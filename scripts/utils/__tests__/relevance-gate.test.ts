@@ -59,15 +59,19 @@ describe('relevance gate on labelled news PRs', () => {
     expect(report.before.falsePositives).toBe(54);
     expect(report.before.precision).toBeCloseTo(10 / 64, 5);
 
-    expect(report.after.truePositives).toBe(8);
-    expect(report.after.falsePositives).toBe(3);
-    expect(report.after.falseNegatives).toBe(2);
-    expect(report.after.precision).toBeCloseTo(8 / 11, 5);
-    expect(report.after.recall).toBeCloseTo(0.8, 5);
+    // Global product stories that were merged before the international rule
+    // (pay-by-bank surveys, US open-finance launches) are now out of scope.
+    expect(report.after.truePositives).toBe(2);
+    expect(report.after.falsePositives).toBe(1);
+    expect(report.after.falseNegatives).toBe(8);
+    expect(report.after.precision).toBeCloseTo(2 / 3, 5);
+    expect(report.after.recall).toBeCloseTo(0.2, 5);
     expect(report.after.precision).toBeGreaterThan(report.before.precision);
 
-    expect(report.falsePositives.map((item) => item.number).sort()).toEqual([630, 640, 676]);
-    expect(report.falseNegatives.map((item) => item.number).sort()).toEqual([647, 668]);
+    expect(report.falsePositives.map((item) => item.number).sort()).toEqual([640]);
+    expect(report.falseNegatives.map((item) => item.number).sort()).toEqual([
+      645, 647, 650, 663, 668, 688, 696, 701,
+    ]);
   });
 
   it('keeps the merged AI-agent essays out because they are not about payments, APIs, or open finance', () => {
@@ -109,13 +113,23 @@ describe('assessRelevance', () => {
   it('accepts a core term in the title and a UAE programme mention in the body', () => {
     const titleOnly = assessRelevance(
       article({
+        title: 'FCA consults on pay by bank growth',
+        description:
+          'The Financial Conduct Authority surveyed bill-pay behaviour and account-to-account checkout under the UK open banking rules.',
+      })
+    );
+    expect(titleOnly.accept).toBe(true);
+    expect(titleOnly.confidence).toBeGreaterThanOrEqual(0.55);
+
+    const globalProduct = assessRelevance(
+      article({
         title: 'Pay by Bank sector poised for growth says survey',
         description:
           'A survey of bill-pay behaviour finds growing interest in account-to-account checkout.',
       })
     );
-    expect(titleOnly.accept).toBe(true);
-    expect(titleOnly.confidence).toBeGreaterThanOrEqual(0.55);
+    expect(globalProduct.accept).toBe(false);
+    expect(globalProduct.reason).toBe('international-scope');
 
     const bodyOnly = assessRelevance(
       article({
@@ -124,7 +138,7 @@ describe('assessRelevance', () => {
       })
     );
     expect(bodyOnly.accept).toBe(false);
-    expect(bodyOnly.reason).toBe('below-confidence');
+    expect(bodyOnly.reason).toBe('international-scope');
 
     const bodyPlusProgramme = assessRelevance(
       article({
@@ -264,5 +278,73 @@ describe('assessRelevance', () => {
     );
     expect(software.accept).toBe(false);
     expect(software.reason).toBe('no-core-term');
+  });
+
+  it('rejects the off-topic fintech items that crowded the digest', () => {
+    const rejected = [
+      {
+        title: 'Mastercard and FAB Give UAE Cardholders a Chance to Win Messi Memorabilia',
+        description:
+          'Selected cardholders in the UAE played a game linked to Lionel Messi and could win memorabilia.',
+      },
+      {
+        title: 'Qatar Expands Asset Management Scheme to QAR5 Billion',
+        description:
+          'Doha Investment is expanding Qatar’s Active Asset Management Initiative with new cash from the Qatar Investment Authority.',
+      },
+      {
+        title: 'Mukuru Widens Paymentology Partnership with New Account and Card',
+        description:
+          'Mukuru has launched its new Account and Card in South Africa, moving the remittance specialist into everyday financial services. Offered with Bank Zero.',
+      },
+      {
+        title:
+          'Talking Innovation, Inclusion, and Accountability in Banking with NBKC’s Melissa Eggleston',
+        description:
+          'A conversation with NBKC about how a US bank thinks about inclusion, with no open-finance programme in view.',
+      },
+      {
+        title: 'Plaid expands open banking coverage to more US banks',
+        description: 'The data network added account information connections for retail banks.',
+      },
+    ];
+    for (const item of rejected) {
+      const decision = assessRelevance(article(item));
+      expect(decision.accept, item.title).toBe(false);
+    }
+  });
+
+  it('accepts Gulf open finance and peer-regime or agentic international stories', () => {
+    const accepted = [
+      {
+        title: 'CBUAE confirms open finance data sharing for retail customers',
+        description: 'Nebras connected the first banks under Al Tareq.',
+      },
+      {
+        title: 'Saudi Central Bank grants the first open banking licence',
+        description: 'SAMA licensed a provider to offer account information services.',
+      },
+      {
+        title: 'CBB updates the open banking rulebook',
+        description: 'The Central Bank of Bahrain revised account information rules.',
+      },
+      {
+        title: 'FCA consults on open banking rules for variable recurring payments',
+        description:
+          'The Financial Conduct Authority set out how PSD3 should treat account-to-account payments.',
+      },
+      {
+        title: 'European Commission publishes FiDA open finance proposal',
+        description:
+          'The financial data access regulation would extend open finance beyond payment accounts.',
+      },
+      {
+        title: 'Mastercard Agent Pay reaches agentic checkout',
+        description: 'An agent can pay a merchant after the cardholder approves the mandate.',
+      },
+    ];
+    for (const item of accepted) {
+      expect(assessRelevance(article(item)).accept, item.title).toBe(true);
+    }
   });
 });

@@ -20,9 +20,11 @@ import {
 } from '../news-api-client.js';
 import {
   cleanGoogleNewsDescription,
+  decodeGoogleNewsArticleUrl,
   normalizeGoogleNewsItem,
   parseFeed,
 } from '../rss-feed-client.js';
+import { articleDomain } from '../diversity.js';
 
 const NOW = new Date('2026-09-12T12:00:00Z');
 
@@ -314,7 +316,33 @@ describe('Google News feed handling', () => {
     const [item] = parseFeed(xml, 'Google News - Open Finance UAE', 'google-news');
     expect(item.title).toBe('CBUAE confirms open finance go-live for insurance');
     expect(item.source).toBe('The National');
+    expect(item.publisherUrl).toBe('https://www.thenationalnews.com');
+    expect(item.feedName).toBe('Google News - Open Finance UAE');
     expect(item.link).toBe('https://news.google.com/rss/articles/abc?oc=5');
+    expect(articleDomain({ url: item.link, publisherUrl: item.publisherUrl })).toBe(
+      'thenationalnews.com'
+    );
+  });
+
+  it('resolves a Google News article id that still embeds the publisher URL', () => {
+    const id = Buffer.from(
+      'https://www.finextra.com/newsarticle/1/open-banking-rules',
+      'latin1'
+    ).toString('base64url');
+    const embedded = `<?xml version="1.0"?><rss><channel><item>
+<title>FCA consults on open banking rules - Finextra</title>
+<link>https://news.google.com/rss/articles/${id}</link>
+<pubDate>Thu, 11 Sep 2026 07:30:00 GMT</pubDate>
+<description>FCA consults on open banking rules</description>
+<source url="https://www.finextra.com">Finextra</source>
+</item></channel></rss>`;
+    expect(decodeGoogleNewsArticleUrl(`https://news.google.com/rss/articles/${id}`)).toBe(
+      'https://www.finextra.com/newsarticle/1/open-banking-rules'
+    );
+    const [item] = parseFeed(embedded, 'Google News - Open Banking', 'google-news');
+    expect(item.link).toBe('https://www.finextra.com/newsarticle/1/open-banking-rules');
+    expect(item.source).toBe('Finextra');
+    expect(articleDomain({ url: item.link, publisherUrl: item.publisherUrl })).toBe('finextra.com');
   });
 
   it('leaves plain RSS titles untouched', () => {

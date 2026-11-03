@@ -129,8 +129,6 @@
     "Zawya",
     "WAM",
     "Emirates News Agency",
-    "Fintech News Middle East",
-    "Fintechnews Middle East",
     "Wamda",
     "MAGNiTT",
     "Open Banking Excellence",
@@ -239,12 +237,16 @@
     {
       "name": "FinTech Futures",
       "url": "https://www.fintechfutures.com/feed/",
-      "priority": 1
+      "priority": 1,
+      "enabled": false,
+      "note": "HTTP 404 from the curator user agent on 2026-11-03 (reported as 403 from other networks). Kept disabled until the publisher restores a feed."
     },
     {
       "name": "The Paypers",
       "url": "https://thepaypers.com/rss",
-      "priority": 1
+      "priority": 1,
+      "enabled": false,
+      "note": "HTTP 200 but the document contains no items. Disabled rather than deleted."
     },
     {
       "name": "PYMNTS - Banking",
@@ -264,17 +266,22 @@
     {
       "name": "Bank Automation News",
       "url": "https://bankautomationnews.com/feed/",
-      "priority": 2
+      "priority": 2,
+      "enabled": false,
+      "note": "HTTP 403 from the curator user agent. Likely bot-blocking; disabled rather than deleted."
     },
     {
       "name": "Finovate",
       "url": "https://finovate.com/feed/",
-      "priority": 2
+      "priority": 2,
+      "lowConfidence": true,
+      "note": "Returned 200 with items from this environment, but the feed 403s from some networks. Failures stay non-fatal."
     },
     {
       "name": "Fintech News Middle East",
       "url": "https://fintechnews.ae/feed/",
-      "priority": 1
+      "priority": 2,
+      "note": "Demoted from priority 1. One slot per run, no preferred-source bonus, house-tier penalty."
     },
     {
       "name": "UK Open Banking (OBIE)",
@@ -286,24 +293,112 @@
       "name": "Zawya - Banking",
       "url": "https://www.zawya.com/en/rss-feed/banking-finance.xml",
       "priority": 1,
-      "category": "regional"
+      "category": "regional",
+      "enabled": false,
+      "note": "banking-finance.xml returns HTTP 400. Disabled rather than deleted."
     },
     {
       "name": "Gulf News - Business",
       "url": "https://gulfnews.com/rss/business",
       "priority": 2,
-      "category": "regional"
+      "category": "regional",
+      "enabled": false,
+      "note": "/rss/business returns HTTP 404. Disabled rather than deleted."
     },
     {
       "name": "Arabian Business",
       "url": "https://www.arabianbusiness.com/rss",
       "priority": 2,
-      "category": "regional"
+      "category": "regional",
+      "enabled": false,
+      "note": "HTTP 403 to the curator user agent on /rss and /feed. A browser user agent can read /feed, so this is likely bot-blocking. Disabled rather than deleted."
     },
     {
       "name": "Fintech Global",
       "url": "https://fintech.global/feed/",
       "priority": 2
+    },
+    {
+      "name": "Open Banking Expo",
+      "url": "https://www.openbankingexpo.com/feed/",
+      "priority": 1,
+      "category": "industry"
+    },
+    {
+      "name": "The National - Business",
+      "url": "https://www.thenationalnews.com/arc/outboundfeeds/rss/category/business/?outputType=xml",
+      "priority": 2,
+      "category": "regional",
+      "note": "Broad business feed. Only items that pass the relevance gate are proposed."
+    },
+    {
+      "name": "Khaleej Times",
+      "url": "https://www.khaleejtimes.com/stories.rss",
+      "priority": 2,
+      "category": "regional",
+      "note": "Broad feed. Only items that pass the relevance gate are proposed."
+    },
+    {
+      "name": "Wamda",
+      "url": "https://www.wamda.com/feed",
+      "priority": 2,
+      "category": "regional",
+      "note": "Broad regional startup feed. Only items that pass the relevance gate are proposed."
+    },
+    {
+      "name": "Finextra - AI",
+      "url": "https://www.finextra.com/rss/channel.aspx?channel=ai",
+      "priority": 1,
+      "category": "industry"
+    },
+    {
+      "name": "Payments Dive",
+      "url": "https://www.paymentsdive.com/feeds/news/",
+      "priority": 2,
+      "category": "industry",
+      "note": "Broad payments feed. Only items that pass the relevance gate are proposed."
+    },
+    {
+      "name": "Banking Dive",
+      "url": "https://www.bankingdive.com/feeds/news/",
+      "priority": 2,
+      "category": "industry",
+      "note": "Broad banking feed. Only items that pass the relevance gate are proposed."
+    },
+    {
+      "name": "TechCrunch - Fintech",
+      "url": "https://techcrunch.com/category/fintech/feed/",
+      "priority": 2,
+      "category": "industry",
+      "note": "Broad fintech feed. Only items that pass the relevance gate are proposed."
+    },
+    {
+      "name": "Google News - Open Banking Saudi",
+      "url": "https://news.google.com/rss/search?q=%22open+banking%22+(Saudi+OR+SAMA)+-site:centralbank.ae&hl=en&gl=GB&ceid=GB:en",
+      "priority": 1,
+      "category": "regional",
+      "format": "google-news"
+    },
+    {
+      "name": "Google News - Agentic payments networks",
+      "url": "https://news.google.com/rss/search?q=(%22agentic+payments%22+OR+%22agentic+commerce%22)+(Visa+OR+Mastercard+OR+Stripe+OR+OpenAI)&hl=en-US&gl=US&ceid=US:en",
+      "priority": 1,
+      "category": "industry",
+      "format": "google-news"
+    },
+    {
+      "name": "Google News - AI agents banking Gulf",
+      "url": "https://news.google.com/rss/search?q=%22AI+agents%22+banking+(UAE+OR+Gulf+OR+GCC)&hl=en-AE&gl=AE&ceid=AE:en",
+      "priority": 1,
+      "category": "industry",
+      "format": "google-news"
+    },
+    {
+      "name": "Google News - Open Finance Gulf independent",
+      "url": "https://news.google.com/rss/search?q=%22open+finance%22+(UAE+OR+Gulf)+-site:centralbank.ae+-site:nebras-open-finance.com+-site:wam.ae&hl=en-AE&gl=AE&ceid=AE:en",
+      "priority": 1,
+      "category": "regional",
+      "format": "google-news"
     }
   ],
   "keyCompanies": [
@@ -373,6 +468,20 @@
     "raises funding"
   ],
   "maxArticlesPerRun": 5,
+  "maxPerDomainPerRun": 1,
+  "maxDomainShareWeekly": 0.3,
+  "minInternationalPerRun": 2,
+  "pressReleasePenalty": 25,
+  "pressReleaseUrlPatterns": [
+    "/pressarticle/",
+    "/press-release",
+    "/press-releases/",
+    "prnewswire.com",
+    "businesswire.com",
+    "globenewswire.com",
+    "einpresswire.com",
+    "openpr.com"
+  ],
   "lookbackHours": 168,
   "minConfidence": 0.55,
   "futureToleranceHours": 6,
@@ -380,7 +489,7 @@
   "regionThresholds": {
     "uae": 20,
     "mena": 35,
-    "global": 60
+    "global": 40
   },
   "requireCoreTermForGlobal": true,
   "breakingNewsBonus": 20,

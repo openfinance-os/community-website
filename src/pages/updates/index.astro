@@ -4,10 +4,13 @@ import NewsCard from '@components/news/NewsCard.astro';
 import NewsletterSignup from '@components/common/NewsletterSignup.astro';
 import { getCollection } from 'astro:content';
 import { NEWSLETTER_PITCH, NEWSLETTER_SOURCES } from '@lib/newsletter';
+import { newsOrigin, type NewsOrigin } from '@lib/news-origin';
 
 // Get all news, newest first
 const allNews = await getCollection('news');
 const sortedNews = allNews.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const externalNews = sortedNews.filter((article) => newsOrigin(article) === 'external');
+const ownNews = sortedNews.filter((article) => newsOrigin(article) !== 'external');
 
 // Filter types for news
 const newsTypes = ['all', 'official', 'milestone', 'community', 'global', 'opinion'];
@@ -68,11 +71,11 @@ const newsRegionLabels: Record<string, string> = {
         </div>
       </div>
 
+      <h2 class="coverage-heading">External coverage</h2>
       <div class="news-grid" id="news-grid">
-        {sortedNews.map((article) => (
+        {externalNews.map((article) => (
           <div data-news-type={article.data.type} data-news-region={article.data.region}>
             <NewsCard
-              headingLevel={2}
               title={article.data.title}
               date={article.data.date}
               type={article.data.type}
@@ -82,6 +85,7 @@ const newsRegionLabels: Record<string, string> = {
               slug={article.id}
               source={article.data.source}
               external={article.data.external}
+              origin="external"
             />
           </div>
         ))}
@@ -90,6 +94,31 @@ const newsRegionLabels: Record<string, string> = {
       {sortedNews.length === 0 && (
         <div class="empty-state">
           <p>No news articles yet. Check back soon!</p>
+        </div>
+      )}
+
+      {ownNews.length > 0 && (
+        <div class="own-section">
+          <h2>From Open Finance OS</h2>
+          <p class="own-lede">
+            Weekly digests and analysis written here, separate from external coverage.
+          </p>
+          <div class="news-grid">
+            {ownNews.map((article) => (
+              <NewsCard
+                title={article.data.title}
+                date={article.data.date}
+                type={article.data.type}
+                region={article.data.region}
+                author={article.data.author}
+                description={article.data.description}
+                slug={article.id}
+                source={article.data.source}
+                external={article.data.external}
+                origin={newsOrigin(article) as NewsOrigin}
+              />
+            ))}
+          </div>
         </div>
       )}
 
@@ -282,6 +311,33 @@ const newsRegionLabels: Record<string, string> = {
     color: var(--color-text-secondary);
   }
 
+  .coverage-heading {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--color-text);
+    margin-bottom: var(--space-6);
+  }
+
+  .own-section {
+    margin-top: var(--space-12);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .own-section h2 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--color-text);
+    margin-bottom: var(--space-3);
+  }
+
+  .own-lede {
+    max-width: 40rem;
+    margin: 0 0 var(--space-6);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+
   /* External News */
   .external-news {
     margin-top: var(--space-12);
@@ -379,6 +435,19 @@ const newsRegionLabels: Record<string, string> = {
   :global([data-theme='dark']) .empty-state {
     background: linear-gradient(135deg, var(--color-soft) 0%, rgba(15, 118, 110, 0.1) 100%);
     border-color: var(--color-border);
+    color: var(--color-text-secondary);
+  }
+
+  :global([data-theme='dark']) .coverage-heading,
+  :global([data-theme='dark']) .own-section h2 {
+    color: var(--color-text);
+  }
+
+  :global([data-theme='dark']) .own-section {
+    border-top-color: var(--color-border);
+  }
+
+  :global([data-theme='dark']) .own-lede {
     color: var(--color-text-secondary);
   }
 

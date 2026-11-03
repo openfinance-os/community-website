@@ -30,7 +30,7 @@ import { fetchNewsArticles, rankArticles, scoreArticle } from './utils/news-api-
 import { fetchRssArticles, getRssSourceBonus } from './utils/rss-feed-client.js';
 import { fetchHtmlArticles } from './utils/html-news-client.js';
 import { processArticles, resolveSummarizerModel } from './utils/article-summarizer.js';
-import { createDigestPR, closeOldPRs, fetchProposedSlugs } from './utils/github-pr-creator.js';
+import { createDigestPR, closeOldPRs, fetchProposedHistory } from './utils/github-pr-creator.js';
 import {
   isDuplicateTitle,
   normalizeUrl,
@@ -39,6 +39,13 @@ import {
 } from './utils/article-filters.js';
 import { assessRelevance } from './utils/relevance-gate.js';
 import { sendSlackNotification, sendErrorNotification } from './utils/slack-notifier.js';
+import { inferRegion } from './utils/article-filters.js';
+import {
+  articleDomain,
+  loadPublishedDomainHistory,
+  mergeDomainHistory,
+  selectDiverseArticles,
+} from './utils/diversity.js';
 import type { NewsSourceConfig, CuratedArticle, NewsApiArticle } from './types/news-curation.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -226,9 +233,12 @@ async function main() {
 
     const articles = allArticles;
 
-    // Step 2: Rank articles (with RSS source bonus)
+    // Step 2: Rank articles (with RSS source bonus).
+    // The pool is wider than the digest so domain caps and reserved
+    // international slots still have somewhere to draw from.
     console.log('\nStep 2: Ranking articles by relevance...\n');
-    const rankedArticles = rankArticles(articles, config, config.maxArticlesPerRun * 3, {
+    const candidatePool = Math.max(config.maxArticlesPerRun * 8, 40);
+    const rankedArticles = rankArticles(articles, config, candidatePool, {
       getRssBonus: (sourceName) => getRssSourceBonus(sourceName, config.rssFeeds || []),
       verbose,
     });
@@ -248,9 +258,10 @@ async function main() {
     const existingSlugs = getExistingArticleSlugs();
     console.log(`  Existing articles: ${existingSlugs.size}`);
 
-    const proposedSlugs = process.env.GH_TOKEN
-      ? await fetchProposedSlugs(githubOptions)
-      : new Set<string>();
+    const proposed = process.env.GH_TOKEN
+      ? await fetchProposedHistory(githubOptions)
+      : { slugs: new Set<string>(), domains: [] };
+    const proposedSlugs = proposed.slugs;
     console.log(`  Previously proposed (open or closed PRs): ${proposedSlugs.size}`);
 
     const newArticles = rankedArticles.filter((article) => {
@@ -273,13 +284,32 @@ async function main() {
       return;
     }
 
-    // Take only top N
-    const topArticles = newArticles.slice(0, config.maxArticlesPerRun);
+    const newsDir = join(__dirname, '..', 'src', 'content', 'news');
+    const domainHistory = mergeDomainHistory([
+      ...loadPublishedDomainHistory(newsDir),
+      ...proposed.domains,
+    ]);
+    const diverse = selectDiverseArticles(newArticles, config, domainHistory);
+    const topArticles = diverse.articles;
+    console.log(
+      `  Diversity: ${topArticles.length} selected, ${diverse.reservedInternational} international slot${diverse.reservedInternational === 1 ? '' : 's'} filled`
+    );
+    for (const note of diverse.skipped.slice(0, 12)) {
+      console.log(`  ${note}`);
+    }
 
     const scores = new Map<string, number>();
     const confidences = new Map<string, number>();
     topArticles.forEach((article) => {
-      scores.set(article.url, scoreArticle(article, config));
+      scores.set(
+        article.url,
+        scoreArticle(article, config, {
+          rssSourceBonus: getRssSourceBonus(
+            article.feedName || article.source.name,
+            config.rssFeeds || []
+          ),
+        })
+      );
       confidences.set(article.url, assessRelevance(article, config).confidence);
     });
 
@@ -291,6 +321,8 @@ async function main() {
         const decision = assessRelevance(article, config);
         console.log(`${index + 1}. ${article.title}`);
         console.log(`   Source: ${article.source.name}`);
+        console.log(`   Domain: ${articleDomain(article)}`);
+        console.log(`   Region: ${inferRegion(article)}`);
         console.log(`   URL: ${stripTrackingParams(article.url)}`);
         console.log(`   Score: ${scores.get(article.url) || 0}`);
         console.log(

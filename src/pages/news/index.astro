@@ -6,14 +6,19 @@ import Badge from '@components/common/Badge.astro';
 import NewsletterSignup from '@components/common/NewsletterSignup.astro';
 import { getCollection } from 'astro:content';
 import { NEWSLETTER_PITCH, NEWSLETTER_SOURCES } from '@lib/newsletter';
+import { newsOrigin, type NewsOrigin } from '@lib/news-origin';
 
 // Get all news entries, sorted by date descending
 const allNews = await getCollection('news');
 const sortedNews = allNews.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
-// Separate featured/latest article from the rest
-const featuredArticle = sortedNews[0];
-const remainingNews = sortedNews.slice(1);
+const externalNews = sortedNews.filter((article) => newsOrigin(article) === 'external');
+const ownNews = sortedNews.filter((article) => newsOrigin(article) !== 'external');
+
+// The hero is the latest external story so a weekly digest does not crowd out coverage.
+const featuredArticle = externalNews[0] ?? sortedNews[0];
+const remainingNews = externalNews.filter((article) => article.id !== featuredArticle?.id);
+const ownList = ownNews.filter((article) => article.id !== featuredArticle?.id);
 
 // Filter types
 const types = ['all', 'official', 'milestone', 'community', 'global', 'opinion'];
@@ -129,7 +134,9 @@ const getSourceName = (url: string, author?: string): string => {
                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
               </svg>
             </span>
-            Latest
+            {featuredArticle && newsOrigin(featuredArticle) === 'external'
+              ? 'Latest coverage'
+              : 'Latest'}
           </div>
           <a
             href={getFeaturedHref()}
@@ -191,19 +198,23 @@ const getSourceName = (url: string, author?: string): string => {
 
     <section class="news-section">
       <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">All Articles</h2>
-          <span class="article-count" id="article-count">
-            {remainingNews.length} article{remainingNews.length !== 1 ? 's' : ''}
-          </span>
-        </div>
+        {remainingNews.length > 0 && (
+          <div class="section-header">
+            <h2 class="section-title">External coverage</h2>
+            <span class="article-count" id="article-count">
+              {remainingNews.length} article{remainingNews.length !== 1 ? 's' : ''}
+            </span>
+          </div>
+        )}
 
-        <NewsFilter
-          types={types}
-          typeLabels={typeLabels}
-          regions={regions}
-          regionLabels={regionLabels}
-        />
+        {remainingNews.length > 0 && (
+          <NewsFilter
+            types={types}
+            typeLabels={typeLabels}
+            regions={regions}
+            regionLabels={regionLabels}
+          />
+        )}
 
         <div class="news-grid" id="news-grid">
           {remainingNews.map((article) => (
@@ -217,6 +228,7 @@ const getSourceName = (url: string, author?: string): string => {
               slug={article.id}
               source={article.data.source}
               external={article.data.external}
+              origin="external"
             />
           ))}
         </div>
@@ -245,6 +257,33 @@ const getSourceName = (url: string, author?: string): string => {
         {sortedNews.length === 0 && (
           <div class="empty-state">
             <p>No news articles yet. Check back soon!</p>
+          </div>
+        )}
+
+        {ownList.length > 0 && (
+          <div class="own-section">
+            <div class="section-header">
+              <h2 class="section-title">From Open Finance OS</h2>
+            </div>
+            <p class="own-lede">
+              Weekly digests and analysis written here. External coverage is separate, above.
+            </p>
+            <div class="news-grid" id="own-news-grid">
+              {ownList.map((article) => (
+                <NewsCard
+                  title={article.data.title}
+                  date={article.data.date}
+                  type={article.data.type}
+                  region={article.data.region}
+                  author={article.data.author}
+                  description={article.data.description}
+                  slug={article.id}
+                  source={article.data.source}
+                  external={article.data.external}
+                  origin={newsOrigin(article) as NewsOrigin}
+                />
+              ))}
+            </div>
           </div>
         )}
 
@@ -700,6 +739,19 @@ const getSourceName = (url: string, author?: string): string => {
     border-color: var(--color-primary-300);
   }
 
+  .own-section {
+    margin-top: var(--space-12);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .own-lede {
+    max-width: 40rem;
+    margin: 0 0 var(--space-6);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+
   .external-news {
     margin-top: var(--space-12);
     padding-top: var(--space-8);
@@ -877,8 +929,13 @@ const getSourceName = (url: string, author?: string): string => {
     border-color: var(--color-primary-400);
   }
 
+  :global([data-theme='dark']) .own-section,
   :global([data-theme='dark']) .external-news {
     border-top-color: var(--color-border);
+  }
+
+  :global([data-theme='dark']) .own-lede {
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .external-news h2 {

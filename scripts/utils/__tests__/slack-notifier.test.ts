@@ -40,6 +40,10 @@ describe('buildDigestSlackMessage', () => {
     expect(text).toContain('Finextra');
     expect(text).toContain('CBUAE');
     expect(text).not.toContain('Beat:');
+    expect(text).toContain('*Mix*');
+    expect(text).toContain('Domains: example.com 2');
+    expect(text).toContain('Regions: uae 2');
+    expect(text).toContain('Types: official 2');
     expect(text.match(/pull\/800/g)).toHaveLength(1);
   });
 

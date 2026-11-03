@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import type { CuratedArticle } from '../../types/news-curation.js';
 import {
+  domainsFromPullRequest,
   generateDigestBody,
   generateMarkdownContent,
   slugsFromPullRequest,
@@ -24,6 +25,7 @@ describe('generateMarkdownContent', () => {
         'https://www.finextra.com/newsarticle/48659/zen?utm_medium=rssfinextra&utm_source=finextrafeed',
     });
     expect(md).toContain('source: https://www.finextra.com/newsarticle/48659/zen');
+    expect(md).toContain('origin: external');
     expect(md).not.toContain('utm_');
   });
 });
@@ -63,6 +65,27 @@ describe('generateDigestBody', () => {
     );
     expect(body).toContain('| Open Finance and agentic access to data and payments |');
     expect(body).toContain('**Beat:** Open Finance and agentic access to data and payments');
+  });
+});
+
+describe('domainsFromPullRequest', () => {
+  it('counts each article link once and skips the repository host', () => {
+    const items = domainsFromPullRequest(
+      [
+        '- **Link:** https://www.finextra.com/newsarticle/1/open-banking',
+        '- **Link:** https://www.finextra.com/newsarticle/1/open-banking',
+        'https://github.com/openfinance-os/community-website/pull/1',
+        'https://news.google.com/rss/articles/opaque',
+      ].join('\n'),
+      '2026-11-01T08:00:00Z'
+    );
+    expect(items).toEqual([
+      {
+        domain: 'finextra.com',
+        at: '2026-11-01T08:00:00Z',
+        url: 'https://www.finextra.com/newsarticle/1/open-banking',
+      },
+    ]);
   });
 });
 

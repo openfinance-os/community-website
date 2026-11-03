@@ -12,6 +12,7 @@ interface Props {
   source?: string;
   external?: boolean;
   headingLevel?: 2 | 3;
+  origin?: 'external' | 'digest' | 'analysis';
 }
 
 const {
@@ -25,6 +26,7 @@ const {
   source,
   external,
   headingLevel = 3,
+  origin,
 } = Astro.props;
 const Heading = headingLevel === 2 ? 'h2' : 'h3';
 
@@ -101,6 +103,7 @@ const formatDate = (d: Date) => {
   data-title={title}
   data-slug={slug}
   data-external={isExternal ? 'true' : 'false'}
+  data-origin={origin || ''}
   data-source={source || ''}
   target={isExternal ? '_blank' : undefined}
   rel={isExternal ? 'noopener noreferrer' : undefined}
@@ -122,7 +125,15 @@ const formatDate = (d: Date) => {
   {description && <p class="card-description">{description}</p>}
 
   <div class="card-footer">
-    <span class="author">{isExternal ? `via ${sourceName}` : `By ${author}`}</span>
+    <span class="author">
+      {origin === 'digest'
+        ? `Weekly digest · ${author}`
+        : origin === 'analysis'
+          ? `Analysis · ${author}`
+          : isExternal
+            ? `via ${sourceName}`
+            : `By ${author}`}
+    </span>
     <span class="read-more">
       {isExternal ? 'View source' : 'Read more'}
       {isExternal ? (
