@@ -1,5 +1,6 @@
 // Slack Webhook Integration for News Curation Notifications
 import type { CuratedArticle } from '../types/news-curation.js';
+import { articleDomain } from './diversity.js';
 
 export interface SlackNotifierOptions {
   webhookUrl: string;
@@ -18,6 +19,36 @@ function excerpt(summary: string, max: number = 180): string {
   return flat.length > max ? `${flat.slice(0, max - 1)}…` : flat;
 }
 
+function formatMix(counts: Map<string, number>): string {
+  return [...counts.entries()]
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .map(([key, count]) => `${key} ${count}`)
+    .join(' · ');
+}
+
+/** Per-domain and per-category counts for the digest Slack message. */
+export function summarizeDigestMix(articles: CuratedArticle[]): {
+  domains: string;
+  regions: string;
+  types: string;
+} {
+  const domains = new Map<string, number>();
+  const regions = new Map<string, number>();
+  const types = new Map<string, number>();
+  for (const article of articles) {
+    const domain =
+      articleDomain({ url: article.sourceUrl, publisherUrl: article.publisherUrl }) || 'unknown';
+    domains.set(domain, (domains.get(domain) || 0) + 1);
+    regions.set(article.region, (regions.get(article.region) || 0) + 1);
+    types.set(article.type, (types.get(article.type) || 0) + 1);
+  }
+  return {
+    domains: formatMix(domains),
+    regions: formatMix(regions),
+    types: formatMix(types),
+  };
+}
+
 /** One Slack message for the day's digest, not one message per article. */
 export function buildDigestSlackMessage(notice: DigestNotice): { blocks: object[] } {
   const dateLabel = new Date(`${notice.date}T00:00:00Z`).toLocaleDateString('en-GB', {
@@ -33,6 +64,8 @@ export function buildDigestSlackMessage(notice: DigestNotice): { blocks: object[
       return `*${index + 1}. ${article.title}*\n${getTypeEmoji(article.type)} ${article.source} · confidence ${confidence}${beat}\n${excerpt(article.summary)}`;
     })
     .join('\n\n');
+
+  const mix = summarizeDigestMix(notice.articles);
 
   return {
     blocks: [
@@ -51,6 +84,13 @@ export function buildDigestSlackMessage(notice: DigestNotice): { blocks: object[
       },
       { type: 'divider' },
       { type: 'section', text: { type: 'mrkdwn', text: lines } },
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: `*Mix*\nDomains: ${mix.domains}\nRegions: ${mix.regions}\nTypes: ${mix.types}`,
+        },
+      },
       {
         type: 'actions',
         elements: [

@@ -66,6 +66,14 @@ const newsCollection = defineCollection({
     region: z.enum(newsRegions),
     author: z.string().default('Community'),
     source: z.string().url().optional(),
+    /**
+     * Who wrote the post. External coverage has a `source` URL. Digests and
+     * analysis are published here and have no `source`. Omitted files are
+     * classified from `source` and the slug.
+     */
+    origin: z.enum(['external', 'digest', 'analysis']).optional(),
+    /** Publisher homepage when `source` is an aggregator redirect. */
+    publisher: z.string().url().optional(),
     description: z.string().optional(),
     // Public path. SVG covers are inlined; a same-name PNG is the social image.
     image: z.string().optional(),

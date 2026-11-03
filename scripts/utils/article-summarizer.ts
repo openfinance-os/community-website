@@ -496,6 +496,7 @@ export async function processArticles(
         type: result.type,
         region: result.region,
         slug: generateSlug(article.title, article.publishedAt),
+        publisherUrl: article.publisherUrl || undefined,
       };
 
       // Log enhanced analysis if available

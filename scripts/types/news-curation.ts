@@ -12,6 +12,10 @@ export interface NewsApiArticle {
   urlToImage: string | null;
   publishedAt: string;
   content: string | null;
+  /** Configured feed name. Google News items are renamed to the publisher, so the RSS bonus looks this up. */
+  feedName?: string;
+  /** Publisher homepage when `url` is still an aggregator redirect such as news.google.com. */
+  publisherUrl?: string | null;
 }
 
 export interface NewsApiResponse {
@@ -36,6 +40,8 @@ export interface CuratedArticle {
   type: 'global' | 'community' | 'milestone' | 'official' | 'opinion';
   region: 'uae' | 'mena' | 'global';
   slug: string;
+  /** Publisher homepage captured from a Google News `<source url>` element. */
+  publisherUrl?: string;
 }
 
 export interface PendingArticle extends CuratedArticle {
@@ -111,6 +117,12 @@ export interface RssFeedSource {
    * the client normalises both so scoring sees the real outlet.
    */
   format?: 'rss' | 'google-news';
+  /** When false, the feed stays in config for the record but is not fetched. */
+  enabled?: boolean;
+  /** The feed has failed from some networks. A failure is logged and skipped. */
+  lowConfidence?: boolean;
+  /** Why a feed is disabled or marked low-confidence. */
+  note?: string;
 }
 
 /** Minimum score an article must reach, by inferred region. */
@@ -128,6 +140,10 @@ export interface RssArticle {
   content?: string;
   source: string;
   categories?: string[];
+  /** Configured feed name, before Google News swaps in the publisher. */
+  feedName?: string;
+  /** Homepage URL from a Google News `<source url="...">` element. */
+  publisherUrl?: string;
 }
 
 export interface KeyCompany {
@@ -153,6 +169,22 @@ export interface NewsSourceConfig {
   regulatoryBodies?: RegulatoryBody[];
   breakingNewsSignals?: string[];
   maxArticlesPerRun: number;
+  /** Maximum items from one domain in a single daily digest. Defaults to 1. */
+  maxPerDomainPerRun?: number;
+  /**
+   * Maximum fraction of the rolling 7-day proposed/published window one domain
+   * may occupy. Defaults to 0.3. Applied once the window has at least 3 items.
+   */
+  maxDomainShareWeekly?: number;
+  /**
+   * Slots held for region:global items from independent outlets, when any pass
+   * the relevance gate. Unused slots are filled by the next ranked item.
+   */
+  minInternationalPerRun?: number;
+  /** Points removed when the URL looks like a press release. Defaults to 25. */
+  pressReleasePenalty?: number;
+  /** URL fragments that mark a press release. Defaults to wire and /pressarticle/ paths. */
+  pressReleaseUrlPatterns?: string[];
   lookbackHours: number;
   minRelevanceScore?: number;
   /** Per-region minimum scores; falls back to minRelevanceScore. */

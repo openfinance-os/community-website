@@ -14,7 +14,9 @@ import {
   summarizeRejections,
   type RejectionReason,
 } from './article-filters.js';
-import { assessRelevance } from './relevance-gate.js';
+import { assessRelevance, isAgenticAccessBeat } from './relevance-gate.js';
+import { articleDomain, isPressReleaseUrl } from './diversity.js';
+import { getTierAdjustment } from './source-credibility.js';
 
 const NEWSAPI_BASE_URL = 'https://newsapi.org/v2';
 
@@ -457,6 +459,8 @@ export function scoreArticle(
   }
 
   // === PREFERRED SOURCES BONUS ===
+  // The name bonus is separate from the editorial tier, which can be negative
+  // for house wires such as fintechnews.ae.
   const sourceName = article.source.name.toLowerCase();
   for (const preferred of config.preferredSources) {
     if (sourceName.includes(preferred.toLowerCase())) {
@@ -464,6 +468,7 @@ export function scoreArticle(
       break;
     }
   }
+  breakdown.preferredSource += getTierAdjustment(articleDomain(article));
 
   // === RECENCY BONUS (smoother decay) ===
   const publishedDate = new Date(article.publishedAt);
@@ -505,6 +510,10 @@ export function scoreArticle(
     if (combinedText.includes(term.toLowerCase())) {
       breakdown.penalties -= 10;
     }
+  }
+
+  if (isPressReleaseUrl(article.url, config.pressReleaseUrlPatterns)) {
+    breakdown.penalties -= config.pressReleasePenalty ?? 25;
   }
 
   // Calculate total score
@@ -614,9 +623,13 @@ export function rankArticles(
       return false;
     }
 
-    // Global stories must at least be about open banking / open finance.
+    // Global stories must be about open banking / open finance, or the
+    // agentic-access beat (which the relevance gate checks more strictly).
     if (config.requireCoreTermForGlobal && inferRegion(article) === 'global') {
-      if (!hasCoreTerm(article)) {
+      const agentic = isAgenticAccessBeat(
+        `${article.title} ${article.description || ''} ${article.content || ''}`
+      );
+      if (!hasCoreTerm(article) && !agentic) {
         rejections.push('no-core-term');
         if (options.verbose) {
           console.log(`  Rejected (no-core-term): ${article.title.substring(0, 60)}`);
@@ -640,7 +653,9 @@ export function rankArticles(
 
   // Score all articles
   const scoredArticles = qualityFiltered.map((article) => {
-    const rssBonus = options.getRssBonus ? options.getRssBonus(article.source.name) : 0;
+    const rssBonus = options.getRssBonus
+      ? options.getRssBonus(article.feedName || article.source.name)
+      : 0;
     const region = inferRegion(article);
     return {
       article,

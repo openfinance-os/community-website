@@ -1,6 +1,7 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
 import type { APIContext } from 'astro';
+import { newsOrigin } from '@lib/news-origin';
 
 export async function GET(context: APIContext) {
   const news = await getCollection('news');
@@ -24,7 +25,7 @@ export async function GET(context: APIContext) {
       description: `${post.data.description || post.data.title} (${post.data.date.toISOString().slice(0, 10)})`,
       link: `/news/${post.id}/`,
       author: post.data.author,
-      categories: [post.data.type],
+      categories: [post.data.type, newsOrigin(post)],
     })),
   });
 }

@@ -1,6 +1,7 @@
 // GitHub API client for creating draft PRs with news articles
 import type { CuratedArticle, GitHubPR } from '../types/news-curation.js';
 import { stripTrackingParams } from './article-filters.js';
+import { articleDomain, isAggregatorHost, type DomainHistoryItem } from './diversity.js';
 
 const GITHUB_API_URL = 'https://api.github.com';
 
@@ -46,14 +47,19 @@ export function generateMarkdownContent(article: CuratedArticle): string {
   const hasSummary = summary.length > 0 && !PLACEHOLDER_SUMMARIES.has(summary.toLowerCase());
   const descriptionLine = hasSummary ? `description: "${summary.replace(/"/g, '\\"')}"\n` : '';
 
+  const publisherLine = article.publisherUrl
+    ? `publisher: ${stripTrackingParams(article.publisherUrl)}\n`
+    : '';
+
   return `---
 title: "${article.title.replace(/"/g, '\\"')}"
 date: ${date}
 type: ${article.type}
 region: ${article.region}
+origin: external
 author: ${article.source}
 source: ${stripTrackingParams(article.sourceUrl)}
-${descriptionLine}external: true
+${publisherLine}${descriptionLine}external: true
 ---
 ${hasSummary ? `\n${summary}\n` : ''}`;
 }
@@ -454,32 +460,69 @@ export async function createAllPRs(
   return results;
 }
 
+const HISTORY_SKIP_HOSTS = new Set([
+  'github.com',
+  'docs.github.com',
+  'openfinance-os.org',
+  'www.openfinance-os.org',
+]);
+
+/** Article URLs in a news PR body, one history row per distinct link. */
+export function domainsFromPullRequest(
+  body: string | null | undefined,
+  createdAt: string
+): DomainHistoryItem[] {
+  if (!body) return [];
+  const items: DomainHistoryItem[] = [];
+  const seen = new Set<string>();
+  for (const match of body.matchAll(/https?:\/\/[^\s)>\]]+/g)) {
+    const url = match[0].replace(/[.,]+$/g, '');
+    const domain = articleDomain({ url });
+    if (!domain || HISTORY_SKIP_HOSTS.has(domain) || isAggregatorHost(domain) || seen.has(url))
+      continue;
+    seen.add(url);
+    items.push({ domain, at: createdAt, url });
+  }
+  return items;
+}
+
+export interface ProposedHistory {
+  slugs: Set<string>;
+  domains: DomainHistoryItem[];
+}
+
 /**
- * Slugs of every article the curator has already proposed as a PR, open or
- * closed. Closed-but-unmerged PRs are editorial rejections: without this the
- * same rejected story came back the day after the 48-hour cleanup, every day.
+ * Slugs and source domains of every article the curator has already proposed,
+ * open or closed. Closed-but-unmerged PRs are editorial rejections: without
+ * the slugs, the same rejected story came back the day after the 48-hour
+ * cleanup, every day. Domains feed the rolling weekly share cap.
  *
- * Returns slugs without the `news/` branch prefix (they keep their date
+ * Slugs are returned without the `news/` branch prefix (they keep their date
  * prefix, which `isDuplicateTitle` strips before comparing).
  */
-export async function fetchProposedSlugs(
+export async function fetchProposedHistory(
   options: GitHubOptions,
   maxPages: number = 5
-): Promise<Set<string>> {
+): Promise<ProposedHistory> {
   const { owner, repo } = options;
   const slugs = new Set<string>();
+  const domains: DomainHistoryItem[] = [];
 
   try {
     for (let page = 1; page <= maxPages; page++) {
-      const prs = await githubRequest<Array<{ head: { ref: string }; body?: string | null }>>(
+      const prs = await githubRequest<
+        Array<{ head: { ref: string }; body?: string | null; created_at: string }>
+      >(
         `/repos/${owner}/${repo}/pulls?state=all&sort=created&direction=desc&per_page=100&page=${page}`,
         options
       );
 
       for (const pr of prs) {
+        if (!pr.head.ref.startsWith('news/')) continue;
         for (const slug of slugsFromPullRequest(pr.head.ref, pr.body)) {
           slugs.add(slug);
         }
+        domains.push(...domainsFromPullRequest(pr.body, pr.created_at));
       }
 
       if (prs.length < 100) break;
@@ -488,7 +531,16 @@ export async function fetchProposedSlugs(
     console.warn('Could not list previously proposed news PRs:', error);
   }
 
-  return slugs;
+  return { slugs, domains };
+}
+
+/** @see fetchProposedHistory */
+export async function fetchProposedSlugs(
+  options: GitHubOptions,
+  maxPages: number = 5
+): Promise<Set<string>> {
+  const history = await fetchProposedHistory(options, maxPages);
+  return history.slugs;
 }
 
 export async function closeOldPRs(

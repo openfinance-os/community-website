@@ -104,9 +104,11 @@ export function normalizeGoogleNewsItem(
   item: string,
   title: string,
   fallbackSource: string
-): { title: string; source: string } {
-  const sourceMatch = item.match(/<source[^>]*>([\s\S]*?)<\/source>/i);
-  const publisher = sourceMatch ? decodeHtmlEntities(sourceMatch[1].trim()) : '';
+): { title: string; source: string; publisherUrl?: string } {
+  const sourceTag = item.match(/<source\b([^>]*)>([\s\S]*?)<\/source>/i);
+  const publisher = sourceTag ? decodeHtmlEntities(sourceTag[2].trim()) : '';
+  const urlAttr = sourceTag?.[1].match(/\burl=["']([^"']+)["']/i);
+  const publisherUrl = urlAttr ? decodeHtmlEntities(urlAttr[1].trim()) : undefined;
 
   // Only strip the suffix when the feed names the publisher and the title
   // actually ends with it; a dash inside a headline is left alone.
@@ -119,7 +121,31 @@ export function normalizeGoogleNewsItem(
     }
   }
 
-  return { title: cleanTitle, source: publisher || fallbackSource };
+  return { title: cleanTitle, source: publisher || fallbackSource, publisherUrl };
+}
+
+/**
+ * Older Google News article ids embed the publisher URL in the base64 payload.
+ * Current ids are opaque `AU_yqL…` tokens and return nothing; callers then keep
+ * the redirect and use the `<source url>` homepage for the domain.
+ */
+export function decodeGoogleNewsArticleUrl(googleUrl: string): string | null {
+  try {
+    const parsed = new URL(googleUrl);
+    if (!parsed.hostname.endsWith('news.google.com')) return null;
+    const id = parsed.pathname.split('/articles/')[1]?.split('/')[0];
+    if (!id) return null;
+    const padded = id.replace(/-/g, '+').replace(/_/g, '/');
+    const text = Buffer.from(padded, 'base64').toString('latin1');
+    const match = text.match(/https?:\/\/[^\s\x00-\x1f"<>]+/);
+    if (!match) return null;
+    const candidate = match[0].replace(/[)\].,;]+$/g, '');
+    const resolved = new URL(candidate);
+    if (resolved.hostname.includes('google.')) return null;
+    return resolved.toString();
+  } catch {
+    return null;
+  }
 }
 
 /**
@@ -164,6 +190,7 @@ export function parseFeed(
         description: stripHtml(summary || content || ''),
         content: stripHtml(content || summary || ''),
         source: sourceName,
+        feedName: sourceName,
         categories: extractAllTags(entry, 'category'),
       });
     }
@@ -185,20 +212,27 @@ export function parseFeed(
 
       let title = extractTagContent(item, 'title');
       let source = sourceName;
+      let publisherUrl: string | undefined;
+      let link = extractTagContent(item, 'link') || extractTagContent(item, 'guid');
       if (format === 'google-news') {
         const normalized = normalizeGoogleNewsItem(item, title, sourceName);
         title = normalized.title;
         source = normalized.source;
+        publisherUrl = normalized.publisherUrl;
         description = cleanGoogleNewsDescription(description, title, source);
+        const decoded = decodeGoogleNewsArticleUrl(link);
+        if (decoded) link = decoded;
       }
 
       articles.push({
         title,
-        link: extractTagContent(item, 'link') || extractTagContent(item, 'guid'),
+        link,
         pubDate: extractTagContent(item, 'pubDate') || extractTagContent(item, 'dc:date'),
         description,
         content: content ? stripHtml(content) : description,
         source,
+        feedName: sourceName,
+        publisherUrl,
         categories: extractAllTags(item, 'category'),
       });
     }
@@ -276,7 +310,14 @@ export function toNewsApiArticle(rssArticle: RssArticle): NewsApiArticle {
     urlToImage: null,
     publishedAt,
     content: rssArticle.content || null,
+    feedName: rssArticle.feedName,
+    publisherUrl: rssArticle.publisherUrl ?? null,
   };
+}
+
+/** Feeds kept in config but not fetched. `enabled: false` is an explicit skip. */
+export function activeRssFeeds(feeds: RssFeedSource[]): RssFeedSource[] {
+  return feeds.filter((feed) => feed.enabled !== false);
 }
 
 /**
@@ -284,11 +325,18 @@ export function toNewsApiArticle(rssArticle: RssArticle): NewsApiArticle {
  */
 export async function fetchRssArticles(options: RssFetchOptions): Promise<NewsApiArticle[]> {
   const { config, lookbackHours } = options;
-  const feeds = config.rssFeeds || [];
+  const configured = config.rssFeeds || [];
+  const feeds = activeRssFeeds(configured);
 
-  if (feeds.length === 0) {
+  if (configured.length === 0) {
     console.log('No RSS feeds configured, skipping RSS fetch.');
     return [];
+  }
+
+  for (const feed of configured) {
+    if (feed.enabled === false) {
+      console.log(`  ${feed.name}: disabled (${feed.note || 'not fetched'})`);
+    }
   }
 
   console.log(`Fetching from ${feeds.length} RSS feeds...`);
@@ -312,6 +360,12 @@ export async function fetchRssArticles(options: RssFetchOptions): Promise<NewsAp
     for (let j = 0; j < batch.length; j++) {
       const articles = results[j];
       const feed = batch[j];
+
+      if (feed.lowConfidence) {
+        console.log(
+          `  ${feed.name}: low-confidence feed (${feed.note || 'may fail from some networks'})`
+        );
+      }
 
       let addedCount = 0;
       for (const article of articles) {

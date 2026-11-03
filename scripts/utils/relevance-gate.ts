@@ -10,6 +10,10 @@
 // AlTareq is the consumer brand, Nebras operates the API Hub, CBUAE regulates,
 // LFIs execute, and TPPs never call an LFI directly.
 //
+// Items inferred as global (no Gulf signal) are narrower still: a peer-regime
+// policy story with a core term in the title, or the agentic-access beat.
+// Generic international fintech and generic AI do not pass.
+//
 // Confidence is calibrated on the last 72 bot news PRs (10 merged, 54 closed,
 // 8 open) stored in scripts/utils/__tests__/fixtures/news-pr-labels.json.
 // Merged is the positive label, closed-unmerged is the negative label, and
@@ -18,6 +22,7 @@
 // unless a UAE programme signal or a second core family lifts it.
 
 import type { NewsApiArticle, NewsSourceConfig } from '../types/news-curation.js';
+import { inferRegion } from './article-filters.js';
 
 /** Phrases and acronyms that mean this item is actually about the beat. */
 export const DEFAULT_CORE_TERMS: readonly string[] = [
@@ -166,7 +171,33 @@ const AGENTIC_ACCESS = [
 
 export const DEFAULT_MIN_CONFIDENCE = 0.55;
 
-export type RelevanceReason = 'ok' | 'excluded-topic' | 'no-core-term' | 'below-confidence';
+/**
+ * Peer-regime policy markers for items outside the Gulf. A global story needs
+ * one of these plus a core term in the title. Naming a regulator or an
+ * instrument (FCA, OBIE, PSD2/PSD3, FiDA, SAMA, CBB) is the policy signal.
+ * Gulf stories are classified as UAE or MENA and do not use this list.
+ */
+export const PEER_REGIME_TERMS = [
+  'obie',
+  'open banking implementation entity',
+  'fca',
+  'financial conduct authority',
+  'psd2',
+  'psd3',
+  'payment services directive',
+  'fida',
+  'financial data access',
+  'eba',
+  'european banking authority',
+  'sama',
+  'saudi central bank',
+  'saudi arabian monetary',
+  'cbb',
+  'central bank of bahrain',
+];
+
+export type RelevanceReason =
+  'ok' | 'excluded-topic' | 'no-core-term' | 'below-confidence' | 'international-scope';
 
 export interface RelevanceDecision {
   accept: boolean;
@@ -338,6 +369,25 @@ export function assessRelevance(
       matchedTerms: [],
       matchedExclusions: [],
     };
+  }
+
+  // Outside the Gulf, generic open-banking or fintech coverage is out of scope.
+  // Accept a peer-regime policy story (core term in the title plus FCA, OBIE,
+  // PSD2/PSD3, FiDA, SAMA, CBB, or the EBA) or the agentic-access beat.
+  if (inferRegion(article) === 'global' && !beat) {
+    const titleCore = coreTerms
+      .map((term) => term.toLowerCase())
+      .filter((term) => containsTerm(title, term));
+    const peerRegime = PEER_REGIME_TERMS.some((term) => containsTerm(text, term));
+    if (titleCore.length === 0 || !peerRegime) {
+      return {
+        accept: false,
+        confidence: titleCore.length > 0 ? 0.4 : 0,
+        reason: 'international-scope',
+        matchedTerms,
+        matchedExclusions: [],
+      };
+    }
   }
 
   const titleHits = matchedTerms.filter((term) => containsTerm(title, term));
