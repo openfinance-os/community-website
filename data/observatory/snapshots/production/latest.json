@@ -1,25 +1,25 @@
 {
-  "timestamp": "2026-11-03T13:39:09.436Z",
+  "timestamp": "2026-11-04T13:47:38.327Z",
   "source": "https://data.directory.openfinance.ae",
   "version": "2.1.0",
   "environment": "production",
   "summary": {
-    "totalParticipants": 30,
+    "totalParticipants": 31,
     "byStatus": {
-      "Active": 30
+      "Active": 31
     },
     "byRole": {
       "BDSP": 17,
       "BSIP": 16,
-      "LFI": 22,
-      "ISP": 7,
+      "LFI": 23,
+      "ISP": 8,
       "API Read_Write": 3,
       "Cert_Management": 1,
       "TSP": 3,
       "pki-test-harness": 1
     },
     "byCity": {
-      "Abu Dhabi": 5,
+      "Abu Dhabi": 6,
       "Unknown": 17,
       "Dubai": 8
     },
@@ -31,9 +31,9 @@
       "payments",
       "products"
     ],
-    "liveInProduction": 13,
+    "liveInProduction": 14,
     "shariahCompliantCount": 1,
-    "multiRoleCount": 26,
+    "multiRoleCount": 27,
     "tppCount": 0,
     "byAuthCapabilities": {
       "ciba": 0,
@@ -41,10 +41,10 @@
       "redirect": 0
     },
     "byCertificationStatus": {
-      "Self-Certified": 51
+      "Self-Certified": 52
     },
     "byApiVersion": {
-      "2.1": 41,
+      "2.1": 42,
       "1.2": 7,
       "2.0": 3
     }
@@ -240,6 +240,40 @@
       "apiResources": [],
       "authServerCount": 0,
       "isLive": false
+    },
+    {
+      "id": "1696c7b7-249f-48c3-9f21-7e26fac2c116",
+      "name": "ALAIN AHLIA INSURANCE COMPANY",
+      "legalName": "ALAIN AHLIA INSURANCE COMPANY",
+      "shortName": "ALAIN AHLIA INSURANCE COMPANY",
+      "status": "Active",
+      "roles": [
+        "ISP",
+        "LFI"
+      ],
+      "city": "Abu Dhabi",
+      "registrationNumber": "National003",
+      "apiFamilies": [
+        "insurance"
+      ],
+      "hasAuthServer": true,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [
+        {
+          "family": "insurance",
+          "rawFamily": "insurance",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        }
+      ],
+      "authServerCount": 1,
+      "isLive": true
     },
     {
       "id": "2f9981d9-47e6-4cd5-ba04-d6bdadf52591",
@@ -1203,13 +1237,17 @@
     }
   ],
   "trends": {
-    "participantChange": 0,
-    "newParticipants": [],
+    "participantChange": 1,
+    "newParticipants": [
+      "1696c7b7-249f-48c3-9f21-7e26fac2c116"
+    ],
     "removedParticipants": [],
     "roleChanges": {
-      "BDSP": 1,
-      "BSIP": 1
+      "LFI": 1,
+      "ISP": 1
     },
-    "apiFamilyChanges": {}
+    "apiFamilyChanges": {
+      "insurance": 1
+    }
   }
 }

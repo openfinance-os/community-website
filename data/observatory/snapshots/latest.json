@@ -1,28 +1,28 @@
 {
-  "timestamp": "2026-11-03T13:39:11.326Z",
+  "timestamp": "2026-11-04T13:47:40.123Z",
   "version": "2.1.0",
   "production": {
-    "timestamp": "2026-11-03T13:39:09.436Z",
+    "timestamp": "2026-11-04T13:47:38.327Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.1.0",
     "environment": "production",
     "summary": {
-      "totalParticipants": 30,
+      "totalParticipants": 31,
       "byStatus": {
-        "Active": 30
+        "Active": 31
       },
       "byRole": {
         "BDSP": 17,
         "BSIP": 16,
-        "LFI": 22,
-        "ISP": 7,
+        "LFI": 23,
+        "ISP": 8,
         "API Read_Write": 3,
         "Cert_Management": 1,
         "TSP": 3,
         "pki-test-harness": 1
       },
       "byCity": {
-        "Abu Dhabi": 5,
+        "Abu Dhabi": 6,
         "Unknown": 17,
         "Dubai": 8
       },
@@ -34,9 +34,9 @@
         "payments",
         "products"
       ],
-      "liveInProduction": 13,
+      "liveInProduction": 14,
       "shariahCompliantCount": 1,
-      "multiRoleCount": 26,
+      "multiRoleCount": 27,
       "tppCount": 0,
       "byAuthCapabilities": {
         "ciba": 0,
@@ -44,10 +44,10 @@
         "redirect": 0
       },
       "byCertificationStatus": {
-        "Self-Certified": 51
+        "Self-Certified": 52
       },
       "byApiVersion": {
-        "2.1": 41,
+        "2.1": 42,
         "1.2": 7,
         "2.0": 3
       }
@@ -243,6 +243,40 @@
         "apiResources": [],
         "authServerCount": 0,
         "isLive": false
+      },
+      {
+        "id": "1696c7b7-249f-48c3-9f21-7e26fac2c116",
+        "name": "ALAIN AHLIA INSURANCE COMPANY",
+        "legalName": "ALAIN AHLIA INSURANCE COMPANY",
+        "shortName": "ALAIN AHLIA INSURANCE COMPANY",
+        "status": "Active",
+        "roles": [
+          "ISP",
+          "LFI"
+        ],
+        "city": "Abu Dhabi",
+        "registrationNumber": "National003",
+        "apiFamilies": [
+          "insurance"
+        ],
+        "hasAuthServer": true,
+        "isShariahCompliant": false,
+        "authCapabilities": {
+          "supportsCiba": false,
+          "supportsDCR": false,
+          "supportsRedirect": false
+        },
+        "apiResources": [
+          {
+            "family": "insurance",
+            "rawFamily": "insurance",
+            "version": "2.1",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": false
+          }
+        ],
+        "authServerCount": 1,
+        "isLive": true
       },
       {
         "id": "2f9981d9-47e6-4cd5-ba04-d6bdadf52591",
@@ -1206,18 +1240,22 @@
       }
     ],
     "trends": {
-      "participantChange": 0,
-      "newParticipants": [],
+      "participantChange": 1,
+      "newParticipants": [
+        "1696c7b7-249f-48c3-9f21-7e26fac2c116"
+      ],
       "removedParticipants": [],
       "roleChanges": {
-        "BDSP": 1,
-        "BSIP": 1
+        "LFI": 1,
+        "ISP": 1
       },
-      "apiFamilyChanges": {}
+      "apiFamilyChanges": {
+        "insurance": 1
+      }
     }
   },
   "sandbox": {
-    "timestamp": "2026-11-03T13:39:11.320Z",
+    "timestamp": "2026-11-04T13:47:40.120Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.1.0",
     "environment": "sandbox",
@@ -3988,6 +4026,7 @@
       "b1b75d1a-648e-4e88-8d1f-a2a3cf43de5c",
       "f8655450-519d-48ce-ba63-29a3547929f5",
       "473cbc09-d58d-4656-8e70-11e467f37cfe",
+      "1696c7b7-249f-48c3-9f21-7e26fac2c116",
       "2f9981d9-47e6-4cd5-ba04-d6bdadf52591",
       "7c618e0b-0acc-4642-bdbb-180eb419be95",
       "37f353bf-0f2a-48f2-8c5a-10b40b7bc7b3",
@@ -4027,7 +4066,6 @@
       "30303fd5-70a9-4cfc-a08e-d927572e9a8d",
       "edee04f4-7dc6-4274-815d-c18262b344c4",
       "8e4400b9-2250-4788-9871-13b123921199",
-      "1696c7b7-249f-48c3-9f21-7e26fac2c116",
       "a632a8ef-44d8-4331-856f-a0b9dc66241e",
       "d6f549cc-ff6f-4e21-844e-f26a2ee932cb",
       "9803b615-62f0-4d8f-813f-ec20fd1cc46f",
