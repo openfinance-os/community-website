@@ -1,5 +1,6 @@
 // Shared production bootstrap for Astro pages and the standalone Watcher.
-// The project token is public. Keep reporting/query credentials out of this file.
+// Public EU client token for the OpenFinance-OS project. No Cloudflare Pages
+// env var is required. Keep reporting/query credentials out of this file.
 (function () {
   if (!['openfinance-os.org', 'www.openfinance-os.org'].includes(window.location.hostname)) return;
   // The editable worksheet must not load autocapture, replay, or page analytics.
@@ -52,16 +53,19 @@
       }),
       (e.__SV = 1));
   })(document, window.posthog || []);
-  posthog.init('phc_D5a06AlAIDy5EjIXmlLjhQMIAtBNfdtNyoybsJD3Ewv', {
-    api_host: 'https://us.i.posthog.com',
+  posthog.init('phc_uX5aZfGT4fK8gyHT8tTyagfDDiKkuekFpy8eiSuHbtK2', {
+    api_host: 'https://eu.i.posthog.com',
     defaults: '2025-11-30',
     person_profiles: 'identified_only',
+    // Astro serves full page loads. Explicit pageviews override the defaults
+    // date, which would otherwise listen for SPA history changes.
+    capture_pageview: true,
+    // Replay stays off even if the PostHog project setting changes later.
+    disable_session_recording: true,
     ...(isWatcher
       ? {
-          capture_pageview: true,
           capture_pageleave: true,
           autocapture: false,
-          disable_session_recording: true,
         }
       : {}),
   });
