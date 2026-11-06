@@ -88,6 +88,12 @@ describe('standalone Watcher analytics', () => {
     b.run();
     b.run();
     expect(b.scripts).toHaveLength(1);
+    expect(b.scripts[0]).toMatchObject({
+      async: true,
+      crossOrigin: 'anonymous',
+      src: 'https://us-assets.i.posthog.com/static/array.js',
+      type: 'text/javascript',
+    });
     expect(b.globals.posthog._i).toHaveLength(1);
     expect(b.globals.posthog._i[0][1]).toMatchObject({
       api_host: 'https://us.i.posthog.com',
