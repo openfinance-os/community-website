@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-11-05T13:59:49.597Z",
+  "timestamp": "2026-11-06T13:45:13.893Z",
   "version": "2.1.0",
   "production": {
-    "timestamp": "2026-11-05T13:59:47.871Z",
+    "timestamp": "2026-11-06T13:45:11.938Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.1.0",
     "environment": "production",
@@ -1248,7 +1248,7 @@
     }
   },
   "sandbox": {
-    "timestamp": "2026-11-05T13:59:49.591Z",
+    "timestamp": "2026-11-06T13:45:13.889Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.1.0",
     "environment": "sandbox",
