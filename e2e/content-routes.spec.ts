@@ -30,7 +30,7 @@ for (const content of [
     text: 'Flutterwave acquires Nigerian open banking startup Mono',
   },
   {
-    title: 'Open Finance Data Sandbox',
+    title: 'UAE Open Finance Data Sandbox: Synthetic API Examples',
     path: '/commons/data-sandbox',
     body: '.prose',
     text: 'synthetic',
