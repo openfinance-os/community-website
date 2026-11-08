@@ -21,7 +21,8 @@
   "uae-liva": {"name": "LIVA Insurance", "short": "LIVA", "kind": "insurer", "tier": "ins", "org": "LIVA", "confirmed": true, "note": "Seen in the auth log only so far."},
   "uae-uic": {"name": "UIC (unidentified)", "short": "UIC", "kind": "bank", "tier": "other", "org": null, "confirmed": false, "note": "Seen in the auth log only so far. Unidentified key; the Nebras dashboard counts it under Banking, so it is classed as bank here."},
   "uae-cbdcorp": {"name": "CBD corporate (unconfirmed)", "short": "CBD corporate", "kind": "bank", "tier": "other", "org": null, "segment": true, "confirmed": false, "note": "Seen in the auth log only so far."},
-  "uae-adcbsme": {"name": "ADCB SME (unconfirmed)", "short": "ADCB SME", "kind": "bank", "tier": "other", "org": null, "segment": true, "confirmed": false, "note": "Seen in the auth log only so far (1 call, 23 Oct 2026). Inferred from the key; not verified."}
+  "uae-adcbsme": {"name": "ADCB SME (unconfirmed)", "short": "ADCB SME", "kind": "bank", "tier": "other", "org": null, "segment": true, "confirmed": false, "note": "Seen in the auth log only so far (1 call, 23 Oct 2026). Inferred from the key; not verified."},
+  "uae-scretail": {"name": "SCB scretail (unconfirmed)", "short": "SCB scretail", "kind": "bank", "tier": "other", "org": null, "confirmed": false, "note": "Auth log only: one 4xx /auth call on 2026-10-30. The key matches the Standard Chartered directory auth server name scretail. Classed as bank, the metrics default for a non-insurer key. Not a registered API resource and not proof of a live API. No tier assigned."}
  },
  "orgs": {
   "FAB": {"name": "First Abu Dhabi Bank", "tier": "t1"},

@@ -290,6 +290,18 @@
    "liveLFIs": 16,
    "liveTPPs": 17,
    "websiteSpecBranch": "v2.2-rc2-nebras"
+  },
+  {
+   "runDate": "2026-11-08",
+   "totalFull": 2259856,
+   "errPct": 12.7,
+   "paySucc": 95.7,
+   "authPct": 53.4,
+   "top1Share": 83.0,
+   "hhi": 6965,
+   "liveLFIs": 16,
+   "liveTPPs": 17,
+   "websiteSpecBranch": "v2.2-rc2-nebras"
   }
  ]
 }
