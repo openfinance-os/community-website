@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-11-08T12:46:34.435Z",
+  "timestamp": "2026-11-09T15:13:42.802Z",
   "version": "2.1.0",
   "production": {
-    "timestamp": "2026-11-08T12:46:32.845Z",
+    "timestamp": "2026-11-09T15:13:41.036Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.1.0",
     "environment": "production",
@@ -1248,14 +1248,14 @@
     }
   },
   "sandbox": {
-    "timestamp": "2026-11-08T12:46:34.429Z",
+    "timestamp": "2026-11-09T15:13:42.792Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.1.0",
     "environment": "sandbox",
     "summary": {
-      "totalParticipants": 79,
+      "totalParticipants": 80,
       "byStatus": {
-        "Active": 79
+        "Active": 80
       },
       "byRole": {
         "BDSP": 75,
@@ -1267,7 +1267,7 @@
         "pki-test-harness": 1
       },
       "byCity": {
-        "Unknown": 60,
+        "Unknown": 61,
         "Abu Dhabi": 6,
         "Dubai": 11,
         "London": 2
@@ -3051,6 +3051,27 @@
         "isLive": false
       },
       {
+        "id": "459add9b-1e90-4255-9427-fde395d64888",
+        "name": "NETWORK INTERNATIONAL L.L.",
+        "legalName": "NETWORK INTERNATIONAL L.L.",
+        "shortName": "NETWORK INTERNATIONAL L.L.",
+        "status": "Active",
+        "roles": [],
+        "city": "Unknown",
+        "registrationNumber": "234939",
+        "apiFamilies": [],
+        "hasAuthServer": false,
+        "isShariahCompliant": false,
+        "authCapabilities": {
+          "supportsCiba": false,
+          "supportsDCR": false,
+          "supportsRedirect": false
+        },
+        "apiResources": [],
+        "authServerCount": 0,
+        "isLive": false
+      },
+      {
         "id": "d0b8c17e-c503-412d-bf95-b4969dc71088",
         "name": "Nomod",
         "legalName": "Nomod Billing LLC",
@@ -4005,8 +4026,10 @@
       }
     ],
     "trends": {
-      "participantChange": 0,
-      "newParticipants": [],
+      "participantChange": 1,
+      "newParticipants": [
+        "459add9b-1e90-4255-9427-fde395d64888"
+      ],
       "removedParticipants": [],
       "roleChanges": {},
       "apiFamilyChanges": {}
@@ -4085,6 +4108,7 @@
       "f004039c-1827-4851-800a-19b7a5e9f329",
       "8804ffec-cec7-4067-add0-00ed5efe1ef4",
       "8c9881e0-f32e-49e9-984b-8b42708dec88",
+      "459add9b-1e90-4255-9427-fde395d64888",
       "d0b8c17e-c503-412d-bf95-b4969dc71088",
       "7bcf7684-2ec6-441e-8eb2-247fea8a951a",
       "9bfa48bf-647e-4082-a6c2-25291e15c98c",
@@ -4101,6 +4125,6 @@
       "1ee6f5b6-2fa4-48fd-bffa-d8771186c564",
       "4c52000d-3db6-44db-8be3-8418cae0e2f1"
     ],
-    "totalUniqueParticipants": 82
+    "totalUniqueParticipants": 83
   }
 }
