@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-11-09T15:13:42.802Z",
+  "timestamp": "2026-11-10T14:21:26.360Z",
   "version": "2.1.0",
   "production": {
-    "timestamp": "2026-11-09T15:13:41.036Z",
+    "timestamp": "2026-11-10T14:21:24.504Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.1.0",
     "environment": "production",
@@ -822,13 +822,6 @@
         },
         "apiResources": [
           {
-            "family": "accounts",
-            "rawFamily": "account-information",
-            "version": "2.1",
-            "certificationStatus": "Self-Certified",
-            "familyComplete": false
-          },
-          {
             "family": "cop",
             "rawFamily": "confirmation",
             "version": "2.1",
@@ -838,6 +831,13 @@
           {
             "family": "products",
             "rawFamily": "product",
+            "version": "2.1",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": false
+          },
+          {
+            "family": "accounts",
+            "rawFamily": "account-information",
             "version": "2.1",
             "certificationStatus": "Self-Certified",
             "familyComplete": false
@@ -1212,7 +1212,7 @@
             "familyComplete": true
           }
         ],
-        "authServerCount": 1,
+        "authServerCount": 2,
         "isLive": true
       },
       {
@@ -1248,7 +1248,7 @@
     }
   },
   "sandbox": {
-    "timestamp": "2026-11-09T15:13:42.792Z",
+    "timestamp": "2026-11-10T14:21:26.357Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.1.0",
     "environment": "sandbox",
@@ -4026,10 +4026,8 @@
       }
     ],
     "trends": {
-      "participantChange": 1,
-      "newParticipants": [
-        "459add9b-1e90-4255-9427-fde395d64888"
-      ],
+      "participantChange": 0,
+      "newParticipants": [],
       "removedParticipants": [],
       "roleChanges": {},
       "apiFamilyChanges": {}
