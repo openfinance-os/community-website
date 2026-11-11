@@ -1,24 +1,25 @@
 {
-  "timestamp": "2026-11-10T14:21:26.357Z",
+  "timestamp": "2026-11-11T13:35:03.985Z",
   "source": "https://data.sandbox.directory.openfinance.ae",
   "version": "2.1.0",
   "environment": "sandbox",
   "summary": {
-    "totalParticipants": 80,
+    "totalParticipants": 81,
     "byStatus": {
-      "Active": 80
+      "Active": 81
     },
     "byRole": {
-      "BDSP": 75,
-      "BSIP": 75,
+      "BDSP": 76,
+      "BSIP": 76,
       "LFI": 53,
       "ISP": 57,
+      "BPIP": 2,
       "API Read_Write": 2,
       "TSP": 2,
       "pki-test-harness": 1
     },
     "byCity": {
-      "Unknown": 61,
+      "Unknown": 62,
       "Abu Dhabi": 6,
       "Dubai": 11,
       "London": 2
@@ -36,7 +37,7 @@
     ],
     "liveInProduction": 19,
     "shariahCompliantCount": 9,
-    "multiRoleCount": 76,
+    "multiRoleCount": 77,
     "tppCount": 0,
     "byAuthCapabilities": {
       "ciba": 0,
@@ -564,6 +565,30 @@
       ],
       "authServerCount": 1,
       "isLive": true
+    },
+    {
+      "id": "1d13bf8e-3b15-4358-bc2e-88560a968896",
+      "name": "ASHII FINANCE HOLDING LIMITED",
+      "legalName": "ASHII FINANCE HOLDING LIMITED",
+      "shortName": "ASHII FINANCE HOLDING LIMITED",
+      "status": "Active",
+      "roles": [
+        "BDSP",
+        "BSIP"
+      ],
+      "city": "Unknown",
+      "registrationNumber": "36717",
+      "apiFamilies": [],
+      "hasAuthServer": false,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 0,
+      "isLive": false
     },
     {
       "id": "9803b615-62f0-4d8f-813f-ec20fd1cc46f",
@@ -1807,7 +1832,9 @@
       "legalName": "NETWORK INTERNATIONAL L.L.",
       "shortName": "NETWORK INTERNATIONAL L.L.",
       "status": "Active",
-      "roles": [],
+      "roles": [
+        "BPIP"
+      ],
       "city": "Unknown",
       "registrationNumber": "234939",
       "apiFamilies": [],
@@ -2637,6 +2664,7 @@
       "status": "Active",
       "roles": [
         "BDSP",
+        "BPIP",
         "BSIP",
         "ISP",
         "LFI"
@@ -2777,10 +2805,16 @@
     }
   ],
   "trends": {
-    "participantChange": 0,
-    "newParticipants": [],
+    "participantChange": 1,
+    "newParticipants": [
+      "1d13bf8e-3b15-4358-bc2e-88560a968896"
+    ],
     "removedParticipants": [],
-    "roleChanges": {},
+    "roleChanges": {
+      "BDSP": 1,
+      "BSIP": 1,
+      "BPIP": 2
+    },
     "apiFamilyChanges": {}
   }
 }

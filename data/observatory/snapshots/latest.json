@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-11-10T14:21:26.360Z",
+  "timestamp": "2026-11-11T13:35:03.990Z",
   "version": "2.1.0",
   "production": {
-    "timestamp": "2026-11-10T14:21:24.504Z",
+    "timestamp": "2026-11-11T13:35:02.080Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.1.0",
     "environment": "production",
@@ -1248,26 +1248,27 @@
     }
   },
   "sandbox": {
-    "timestamp": "2026-11-10T14:21:26.357Z",
+    "timestamp": "2026-11-11T13:35:03.985Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.1.0",
     "environment": "sandbox",
     "summary": {
-      "totalParticipants": 80,
+      "totalParticipants": 81,
       "byStatus": {
-        "Active": 80
+        "Active": 81
       },
       "byRole": {
-        "BDSP": 75,
-        "BSIP": 75,
+        "BDSP": 76,
+        "BSIP": 76,
         "LFI": 53,
         "ISP": 57,
+        "BPIP": 2,
         "API Read_Write": 2,
         "TSP": 2,
         "pki-test-harness": 1
       },
       "byCity": {
-        "Unknown": 61,
+        "Unknown": 62,
         "Abu Dhabi": 6,
         "Dubai": 11,
         "London": 2
@@ -1285,7 +1286,7 @@
       ],
       "liveInProduction": 19,
       "shariahCompliantCount": 9,
-      "multiRoleCount": 76,
+      "multiRoleCount": 77,
       "tppCount": 0,
       "byAuthCapabilities": {
         "ciba": 0,
@@ -1813,6 +1814,30 @@
         ],
         "authServerCount": 1,
         "isLive": true
+      },
+      {
+        "id": "1d13bf8e-3b15-4358-bc2e-88560a968896",
+        "name": "ASHII FINANCE HOLDING LIMITED",
+        "legalName": "ASHII FINANCE HOLDING LIMITED",
+        "shortName": "ASHII FINANCE HOLDING LIMITED",
+        "status": "Active",
+        "roles": [
+          "BDSP",
+          "BSIP"
+        ],
+        "city": "Unknown",
+        "registrationNumber": "36717",
+        "apiFamilies": [],
+        "hasAuthServer": false,
+        "isShariahCompliant": false,
+        "authCapabilities": {
+          "supportsCiba": false,
+          "supportsDCR": false,
+          "supportsRedirect": false
+        },
+        "apiResources": [],
+        "authServerCount": 0,
+        "isLive": false
       },
       {
         "id": "9803b615-62f0-4d8f-813f-ec20fd1cc46f",
@@ -3056,7 +3081,9 @@
         "legalName": "NETWORK INTERNATIONAL L.L.",
         "shortName": "NETWORK INTERNATIONAL L.L.",
         "status": "Active",
-        "roles": [],
+        "roles": [
+          "BPIP"
+        ],
         "city": "Unknown",
         "registrationNumber": "234939",
         "apiFamilies": [],
@@ -3886,6 +3913,7 @@
         "status": "Active",
         "roles": [
           "BDSP",
+          "BPIP",
           "BSIP",
           "ISP",
           "LFI"
@@ -4026,10 +4054,16 @@
       }
     ],
     "trends": {
-      "participantChange": 0,
-      "newParticipants": [],
+      "participantChange": 1,
+      "newParticipants": [
+        "1d13bf8e-3b15-4358-bc2e-88560a968896"
+      ],
       "removedParticipants": [],
-      "roleChanges": {},
+      "roleChanges": {
+        "BDSP": 1,
+        "BSIP": 1,
+        "BPIP": 2
+      },
       "apiFamilyChanges": {}
     }
   },
@@ -4082,6 +4116,7 @@
       "8e4400b9-2250-4788-9871-13b123921199",
       "a632a8ef-44d8-4331-856f-a0b9dc66241e",
       "d6f549cc-ff6f-4e21-844e-f26a2ee932cb",
+      "1d13bf8e-3b15-4358-bc2e-88560a968896",
       "9803b615-62f0-4d8f-813f-ec20fd1cc46f",
       "854f1680-ab8e-46f4-be6c-70461dbc38ba",
       "d786af7f-4f7c-48cb-87ed-97bdb9c036ad",
@@ -4123,6 +4158,6 @@
       "1ee6f5b6-2fa4-48fd-bffa-d8771186c564",
       "4c52000d-3db6-44db-8be3-8418cae0e2f1"
     ],
-    "totalUniqueParticipants": 83
+    "totalUniqueParticipants": 84
   }
 }
