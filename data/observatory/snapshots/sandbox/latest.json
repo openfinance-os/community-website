@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-11T13:35:03.985Z",
+  "timestamp": "2026-11-12T14:38:57.519Z",
   "source": "https://data.sandbox.directory.openfinance.ae",
   "version": "2.1.0",
   "environment": "sandbox",
@@ -2805,16 +2805,10 @@
     }
   ],
   "trends": {
-    "participantChange": 1,
-    "newParticipants": [
-      "1d13bf8e-3b15-4358-bc2e-88560a968896"
-    ],
+    "participantChange": 0,
+    "newParticipants": [],
     "removedParticipants": [],
-    "roleChanges": {
-      "BDSP": 1,
-      "BSIP": 1,
-      "BPIP": 2
-    },
+    "roleChanges": {},
     "apiFamilyChanges": {}
   }
 }

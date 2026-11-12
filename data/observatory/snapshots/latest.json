@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-11-11T13:35:03.990Z",
+  "timestamp": "2026-11-12T14:38:57.524Z",
   "version": "2.1.0",
   "production": {
-    "timestamp": "2026-11-11T13:35:02.080Z",
+    "timestamp": "2026-11-12T14:38:55.911Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.1.0",
     "environment": "production",
@@ -44,10 +44,10 @@
         "redirect": 0
       },
       "byCertificationStatus": {
-        "Self-Certified": 52
+        "Self-Certified": 56
       },
       "byApiVersion": {
-        "2.1": 42,
+        "2.1": 46,
         "1.2": 7,
         "2.0": 3
       }
@@ -1210,6 +1210,34 @@
             "version": "2.1",
             "certificationStatus": "Self-Certified",
             "familyComplete": true
+          },
+          {
+            "family": "cop",
+            "rawFamily": "confirmation",
+            "version": "2.1",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": true
+          },
+          {
+            "family": "products",
+            "rawFamily": "product",
+            "version": "2.1",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": true
+          },
+          {
+            "family": "accounts",
+            "rawFamily": "account-information",
+            "version": "2.1",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": true
+          },
+          {
+            "family": "payments",
+            "rawFamily": "payment",
+            "version": "2.1",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": true
           }
         ],
         "authServerCount": 2,
@@ -1248,7 +1276,7 @@
     }
   },
   "sandbox": {
-    "timestamp": "2026-11-11T13:35:03.985Z",
+    "timestamp": "2026-11-12T14:38:57.519Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.1.0",
     "environment": "sandbox",
@@ -4054,16 +4082,10 @@
       }
     ],
     "trends": {
-      "participantChange": 1,
-      "newParticipants": [
-        "1d13bf8e-3b15-4358-bc2e-88560a968896"
-      ],
+      "participantChange": 0,
+      "newParticipants": [],
       "removedParticipants": [],
-      "roleChanges": {
-        "BDSP": 1,
-        "BSIP": 1,
-        "BPIP": 2
-      },
+      "roleChanges": {},
       "apiFamilyChanges": {}
     }
   },
