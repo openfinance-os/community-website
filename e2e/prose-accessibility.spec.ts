@@ -39,9 +39,12 @@ for (const theme of ['light', 'dark'] as const) {
       )
     ).toBe(true);
     await page.goto('/updates/');
-    await expect(page.locator('.news-card h2.card-title').first()).toBeVisible();
-    await expect(page.locator('.news-card h3.card-title')).toHaveCount(0);
+    // Section headings are h2, so card titles stay one level down.
+    await expect(page.getByRole('heading', { level: 2, name: 'External coverage' })).toBeVisible();
+    await expect(page.locator('.news-card h3.card-title').first()).toBeVisible();
+    await expect(page.locator('.news-card h2.card-title')).toHaveCount(0);
     await page.goto('/');
+    await expect(page.getByRole('heading', { level: 2, name: 'Latest News' })).toBeVisible();
     await expect(page.locator('.news-card h3.card-title').first()).toBeVisible();
   });
 }
