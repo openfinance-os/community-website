@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-11-13T13:56:45.175Z",
+  "timestamp": "2026-11-14T12:58:44.040Z",
   "version": "2.1.0",
   "production": {
-    "timestamp": "2026-11-13T13:56:43.480Z",
+    "timestamp": "2026-11-14T12:58:42.167Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.1.0",
     "environment": "production",
@@ -1280,13 +1280,11 @@
       "newParticipants": [],
       "removedParticipants": [],
       "roleChanges": {},
-      "apiFamilyChanges": {
-        "atm": 1
-      }
+      "apiFamilyChanges": {}
     }
   },
   "sandbox": {
-    "timestamp": "2026-11-13T13:56:45.170Z",
+    "timestamp": "2026-11-14T12:58:44.034Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.1.0",
     "environment": "sandbox",
