@@ -14,7 +14,7 @@
   "uae-nbfrt": {"name": "National Bank of Fujairah", "short": "NBF", "kind": "bank", "tier": "t2", "org": "National Bank of Fujairah PJSC", "confirmed": true},
   "uae-livx": {"name": "Liv (digital bank)", "short": "Liv", "kind": "bank", "tier": "other", "org": null, "confirmed": true, "note": "Digital retail banking brand; not separately registered in the production directory."},
   "uae-fabbusiness": {"name": "FAB business (unconfirmed)", "short": "FAB business", "kind": "bank", "tier": "other", "org": null, "segment": true, "confirmed": false},
-  "uae-aaic": {"name": "Alain Ahlia Insurance Company", "short": "Alain Ahlia", "kind": "insurer", "tier": "ins", "org": null, "confirmed": true},
+  "uae-aaic": {"name": "Alain Ahlia Insurance Company", "short": "Alain Ahlia", "kind": "insurer", "tier": "ins", "org": "ALAIN AHLIA INSURANCE COMPANY", "confirmed": true},
   "uae-orient": {"name": "Orient Insurance PJSC", "short": "Orient", "kind": "insurer", "tier": "ins", "org": null, "confirmed": true},
   "uae-awnic": {"name": "Al Wathba National Insurance Co (unconfirmed)", "short": "Al Wathba", "kind": "insurer", "tier": "ins", "org": null, "confirmed": false},
   "uae-adnic": {"name": "ADNIC", "short": "ADNIC", "kind": "insurer", "tier": "ins", "org": "ADNIC", "confirmed": true, "note": "Seen in the auth log only so far."},
@@ -22,7 +22,7 @@
   "uae-uic": {"name": "UIC (unidentified)", "short": "UIC", "kind": "bank", "tier": "other", "org": null, "confirmed": false, "note": "Seen in the auth log only so far. Unidentified key; the Nebras dashboard counts it under Banking, so it is classed as bank here."},
   "uae-cbdcorp": {"name": "CBD corporate (unconfirmed)", "short": "CBD corporate", "kind": "bank", "tier": "other", "org": null, "segment": true, "confirmed": false, "note": "Seen in the auth log only so far."},
   "uae-adcbsme": {"name": "ADCB SME (unconfirmed)", "short": "ADCB SME", "kind": "bank", "tier": "other", "org": null, "segment": true, "confirmed": false, "note": "Seen in the auth log only so far (1 call, 23 Oct 2026). Inferred from the key; not verified."},
-  "uae-scretail": {"name": "SCB scretail (unconfirmed)", "short": "SCB scretail", "kind": "bank", "tier": "other", "org": null, "confirmed": false, "note": "Auth log only: one 4xx /auth call on 2026-10-30. The key matches the Standard Chartered directory auth server name scretail. Classed as bank, the metrics default for a non-insurer key. Not a registered API resource and not proof of a live API. No tier assigned."}
+  "uae-scretail": {"name": "Standard Chartered Bank (Retail)", "short": "SCB retail", "kind": "bank", "tier": "t2", "org": "Standard Chartered Bank", "confirmed": true, "note": "Confirmed 2026-11-16: API-log traffic from 3 Nov 2026 under TPP name STANDARD CHARTERED BANK on account-information v2.1; key matches the directory auth server 'SCB Auth Server - scretail'. Directory registers no API resources yet."}
  },
  "orgs": {
   "FAB": {"name": "First Abu Dhabi Bank", "tier": "t1"},
@@ -37,6 +37,7 @@
   "National Bank of Fujairah PJSC": {"name": "National Bank of Fujairah", "tier": "t2"},
   "LIVA": {"name": "LIVA", "tier": "ins"},
   "ADNIC": {"name": "ADNIC", "tier": "ins"},
+  "ALAIN AHLIA INSURANCE COMPANY": {"name": "Alain Ahlia Insurance Company", "tier": "ins"},
   "Standard Chartered Bank": {"name": "Standard Chartered Bank", "tier": "t2"}
  },
  "t1Order": ["FAB", "Emirates NBD", "ADCB", "DIB", "Mashreq", "ADIB", "HSBC", "CBD"]
