@@ -57,17 +57,17 @@ For builders, the gap is the point. Customers don't see your error rate. They se
 
 ## What the rules expect
 
-The UAE model routes every call through the Nebras-operated API Hub: TPP to Hub to LFI and back. The Hub owns consents and tokens, and the LFI executes. The reliability targets attach to that path ([Open Finance UAE skill](https://github.com/middleleap/ai-dlc/blob/main/plugins/middleleap-open-finance-uae/skills/open-finance-uae/SKILL.md)).
+The UAE model routes every call through the Nebras-operated API Hub: TPP to Hub to LFI and back. The Hub owns consents and tokens, and the LFI executes. The reliability targets attach to that path ([LFI Integration Guide](https://nebras-open-finance.com/tech/lfi-api-hub)).
 
 <figure class="post-visual">
 <img src="/news/api-error-rate/sla-flow.svg" alt="Diagram of TPP to API Hub to LFI, with three targets: 500 ms p95 per LFI endpoint, 99.5% monthly availability, and 3 seconds end-to-end for domestic instant payments." />
 <figcaption>Where the reliability clocks run. Source: Open Finance UAE skill, operational policies.</figcaption>
 </figure>
 
-- **99.5% availability per calendar month** across an LFI's Ozone Connect endpoints. That allows about 3 hours 39 minutes of downtime a month, and planned maintenance still counts against it ([operational policies](https://github.com/middleleap/ai-dlc/blob/main/plugins/middleleap-open-finance-uae/skills/open-finance-uae/references/operational-policies.md)).
-- **500 ms response time at p95, per endpoint**, measured from the API Hub sending the request to receiving the last byte back. The published Benchmarks standard states 500 ms as an average. The policy holds each endpoint to p95, which is stricter ([operational policies](https://github.com/middleleap/ai-dlc/blob/main/plugins/middleleap-open-finance-uae/skills/open-finance-uae/references/operational-policies.md)).
-- **3 seconds end-to-end** for domestic instant payments, under the Aani scheme rule. This is a separate scheme rule. The 500 ms target covers only the API acknowledgement, and execution runs asynchronously ([operational policies](https://github.com/middleleap/ai-dlc/blob/main/plugins/middleleap-open-finance-uae/skills/open-finance-uae/references/operational-policies.md)).
-- An LFI must show it meets 99.5% over a proving period against real TPP traffic before sign-off, both at go-live and at each major-version go-live ([operational policies](https://github.com/middleleap/ai-dlc/blob/main/plugins/middleleap-open-finance-uae/skills/open-finance-uae/references/operational-policies.md)).
+- **99.5% availability per calendar month** across an LFI's Ozone Connect endpoints. That allows about 3 hours 39 minutes of downtime a month, and planned maintenance still counts against it ([Ozone Connect Availability Policy](https://nebras-open-finance.com/policy/ozone-connect-availability)).
+- **500 ms response time at p95, per endpoint**, measured from the API Hub sending the request to receiving the last byte back. The published Benchmarks standard states 500 ms as an average. The policy holds each endpoint to p95, which is stricter.
+- **3 seconds end-to-end** for domestic instant payments, under the Aani scheme rule. This is a separate scheme rule. The 500 ms target covers only the API acknowledgement, and execution runs asynchronously ([API Response Time Policy](https://nebras-open-finance.com/policy/ozone-connect-response-time)).
+- An LFI must show it meets 99.5% over a proving period against real TPP traffic before sign-off, both at go-live and at each major-version go-live ([Ozone Connect Availability Policy](https://nebras-open-finance.com/policy/ozone-connect-availability)).
 
 None of these targets is an error-rate target. An LFI can meet 99.5% availability and still return a high share of errors. That is why the Watch reports both, and why neither tells the whole story alone.
 
