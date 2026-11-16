@@ -12,14 +12,9 @@ const { limit = 4 } = Astro.props;
 // Fetch all news articles
 const allNews = await getCollection('news');
 
-// Sort by date (newest first) to show the latest news
-const sortedNews = allNews.sort((a, b) => {
-  return b.data.date.getTime() - a.data.date.getTime();
-});
-
-// External coverage leads. Weekly digests and analysis stay on the news index.
-const externalNews = sortedNews.filter((article) => newsOrigin(article) === 'external');
-const latestNews = (externalNews.length > 0 ? externalNews : sortedNews).slice(0, limit);
+// One list, newest first, own posts and external coverage together.
+const sortedNews = allNews.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const latestNews = sortedNews.slice(0, limit);
 ---
 
 <section class="latest-news-section">
@@ -55,6 +50,7 @@ const latestNews = (externalNews.length > 0 ? externalNews : sortedNews).slice(0
           slug={article.id}
           source={article.data.source}
           external={article.data.external}
+          origin={newsOrigin(article)}
         />
       ))}
     </div>
