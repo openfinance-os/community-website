@@ -211,4 +211,4 @@ We track V2.2 every week. The [Ecosystem Watch](/observatory/watch/) shows the T
 - Nebras, Commercial and Pricing Model (Confluence v35, 19 Oct 2026): https://openfinanceuae.atlassian.net/wiki/spaces/OF/pages/124846096/Commercial+and+Pricing+Model
 - Open Finance OS production registry snapshot, observed 2026-11-01 12:41 UTC: /observatory/data
 - Open Finance OS Ecosystem Watch, run 2026-11-02 (logs through 2026-10-25): /observatory/watch/
-- UAE architecture rules: MiddleLeap Open Finance UAE skill (github.com/middleleap/ai-dlc)
+- UAE architecture rules: MiddleLeap analysis

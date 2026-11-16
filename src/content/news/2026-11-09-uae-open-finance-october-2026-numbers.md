@@ -70,11 +70,11 @@ Some LFIs still stand out. Dubai Islamic Bank's full-month error share is 83.9% 
 
 ## What October means for builders
 
-**For TPPs, the rails can take volume.** A month of 842,969 calls with 95.7% of payments accepted is a reasonable signal that the hub-mediated path holds up under load. Every call still runs TPP to API Hub to LFI, with consent stored only in the Hub ([Open Finance UAE skill](https://github.com/middleleap/ai-dlc/blob/main/plugins/middleleap-open-finance-uae/skills/open-finance-uae/SKILL.md)). Design for the journey, not the single call.
+**For TPPs, the rails can take volume.** A month of 842,969 calls with 95.7% of payments accepted is a reasonable signal that the hub-mediated path holds up under load. Every call still runs TPP to API Hub to LFI, with consent stored only in the Hub ([LFI Integration Guide](https://nebras-open-finance.com/tech/lfi-api-hub)). Design for the journey, not the single call.
 
 **For LFIs, traffic arrives in steps.** ADIB's month shows how fast volume can land once a large TPP or internal channel switches on. Capacity planning based on last month's numbers will be wrong in a month like this one.
 
-**For everyone, fees are still a black box.** The pricing model sets fees such as 38 bps on merchant collections in year one ([Open Finance UAE skill](https://github.com/middleleap/ai-dlc/blob/main/plugins/middleleap-open-finance-uae/skills/open-finance-uae/SKILL.md)). The Watch withholds fee totals because the public logs don't show payment context, exemptions or individual values ([Ecosystem Watch](/observatory/watch/)). So nobody outside the scheme can yet say what AED 124.8 million in payments earned anyone.
+**For everyone, fees are still a black box.** The pricing model sets fees such as 38 bps on merchant collections in year one ([AlTareq Commercial and Pricing Model](https://openfinanceuae.atlassian.net/wiki/spaces/OF/pages/124846096/Commercial+and+Pricing+Model)). The Watch withholds fee totals because the public logs don't show payment context, exemptions or individual values ([Ecosystem Watch](/observatory/watch/)). So nobody outside the scheme can yet say what AED 124.8 million in payments earned anyone.
 
 **And the standards clock keeps running.** No Active API resource in the production directory is on v2.2 yet. The Watch checked all 14 organisations on 8 November ([Ecosystem Watch](/observatory/watch/)). We covered the year-end deadline in [our v2.2 explainer](/news/2026-11-02-uae-open-finance-v2-2-deadline).
 
