@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-11-16T14:50:19.269Z",
+  "timestamp": "2026-11-17T15:30:15.415Z",
   "version": "2.1.0",
   "production": {
-    "timestamp": "2026-11-16T14:50:17.776Z",
+    "timestamp": "2026-11-17T15:30:13.894Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.1.0",
     "environment": "production",
@@ -1284,7 +1284,7 @@
     }
   },
   "sandbox": {
-    "timestamp": "2026-11-16T14:50:19.264Z",
+    "timestamp": "2026-11-17T15:30:15.410Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.1.0",
     "environment": "sandbox",
@@ -1304,8 +1304,8 @@
         "pki-test-harness": 1
       },
       "byCity": {
-        "Unknown": 62,
-        "Abu Dhabi": 6,
+        "Unknown": 61,
+        "Abu Dhabi": 7,
         "Dubai": 11,
         "London": 2
       },
@@ -1320,8 +1320,8 @@
         "products",
         "reporting"
       ],
-      "liveInProduction": 19,
-      "shariahCompliantCount": 9,
+      "liveInProduction": 20,
+      "shariahCompliantCount": 10,
       "multiRoleCount": 77,
       "tppCount": 0,
       "byAuthCapabilities": {
@@ -1330,11 +1330,11 @@
         "redirect": 0
       },
       "byCertificationStatus": {
-        "Self-Certified": 87
+        "Self-Certified": 92
       },
       "byApiVersion": {
+        "2.1": 49,
         "2.0": 7,
-        "2.1": 44,
         "1.2.0": 5,
         "1.0.0": 21,
         "2.0.0": 6,
@@ -1379,19 +1379,61 @@
           "ISP",
           "LFI"
         ],
-        "city": "Unknown",
+        "city": "Abu Dhabi",
         "registrationNumber": "01.01.01.040.1985.01 / 11086687",
-        "apiFamilies": [],
-        "hasAuthServer": false,
-        "isShariahCompliant": false,
+        "apiFamilies": [
+          "accounts",
+          "atm",
+          "cop",
+          "payments",
+          "products"
+        ],
+        "hasAuthServer": true,
+        "isShariahCompliant": true,
         "authCapabilities": {
           "supportsCiba": false,
           "supportsDCR": false,
           "supportsRedirect": false
         },
-        "apiResources": [],
-        "authServerCount": 0,
-        "isLive": false
+        "apiResources": [
+          {
+            "family": "atm",
+            "rawFamily": "atm",
+            "version": "2.1",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": true
+          },
+          {
+            "family": "accounts",
+            "rawFamily": "account-information",
+            "version": "2.1",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": true
+          },
+          {
+            "family": "cop",
+            "rawFamily": "confirmation",
+            "version": "2.1",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": true
+          },
+          {
+            "family": "payments",
+            "rawFamily": "payment",
+            "version": "2.1",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": false
+          },
+          {
+            "family": "products",
+            "rawFamily": "product",
+            "version": "2.1",
+            "certificationStatus": "Self-Certified",
+            "familyComplete": true
+          }
+        ],
+        "authServerCount": 1,
+        "isLive": true
       },
       {
         "id": "1b4f7317-8b67-4179-bdfb-8054f74c25d0",
@@ -4094,7 +4136,13 @@
       "newParticipants": [],
       "removedParticipants": [],
       "roleChanges": {},
-      "apiFamilyChanges": {}
+      "apiFamilyChanges": {
+        "accounts": 1,
+        "atm": 1,
+        "cop": 1,
+        "payments": 1,
+        "products": 1
+      }
     }
   },
   "crossEnvironment": {
