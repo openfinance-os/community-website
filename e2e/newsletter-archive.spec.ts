@@ -1,4 +1,12 @@
 import { expect, test } from '@playwright/test';
+import { readFileSync } from 'node:fs';
+import { assertIssues, sortIssuesNewestFirst } from '../src/lib/newsletter-archive';
+
+const sentIssues = sortIssuesNewestFirst(
+  assertIssues(
+    JSON.parse(readFileSync(new URL('../data/newsletter/issues.json', import.meta.url), 'utf8'))
+  )
+);
 
 const subject = 'UAE Open Finance: why 12 of 30 registrations publish an auth server';
 const slug = 'uae-open-finance-why-12-of-30-registrations';
@@ -41,8 +49,15 @@ test('archive lists sent issues newest first', async ({ page }) => {
   await expect(page.locator('meta[property="og:image:height"]')).toHaveAttribute('content', '630');
   await expect(page.getByRole('heading', { level: 1, name: 'Newsletter archive' })).toBeVisible();
 
-  const card = page.locator('.news-card');
-  await expect(card).toHaveCount(1);
+  const cards = page.locator('.news-card');
+  await expect(cards).toHaveCount(sentIssues.length);
+  for (const [index, issue] of sentIssues.entries()) {
+    const issueCard = cards.nth(index);
+    await expect(issueCard).toHaveAttribute('href', `/newsletter/archive/${issue.slug}`);
+    await expect(issueCard.getByRole('heading')).toHaveText(issue.subject);
+    await expect(issueCard.locator('time')).toHaveAttribute('datetime', issue.publish_date);
+  }
+  const card = page.locator(`.news-card[href="${issuePath}"]`);
   await expect(card.locator('time')).toHaveText('Oct 29, 2026');
   await expect(card.getByRole('heading', { name: subject })).toBeVisible();
   await expect(card).toHaveAttribute('href', issuePath);
@@ -50,7 +65,21 @@ test('archive lists sent issues newest first', async ({ page }) => {
   await expect(card.locator('img')).toHaveAttribute('src', image);
   await expect(card.locator('img')).toHaveAttribute('srcset', /3000w/);
   await expect(page.locator('footer a[href="/newsletter/archive"]')).toBeVisible();
-  expect(await page.content()).not.toContain('assets.buttondown.email');
+  expect(await card.innerHTML()).not.toContain('assets.buttondown.email');
+});
+
+test('newest sent issue renders on its own canonical page', async ({ page }) => {
+  const latest = sentIssues[0];
+  const latestPath = `/newsletter/archive/${latest.slug}/`;
+  await page.goto(latestPath);
+  await expect(page).toHaveTitle(`${latest.subject} | Open Finance OS`);
+  await expect(page.getByRole('heading', { level: 1, name: latest.subject })).toBeVisible();
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    'href',
+    `https://openfinance-os.org${latestPath}`
+  );
+  await expect(page.locator('.issue-body')).not.toContainText('buttondown-editor-mode');
+  await expect(page.locator('.issue-body script')).toHaveCount(0);
 });
 
 test('issue page renders the briefing on the site with subscribe and Slack calls to action', async ({

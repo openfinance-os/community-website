@@ -1,4 +1,12 @@
 import { expect, test } from '@playwright/test';
+import { readFileSync } from 'node:fs';
+import { assertIssues, sortIssuesNewestFirst } from '../src/lib/newsletter-archive';
+
+const [latestIssue] = sortIssuesNewestFirst(
+  assertIssues(
+    JSON.parse(readFileSync(new URL('../data/newsletter/issues.json', import.meta.url), 'utf8'))
+  )
+);
 
 const pitch = 'The 5-minute weekly on UAE Open Finance, for the people building it';
 const action = 'https://buttondown.com/api/emails/embed-subscribe/openfinance-os';
@@ -47,7 +55,7 @@ test('newsletter page has metadata, the embed form, and a thank-you state', asyn
   );
   await expect(page.getByRole('heading', { name: 'What you get each week' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Inside an issue' })).toBeVisible();
-  await expect(page.getByText('Issue #1 out now')).toBeVisible();
+  await expect(page.getByText('Latest briefing available')).toBeVisible();
   await expect(page.locator('.hero-art')).toContainText('12 of 30');
   await expect(page.locator('.hero-art')).toContainText('1.42M');
   await expect(page.locator('img[src="/newsletter/story-registry-light.webp"]')).toHaveAttribute(
@@ -64,9 +72,9 @@ test('newsletter page has metadata, the embed form, and a thank-you state', asyn
     'https://openfinance-os.org/newsletter/'
   );
   await expect(page.getByRole('heading', { level: 1, name: pitch })).toBeVisible();
-  await expect(page.getByRole('link', { name: /Read issue #1/ })).toHaveAttribute(
+  await expect(page.getByRole('link', { name: 'Read the latest issue' })).toHaveAttribute(
     'href',
-    '/newsletter/archive/uae-open-finance-why-12-of-30-registrations'
+    `/newsletter/archive/${latestIssue.slug}`
   );
   await expect(page.locator('footer a[href="/newsletter/archive"]')).toBeVisible();
   const schemas = await page.locator('script[type="application/ld+json"]').allTextContents();
