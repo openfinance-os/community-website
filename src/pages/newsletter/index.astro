@@ -68,13 +68,17 @@ const faqSchema = {
     <section class="hero page-intro">
       <div class="hero-grid">
         <div class="hero-copy">
-          <p class="issue-badge">Issue #1 out now</p>
+          <p class="issue-badge">
+            {latestIssue ? 'Latest briefing available' : 'Newsletter archive'}
+          </p>
           <h1>The 5-minute weekly on UAE Open Finance, for the people building it</h1>
           <p class="audience">
             For banks and LFIs, TPPs and fintechs, product teams, and policy people.
           </p>
           <p class="issue-link">
-            <a href={latestIssuePath}>Read issue #1</a>
+            <a href={latestIssuePath}>
+              {latestIssue ? 'Read the latest issue' : 'Browse the archive'}
+            </a>
           </p>
           <!-- Confirmed subscribers land on /newsletter/welcome for the registry snapshot. -->
           <NewsletterSignup
