@@ -109,7 +109,10 @@ describe('committed newsletter archive', () => {
     expect(issues.map((issue) => issue.slug)).toContain(
       'uae-open-finance-why-12-of-30-registrations'
     );
-    const issue = issues[0];
+    const issue = issues.find(
+      (item) => item.slug === 'uae-open-finance-why-12-of-30-registrations'
+    );
+    if (!issue) throw new Error('Original sent issue is missing from the archive');
     const clean = sanitizeIssueHtml(issue.body);
     expect(issue.body).toContain('buttondown-editor-mode');
     expect(clean).not.toContain('buttondown-editor-mode');
@@ -124,5 +127,31 @@ describe('committed newsletter archive', () => {
     expect(clean).toContain('width: 100%');
     expect(clean).toContain('height: auto');
     expect(issueImage(issue)).toBe('/newsletter/header.webp');
+  });
+});
+
+describe('multiple committed newsletter issues', () => {
+  it('keeps the newest sent issue first while preserving older issues', () => {
+    const issues = assertIssues(JSON.parse(readFileSync(issuesPath, 'utf8')));
+    const sorted = sortIssuesNewestFirst(issues);
+    const latestIndex = sorted.findIndex(
+      (issue) => issue.slug === 'uae-open-finance-pay-by-bank-fees-38-bps'
+    );
+    const originalIndex = sorted.findIndex(
+      (issue) => issue.slug === 'uae-open-finance-why-12-of-30-registrations'
+    );
+    expect(latestIndex).toBeGreaterThanOrEqual(0);
+    expect(originalIndex).toBeGreaterThan(latestIndex);
+    for (let index = 1; index < sorted.length; index++) {
+      expect(Date.parse(sorted[index - 1].publish_date)).toBeGreaterThanOrEqual(
+        Date.parse(sorted[index].publish_date)
+      );
+    }
+    const latest = sorted[latestIndex];
+    expect(latest.subject).toBe('UAE Open Finance: pay-by-bank fees are 38 bps, capped at AED 50');
+    const clean = sanitizeIssueHtml(latest.body);
+    expect(clean).toContain('second issue of the Open Finance OS briefing');
+    expect(clean).not.toContain('buttondown-editor-mode');
+    expect(clean).not.toContain('<script');
   });
 });
