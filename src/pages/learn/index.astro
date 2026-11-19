@@ -2,6 +2,7 @@
 import PageLayout from '@layouts/PageLayout.astro';
 import Breadcrumb from '@components/common/Breadcrumb.astro';
 import EditorialNote from '@components/learn/EditorialNote.astro';
+import DeadlineCallout from '@components/learn/DeadlineCallout.astro';
 
 const startingPoints = [
   {
@@ -187,6 +188,7 @@ const sources = [
             </a>
           ))}
         </div>
+        <DeadlineCallout placement="learn" />
       </section>
 
       <section class="learning-section" aria-labelledby="roles-title">
