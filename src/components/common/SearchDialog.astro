@@ -9,6 +9,7 @@ import { getCollection } from 'astro:content';
 import { participantUrl } from '@lib/participant-identity';
 import { glossaryData, glossaryAnchor } from '@lib/glossary';
 import { roleLabels } from '@lib/taxonomy';
+import { V22_DEADLINE } from '@lib/v22-deadline';
 
 // Load profiles for city data (used by both production and sandbox)
 const profilesPath = join(process.cwd(), 'data/participants/profiles.json');
@@ -128,15 +129,24 @@ try {
 
 // Serialize data for client-side use
 const searchIndex = {
-  concepts: glossaryData.flatMap((section) =>
-    section.terms.map((term) => ({
+  concepts: [
+    ...glossaryData.flatMap((section) =>
+      section.terms.map((term) => ({
+        type: 'page' as const,
+        title: `${term.term}${term.full ? ` — ${term.full}` : ''}`,
+        description: term.definition,
+        url: `/learn/glossary#${glossaryAnchor(term.term)}`,
+        searchTerms: [term.term, term.full || '', term.definition],
+      }))
+    ),
+    {
       type: 'page' as const,
-      title: `${term.term}${term.full ? ` — ${term.full}` : ''}`,
-      description: term.definition,
-      url: `/learn/glossary#${glossaryAnchor(term.term)}`,
-      searchTerms: [term.term, term.full || '', term.definition],
-    }))
-  ),
+      title: V22_DEADLINE.title,
+      description: V22_DEADLINE.searchDescription,
+      url: V22_DEADLINE.path,
+      searchTerms: [V22_DEADLINE.title, V22_DEADLINE.searchDescription, 'V2.2', 'deadline'],
+    },
+  ],
   participants: [
     // Production participants
     ...productionParticipants.map((p) => ({

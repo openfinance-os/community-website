@@ -1,0 +1,345 @@
+---
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import PageLayout from '@layouts/PageLayout.astro';
+import Breadcrumb from '@components/common/Breadcrumb.astro';
+import OperatorPointer from '@components/learn/OperatorPointer.astro';
+import { pngSize } from '@lib/png-size';
+import { V22_DEADLINE, v22StructuredData } from '@lib/v22-deadline';
+
+const ogFile = join(process.cwd(), 'public', V22_DEADLINE.ogPath.replace(/^\//, ''));
+const ogSize = pngSize(readFileSync(ogFile));
+const pageUrl = new URL(V22_DEADLINE.path, Astro.site).toString();
+const imageUrl = new URL(V22_DEADLINE.ogPath, Astro.site).toString();
+const publisherUrl = new URL('/', Astro.site).toString();
+const publisherLogo = new URL('/brand/logo-icon-512.png', Astro.site).toString();
+const structuredData = v22StructuredData({
+  pageUrl,
+  imageUrl,
+  publisherUrl,
+  publisherLogo,
+});
+---
+
+<PageLayout
+  title={V22_DEADLINE.title}
+  description={V22_DEADLINE.description}
+  ogImage={V22_DEADLINE.ogPath}
+  ogImageAlt={V22_DEADLINE.title}
+  ogImageWidth={ogSize.width}
+  ogImageHeight={ogSize.height}
+  type="article"
+  articleSchema={structuredData}
+  breadcrumbCurrent="V2.2 deadline"
+>
+  <div class="guide-page">
+    <div class="guide-container">
+      <Breadcrumb items={[{ label: 'Learn', href: '/learn' }, { label: 'V2.2 deadline' }]} />
+      <header class="page-intro guide-intro">
+        <p class="eyebrow">{V22_DEADLINE.kicker}</p>
+        <h1>{V22_DEADLINE.title}</h1>
+        <p class="lead">{V22_DEADLINE.lead}</p>
+        <nav class="guide-jumps" aria-label="On this page">
+          <a href="#story">The story</a>
+          <a href="#dates">The dates</a>
+          <a href="#parties">Who they bind</a>
+          <a href="#faq">FAQ</a>
+          <a href="#source">Source</a>
+        </nav>
+      </header>
+
+      <section class="guide-section" id="story" aria-labelledby="story-title">
+        <div class="section-heading">
+          <p class="eyebrow">The story</p>
+          <h2 id="story-title">A release with a date, and a contract still to come.</h2>
+        </div>
+        <div class="prose">
+          {V22_DEADLINE.story.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+        </div>
+      </section>
+
+      <section class="guide-section" id="dates" aria-labelledby="dates-title">
+        <div class="section-heading">
+          <p class="eyebrow">The dates</p>
+          <h2 id="dates-title">Production first. Customers later.</h2>
+          <p>{V22_DEADLINE.datesIntro}</p>
+        </div>
+        <div class="date-grid">
+          {V22_DEADLINE.dates.map((item) => (
+            <article class="date-card">
+              <p class="date-kicker">{item.kicker}</p>
+              <p class="date-figure">{item.figure}</p>
+              <p>{item.detail}</p>
+            </article>
+          ))}
+        </div>
+        <p class="after-dates">{V22_DEADLINE.afterDates}</p>
+      </section>
+
+      <section class="guide-section" id="parties" aria-labelledby="parties-title">
+        <div class="section-heading">
+          <h2 id="parties-title">{V22_DEADLINE.partiesHeading}</h2>
+        </div>
+        <div class="party-grid">
+          {V22_DEADLINE.parties.map((party) => (
+            <article class="party-card">
+              <h3>{party.title}</h3>
+              <p>{party.body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="guide-section" id="faq" aria-labelledby="faq-title">
+        <div class="section-heading">
+          <h2 id="faq-title">{V22_DEADLINE.faqHeading}</h2>
+        </div>
+        <div class="faq-list">
+          {V22_DEADLINE.faqs.map((item) => (
+            <article>
+              <h3>{item.question}</h3>
+              <p>{item.answer}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="guide-section" id="source" aria-labelledby="source-title">
+        <OperatorPointer
+          heading={V22_DEADLINE.sourceHeading}
+          intro={V22_DEADLINE.sourceIntro}
+          links={[{ label: V22_DEADLINE.sourceLabel, href: V22_DEADLINE.sourceUrl }]}
+        />
+        <aside class="newsletter-cta" aria-labelledby="newsletter-title">
+          <h2 id="newsletter-title">{V22_DEADLINE.newsletter.heading}</h2>
+          <p>{V22_DEADLINE.newsletter.body}</p>
+          <a href={V22_DEADLINE.newsletter.href}>
+            {V22_DEADLINE.newsletter.action}
+            <span aria-hidden="true">→</span>
+          </a>
+        </aside>
+      </section>
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .guide-page {
+    padding: var(--space-8) var(--space-5) var(--space-16);
+    background: var(--color-surface);
+  }
+  .guide-container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .guide-intro {
+    padding: var(--space-4) 0 var(--space-10);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-4);
+  }
+  .guide-intro h1 {
+    max-width: 15em;
+    color: var(--color-brand-ink);
+    font-size: clamp(2.15rem, 4.4vw, 3.35rem);
+    line-height: 1.12;
+    letter-spacing: -0.04em;
+    margin-bottom: var(--space-6);
+  }
+  .lead,
+  .prose p,
+  .after-dates,
+  .party-card p,
+  .faq-list p {
+    color: var(--color-text-secondary);
+    line-height: 1.75;
+  }
+  .lead {
+    max-width: 42rem;
+    font-size: 1.125rem;
+    margin: 0;
+  }
+  .guide-jumps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+    margin-top: var(--space-8);
+  }
+  .guide-jumps a,
+  .newsletter-cta a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 44px;
+    color: var(--color-brand-ink);
+    font-weight: 600;
+  }
+  .guide-jumps a {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    background: var(--color-card);
+  }
+  .guide-section {
+    padding-top: var(--space-12);
+    scroll-margin-top: var(--space-8);
+  }
+  .section-heading {
+    margin-bottom: var(--space-6);
+  }
+  .section-heading h2,
+  .newsletter-cta h2,
+  .party-card h3,
+  .faq-list h3 {
+    color: var(--color-brand-ink);
+  }
+  .section-heading h2,
+  .newsletter-cta h2 {
+    font-size: clamp(1.65rem, 3vw, 2.1rem);
+    letter-spacing: -0.035em;
+    line-height: 1.2;
+    margin-bottom: var(--space-3);
+  }
+  .section-heading > p {
+    max-width: 44rem;
+    margin: 0;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+  .prose {
+    max-width: 44rem;
+  }
+  .prose p,
+  .after-dates {
+    margin: 0 0 var(--space-5);
+  }
+  .prose p:last-child {
+    margin-bottom: 0;
+  }
+  .date-grid,
+  .party-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-5);
+  }
+  .party-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .date-card,
+  .party-card,
+  .newsletter-cta,
+  .faq-list article {
+    min-width: 0;
+    background: #f7f4ee;
+    color: #132c2b;
+    border: 1px solid #eadcc8;
+    border-top: 4px solid #e8a85c;
+    border-radius: 16px;
+  }
+  .date-card,
+  .party-card,
+  .faq-list article {
+    padding: var(--space-6);
+  }
+  .date-kicker {
+    margin: 0 0 var(--space-3);
+    color: #80501d;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .date-figure {
+    margin: 0 0 var(--space-4);
+    color: #0d4f4f;
+    font-size: clamp(1.7rem, 3vw, 2.15rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+  }
+  .date-card p:last-child,
+  .party-card p,
+  .faq-list p {
+    margin: 0;
+    color: #3d524c;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+  }
+  .party-card h3,
+  .faq-list h3 {
+    margin: 0 0 var(--space-3);
+    color: #0d4f4f;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+  .after-dates {
+    max-width: 44rem;
+    margin-top: var(--space-6);
+    margin-bottom: 0;
+  }
+  .faq-list {
+    display: grid;
+    gap: var(--space-4);
+  }
+  .newsletter-cta {
+    margin-top: var(--space-8);
+    padding: var(--space-8);
+  }
+  .newsletter-cta p {
+    max-width: 40rem;
+    margin: 0 0 var(--space-4);
+    color: #3d524c;
+    line-height: 1.7;
+  }
+  .newsletter-cta a {
+    font-size: 0.875rem;
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+  :global([data-theme='dark']) .date-card,
+  :global([data-theme='dark']) .party-card,
+  :global([data-theme='dark']) .newsletter-cta,
+  :global([data-theme='dark']) .faq-list article {
+    background: #f7f4ee;
+    color: #132c2b;
+    border-color: #eadcc8;
+  }
+  :global([data-theme='dark']) .date-figure,
+  :global([data-theme='dark']) .party-card h3,
+  :global([data-theme='dark']) .faq-list h3,
+  :global([data-theme='dark']) .newsletter-cta h2,
+  :global([data-theme='dark']) .newsletter-cta a {
+    color: #0d4f4f;
+  }
+  :global([data-theme='dark']) .date-card p:last-child,
+  :global([data-theme='dark']) .party-card p,
+  :global([data-theme='dark']) .faq-list p,
+  :global([data-theme='dark']) .newsletter-cta p {
+    color: #3d524c;
+  }
+  :global([data-theme='dark']) .date-kicker {
+    color: #80501d;
+  }
+  @media (max-width: 800px) {
+    .date-grid,
+    .party-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .guide-intro h1 {
+      max-width: none;
+    }
+    .newsletter-cta {
+      padding: var(--space-6);
+    }
+  }
+</style>

@@ -3,6 +3,7 @@ import PageLayout from '@layouts/PageLayout.astro';
 import Hero from '@components/home/Hero.astro';
 import OpenCircuit from '@components/home/OpenCircuit.astro';
 import StartingPoints from '@components/home/StartingPoints.astro';
+import DeadlineCallout from '@components/learn/DeadlineCallout.astro';
 import WorkedExample from '@components/home/WorkedExample.astro';
 import ObservatoryPreview from '@components/home/ObservatoryPreview.astro';
 import EcosystemRecord from '@components/home/EcosystemRecord.astro';
@@ -109,6 +110,7 @@ const icons: Record<string, string> = {
     }
   />
   <StartingPoints />
+  <DeadlineCallout placement="home" />
   <OpenCircuit />
   <WorkedExample />
 
