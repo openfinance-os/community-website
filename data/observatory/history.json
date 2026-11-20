@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-19T15:16:18.310Z",
+  "lastUpdated": "2026-11-20T14:54:24.155Z",
   "dataPoints": [
     {
       "date": "2025-12-26",
@@ -7546,6 +7546,36 @@
     },
     {
       "date": "2026-11-19",
+      "totalParticipants": 31,
+      "liveInProduction": 14,
+      "byRole": {
+        "BDSP": 17,
+        "BSIP": 16,
+        "LFI": 23,
+        "ISP": 8,
+        "API Read_Write": 3,
+        "Cert_Management": 1,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 6,
+        "Unknown": 17,
+        "Dubai": 8
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "atm": 3,
+        "cop": 9,
+        "insurance": 3,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-11-20",
       "totalParticipants": 31,
       "liveInProduction": 14,
       "byRole": {
@@ -15148,6 +15178,36 @@
       },
       "tppCount": 0,
       "shariahCompliantCount": 1
+    },
+    {
+      "date": "2026-11-20",
+      "totalParticipants": 31,
+      "liveInProduction": 14,
+      "byRole": {
+        "BDSP": 17,
+        "BSIP": 16,
+        "LFI": 23,
+        "ISP": 8,
+        "API Read_Write": 3,
+        "Cert_Management": 1,
+        "TSP": 3,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Abu Dhabi": 6,
+        "Unknown": 17,
+        "Dubai": 8
+      },
+      "apiFamilyCoverage": {
+        "accounts": 10,
+        "atm": 3,
+        "cop": 9,
+        "insurance": 3,
+        "payments": 9,
+        "products": 8
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 1
     }
   ],
   "sandboxHistory": [
@@ -21730,6 +21790,40 @@
     },
     {
       "date": "2026-11-19",
+      "totalParticipants": 81,
+      "liveInProduction": 20,
+      "byRole": {
+        "BDSP": 76,
+        "BSIP": 76,
+        "LFI": 53,
+        "ISP": 57,
+        "BPIP": 2,
+        "API Read_Write": 2,
+        "TSP": 2,
+        "pki-test-harness": 1
+      },
+      "byCity": {
+        "Unknown": 61,
+        "Abu Dhabi": 7,
+        "Dubai": 11,
+        "London": 2
+      },
+      "apiFamilyCoverage": {
+        "account": 6,
+        "accounts": 9,
+        "atm": 3,
+        "cop": 9,
+        "insurance": 4,
+        "onboarding": 1,
+        "payments": 14,
+        "products": 10,
+        "reporting": 1
+      },
+      "tppCount": 0,
+      "shariahCompliantCount": 10
+    },
+    {
+      "date": "2026-11-20",
       "totalParticipants": 81,
       "liveInProduction": 20,
       "byRole": {
