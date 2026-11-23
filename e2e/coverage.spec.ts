@@ -132,6 +132,7 @@ test('homepage briefing, coverage and the Watch remain readable without JavaScri
   );
   await page.goto('/observatory/watch/');
   await expect(page.getByRole('heading', { name: 'Saved Ecosystem Watch briefing' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Public API metrics' })).toBeVisible();
   await expect(page.getByRole('navigation', { name: 'Observatory' })).toBeVisible();
   await context.close();
 });

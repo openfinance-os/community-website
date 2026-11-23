@@ -1,25 +1,20 @@
 import { readFileSync } from 'node:fs';
 import { watchBriefing } from './watch-briefing';
+import { renderWatchSummary } from './watch-summary';
 
 /** Render the saved Watch payload without changing its chart/data contracts. */
 export function renderWatchContent() {
   const template = readFileSync('tools/watch/watch.template.html', 'utf8');
   const payload = readFileSync('data/watch/payload.json', 'utf8');
   if (!template.includes('__DATA__')) throw new Error('Watch template is missing __DATA__');
-  const briefing = watchBriefing(JSON.parse(payload));
-  const esc = (text: string) =>
-    text.replace(
-      /[&<>"']/g,
-      (char) =>
-        ({
-          '&': '&amp;',
-          '<': '&lt;',
-          '>': '&gt;',
-          '"': '&quot;',
-          "'": '&#39;',
-        })[char]!
-    );
-  const fallback = `<noscript><section class="watch-fallback"><h1>Saved Ecosystem Watch briefing</h1><p>Run ${esc(briefing.runDate)}; operational logs through ${esc(briefing.asOfData)}.</p>${briefing.items.map((item) => `<article><h2>${esc(item.area)}</h2><p>${esc(item.text)}</p></article>`).join('')}<p>Enable JavaScript for the full charts and source tables, or <a href="/observatory/briefing/">read the integrated briefing</a>.</p></section></noscript>`;
+  const data = JSON.parse(payload) as {
+    runDate?: string;
+    asOfData?: string;
+    checked?: { date?: string };
+    links?: Record<string, string>;
+  };
+  const briefing = watchBriefing(data);
+  const fallback = `<noscript>${renderWatchSummary({ ...data, summary: briefing.items })}</noscript>`;
   // Prefix template selectors so generic card/table/heading rules cannot restyle
   // the site's shared header, search dialog or founder footer.
   const styles = template
