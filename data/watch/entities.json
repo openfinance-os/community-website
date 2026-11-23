@@ -14,6 +14,7 @@
   "uae-nbfrt": {"name": "National Bank of Fujairah", "short": "NBF", "kind": "bank", "tier": "t2", "org": "National Bank of Fujairah PJSC", "confirmed": true},
   "uae-livx": {"name": "Liv (digital bank)", "short": "Liv", "kind": "bank", "tier": "other", "org": null, "confirmed": true, "note": "Digital retail banking brand; not separately registered in the production directory."},
   "uae-fabbusiness": {"name": "FAB business (unconfirmed)", "short": "FAB business", "kind": "bank", "tier": "other", "org": null, "segment": true, "confirmed": false},
+  "uae-wiosme": {"name": "WIO SME (unconfirmed)", "short": "WIO SME", "kind": "bank", "tier": "other", "org": null, "segment": true, "confirmed": false, "note": "Inferred 2026-11-23: first seen 13 Nov 2026, one 2xx CoP v2.1 discovery call from SPARE DIGITAL TECHNOLOGIES. Key pattern suggests a WIO SME segment of the WIO Bank directory org; not confirmed."},
   "uae-aaic": {"name": "Alain Ahlia Insurance Company", "short": "Alain Ahlia", "kind": "insurer", "tier": "ins", "org": "ALAIN AHLIA INSURANCE COMPANY", "confirmed": true},
   "uae-orient": {"name": "Orient Insurance PJSC", "short": "Orient", "kind": "insurer", "tier": "ins", "org": null, "confirmed": true},
   "uae-awnic": {"name": "Al Wathba National Insurance Co (unconfirmed)", "short": "Al Wathba", "kind": "insurer", "tier": "ins", "org": null, "confirmed": false},
