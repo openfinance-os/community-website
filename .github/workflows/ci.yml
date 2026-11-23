@@ -13,7 +13,7 @@ on:
       - '.github/ISSUE_TEMPLATE/**'
 
 env:
-  NODE_VERSION: '22.23.1'
+  NODE_VERSION: '22.23.4'
 
 # Cancel in-progress runs for the same branch
 concurrency:

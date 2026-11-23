@@ -29,7 +29,7 @@ We link to official sources. We don't replace them.
 
 ## Quick Start
 
-Use Node.js 22.23.1 (pinned in `.node-version`); Astro requires Node.js 22.22.0 or newer.
+Use Node.js 22.23.4 (pinned in `.node-version`); Astro requires Node.js 22.23.4 or newer.
 
 ```bash
 # Install dependencies
