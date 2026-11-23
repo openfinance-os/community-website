@@ -2,17 +2,6 @@
  "note": "One compact, ecosystem-level entry per run that published new data (runs where the logs didn't advance add no row). Institution-specific columns are not allowed. Keep ~26 entries.",
  "runs": [
   {
-   "runDate": "2026-06-10",
-   "totalFull": 378779,
-   "errPct": 44.2,
-   "paySucc": 92.5,
-   "authPct": 54.0,
-   "hhi": 7315,
-   "liveLFIs": 10,
-   "liveTPPs": 11,
-   "websiteSpecBranch": "caap-refactor"
-  },
-  {
    "runDate": "2026-06-11",
    "totalFull": 378779,
    "errPct": 44.2,
@@ -296,6 +285,18 @@
   },
   {
    "runDate": "2026-11-16",
+   "totalFull": 2259856,
+   "errPct": 12.7,
+   "paySucc": 95.7,
+   "authPct": 53.4,
+   "top1Share": 83.0,
+   "hhi": 6965,
+   "liveLFIs": 16,
+   "liveTPPs": 17,
+   "websiteSpecBranch": "v2.2-rc2-nebras"
+  },
+  {
+   "runDate": "2026-11-23",
    "totalFull": 2259856,
    "errPct": 12.7,
    "paySucc": 95.7,
