@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Local preview builder for the Ecosystem Watch page.
 
-The production page is built by the Astro endpoint
-src/pages/observatory/watch/index.html.ts, which injects
+The production page is built by the Astro page
+src/pages/observatory/watch/index.astro, which injects
 data/watch/payload.json into tools/watch/watch.template.html at site build
 time. This script does the same injection standalone so a payload can be
 previewed without running the full site build:

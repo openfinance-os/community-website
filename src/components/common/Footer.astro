@@ -1,4 +1,8 @@
 ---
+import MiddleLeapLogo from './MiddleLeapLogo.astro';
+import NewsletterSignup from './NewsletterSignup.astro';
+import { NEWSLETTER_SOURCES, SLACK_JOIN_PLACEMENTS, SLACK_JOIN_URL } from '../../lib/newsletter';
+
 interface Props {
   lastUpdated?: string;
 }
@@ -11,6 +15,8 @@ const quickLinks = [
   { label: 'Learn', href: '/learn' },
   { label: 'Community', href: '/community' },
   { label: 'About', href: '/about' },
+  { label: 'Newsletter', href: '/newsletter' },
+  { label: 'Newsletter archive', href: '/newsletter/archive' },
 ];
 
 const resources = [
@@ -26,6 +32,7 @@ const resources = [
   },
   { label: 'CBUAE', href: 'https://www.centralbank.ae', external: true },
   { label: 'GitHub', href: 'https://github.com/openfinance-os', external: true },
+  { label: 'News RSS', href: '/rss.xml', external: false },
 ];
 
 const formatDate = (dateStr: string) => {
@@ -63,13 +70,13 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
     <div class="footer-brand">
       <a href="/" class="footer-logo">
         <img
-          src="/brand/logo-icon.svg"
-          alt="OpenFinance-OS Logo - UAE Open Finance and Open Banking Community"
+          src="/brand/logo-icon-dark.svg"
+          alt=""
           width="28"
           height="28"
           class="footer-logo-img"
         />
-        <span>OpenFinance-OS</span>
+        <span>Open Finance OS</span>
       </a>
       <p class="footer-tagline">Built by the community, for the community.</p>
       <p class="footer-description">
@@ -79,7 +86,7 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
     </div>
 
     <div class="footer-links">
-      <h3 class="footer-heading">Quick Links</h3>
+      <h2 class="footer-heading">Quick Links</h2>
       <ul class="footer-list">
         {quickLinks.map((link) => (
           <li>
@@ -92,7 +99,7 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
     </div>
 
     <div class="footer-links">
-      <h3 class="footer-heading">Resources</h3>
+      <h2 class="footer-heading">Resources</h2>
       <ul class="footer-list">
         {resources.map((link) => (
           <li>
@@ -123,7 +130,7 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
     </div>
 
     <div class="footer-links">
-      <h3 class="footer-heading">Connect</h3>
+      <h2 class="footer-heading">Connect</h2>
       <ul class="footer-list">
         <li>
           <a
@@ -140,7 +147,7 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
         </li>
         <li>
           <a
-            href="https://github.com/openfinance-os/community/discussions"
+            href="https://github.com/openfinance-os/community-website/discussions"
             class="footer-link"
             target="_blank"
             rel="noopener noreferrer"
@@ -159,13 +166,48 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
             </svg>
           </a>
         </li>
+        <li>
+          <a
+            href={SLACK_JOIN_URL}
+            class="footer-link"
+            data-slack-join={SLACK_JOIN_PLACEMENTS.footer}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Slack
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <path d="M7 17L17 7M17 7H7M17 7v10"></path>
+            </svg>
+          </a>
+        </li>
       </ul>
     </div>
   </div>
 
+  <NewsletterSignup
+    source={NEWSLETTER_SOURCES.footer}
+    variant="footer"
+    heading="Newsletter"
+    description="Weekly UAE Open Finance briefing. One email, no spam."
+  />
+
   <div class="footer-bottom">
     <div class="footer-bottom-inner">
       <p class="footer-meta">
+        <span class="founder-credit">
+          <span>A community initiative founded by</span>
+          <a href="https://www.middleleap.com/" aria-label="MiddleLeap">
+            <MiddleLeapLogo tone="dark" />
+          </a>
+        </span>
         <span class="meta-label">Open source under MIT License</span>
         {lastUpdated && (
           <>
@@ -180,15 +222,19 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
           </>
         )}
       </p>
-      <p class="footer-disclaimer">Not affiliated with any bank, regulator, or official body.</p>
+      <p class="footer-disclaimer">
+        Open Finance OS is a community initiative and is not affiliated with, endorsed by, or
+        officially connected to the CBUAE, Al Tareq Platform, or any financial institution. Always
+        verify information with official sources.
+      </p>
     </div>
   </div>
 </footer>
 
 <style>
   .footer {
-    background: var(--color-gray-900);
-    color: var(--color-gray-300);
+    background: #0c3d3e;
+    color: #cce4d8;
     margin-top: auto;
   }
 
@@ -215,7 +261,7 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
 
     .footer-links {
       padding-left: var(--space-6);
-      border-left: 1px solid var(--color-gray-800);
+      border-left: 1px solid #365a55;
     }
   }
 
@@ -227,16 +273,16 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 1rem;
     font-weight: 600;
-    color: var(--color-gray-100);
+    color: #f1f7f1;
     text-decoration: none;
     transition: color var(--transition-fast);
   }
 
   .footer-logo:hover {
-    color: var(--color-primary-400);
+    color: #cce4d8;
     text-decoration: none;
   }
 
@@ -248,23 +294,23 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
     margin-top: var(--space-4);
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--color-gray-100);
+    color: #f1f7f1;
   }
 
   .footer-description {
     margin-top: var(--space-2);
     font-size: 0.875rem;
     line-height: 1.6;
-    color: var(--color-gray-400);
+    color: #c1d5ce;
   }
 
   .footer-heading {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--color-gray-500);
+    color: #adc1b9;
     margin-bottom: var(--space-4);
   }
 
@@ -283,7 +329,7 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
     gap: var(--space-2);
     font-size: 0.875rem;
     line-height: 1.6;
-    color: var(--color-gray-300);
+    color: #cce4d8;
     text-decoration: none;
     transition:
       color var(--transition-fast),
@@ -303,7 +349,7 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
   }
 
   .footer-link:hover {
-    color: var(--color-gray-100);
+    color: #f1f7f1;
     text-decoration: none;
   }
 
@@ -316,7 +362,7 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
   }
 
   .footer-bottom {
-    border-top: 1px solid var(--color-gray-800);
+    border-top: 1px solid #365a55;
     background: rgba(0, 0, 0, 0.2);
   }
 
@@ -342,31 +388,45 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
     flex-wrap: wrap;
     align-items: center;
     gap: var(--space-2);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.75rem;
-    color: var(--color-gray-500);
+    color: #adc1b9;
   }
 
   .meta-separator {
-    color: var(--color-gray-700);
+    color: #adc1b9;
+  }
+
+  .founder-credit {
+    flex-basis: 100%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    column-gap: 4px;
+  }
+
+  .founder-credit a {
+    color: inherit;
+    display: inline-flex;
+    text-decoration: none;
   }
 
   .meta-timestamp time {
-    color: var(--color-gray-400);
+    color: #c1d5ce;
   }
 
   .relative-time {
-    color: var(--color-primary-400);
+    color: #cce4d8;
     font-weight: 500;
   }
 
   .time-separator {
-    color: var(--color-gray-600);
+    color: #adc1b9;
   }
 
   .footer-disclaimer {
     font-size: 0.75rem;
-    color: var(--color-gray-500);
+    color: #adc1b9;
   }
 </style>
 

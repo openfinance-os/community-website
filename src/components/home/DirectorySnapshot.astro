@@ -1,0 +1,404 @@
+---
+interface DirectoryObservation {
+  registered: number;
+  apiFamilies: string[];
+  observedAt: string;
+}
+interface Props {
+  production: DirectoryObservation;
+  sandbox: DirectoryObservation | null;
+}
+const { production, sandbox } = Astro.props;
+const environments = [
+  { id: 'production', label: 'Production', data: production },
+  ...(sandbox ? [{ id: 'sandbox', label: 'Sandbox', data: sandbox }] : []),
+];
+const date = (value: string) =>
+  new Date(value).toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'UTC',
+  });
+---
+
+<div class="directory-snapshot" data-directory-snapshot>
+  <div class="panel-label">
+    <span>The ecosystem, at a glance</span>
+    <span>UAE / Directory snapshot</span>
+  </div>
+  <section class="snapshot-card" aria-label="Directory snapshot preview">
+    <div class="panel-top">
+      <h2 class="panel-title">
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="9"></circle>
+          <circle cx="12" cy="12" r="4"></circle>
+          <circle cx="12" cy="12" r="1"></circle>
+        </svg>
+        Observatory
+      </h2>
+      <div class="directory-tabs" role="tablist" aria-label="Directory environment" hidden>
+        {environments.map(({ id, label }, index) => (
+          <button
+            id={`directory-tab-${id}`}
+            data-environment={id}
+            role="tab"
+            aria-selected={index === 0 ? 'true' : 'false'}
+            aria-controls={`directory-panel-${id}`}
+            tabindex={index === 0 ? 0 : -1}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+    </div>
+    {environments.map(({ id, label, data }, index) => (
+      <div
+        id={`directory-panel-${id}`}
+        role="tabpanel"
+        aria-labelledby={`directory-tab-${id}`}
+        hidden={index !== 0}
+      >
+        <div class="directory-art">
+          <div class="network-grid" aria-hidden="true" />
+          <span class="network-corner">Directory / {label}</span>
+          <div class="orbit" aria-hidden="true" />
+          <div class="hero-stat">
+            <>
+              <strong>{data.registered}</strong>
+              <span>{id} directory registrations</span>
+            </>
+          </div>
+          <>
+            <i class="orbit-node n1" aria-hidden="true" />
+            <i class="orbit-node n2" aria-hidden="true" />
+            <i class="orbit-node n3" aria-hidden="true" />
+          </>
+          <div class="network-bottom">
+            <>
+              <span>
+                Observed <time datetime={data.observedAt}>{date(data.observedAt)} UTC</time>
+              </span>
+              <span>UAE Trust Framework</span>
+            </>
+          </div>
+        </div>
+        <div class="family-section">
+          <>
+            <div class="family-heading">
+              <>
+                <strong>Published API families</strong>
+                <span>{data.apiFamilies.length} families</span>
+              </>
+            </div>
+            <div class="families">
+              {data.apiFamilies.map((family) => (
+                <span>{family}</span>
+              ))}
+            </div>
+          </>
+        </div>
+        <p class="panel-foot">
+          Directory registration does not establish operational status.
+          <>
+            <br />
+            <a href="/observatory/coverage">Explore the source and evidence →</a>
+          </>
+        </p>
+      </div>
+    ))}
+  </section>
+  <div class="snapshot-caption">
+    <span>Saved directory observations, with source context.</span>
+    <a href="/observatory/data">
+      Open data <span aria-hidden="true">↗</span>
+    </a>
+  </div>
+</div>
+
+<script>
+  const snapshot = document.querySelector<HTMLElement>('[data-directory-snapshot]');
+  if (snapshot) {
+    const tabs = Array.from(snapshot.querySelectorAll<HTMLButtonElement>('[data-environment]'));
+    const panels = Array.from(snapshot.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
+    const select = (tab: HTMLButtonElement) => {
+      tabs.forEach((item) => {
+        item.setAttribute('aria-selected', String(item === tab));
+        item.tabIndex = item === tab ? 0 : -1;
+      });
+      panels.forEach((panel) => {
+        panel.hidden = panel.id !== tab.getAttribute('aria-controls');
+      });
+    };
+    snapshot.querySelector<HTMLElement>('[role="tablist"]')!.hidden = false;
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => select(tab));
+      tab.addEventListener('keydown', (event) => {
+        let next: HTMLButtonElement | undefined;
+        if (event.key === 'ArrowRight') next = tabs[(index + 1) % tabs.length];
+        if (event.key === 'ArrowLeft') next = tabs[(index - 1 + tabs.length) % tabs.length];
+        if (event.key === 'Home') next = tabs[0];
+        if (event.key === 'End') next = tabs[tabs.length - 1];
+        if (next) {
+          event.preventDefault();
+          select(next);
+          next.focus();
+        }
+      });
+    });
+  }
+</script>
+
+<style>
+  .directory-snapshot {
+    min-width: 0;
+  }
+  .panel-label {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--color-text-secondary);
+    font-size: 0.6875rem;
+    margin-bottom: 13px;
+  }
+  .panel-label > :first-child {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .snapshot-card {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    box-shadow: 0 22px 65px rgb(24 61 42 / 0.04);
+  }
+  .panel-top {
+    padding: 19px 23px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .panel-title {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0;
+  }
+  .panel-title svg {
+    color: var(--color-brand-ink);
+    flex-shrink: 0;
+  }
+  .directory-tabs {
+    display: flex;
+    gap: 2px;
+    padding: 3px;
+    background: var(--color-soft);
+    border-radius: var(--radius-md);
+  }
+  .directory-tabs[hidden],
+  [role='tabpanel'][hidden] {
+    display: none;
+  }
+  .directory-tabs button {
+    border: 0;
+    background: transparent;
+    color: var(--color-text-secondary);
+    padding: 8px 10px;
+    font-size: 0.6875rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .directory-tabs button[aria-selected='true'] {
+    background: var(--color-card);
+    color: var(--color-text);
+    box-shadow: 0 1px 4px rgb(0 0 0 / 0.05);
+  }
+  .directory-art {
+    background: #0c3d3e;
+    height: 246px;
+    position: relative;
+    overflow: hidden;
+    color: #edf5ef;
+  }
+  .network-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(#bfd7cd09 1px, transparent 1px),
+      linear-gradient(90deg, #bfd7cd09 1px, transparent 1px);
+    background-size: 32px 32px;
+    mask-image: linear-gradient(90deg, transparent, #000 20%, #000 80%, transparent);
+  }
+  .orbit {
+    position: absolute;
+    width: 215px;
+    height: 215px;
+    border: 1px solid #9abbac40;
+    border-radius: 50%;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .orbit::before,
+  .orbit::after {
+    content: '';
+    position: absolute;
+    border: 1px solid #bfd9cc55;
+    border-radius: 50%;
+    inset: 23px;
+  }
+  .orbit::after {
+    inset: 46px;
+    border-color: #bfd9cc77;
+  }
+  .hero-stat {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .hero-stat strong {
+    font-size: 4.3125rem;
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.06em;
+  }
+  .hero-stat span {
+    font-size: 0.6875rem;
+    color: #c6d9cf;
+  }
+  .orbit-node {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #cce4d8;
+  }
+  .n1 {
+    top: 15px;
+    left: 50%;
+    background: #e8a85c;
+    width: 9px;
+    height: 9px;
+  }
+  .n2 {
+    top: 119px;
+    left: calc(50% - 110px);
+  }
+  .n3 {
+    top: 182px;
+    left: calc(50% + 79px);
+  }
+  .network-corner {
+    position: absolute;
+    top: 17px;
+    left: 19px;
+    font-size: 0.625rem;
+    color: #c6d9cf;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .network-bottom {
+    position: absolute;
+    bottom: 15px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 0.625rem;
+    color: #c6d9cf;
+  }
+  .family-section {
+    padding: 19px 23px 20px;
+  }
+  .family-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 11px;
+  }
+  .family-heading strong {
+    color: var(--color-text);
+    font-weight: 500;
+  }
+  .families {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .families span {
+    border: 1px solid var(--color-border);
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-size: 0.6875rem;
+    color: var(--color-text-secondary);
+  }
+  .panel-foot {
+    padding: 13px 23px;
+    border-top: 1px solid var(--color-border);
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+  }
+  .panel-foot a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .snapshot-caption {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 12px;
+    font-size: 0.6875rem;
+    color: var(--color-text-secondary);
+  }
+  .snapshot-caption a {
+    color: inherit;
+    white-space: nowrap;
+  }
+  @media (max-width: 900px) {
+    .panel-top {
+      padding: 15px;
+    }
+    .family-section,
+    .panel-foot {
+      padding-inline: 15px;
+    }
+    .panel-label {
+      font-size: 0.625rem;
+    }
+  }
+  @media (max-width: 400px) {
+    .panel-title {
+      font-size: 0.75rem;
+    }
+    .directory-tabs button {
+      padding: 8px;
+      font-size: 0.625rem;
+    }
+    .panel-top {
+      gap: 8px;
+    }
+    .network-bottom {
+      font-size: 0.5625rem;
+    }
+  }
+</style>

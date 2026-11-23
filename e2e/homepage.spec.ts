@@ -6,7 +6,7 @@ test.describe('Homepage', () => {
   });
 
   test('should load successfully with correct title', async ({ page }) => {
-    await expect(page).toHaveTitle(/OpenFinance-OS|Open Finance/i);
+    await expect(page).toHaveTitle(/Open Finance OS|Open Finance/i);
   });
 
   test('should display the hero section', async ({ page }) => {

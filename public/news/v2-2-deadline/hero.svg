@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="640" height="400">
+  <g aria-hidden="true" font-family="DM Sans, system-ui, sans-serif">
+    <rect width="640" height="400" fill="var(--color-card, #ffffff)" />
+    <text x="320" y="64" text-anchor="middle" fill="var(--color-text-secondary, #526662)" font-size="32" font-weight="500">V2.2 release deadline</text>
+    <text x="320" y="176" text-anchor="middle" fill="var(--color-brand-ink, #0d4f4f)" font-size="104" font-weight="500">59 days</text>
+    <text x="320" y="228" text-anchor="middle" fill="var(--color-text, #132c2b)" font-size="32">2 Nov to 31 Dec 2026</text>
+    <!-- 51 declarations, 0 on v2.2: an empty bar with an accent outline -->
+    <rect x="40" y="264" width="560" height="44" rx="12" fill="var(--color-soft, #e7efea)" stroke="var(--color-accent, #e8a85c)" stroke-width="2" />
+    <text x="320" y="356" text-anchor="middle" fill="var(--color-text, #132c2b)" font-size="32">0 of 51 production APIs on v2.2</text>
+  </g>
+</svg>

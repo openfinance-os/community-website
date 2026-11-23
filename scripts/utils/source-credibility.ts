@@ -1,7 +1,7 @@
 // Source credibility tracking for news curation
 // Tracks historical performance of news sources to improve future scoring
 
-import { readFileSync, writeFileSync, existsSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync, statSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -10,9 +10,29 @@ const __dirname = dirname(__filename);
 
 const CREDIBILITY_FILE = join(__dirname, '../../data/news-curation/source-credibility.json');
 
+/** Points added (or removed) on top of the preferred-source bonus. */
+const TIER_ADJUSTMENT: Record<SourceTier, number> = {
+  official: 14,
+  independent: 12,
+  regional: 6,
+  trade: 2,
+  house: -10,
+  wire: -18,
+};
+
+let cachedCredibility: { mtimeMs: number; data: CredibilityData } | null = null;
+
+export type SourceTier = 'official' | 'independent' | 'regional' | 'trade' | 'house' | 'wire';
+
 export interface SourceCredibility {
   domain: string;
   displayName: string;
+  /**
+   * Editorial tier. This is a judgement about the outlet, separate from the
+   * merge-rate bonus, which stays at 0 until the outlet has been proposed
+   * at least three times.
+   */
+  tier?: SourceTier;
   articlesProposed: number; // Total articles proposed via PR
   articlesPublished: number; // PRs that were merged
   articlesRejected: number; // PRs that were closed without merge
@@ -40,8 +60,13 @@ export function loadCredibilityData(): CredibilityData {
   }
 
   try {
-    const data = readFileSync(CREDIBILITY_FILE, 'utf-8');
-    return JSON.parse(data);
+    const mtimeMs = statSync(CREDIBILITY_FILE).mtimeMs;
+    if (cachedCredibility && cachedCredibility.mtimeMs === mtimeMs) {
+      return cachedCredibility.data;
+    }
+    const data = JSON.parse(readFileSync(CREDIBILITY_FILE, 'utf-8')) as CredibilityData;
+    cachedCredibility = { mtimeMs, data };
+    return data;
   } catch (error) {
     console.warn('Failed to load credibility data, starting fresh:', error);
     return {
@@ -58,6 +83,29 @@ export function loadCredibilityData(): CredibilityData {
 export function saveCredibilityData(data: CredibilityData): void {
   data.lastUpdated = new Date().toISOString();
   writeFileSync(CREDIBILITY_FILE, JSON.stringify(data, null, 2));
+  cachedCredibility = null;
+}
+
+function domainKey(domain: string): string {
+  return domain.toLowerCase().replace(/^www\./, '');
+}
+
+/** Editorial tier for a domain, if one is recorded. */
+export function getSourceTier(domain: string): SourceTier | undefined {
+  const key = domainKey(domain);
+  if (!key) return undefined;
+  return loadCredibilityData().sources.find((source) => domainKey(source.domain) === key)?.tier;
+}
+
+/** True for outlets recorded as independent editorial sources. */
+export function isIndependentDomain(domain: string): boolean {
+  return getSourceTier(domain) === 'independent';
+}
+
+/** Score adjustment from the editorial tier. Unknown domains score 0. */
+export function getTierAdjustment(domain: string): number {
+  const tier = getSourceTier(domain);
+  return tier ? TIER_ADJUSTMENT[tier] : 0;
 }
 
 /**
@@ -189,7 +237,7 @@ export function getCredibilityReport(): string {
         : 0;
     const bonus = getCredibilityBonus(`https://${source.domain}`);
 
-    report += `${source.displayName} (${source.domain})\n`;
+    report += `${source.displayName} (${source.domain}${source.tier ? `, ${source.tier}` : ''})\n`;
     report += `  Proposed: ${source.articlesProposed} | Published: ${source.articlesPublished} | Rejected: ${source.articlesRejected}\n`;
     report += `  Merge Rate: ${mergeRate}% | Avg Score: ${source.averageRelevanceScore} | Bonus: ${bonus >= 0 ? '+' : ''}${bonus}\n`;
     report += `  First seen: ${source.firstSeen.split('T')[0]} | Last updated: ${source.lastUpdated.split('T')[0]}\n`;

@@ -15,6 +15,7 @@ const { current } = Astro.props;
 </nav>
 <style>
   .observatory-nav {
+    min-width: 0;
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
@@ -23,8 +24,8 @@ const { current } = Astro.props;
     padding: 20px 16px;
   }
   a {
-    color: var(--color-primary-600);
-    border: 1px solid var(--color-gray-200);
+    color: var(--color-brand-ink);
+    border: 1px solid var(--color-border);
     padding: 10px 14px;
     border-radius: var(--radius-lg);
     text-decoration: none;

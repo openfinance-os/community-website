@@ -8,16 +8,16 @@ import PageLayout from '@layouts/PageLayout.astro';
 >
   <div class="community-page">
     <!-- Hero Section -->
-    <header class="hero">
+    <header class="page-intro hero">
       <div class="container">
         <h1>Join the Community</h1>
         <p class="hero-subtitle">
-          Built by developers, for developers. OpenFinance-OS is a grassroots initiative to make UAE
-          Open Finance visible, accessible, and welcoming.
+          Built by developers, for developers. Open Finance OS is a grassroots initiative to make
+          UAE Open Finance visible, accessible, and welcoming.
         </p>
         <div class="hero-cta">
           <a
-            href="https://github.com/openfinance-os/community/discussions"
+            href="https://github.com/openfinance-os/community-website/discussions"
             class="btn btn-primary"
             target="_blank"
             rel="noopener noreferrer"
@@ -158,7 +158,7 @@ import PageLayout from '@layouts/PageLayout.astro';
               <li>Share with your network</li>
             </ul>
             <a
-              href="https://github.com/openfinance-os/community/discussions"
+              href="https://github.com/openfinance-os/community-website/discussions"
               class="card-link"
               target="_blank"
               rel="noopener noreferrer"
@@ -176,25 +176,25 @@ import PageLayout from '@layouts/PageLayout.astro';
         <h2>Contribution Guidelines</h2>
         <div class="guidelines-grid">
           <div class="guideline-item">
-            <h4>Fork & Pull Request</h4>
+            <h3>Fork & Pull Request</h3>
             <p>
               All contributions go through GitHub. Fork the repo, make your changes, and open a PR.
             </p>
           </div>
           <div class="guideline-item">
-            <h4>Editorial Standards</h4>
+            <h3>Editorial Standards</h3>
             <p>
               Content should be factual, link to primary sources, and avoid promotional language.
             </p>
           </div>
           <div class="guideline-item">
-            <h4>Code Quality</h4>
+            <h3>Code Quality</h3>
             <p>
               Follow existing patterns, write clear code, and test your changes before submitting.
             </p>
           </div>
           <div class="guideline-item">
-            <h4>Be Respectful</h4>
+            <h3>Be Respectful</h3>
             <p>
               We follow a Code of Conduct. Be kind, constructive, and welcoming to all contributors.
             </p>
@@ -217,12 +217,12 @@ import PageLayout from '@layouts/PageLayout.astro';
             <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path>
             </svg>
-            <h4>GitHub Organization</h4>
+            <h3>GitHub Organization</h3>
             <p>Browse repositories, star the project, and fork to contribute</p>
           </a>
 
           <a
-            href="https://github.com/openfinance-os/community/discussions"
+            href="https://github.com/openfinance-os/community-website/discussions"
             class="connect-card"
             target="_blank"
             rel="noopener noreferrer"
@@ -238,7 +238,7 @@ import PageLayout from '@layouts/PageLayout.astro';
             >
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
             </svg>
-            <h4>Discussions</h4>
+            <h3>Discussions</h3>
             <p>Ask questions, share ideas, and connect with the community</p>
           </a>
 
@@ -261,7 +261,7 @@ import PageLayout from '@layouts/PageLayout.astro';
               <line x1="12" y1="8" x2="12" y2="12"></line>
               <line x1="12" y1="16" x2="12.01" y2="16"></line>
             </svg>
-            <h4>Report an Issue</h4>
+            <h3>Report an Issue</h3>
             <p>Found a bug or have a suggestion? Open an issue on GitHub</p>
           </a>
 
@@ -285,7 +285,7 @@ import PageLayout from '@layouts/PageLayout.astro';
               <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path>
               <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
             </svg>
-            <h4>OpenFinance Hackathon</h4>
+            <h3>OpenFinance Hackathon</h3>
             <p>Build innovative solutions on UAE Open Finance APIs</p>
           </a>
         </div>
@@ -330,13 +330,13 @@ import PageLayout from '@layouts/PageLayout.astro';
   .hero {
     padding: var(--space-16) var(--space-4);
     text-align: center;
-    background: linear-gradient(180deg, var(--color-primary-50) 0%, var(--color-surface) 100%);
+    background: var(--color-surface);
   }
 
   .hero h1 {
-    font-size: clamp(2rem, 5vw, 3rem);
+    font-size: clamp(2rem, 4vw, 3.5rem);
     margin-bottom: var(--space-4);
-    color: var(--color-primary-600);
+    color: var(--color-text);
   }
 
   .hero-subtitle {
@@ -348,6 +348,7 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   .hero-cta {
+    min-width: 0;
     display: flex;
     gap: var(--space-3);
     justify-content: center;
@@ -377,14 +378,14 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   .btn-secondary {
-    background: white;
+    background: var(--color-card);
     color: var(--color-text);
-    border: 1px solid var(--color-gray-300);
+    border: 1px solid var(--color-border);
   }
 
   .btn-secondary:hover {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-400);
+    background: var(--color-soft);
+    border-color: var(--color-border);
     text-decoration: none;
   }
 
@@ -426,14 +427,15 @@ import PageLayout from '@layouts/PageLayout.astro';
 
   /* Contribute Section */
   .contribute-grid {
+    min-width: 0;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: var(--space-6);
   }
 
   .contribute-card {
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     padding: var(--space-6);
     transition: all var(--transition-fast);
@@ -446,13 +448,14 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   .card-icon {
+    min-width: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 48px;
     height: 48px;
     background: var(--color-primary-50);
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
     border-radius: var(--radius-lg);
     margin-bottom: var(--space-4);
   }
@@ -498,26 +501,28 @@ import PageLayout from '@layouts/PageLayout.astro';
 
   .card-link {
     font-weight: 500;
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
     font-size: 0.875rem;
   }
 
   .card-link:hover {
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
   }
 
   /* Guidelines Section */
   .guidelines-section {
-    background: var(--color-gray-50);
+    background: var(--color-surface);
   }
 
   .guidelines-grid {
+    min-width: 0;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: var(--space-6);
   }
 
-  .guideline-item h4 {
+  .guideline-item h3 {
+    font-family: var(--font-sans);
     font-size: 1rem;
     font-weight: 600;
     color: var(--color-text);
@@ -532,15 +537,16 @@ import PageLayout from '@layouts/PageLayout.astro';
 
   /* Connect Section */
   .connect-grid {
+    min-width: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
     gap: var(--space-4);
   }
 
   .connect-card {
     display: block;
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     padding: var(--space-6);
     text-decoration: none;
@@ -555,11 +561,12 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   .connect-card svg {
-    color: var(--color-primary-500);
+    color: var(--color-brand-ink);
     margin-bottom: var(--space-3);
   }
 
-  .connect-card h4 {
+  .connect-card h3 {
+    font-family: var(--font-sans);
     font-size: 1rem;
     font-weight: 600;
     color: var(--color-text);
@@ -636,39 +643,39 @@ import PageLayout from '@layouts/PageLayout.astro';
 
   /* Dark mode */
   :global([data-theme='dark']) .hero {
-    background: linear-gradient(180deg, rgba(20, 184, 166, 0.1) 0%, var(--color-surface) 100%);
+    background: var(--color-surface);
   }
 
   :global([data-theme='dark']) .hero h1 {
-    color: var(--color-primary-400);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .hero-subtitle {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .btn-secondary {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-300);
-    color: var(--color-gray-700);
+    background: var(--color-soft);
+    border-color: var(--color-border);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .btn-secondary:hover {
-    background: var(--color-gray-200);
-    border-color: var(--color-gray-400);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .section h2 {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .section-intro {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .contribute-card {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .contribute-card:hover {
@@ -678,44 +685,44 @@ import PageLayout from '@layouts/PageLayout.astro';
 
   :global([data-theme='dark']) .card-icon {
     background: rgba(20, 184, 166, 0.15);
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .contribute-card h3 {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .contribute-card > p {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .card-list li {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .card-link {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .card-link:hover {
-    color: var(--color-primary-300);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .guidelines-section {
-    background: var(--color-gray-100);
+    background: var(--color-soft);
   }
 
-  :global([data-theme='dark']) .guideline-item h4 {
-    color: var(--color-gray-900);
+  :global([data-theme='dark']) .guideline-item h3 {
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .guideline-item p {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .connect-card {
-    background: var(--color-gray-100);
-    border-color: var(--color-gray-200);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .connect-card:hover {
@@ -724,20 +731,20 @@ import PageLayout from '@layouts/PageLayout.astro';
   }
 
   :global([data-theme='dark']) .connect-card svg {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
-  :global([data-theme='dark']) .connect-card h4 {
-    color: var(--color-gray-900);
+  :global([data-theme='dark']) .connect-card h3 {
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .connect-card p {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .connect-card.hackathon {
     border-color: var(--color-accent-500);
-    background: linear-gradient(135deg, var(--color-gray-100) 0%, rgba(232, 168, 92, 0.1) 100%);
+    background: linear-gradient(135deg, var(--color-soft) 0%, rgba(232, 168, 92, 0.1) 100%);
   }
 
   :global([data-theme='dark']) .connect-card.hackathon:hover {

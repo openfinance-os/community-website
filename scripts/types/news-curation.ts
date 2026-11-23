@@ -12,6 +12,10 @@ export interface NewsApiArticle {
   urlToImage: string | null;
   publishedAt: string;
   content: string | null;
+  /** Configured feed name. Google News items are renamed to the publisher, so the RSS bonus looks this up. */
+  feedName?: string;
+  /** Publisher homepage when `url` is still an aggregator redirect such as news.google.com. */
+  publisherUrl?: string | null;
 }
 
 export interface NewsApiResponse {
@@ -29,9 +33,15 @@ export interface CuratedArticle {
   description: string;
   summary: string;
   relevanceScore: number;
+  /** Gate confidence from 0 to 1. Items below the configured threshold are not proposed. */
+  confidence: number;
+  /** Set for the agentic-access beat. Omitted for other accepted stories. */
+  beat?: string;
   type: 'global' | 'community' | 'milestone' | 'official' | 'opinion';
   region: 'uae' | 'mena' | 'global';
   slug: string;
+  /** Publisher homepage captured from a Google News `<source url>` element. */
+  publisherUrl?: string;
 }
 
 export interface PendingArticle extends CuratedArticle {
@@ -85,6 +95,17 @@ export interface GitHubPR {
   branch: string;
 }
 
+/** A news page with stable HTML and no usable feed. */
+export interface HtmlNewsPage {
+  name: string;
+  url: string;
+  priority: number;
+  category?: 'regulatory' | 'regional' | 'industry';
+  format: 'nebras-news' | 'cbuae-home';
+  /** Overrides the global lookback. Official pages publish less often than news wires. */
+  lookbackHours?: number;
+}
+
 export interface RssFeedSource {
   name: string;
   url: string;
@@ -96,6 +117,12 @@ export interface RssFeedSource {
    * the client normalises both so scoring sees the real outlet.
    */
   format?: 'rss' | 'google-news';
+  /** When false, the feed stays in config for the record but is not fetched. */
+  enabled?: boolean;
+  /** The feed has failed from some networks. A failure is logged and skipped. */
+  lowConfidence?: boolean;
+  /** Why a feed is disabled or marked low-confidence. */
+  note?: string;
 }
 
 /** Minimum score an article must reach, by inferred region. */
@@ -113,6 +140,10 @@ export interface RssArticle {
   content?: string;
   source: string;
   categories?: string[];
+  /** Configured feed name, before Google News swaps in the publisher. */
+  feedName?: string;
+  /** Homepage URL from a Google News `<source url="...">` element. */
+  publisherUrl?: string;
 }
 
 export interface KeyCompany {
@@ -138,6 +169,22 @@ export interface NewsSourceConfig {
   regulatoryBodies?: RegulatoryBody[];
   breakingNewsSignals?: string[];
   maxArticlesPerRun: number;
+  /** Maximum items from one domain in a single daily digest. Defaults to 1. */
+  maxPerDomainPerRun?: number;
+  /**
+   * Maximum fraction of the rolling 7-day proposed/published window one domain
+   * may occupy. Defaults to 0.3. Applied once the window has at least 3 items.
+   */
+  maxDomainShareWeekly?: number;
+  /**
+   * Slots held for region:global items from independent outlets, when any pass
+   * the relevance gate. Unused slots are filled by the next ranked item.
+   */
+  minInternationalPerRun?: number;
+  /** Points removed when the URL looks like a press release. Defaults to 25. */
+  pressReleasePenalty?: number;
+  /** URL fragments that mark a press release. Defaults to wire and /pressarticle/ paths. */
+  pressReleaseUrlPatterns?: string[];
   lookbackHours: number;
   minRelevanceScore?: number;
   /** Per-region minimum scores; falls back to minRelevanceScore. */
@@ -149,6 +196,17 @@ export interface NewsSourceConfig {
   requireCoreTermForGlobal?: boolean;
   /** Reject items published more than this many hours in the future (default 6). */
   futureToleranceHours?: number;
+  /**
+   * Minimum relevance-gate confidence (0–1). Defaults to 0.55, which a core
+   * open-finance term in the title clears on its own.
+   */
+  minConfidence?: number;
+  /** Overrides the gate's core-term list when non-empty. */
+  relevanceCoreTerms?: string[];
+  /** Overrides the gate's hard exclusions when non-empty. */
+  relevanceExclusions?: string[];
+  /** HTML news pages scraped when the publisher has no feed. */
+  htmlPages?: HtmlNewsPage[];
   /** URL path fragments identifying event, webinar or gated-content pages. */
   eventUrlPatterns?: string[];
   /** Title/description phrases identifying event listings or promos. */

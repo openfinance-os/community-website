@@ -81,7 +81,7 @@ export async function fetchParticipants(
     {
       headers: {
         Accept: 'application/json',
-        'User-Agent': 'OpenFinance-OS-Collector/2.0 (https://openfinance-os.org)',
+        'User-Agent': 'Open Finance OS-Collector/2.0 (https://openfinance-os.org)',
       },
     },
     opts.retries!,
@@ -111,7 +111,7 @@ export async function fetchRoles(options: Partial<FetchOptions> = {}): Promise<R
     {
       headers: {
         Accept: 'application/json',
-        'User-Agent': 'OpenFinance-OS-Collector/2.0 (https://openfinance-os.org)',
+        'User-Agent': 'Open Finance OS-Collector/2.0 (https://openfinance-os.org)',
       },
     },
     opts.retries!,

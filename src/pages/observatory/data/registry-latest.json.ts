@@ -19,7 +19,7 @@ export const GET: APIRoute = () => {
     schemaVersion: latest.version,
     definitions: registryDefinitions,
     license: 'CC-BY-4.0',
-    attribution: 'OpenFinance-OS (openfinance-os.org) — independent, not official',
+    attribution: 'Open Finance OS (openfinance-os.org) — independent, not official',
     summary: latest.summary,
     participants: latest.participants,
   };

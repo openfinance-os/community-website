@@ -18,7 +18,7 @@ weekly job ──▶ data/watch/payload.json   (the numbers + findings, recomput
               data/watch/history.json   (week-over-week trend, ~26 entries)
                      │  git commit + push
                      ▼
-Astro build ──▶ src/pages/observatory/watch/index.html.ts
+Astro build ──▶ src/pages/observatory/watch/index.astro
               injects payload into tools/watch/watch.template.html (__DATA__)
                      ▼
 Cloudflare Pages ──▶ openfinance-os.org/observatory/watch/
@@ -56,7 +56,7 @@ the instruction set pasted into the scheduled Claude Code routine
 | Path | Purpose |
 | --- | --- |
 | `watch.template.html` | Self-contained dashboard template; consumes the payload via `var D=__DATA__` |
-| `build_watch_page.py` | Standalone preview builder (the site build uses the Astro endpoint instead) |
+| `build_watch_page.py` | Standalone preview builder (the site build uses the Astro page instead) |
 | `of_watch_metrics.py` | Deterministic recompute of the log-derived metrics (money in integer fils) + `verify` (source-fidelity self-check) + `guard` (early-exit when data hasn't advanced). Transparently decodes the sharded `api-log-index.json` format the feed moved to in Sep 2026 (see "API log format" below) |
 | `of_watch_specdiff.py` | Field-level OpenAPI diff of the tracked spec surface via `raw.githubusercontent.com` — works with no GitHub API (see "Degraded GitHub scope") |
 | `test_of_watch_*.py` | No-network unit tests (`for t in tools/watch/test_of_watch_*.py; do python3 $t; done`) |
@@ -183,3 +183,7 @@ in the schema: no payload field may be named after an institution, and headline
 cards are chosen by rank rather than fixed to a name. Every change it
 reports carries a clickable source URL (GitHub commit/compare, Nebras page,
 Confluence page, CBUAE rulebook, or the production directory).
+
+### Website presentation
+
+The Astro page uses the shared site layout, navigation, local DM Sans fonts, search, theme persistence and founder footer. `src/lib/watch-document.ts` scopes the template CSS to the dashboard and embeds the saved payload safely, retaining the no-JavaScript briefing. Status counts use accessible theme colors separately from chart fills; numeric values and evidence semantics are unchanged. Watch retains its narrower explicit-navigation analytics configuration when using the shared shell.

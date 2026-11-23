@@ -1,6 +1,6 @@
 # PRD: Community & Collaboration Platform
 
-## OpenFinance-OS Community Hub
+## Open Finance OS Community Hub
 
 ---
 
@@ -8,7 +8,7 @@
 
 ### 1.1 What This Is
 
-The **Community & Collaboration Platform** extends OpenFinance-OS beyond a static information hub into a living ecosystem where participants connect, share knowledge, and build reputation. It comprises three interconnected systems:
+The **Community & Collaboration Platform** extends Open Finance OS beyond a static information hub into a living ecosystem where participants connect, share knowledge, and build reputation. It comprises three interconnected systems:
 
 1. **Expert Directory** — Opt-in profiles connecting ecosystem participants with relevant expertise
 2. **Community Q&A** — Integrated knowledge base bridging AI assistance with human expertise
@@ -33,7 +33,7 @@ UAE Open Finance is nascent. Success depends not just on technical infrastructur
 | **Banks** | Discover innovative TPPs for partnerships |
 | **Consultants** | Visibility and lead generation |
 | **Developers** | Learn from peers, build reputation |
-| **OpenFinance-OS** | Network effects, stickiness, differentiation |
+| **Open Finance OS** | Network effects, stickiness, differentiation |
 
 ### 1.4 Relationship to Habibi Chat Agent
 
@@ -244,7 +244,7 @@ type Specialization =
 
 **Privacy-First Approach:**
 1. No direct contact info displayed (unless user opts in)
-2. Contact requests go through OpenFinance-OS form
+2. Contact requests go through Open Finance OS form
 3. Expert receives notification and can choose to respond
 4. Prevents spam while enabling legitimate connections
 
@@ -286,7 +286,7 @@ type Specialization =
 |--------------|-----------------|
 | **Verified Email** | Email confirmation |
 | **GitHub Connected** | OAuth authentication |
-| **Contributor** | Has merged PRs to OpenFinance-OS |
+| **Contributor** | Has merged PRs to Open Finance OS |
 | **Participant Experience** | Verified through Q&A activity or endorsements |
 | **Endorsed** | Other verified experts vouch for them |
 
@@ -296,7 +296,7 @@ type Specialization =
 
 ### 4.1 Overview
 
-A knowledge base powered by **GitHub Discussions** with a custom frontend on OpenFinance-OS, integrated with Habibi for AI-assisted answers.
+A knowledge base powered by **GitHub Discussions** with a custom frontend on Open Finance OS, integrated with Habibi for AI-assisted answers.
 
 ### 4.2 Why GitHub Discussions?
 
@@ -661,7 +661,7 @@ async function calculateContributionPoints(event: GitHubEvent) {
 Profile Settings:
 ☑ Show my profile in Expert Directory
 ☐ Show my email address publicly
-☑ Allow contact requests through OpenFinance-OS
+☑ Allow contact requests through Open Finance OS
 ☑ Show my contribution history
 ☐ Show my organization name
 ```
@@ -755,7 +755,7 @@ Profile Settings:
 ### Phase 2: Q&A Integration (Weeks 6-12)
 
 - [ ] GitHub Discussions webhook integration
-- [ ] Q&A page on OpenFinance-OS website
+- [ ] Q&A page on Open Finance OS website
 - [ ] Habibi integration for auto-answers
 - [ ] Answer voting and acceptance
 - [ ] Category/tag filtering
@@ -847,12 +847,12 @@ Profile Settings:
 | Stack Overflow | SEO, reputation | Generic, not finance-specific |
 | LinkedIn Groups | Professional network | Closed, noisy |
 | Discord/Slack | Real-time | Not searchable, ephemeral |
-| **OpenFinance-OS** | Ecosystem-specific, integrated | New, needs critical mass |
+| **Open Finance OS** | Ecosystem-specific, integrated | New, needs critical mass |
 
 ### B. Related PRDs
 
 - [PRD-CHAT-AGENT.md](./PRD-CHAT-AGENT.md) — Habibi AI assistant (integrates with Q&A)
-- [PRD.MD](../PRD.MD) — Main OpenFinance-OS website PRD
+- [PRD.MD](../PRD.MD) — Main Open Finance OS website PRD
 
 ---
 

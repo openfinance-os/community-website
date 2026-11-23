@@ -1,0 +1,192 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import SlackJoin from '@components/common/SlackJoin.astro';
+import { REGISTRY_SNAPSHOT, SLACK_JOIN_PLACEMENTS } from '@lib/newsletter';
+
+const pageDescription =
+  'Thanks for subscribing. The Open Finance OS briefing arrives every Monday at noon Dubai time.';
+const archiveUrl = '/newsletter/archive';
+---
+
+<PageLayout title="Thanks for subscribing" description={pageDescription} robots="noindex, follow">
+  <div class="welcome-page">
+    <section class="welcome page-intro" aria-labelledby="welcome-heading">
+      <div class="welcome-inner">
+        <p class="confirmed">You're confirmed</p>
+        <h1 id="welcome-heading">Thanks for subscribing</h1>
+        <p class="cadence">The newsletter arrives every Monday at noon Dubai time.</p>
+
+        <article class="snapshot">
+          <h2>UAE Open Finance registry snapshot</h2>
+          <p class="snapshot-lead">
+            29 organisations, 30 registration IDs, 12 publish an auth server.
+            <span class="as-of">Data as of 28 Oct 2026.</span>
+          </p>
+          <div class="actions">
+            <a
+              class="download-button"
+              href={REGISTRY_SNAPSHOT.href}
+              data-snapshot-download={REGISTRY_SNAPSHOT.placement}
+              download="registry-snapshot.pdf"
+            >
+              Download the registry snapshot
+            </a>
+            <SlackJoin
+              placement={SLACK_JOIN_PLACEMENTS.welcome}
+              label="Join the Slack community"
+              variant="button"
+            />
+          </div>
+        </article>
+
+        <nav class="next-links" aria-label="Where to go next">
+          <a href="/observatory">Observatory</a>
+          <a href={archiveUrl}>Newsletter archive</a>
+        </nav>
+
+        <p class="disclaimer">
+          Independent, community-run. Not an official CBUAE or Nebras publication.
+        </p>
+      </div>
+    </section>
+  </div>
+</PageLayout>
+
+<style>
+  .welcome-page {
+    min-height: 100%;
+    color: var(--color-text);
+  }
+
+  .welcome {
+    padding: var(--space-16) var(--space-4) var(--space-20);
+  }
+
+  .welcome-inner {
+    width: 100%;
+    max-width: 720px;
+    margin-inline: auto;
+  }
+
+  .confirmed {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-bottom: var(--space-4);
+    padding: 0.3rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    color: var(--color-text-secondary);
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
+  .confirmed::before {
+    content: '';
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 999px;
+    background: var(--color-accent);
+  }
+
+  .welcome-page h1,
+  .welcome-page h2 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    color: var(--color-text);
+  }
+
+  .welcome-page h1 {
+    max-width: 16em;
+    font-size: clamp(1.85rem, 3.2vw, 2.6rem);
+    line-height: 1.15;
+  }
+
+  .welcome-page h2 {
+    font-size: clamp(1.35rem, 2vw, 1.6rem);
+  }
+
+  .cadence,
+  .snapshot-lead {
+    max-width: 38rem;
+    color: var(--color-text-secondary);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+
+  .cadence {
+    margin-top: var(--space-4);
+  }
+
+  .snapshot {
+    margin-top: var(--space-8);
+    padding: var(--space-6);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+  }
+
+  .snapshot-lead {
+    margin-top: var(--space-3);
+    margin-bottom: var(--space-6);
+  }
+
+  .as-of {
+    display: inline-block;
+    white-space: nowrap;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .download-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0.75rem 1.15rem;
+    border-radius: var(--radius-lg);
+    background: var(--color-primary-fill);
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .download-button:hover {
+    background: var(--color-primary-fill-strong);
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .download-button:focus-visible,
+  .next-links a:focus-visible {
+    outline: 2px solid var(--color-accent-600);
+    outline-offset: 3px;
+  }
+
+  .next-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4) var(--space-6);
+    margin-top: var(--space-8);
+  }
+
+  .next-links a {
+    color: var(--color-brand-ink);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  .disclaimer {
+    margin-top: var(--space-8);
+    color: var(--color-text-secondary);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+</style>

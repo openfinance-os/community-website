@@ -17,7 +17,7 @@ export const GET: APIRoute = () => {
     trackingSince: getTrackingSince(),
     definitions: registryDefinitions,
     license: 'CC-BY-4.0',
-    attribution: 'OpenFinance-OS (openfinance-os.org) — independent, not official',
+    attribution: 'Open Finance OS (openfinance-os.org) — independent, not official',
     note: 'Event dates are later-snapshot observation dates and can lag real-world changes. The 2026-10-08 collector schema 2.1 update expanded family coverage; additions on that date can reflect a measurement correction.',
     count: events.length,
     events,

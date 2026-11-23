@@ -1,5 +1,16 @@
+import { join } from 'node:path';
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import {
+  includeInSitemap,
+  loadNewsLastModified,
+  loadNewsletterLastModified,
+} from './src/lib/sitemap-pages.mjs';
+
+const newsLastModified = loadNewsLastModified(join(process.cwd(), 'src/content/news'));
+const newsletterLastModified = loadNewsletterLastModified(
+  join(process.cwd(), 'data/newsletter/issues.json')
+);
 
 export default defineConfig({
   site: 'https://openfinance-os.org',
@@ -21,15 +32,27 @@ export default defineConfig({
 
   markdown: {
     shikiConfig: {
-      theme: 'github-dark',
+      theme: 'github-dark-high-contrast',
       wrap: true,
     },
   },
 
   integrations: [
     sitemap({
-      customPages: ['https://openfinance-os.org/observatory/watch/'],
-      filter: (page) => !page.includes('/github'),
+      filter: includeInSitemap,
+      customPages: [
+        'https://openfinance-os.org/brand/openfinance-os-brand-guidelines.html',
+        'https://openfinance-os.org/brand/logo-preview.html',
+      ],
+      serialize(item) {
+        const pathname = new URL(item.url).pathname;
+        const key = pathname.endsWith('/') ? pathname : `${pathname}/`;
+        const newsDate = newsLastModified.get(key);
+        const issueDate = newsletterLastModified.get(key);
+        if (newsDate) item.lastmod = newsDate;
+        else if (issueDate) item.lastmod = issueDate;
+        return item;
+      },
     }),
   ],
 

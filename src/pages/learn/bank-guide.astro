@@ -20,7 +20,7 @@ const observedDate = latest.timestamp.slice(0, 10);
         <span>Bank / LFI Guide</span>
       </nav>
 
-      <header class="page-header">
+      <header class="page-intro page-header">
         <h1>What is a Licensed Financial Institution?</h1>
         <p class="subtitle">
           The institution's responsibilities, the Hub's responsibilities, and integration resources.
@@ -88,42 +88,43 @@ const observedDate = latest.timestamp.slice(0, 10);
     margin: 0 auto;
   }
   .breadcrumb {
+    min-width: 0;
     display: flex;
     gap: var(--space-2);
     font-size: 0.85rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-4);
   }
   .breadcrumb a {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
     text-decoration: none;
   }
   .breadcrumb a:hover {
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
   }
   .page-header h1 {
     font-family: var(--font-display);
-    font-size: clamp(1.7rem, 3.6vw, 2.3rem);
-    font-weight: 700;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 500;
     margin: 0 0 var(--space-2);
-    color: var(--color-gray-900);
+    color: var(--color-text);
     letter-spacing: -0.02em;
   }
   .subtitle {
     margin: 0 0 var(--space-8);
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     font-size: 1.05rem;
   }
   .concept p {
-    color: var(--color-gray-700);
+    color: var(--color-text);
     font-size: 1rem;
     line-height: 1.7;
     margin: 0 0 var(--space-4);
   }
   .concept strong {
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
   :global([data-theme='dark']) .concept p {
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
   }
 </style>

@@ -4,13 +4,14 @@ import PageLayout from '@layouts/PageLayout.astro';
 
 <PageLayout
   title="Contribute to Commons"
-  description="Learn how to contribute insights, references, artifacts, and utilities to the OpenFinance-OS Commons."
+  description="Learn how to contribute insights, references, artifacts, and utilities to the Open Finance OS Commons."
 >
   <div class="contribute-page">
     <div class="container">
       <!-- Back Link -->
       <a href="/commons" class="back-link">
         <svg
+          aria-hidden="true"
           width="16"
           height="16"
           viewBox="0 0 24 24"
@@ -24,7 +25,7 @@ import PageLayout from '@layouts/PageLayout.astro';
       </a>
 
       <!-- Header -->
-      <header class="page-header">
+      <header class="page-intro page-header">
         <h1>Contribute to Commons</h1>
         <p class="subtitle">
           Share your knowledge, tools, and resources with the UAE Open Finance ecosystem. Every
@@ -39,6 +40,7 @@ import PageLayout from '@layouts/PageLayout.astro';
           <div class="type-card">
             <div class="type-icon insight">
               <svg
+                aria-hidden="true"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -65,6 +67,7 @@ import PageLayout from '@layouts/PageLayout.astro';
           <div class="type-card">
             <div class="type-icon reference">
               <svg
+                aria-hidden="true"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -92,6 +95,7 @@ import PageLayout from '@layouts/PageLayout.astro';
           <div class="type-card">
             <div class="type-icon artifact">
               <svg
+                aria-hidden="true"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -119,6 +123,7 @@ import PageLayout from '@layouts/PageLayout.astro';
           <div class="type-card">
             <div class="type-icon utility">
               <svg
+                aria-hidden="true"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -157,7 +162,7 @@ import PageLayout from '@layouts/PageLayout.astro';
           <div class="step">
             <div class="step-number">1</div>
             <div class="step-content">
-              <h4>Fork the Repository</h4>
+              <h3>Fork the Repository</h3>
               <p>
                 Fork the{' '}
                 <a
@@ -175,7 +180,7 @@ import PageLayout from '@layouts/PageLayout.astro';
           <div class="step">
             <div class="step-number">2</div>
             <div class="step-content">
-              <h4>Create Your Contribution</h4>
+              <h3>Create Your Contribution</h3>
               <p>
                 Add a new Markdown file in <code>src/content/commons/</code> with the required
                 frontmatter metadata and your content.
@@ -186,7 +191,7 @@ import PageLayout from '@layouts/PageLayout.astro';
           <div class="step">
             <div class="step-number">3</div>
             <div class="step-content">
-              <h4>Open a Pull Request</h4>
+              <h3>Open a Pull Request</h3>
               <p>
                 Submit a PR with a clear description. Include why this contribution is valuable to
                 the ecosystem.
@@ -197,7 +202,7 @@ import PageLayout from '@layouts/PageLayout.astro';
           <div class="step">
             <div class="step-number">4</div>
             <div class="step-content">
-              <h4>Community Review</h4>
+              <h3>Community Review</h3>
               <p>
                 Maintainers will review for clarity, relevance, and compliance with guidelines.
                 Minor edits may be suggested.
@@ -225,7 +230,7 @@ import PageLayout from '@layouts/PageLayout.astro';
 title: "Your Contribution Title"
 type: insight | reference | artifact | utility
 summary: "A 1-2 sentence summary of what this contribution provides."
-date: 2024-01-15
+date: 2026-10-27
 
 # Required for references - explain the value
 whyItMatters: "Why this external resource is valuable to the ecosystem."
@@ -286,6 +291,7 @@ Organize with clear headings.
           <div class="guideline">
             <div class="guideline-icon allowed">
               <svg
+                aria-hidden="true"
                 width="20"
                 height="20"
                 viewBox="0 0 24 24"
@@ -297,7 +303,7 @@ Organize with clear headings.
                 <polyline points="22 4 12 14.01 9 11.01"></polyline>
               </svg>
             </div>
-            <h4>Do</h4>
+            <h3>Do</h3>
             <ul>
               <li>Provide clear, actionable content</li>
               <li>Include proper attribution</li>
@@ -311,6 +317,7 @@ Organize with clear headings.
           <div class="guideline">
             <div class="guideline-icon not-allowed">
               <svg
+                aria-hidden="true"
                 width="20"
                 height="20"
                 viewBox="0 0 24 24"
@@ -323,7 +330,7 @@ Organize with clear headings.
                 <line x1="9" y1="9" x2="15" y2="15"></line>
               </svg>
             </div>
-            <h4>Don't</h4>
+            <h3>Don't</h3>
             <ul>
               <li>Include confidential or proprietary data</li>
               <li>Re-host full external articles</li>
@@ -345,7 +352,7 @@ Organize with clear headings.
 
         <div class="reference-rules">
           <div class="rule">
-            <h4>Always Required</h4>
+            <h3>Always Required</h3>
             <ul>
               <li>
                 <strong>Link to original source</strong> - never re-host content
@@ -362,7 +369,7 @@ Organize with clear headings.
             </ul>
           </div>
           <div class="rule">
-            <h4>Your Added Value</h4>
+            <h3>Your Added Value</h3>
             <ul>
               <li>Explain relevance to UAE Open Finance</li>
               <li>Highlight key takeaways</li>
@@ -388,13 +395,19 @@ Organize with clear headings.
               target="_blank"
               rel="noopener noreferrer"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <svg
+                aria-hidden="true"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
                 <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path>
               </svg>
               Fork Repository
             </a>
             <a
-              href="https://github.com/openfinance-os/community/discussions"
+              href="https://github.com/openfinance-os/community-website/discussions"
               class="btn btn-secondary"
               target="_blank"
               rel="noopener noreferrer"
@@ -438,14 +451,14 @@ Organize with clear headings.
     align-items: center;
     gap: var(--space-2);
     font-size: 0.875rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-6);
     text-decoration: none;
     transition: color var(--transition-fast);
   }
 
   .back-link:hover {
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
   }
 
   .page-header {
@@ -453,14 +466,14 @@ Organize with clear headings.
   }
 
   .page-header h1 {
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
-    color: var(--color-gray-900);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    color: var(--color-text);
     margin-bottom: var(--space-4);
   }
 
   .subtitle {
     font-size: 1.125rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     line-height: 1.7;
     max-width: 640px;
   }
@@ -472,18 +485,19 @@ Organize with clear headings.
 
   section h2 {
     font-size: 1.5rem;
-    color: var(--color-gray-900);
+    color: var(--color-text);
     margin-bottom: var(--space-4);
   }
 
   .section-intro {
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-6);
     max-width: 600px;
   }
 
   /* Types Grid */
   .types-grid {
+    min-width: 0;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: var(--space-5);
@@ -491,14 +505,15 @@ Organize with clear headings.
 
   .type-card {
     padding: var(--space-6);
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
   }
 
   .type-icon {
     width: 48px;
     height: 48px;
+    min-width: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -508,32 +523,32 @@ Organize with clear headings.
 
   .type-icon.insight {
     background: var(--color-primary-100);
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
   }
 
   .type-icon.reference {
-    background: var(--color-gray-200);
-    color: var(--color-gray-700);
+    background: var(--color-soft);
+    color: var(--color-text);
   }
 
   .type-icon.artifact {
     background: rgba(232, 168, 92, 0.2);
-    color: var(--color-accent-600);
+    color: var(--color-warning-text);
   }
 
   .type-icon.utility {
     background: rgba(16, 185, 129, 0.15);
-    color: #059669;
+    color: var(--color-success-text);
   }
 
   .type-card h3 {
     font-size: 1.125rem;
-    color: var(--color-gray-900);
+    color: var(--color-text);
     margin-bottom: var(--space-2);
   }
 
   .type-card > p {
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     font-size: 0.875rem;
     margin-bottom: var(--space-3);
   }
@@ -548,7 +563,7 @@ Organize with clear headings.
     position: relative;
     padding-left: var(--space-5);
     font-size: 0.8125rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-2);
     line-height: 1.5;
   }
@@ -560,39 +575,42 @@ Organize with clear headings.
     top: 0.55em;
     width: 5px;
     height: 5px;
-    background: var(--color-gray-400);
+    background: var(--color-soft);
     border-radius: 50%;
   }
 
   .type-format {
     padding-top: var(--space-3);
-    border-top: 1px solid var(--color-gray-100);
+    border-top: 1px solid var(--color-border);
     font-size: 0.75rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   .type-format strong {
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
   }
 
   /* Steps */
   .steps {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
   }
 
   .step {
+    min-width: 0;
     display: flex;
     gap: var(--space-4);
     padding: var(--space-5);
-    background: var(--color-gray-50);
+    background: var(--color-surface);
     border-radius: var(--radius-xl);
   }
 
   .step-number {
     width: 36px;
     height: 36px;
+    min-width: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -603,101 +621,105 @@ Organize with clear headings.
     flex-shrink: 0;
   }
 
-  .step-content h4 {
+  .step-content h3 {
+    font-family: var(--font-sans);
     font-size: 1rem;
-    color: var(--color-gray-900);
+    color: var(--color-text);
     margin-bottom: var(--space-1);
   }
 
   .step-content p {
     font-size: 0.875rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     line-height: 1.6;
   }
 
   .step-content a {
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
   }
 
   .step-content code {
     padding: 2px 6px;
     font-family: var(--font-mono);
     font-size: 0.8125em;
-    background: var(--color-gray-200);
+    background: var(--color-soft);
     border-radius: var(--radius-sm);
   }
 
   /* Code Block */
   .code-block {
-    border: 1px solid var(--color-gray-200);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     overflow: hidden;
   }
 
   .code-header {
+    min-width: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: var(--space-3) var(--space-4);
-    background: var(--color-gray-100);
-    border-bottom: 1px solid var(--color-gray-200);
+    background: var(--color-soft);
+    border-bottom: 1px solid var(--color-border);
   }
 
   .code-filename {
     font-family: var(--font-mono);
     font-size: 0.75rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
   }
 
   .copy-btn {
     padding: var(--space-1) var(--space-3);
     font-size: 0.75rem;
     font-weight: 500;
-    color: var(--color-gray-600);
-    background: white;
-    border: 1px solid var(--color-gray-300);
+    color: var(--color-text-secondary);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     cursor: pointer;
     transition: all var(--transition-fast);
   }
 
   .copy-btn:hover {
-    background: var(--color-gray-50);
+    background: var(--color-surface);
     border-color: var(--color-primary-300);
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
   }
 
   .code-block pre {
     margin: 0;
     padding: var(--space-5);
-    background: var(--color-gray-900);
+    background: var(--color-code-surface);
     overflow-x: auto;
   }
 
   .code-block code {
     font-family: var(--font-mono);
     font-size: 0.8125rem;
-    color: var(--color-gray-200);
+    color: var(--color-code-text);
     line-height: 1.6;
   }
 
   /* Guidelines */
   .guidelines-grid {
+    min-width: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
     gap: var(--space-5);
   }
 
   .guideline {
     padding: var(--space-6);
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
   }
 
   .guideline-icon {
     width: 40px;
     height: 40px;
+    min-width: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -707,7 +729,7 @@ Organize with clear headings.
 
   .guideline-icon.allowed {
     background: rgba(16, 185, 129, 0.15);
-    color: #059669;
+    color: var(--color-success-text);
   }
 
   .guideline-icon.not-allowed {
@@ -715,9 +737,9 @@ Organize with clear headings.
     color: #dc2626;
   }
 
-  .guideline h4 {
+  .guideline h3 {
     font-size: 1rem;
-    color: var(--color-gray-900);
+    color: var(--color-text);
     margin-bottom: var(--space-3);
   }
 
@@ -731,7 +753,7 @@ Organize with clear headings.
     position: relative;
     padding-left: var(--space-6);
     font-size: 0.875rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-3);
     line-height: 1.5;
   }
@@ -756,21 +778,22 @@ Organize with clear headings.
 
   /* References Section */
   .reference-rules {
+    min-width: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
     gap: var(--space-5);
   }
 
   .rule {
     padding: var(--space-5);
-    background: var(--color-gray-50);
+    background: var(--color-surface);
     border-radius: var(--radius-xl);
   }
 
-  .rule h4 {
+  .rule h3 {
     font-size: 0.875rem;
     font-weight: 600;
-    color: var(--color-gray-900);
+    color: var(--color-text);
     margin-bottom: var(--space-3);
   }
 
@@ -782,13 +805,13 @@ Organize with clear headings.
 
   .rule li {
     font-size: 0.875rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-2);
     line-height: 1.5;
   }
 
   .rule li strong {
-    color: var(--color-gray-800);
+    color: var(--color-text);
   }
 
   /* CTA */
@@ -821,6 +844,7 @@ Organize with clear headings.
   }
 
   .cta-buttons {
+    min-width: 0;
     display: flex;
     gap: var(--space-3);
     justify-content: center;
@@ -841,12 +865,12 @@ Organize with clear headings.
   }
 
   .btn-primary {
-    background: white;
-    color: var(--color-primary-700);
+    background: var(--color-card);
+    color: var(--color-brand-ink);
   }
 
   .btn-primary:hover {
-    background: var(--color-gray-100);
+    background: var(--color-soft);
     text-decoration: none;
   }
 
@@ -864,106 +888,106 @@ Organize with clear headings.
 
   /* Dark Mode */
   :global([data-theme='dark']) .back-link {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .page-header h1 {
-    color: var(--color-gray-800);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .subtitle {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) section h2 {
-    color: var(--color-gray-800);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .section-intro {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .type-card {
-    background: var(--color-gray-800);
-    border-color: var(--color-gray-700);
+    background: var(--color-card);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .type-card h3 {
-    color: var(--color-gray-800);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .type-card > p,
   :global([data-theme='dark']) .type-card li {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .type-format {
-    border-top-color: var(--color-gray-700);
-    color: var(--color-gray-500);
+    border-top-color: var(--color-border);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .step {
-    background: var(--color-gray-800);
+    background: var(--color-card);
   }
 
-  :global([data-theme='dark']) .step-content h4 {
-    color: var(--color-gray-800);
+  :global([data-theme='dark']) .step-content h3 {
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .step-content p {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .step-content code {
-    background: var(--color-gray-700);
-    color: var(--color-gray-700);
+    background: var(--color-soft);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .code-block {
-    border-color: var(--color-gray-700);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .code-header {
-    background: var(--color-gray-800);
-    border-bottom-color: var(--color-gray-700);
+    background: var(--color-card);
+    border-bottom-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .code-filename {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .copy-btn {
-    background: var(--color-gray-700);
-    border-color: var(--color-gray-600);
-    color: var(--color-gray-600);
+    background: var(--color-soft);
+    border-color: var(--color-border);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .guideline {
-    background: var(--color-gray-800);
-    border-color: var(--color-gray-700);
+    background: var(--color-card);
+    border-color: var(--color-border);
   }
 
-  :global([data-theme='dark']) .guideline h4 {
-    color: var(--color-gray-800);
+  :global([data-theme='dark']) .guideline h3 {
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .guideline li {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .rule {
-    background: var(--color-gray-800);
+    background: var(--color-card);
   }
 
-  :global([data-theme='dark']) .rule h4 {
-    color: var(--color-gray-800);
+  :global([data-theme='dark']) .rule h3 {
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .rule li {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .rule li strong {
-    color: var(--color-gray-700);
+    color: var(--color-text);
   }
 </style>

@@ -1,0 +1,103 @@
+---
+import { V22_DEADLINE } from '@lib/v22-deadline';
+
+interface Props {
+  placement: 'home' | 'learn';
+}
+
+const { placement } = Astro.props;
+const titleId = `v22-callout-title-${placement}`;
+---
+
+<section class:list={['v22-callout', `v22-callout--${placement}`]} aria-labelledby={titleId}>
+  <div class="v22-callout-inner">
+    <p class="v22-kicker">{V22_DEADLINE.callout.kicker}</p>
+    <h2 id={titleId}>{V22_DEADLINE.title}</h2>
+    <p>{V22_DEADLINE.callout.body}</p>
+    <a href={V22_DEADLINE.path}>
+      {V22_DEADLINE.callout.action}
+      <span aria-hidden="true">→</span>
+    </a>
+  </div>
+</section>
+
+<style>
+  .v22-callout--home {
+    padding: 0 24px 64px;
+  }
+  .v22-callout-inner {
+    max-width: 1224px;
+    margin: 0 auto;
+    padding: var(--space-8);
+    background: #f7f4ee;
+    color: #132c2b;
+    border: 1px solid #eadcc8;
+    border-top: 4px solid #e8a85c;
+    border-radius: 16px;
+  }
+  .v22-callout--learn .v22-callout-inner {
+    max-width: none;
+    margin-top: var(--space-8);
+  }
+  .v22-kicker {
+    margin: 0 0 var(--space-3);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #80501d;
+  }
+  h2 {
+    max-width: 40rem;
+    margin: 0 0 var(--space-4);
+    color: #0d4f4f;
+    font-size: clamp(1.45rem, 2.4vw, 1.85rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+  }
+  p {
+    max-width: 44rem;
+    margin: 0 0 var(--space-5);
+    color: #3d524c;
+    font-size: 0.975rem;
+    line-height: 1.7;
+  }
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 44px;
+    color: #0d4f4f;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+  a:hover {
+    color: #0a3d3d;
+  }
+  :global([data-theme='dark']) .v22-callout-inner {
+    background: #f7f4ee;
+    color: #132c2b;
+    border-color: #eadcc8;
+  }
+  :global([data-theme='dark']) h2,
+  :global([data-theme='dark']) a {
+    color: #0d4f4f;
+  }
+  :global([data-theme='dark']) .v22-kicker {
+    color: #80501d;
+  }
+  :global([data-theme='dark']) p {
+    color: #3d524c;
+  }
+  @media (max-width: 760px) {
+    .v22-callout--home {
+      padding: 0 20px 40px;
+    }
+    .v22-callout-inner {
+      padding: var(--space-6);
+    }
+  }
+</style>

@@ -11,7 +11,9 @@ import { participantUrl } from '../src/lib/participant-identity';
 
 test('homepage distinguishes registrations and published metadata', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('.hero-stat')).toContainText('production directory registrations');
+  await expect(page.locator('#directory-panel-production .hero-stat')).toContainText(
+    'production directory registrations'
+  );
   const coverage = page.locator('.observatory-preview');
   await expect(coverage).toContainText('Distinct registration IDs');
   await expect(coverage).toContainText('Registration does not establish usage');

@@ -1,26 +1,27 @@
 {
-  "timestamp": "2026-10-08T18:28:59.259Z",
+  "timestamp": "2026-11-22T14:03:36.046Z",
   "source": "https://data.directory.openfinance.ae",
   "version": "2.1.0",
   "environment": "production",
   "summary": {
-    "totalParticipants": 27,
+    "totalParticipants": 31,
     "byStatus": {
-      "Active": 27
+      "Active": 31
     },
     "byRole": {
-      "BDSP": 16,
-      "BSIP": 15,
-      "LFI": 19,
-      "ISP": 7,
+      "BDSP": 17,
+      "BSIP": 16,
+      "LFI": 23,
+      "ISP": 8,
       "API Read_Write": 3,
+      "Cert_Management": 1,
       "TSP": 3,
       "pki-test-harness": 1
     },
     "byCity": {
-      "Abu Dhabi": 5,
-      "Unknown": 15,
-      "Dubai": 7
+      "Abu Dhabi": 6,
+      "Unknown": 17,
+      "Dubai": 8
     },
     "apiFamilies": [
       "accounts",
@@ -30,9 +31,9 @@
       "payments",
       "products"
     ],
-    "liveInProduction": 12,
+    "liveInProduction": 14,
     "shariahCompliantCount": 1,
-    "multiRoleCount": 25,
+    "multiRoleCount": 27,
     "tppCount": 0,
     "byAuthCapabilities": {
       "ciba": 0,
@@ -40,10 +41,10 @@
       "redirect": 0
     },
     "byCertificationStatus": {
-      "Self-Certified": 50
+      "Self-Certified": 57
     },
     "byApiVersion": {
-      "2.1": 40,
+      "2.1": 47,
       "1.2": 7,
       "2.0": 3
     }
@@ -64,6 +65,7 @@
       "registrationNumber": "01.01.01.040.1985.01",
       "apiFamilies": [
         "accounts",
+        "atm",
         "cop",
         "payments",
         "products"
@@ -103,6 +105,13 @@
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
+        },
+        {
+          "family": "atm",
+          "rawFamily": "atm",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
         }
       ],
       "authServerCount": 1,
@@ -142,15 +151,15 @@
           "familyComplete": true
         },
         {
-          "family": "payments",
-          "rawFamily": "payment",
+          "family": "accounts",
+          "rawFamily": "account-information",
           "version": "1.2",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
         },
         {
-          "family": "accounts",
-          "rawFamily": "account-information",
+          "family": "payments",
+          "rawFamily": "payment",
           "version": "1.2",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
@@ -194,6 +203,29 @@
       "isLive": true
     },
     {
+      "id": "f8655450-519d-48ce-ba63-29a3547929f5",
+      "name": "Al Buharia National Insurance Co",
+      "legalName": "Al Buharia National Insurance Co",
+      "shortName": "Al Buharia National Insurance Co",
+      "status": "Active",
+      "roles": [
+        "LFI"
+      ],
+      "city": "Unknown",
+      "registrationNumber": "National015",
+      "apiFamilies": [],
+      "hasAuthServer": false,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 0,
+      "isLive": false
+    },
+    {
       "id": "473cbc09-d58d-4656-8e70-11e467f37cfe",
       "name": "Al Wathba National Insurance Co",
       "legalName": "Al Wathba National Insurance Co",
@@ -216,6 +248,40 @@
       "apiResources": [],
       "authServerCount": 0,
       "isLive": false
+    },
+    {
+      "id": "1696c7b7-249f-48c3-9f21-7e26fac2c116",
+      "name": "ALAIN AHLIA INSURANCE COMPANY",
+      "legalName": "ALAIN AHLIA INSURANCE COMPANY",
+      "shortName": "ALAIN AHLIA INSURANCE COMPANY",
+      "status": "Active",
+      "roles": [
+        "ISP",
+        "LFI"
+      ],
+      "city": "Abu Dhabi",
+      "registrationNumber": "National003",
+      "apiFamilies": [
+        "insurance"
+      ],
+      "hasAuthServer": true,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [
+        {
+          "family": "insurance",
+          "rawFamily": "insurance",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        }
+      ],
+      "authServerCount": 1,
+      "isLive": true
     },
     {
       "id": "2f9981d9-47e6-4cd5-ba04-d6bdadf52591",
@@ -252,13 +318,6 @@
           "familyComplete": true
         },
         {
-          "family": "payments",
-          "rawFamily": "payment",
-          "version": "2.1",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
           "family": "cop",
           "rawFamily": "confirmation",
           "version": "2.1",
@@ -271,6 +330,13 @@
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
+        },
+        {
+          "family": "payments",
+          "rawFamily": "payment",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
         }
       ],
       "authServerCount": 2,
@@ -387,6 +453,29 @@
       "isLive": false
     },
     {
+      "id": "37f353bf-0f2a-48f2-8c5a-10b40b7bc7b3",
+      "name": "EIB",
+      "legalName": "EIB",
+      "shortName": "EIB",
+      "status": "Active",
+      "roles": [
+        "LFI"
+      ],
+      "city": "Unknown",
+      "registrationNumber": "01.01.02.031.1976.02",
+      "apiFamilies": [],
+      "hasAuthServer": false,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 0,
+      "isLive": false
+    },
+    {
       "id": "f18cef1c-2ea2-4501-a1e5-db2e911689f8",
       "name": "Emirates Insurance Company",
       "legalName": "Emirates Insurance Company",
@@ -425,6 +514,7 @@
       "registrationNumber": "01.01.01.003.1963.02",
       "apiFamilies": [
         "accounts",
+        "atm",
         "cop",
         "payments",
         "products"
@@ -452,15 +542,22 @@
           "familyComplete": true
         },
         {
-          "family": "payments",
-          "rawFamily": "payment",
+          "family": "atm",
+          "rawFamily": "atm",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "accounts",
+          "rawFamily": "account-information",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
         },
         {
-          "family": "accounts",
-          "rawFamily": "account-information",
+          "family": "payments",
+          "rawFamily": "payment",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
@@ -525,13 +622,6 @@
       },
       "apiResources": [
         {
-          "family": "payments",
-          "rawFamily": "payment",
-          "version": "2.1",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": true
-        },
-        {
           "family": "cop",
           "rawFamily": "confirmation",
           "version": "2.1",
@@ -548,6 +638,13 @@
         {
           "family": "accounts",
           "rawFamily": "account-information",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "payments",
+          "rawFamily": "payment",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
@@ -599,13 +696,6 @@
           "familyComplete": false
         },
         {
-          "family": "payments",
-          "rawFamily": "payment",
-          "version": "2.1",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
           "family": "atm",
           "rawFamily": "atm",
           "version": "2.1",
@@ -622,6 +712,13 @@
         {
           "family": "products",
           "rawFamily": "product",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "payments",
+          "rawFamily": "payment",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
@@ -730,13 +827,6 @@
       },
       "apiResources": [
         {
-          "family": "accounts",
-          "rawFamily": "account-information",
-          "version": "2.1",
-          "certificationStatus": "Self-Certified",
-          "familyComplete": false
-        },
-        {
           "family": "cop",
           "rawFamily": "confirmation",
           "version": "2.1",
@@ -746,6 +836,13 @@
         {
           "family": "products",
           "rawFamily": "product",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": false
+        },
+        {
+          "family": "accounts",
+          "rawFamily": "account-information",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
@@ -793,6 +890,7 @@
       "status": "Active",
       "roles": [
         "API Read_Write",
+        "Cert_Management",
         "TSP"
       ],
       "city": "Unknown",
@@ -1021,12 +1119,14 @@
       "shortName": "Standard Chartered",
       "status": "Active",
       "roles": [
+        "BDSP",
+        "BSIP",
         "LFI"
       ],
-      "city": "Unknown",
+      "city": "Dubai",
       "registrationNumber": "01.02.01.002.1958.02",
       "apiFamilies": [],
-      "hasAuthServer": false,
+      "hasAuthServer": true,
       "isShariahCompliant": false,
       "authCapabilities": {
         "supportsCiba": false,
@@ -1034,8 +1134,8 @@
         "supportsRedirect": false
       },
       "apiResources": [],
-      "authServerCount": 0,
-      "isLive": false
+      "authServerCount": 1,
+      "isLive": true
     },
     {
       "id": "c8e1896a-9c6c-4d1d-8f98-1a771a1ccd85",
@@ -1103,8 +1203,29 @@
           "familyComplete": true
         },
         {
+          "family": "accounts",
+          "rawFamily": "account-information",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
           "family": "payments",
           "rawFamily": "payment",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "cop",
+          "rawFamily": "confirmation",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
+        },
+        {
+          "family": "products",
+          "rawFamily": "product",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
@@ -1115,10 +1236,40 @@
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": true
+        },
+        {
+          "family": "payments",
+          "rawFamily": "payment",
+          "version": "2.1",
+          "certificationStatus": "Self-Certified",
+          "familyComplete": true
         }
       ],
-      "authServerCount": 1,
+      "authServerCount": 2,
       "isLive": true
+    },
+    {
+      "id": "a90b2761-560d-45a9-9b32-67465c603059",
+      "name": "Zurich",
+      "legalName": "Zurich International Life Limited",
+      "shortName": "Zurich",
+      "status": "Active",
+      "roles": [
+        "LFI"
+      ],
+      "city": "Unknown",
+      "registrationNumber": "Foreign062",
+      "apiFamilies": [],
+      "hasAuthServer": false,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 0,
+      "isLive": false
     }
   ],
   "trends": {
@@ -1126,9 +1277,6 @@
     "newParticipants": [],
     "removedParticipants": [],
     "roleChanges": {},
-    "apiFamilyChanges": {
-      "atm": 1,
-      "insurance": 2
-    }
+    "apiFamilyChanges": {}
   }
 }

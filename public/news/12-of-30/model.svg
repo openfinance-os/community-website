@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 620" width="320" height="620">
+  <g aria-hidden="true" font-family="DM Sans, system-ui, sans-serif">
+    <rect width="320" height="620" fill="var(--color-card, #ffffff)" />
+
+    <g fill="none" stroke="var(--color-text-secondary, #526662)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M160 76 V96 M154 90 L160 100 L166 90" />
+      <path d="M160 240 V260 M154 254 L160 264 L166 254" />
+      <path d="M160 412 V432 M154 426 L160 436 L166 426" />
+      <path d="M160 504 V524 M154 518 L160 528 L166 518" />
+    </g>
+
+    <rect x="80" y="16" width="160" height="56" rx="12" fill="var(--color-card, #ffffff)" stroke="var(--color-border, #dce5df)" stroke-width="1.5" />
+    <text x="160" y="50" text-anchor="middle" fill="var(--color-text, #132c2b)" font-size="20" font-weight="500">TPP</text>
+
+    <rect x="16" y="104" width="288" height="132" rx="14" fill="var(--color-soft, #e7efea)" stroke="var(--color-brand-ink, #0d4f4f)" stroke-width="2" />
+    <text x="160" y="140" text-anchor="middle" fill="var(--color-brand-ink, #0d4f4f)" font-size="22" font-weight="500">API Hub</text>
+    <text x="160" y="168" text-anchor="middle" fill="var(--color-text, #132c2b)" font-size="16" font-weight="500">Authorizes</text>
+    <text x="160" y="192" text-anchor="middle" fill="var(--color-text-secondary, #526662)" font-size="16">Issues the access token</text>
+    <text x="160" y="214" text-anchor="middle" fill="var(--color-text-secondary, #526662)" font-size="16">Stores consent</text>
+
+    <rect x="16" y="272" width="288" height="136" rx="14" fill="var(--color-card, #ffffff)" stroke="var(--color-accent, #e8a85c)" stroke-width="2" />
+    <text x="160" y="308" text-anchor="middle" fill="var(--color-text, #132c2b)" font-size="22" font-weight="500">LFI</text>
+    <text x="160" y="336" text-anchor="middle" fill="var(--color-text, #132c2b)" font-size="16" font-weight="500">Executes</text>
+    <text x="160" y="362" text-anchor="middle" fill="var(--color-text-secondary, #526662)" font-size="16">Customer authenticates</text>
+    <text x="160" y="384" text-anchor="middle" fill="var(--color-text-secondary, #526662)" font-size="16">at their bank</text>
+
+    <rect x="80" y="444" width="160" height="56" rx="12" fill="var(--color-soft, #e7efea)" stroke="var(--color-brand-ink, #0d4f4f)" stroke-width="2" />
+    <text x="160" y="478" text-anchor="middle" fill="var(--color-brand-ink, #0d4f4f)" font-size="20" font-weight="500">API Hub</text>
+
+    <rect x="80" y="536" width="160" height="56" rx="12" fill="var(--color-card, #ffffff)" stroke="var(--color-border, #dce5df)" stroke-width="1.5" />
+    <text x="160" y="570" text-anchor="middle" fill="var(--color-text, #132c2b)" font-size="20" font-weight="500">TPP</text>
+  </g>
+</svg>

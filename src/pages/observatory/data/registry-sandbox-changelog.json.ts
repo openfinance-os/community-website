@@ -14,7 +14,7 @@ export const GET: APIRoute = () => {
         count: events.length,
         events,
         note: 'Dates are later-snapshot observation dates, not deployment dates. Fields can change because collection coverage changes. The 2026-10-08 schema 2.1 update expanded resource-family coverage.',
-        attribution: 'OpenFinance-OS — independent observations, not official statistics',
+        attribution: 'Open Finance OS — independent observations, not official statistics',
       },
       null,
       2

@@ -16,7 +16,7 @@ test.describe('Theme', () => {
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 
     const bodyBg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-    expect(bodyBg).toBe('rgb(15, 20, 25)');
+    expect(bodyBg).toBe('rgb(16, 36, 35)');
 
     // Stat cards used to stay white in system-dark mode.
     const card = page.locator('.stat-card').first();
@@ -45,6 +45,8 @@ test.describe('Theme', () => {
 
     await page.locator('.theme-toggle').first().click();
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+    await expect(page.locator('.theme-toggle .icon-sun')).toBeVisible();
+    await expect(page.locator('.theme-toggle .icon-moon')).toBeHidden();
     expect(await page.evaluate(() => localStorage.getItem('theme'))).toBe('dark');
 
     await page.reload();

@@ -83,7 +83,7 @@ function formatDate(date: Date): string {
   <div class="commons-page">
     <div class="container">
       <!-- Hero Section -->
-      <header class="page-header">
+      <header class="page-intro page-header">
         <h1>Commons</h1>
         <p class="subtitle">
           Shared infrastructure for Open Finance knowledge and execution. Discover community-built
@@ -745,20 +745,21 @@ function formatDate(date: Date): string {
   }
 
   .page-header h1 {
-    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-size: clamp(2rem, 4vw, 3.5rem);
     margin-bottom: var(--space-4);
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   .subtitle {
     font-size: 1.125rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     max-width: 640px;
     margin: 0 auto var(--space-6);
     line-height: 1.7;
   }
 
   .header-actions {
+    min-width: 0;
     display: flex;
     gap: var(--space-3);
     justify-content: center;
@@ -768,6 +769,7 @@ function formatDate(date: Date): string {
 
   /* Statistics Bar */
   .stats-bar {
+    min-width: 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -780,6 +782,7 @@ function formatDate(date: Date): string {
   }
 
   .stat-item {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -790,7 +793,7 @@ function formatDate(date: Date): string {
     font-family: var(--font-mono);
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
   }
 
   .stat-label {
@@ -798,7 +801,7 @@ function formatDate(date: Date): string {
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
   }
 
   .stat-divider {
@@ -811,8 +814,8 @@ function formatDate(date: Date): string {
   .featured-section {
     margin-bottom: var(--space-8);
     padding: var(--space-6);
-    background: linear-gradient(135deg, var(--color-gray-50) 0%, white 100%);
-    border: 1px solid var(--color-gray-200);
+    background: linear-gradient(135deg, var(--color-surface) 0%, white 100%);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
   }
 
@@ -821,12 +824,13 @@ function formatDate(date: Date): string {
   }
 
   .featured-title {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-2);
     font-size: 1.125rem;
     font-weight: 600;
-    color: var(--color-gray-900);
+    color: var(--color-text);
     margin-bottom: var(--space-1);
   }
 
@@ -836,20 +840,22 @@ function formatDate(date: Date): string {
 
   .featured-description {
     font-size: 0.875rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   .featured-grid {
+    min-width: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
     gap: var(--space-4);
   }
 
   .featured-card {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     padding: var(--space-5);
-    background: white;
+    background: var(--color-card);
     border: 2px solid var(--color-primary-100);
     border-radius: var(--radius-lg);
     text-decoration: none;
@@ -879,60 +885,61 @@ function formatDate(date: Date): string {
 
   .featured-type-badge.insight {
     background: var(--color-primary-100);
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
   }
 
   .featured-type-badge.reference {
-    background: var(--color-gray-200);
-    color: var(--color-gray-700);
+    background: var(--color-soft);
+    color: var(--color-text);
   }
 
   .featured-type-badge.artifact {
     background: rgba(232, 168, 92, 0.2);
-    color: var(--color-accent-600);
+    color: var(--color-warning-text);
   }
 
   .featured-type-badge.utility {
     background: rgba(16, 185, 129, 0.15);
-    color: #059669;
+    color: var(--color-success-text);
   }
 
   .featured-card-title {
     font-size: 1rem;
     font-weight: 600;
-    color: var(--color-gray-900);
+    color: var(--color-text);
     margin-bottom: var(--space-2);
     line-height: 1.4;
   }
 
   .featured-card:hover .featured-card-title {
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
   }
 
   .featured-card-summary {
     flex: 1;
     font-size: 0.875rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     line-height: 1.6;
     margin-bottom: var(--space-4);
   }
 
   .featured-card-meta {
+    min-width: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding-top: var(--space-3);
-    border-top: 1px solid var(--color-gray-100);
+    border-top: 1px solid var(--color-border);
   }
 
   .featured-card-meta .contributor {
     font-size: 0.75rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   .featured-card-meta .arrow-icon {
     font-size: 1rem;
-    color: var(--color-primary-500);
+    color: var(--color-brand-ink);
     transition: transform var(--transition-fast);
   }
 
@@ -980,30 +987,32 @@ function formatDate(date: Date): string {
   }
 
   .btn-secondary {
-    background: white;
-    color: var(--color-gray-700);
-    border: 1px solid var(--color-gray-300);
+    background: var(--color-card);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
   }
 
   .btn-secondary:hover {
-    background: var(--color-gray-50);
-    border-color: var(--color-gray-400);
+    background: var(--color-surface);
+    border-color: var(--color-border);
     text-decoration: none;
   }
 
   /* Type Legend */
   .type-legend {
+    min-width: 0;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: var(--space-4);
     margin-bottom: var(--space-8);
     padding: var(--space-6);
-    background: var(--color-gray-50);
+    background: var(--color-surface);
     border-radius: var(--radius-xl);
-    border: 1px solid var(--color-gray-200);
+    border: 1px solid var(--color-border);
   }
 
   .legend-item {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-3);
@@ -1012,6 +1021,7 @@ function formatDate(date: Date): string {
   .legend-icon {
     width: 36px;
     height: 36px;
+    min-width: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1021,49 +1031,51 @@ function formatDate(date: Date): string {
 
   .legend-icon.insight {
     background: var(--color-primary-100);
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
   }
 
   .legend-icon.reference {
-    background: var(--color-gray-200);
-    color: var(--color-gray-700);
+    background: var(--color-soft);
+    color: var(--color-text);
   }
 
   .legend-icon.artifact {
     background: rgba(232, 168, 92, 0.2);
-    color: var(--color-accent-600);
+    color: var(--color-warning-text);
   }
 
   .legend-icon.utility {
     background: rgba(16, 185, 129, 0.15);
-    color: #059669;
+    color: var(--color-success-text);
   }
 
   .legend-item strong {
     display: block;
     font-size: 0.875rem;
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   .legend-item span {
     display: block;
     font-size: 0.75rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   /* Filters */
   .filters-section {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-6);
     margin-bottom: var(--space-6);
     padding: var(--space-6);
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
   }
 
   .filter-group {
+    min-width: 0;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -1075,11 +1087,12 @@ function formatDate(date: Date): string {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
     min-width: 70px;
   }
 
   .filter-chips {
+    min-width: 0;
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2);
@@ -1089,8 +1102,8 @@ function formatDate(date: Date): string {
     padding: var(--space-2) var(--space-4);
     font-size: 0.8125rem;
     font-weight: 500;
-    color: var(--color-gray-600);
-    background: var(--color-gray-100);
+    color: var(--color-text-secondary);
+    background: var(--color-soft);
     border: 1px solid transparent;
     border-radius: var(--radius-full);
     cursor: pointer;
@@ -1099,17 +1112,18 @@ function formatDate(date: Date): string {
   }
 
   .filter-chip:hover {
-    background: var(--color-gray-200);
-    color: var(--color-gray-800);
+    background: var(--color-soft);
+    color: var(--color-text);
   }
 
   .filter-chip.active {
-    background: var(--color-primary-600);
+    background: var(--color-primary-fill);
     color: white;
   }
 
   /* Results */
   .results-info {
+    min-width: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1118,21 +1132,23 @@ function formatDate(date: Date): string {
 
   .results-count {
     font-size: 0.875rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   /* Contributions Grid */
   .contributions-grid {
+    min-width: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
     gap: var(--space-5);
   }
 
   .contribution-card {
+    min-width: 0;
     display: flex;
     flex-direction: column;
-    background: white;
-    border: 1px solid var(--color-gray-200);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     overflow: hidden;
     transition:
@@ -1148,6 +1164,7 @@ function formatDate(date: Date): string {
   }
 
   .card-header {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-2);
@@ -1169,22 +1186,22 @@ function formatDate(date: Date): string {
 
   .type-indicator.insight {
     background: var(--color-primary-100);
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
   }
 
   .type-indicator.reference {
-    background: var(--color-gray-200);
-    color: var(--color-gray-700);
+    background: var(--color-soft);
+    color: var(--color-text);
   }
 
   .type-indicator.artifact {
     background: rgba(232, 168, 92, 0.2);
-    color: var(--color-accent-600);
+    color: var(--color-warning-text);
   }
 
   .type-indicator.utility {
     background: rgba(16, 185, 129, 0.15);
-    color: #059669;
+    color: var(--color-success-text);
   }
 
   .external-badge {
@@ -1196,8 +1213,8 @@ function formatDate(date: Date): string {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.03em;
-    color: var(--color-gray-500);
-    background: var(--color-gray-100);
+    color: var(--color-text-secondary);
+    background: var(--color-soft);
     border-radius: var(--radius-md);
     line-height: 1;
   }
@@ -1209,7 +1226,7 @@ function formatDate(date: Date): string {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.03em;
-    color: var(--color-accent-700);
+    color: var(--color-warning-text);
     background: rgba(232, 168, 92, 0.2);
     border-radius: var(--radius-md);
     line-height: 1;
@@ -1228,18 +1245,18 @@ function formatDate(date: Date): string {
   .card-title {
     font-size: 1.0625rem;
     font-weight: 600;
-    color: var(--color-gray-900);
+    color: var(--color-text);
     margin-bottom: var(--space-2);
     line-height: 1.4;
   }
 
   .contribution-card:hover .card-title {
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
   }
 
   .card-summary {
     font-size: 0.875rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     line-height: 1.6;
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -1257,31 +1274,32 @@ function formatDate(date: Date): string {
 
   .ai-filter {
     background: rgba(99, 102, 241, 0.08);
-    color: #6366f1;
+    color: var(--color-brand-ink);
     border-color: rgba(99, 102, 241, 0.2);
   }
 
   .ai-filter:hover,
   .ai-filter.active {
     background: rgba(99, 102, 241, 0.15);
-    color: #6366f1;
-    border-color: #6366f1;
+    color: var(--color-brand-ink);
+    border-color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .ai-filter {
     background: rgba(129, 140, 248, 0.1);
-    color: #818cf8;
+    color: var(--color-brand-ink);
     border-color: rgba(129, 140, 248, 0.2);
   }
 
   :global([data-theme='dark']) .ai-filter:hover,
   :global([data-theme='dark']) .ai-filter.active {
     background: rgba(129, 140, 248, 0.2);
-    color: #818cf8;
-    border-color: #818cf8;
+    color: var(--color-brand-ink);
+    border-color: var(--color-brand-ink);
   }
 
   .card-meta {
+    min-width: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1290,6 +1308,7 @@ function formatDate(date: Date): string {
   }
 
   .meta-tags {
+    min-width: 0;
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-1);
@@ -1299,14 +1318,14 @@ function formatDate(date: Date): string {
     padding: var(--space-1) var(--space-3);
     font-size: 0.6875rem;
     font-weight: 500;
-    color: var(--color-gray-600);
-    background: var(--color-gray-100);
+    color: var(--color-text-secondary);
+    background: var(--color-soft);
     border-radius: var(--radius-sm);
     line-height: 1.4;
   }
 
   .meta-tag.more {
-    color: var(--color-gray-400);
+    color: var(--color-text-secondary);
   }
 
   .maturity-badge {
@@ -1321,32 +1340,33 @@ function formatDate(date: Date): string {
   }
 
   .maturity-badge[data-maturity='concept'] {
-    background: var(--color-gray-100);
-    color: var(--color-gray-600);
+    background: var(--color-soft);
+    color: var(--color-text-secondary);
   }
 
   .maturity-badge[data-maturity='demo'] {
     background: rgba(232, 168, 92, 0.15);
-    color: var(--color-accent-700);
+    color: var(--color-warning-text);
   }
 
   .maturity-badge[data-maturity='production-ready'] {
     background: rgba(16, 185, 129, 0.15);
-    color: #059669;
+    color: var(--color-success-text);
   }
 
   .card-footer {
+    min-width: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: var(--space-3) var(--space-4);
-    border-top: 1px solid var(--color-gray-100);
+    border-top: 1px solid var(--color-border);
     font-size: 0.75rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   .contributor a {
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
     text-decoration: none;
   }
 
@@ -1355,26 +1375,28 @@ function formatDate(date: Date): string {
   }
 
   .card-links {
+    min-width: 0;
     display: flex;
     gap: var(--space-2);
     padding: 0 var(--space-4) var(--space-4);
   }
 
   .link-btn {
+    min-width: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 32px;
     height: 32px;
-    background: var(--color-gray-100);
-    color: var(--color-gray-600);
+    background: var(--color-soft);
+    color: var(--color-text-secondary);
     border-radius: var(--radius-md);
     transition: all var(--transition-fast);
   }
 
   .link-btn:hover {
     background: var(--color-primary-100);
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
   }
 
   /* Empty State */
@@ -1385,18 +1407,18 @@ function formatDate(date: Date): string {
   }
 
   .empty-icon {
-    color: var(--color-gray-300);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-4);
   }
 
   .empty-state h3 {
     font-size: 1.25rem;
-    color: var(--color-gray-700);
+    color: var(--color-text);
     margin-bottom: var(--space-2);
   }
 
   .empty-state p {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-6);
   }
 
@@ -1404,19 +1426,19 @@ function formatDate(date: Date): string {
   .no-results {
     text-align: center;
     padding: var(--space-12);
-    background: var(--color-gray-50);
+    background: var(--color-surface);
     border-radius: var(--radius-xl);
   }
 
   .no-results p {
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-4);
   }
 
   /* Responsive */
   @media (max-width: 768px) {
     .type-legend {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .filter-group {
@@ -1431,45 +1453,45 @@ function formatDate(date: Date): string {
 
   /* Dark mode */
   :global([data-theme='dark']) .page-header h1 {
-    color: var(--color-gray-800);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .subtitle {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .stats-bar {
-    background: var(--color-gray-800);
+    background: var(--color-card);
   }
 
   :global([data-theme='dark']) .stat-value {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .stat-label {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .stat-divider {
-    background: var(--color-gray-600);
+    background: var(--color-soft);
   }
 
   :global([data-theme='dark']) .featured-section {
-    background: linear-gradient(135deg, var(--color-gray-800) 0%, var(--color-gray-900) 100%);
-    border-color: var(--color-gray-700);
+    background: linear-gradient(135deg, var(--color-card) 0%, var(--color-primary-fill) 100%);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .featured-title {
-    color: var(--color-gray-800);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .featured-description {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .featured-card {
-    background: var(--color-gray-800);
-    border-color: var(--color-gray-700);
+    background: var(--color-card);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .featured-card:hover {
@@ -1478,80 +1500,80 @@ function formatDate(date: Date): string {
   }
 
   :global([data-theme='dark']) .featured-card-title {
-    color: var(--color-gray-800);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .featured-card:hover .featured-card-title {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .featured-card-summary {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .featured-card-meta {
-    border-top-color: var(--color-gray-700);
+    border-top-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .featured-card-meta .contributor {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .btn-secondary {
-    background: var(--color-gray-800);
-    border-color: var(--color-gray-700);
-    color: var(--color-gray-600);
+    background: var(--color-card);
+    border-color: var(--color-border);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .btn-secondary:hover {
-    background: var(--color-gray-700);
-    border-color: var(--color-gray-600);
+    background: var(--color-soft);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .type-legend {
-    background: var(--color-gray-800);
-    border-color: var(--color-gray-700);
+    background: var(--color-card);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .legend-item strong {
-    color: var(--color-gray-800);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .legend-item span {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .filters-section {
-    background: var(--color-gray-800);
-    border-color: var(--color-gray-700);
+    background: var(--color-card);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .filter-label {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .filter-chip {
-    background: var(--color-gray-700);
-    color: var(--color-gray-600);
+    background: var(--color-soft);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .filter-chip:hover {
-    background: var(--color-gray-600);
-    color: var(--color-gray-800);
+    background: var(--color-soft);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .filter-chip.active {
-    background: var(--color-primary-600);
+    background: var(--color-primary-fill);
     color: white;
   }
 
   :global([data-theme='dark']) .results-count {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .contribution-card {
-    background: var(--color-gray-800);
-    border-color: var(--color-gray-700);
+    background: var(--color-card);
+    border-color: var(--color-border);
   }
 
   :global([data-theme='dark']) .contribution-card:hover {
@@ -1560,58 +1582,58 @@ function formatDate(date: Date): string {
   }
 
   :global([data-theme='dark']) .card-title {
-    color: var(--color-gray-800);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .contribution-card:hover .card-title {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .card-summary {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .meta-tag {
-    background: var(--color-gray-700);
-    color: var(--color-gray-600);
+    background: var(--color-soft);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .card-footer {
-    border-top-color: var(--color-gray-700);
-    color: var(--color-gray-500);
+    border-top-color: var(--color-border);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .contributor a {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .link-btn {
-    background: var(--color-gray-700);
-    color: var(--color-gray-600);
+    background: var(--color-soft);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .link-btn:hover {
-    background: var(--color-primary-800);
-    color: var(--color-primary-300);
+    background: var(--color-soft);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .empty-icon {
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .empty-state h3 {
-    color: var(--color-gray-700);
+    color: var(--color-text);
   }
 
   :global([data-theme='dark']) .empty-state p {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .no-results {
-    background: var(--color-gray-800);
+    background: var(--color-card);
   }
 
   :global([data-theme='dark']) .no-results p {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 </style>

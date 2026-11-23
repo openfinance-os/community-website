@@ -1,4 +1,4 @@
-# Testing Strategy for OpenFinance-OS Community Website
+# Testing Strategy for Open Finance OS Community Website
 
 This document outlines the testing strategy to ensure the community website works correctly across all components.
 

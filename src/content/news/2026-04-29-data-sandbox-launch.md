@@ -10,7 +10,7 @@ featured: false
 
 > **Update (June 2026):** The sandbox has grown well beyond this launch announcement — 38 synthetic personas across Bank Data Sharing and all seven Insurance Data Sharing lines, an ATM Locator directory, multi-bank personas, an MCP server for AI agents, and pinnable fixture packages. See the [June 2026 update](/news/2026-06-09-data-sandbox-insurance-ga-mcp) or the [Commons overview](/commons/data-sandbox) for current numbers.
 
-The OpenFinance-OS community is releasing the **Open Finance Data Sandbox** — an interactive, client-side explorer that shows what UAE Open Finance Bank Data Sharing payloads actually look like. Open it in a browser and start exploring. No registration, no credentials, no install.
+The Open Finance OS community is releasing the **Open Finance Data Sandbox** — an interactive, client-side explorer that shows what UAE Open Finance Bank Data Sharing payloads actually look like. Open it in a browser and start exploring. No registration, no credentials, no install.
 
 ## Why It Matters
 

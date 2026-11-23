@@ -1,4 +1,4 @@
-# OpenFinance-OS
+# Open Finance OS
 
 **The community home for UAE Open Finance**
 
@@ -11,7 +11,7 @@ A community-owned website providing visibility into the UAE Open Finance ecosyst
 
 ## What is this?
 
-OpenFinance-OS.org is a grassroots initiative that provides:
+Open Finance OS.org is a grassroots initiative that provides:
 
 - **Observatory** — Real-time dashboard showing ecosystem participants, roles, and API coverage
 - **Ecosystem Watch** — Independent weekly monitor of volumes, standards changes, and CBUAE release compliance ([/observatory/watch/](https://openfinance-os.org/observatory/watch/), see [tools/watch/README.md](tools/watch/README.md))
@@ -28,6 +28,8 @@ OpenFinance-OS.org is a grassroots initiative that provides:
 We link to official sources. We don't replace them.
 
 ## Quick Start
+
+Use Node.js 22.23.1 (pinned in `.node-version`); Astro requires Node.js 22.22.0 or newer.
 
 ```bash
 # Install dependencies
@@ -85,9 +87,13 @@ npm run collect
 ## News Curation
 
 A daily workflow (`.github/workflows/news-curation.yml`) runs `scripts/curate-news.ts`, which
-pulls candidate stories from RSS and Google News search feeds (plus NewsAPI when a key is set),
-scores them for UAE open finance relevance and opens one review PR per story. Sources, weights
-and thresholds live in `data/news-curation/sources.json`.
+pulls candidate stories from RSS and Google News search feeds, the Nebras news page, the CBUAE
+homepage (plus NewsAPI when a key is set), scores them, and keeps only items that clear a
+confidence gate for open finance, open banking, and the UAE programme (CBUAE Open Finance,
+Nebras, Al Tareq). Accepted stories are summarised with Claude (`ANTHROPIC_MODEL`, default
+`claude-haiku-5-5`) and opened as one daily digest PR. Summaries that copy the source
+description, or that introduce numbers or names the source does not contain, are dropped.
+Sources, weights and thresholds live in `data/news-curation/sources.json`.
 
 What gets filtered out before scoring:
 
@@ -96,10 +102,18 @@ What gets filtered out before scoring:
 - Items dated in the future (event listings) or older than `lookbackHours`
 - Global stories that never mention an open banking / open finance term
   (`requireCoreTermForGlobal`)
-- Anything already published, or already proposed in an open or closed PR
+- Anything already published, or already proposed in an open or closed PR (including items
+  inside a previous digest)
 
 Minimum scores are tiered by region (`regionThresholds`): UAE stories need the least, global
-stories the most.
+stories the most. The confidence gate then requires an open-finance or open-banking term, or a UAE programme
+term (AlTareq, Nebras, the API Hub, Ozone Connect, CAAP, Aani). A core term in the title is
+enough; a mention that only appears in the body is not, unless the item is also about the
+UAE programme. AI-agent stories pass only on the beat "Open Finance and agentic access to data
+and payments": agents accessing financial data or initiating payments (agentic
+commerce, Agent Pay, Intelligent Commerce, AP2, MCP or agent APIs, delegated
+consent). Internal bank-AI stories stay out. Those items are tagged with the
+beat in the daily digest. Google News queries for the beat are in `sources.json`.
 
 ```bash
 # Preview what the curator would propose (no PRs, no Slack)
@@ -148,7 +162,7 @@ We welcome contributions! See [CONTRIBUTING.md](docs/CONTRIBUTING.md) for guidel
 
 ## Tech Stack
 
-- **Framework:** [Astro 5.0](https://astro.build)
+- **Framework:** [Astro 7.3](https://astro.build)
 - **Styling:** CSS with custom properties
 - **Fonts:** DM Sans, Fraunces, JetBrains Mono
 - **Hosting:** Cloudflare Pages
@@ -161,3 +175,9 @@ MIT License — see [LICENSE](LICENSE) for details.
 ---
 
 Built by the community, for the community.
+
+## Brand and design
+
+The Clear signal identity is maintained in `brand/openfinance-os-brand-guidelines.html`, with the published mirror in `public/brand/`. Use DM Sans for display and UI, the open-circle logo assets, and semantic theme tokens from `src/styles/global.css`. Keep the approved Open Circuit animation and its accessible playback behavior.
+
+The reusable Codex skill is `brand/skills/openfinance-os-brand/`. Its discoverable local installation belongs in `~/.codex/skills/openfinance-os-brand/`; copy that folder when installing or updating it. Update both guideline copies and the skill together when the identity changes.

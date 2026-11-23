@@ -5,8 +5,6 @@
  * PostHog is loaded via CDN in BaseLayout.astro, so we access it via window.posthog
  */
 
-import { outboundAttempt } from '../lib/engagement-events';
-
 declare global {
   interface Window {
     posthog?: {
@@ -76,9 +74,11 @@ export function trackThemeToggle(newTheme: 'light' | 'dark'): void {
 }
 
 export function trackExternalLink(url: string, context: string): void {
-  if (typeof window === 'undefined') return;
-  const attempt = outboundAttempt(url, window.location.href);
-  if (attempt) trackEvent('external_link_clicked', { ...attempt, context });
+  trackEvent('external_link_clicked', {
+    url,
+    context,
+    domain: new URL(url).hostname,
+  });
 }
 
 // ============================================
@@ -197,11 +197,11 @@ export function trackParticipantViewed(
 }
 
 export function trackParticipantWebsiteClicked(participantName: string, websiteUrl: string): void {
-  if (typeof window === 'undefined') return;
-  const attempt = outboundAttempt(websiteUrl, window.location.href);
-  if (attempt) {
-    trackEvent('participant_website_clicked', { ...attempt, participant_name: participantName });
-  }
+  trackEvent('participant_website_clicked', {
+    participant_name: participantName,
+    website_url: websiteUrl,
+    domain: new URL(websiteUrl).hostname,
+  });
 }
 
 export function trackEnvironmentSwitched(

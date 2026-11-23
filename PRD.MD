@@ -2,7 +2,7 @@ Done. Updated throughout:
 
 ---
 
-## Revised PRD — OpenFinance-OS.org
+## Revised PRD — Open Finance OS.org
 
 ### Community Ecosystem Hub & Observatory
 
@@ -12,7 +12,7 @@ Done. Updated throughout:
 
 ### 1.1 What This Is
 
-**OpenFinance-OS.org** is a community-owned website that serves as the grassroots home for the UAE Open Finance ecosystem. It provides:
+**Open Finance OS.org** is a community-owned website that serves as the grassroots home for the UAE Open Finance ecosystem. It provides:
 
 - **Visibility** into ecosystem activity (the Observatory dashboard)
 - **News and updates** curated by the community
@@ -20,7 +20,7 @@ Done. Updated throughout:
 - **A gathering point** for community efforts, events, and collaboration
 - **International context** to benchmark UAE progress globally
 
-The domain directly ties to the **OpenFinance-OS** GitHub organization, reinforcing that this is an open-source, community-driven effort.
+The domain directly ties to the **Open Finance OS** GitHub organization, reinforcing that this is an open-source, community-driven effort.
 
 ### 1.2 What This Is Not
 
@@ -45,7 +45,7 @@ The domain directly ties to the **OpenFinance-OS** GitHub organization, reinforc
 |-------|-----|
 | Website | openfinance-os.org |
 | GitHub | github.com/organizations/openfinance-os/ |
-| Discussions | github.com/openfinance-os/community/discussions |
+| Discussions | github.com/openfinance-os/community-website/discussions |
 
 One name, one identity, one community.
 
@@ -57,7 +57,7 @@ One name, one identity, one community.
 
 - **Domain ownership:** Held by a neutral community entity or trusted individual with documented handover terms
 - **Content:** Contributed by community members, moderated by maintainers
-- **Code:** Open source under OpenFinance-OS GitHub organization
+- **Code:** Open source under Open Finance OS GitHub organization
 - **Funding:** Community-funded (no corporate sponsorship tiers, no ads)
 
 ### 2.2 Organizational Structure
@@ -127,7 +127,7 @@ openfinance-os.org/
 
 **Hero section:**
 ```
-OpenFinance-OS
+Open Finance OS
 The community home for UAE Open Finance
 
 [Key metric from Observatory]
@@ -393,7 +393,7 @@ Position UAE Open Finance in international context. Learn from other jurisdictio
 - Spreading the word
 
 **Communication:**
-- GitHub Discussions (primary): github.com/openfinance-os/community/discussions
+- GitHub Discussions (primary): github.com/openfinance-os/community-website/discussions
 - Optional future: Discord/Slack if demand exists
 
 **Working groups** (future):
@@ -441,7 +441,7 @@ See an outdated link? [Open an issue](https://github.com/openfinance-os/...)
 
 **Mission:**
 ```
-OpenFinance-OS exists to make the UAE Open Finance ecosystem 
+Open Finance OS exists to make the UAE Open Finance ecosystem 
 visible, accessible, and welcoming.
 
 We are a community of developers, fintechs, bankers, and 
@@ -631,7 +631,7 @@ openfinance-os.org/
 
 ## 14. Design Principles
 
-> **Brand assets location:** `/brand/` — See `/brand/logo-preview.html` for complete visual reference.
+> **Brand assets location:** `/brand/` — See `/brand/openfinance-os-brand-guidelines.html` (v2.0, Clear signal) and `/brand/logo-preview.html`. Reusable skill: `brand/skills/openfinance-os-brand/SKILL.md`.
 
 ### Visual Identity
 
@@ -646,21 +646,21 @@ openfinance-os.org/
 |-------|-----|-------|
 | Primary | `#0D4F4F` | Main brand color, headers |
 | Primary Light | `#1A6B6B` | Gradients, hover states |
-| Accent | `#E8A85C` | Highlights, CTAs, "-OS" in wordmark |
+| Accent | `#E8A85C` | Restrained signal point and highlights |
 | Accent Light | `#F5C989` | Gradient stops |
-| Surface | `#FAFBFC` | Page backgrounds |
-| Dark | `#0F1419` | Dark mode background |
-| Text | `#1A1D21` | Body text |
-| Text Secondary | `#5A6169` | Secondary text, taglines |
+| Surface | `#F6F8F5` | Light page backgrounds |
+| Dark | `#102423` | Dark mode background |
+| Text | `#132C2B` | Light-mode body text |
+| Text Secondary | `#526662` | Light-mode secondary text, taglines |
 
 ### Typography
 
 | Font | Weights | Usage |
 |------|---------|-------|
-| DM Sans | 400, 500, 600, 700 | Primary font — body, UI, wordmark |
-| Fraunces | 600, 700 | Display — section headings, hero text |
+| DM Sans | 400, 500, 600, 700 | Display, body, UI, wordmark; 500 for display headings |
+| JetBrains Mono | 400, 500 | Code, IDs, literal technical values |
 
-Google Fonts: `https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&display=swap`
+DM Sans is served locally from `/fonts/` with its SIL Open Font License. Fraunces is retired. The v2 open-circle mark replaces the original globe tile. Keep the Open Circuit animation below the homepage opening screen with muted inline playback, poster fallback, reduced-motion/data-saving support, and pause/play/replay controls.
 
 ### Logo Assets
 
@@ -822,7 +822,7 @@ But ecosystems don't thrive on infrastructure alone. They need:
 - **Accessibility** — Can newcomers find their way in?
 - **Community** — Is there a place to gather, share, learn?
 
-Official channels handle compliance and operations. **OpenFinance-OS.org** handles the rest.
+Official channels handle compliance and operations. **Open Finance OS.org** handles the rest.
 
 Built by the community. Open source. For everyone who wants this ecosystem to flourish.
 

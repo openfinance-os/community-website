@@ -1,7 +1,12 @@
 ---
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import PageLayout from '@layouts/PageLayout.astro';
 import Badge from '@components/common/Badge.astro';
+import NewsletterSignup from '@components/common/NewsletterSignup.astro';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { inlinePublicSvg } from '@lib/inline-public-svg.mjs';
+import { NEWSLETTER_PITCH, NEWSLETTER_SOURCES } from '@lib/newsletter';
 
 export async function getStaticPaths() {
   const newsEntries = await getCollection('news');
@@ -17,6 +22,22 @@ interface Props {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+
+const imagePath = entry.data.image;
+const imageAlt = entry.data.imageAlt?.trim() ?? '';
+if (imagePath && !imageAlt) {
+  throw new Error(`News post "${entry.id}" sets image without imageAlt`);
+}
+
+function publicFile(urlPath: string) {
+  const relative = urlPath.replace(/^\//, '');
+  if (relative.includes('..')) throw new Error(`Unsafe image path ${urlPath}`);
+  return join(process.cwd(), 'public', relative);
+}
+
+const pngSibling = imagePath?.endsWith('.svg') ? imagePath.replace(/\.svg$/, '.png') : undefined;
+const ogImage = pngSibling && existsSync(publicFile(pngSibling)) ? pngSibling : imagePath;
+const coverSvg = imagePath?.endsWith('.svg') ? inlinePublicSvg(imagePath, imageAlt) : '';
 
 const typeLabels: Record<string, string> = {
   official: 'Regulatory',
@@ -34,36 +55,59 @@ const formatDate = (date: Date) => {
   });
 };
 
+const publishedLabel = entry.data.date.toLocaleDateString('en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+const articleSummary = entry.data.description || `${entry.data.title} — Open Finance OS news.`;
+const articleDescription = `${articleSummary} Published ${publishedLabel}.`;
+const articleUrl = new URL(`/news/${entry.id}/`, Astro.site).toString();
+const authorName = entry.data.author || 'Open Finance OS Community';
+const authorIsOrganization =
+  authorName === 'Community' || authorName.includes(' - ') || /openfinance-os/i.test(authorName);
+
 // NewsArticle structured data (JSON-LD)
 const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'NewsArticle',
   headline: entry.data.title,
-  description: entry.data.description || `${entry.data.title} - OpenFinance-OS News`,
+  description: articleDescription,
+  image: [new URL(ogImage || '/og-image.png', Astro.site).toString()],
   datePublished: entry.data.date.toISOString(),
   dateModified: entry.data.date.toISOString(),
   author: {
-    '@type': 'Person',
-    name: entry.data.author,
+    '@type': authorIsOrganization ? 'Organization' : 'Person',
+    name: authorName,
   },
   publisher: {
     '@type': 'Organization',
-    name: 'OpenFinance-OS',
+    name: 'Open Finance OS',
+    url: new URL('/', Astro.site).toString(),
     logo: {
       '@type': 'ImageObject',
-      url: new URL('/brand/logo-full.svg', Astro.site).toString(),
+      url: new URL('/brand/logo-icon-512.png', Astro.site).toString(),
+      width: 512,
+      height: 512,
     },
   },
   mainEntityOfPage: {
     '@type': 'WebPage',
-    '@id': new URL(`/news/${entry.id}`, Astro.site).toString(),
+    '@id': articleUrl,
   },
+  url: articleUrl,
+  articleSection: typeLabels[entry.data.type] || 'News',
+  inLanguage: 'en',
+  isAccessibleForFree: true,
 };
 ---
 
 <PageLayout
   title={entry.data.title}
-  description={entry.data.description || `${entry.data.title} - OpenFinance-OS News`}
+  description={articleDescription}
+  ogImage={ogImage}
+  ogImageAlt={imageAlt || undefined}
   type="article"
   publishedTime={entry.data.date.toISOString()}
   articleSchema={articleSchema}
@@ -96,6 +140,17 @@ const articleSchema = {
         </div>
 
         <h1>{entry.data.title}</h1>
+        {coverSvg ? (
+          <figure class="cover-visual">
+            <Fragment set:html={coverSvg} />
+            {entry.data.imageCaption && <figcaption>{entry.data.imageCaption}</figcaption>}
+          </figure>
+        ) : imagePath ? (
+          <figure class="cover-visual">
+            <img src={imagePath} alt={imageAlt} />
+            {entry.data.imageCaption && <figcaption>{entry.data.imageCaption}</figcaption>}
+          </figure>
+        ) : null}
       </header>
 
       <div class="article-content">
@@ -137,6 +192,13 @@ const articleSchema = {
           All News
         </a>
       </div>
+
+      <NewsletterSignup
+        source={NEWSLETTER_SOURCES.news}
+        variant="card"
+        heading="Newsletter"
+        description={NEWSLETTER_PITCH}
+      />
     </div>
   </article>
 </PageLayout>
@@ -144,7 +206,7 @@ const articleSchema = {
 <style>
   .article-page {
     padding: var(--space-8) var(--space-4) var(--space-16);
-    background: var(--color-gray-50);
+    background: var(--color-surface);
     min-height: 100vh;
   }
 
@@ -159,14 +221,14 @@ const articleSchema = {
     gap: var(--space-2);
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     text-decoration: none;
     margin-bottom: var(--space-6);
     transition: color var(--transition-fast);
   }
 
   .back-link:hover {
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
     text-decoration: none;
   }
 
@@ -175,6 +237,7 @@ const articleSchema = {
   }
 
   .article-meta {
+    min-width: 0;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -185,29 +248,92 @@ const articleSchema = {
   .article-meta time {
     font-family: var(--font-mono);
     font-size: 0.875rem;
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   .meta-separator {
-    color: var(--color-gray-300);
+    color: var(--color-text-secondary);
   }
 
   .author {
     font-size: 0.875rem;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
   }
 
   .article-header h1 {
     font-size: clamp(1.75rem, 4vw, 2.5rem);
-    font-weight: 700;
-    color: var(--color-gray-900);
+    font-weight: 500;
+    color: var(--color-text);
     line-height: 1.2;
     letter-spacing: -0.02em;
   }
 
+  .cover-visual {
+    margin: var(--space-8) 0 0;
+  }
+
+  .cover-visual :global(svg),
+  .cover-visual img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    background: var(--color-card);
+    overflow: hidden;
+  }
+
+  .cover-visual figcaption,
+  :global(figure.post-visual figcaption) {
+    margin-top: var(--space-3);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+  }
+
+  :global(figure.post-visual) {
+    margin: var(--space-6) 0 var(--space-8);
+  }
+
+  :global(figure.post-visual svg) {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    background: var(--color-card);
+    overflow: hidden;
+  }
+
+  @media (max-width: 640px) {
+    :global(figure.post-visual.fit) {
+      margin-left: calc(var(--space-5) * -1);
+      margin-right: calc(var(--space-5) * -1);
+    }
+
+    :global(figure.post-visual.fit figcaption) {
+      padding-left: var(--space-5);
+      padding-right: var(--space-5);
+    }
+
+    :global(figure.post-visual.fit svg) {
+      border-left: none;
+      border-right: none;
+      border-radius: 0;
+    }
+  }
+
+  @media (min-width: 641px) {
+    :global(figure.post-visual.fit) {
+      max-width: 22.5rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
   .article-content {
     background: var(--color-card);
-    border: 1px solid var(--color-gray-200);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     padding: var(--space-8);
     margin-bottom: var(--space-6);
@@ -217,7 +343,7 @@ const articleSchema = {
   .article-content :global(h2) {
     font-size: 1.5rem;
     font-weight: 600;
-    color: var(--color-gray-900);
+    color: var(--color-text);
     margin-top: var(--space-8);
     margin-bottom: var(--space-4);
   }
@@ -225,7 +351,7 @@ const articleSchema = {
   .article-content :global(h3) {
     font-size: 1.25rem;
     font-weight: 600;
-    color: var(--color-gray-900);
+    color: var(--color-text);
     margin-top: var(--space-6);
     margin-bottom: var(--space-3);
   }
@@ -233,7 +359,7 @@ const articleSchema = {
   .article-content :global(p) {
     font-size: 1.0625rem;
     line-height: 1.7;
-    color: var(--color-gray-700);
+    color: var(--color-text);
     margin-bottom: var(--space-4);
   }
 
@@ -246,39 +372,42 @@ const articleSchema = {
   .article-content :global(li) {
     font-size: 1.0625rem;
     line-height: 1.7;
-    color: var(--color-gray-700);
+    color: var(--color-text);
     margin-bottom: var(--space-2);
   }
 
   .article-content :global(a) {
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
     text-decoration: underline;
     text-underline-offset: 2px;
   }
 
   .article-content :global(a:hover) {
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
   }
 
   .article-content :global(strong) {
     font-weight: 600;
-    color: var(--color-gray-900);
+    color: var(--color-text);
   }
 
   .article-content :global(em) {
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
   }
 
   .article-content :global(blockquote) {
     border-left: 3px solid var(--color-primary-300);
     padding-left: var(--space-4);
     margin: var(--space-6) 0;
-    color: var(--color-gray-600);
+    color: var(--color-text-secondary);
     font-style: italic;
   }
 
   .article-content :global(table) {
+    display: block;
     width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
     border-collapse: collapse;
     margin: var(--space-6) 0;
     font-size: 0.9375rem;
@@ -288,18 +417,18 @@ const articleSchema = {
   .article-content :global(td) {
     padding: var(--space-3);
     text-align: left;
-    border-bottom: 1px solid var(--color-gray-200);
+    border-bottom: 1px solid var(--color-border);
   }
 
   .article-content :global(th) {
     font-weight: 600;
-    color: var(--color-gray-900);
-    background: var(--color-gray-50);
+    color: var(--color-text);
+    background: var(--color-surface);
   }
 
   .article-content :global(hr) {
     border: none;
-    border-top: 1px solid var(--color-gray-200);
+    border-top: 1px solid var(--color-border);
     margin: var(--space-8) 0;
   }
 
@@ -313,11 +442,11 @@ const articleSchema = {
     gap: var(--space-2);
     padding: var(--space-3) var(--space-5);
     background: var(--color-card);
-    border: 1px solid var(--color-gray-200);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     font-size: 0.9375rem;
     font-weight: 500;
-    color: var(--color-gray-700);
+    color: var(--color-text);
     text-decoration: none;
     transition:
       border-color var(--transition-fast),
@@ -326,13 +455,13 @@ const articleSchema = {
 
   .source-link:hover {
     border-color: var(--color-primary-300);
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
     text-decoration: none;
   }
 
   .article-nav {
     padding-top: var(--space-6);
-    border-top: 1px solid var(--color-gray-200);
+    border-top: 1px solid var(--color-border);
   }
 
   .nav-link {
@@ -341,12 +470,12 @@ const articleSchema = {
     gap: var(--space-2);
     font-size: 0.9375rem;
     font-weight: 500;
-    color: var(--color-primary-600);
+    color: var(--color-brand-ink);
     text-decoration: none;
   }
 
   .nav-link:hover {
-    color: var(--color-primary-700);
+    color: var(--color-brand-ink);
     text-decoration: none;
   }
 

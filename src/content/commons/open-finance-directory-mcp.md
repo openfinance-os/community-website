@@ -18,7 +18,7 @@ source:
   platform: github
 
 authoredByContributor: true
-contributor: "OpenFinance-OS Community"
+contributor: "Open Finance OS Community"
 contributorUrl: https://github.com/openfinance-os
 
 links:

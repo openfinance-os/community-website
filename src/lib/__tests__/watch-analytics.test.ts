@@ -1,7 +1,8 @@
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
-import { describe, expect, it } from 'vitest';
-import { GET } from '../../pages/observatory/watch/index.html';
+import { describe, expect, it, vi } from 'vitest';
+import { initEnhancedAnalytics } from '../../scripts/enhanced-analytics';
+import { renderWatchContent } from '../watch-document';
 
 const bootstrap = readFileSync('public/analytics/posthog.js', 'utf8');
 
@@ -27,21 +28,49 @@ function browser(host = 'openfinance-os.org', path = '/observatory/watch/') {
   globals.window = globals;
   const context = vm.createContext(globals);
   const run = () => vm.runInContext(bootstrap, context);
-  const click = (href: string, nav = false, defaultPrevented = false) => {
+  const click = (href: string, nav = false) => {
     const target = new Element() as Element & { closest: () => unknown };
     target.closest = () => ({ getAttribute: () => href, closest: () => nav });
-    listeners.click?.({ target, defaultPrevented });
+    listeners.click?.({ target });
   };
   return { globals, scripts, run, click };
 }
 
 describe('standalone Watcher analytics', () => {
-  it('is included by the rendered endpoint with its canonical URL', async () => {
-    const response = (GET as () => Response)();
-    const html = await response.text();
-    expect(html).toContain('<script src="/analytics/posthog.js"></script>');
-    expect(html).toContain('href="https://openfinance-os.org/observatory/watch/"');
-    expect(html).not.toContain('__DATA__');
+  it.each(['/learn/readiness', '/learn/readiness/'])(
+    'does not load analytics or replay on the editable worksheet at %s',
+    (path) => {
+      const b = browser('openfinance-os.org', path);
+      b.run();
+      b.run();
+      expect(b.scripts).toHaveLength(0);
+      expect(b.globals.posthog).toBeUndefined();
+      vi.stubGlobal('window', b.globals);
+      try {
+        expect(() => initEnhancedAnalytics()).not.toThrow();
+        expect(b.globals).not.toHaveProperty('__enhancedAnalyticsInitialized');
+      } finally {
+        vi.unstubAllGlobals();
+      }
+    }
+  );
+
+  it('safely embeds the saved payload and preserves the no-JavaScript briefing', () => {
+    const { body, styles } = renderWatchContent();
+    expect(body).toContain('Saved Ecosystem Watch briefing');
+    expect(body).not.toContain('__DATA__');
+    expect(styles).toContain('[data-theme="dark"] .watch-page');
+  });
+
+  it('does not add general-site tracking when Watch uses the shared layout', () => {
+    const windowStub = { location: { pathname: '/observatory/watch/' } };
+    vi.stubGlobal('window', windowStub);
+    try {
+      expect(() => initEnhancedAnalytics()).not.toThrow();
+      expect(windowStub).not.toHaveProperty('__enhancedAnalyticsInitialized');
+    } finally {
+      vi.unstubAllGlobals();
+    }
   });
 
   it.each(['localhost', 'preview.pages.dev', 'demoapp.openfinance-os.org'])(
@@ -59,6 +88,12 @@ describe('standalone Watcher analytics', () => {
     b.run();
     b.run();
     expect(b.scripts).toHaveLength(1);
+    expect(b.scripts[0]).toMatchObject({
+      async: true,
+      crossOrigin: 'anonymous',
+      src: 'https://us-assets.i.posthog.com/static/array.js',
+      type: 'text/javascript',
+    });
     expect(b.globals.posthog._i).toHaveLength(1);
     expect(b.globals.posthog._i[0][1]).toMatchObject({
       api_host: 'https://us.i.posthog.com',
@@ -89,35 +124,12 @@ describe('standalone Watcher analytics', () => {
     b.click('https://example.org/reference?email=private&token=secret#private');
     b.click('mailto:private@example.org');
     expect(JSON.parse(JSON.stringify(b.globals.posthog))).toEqual([
-      [
-        'capture',
-        'watch_section_selected',
-        {
-          section: 'operations',
-          action: 'section_request',
-          measurement_version: 2,
-        },
-      ],
+      ['capture', 'watch_section_selected', { section: 'operations' }],
       [
         'capture',
         'watch_source_opened',
-        {
-          destination_host: 'example.org',
-          destination_path: '/reference',
-          action: 'navigation_attempt',
-          measurement_version: 2,
-        },
+        { destination_host: 'example.org', destination_path: '/reference' },
       ],
     ]);
-  });
-
-  it('ignores cancelled, credential-bearing and first-party source links', () => {
-    const b = browser();
-    b.run();
-    b.click('https://example.org/', false, true);
-    b.click('https://user:password@example.org/');
-    b.click('https://www.openfinance-os.org/learn/');
-    b.click('');
-    expect(b.globals.posthog).toHaveLength(0);
   });
 });

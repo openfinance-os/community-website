@@ -8,10 +8,15 @@ interface Props {
   description?: string;
   lastUpdated?: string;
   ogImage?: string;
+  ogImageAlt?: string;
+  ogImageWidth?: number;
+  ogImageHeight?: number;
   type?: 'website' | 'article';
   publishedTime?: string;
   modifiedTime?: string;
   articleSchema?: object;
+  robots?: string;
+  breadcrumbCurrent?: string;
 }
 
 const {
@@ -19,10 +24,15 @@ const {
   description,
   lastUpdated,
   ogImage,
+  ogImageAlt,
+  ogImageWidth,
+  ogImageHeight,
   type,
   publishedTime,
   modifiedTime,
   articleSchema,
+  robots,
+  breadcrumbCurrent,
 } = Astro.props;
 ---
 
@@ -30,10 +40,15 @@ const {
   title={title}
   description={description}
   ogImage={ogImage}
+  ogImageAlt={ogImageAlt}
+  ogImageWidth={ogImageWidth}
+  ogImageHeight={ogImageHeight}
   type={type}
   publishedTime={publishedTime}
   modifiedTime={modifiedTime}
   articleSchema={articleSchema}
+  robots={robots}
+  breadcrumbCurrent={breadcrumbCurrent}
 >
   <a href="#main-content" class="skip-link">
     Skip to main content

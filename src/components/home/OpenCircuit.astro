@@ -1,0 +1,238 @@
+---
+import { Image } from 'astro:assets';
+import poster from '../../../public/media/permission-connection-poster.webp';
+---
+
+<section class="open-circuit" aria-labelledby="circuit-title">
+  <div class="circuit-inner" data-open-circuit>
+    <div class="circuit-copy">
+      <p class="circuit-people">People · Institutions · Builders</p>
+      <h2 id="circuit-title">
+        Connected through
+        <br />
+        permission.
+      </h2>
+      <p class="circuit-description">
+        An open ecosystem starts with people in control. Shared standards connect institutions and
+        builders around that permission.
+      </p>
+      <a href="/learn">
+        Understand the framework <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+    <div class="hero-circuit">
+      <div class="circuit-media" aria-hidden="true">
+        <Image
+          class="circuit-poster"
+          src={poster}
+          widths={[320, 480, 640, 960, 1280]}
+          sizes="auto, (max-width: 760px) calc(100vw - 82px), (max-width: 1272px) calc(57.143vw - 52.571px), 674px"
+          format="webp"
+          quality={78}
+          alt=""
+          width={poster.width}
+          height={poster.height}
+          loading="lazy"
+        />
+        <video
+          id="open-circuit-video"
+          class="circuit-video"
+          data-src="/media/permission-connection.mp4"
+          width="1920"
+          height="1080"
+          preload="none"
+          muted
+          playsinline
+          loop
+          tabindex="-1"
+        ></video>
+      </div>
+      <div class="circuit-caption">
+        <span>A connection you control</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const circuit = document.querySelector<HTMLElement>('[data-open-circuit]');
+  const video = circuit?.querySelector<HTMLVideoElement>('video');
+
+  if (circuit && video) {
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const connection = (
+      navigator as Navigator & {
+        connection?: EventTarget & { saveData?: boolean };
+      }
+    ).connection;
+    let inView = !('IntersectionObserver' in window);
+    let failed = false;
+
+    const automaticPlaybackAllowed = () => !motionPreference.matches && !connection?.saveData;
+    const playbackAllowed = () =>
+      !failed && inView && !document.hidden && automaticPlaybackAllowed();
+
+    const play = async () => {
+      if (!playbackAllowed() || !video.paused) return;
+      // Keep motion-reduced and data-saving visits on the still without fetching the film.
+      if (!video.getAttribute('src')) video.src = video.dataset.src!;
+      video.muted = true;
+      try {
+        await video.play();
+      } catch {
+        circuit.classList.remove('has-video');
+      }
+    };
+
+    const syncPlayback = () => {
+      if (!playbackAllowed()) {
+        video.pause();
+        if (!automaticPlaybackAllowed()) circuit.classList.remove('has-video');
+      } else {
+        void play();
+      }
+    };
+
+    video.addEventListener('playing', () => {
+      if (!playbackAllowed()) {
+        video.pause();
+        return;
+      }
+      circuit.classList.add('has-video');
+    });
+    video.addEventListener('error', () => {
+      failed = true;
+      circuit.classList.remove('has-video');
+      video.pause();
+    });
+    motionPreference.addEventListener('change', syncPlayback);
+    connection?.addEventListener?.('change', syncPlayback);
+    document.addEventListener('visibilitychange', syncPlayback);
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(
+        ([entry]) => {
+          inView = entry.isIntersecting;
+          syncPlayback();
+        },
+        { threshold: 0.1 }
+      ).observe(circuit);
+    }
+
+    syncPlayback();
+  }
+</script>
+<style>
+  .open-circuit {
+    padding: 0 var(--space-6) var(--space-16);
+    background: var(--color-surface);
+  }
+  .circuit-inner {
+    max-width: 1224px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.2fr);
+    align-items: center;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+  }
+  .circuit-copy {
+    min-width: 0;
+    padding: 48px 40px;
+  }
+  .circuit-people {
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    margin-bottom: 24px;
+  }
+  h2 {
+    font-size: clamp(2rem, 3.1vw, 2.75rem);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    color: var(--color-text);
+    line-height: 1.1;
+    margin-bottom: 22px;
+  }
+  .circuit-description {
+    color: var(--color-text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    max-width: 36ch;
+    margin-bottom: 26px;
+  }
+  .circuit-copy a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    gap: 18px;
+    color: var(--color-brand-ink);
+    font-size: 0.875rem;
+    text-underline-offset: 4px;
+  }
+  .hero-circuit {
+    min-width: 0;
+    padding: 24px 24px 24px 0;
+  }
+  .circuit-media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--color-soft);
+    border-radius: var(--radius-lg);
+  }
+  .circuit-poster,
+  .circuit-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+  }
+  .circuit-video {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .has-video .circuit-video {
+    opacity: 1;
+  }
+  .circuit-caption {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+  }
+  @media (max-width: 760px) {
+    .open-circuit {
+      padding: 0 20px 40px;
+    }
+    .circuit-inner {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .circuit-copy {
+      padding: 32px 28px 12px;
+    }
+    .circuit-description {
+      max-width: 48ch;
+    }
+    .hero-circuit {
+      padding: 12px 20px 24px;
+    }
+    .circuit-caption {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .circuit-video {
+      transition: none;
+    }
+  }
+</style>

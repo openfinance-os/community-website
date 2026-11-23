@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 600" width="320" height="600" role="img" aria-labelledby="fig-news-v22-timeline-svg" focusable="false"><title id="fig-news-v22-timeline-svg">Timeline of V2.2 dates from the Nebras roadmap. Today, 2 November 2026: V2.2 is still release candidate rc2 and its publication date is TBC. 31 December 2026: LFI release deadline for Tier-1 banks and Tier-1 insurers. 28 February 2027: Tier-2 banks. 31 March 2027: public go-live for Tier-1, and release deadline for Tier-2 insurers. 31 May 2027: Tier-2 bank go-live. 30 June 2027: Tier-2 insurer go-live.</title>
+  <g aria-hidden="true" font-family="DM Sans, system-ui, sans-serif">
+    <rect width="320" height="600" fill="var(--color-card, #ffffff)" />
+    <line x1="40" y1="40" x2="40" y2="560" stroke="var(--color-border, #dce5df)" stroke-width="4" stroke-linecap="round" />
+    <!-- Today -->
+    <circle cx="40" cy="48" r="10" fill="var(--color-card, #ffffff)" stroke="var(--color-accent, #e8a85c)" stroke-width="3" />
+    <text x="64" y="44" fill="var(--color-text, #132c2b)" font-size="16" font-weight="500">2 Nov 2026 · today</text>
+    <text x="64" y="66" fill="var(--color-text-secondary, #526662)" font-size="15">V2.2 still rc2. Final: TBC</text>
+    <!-- Tier-1 deadline -->
+    <circle cx="40" cy="140" r="10" fill="var(--color-brand-ink, #0d4f4f)" />
+    <text x="64" y="136" fill="var(--color-brand-ink, #0d4f4f)" font-size="16" font-weight="500">31 Dec 2026</text>
+    <text x="64" y="158" fill="var(--color-text, #132c2b)" font-size="15">Release deadline:</text>
+    <text x="64" y="178" fill="var(--color-text, #132c2b)" font-size="15">Tier-1 banks and insurers</text>
+    <!-- Tier-2 banks -->
+    <circle cx="40" cy="244" r="10" fill="var(--color-text-secondary, #526662)" />
+    <text x="64" y="240" fill="var(--color-text, #132c2b)" font-size="16" font-weight="500">28 Feb 2027</text>
+    <text x="64" y="262" fill="var(--color-text-secondary, #526662)" font-size="15">Release deadline: Tier-2 banks</text>
+    <!-- 31 Mar 2027 -->
+    <circle cx="40" cy="330" r="10" fill="var(--color-soft, #e7efea)" stroke="var(--color-brand-ink, #0d4f4f)" stroke-width="2" />
+    <text x="64" y="326" fill="var(--color-text, #132c2b)" font-size="16" font-weight="500">31 Mar 2027</text>
+    <text x="64" y="348" fill="var(--color-text-secondary, #526662)" font-size="15">Go-live: Tier-1 banks, insurers</text>
+    <text x="64" y="368" fill="var(--color-text-secondary, #526662)" font-size="15">Release deadline: Tier-2 insurers</text>
+    <!-- 31 May 2027 -->
+    <circle cx="40" cy="432" r="10" fill="var(--color-soft, #e7efea)" stroke="var(--color-text-secondary, #526662)" stroke-width="2" />
+    <text x="64" y="428" fill="var(--color-text, #132c2b)" font-size="16" font-weight="500">31 May 2027</text>
+    <text x="64" y="450" fill="var(--color-text-secondary, #526662)" font-size="15">Go-live: Tier-2 banks</text>
+    <!-- 30 Jun 2027 -->
+    <circle cx="40" cy="520" r="10" fill="var(--color-soft, #e7efea)" stroke="var(--color-text-secondary, #526662)" stroke-width="2" />
+    <text x="64" y="516" fill="var(--color-text, #132c2b)" font-size="16" font-weight="500">30 Jun 2027</text>
+    <text x="64" y="538" fill="var(--color-text-secondary, #526662)" font-size="15">Go-live: Tier-2 insurers</text>
+    <text x="16" y="590" fill="var(--color-text-secondary, #526662)" font-size="13">Nebras roadmap v3.0. Not to scale.</text>
+  </g>
+</svg>

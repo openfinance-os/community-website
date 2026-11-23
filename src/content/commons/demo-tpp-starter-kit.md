@@ -2,7 +2,7 @@
 title: "Open Finance Hackathon Docs"
 type: utility
 summary: "Complete documentation hub for the ADCB & Nebras UAE Open Finance Hackathon — from quick start guides and API references to the starter kit and project examples."
-date: 2024-12-01
+date: 2025-12-30
 
 useCases:
   - onboarding
@@ -18,7 +18,7 @@ source:
   platform: github
 
 authoredByContributor: true
-contributor: "OpenFinance-OS Community"
+contributor: "Open Finance OS Community"
 contributorUrl: https://github.com/openfinance-os
 
 links:

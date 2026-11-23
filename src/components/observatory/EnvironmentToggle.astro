@@ -33,9 +33,9 @@ const { currentEnvironment, productionCount = 0, sandboxCount = 0 } = Astro.prop
 </div>
 
 <style>
-  /* Lives inside the always-dark Observatory banner, so colours are literal
-     rather than theme tokens (which invert in dark mode). */
+  /* Theme-aware environment selector in the shared page introduction. */
   .environment-toggle {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-4);
@@ -44,13 +44,14 @@ const { currentEnvironment, productionCount = 0, sandboxCount = 0 } = Astro.prop
   .toggle-label {
     font-size: 0.875rem;
     font-weight: 500;
-    color: #a3cccc;
+    color: var(--color-text-secondary);
   }
 
   .toggle-buttons {
+    min-width: 0;
     display: flex;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: var(--color-soft);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-full);
     padding: 3px;
     gap: 2px;
@@ -58,6 +59,7 @@ const { currentEnvironment, productionCount = 0, sandboxCount = 0 } = Astro.prop
   }
 
   .toggle-btn {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-2);
@@ -67,7 +69,7 @@ const { currentEnvironment, productionCount = 0, sandboxCount = 0 } = Astro.prop
     border-radius: var(--radius-full);
     font-size: 0.8125rem;
     font-weight: 500;
-    color: #a3cccc;
+    color: var(--color-text-secondary);
     cursor: pointer;
     transition: all 0.2s ease;
     text-decoration: none;
@@ -75,13 +77,13 @@ const { currentEnvironment, productionCount = 0, sandboxCount = 0 } = Astro.prop
   }
 
   .toggle-btn:hover:not(.active) {
-    background: rgba(255, 255, 255, 0.15);
-    color: white;
+    background: var(--color-card);
+    color: var(--color-brand-ink);
   }
 
   .toggle-btn.active {
-    background: white;
-    color: #041919;
+    background: var(--color-card);
+    color: var(--color-brand-ink);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   }
 
@@ -122,11 +124,11 @@ const { currentEnvironment, productionCount = 0, sandboxCount = 0 } = Astro.prop
   }
 
   .env-count {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.6875rem;
     font-weight: 600;
     padding: 2px 6px;
-    background: rgba(0, 0, 0, 0.1);
+    background: var(--color-card);
     border-radius: var(--radius-full);
   }
 

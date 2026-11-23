@@ -1,10 +1,17 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
 import Hero from '@components/home/Hero.astro';
+import OpenCircuit from '@components/home/OpenCircuit.astro';
+import StartingPoints from '@components/home/StartingPoints.astro';
+import DeadlineCallout from '@components/learn/DeadlineCallout.astro';
+import WorkedExample from '@components/home/WorkedExample.astro';
 import ObservatoryPreview from '@components/home/ObservatoryPreview.astro';
 import EcosystemRecord from '@components/home/EcosystemRecord.astro';
 import LatestNews from '@components/home/LatestNews.astro';
 import WatchBriefing from '@components/home/WatchBriefing.astro';
+import NewsletterSignup from '@components/common/NewsletterSignup.astro';
+import SlackJoin from '@components/common/SlackJoin.astro';
+import { NEWSLETTER_PITCH, NEWSLETTER_SOURCES, SLACK_JOIN_PLACEMENTS } from '@lib/newsletter';
 import type { ObservatorySnapshot } from '@lib/types';
 // Import observatory data
 import snapshot from '../../data/observatory/snapshots/latest.json';
@@ -20,8 +27,7 @@ const sandboxData = (isDualFormat
 const crossEnvironment = isDualFormat ? snapshot.crossEnvironment : null;
 
 const { summary, timestamp, participants } = productionData;
-const { totalParticipants, byStatus, liveInProduction, apiFamilies } = summary;
-const activeCount = byStatus.Active || 0;
+const { totalParticipants, liveInProduction, apiFamilies } = summary;
 
 // Calculate API family coverage - count participants supporting each API family
 const apiFamilyCoverage: Record<string, number> = {};
@@ -60,8 +66,9 @@ const quickLinks = [
     icon: 'book',
   },
   {
-    title: 'Official Resources',
-    description: 'Links to Al Tareq, CBUAE, and other official documentation.',
+    title: 'Sources & community references',
+    description:
+      'Official documentation and independent resources, with their roles clearly labelled.',
     href: '/learn#resources',
     icon: 'link',
   },
@@ -82,11 +89,30 @@ const icons: Record<string, string> = {
 ---
 
 <PageLayout
-  title="Home"
+  title="UAE Open Finance community"
   description="The community home for UAE Open Finance and Open Banking. Daily ecosystem observations, developer resources, API guides, and community collaboration for the UAE financial services industry."
   lastUpdated={timestamp}
 >
-  <Hero participantCount={totalParticipants} activeCount={activeCount} observedAt={timestamp} />
+  <Hero
+    production={{
+      registered: totalParticipants,
+      apiFamilies: apiFamilies || [],
+      observedAt: timestamp,
+    }}
+    sandbox={
+      sandboxData
+        ? {
+            registered: sandboxData.summary.totalParticipants,
+            apiFamilies: sandboxData.summary.apiFamilies || [],
+            observedAt: sandboxData.timestamp,
+          }
+        : null
+    }
+  />
+  <StartingPoints />
+  <DeadlineCallout placement="home" />
+  <OpenCircuit />
+  <WorkedExample />
 
   <ObservatoryPreview stats={ecosystemStats} />
 
@@ -95,6 +121,19 @@ const icons: Record<string, string> = {
   <EcosystemRecord />
 
   <LatestNews limit={4} />
+
+  <section class="stay-loop" aria-labelledby="stay-loop-title">
+    <div class="stay-loop-inner">
+      <div class="stay-loop-copy">
+        <h2 id="stay-loop-title">Stay in the loop</h2>
+        <p>{NEWSLETTER_PITCH}</p>
+      </div>
+      <div class="stay-loop-actions">
+        <NewsletterSignup source={NEWSLETTER_SOURCES.home} variant="home" />
+        <SlackJoin placement={SLACK_JOIN_PLACEMENTS.home} label="Join the Slack" variant="button" />
+      </div>
+    </div>
+  </section>
 
   <section class="quick-links-section">
     <div class="container">
@@ -107,7 +146,7 @@ const icons: Record<string, string> = {
             target={link.external ? '_blank' : undefined}
             rel={link.external ? 'noopener noreferrer' : undefined}
           >
-            <div class="quick-link-icon" set:html={icons[link.icon]} />
+            <div class="quick-link-icon" aria-hidden="true" set:html={icons[link.icon]} />
             <div class="quick-link-content">
               <h3 class="quick-link-title">
                 {link.title}
@@ -120,6 +159,7 @@ const icons: Record<string, string> = {
                     stroke="currentColor"
                     stroke-width="2"
                     class="external-icon"
+                    aria-hidden="true"
                   >
                     <path d="M7 17L17 7M17 7H7M17 7v10" />
                   </svg>
@@ -146,22 +186,47 @@ const icons: Record<string, string> = {
       </div>
     </div>
   </section>
+  <section class="community-section" aria-labelledby="community-title">
+    <div class="community-band">
+      <div>
+        <h2 id="community-title">Better, together.</h2>
+        <p>
+          Open Finance OS belongs to its community. Share a perspective, improve a resource, or help
+          build the tools everyone can use.
+        </p>
+      </div>
+      <a href="https://github.com/openfinance-os" target="_blank" rel="noopener noreferrer">
+        Contribute on GitHub <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+    <p class="operator-handoff">
+      Building or integrating on Al Tareq? Start with the{' '}
+      <a href="https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview" rel="noopener">
+        official documentation
+      </a>{' '}
+      for standards and onboarding guidance. The{' '}
+      <a href="https://nebras-open-finance.com/" rel="noopener">
+        Nebras community reference
+      </a>{' '}
+      offers independent technical context.
+    </p>
+  </section>
 </PageLayout>
 
 <style>
   .quick-links-section {
     padding: var(--space-16) var(--space-4);
-    background: var(--color-gray-50);
+    background: var(--color-surface);
   }
 
   .container {
-    max-width: 1200px;
+    max-width: 1224px;
     margin: 0 auto;
   }
 
   .section-title {
-    font-size: 1.5rem;
-    font-weight: 700;
+    font-size: 2rem;
+    font-weight: 500;
     color: var(--color-gray-900);
     margin-bottom: var(--space-6);
   }
@@ -183,7 +248,7 @@ const icons: Record<string, string> = {
     align-items: flex-start;
     gap: var(--space-4);
     padding: var(--space-6) var(--space-8);
-    background: white;
+    background: var(--color-card);
     border: 1px solid var(--color-gray-200);
     border-radius: var(--radius-xl);
     text-decoration: none;
@@ -282,19 +347,19 @@ const icons: Record<string, string> = {
   }
 
   :global([data-theme='dark']) .quick-link-card {
-    background: var(--color-gray-200);
+    background: var(--color-soft);
     border-color: var(--color-gray-300);
   }
 
   :global([data-theme='dark']) .quick-link-card:hover {
-    border-color: var(--color-primary-400);
+    border-color: var(--color-brand-ink);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
     transform: translateY(-2px) scale(1.01);
   }
 
   :global([data-theme='dark']) .quick-link-icon {
     background: rgba(20, 184, 166, 0.15);
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .quick-link-title {
@@ -302,18 +367,129 @@ const icons: Record<string, string> = {
   }
 
   :global([data-theme='dark']) .quick-link-card:hover .quick-link-title {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .quick-link-description {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .quick-link-arrow {
-    color: var(--color-gray-500);
+    color: var(--color-text-secondary);
   }
 
   :global([data-theme='dark']) .quick-link-card:hover .quick-link-arrow {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
+  }
+
+  .stay-loop {
+    padding: var(--space-12) var(--space-4);
+    background: var(--color-soft);
+    border-block: 1px solid var(--color-border);
+  }
+
+  .stay-loop-inner {
+    display: grid;
+    gap: var(--space-6);
+    max-width: 1224px;
+    margin: 0 auto;
+    align-items: end;
+  }
+
+  .stay-loop h2 {
+    color: var(--color-text);
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+  }
+
+  .stay-loop-copy p {
+    max-width: 36rem;
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+
+  .stay-loop-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--space-3);
+  }
+
+  .stay-loop :global(.newsletter-signup--home) {
+    flex: 1 1 18rem;
+  }
+
+  @media (min-width: 900px) {
+    .stay-loop-inner {
+      grid-template-columns: minmax(16rem, 0.8fr) minmax(0, 1.4fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .stay-loop :global(.slack-join--button) {
+      width: 100%;
+    }
+  }
+
+  .community-section {
+    max-width: 1272px;
+    margin: 0 auto;
+    padding: 0 24px 56px;
+  }
+  .community-band {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    background: #0c3d3e;
+    color: #f1f7f1;
+    border-radius: 12px;
+    padding: 35px 40px;
+  }
+  .community-band h2 {
+    font-size: 1.75rem;
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    color: #f1f7f1;
+    margin-bottom: 9px;
+  }
+  .community-band p {
+    max-width: 600px;
+    font-size: 0.9375rem;
+    color: #bfd2c7;
+    line-height: 1.7;
+  }
+  .community-band a {
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+    color: #f1f7f1;
+    font-size: 0.875rem;
+    flex-shrink: 0;
+    border-bottom: 1px solid #6e9181;
+    padding: 10px 0;
+  }
+  .operator-handoff {
+    margin: 20px 0 0;
+    color: var(--color-text-secondary);
+    font-size: 0.8125rem;
+    line-height: 1.7;
+  }
+  .operator-handoff a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  @media (max-width: 700px) {
+    .community-section {
+      padding: 0 20px 40px;
+    }
+    .community-band {
+      padding: 28px 25px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
+    }
   }
 </style>

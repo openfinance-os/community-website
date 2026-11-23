@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import NewsCard from '@components/news/NewsCard.astro';
+import { newsOrigin } from '@lib/news-origin';
 
 interface Props {
   limit?: number;
@@ -11,12 +12,8 @@ const { limit = 4 } = Astro.props;
 // Fetch all news articles
 const allNews = await getCollection('news');
 
-// Sort by date (newest first) to show the latest news
-const sortedNews = allNews.sort((a, b) => {
-  return b.data.date.getTime() - a.data.date.getTime();
-});
-
-// Take the top articles
+// One list, newest first, own posts and external coverage together.
+const sortedNews = allNews.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 const latestNews = sortedNews.slice(0, limit);
 ---
 
@@ -24,7 +21,7 @@ const latestNews = sortedNews.slice(0, limit);
   <div class="container">
     <div class="section-header">
       <h2 class="section-title">Latest News</h2>
-      <a href="/news" class="view-all">
+      <a href="/updates" class="view-all">
         View all news
         <svg
           width="16"
@@ -53,6 +50,7 @@ const latestNews = sortedNews.slice(0, limit);
           slug={article.id}
           source={article.data.source}
           external={article.data.external}
+          origin={newsOrigin(article)}
         />
       ))}
     </div>
@@ -62,11 +60,11 @@ const latestNews = sortedNews.slice(0, limit);
 <style>
   .latest-news-section {
     padding: var(--space-16) var(--space-4);
-    background: white;
+    background: var(--color-surface);
   }
 
   .container {
-    max-width: 1200px;
+    max-width: 1224px;
     margin: 0 auto;
   }
 
@@ -78,8 +76,8 @@ const latestNews = sortedNews.slice(0, limit);
   }
 
   .section-title {
-    font-size: 1.5rem;
-    font-weight: 700;
+    font-size: 2rem;
+    font-weight: 500;
     color: var(--color-gray-900);
   }
 
@@ -127,7 +125,7 @@ const latestNews = sortedNews.slice(0, limit);
 
   /* Dark mode */
   :global([data-theme='dark']) .latest-news-section {
-    background: var(--color-gray-50);
+    background: var(--color-surface);
   }
 
   :global([data-theme='dark']) .section-title {
@@ -135,7 +133,7 @@ const latestNews = sortedNews.slice(0, limit);
   }
 
   :global([data-theme='dark']) .view-all {
-    color: var(--color-primary-400);
+    color: var(--color-brand-ink);
   }
 
   :global([data-theme='dark']) .view-all:hover {

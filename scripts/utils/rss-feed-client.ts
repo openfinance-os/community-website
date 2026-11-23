@@ -5,7 +5,7 @@ import type {
   NewsSourceConfig,
   NewsApiArticle,
 } from '../types/news-curation.js';
-import { normalizeUrl } from './article-filters.js';
+import { normalizeUrl, stripTrackingParams } from './article-filters.js';
 
 interface RssFetchOptions {
   config: NewsSourceConfig;
@@ -49,12 +49,13 @@ function extractAllTags(xml: string, tagName: string): string[] {
 /**
  * Decode common HTML entities
  */
-function decodeHtmlEntities(text: string): string {
+export function decodeHtmlEntities(text: string): string {
   return text
     .replace(/&amp;/g, '&')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
+    .replace(/&nbsp;/g, ' ')
     .replace(/&#39;/g, "'")
     .replace(/&apos;/g, "'")
     .replace(/&#x([0-9A-Fa-f]+);/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
@@ -64,11 +65,34 @@ function decodeHtmlEntities(text: string): string {
 /**
  * Strip HTML tags from content
  */
-function stripHtml(html: string): string {
-  return html
+export function stripHtml(html: string): string {
+  // Feeds often double-encode markup (e.g. `&amp;nbsp;`), so entities can
+  // survive the first decode. Decode again once tags are gone.
+  return decodeHtmlEntities(html.replace(/<[^>]*>/g, ' '))
     .replace(/<[^>]*>/g, ' ')
-    .replace(/\s+/g, ' ')
+    .replace(/[\s\u00a0]+/g, ' ')
     .trim();
+}
+
+/**
+ * Google News descriptions only repeat the headline and the publisher name,
+ * so they carry no summary. Return '' for those and keep anything longer.
+ */
+export function cleanGoogleNewsDescription(
+  description: string,
+  title: string,
+  publisher: string
+): string {
+  const normalize = (text: string) =>
+    text
+      .toLowerCase()
+      .replace(/[^\p{L}\p{N}]+/gu, ' ')
+      .trim();
+  const remainder = normalize(description)
+    .replace(normalize(title), '')
+    .replace(normalize(publisher), '')
+    .trim();
+  return remainder.length === 0 ? '' : description;
 }
 
 /**
@@ -80,9 +104,11 @@ export function normalizeGoogleNewsItem(
   item: string,
   title: string,
   fallbackSource: string
-): { title: string; source: string } {
-  const sourceMatch = item.match(/<source[^>]*>([\s\S]*?)<\/source>/i);
-  const publisher = sourceMatch ? decodeHtmlEntities(sourceMatch[1].trim()) : '';
+): { title: string; source: string; publisherUrl?: string } {
+  const sourceTag = item.match(/<source\b([^>]*)>([\s\S]*?)<\/source>/i);
+  const publisher = sourceTag ? decodeHtmlEntities(sourceTag[2].trim()) : '';
+  const urlAttr = sourceTag?.[1].match(/\burl=["']([^"']+)["']/i);
+  const publisherUrl = urlAttr ? decodeHtmlEntities(urlAttr[1].trim()) : undefined;
 
   // Only strip the suffix when the feed names the publisher and the title
   // actually ends with it; a dash inside a headline is left alone.
@@ -95,7 +121,31 @@ export function normalizeGoogleNewsItem(
     }
   }
 
-  return { title: cleanTitle, source: publisher || fallbackSource };
+  return { title: cleanTitle, source: publisher || fallbackSource, publisherUrl };
+}
+
+/**
+ * Older Google News article ids embed the publisher URL in the base64 payload.
+ * Current ids are opaque `AU_yqL…` tokens and return nothing; callers then keep
+ * the redirect and use the `<source url>` homepage for the domain.
+ */
+export function decodeGoogleNewsArticleUrl(googleUrl: string): string | null {
+  try {
+    const parsed = new URL(googleUrl);
+    if (!parsed.hostname.endsWith('news.google.com')) return null;
+    const id = parsed.pathname.split('/articles/')[1]?.split('/')[0];
+    if (!id) return null;
+    const padded = id.replace(/-/g, '+').replace(/_/g, '/');
+    const text = Buffer.from(padded, 'base64').toString('latin1');
+    const match = text.match(/https?:\/\/[^\s\x00-\x1f"<>]+/);
+    if (!match) return null;
+    const candidate = match[0].replace(/[)\].,;]+$/g, '');
+    const resolved = new URL(candidate);
+    if (resolved.hostname.includes('google.')) return null;
+    return resolved.toString();
+  } catch {
+    return null;
+  }
 }
 
 /**
@@ -140,6 +190,7 @@ export function parseFeed(
         description: stripHtml(summary || content || ''),
         content: stripHtml(content || summary || ''),
         source: sourceName,
+        feedName: sourceName,
         categories: extractAllTags(entry, 'category'),
       });
     }
@@ -157,23 +208,31 @@ export function parseFeed(
         content = extractTagContent(item, 'content');
       }
 
-      const description = extractTagContent(item, 'description');
+      let description = stripHtml(extractTagContent(item, 'description'));
 
       let title = extractTagContent(item, 'title');
       let source = sourceName;
+      let publisherUrl: string | undefined;
+      let link = extractTagContent(item, 'link') || extractTagContent(item, 'guid');
       if (format === 'google-news') {
         const normalized = normalizeGoogleNewsItem(item, title, sourceName);
         title = normalized.title;
         source = normalized.source;
+        publisherUrl = normalized.publisherUrl;
+        description = cleanGoogleNewsDescription(description, title, source);
+        const decoded = decodeGoogleNewsArticleUrl(link);
+        if (decoded) link = decoded;
       }
 
       articles.push({
         title,
-        link: extractTagContent(item, 'link') || extractTagContent(item, 'guid'),
+        link,
         pubDate: extractTagContent(item, 'pubDate') || extractTagContent(item, 'dc:date'),
-        description: stripHtml(description || ''),
-        content: stripHtml(content || description || ''),
+        description,
+        content: content ? stripHtml(content) : description,
         source,
+        feedName: sourceName,
+        publisherUrl,
         categories: extractAllTags(item, 'category'),
       });
     }
@@ -196,7 +255,7 @@ async function fetchFeed(feed: RssFeedSource, retries: number = 3): Promise<RssA
       const response = await fetch(feed.url, {
         signal: controller.signal,
         headers: {
-          'User-Agent': 'OpenFinance-OS News Curator/1.0',
+          'User-Agent': 'Open Finance OS News Curator/1.0',
           Accept: 'application/rss+xml, application/xml, text/xml, application/atom+xml',
         },
       });
@@ -226,9 +285,10 @@ async function fetchFeed(feed: RssFeedSource, retries: number = 3): Promise<RssA
 }
 
 /**
- * Convert RSS article to NewsAPI article format for compatibility
+ * Convert RSS article to NewsAPI article format for compatibility.
+ * Tracking parameters are removed from the stored link.
  */
-function rssToNewsApiFormat(rssArticle: RssArticle): NewsApiArticle {
+export function toNewsApiArticle(rssArticle: RssArticle): NewsApiArticle {
   // Parse the date
   let publishedAt: string;
   try {
@@ -246,11 +306,18 @@ function rssToNewsApiFormat(rssArticle: RssArticle): NewsApiArticle {
     author: null,
     title: rssArticle.title,
     description: rssArticle.description || null,
-    url: rssArticle.link,
+    url: stripTrackingParams(rssArticle.link),
     urlToImage: null,
     publishedAt,
     content: rssArticle.content || null,
+    feedName: rssArticle.feedName,
+    publisherUrl: rssArticle.publisherUrl ?? null,
   };
+}
+
+/** Feeds kept in config but not fetched. `enabled: false` is an explicit skip. */
+export function activeRssFeeds(feeds: RssFeedSource[]): RssFeedSource[] {
+  return feeds.filter((feed) => feed.enabled !== false);
 }
 
 /**
@@ -258,11 +325,18 @@ function rssToNewsApiFormat(rssArticle: RssArticle): NewsApiArticle {
  */
 export async function fetchRssArticles(options: RssFetchOptions): Promise<NewsApiArticle[]> {
   const { config, lookbackHours } = options;
-  const feeds = config.rssFeeds || [];
+  const configured = config.rssFeeds || [];
+  const feeds = activeRssFeeds(configured);
 
-  if (feeds.length === 0) {
+  if (configured.length === 0) {
     console.log('No RSS feeds configured, skipping RSS fetch.');
     return [];
+  }
+
+  for (const feed of configured) {
+    if (feed.enabled === false) {
+      console.log(`  ${feed.name}: disabled (${feed.note || 'not fetched'})`);
+    }
   }
 
   console.log(`Fetching from ${feeds.length} RSS feeds...`);
@@ -286,6 +360,12 @@ export async function fetchRssArticles(options: RssFetchOptions): Promise<NewsAp
     for (let j = 0; j < batch.length; j++) {
       const articles = results[j];
       const feed = batch[j];
+
+      if (feed.lowConfidence) {
+        console.log(
+          `  ${feed.name}: low-confidence feed (${feed.note || 'may fail from some networks'})`
+        );
+      }
 
       let addedCount = 0;
       for (const article of articles) {
@@ -318,7 +398,7 @@ export async function fetchRssArticles(options: RssFetchOptions): Promise<NewsAp
   console.log(`\nTotal unique RSS articles: ${allArticles.length}`);
 
   // Convert to NewsAPI format for compatibility with existing scoring/ranking
-  return allArticles.map(rssToNewsApiFormat);
+  return allArticles.map(toNewsApiArticle);
 }
 
 /**

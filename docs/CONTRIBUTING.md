@@ -1,6 +1,6 @@
-# Contributing to OpenFinance-OS
+# Contributing to Open Finance OS
 
-Welcome! We're glad you're interested in contributing to the OpenFinance-OS community website. This project is built by the community, for the community, and every contribution matters.
+Welcome! We're glad you're interested in contributing to the Open Finance OS community website. This project is built by the community, for the community, and every contribution matters.
 
 ## Ways to Contribute
 
@@ -134,7 +134,7 @@ Use clear, descriptive commit messages:
 
 ## Getting Help
 
-- **Questions?** Open a [Discussion](https://github.com/openfinance-os/community/discussions)
+- **Questions?** Open a [Discussion](https://github.com/openfinance-os/community-website/discussions)
 - **Found a bug?** Open an [Issue](https://github.com/openfinance-os/community-website/issues)
 - **Want to chat?** Join the conversation on GitHub Discussions
 
@@ -144,4 +144,4 @@ All contributors are expected to follow our [Code of Conduct](../CODE_OF_CONDUCT
 
 ---
 
-Thank you for contributing to OpenFinance-OS! Together, we're making UAE Open Finance more visible and accessible for everyone.
+Thank you for contributing to Open Finance OS! Together, we're making UAE Open Finance more visible and accessible for everyone.

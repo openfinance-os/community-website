@@ -8,6 +8,7 @@ import {
   isExcludedDomain,
   normalizeUrl,
   preFilterArticle,
+  stripTrackingParams,
   titleSlug,
 } from '../article-filters.js';
 import {
@@ -17,7 +18,13 @@ import {
   scoreArticle,
   thresholdForRegion,
 } from '../news-api-client.js';
-import { normalizeGoogleNewsItem, parseFeed } from '../rss-feed-client.js';
+import {
+  cleanGoogleNewsDescription,
+  decodeGoogleNewsArticleUrl,
+  normalizeGoogleNewsItem,
+  parseFeed,
+} from '../rss-feed-client.js';
+import { articleDomain } from '../diversity.js';
 
 const NOW = new Date('2026-09-12T12:00:00Z');
 
@@ -47,6 +54,16 @@ const baseConfig: NewsSourceConfig = {
   requireCoreTermForGlobal: true,
   minDescriptionLength: 50,
 };
+
+describe('stripTrackingParams', () => {
+  it('drops utm parameters and keeps the rest of the URL', () => {
+    expect(
+      stripTrackingParams(
+        'https://www.finextra.com/newsarticle/1/foo?utm_medium=rssfinextra&utm_source=finextrafeed&id=9'
+      )
+    ).toBe('https://www.finextra.com/newsarticle/1/foo?id=9');
+  });
+});
 
 describe('normalizeUrl', () => {
   it('strips tracking parameters, fragments and trailing slashes', () => {
@@ -273,11 +290,59 @@ describe('Google News feed handling', () => {
 <source url="https://www.thenationalnews.com">The National</source></item>
 </channel></rss>`;
 
+  it('drops descriptions that only repeat the headline and publisher', () => {
+    const [item] = parseFeed(xml, 'Google News - Open Finance UAE', 'google-news');
+    expect(item.description).toBe('');
+    expect(item.content).toBe('');
+  });
+
+  it('keeps Google News descriptions that add real text', () => {
+    expect(
+      cleanGoogleNewsDescription(
+        'CBUAE confirms go-live The National Insurers must connect by March',
+        'CBUAE confirms go-live',
+        'The National'
+      )
+    ).toBe('CBUAE confirms go-live The National Insurers must connect by March');
+  });
+
+  it('decodes double-encoded entities in plain RSS descriptions', () => {
+    const [item] = parseFeed(xml, 'Some Feed');
+    expect(item.description).not.toContain('&nbsp;');
+    expect(item.description).toBe('CBUAE confirms open finance go-live for insurance The National');
+  });
+
   it('uses the publisher as the source and strips the title suffix', () => {
     const [item] = parseFeed(xml, 'Google News - Open Finance UAE', 'google-news');
     expect(item.title).toBe('CBUAE confirms open finance go-live for insurance');
     expect(item.source).toBe('The National');
+    expect(item.publisherUrl).toBe('https://www.thenationalnews.com');
+    expect(item.feedName).toBe('Google News - Open Finance UAE');
     expect(item.link).toBe('https://news.google.com/rss/articles/abc?oc=5');
+    expect(articleDomain({ url: item.link, publisherUrl: item.publisherUrl })).toBe(
+      'thenationalnews.com'
+    );
+  });
+
+  it('resolves a Google News article id that still embeds the publisher URL', () => {
+    const id = Buffer.from(
+      'https://www.finextra.com/newsarticle/1/open-banking-rules',
+      'latin1'
+    ).toString('base64url');
+    const embedded = `<?xml version="1.0"?><rss><channel><item>
+<title>FCA consults on open banking rules - Finextra</title>
+<link>https://news.google.com/rss/articles/${id}</link>
+<pubDate>Thu, 11 Sep 2026 07:30:00 GMT</pubDate>
+<description>FCA consults on open banking rules</description>
+<source url="https://www.finextra.com">Finextra</source>
+</item></channel></rss>`;
+    expect(decodeGoogleNewsArticleUrl(`https://news.google.com/rss/articles/${id}`)).toBe(
+      'https://www.finextra.com/newsarticle/1/open-banking-rules'
+    );
+    const [item] = parseFeed(embedded, 'Google News - Open Banking', 'google-news');
+    expect(item.link).toBe('https://www.finextra.com/newsarticle/1/open-banking-rules');
+    expect(item.source).toBe('Finextra');
+    expect(articleDomain({ url: item.link, publisherUrl: item.publisherUrl })).toBe('finextra.com');
   });
 
   it('leaves plain RSS titles untouched', () => {

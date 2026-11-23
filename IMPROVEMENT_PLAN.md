@@ -1,6 +1,6 @@
 # Website Improvement Plan
 
-Based on a comprehensive review of the OpenFinance-OS community website, here are recommended improvements organized by priority and category.
+Based on a comprehensive review of the Open Finance OS community website, here are recommended improvements organized by priority and category.
 
 ---
 
