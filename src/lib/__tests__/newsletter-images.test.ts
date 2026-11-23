@@ -39,12 +39,19 @@ describe('newsletter image mapping', () => {
     expect(prepareIssueContent(once)).toEqual(once);
   });
 
-  it('matches the committed social card to the published Open Graph size', () => {
-    const slug = 'uae-open-finance-why-12-of-30-registrations';
-    const file = join(process.cwd(), 'public', issueOgPath(slug).replace(/^\//, ''));
-    const png = readFileSync(file);
-    expect(png.readUInt32BE(16)).toBe(ISSUE_OG_WIDTH);
-    expect(png.readUInt32BE(20)).toBe(ISSUE_OG_HEIGHT);
+  it('matches every committed issue social card to the published Open Graph size', () => {
+    const issues = JSON.parse(
+      readFileSync(join(process.cwd(), 'data/newsletter/issues.json'), 'utf8')
+    ) as {
+      slug: string;
+    }[];
+    expect(issues.length).toBeGreaterThan(0);
+    for (const issue of issues) {
+      const file = join(process.cwd(), 'public', issueOgPath(issue.slug).replace(/^\//, ''));
+      const png = readFileSync(file);
+      expect(png.readUInt32BE(16), issue.slug).toBe(ISSUE_OG_WIDTH);
+      expect(png.readUInt32BE(20), issue.slug).toBe(ISSUE_OG_HEIGHT);
+    }
     expect(normalizeOpenFinanceCasing('uae open finance')).toBe('UAE Open Finance');
   });
 });

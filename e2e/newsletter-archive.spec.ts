@@ -78,6 +78,13 @@ test('newest sent issue renders on its own canonical page', async ({ page }) => 
     'href',
     `https://openfinance-os.org${latestPath}`
   );
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    'content',
+    `https://openfinance-os.org/newsletter/og/${latest.slug}.png`
+  );
+  const shareImage = await page.request.get(`/newsletter/og/${latest.slug}.png`);
+  expect(shareImage.status()).toBe(200);
+  expect(shareImage.headers()['content-type']).toContain('image/png');
   await expect(page.locator('.issue-body')).not.toContainText('buttondown-editor-mode');
   await expect(page.locator('.issue-body script')).toHaveCount(0);
 });
