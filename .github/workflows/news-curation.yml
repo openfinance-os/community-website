@@ -1,9 +1,8 @@
+# Daily schedule switched off on 2026-11-24. News is now curated with manual
+# approval. Restore the `schedule` cron (`0 8 * * *`) to re-enable it.
 name: Daily News Curation
 
 on:
-  schedule:
-    # Run daily at 08:00 UTC (12:00 PM UAE time)
-    - cron: '0 8 * * *'
   workflow_dispatch:
     inputs:
       dry_run:
