@@ -1,25 +1,25 @@
 {
-  "timestamp": "2026-11-23T17:25:47.709Z",
+  "timestamp": "2026-11-24T16:58:38.636Z",
   "source": "https://data.sandbox.directory.openfinance.ae",
   "version": "2.1.0",
   "environment": "sandbox",
   "summary": {
-    "totalParticipants": 81,
+    "totalParticipants": 82,
     "byStatus": {
-      "Active": 81
+      "Active": 82
     },
     "byRole": {
       "BDSP": 76,
       "BSIP": 76,
-      "LFI": 53,
-      "ISP": 57,
+      "LFI": 54,
+      "ISP": 58,
       "BPIP": 2,
       "API Read_Write": 2,
       "TSP": 2,
       "pki-test-harness": 1
     },
     "byCity": {
-      "Unknown": 61,
+      "Unknown": 62,
       "Abu Dhabi": 7,
       "Dubai": 11,
       "London": 2
@@ -37,7 +37,7 @@
     ],
     "liveInProduction": 20,
     "shariahCompliantCount": 10,
-    "multiRoleCount": 77,
+    "multiRoleCount": 78,
     "tppCount": 0,
     "byAuthCapabilities": {
       "ciba": 0,
@@ -607,6 +607,30 @@
       ],
       "authServerCount": 1,
       "isLive": true
+    },
+    {
+      "id": "69053c58-60e8-49a8-a195-86d2a2fcb972",
+      "name": "Arabia Insurance Company SAL",
+      "legalName": "Arabia Insurance Company SAL",
+      "shortName": "Arabia Insurance Company SAL",
+      "status": "Active",
+      "roles": [
+        "ISP",
+        "LFI"
+      ],
+      "city": "Unknown",
+      "registrationNumber": "Foreign020",
+      "apiFamilies": [],
+      "hasAuthServer": false,
+      "isShariahCompliant": false,
+      "authCapabilities": {
+        "supportsCiba": false,
+        "supportsDCR": false,
+        "supportsRedirect": false
+      },
+      "apiResources": [],
+      "authServerCount": 0,
+      "isLive": false
     },
     {
       "id": "1d13bf8e-3b15-4358-bc2e-88560a968896",
@@ -2847,10 +2871,15 @@
     }
   ],
   "trends": {
-    "participantChange": 0,
-    "newParticipants": [],
+    "participantChange": 1,
+    "newParticipants": [
+      "69053c58-60e8-49a8-a195-86d2a2fcb972"
+    ],
     "removedParticipants": [],
-    "roleChanges": {},
+    "roleChanges": {
+      "LFI": 1,
+      "ISP": 1
+    },
     "apiFamilyChanges": {}
   }
 }
