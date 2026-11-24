@@ -2,9 +2,10 @@ name: Weekly Digest
 
 on:
   schedule:
-    # Mondays at 07:00 UTC (11:00 AM UAE) — after the daily observatory
-    # snapshot and the Monday Ecosystem Watch run, so the digest reflects both.
-    - cron: '0 7 * * 1'
+    # Tuesdays at 07:00 UTC (11:00 AM UAE), after the Tuesday 06:30 GST
+    # Ecosystem Watch / regulatory watch run. Nebras metrics are often
+    # published late on Monday, so the digest waits until that Tuesday run.
+    - cron: '0 7 * * 2'
   workflow_dispatch:
     inputs:
       dry_run:
