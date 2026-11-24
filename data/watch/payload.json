@@ -1,6 +1,6 @@
 {
- "runDate": "2026-11-23",
- "asOfData": "2026-11-16",
+ "runDate": "2026-11-24",
+ "asOfData": "2026-11-22",
  "basis": "full-months-only (excl. partial 2026-11)",
  "scope": "Ecosystem overview — UAE Open Finance (Al Tareq / Nebras): all LFIs, all TPPs, standards & specs, CBUAE calendar.",
  "months": [
@@ -19,7 +19,7 @@
  ],
  "curPartial": "2026-11",
  "headline": {
-  "totalAll": 2908349,
+  "totalAll": 3131930,
   "totalFull": 2259856,
   "errPct": 12.7,
   "byVersion": [
@@ -102,7 +102,7 @@
   ],
   [
    "Nov",
-   648493,
+   872074,
    true
   ]
  ],
@@ -927,7 +927,7 @@
    "t1Of": 8,
    "t1Ever": 7,
    "t2Early": 2,
-   "note": "Tier-1 due Dec 2026, about 8 days to 1 Dec. V2.2 is still rc2; no v2.2 resource is registered Active in production (14 orgs, 23 Nov).",
+   "note": "Tier-1 due Dec 2026, about 7 days to 1 Dec. V2.2 is still rc2; no v2.2 resource is registered Active in production (14 orgs, 24 Nov).",
    "url": "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation",
    "ref": "openBanking: Standards Alignment – Uplift to V2.1 (v2.0 + errata)",
    "status": "standing",
@@ -959,7 +959,7 @@
    "t1Of": 8,
    "t1Ever": 0,
    "t2Early": 0,
-   "note": "Tier-1 due Dec 2026, about 8 days to 1 Dec. V2.2 is still rc2; no v2.2 resource is registered Active in production (14 orgs, 23 Nov).",
+   "note": "Tier-1 due Dec 2026, about 7 days to 1 Dec. V2.2 is still rc2; no v2.2 resource is registered Active in production (14 orgs, 24 Nov).",
    "url": "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation",
    "ref": "openBanking: Standards Alignment – Uplift to V2.2 Final",
    "status": "standing",
@@ -1596,9 +1596,49 @@
  },
  "changeLog": [
   {
+   "layer": "Operations",
+   "title": "November passes October",
+   "status": "changed",
+   "since": "2026-11-24",
+   "text": "Logs now run to 22 Nov (22 Nov looks partial). 1–22 Nov: 872,074 calls (2.6% errors), already above all of October (842,969). 24,407 payments, 97.1% accepted, AED 96.78M. Full months unchanged.",
+   "url": "https://nebras-open-finance.com/api/api-log-index.json"
+  },
+  {
+   "layer": "Operations",
+   "title": "First-seen pairing",
+   "status": "new",
+   "since": "2026-11-24",
+   "text": "COMMERCIAL BANK OF DUBAI (as TPP) → First Abu Dhabi Bank from 20 Nov: 49 v2.1 calls, all successful, across account consent, accounts, balances and payments.",
+   "url": "https://nebras-open-finance.com/api/api-log-index.json"
+  },
+  {
+   "layer": "Standards",
+   "title": "v2.2-rc2: TradeLicenceNumber on debtor indicators",
+   "status": "new",
+   "since": "2026-11-24",
+   "text": "Website branch 668be2c → ad564bc (23 Nov): optional TradeLicenceNumber added to DebtorIndicators for SME/corporate payers across Standards bank initiation and authorization endpoints, Consent Manager v2.2.5 and Ozone Connect. Additive, not breaking.",
+   "url": "https://github.com/Nebras-Open-Finance/api-specs/commit/ad564bc"
+  },
+  {
+   "layer": "Adoption",
+   "title": "Production directory",
+   "status": "nochange",
+   "since": "2026-11-24",
+   "text": "14 orgs; Active families and versions unchanged. Sandbox adoption sets (Sep–Oct) unchanged.",
+   "url": "https://data.directory.openfinance.ae/participants"
+  },
+  {
+   "layer": "Regulation",
+   "title": "Confluence OF space",
+   "status": "nochange",
+   "since": "2026-11-24",
+   "text": "No page edited since 28 Oct.",
+   "url": "https://openfinanceuae.atlassian.net/wiki/spaces/OF/pages/6259008/Roadmap"
+  },
+  {
    "layer": "Standards",
    "title": "Main: errata3 insurance edited in place",
-   "status": "new",
+   "status": "standing",
    "since": "2026-11-23",
    "text": "PR #35 merged 17 Nov. Standards Insurance v2.1-errata3 keeps its label but PolicyId/QuoteId change from uuid to string(1–128) and claim ratios drop the 0–100 cap. Ozone Connect insurance v2.1.4 → v2.1.5 matches. Relaxation only.",
    "url": "https://github.com/Nebras-Open-Finance/api-specs/pull/35"
@@ -1606,7 +1646,7 @@
   {
    "layer": "Standards",
    "title": "Main: v2.2.1 reversions + rc1 auth endpoints",
-   "status": "new",
+   "status": "standing",
    "since": "2026-11-23",
    "text": "Consent Manager and Bank Data Sharing v2.2.1 restored to the v2.1.x contract for withdrawn items, recorded in new reverted-versions registers. New v2.2-rc1 authorization-endpoints file (POST /par, /token).",
    "url": "https://github.com/Nebras-Open-Finance/api-specs/compare/a3c8b8bf22e080046a8e0fbd9933f57431604155...431c7fbbcb39636b25ec6e441e98f648baada766"
@@ -1614,7 +1654,7 @@
   {
    "layer": "Standards",
    "title": "v2.2-rc2: OFP-017, OFP-021, refund AccountStatus",
-   "status": "new",
+   "status": "standing",
    "since": "2026-11-23",
    "text": "Website branch 2b966ab → 668be2c. MerchantId/TerminalId/BillerId alphanumeric, ExchangeRate decimal string, Salary object; credit statuses InArrears/Defaulted/WrittenOff; required AccountStatus on refund; new API Hub auth server v2.2.1 spec.",
    "url": "https://github.com/Nebras-Open-Finance/api-specs/compare/2b966abeb3e8b598361f5bf19e772865f9f4a1e2...668be2c02adc09fed3aa4df7fdc5710872b4a661"
@@ -1622,23 +1662,15 @@
   {
    "layer": "Standards",
    "title": "v2.2-rc2 changelog: 23 new entries",
-   "status": "changed",
+   "status": "standing",
    "since": "2026-11-23",
    "text": "Website changelog adds §22 (credit account statuses) and §23 (refund account status): 27 changes in all, 23 new in rc2. No rc3 or Final.",
    "url": "https://nebras-open-finance.com/tech/release-notes-and-erratas/changelog/v2.2-rc2/"
   },
   {
    "layer": "Operations",
-   "title": "Calls through 16 Nov",
-   "status": "changed",
-   "since": "2026-11-23",
-   "text": "Full months unchanged through October (2,259,856 calls, 12.7% 4xx/5xx). 1–16 Nov: 648,493 calls (2.5% errors), 77% of October. 18,700 payments, 97.1% accepted, AED 70.58M.",
-   "url": "https://nebras-open-finance.com/api/api-log-index.json"
-  },
-  {
-   "layer": "Operations",
    "title": "New log key and pairings",
-   "status": "new",
+   "status": "standing",
    "since": "2026-11-23",
    "text": "uae-wiosme first seen 13 Nov (1 call). New pairings: CBD (as TPP) → HSBC (Retail) 14 Nov; SPARE → uae-wiosme 13 Nov. Recorded late (began 3–9 Nov): ADIB (as TPP) → FAB and → HSBC (Retail); Mashreq (as TPP) → Emirates NBD.",
    "url": "https://nebras-open-finance.com/api/api-log-index.json"
@@ -1646,42 +1678,10 @@
   {
    "layer": "GitHub",
    "title": "Website: proposal outcomes + OFP-022",
-   "status": "new",
+   "status": "standing",
    "since": "2026-11-23",
    "text": "community-standards merges six proposal-outcome PRs (16 Nov), adds OFP-022, a v2.2 testing & certification UX page, BioPay and idempotency guidance, and metrics/pen-test requirements. New outcome branches for OFP-017/018/020/021.",
    "url": "https://github.com/Nebras-Open-Finance/community-standards/compare/905101065383cce741bab4a7a5ee685c295599d1...30505835737b5991ea1cb2ec5c9b27987d138200"
-  },
-  {
-   "layer": "Adoption",
-   "title": "Production directory",
-   "status": "nochange",
-   "since": "2026-11-23",
-   "text": "14 orgs; no family or version change since 16 Nov. No v2.2 resource registered. Sandbox adoption sets (Sep–Oct) also unchanged.",
-   "url": "https://data.directory.openfinance.ae/participants"
-  },
-  {
-   "layer": "Standards",
-   "title": "Release notes and errata",
-   "status": "nochange",
-   "since": "2026-11-23",
-   "text": "Errata still v2.1-errata3 (23 corrections); API Hub release notes 2026.22.0; Trust Framework 2.4.0 (2.5.0 planned).",
-   "url": "https://nebras-open-finance.com/tech/release-notes-and-erratas/"
-  },
-  {
-   "layer": "Regulation",
-   "title": "Confluence OF space",
-   "status": "nochange",
-   "since": "2026-11-23",
-   "text": "No page edited since 28 Oct. Errata attachments still v2.1 only. Roadmap v31 unchanged.",
-   "url": "https://openfinanceuae.atlassian.net/wiki/spaces/OF/pages/6259008/Roadmap"
-  },
-  {
-   "layer": "Regulation",
-   "title": "CBUAE and news",
-   "status": "nochange",
-   "since": "2026-11-23",
-   "text": "No new dated CBUAE rulebook change or go-live announcement found this week.",
-   "url": "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation"
   },
   {
    "layer": "Deadlines",
@@ -2015,30 +2015,36 @@
  "alerts": [
   {
    "status": "new",
+   "since": "2026-11-24",
+   "text": "First-seen TPP–bank pairing: COMMERCIAL BANK OF DUBAI (as TPP) → First Abu Dhabi Bank, from 20 Nov: 49 calls, all 2xx (v2.1 account consent, accounts, balances, payments).",
+   "url": "https://nebras-open-finance.com/api/api-log-index.json"
+  },
+  {
+   "status": "standing",
    "since": "2026-11-23",
    "text": "api-specs main moved for the first time since 21 Aug: PR #35 (17 Nov) edits the published v2.1-errata3 insurance spec in place (PolicyId/QuoteId no longer UUID; claim ratios may exceed 100) without a version bump.",
    "url": "https://github.com/Nebras-Open-Finance/api-specs/pull/35"
   },
   {
-   "status": "new",
+   "status": "standing",
    "since": "2026-11-23",
    "text": "Main withdraws content from v2.2.1 in place (Consent Manager paymentRail/status filter/pagination; Bank Data Sharing CoP rework) and adds a v2.2-rc1 authorization-endpoints spec file.",
    "url": "https://github.com/Nebras-Open-Finance/api-specs/compare/a3c8b8bf22e080046a8e0fbd9933f57431604155...431c7fbbcb39636b25ec6e441e98f648baada766"
   },
   {
-   "status": "new",
+   "status": "standing",
    "since": "2026-11-23",
    "text": "Website spec branch v2.2-rc2 changed structurally (17–19 Nov): OFP-021 turns five data-sharing fields into strings/objects (breaking for TPPs), OFP-017 adds 3 account statuses, refund response requires AccountStatus.",
    "url": "https://github.com/Nebras-Open-Finance/api-specs/compare/2b966abeb3e8b598361f5bf19e772865f9f4a1e2...668be2c02adc09fed3aa4df7fdc5710872b4a661"
   },
   {
-   "status": "new",
+   "status": "standing",
    "since": "2026-11-23",
    "text": "Log key uae-wiosme appears for the first time (shown as WIO SME, unconfirmed): one successful CoP v2.1 call from SPARE DIGITAL TECHNOLOGIES on 13 Nov. No directory org of its own.",
    "url": "https://nebras-open-finance.com/api/api-log-index.json"
   },
   {
-   "status": "new",
+   "status": "standing",
    "since": "2026-11-23",
    "text": "First-seen TPP–bank pairings: COMMERCIAL BANK OF DUBAI (as TPP) → HSBC (Retail), 14 Nov, payments v2.1; SPARE DIGITAL → uae-wiosme, 13 Nov. Three more from 3–9 Nov are recorded late (see changes).",
    "url": "https://nebras-open-finance.com/api/api-log-index.json"
@@ -2046,7 +2052,7 @@
   {
    "status": "standing",
    "since": "2026-11-16",
-   "text": "Standards V2.2 uplift: Tier-1 banks and insurers are due Dec 2026 (about 8 days to 1 Dec). Still 0/8 Tier-1 banks and 0/16 Tier-1 insurers register any v2.2 resource; V2.2 Final not yet published (rc2).",
+   "text": "Standards V2.2 uplift: Tier-1 banks and insurers are due Dec 2026 (about 7 days to 1 Dec). Still 0/8 Tier-1 banks and 0/16 Tier-1 insurers register any v2.2 resource; V2.2 Final not yet published (rc2).",
    "url": "https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation"
   },
   {
@@ -2247,7 +2253,7 @@
    307353,
    405147,
    842969,
-   648493
+   872074
   ],
   "partialIdx": 12,
   "lastFullLabel": "Oct",
@@ -2255,10 +2261,10 @@
   "momPct": 108.1,
   "peakLabel": "Oct",
   "peakVal": 842969,
-  "allTime": 2908349,
+  "allTime": 3131930,
   "fullTotal": 2259856,
   "partialLabel": "Nov",
-  "partialVal": 648493,
+  "partialVal": 872074,
   "monthsFull": [
    "2025-11",
    "2025-12",
@@ -2304,7 +2310,7 @@
    78212093.09,
    94349447.37,
    124778111.99,
-   70578787.98
+   96776944.47
   ],
   "partialIdx": 12,
   "lastFullLabel": "Oct",
@@ -2312,35 +2318,35 @@
   "momPct": 32.3,
   "peakLabel": "Oct",
   "peakVal": 124778111.99,
-  "allTime": 485441735.96,
+  "allTime": 511639892.45,
   "fullTotal": 414862947.98,
   "partialLabel": "Nov",
-  "partialVal": 70578787.98,
+  "partialVal": 96776944.47,
   "ccy": "AED"
  },
  "partial": {
   "month": "2026-11",
   "label": "Nov",
-  "calls": 648493,
-  "errors": 15945,
-  "errPct": 2.5,
-  "payCount": 18700,
-  "payAccepted": 18166,
+  "calls": 872074,
+  "errors": 22649,
+  "errPct": 2.6,
+  "payCount": 24407,
+  "payAccepted": 23688,
   "paySuccessPct": 97.1,
-  "valueAED": 70578787.98
+  "valueAED": 96776944.47
  },
  "sectors": {
   "bank": {
    "fullCalls": 2259300,
    "fullErrors": 285684,
-   "allCalls": 2907791,
-   "partialCalls": 648491
+   "allCalls": 3131356,
+   "partialCalls": 872056
   },
   "insurer": {
    "fullCalls": 556,
    "fullErrors": 293,
-   "allCalls": 558,
-   "partialCalls": 2
+   "allCalls": 574,
+   "partialCalls": 18
   }
  },
  "consent": {
@@ -2362,11 +2368,11 @@
    "label": "Oct"
   },
   "partial": {
-   "requests": 29343,
-   "consents": 18274,
-   "cancelled": 4640,
-   "convPct": 62.3,
-   "cancelPct": 15.8,
+   "requests": 40370,
+   "consents": 25106,
+   "cancelled": 6121,
+   "convPct": 62.2,
+   "cancelPct": 15.2,
    "month": "2026-11",
    "label": "Nov"
   }
@@ -2414,17 +2420,6 @@
   ]
  },
  "history": [
-  {
-   "runDate": "2026-06-11",
-   "totalFull": 378779,
-   "errPct": 44.2,
-   "paySucc": 92.5,
-   "authPct": 54.0,
-   "hhi": 7315,
-   "liveLFIs": 10,
-   "liveTPPs": 11,
-   "websiteSpecBranch": "caap-refactor"
-  },
   {
    "runDate": "2026-06-15",
    "totalFull": 378779,
@@ -2719,6 +2714,18 @@
    "liveLFIs": 16,
    "liveTPPs": 17,
    "websiteSpecBranch": "v2.2-rc2-nebras"
+  },
+  {
+   "runDate": "2026-11-24",
+   "totalFull": 2259856,
+   "errPct": 12.7,
+   "paySucc": 95.7,
+   "authPct": 53.4,
+   "top1Share": 83.0,
+   "hhi": 6965,
+   "liveLFIs": 16,
+   "liveTPPs": 17,
+   "websiteSpecBranch": "v2.2-rc2-nebras"
   }
  ],
  "payWho": {
@@ -2804,12 +2811,12 @@
   ]
  },
  "checked": {
-  "date": "2026-11-23",
+  "date": "2026-11-24",
   "result": "alert",
-  "note": "Logs through 16 Nov 2026 recomputed; directory (14 orgs), api-specs main + v2.2-rc2 branch, release notes, Confluence and news re-checked on 23 Nov."
+  "note": "Logs through 22 Nov 2026 recomputed on request after the Nebras metrics refresh; directory, spec heads and Confluence re-checked on 24 Nov."
  },
  "audit": {
-  "run": "2026-11-23 run. guard ADVANCED (asOfData 2026-11-10 → 2026-11-16). of_watch_metrics.compute on one snapshot of the sharded api-log (559,219 rows), auth-log and payments-log. Full months through Oct unchanged (2,259,856); Nov partial 648,493. Per-entity blocks (lfi/tpp/families/unattBreakdown/movers/payWho) independently re-aggregated: identical to last run (full months unchanged). New log key uae-wiosme added to entities.json as unconfirmed (1 call). New pairings after 10 Nov: CBD→uae-hsbcrt, SPARE→uae-wiosme; three earlier Nov pairings (ADIB→FAB, ADIB→HSBC retail, Mashreq→ENBD) were missed last run and are recorded now. Directory 23 Nov: 14 orgs, families identical to state. Sandbox adoption sets re-derived (Sep–Oct): identical. specdiff main: 9 changed/100, probe 0; the new v2.2-rc1 authorization-endpoints file and the website-branch API Hub auth-server v2.2.x file were found via a blobless git clone (probe cannot see them). GitHub REST API 403 (degraded scope): repo heads via git ls-remote; no PR/issue enumeration.",
+  "run": "2026-11-24 rerun (on request). guard ADVANCED (asOfData 2026-11-16 → 2026-11-22). of_watch_metrics.compute on one snapshot (594,766 api rows). Full months unchanged (2,259,856); Nov partial 872,074. Per-entity blocks independently re-aggregated: identical (full months unchanged). New pairing CBD→uae-fabretail (20 Nov). Directory 14 orgs unchanged; sandbox sets unchanged. api-specs main unchanged (431c7fb); v2.2-rc2-nebras 668be2c → ad564bc (TradeLicenceNumber, additive). community-standards main → 587d43c (OFP-022 published, metrics update). Previous run: 2026-11-23 run. guard ADVANCED (asOfData 2026-11-10 → 2026-11-16). of_watch_metrics.compute on one snapshot of the sharded api-log (559,219 rows), auth-log and payments-log. Full months through Oct unchanged (2,259,856); Nov partial 648,493. Per-entity blocks (lfi/tpp/families/unattBreakdown/movers/",
   "adoption": "Registration (production directory, 14 orgs, 16 Nov) and successful public-log traffic (Sep–Oct, demand-side) are separate bases. Logs omit environment, so no traffic is not non-compliance. Sandbox window Sep–Oct; v2.1 test 100+ 2xx for banks (segments excluded).",
   "impact": "Main a3c8b8b → 431c7fb (PR #35, ozone): 9 commits incl. b92d055/a037646 reverts, cs-2175 syncs, 589dc0a test change. v2.1-errata3 insurance edited without info.version bump; reverted-versions registers exempt v2.2.1 in Consent Manager and Bank Data Sharing. Website branch 2b966ab → 668be2c (1905b94, 668be2c). Confluence still v2.1 errata only.",
   "breaking": "Enforced list re-run with of_watch_breaking (unchanged). Pending list curated: dropped the ozone staging row (now merged, relaxation only) and the withdrawn v2.2.x status-filter row; added OFP-021 and OFP-017 rc2 rows.",
@@ -2820,13 +2827,13 @@
    "area": "Standards",
    "status": "changed",
    "href": "#standards",
-   "text": "api-specs main moved for the first time since August: errata3 insurance relaxed in place, v2.2.1 reversions. The rc2 branch adds OFP-017/OFP-021 (TPP-breaking at V2.2)."
+   "text": "v2.2-rc2 adds an optional TradeLicenceNumber for business payers (23 Nov). Main unchanged since PR #35 (errata3 insurance relaxed in place)."
   },
   {
    "area": "Operations",
    "status": "changed",
    "href": "#operations",
-   "text": "1–16 Nov: 648,493 calls at 2.5% errors, 77% of October already. 97.1% of 18,700 payments accepted (AED 70.6M). Full months unchanged."
+   "text": "1–22 Nov: 872,074 calls at 2.6% errors, already above all of October. 97.1% of 24,407 payments accepted (AED 96.8M)."
   },
   {
    "area": "Adoption",
@@ -2838,13 +2845,13 @@
    "area": "Deadlines",
    "status": "standing",
    "href": "#compliance",
-   "text": "V2.2 uplift is due for Tier 1 in Dec 2026, about 8 days to 1 Dec. No bank or insurer registers v2.2, and V2.2 Final is not yet published."
+   "text": "V2.2 uplift is due for Tier 1 in Dec 2026, about 7 days to 1 Dec. No bank or insurer registers v2.2, and V2.2 Final is not yet published."
   },
   {
    "area": "Alerts",
    "status": "new",
    "href": "#alerts",
-   "text": "5 new: main spec moved (errata3 edit, v2.2.1 reversions), rc2 structural change, new log key uae-wiosme, new TPP–bank pairings."
+   "text": "1 new: first-seen pairing CBD (as TPP) → FAB. Yesterday's spec and log-key alerts are now standing."
   }
  ],
  "economicsUnavailable": {
