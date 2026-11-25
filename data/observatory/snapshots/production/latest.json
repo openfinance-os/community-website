@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-24T16:58:36.980Z",
+  "timestamp": "2026-11-25T16:48:25.428Z",
   "source": "https://data.directory.openfinance.ae",
   "version": "2.1.0",
   "environment": "production",
@@ -93,15 +93,15 @@
           "familyComplete": true
         },
         {
-          "family": "accounts",
-          "rawFamily": "account-information",
+          "family": "payments",
+          "rawFamily": "payment",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false
         },
         {
-          "family": "payments",
-          "rawFamily": "payment",
+          "family": "accounts",
+          "rawFamily": "account-information",
           "version": "2.1",
           "certificationStatus": "Self-Certified",
           "familyComplete": false

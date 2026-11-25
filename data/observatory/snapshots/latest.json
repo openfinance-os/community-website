@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-11-24T16:58:38.642Z",
+  "timestamp": "2026-11-25T16:48:27.214Z",
   "version": "2.1.0",
   "production": {
-    "timestamp": "2026-11-24T16:58:36.980Z",
+    "timestamp": "2026-11-25T16:48:25.428Z",
     "source": "https://data.directory.openfinance.ae",
     "version": "2.1.0",
     "environment": "production",
@@ -96,15 +96,15 @@
             "familyComplete": true
           },
           {
-            "family": "accounts",
-            "rawFamily": "account-information",
+            "family": "payments",
+            "rawFamily": "payment",
             "version": "2.1",
             "certificationStatus": "Self-Certified",
             "familyComplete": false
           },
           {
-            "family": "payments",
-            "rawFamily": "payment",
+            "family": "accounts",
+            "rawFamily": "account-information",
             "version": "2.1",
             "certificationStatus": "Self-Certified",
             "familyComplete": false
@@ -1284,7 +1284,7 @@
     }
   },
   "sandbox": {
-    "timestamp": "2026-11-24T16:58:38.636Z",
+    "timestamp": "2026-11-25T16:48:27.211Z",
     "source": "https://data.sandbox.directory.openfinance.ae",
     "version": "2.1.0",
     "environment": "sandbox",
@@ -4156,15 +4156,10 @@
       }
     ],
     "trends": {
-      "participantChange": 1,
-      "newParticipants": [
-        "69053c58-60e8-49a8-a195-86d2a2fcb972"
-      ],
+      "participantChange": 0,
+      "newParticipants": [],
       "removedParticipants": [],
-      "roleChanges": {
-        "LFI": 1,
-        "ISP": 1
-      },
+      "roleChanges": {},
       "apiFamilyChanges": {}
     }
   },
