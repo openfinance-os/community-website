@@ -3,6 +3,7 @@ title: "Pay by Bank UAE Fees: 38 bps, Capped at AED 50, vs Cards"
 date: 2026-11-16
 type: opinion
 region: uae
+country: AE
 author: OpenFinance-OS
 description: "Pay by bank UAE fees under UAE Open Finance: a merchant collection costs the TPP 38 bps, capped at AED 50, and a transfer 25 fils. How that compares with cards."
 image: /news/pay-by-bank-uae-fees/hero.svg

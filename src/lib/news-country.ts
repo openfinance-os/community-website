@@ -284,12 +284,20 @@ const COUNTRY_CENTROIDS: Partial<Record<NewsCountryCode, { lon: number; lat: num
   AU: { lon: 134.0, lat: -25.3 },
   BH: { lon: 50.5577, lat: 26.0667 },
   BR: { lon: -51.9253, lat: -14.235 },
+  BT: { lon: 90.4336, lat: 27.5142 },
   CA: { lon: -106.3468, lat: 56.1304 },
+  DE: { lon: 10.4515, lat: 51.1657 },
+  DK: { lon: 9.5018, lat: 56.2639 },
   EU: { lon: 4.3517, lat: 50.8503 },
+  FR: { lon: 2.2137, lat: 46.2276 },
   GB: { lon: -2.5, lat: 54.0 },
+  HK: { lon: 114.1694, lat: 22.3193 },
+  IT: { lon: 12.5674, lat: 41.8719 },
   JO: { lon: 36.2384, lat: 31.24 },
   KW: { lon: 47.4818, lat: 29.3117 },
   MY: { lon: 101.9758, lat: 4.2105 },
+  NG: { lon: 8.6753, lat: 9.082 },
+  NO: { lon: 8.4689, lat: 60.472 },
   NZ: { lon: 174.886, lat: -40.9006 },
   OM: { lon: 55.9754, lat: 21.4735 },
   SA: { lon: 45.0792, lat: 23.8859 },
@@ -332,6 +340,29 @@ export interface NewsFilterState {
 
 export function isNewsCountryCode(value: string): value is NewsCountryCode {
   return NEWS_COUNTRY_CODE_SET.has(value);
+}
+
+/**
+ * Country code from a page query string. Lowercase input is accepted.
+ * Missing and unknown values are ignored.
+ */
+export function countryFromSearch(search: string): NewsCountryCode | undefined {
+  const value = new URLSearchParams(search).get('country');
+  if (!value) return undefined;
+  const code = value.trim().toUpperCase();
+  return isNewsCountryCode(code) ? code : undefined;
+}
+
+/**
+ * Search string with `country` set, or removed when the filter is cleared.
+ * Other parameters are left in place. Unknown codes are not written.
+ */
+export function countryFilterSearch(search: string, country: string): string {
+  const params = new URLSearchParams(search);
+  if (country === 'all') params.delete('country');
+  else if (isNewsCountryCode(country)) params.set('country', country);
+  const query = params.toString();
+  return query ? `?${query}` : '';
 }
 
 /** Unique valid codes from a single tag or a list. Invalid entries are dropped. */
@@ -394,6 +425,7 @@ function rangeWindowMs(range: MapRange): number | null {
 
 export function countryName(code: string): string {
   if (code === 'EU') return 'European Union';
+  if (code === 'HK') return 'Hong Kong';
   const name = new Intl.DisplayNames(['en'], { type: 'region' }).of(code);
   return name && name !== code ? name : code;
 }

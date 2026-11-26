@@ -217,6 +217,11 @@ function shown(code: NewsCountryCode): { count: number; radius: number; label: s
     inset: 0;
   }
 
+  .map-dot[hidden],
+  .legend-country[hidden] {
+    display: none;
+  }
+
   .map-dot {
     position: absolute;
     display: flex;

@@ -101,7 +101,8 @@ test.describe('combined news order', () => {
         }))
     );
     expect(euShown.length).toBeGreaterThan(0);
-    expect(euShown.every((card) => card.country === 'EU')).toBe(true);
+    expect(euShown.every((card) => (card.country || '').split(/\s+/).includes('EU'))).toBe(true);
+    await expect(page).toHaveURL(/[?&]country=EU$/);
 
     await page.locator('.news-filter [data-news-type="official"]').click();
     const officialEu = await cards.evaluateAll((elements) =>
@@ -113,14 +114,18 @@ test.describe('combined news order', () => {
         }))
     );
     expect(officialEu.length).toBeGreaterThan(0);
-    expect(officialEu.every((card) => card.type === 'official' && card.country === 'EU')).toBe(
-      true
-    );
+    expect(
+      officialEu.every(
+        (card) => card.type === 'official' && (card.country || '').split(/\s+/).includes('EU')
+      )
+    ).toBe(true);
+    await expect(page).toHaveURL(/[?&]country=EU$/);
 
     await page.locator('.region-filter [data-news-region="uae"]').click();
     await expect(page.locator('#news-filter-empty')).toBeVisible();
 
     await map.locator('.country-legend').getByRole('button', { name: 'All countries' }).click();
+    await expect(page).not.toHaveURL(/country=/);
     await page.locator('.region-filter [data-news-region="all"]').click();
     await page.locator('.news-filter [data-news-type="all"]').click();
 
@@ -134,12 +139,14 @@ test.describe('combined news order', () => {
         .map((element) => element.getAttribute('data-news-countries'))
     );
     expect(kuwait.length).toBeGreaterThan(0);
-    expect(kuwait.every((country) => country === 'KW')).toBe(true);
+    expect(kuwait.every((country) => (country || '').split(/\s+/).includes('KW'))).toBe(true);
+    await expect(page).toHaveURL(/[?&]country=KW$/);
 
     await map
       .locator('.map-dots')
       .getByRole('button', { name: /Kuwait/ })
       .click();
+    await expect(page).not.toHaveURL(/country=/);
     const reset = await cards.evaluateAll(
       (elements) =>
         elements.filter((element) => (element as HTMLElement).style.display !== 'none').length
@@ -206,5 +213,82 @@ test.describe('combined news order', () => {
     await page.goto('/updates/');
     const updatesFirst = await page.locator('#news-grid time').first().getAttribute('datetime');
     expect(Date.parse(updatesFirst || '')).toBe(dates[0]);
+  });
+
+  test('a country query opens the updates list already filtered', async ({ page }) => {
+    const cards = page.locator('#news-grid > [data-news-type]');
+    const visibleCountries = async () =>
+      cards.evaluateAll((elements) =>
+        elements
+          .filter((element) => (element as HTMLElement).style.display !== 'none')
+          .map((element) => element.getAttribute('data-news-countries') || '')
+      );
+
+    await page.goto('/updates/?country=EU');
+    await expect(page.locator('.map-dots [data-country-filter="EU"]')).toHaveAttribute(
+      'aria-pressed',
+      'true'
+    );
+    await expect(page.locator('.country-legend [data-country-filter="EU"]')).toHaveAttribute(
+      'aria-pressed',
+      'true'
+    );
+    await expect(page.locator('.country-legend [data-country-filter="all"]')).toHaveAttribute(
+      'aria-pressed',
+      'false'
+    );
+    const eu = await visibleCountries();
+    expect(eu.length).toBeGreaterThan(0);
+    expect(eu.every((value) => value.split(/\s+/).includes('EU'))).toBe(true);
+
+    const comparison = page.locator('#news-grid > [data-news-countries]').filter({
+      has: page.locator('a[href*="saudi-open-banking-vs-uae-open-finance"]'),
+    });
+    await page.goto('/updates/?country=SA');
+    await expect(comparison).toBeVisible();
+    await expect(comparison).toHaveAttribute('data-news-countries', /(?:^|\s)AE(?:\s|$)/);
+    await expect(comparison).toHaveAttribute('data-news-countries', /(?:^|\s)SA(?:\s|$)/);
+    await page.goto('/updates/?country=AE');
+    await expect(comparison).toBeVisible();
+
+    await page.goto('/updates/?country=kw');
+    await expect(page).toHaveURL(/[?&]country=KW$/);
+    await expect(page.locator('.map-dots [data-country-filter="KW"]')).toHaveAttribute(
+      'aria-pressed',
+      'true'
+    );
+    const kuwait = await visibleCountries();
+    expect(kuwait.length).toBeGreaterThan(0);
+    expect(kuwait.every((value) => value.split(/\s+/).includes('KW'))).toBe(true);
+
+    await page.goto('/updates/?country=ZZ');
+    await expect(page).toHaveURL(/country=ZZ/);
+    await expect(page.locator('.country-legend [data-country-filter="all"]')).toHaveAttribute(
+      'aria-pressed',
+      'true'
+    );
+    const unfiltered = await visibleCountries();
+    expect(unfiltered.length).toBeGreaterThan(kuwait.length);
+
+    await page.goto('/updates/?country=EU');
+    await page
+      .getByRole('group', { name: 'Map time range' })
+      .getByRole('button', { name: '30 days' })
+      .click();
+    await expect(page.locator('[data-map-range="30"]')).toHaveAttribute('aria-pressed', 'true');
+    await expect(page).toHaveURL(/[?&]country=EU$/);
+    await expect(page.locator('.map-dots [data-country-filter="EU"]')).toHaveAttribute(
+      'aria-pressed',
+      'true'
+    );
+    await page.locator('.news-filter [data-news-type="official"]').click();
+    await expect(page).toHaveURL(/[?&]country=EU$/);
+    const official = await visibleCountries();
+    expect(official.length).toBeGreaterThan(0);
+    expect(official.every((value) => value.split(/\s+/).includes('EU'))).toBe(true);
+
+    await page.locator('.country-legend [data-country-filter="all"]').click();
+    await expect(page).not.toHaveURL(/country=/);
+    await expect(page.locator('[data-map-range="30"]')).toHaveAttribute('aria-pressed', 'true');
   });
 });
