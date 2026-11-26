@@ -358,6 +358,12 @@ function shown(code: NewsCountryCode): { count: number; radius: number; label: s
     WORLD_MAP_WIDTH,
     type MapRange,
   } from '@lib/news-country';
+  import {
+    mapRangeLabel,
+    readActiveCountryCode,
+    readMapTimeRange,
+    trackNewsMapRangeChanged,
+  } from '@lib/news-map-analytics';
 
   const dataElement = document.getElementById('news-map-data');
   const trendElement = document.getElementById('news-map-trend');
@@ -416,12 +422,19 @@ function shown(code: NewsCountryCode): { count: number; radius: number; label: s
       button.addEventListener('click', () => {
         const value = button.dataset.mapRange;
         const range: MapRange = value === '30' ? 30 : value === 'all' ? 'all' : 90;
+        const previousTimeRange = readMapTimeRange();
         document.querySelectorAll<HTMLButtonElement>('[data-map-range]').forEach((other) => {
           const selected = other === button;
           other.setAttribute('aria-pressed', selected ? 'true' : 'false');
           other.classList.toggle('active', selected);
         });
         applyRange(range);
+        const countryCode = readActiveCountryCode();
+        trackNewsMapRangeChanged({
+          timeRange: mapRangeLabel(range),
+          previousTimeRange,
+          ...(countryCode ? { countryCode } : {}),
+        });
       });
     });
   }

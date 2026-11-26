@@ -449,7 +449,14 @@ const newsRegionLabels: Record<string, string> = {
 </style>
 
 <script>
-  import { countryFilterSearch, countryFromSearch } from '@lib/news-country';
+  import { countryFilterSearch } from '@lib/news-country';
+  import {
+    applyCountryFilterClick,
+    readMapTimeRange,
+    recordUpdatesCountryLanding,
+    trackNewsFilteredStoryClicked,
+    type NewsCountryInteractionSource,
+  } from '@lib/news-map-analytics';
 
   document.addEventListener('DOMContentLoaded', () => {
     // News filtering (combined type + region + country)
@@ -458,6 +465,7 @@ const newsRegionLabels: Record<string, string> = {
     let activeType = 'all';
     let activeRegion = 'all';
     let activeCountry = 'all';
+    let filterSource: NewsCountryInteractionSource | undefined;
 
     function filterNewsCards() {
       let visible = 0;
@@ -522,11 +530,34 @@ const newsRegionLabels: Record<string, string> = {
     document.querySelectorAll('[data-country-filter]').forEach((button) => {
       button.addEventListener('click', () => {
         const code = button.getAttribute('data-country-filter') || 'all';
-        setCountry(code !== 'all' && code === activeCountry ? 'all' : code, true);
+        const source = button.classList.contains('map-dot') ? 'map_dot' : 'legend';
+        const next = applyCountryFilterClick({
+          clickedCode: code,
+          activeCountry,
+          source,
+          timeRange: readMapTimeRange(),
+        });
+        filterSource = next === 'all' ? undefined : source;
+        setCountry(next, true);
       });
     });
 
-    const fromUrl = countryFromSearch(window.location.search);
-    if (fromUrl) setCountry(fromUrl, true);
+    document.querySelectorAll('#news-grid .news-card').forEach((card) => {
+      card.addEventListener('click', () => {
+        if (!filterSource || activeCountry === 'all') return;
+        trackNewsFilteredStoryClicked({
+          countryCode: activeCountry,
+          timeRange: readMapTimeRange(),
+          source: filterSource,
+          slug: card.getAttribute('data-slug') || '',
+        });
+      });
+    });
+
+    const fromUrl = recordUpdatesCountryLanding(window.location.search, readMapTimeRange());
+    if (fromUrl) {
+      setCountry(fromUrl, true);
+      filterSource = 'url';
+    }
   });
 </script>
