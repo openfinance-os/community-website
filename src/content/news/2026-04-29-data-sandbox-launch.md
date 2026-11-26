@@ -3,6 +3,7 @@ title: "Introducing the Open Finance Data Sandbox"
 date: 2026-04-29
 type: community
 region: uae
+country: AE
 author: Community
 description: "A zero-setup, browser-based explorer for UAE Open Finance Bank Data Sharing API payloads — launched with 10 synthetic personas, every v2.1 AISP endpoint, and three populate-rate profiles; since grown to 38 personas across banking and insurance."
 featured: false

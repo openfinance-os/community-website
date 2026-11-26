@@ -3,6 +3,7 @@ title: "12 of 30: Why Most UAE Open Finance Registrations Don't Publish an Autho
 date: 2026-10-29
 type: opinion
 region: uae
+country: AE
 author: Open Finance OS
 description: "Only 12 of 30 production registrations in the UAE Open Finance directory publish an active authorization server. We break down the other 18 and what the gap does and doesn't mean."
 image: /news/12-of-30/hero.svg

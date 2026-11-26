@@ -449,8 +449,10 @@ const newsRegionLabels: Record<string, string> = {
 </style>
 
 <script>
+  import { countryFilterSearch, countryFromSearch } from '@lib/news-country';
+
   document.addEventListener('DOMContentLoaded', () => {
-    // News filtering (combined type + region)
+    // News filtering (combined type + region + country)
     const newsCards = document.querySelectorAll('#news-grid > [data-news-type]');
     const filterEmpty = document.getElementById('news-filter-empty');
     let activeType = 'all';
@@ -475,7 +477,14 @@ const newsRegionLabels: Record<string, string> = {
       if (filterEmpty) filterEmpty.hidden = visible !== 0;
     }
 
-    function setCountry(code: string) {
+    function writeCountryParam(code: string) {
+      const nextSearch = countryFilterSearch(window.location.search, code);
+      const next = `${window.location.pathname}${nextSearch}${window.location.hash}`;
+      const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+      if (next !== current) history.replaceState(null, '', next);
+    }
+
+    function setCountry(code: string, updateUrl: boolean) {
       activeCountry = code;
       document.querySelectorAll('[data-country-filter]').forEach((button) => {
         const selected = button.getAttribute('data-country-filter') === code;
@@ -483,6 +492,7 @@ const newsRegionLabels: Record<string, string> = {
         button.setAttribute('aria-pressed', selected ? 'true' : 'false');
       });
       filterNewsCards();
+      if (updateUrl) writeCountryParam(code);
     }
 
     // Type filter buttons
@@ -512,8 +522,11 @@ const newsRegionLabels: Record<string, string> = {
     document.querySelectorAll('[data-country-filter]').forEach((button) => {
       button.addEventListener('click', () => {
         const code = button.getAttribute('data-country-filter') || 'all';
-        setCountry(code !== 'all' && code === activeCountry ? 'all' : code);
+        setCountry(code !== 'all' && code === activeCountry ? 'all' : code, true);
       });
     });
+
+    const fromUrl = countryFromSearch(window.location.search);
+    if (fromUrl) setCountry(fromUrl, true);
   });
 </script>
