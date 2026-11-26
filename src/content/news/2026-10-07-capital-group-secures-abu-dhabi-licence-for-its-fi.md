@@ -3,6 +3,7 @@ title: "Capital Group Secures Abu Dhabi Licence for Its First Middle East Office
 date: 2026-10-07
 type: official
 region: uae
+country: AE
 author: Fintech News Middle East
 source: https://fintechnews.ae/34005/wealthtech/capital-group-fsra-licence-abu-dhabi/
 description: "Capital Group says it has secured FSRA permission to operate as a regulated investment manager in ADGM, following plans for its first Middle East office in Abu Dhabi."

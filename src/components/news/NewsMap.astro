@@ -1,0 +1,227 @@
+---
+import { WORLD_MAP_HEIGHT, WORLD_MAP_WIDTH, type CountryMapDot } from '@lib/news-country';
+import { WORLD_LAND_PATH } from '@lib/world-land-path';
+
+interface Props {
+  dots: CountryMapDot[];
+}
+
+const { dots } = Astro.props;
+
+function countLabel(dot: CountryMapDot): string {
+  const stories = dot.count === 1 ? 'story' : 'stories';
+  return `${dot.name}, ${dot.count} ${stories} in the last 90 days`;
+}
+---
+
+{dots.length > 0 && (
+  <section class="news-map" aria-labelledby="news-map-heading">
+    <h2 id="news-map-heading">Where news is coming from</h2>
+    <p class="map-note">Last 90 days. Choose a country to filter the list below.</p>
+    <div class="map-canvas">
+      <svg
+        viewBox={`0 0 ${WORLD_MAP_WIDTH} ${WORLD_MAP_HEIGHT}`}
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path d={WORLD_LAND_PATH} />
+      </svg>
+      <div class="map-dots">
+        {dots.map((dot) => (
+          <button
+            type="button"
+            class="map-dot"
+            data-country-filter={dot.code}
+            aria-pressed="false"
+            aria-label={countLabel(dot)}
+            title={countLabel(dot)}
+            style={`left:${(dot.x / WORLD_MAP_WIDTH) * 100}%;top:${(dot.y / WORLD_MAP_HEIGHT) * 100}%;--r:${((dot.radius * 2) / WORLD_MAP_WIDTH) * 100}`}
+          >
+            <span aria-hidden="true">{dot.count}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+    <ul class="country-legend">
+      <li>
+        <button
+          type="button"
+          class="legend-btn active"
+          data-country-filter="all"
+          aria-pressed="true"
+        >
+          All countries
+        </button>
+      </li>
+      {dots.map((dot) => (
+        <li>
+          <button
+            type="button"
+            class="legend-btn"
+            data-country-filter={dot.code}
+            aria-pressed="false"
+            aria-label={countLabel(dot)}
+          >
+            {dot.name}
+            <span class="legend-count" aria-hidden="true">
+              {dot.count}
+            </span>
+          </button>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}
+
+<style>
+  .news-map {
+    margin-bottom: var(--space-8);
+  }
+
+  .news-map h2 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
+  }
+
+  .map-note {
+    margin-bottom: var(--space-4);
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+  }
+
+  .map-canvas {
+    position: relative;
+    width: min(100%, 920px);
+    aspect-ratio: 960 / 460;
+    margin-inline: auto;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    container-type: inline-size;
+  }
+
+  .map-canvas svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .map-canvas path {
+    fill: var(--color-primary-100);
+  }
+
+  .map-dots {
+    position: absolute;
+    inset: 0;
+  }
+
+  .map-dot {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(var(--r) * 1cqw);
+    height: calc(var(--r) * 1cqw);
+    min-width: 0;
+    min-height: 0;
+    padding: 0;
+    border: 2px solid var(--color-card);
+    border-radius: var(--radius-full);
+    background: var(--color-primary-fill);
+    color: white;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transform: translate(-50%, -50%);
+  }
+
+  .map-dot span {
+    font-size: 0.65rem;
+  }
+
+  @media (max-width: 640px) {
+    .map-dot span {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  }
+
+  .map-dot:hover {
+    background: var(--color-primary-fill-strong);
+  }
+
+  .map-dot[aria-pressed='true'] {
+    background: var(--color-accent-600);
+    color: #132c2b;
+    border-color: var(--color-card);
+  }
+
+  .map-dot:focus-visible,
+  .legend-btn:focus-visible {
+    outline: 2px solid var(--color-brand-ink);
+    outline-offset: 2px;
+  }
+
+  .country-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: var(--space-3) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .legend-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    background: transparent;
+    color: var(--color-text-secondary);
+    font-family: inherit;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.4;
+    cursor: pointer;
+  }
+
+  .legend-btn:hover {
+    border-color: var(--color-primary-300);
+    color: var(--color-brand-ink);
+  }
+
+  .legend-btn[aria-pressed='true'] {
+    background: var(--color-primary-fill);
+    border-color: var(--color-primary-fill);
+    color: white;
+  }
+
+  .legend-count {
+    font-variant-numeric: tabular-nums;
+  }
+
+  :global([data-theme='dark']) .map-canvas path {
+    fill: #24564e;
+  }
+
+  :global([data-theme='dark']) .map-dot {
+    border-color: var(--color-card);
+  }
+
+  :global([data-theme='dark']) .legend-btn[aria-pressed='true'] {
+    color: white;
+  }
+</style>

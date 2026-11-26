@@ -1,14 +1,23 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
 import NewsCard from '@components/news/NewsCard.astro';
+import NewsMap from '@components/news/NewsMap.astro';
 import NewsletterSignup from '@components/common/NewsletterSignup.astro';
 import { getCollection } from 'astro:content';
+import { countryMapDots } from '@lib/news-country';
 import { NEWSLETTER_PITCH, NEWSLETTER_SOURCES } from '@lib/newsletter';
 import { newsOrigin } from '@lib/news-origin';
 
 // One list, newest first. Origin stays on each card; do not split own posts out.
 const allNews = await getCollection('news');
 const sortedNews = allNews.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const countryDots = countryMapDots(
+  sortedNews.map((article) => ({
+    country: article.data.country,
+    date: article.data.date,
+  })),
+  new Date()
+);
 
 // Filter types for news
 const newsTypes = ['all', 'official', 'milestone', 'community', 'global', 'opinion'];
@@ -47,6 +56,8 @@ const newsRegionLabels: Record<string, string> = {
     </header>
 
     <div class="container">
+      <NewsMap dots={countryDots} />
+
       <div class="filter-section">
         <div class="filter-row">
           <div class="news-filter" role="group" aria-label="Filter news by type">
@@ -72,7 +83,11 @@ const newsRegionLabels: Record<string, string> = {
       <h2 class="list-heading">News</h2>
       <div class="news-grid" id="news-grid">
         {sortedNews.map((article) => (
-          <div data-news-type={article.data.type} data-news-region={article.data.region}>
+          <div
+            data-news-type={article.data.type}
+            data-news-region={article.data.region}
+            data-news-country={article.data.country ?? ''}
+          >
             <NewsCard
               title={article.data.title}
               date={article.data.date}
@@ -88,6 +103,10 @@ const newsRegionLabels: Record<string, string> = {
           </div>
         ))}
       </div>
+
+      <p id="news-filter-empty" class="filter-empty" hidden>
+        No stories match these filters.
+      </p>
 
       {sortedNews.length === 0 && (
         <div class="empty-state">
@@ -291,6 +310,11 @@ const newsRegionLabels: Record<string, string> = {
     margin-bottom: var(--space-6);
   }
 
+  .filter-empty {
+    margin-bottom: var(--space-6);
+    color: var(--color-text-secondary);
+  }
+
   /* External News */
   .external-news {
     margin-top: var(--space-12);
@@ -430,17 +454,35 @@ const newsRegionLabels: Record<string, string> = {
   document.addEventListener('DOMContentLoaded', () => {
     // News filtering (combined type + region)
     const newsCards = document.querySelectorAll('#news-grid > [data-news-type]');
+    const filterEmpty = document.getElementById('news-filter-empty');
     let activeType = 'all';
     let activeRegion = 'all';
+    let activeCountry = 'all';
 
     function filterNewsCards() {
+      let visible = 0;
       newsCards.forEach((card) => {
         const cardType = card.getAttribute('data-news-type');
         const cardRegion = card.getAttribute('data-news-region');
+        const cardCountry = card.getAttribute('data-news-country') || '';
         const typeMatch = activeType === 'all' || cardType === activeType;
         const regionMatch = activeRegion === 'all' || cardRegion === activeRegion;
-        (card as HTMLElement).style.display = typeMatch && regionMatch ? '' : 'none';
+        const countryMatch = activeCountry === 'all' || cardCountry === activeCountry;
+        const show = typeMatch && regionMatch && countryMatch;
+        (card as HTMLElement).style.display = show ? '' : 'none';
+        if (show) visible += 1;
       });
+      if (filterEmpty) filterEmpty.hidden = visible !== 0;
+    }
+
+    function setCountry(code: string) {
+      activeCountry = code;
+      document.querySelectorAll('[data-country-filter]').forEach((button) => {
+        const selected = button.getAttribute('data-country-filter') === code;
+        button.classList.toggle('active', selected);
+        button.setAttribute('aria-pressed', selected ? 'true' : 'false');
+      });
+      filterNewsCards();
     }
 
     // Type filter buttons
@@ -464,6 +506,13 @@ const newsRegionLabels: Record<string, string> = {
         });
         filter.classList.add('active');
         filterNewsCards();
+      });
+    });
+
+    document.querySelectorAll('[data-country-filter]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const code = button.getAttribute('data-country-filter') || 'all';
+        setCountry(code !== 'all' && code === activeCountry ? 'all' : code);
       });
     });
   });
