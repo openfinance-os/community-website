@@ -3,6 +3,7 @@ title: "CBUAE Issues the Open Finance Regulation"
 date: 2024-06-27
 type: official
 region: uae
+country: AE
 author: Community
 source: https://wam.ae/en/article/b3vkckr-cbuae-issues-open-finance-regulation-ensure
 description: "On 27 June 2024 the Central Bank of the UAE announced the Open Finance Regulation, published in the Official Gazette and brought into effect in phases. It was later replaced by Circular 03/2025."

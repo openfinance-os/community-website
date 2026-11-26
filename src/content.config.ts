@@ -1,5 +1,6 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { NEWS_COUNTRY_CODES } from './lib/news-country';
 
 const newsTypes = ['official', 'milestone', 'community', 'global', 'opinion'] as const;
 const newsRegions = ['uae', 'mena', 'global'] as const;
@@ -64,6 +65,11 @@ const newsCollection = defineCollection({
     date: z.coerce.date(),
     type: z.enum(newsTypes),
     region: z.enum(newsRegions),
+    /**
+     * Where the story is from. ISO 3166-1 alpha-2, or `EU` for an EU-level
+     * institution. Omitted when the story is multi-country or unclear.
+     */
+    country: z.enum(NEWS_COUNTRY_CODES).optional(),
     author: z.string().default('Community'),
     source: z.string().url().optional(),
     /**

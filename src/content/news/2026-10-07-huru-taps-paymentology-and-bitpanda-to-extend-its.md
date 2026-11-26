@@ -3,6 +3,7 @@ title: "Huru Taps Paymentology and Bitpanda to Extend Its Account Services"
 date: 2026-10-07
 type: milestone
 region: uae
+country: AE
 author: Fintech News Middle East
 source: https://fintechnews.ae/33991/payments/huru-paymentology-bitpanda-partnership-uae/
 description: "Huru plans a Jaywan card launch with Paymentology in Q4 2026 and crypto services with Bitpanda Enterprise, subject to final regulatory approvals."

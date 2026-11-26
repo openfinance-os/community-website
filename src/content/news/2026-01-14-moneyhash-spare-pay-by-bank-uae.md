@@ -3,6 +3,7 @@ title: "MoneyHash Partners with Spare to Enable Pay By Bank in UAE"
 date: 2026-01-14
 type: milestone
 region: uae
+country: AE
 author: Fintech News Middle East
 source: https://fintechnews.ae/29623/fintechdubai/moneyhash-spare-pay-by-bank-uae/
 description: "MoneyHash, the payment orchestration platform, has partnered with Spare, a regional Open Banking infrastructure provider, to enable merchants to offer Pay By Bank solutions in the UAE, helping reduce payment costs and shorten settlement times."
