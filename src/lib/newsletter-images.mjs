@@ -6,7 +6,7 @@ export const NEWSLETTER_IMAGE_MAP = [
     width: 3000,
     height: 1000,
     sizes: '(min-width: 1040px) 900px, calc(100vw - 3rem)',
-    alt: 'Open Finance OS weekly briefing, issue 1, 29 October 2026.',
+    alt: 'Open Finance OS weekly briefing, 29 October 2026.',
   },
   {
     buttondown: 'https://assets.buttondown.email/images/69f9d977-f05e-4ffc-8eef-9eb939404193.png',
@@ -38,7 +38,7 @@ export const NEWSLETTER_IMAGE_MAP = [
     width: 3600,
     height: 1500,
     sizes: '(min-width: 760px) 640px, calc(100vw - 3rem)',
-    alt: 'UAE banks: NBF Direct adds Open Finance with multi-bank access. Issue #1, 29 October 2026.',
+    alt: 'UAE banks: NBF Direct adds Open Finance with multi-bank access. 29 October 2026.',
   },
   {
     buttondown: 'https://assets.buttondown.email/images/f3faf407-d4a4-4627-bf3e-964074386596.png',
@@ -46,7 +46,7 @@ export const NEWSLETTER_IMAGE_MAP = [
     width: 3600,
     height: 1500,
     sizes: '(min-width: 760px) 640px, calc(100vw - 3rem)',
-    alt: 'Sibos 2026: commercial models to scale account-to-account payments and AI services. Issue #1, 29 October 2026.',
+    alt: 'Sibos 2026: commercial models to scale account-to-account payments and AI services. 29 October 2026.',
   },
   {
     buttondown: 'https://assets.buttondown.email/images/af89ae15-def1-49ef-9ddc-84c20c7d7b57.png',
@@ -54,7 +54,7 @@ export const NEWSLETTER_IMAGE_MAP = [
     width: 3600,
     height: 1500,
     sizes: '(min-width: 760px) 640px, calc(100vw - 3rem)',
-    alt: 'Europe: Pay by Bank via Mastercard Open Finance in nine markets. Issue #1, 29 October 2026.',
+    alt: 'Europe: Pay by Bank via Mastercard Open Finance in nine markets. 29 October 2026.',
   },
   {
     buttondown: 'https://assets.buttondown.email/images/eafd69a9-83b8-4c21-a185-35cba8175d17.png',

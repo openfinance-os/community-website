@@ -62,21 +62,21 @@ const stories: Story[] = [
     eyebrow: 'UAE banks',
     headline: 'NBF Direct',
     detail: 'adds Open Finance with multi-bank access',
-    source: 'Issue #1, 29 October 2026',
+    source: '29 October 2026',
   },
   {
     file: 'story-commercial-light.webp',
     eyebrow: 'Sibos 2026',
     headline: 'Commercial models',
     detail: 'to scale account-to-account payments and AI services',
-    source: 'Issue #1, 29 October 2026',
+    source: '29 October 2026',
   },
   {
     file: 'story-europe-light.webp',
     eyebrow: 'Europe',
     headline: '9 markets',
     detail: 'Pay by Bank via Mastercard Open Finance',
-    source: 'Issue #1, 29 October 2026',
+    source: '29 October 2026',
   },
 ];
 
@@ -146,7 +146,7 @@ const headerHTML = `<!doctype html><html lang="en"><head><meta charset="utf-8"><
   p { font-size: 18px; color: #adc1b9; }
 </style></head><body><main>
   <img src="${svgURL('logo-full-dark.svg')}" alt="">
-  <p>Weekly briefing · Issue #1 · 29 October 2026</p>
+  <p>Weekly briefing · 29 October 2026</p>
 </main></body></html>`;
 
 const agentHTML = `<!doctype html><html lang="en"><head><meta charset="utf-8"><style>
