@@ -66,10 +66,13 @@ const newsCollection = defineCollection({
     type: z.enum(newsTypes),
     region: z.enum(newsRegions),
     /**
-     * Where the story is from. ISO 3166-1 alpha-2, or `EU` for an EU-level
-     * institution. Omitted when the story is multi-country or unclear.
+     * Where the story is from. One ISO 3166-1 alpha-2 code, or `EU` for an
+     * EU-level institution. A list when the story is clearly about more than
+     * one country. Omitted when the place is unclear.
      */
-    country: z.enum(NEWS_COUNTRY_CODES).optional(),
+    country: z
+      .union([z.enum(NEWS_COUNTRY_CODES), z.array(z.enum(NEWS_COUNTRY_CODES)).min(1)])
+      .optional(),
     author: z.string().default('Community'),
     source: z.string().url().optional(),
     /**

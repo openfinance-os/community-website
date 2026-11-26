@@ -4,20 +4,18 @@ import NewsCard from '@components/news/NewsCard.astro';
 import NewsMap from '@components/news/NewsMap.astro';
 import NewsletterSignup from '@components/common/NewsletterSignup.astro';
 import { getCollection } from 'astro:content';
-import { countryMapDots } from '@lib/news-country';
+import { newsCountries } from '@lib/news-country';
 import { NEWSLETTER_PITCH, NEWSLETTER_SOURCES } from '@lib/newsletter';
 import { newsOrigin } from '@lib/news-origin';
 
 // One list, newest first. Origin stays on each card; do not split own posts out.
 const allNews = await getCollection('news');
 const sortedNews = allNews.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-const countryDots = countryMapDots(
-  sortedNews.map((article) => ({
-    country: article.data.country,
-    date: article.data.date,
-  })),
-  new Date()
-);
+const mapNow = new Date();
+const mapItems = sortedNews.map((article) => ({
+  country: article.data.country,
+  date: article.data.date,
+}));
 
 // Filter types for news
 const newsTypes = ['all', 'official', 'milestone', 'community', 'global', 'opinion'];
@@ -56,7 +54,7 @@ const newsRegionLabels: Record<string, string> = {
     </header>
 
     <div class="container">
-      <NewsMap dots={countryDots} />
+      <NewsMap items={mapItems} now={mapNow} />
 
       <div class="filter-section">
         <div class="filter-row">
@@ -86,7 +84,7 @@ const newsRegionLabels: Record<string, string> = {
           <div
             data-news-type={article.data.type}
             data-news-region={article.data.region}
-            data-news-country={article.data.country ?? ''}
+            data-news-countries={newsCountries(article.data.country).join(' ')}
           >
             <NewsCard
               title={article.data.title}
@@ -464,10 +462,12 @@ const newsRegionLabels: Record<string, string> = {
       newsCards.forEach((card) => {
         const cardType = card.getAttribute('data-news-type');
         const cardRegion = card.getAttribute('data-news-region');
-        const cardCountry = card.getAttribute('data-news-country') || '';
+        const cardCountries = (card.getAttribute('data-news-countries') || '')
+          .split(/\s+/)
+          .filter(Boolean);
         const typeMatch = activeType === 'all' || cardType === activeType;
         const regionMatch = activeRegion === 'all' || cardRegion === activeRegion;
-        const countryMatch = activeCountry === 'all' || cardCountry === activeCountry;
+        const countryMatch = activeCountry === 'all' || cardCountries.includes(activeCountry);
         const show = typeMatch && regionMatch && countryMatch;
         (card as HTMLElement).style.display = show ? '' : 'none';
         if (show) visible += 1;

@@ -1,0 +1,103 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import NewsCard from '@components/news/NewsCard.astro';
+import { getCollection } from 'astro:content';
+import { countryName, newsCountries, type NewsCountryCode } from '@lib/news-country';
+import { newsOrigin } from '@lib/news-origin';
+
+export async function getStaticPaths() {
+  const news = await getCollection('news');
+  const codes = new Set<NewsCountryCode>();
+  for (const article of news) {
+    for (const code of newsCountries(article.data.country)) codes.add(code);
+  }
+  return [...codes].sort().map((code) => ({
+    params: { code: code.toLowerCase() },
+    props: { code },
+  }));
+}
+
+interface Props {
+  code: NewsCountryCode;
+}
+
+const { code } = Astro.props;
+const name = countryName(code);
+const articles = (await getCollection('news'))
+  .filter((article) => newsCountries(article.data.country).includes(code))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const description = `${articles.length} ${articles.length === 1 ? 'story' : 'stories'} tagged ${name}, newest first.`;
+---
+
+<PageLayout title={`${name} news`} description={description} breadcrumbCurrent={name}>
+  <div class="country-page">
+    <header class="page-intro">
+      <p class="back-link">
+        <a href="/updates/">All updates</a>
+      </p>
+      <h1>{name}</h1>
+      <p class="intro">{description}</p>
+    </header>
+    <div class="news-grid" id="country-news">
+      {articles.map((article) => (
+        <NewsCard
+          title={article.data.title}
+          date={article.data.date}
+          type={article.data.type}
+          region={article.data.region}
+          author={article.data.author}
+          description={article.data.description}
+          slug={article.id}
+          source={article.data.source}
+          external={article.data.external}
+          origin={newsOrigin(article)}
+          headingLevel={2}
+        />
+      ))}
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .country-page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: var(--space-8) var(--space-4) var(--space-12);
+  }
+
+  .back-link {
+    margin-bottom: var(--space-4);
+    font-size: 0.875rem;
+  }
+
+  .country-page h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-3);
+  }
+
+  .intro {
+    margin-bottom: var(--space-8);
+    color: var(--color-text-secondary);
+    font-size: 1.125rem;
+  }
+
+  .news-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 640px) {
+    .news-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .news-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>

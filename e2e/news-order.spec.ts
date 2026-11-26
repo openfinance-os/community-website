@@ -97,7 +97,7 @@ test.describe('combined news order', () => {
         .filter((element) => (element as HTMLElement).style.display !== 'none')
         .map((element) => ({
           type: element.getAttribute('data-news-type'),
-          country: element.getAttribute('data-news-country'),
+          country: element.getAttribute('data-news-countries'),
         }))
     );
     expect(euShown.length).toBeGreaterThan(0);
@@ -109,7 +109,7 @@ test.describe('combined news order', () => {
         .filter((element) => (element as HTMLElement).style.display !== 'none')
         .map((element) => ({
           type: element.getAttribute('data-news-type'),
-          country: element.getAttribute('data-news-country'),
+          country: element.getAttribute('data-news-countries'),
         }))
     );
     expect(officialEu.length).toBeGreaterThan(0);
@@ -131,7 +131,7 @@ test.describe('combined news order', () => {
     const kuwait = await cards.evaluateAll((elements) =>
       elements
         .filter((element) => (element as HTMLElement).style.display !== 'none')
-        .map((element) => element.getAttribute('data-news-country'))
+        .map((element) => element.getAttribute('data-news-countries'))
     );
     expect(kuwait.length).toBeGreaterThan(0);
     expect(kuwait.every((country) => country === 'KW')).toBe(true);
