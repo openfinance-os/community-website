@@ -178,7 +178,9 @@ a{color:var(--ac);text-decoration:underline;text-underline-offset:.15em}a:hover{
 .wow{display:block;font-size:10px;font-weight:600;color:var(--mut);margin-top:2px}
 details.more{margin-top:8px}
 details.more>summary{cursor:pointer;font-size:12px;color:var(--ac);list-style:none;padding:4px 0}
+details.more>summary:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
 details.more>summary::-webkit-details-marker{display:none}
+details.more>summary::marker{content:none}
 details.more>summary::before{content:'▸ ';color:var(--mut)}
 details.more[open]>summary::before{content:'▾ '}
 .bkcounts{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 2px;font-size:12px;color:var(--mut)}
@@ -371,14 +373,24 @@ if(D.breaking){var BK=D.breaking;
  if(BK.note){o+='<div class="note">'+esc(BK.note)+'</div>';}
  o+='</div>';}
 o+='<div class="grid g2" style="margin-top:12px">';
-o+='<div class="card"><h3>Change log'+inf('Every change the watch detected across standards, operations, adoption and deadlines, with the date it was first seen and a source link. “No change” rows confirm a source was re-checked.')+'</h3><table class="cards"><tbody>';
-(D.changeLog||[]).forEach(function(c){if(Array.isArray(c)){c={title:c[0],status:/^NEW/i.test(c[1])?'new':(/no change/i.test(c[1])?'nochange':'changed'),text:c[2],url:c[3]};}
- o+='<tr>'+td('',sTag(c.status),' style="white-space:nowrap"')+td('','<b>'+esc(c.title)+'</b>'+(c.layer?' <span class="since">· '+esc(c.layer)+'</span>':'')+' '+sinceTxt(c)+'<br><span style="color:var(--mut)">'+esc(c.text)+'</span> '+lk(c.url,'source'))+'</tr>';});
-o+='</tbody></table></div>';
-o+='<div class="card"><h3>GitHub repos &amp; commits this run'+inf('The Nebras-Open-Finance GitHub repositories and the specific commits/branches that moved since the last run — the earliest signal of upcoming standards changes.')+'</h3><table><tbody>';
-(D.repos||[]).forEach(function(r){o+='<tr><td><b>'+esc(r[0])+'</b> <code style="color:var(--mut)">'+esc(r[1])+'</code><br><span style="color:var(--mut);font-size:11px">'+esc(r[2])+'</span></td><td class="src">'+lk(r[3],'repo')+'</td></tr>';});
-o+='</tbody></table>';
-if(D.commits&&D.commits.length){o+='<div class="note">';D.commits.forEach(function(c){o+='• <b>'+esc(c[0])+'</b> — '+esc(c[1])+' ('+esc(c[2])+') '+lk(c[3],'↗')+'<br>';});o+='</div>';}
+/* Change log: NEW/CHANGED stay open. With none of those, the two latest stay open. The rest sit in a closed <details> so they remain searchable. */
+function normLog(c){if(Array.isArray(c))return {title:c[0],status:/^NEW/i.test(c[1])?'new':(/no change/i.test(c[1])?'nochange':'changed'),text:c[2],url:c[3]};var s=c&&c.status!=null?String(c.status).toLowerCase():'';if(s&&STAT[s]&&s!==c.status)return {title:c.title,layer:c.layer,status:s,since:c.since,text:c.text,url:c.url};return c;}
+function logHot(c){var s=String(c&&c.status||'').toLowerCase();return s==='new'||s==='changed';}
+function logRow(c){return '<tr>'+td('',sTag(c.status),' style="white-space:nowrap"')+td('','<b>'+esc(c.title)+'</b>'+(c.layer?' <span class="since">· '+esc(c.layer)+'</span>':'')+' '+sinceTxt(c)+'<br><span style="color:var(--mut)">'+esc(c.text)+'</span> '+lk(c.url,'source'))+'</tr>';}
+var logs=(D.changeLog||[]).map(normLog),shownIdx=[],restIdx=[];
+logs.forEach(function(c,i){(logHot(c)?shownIdx:restIdx).push(i);});
+if(!shownIdx.length&&logs.length){var ranked=logs.map(function(_,i){return i;});ranked.sort(function(a,b){var as=(logs[a]&&logs[a].since)||'',bs=(logs[b]&&logs[b].since)||'';if(as!==bs)return as<bs?1:-1;return a-b;});var keep={};shownIdx=ranked.slice(0,2);shownIdx.forEach(function(i){keep[i]=1;});shownIdx=shownIdx.slice().sort(function(a,b){return a-b;});restIdx=[];logs.forEach(function(_,i){if(!keep[i])restIdx.push(i);});}
+o+='<div class="card"><h3>Change log'+inf('Every change the watch detected across standards, operations, adoption and deadlines, with the date it was first seen and a source link. “No change” rows confirm a source was re-checked.')+'</h3>';
+if(logs.length){o+='<table class="cards"><tbody>'+shownIdx.map(function(i){return logRow(logs[i]);}).join('')+'</tbody></table>';
+ if(restIdx.length){o+='<details class="more"><summary>Show '+restIdx.length+' more</summary><table class="cards"><tbody>'+restIdx.map(function(i){return logRow(logs[i]);}).join('')+'</tbody></table></details>';}}
+o+='</div>';
+o+='<div class="card"><h3>GitHub repos &amp; commits this run'+inf('The Nebras-Open-Finance GitHub repositories and the specific commits/branches that moved since the last run — the earliest signal of upcoming standards changes.')+'</h3>';
+var movedRepos=[],quietRepos=[];
+(D.repos||[]).forEach(function(r){if(/^\s*no change\.?\s*$/i.test(String(r&&r[2]||'')))quietRepos.push(r);else movedRepos.push(r);});
+if(movedRepos.length){o+='<table><tbody>';movedRepos.forEach(function(r){o+='<tr><td><b>'+esc(r[0])+'</b> <code style="color:var(--mut)">'+esc(r[1])+'</code><br><span style="color:var(--mut);font-size:11px">'+esc(r[2])+'</span></td><td class="src">'+lk(r[3],'repo')+'</td></tr>';});o+='</tbody></table>';}
+if(quietRepos.length){o+='<div class="note">No change: '+quietRepos.map(function(r){var href=String(r[3]||'');var home=href.match(/^(https?:\/\/github\.com\/[^/\s]+\/[^/\s?#]+)/i);if(home)href=home[1].replace(/\.git$/i,'');return href?lk(href,r[0]||'repo'):esc(r[0]||'');}).join(', ')+'</div>';}
+var nComm=(D.commits||[]).length;
+if(nComm){o+='<details class="more"><summary>Show '+nComm+' commit'+(nComm===1?'':'s')+'</summary><div class="note">';D.commits.forEach(function(c){o+='• <b>'+esc(c[0])+'</b> — '+esc(c[1])+' ('+esc(c[2])+') '+lk(c[3],'↗')+'<br>';});o+='</div></details>';}
 o+='<div class="note">Standards: '+lk(D.links.standards,'release notes')+' · '+lk(D.links.errata,'errata')+' · '+lk(D.links.specBranch,'website spec branch')+'</div></div>';
 o+='</div></section>';
 
