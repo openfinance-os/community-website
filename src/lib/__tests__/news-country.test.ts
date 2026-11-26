@@ -10,9 +10,12 @@ import {
   countryCentroid,
   countryMapDots,
   countryName,
+  countryPagePath,
+  describeCountryTrend,
   dotRadius,
   isNewsCountryCode,
   matchesNewsFilters,
+  newsCountries,
   projectEquirectangular,
 } from '@lib/news-country';
 
@@ -122,6 +125,23 @@ describe('matchesNewsFilters', () => {
     expect(matchesNewsFilters(item, { type: 'all', region: 'all', country: 'AE' })).toBe(false);
   });
 
+  it('treats a list of codes as membership in each country', () => {
+    expect(newsCountries(['AE', 'SA', 'AE', 'XX'])).toEqual(['AE', 'SA']);
+    expect(newsCountries('EU')).toEqual(['EU']);
+    expect(
+      matchesNewsFilters(
+        { type: 'official', region: 'global', country: ['AE', 'SA'] },
+        { type: 'all', region: 'all', country: 'SA' }
+      )
+    ).toBe(true);
+    expect(
+      matchesNewsFilters(
+        { type: 'official', region: 'global', country: ['AE', 'SA'] },
+        { type: 'all', region: 'all', country: 'KW' }
+      )
+    ).toBe(false);
+  });
+
   it('keeps untagged items when no country is selected', () => {
     expect(
       matchesNewsFilters(
@@ -135,6 +155,69 @@ describe('matchesNewsFilters', () => {
         { type: 'all', region: 'uae', country: 'AE' }
       )
     ).toBe(false);
+  });
+});
+
+describe('country pages and the map trend', () => {
+  const day = 24 * 60 * 60 * 1000;
+
+  it('uses a lowercase path, including eu', () => {
+    expect(countryPagePath('AE')).toBe('/news/country/ae/');
+    expect(countryPagePath('EU')).toBe('/news/country/eu/');
+  });
+
+  it('counts a multi-country story once for each of its codes', () => {
+    const counts = countCountriesInWindow(
+      [
+        { country: ['AE', 'SA'], date: now },
+        { country: 'AE', date: new Date(now.getTime() - 10 * day) },
+      ],
+      now,
+      90
+    );
+    expect(counts).toEqual([
+      { code: 'AE', count: 2 },
+      { code: 'SA', count: 1 },
+    ]);
+  });
+
+  it('describes the top country against the previous window', () => {
+    const items = [
+      ...Array.from({ length: 15 }, () => ({ country: 'AE', date: now })),
+      ...Array.from({ length: 9 }, () => ({
+        country: 'AE',
+        date: new Date(now.getTime() - 100 * day),
+      })),
+      { country: 'KW', date: now },
+    ];
+    expect(describeCountryTrend(items, now, 90)).toBe(
+      '15 UAE stories in the last 90 days, up from 9 in the previous 90.'
+    );
+  });
+
+  it('does not claim a rise when the previous window has no stories', () => {
+    const text = describeCountryTrend([{ country: 'AE', date: now }], now, 90);
+    expect(text).toBe('1 UAE story in the last 90 days. No UAE stories in the previous 90 days.');
+    expect(text).not.toContain('up from');
+  });
+
+  it('states an all-time total without a comparison', () => {
+    const text = describeCountryTrend(
+      [
+        { country: 'GB', date: new Date('2020-01-01T00:00:00.000Z') },
+        { country: 'GB', date: now },
+        { country: ['AE', 'GB'], date: now },
+      ],
+      now,
+      'all'
+    );
+    expect(text).toBe('3 UK stories in total.');
+  });
+
+  it('says when the selected window has no tagged stories', () => {
+    expect(
+      describeCountryTrend([{ country: 'AE', date: new Date(now.getTime() - 40 * day) }], now, 30)
+    ).toBe('No tagged stories in the last 30 days.');
   });
 });
 

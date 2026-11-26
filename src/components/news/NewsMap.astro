@@ -1,23 +1,70 @@
 ---
-import { WORLD_MAP_HEIGHT, WORLD_MAP_WIDTH, type CountryMapDot } from '@lib/news-country';
+import {
+  WORLD_MAP_HEIGHT,
+  WORLD_MAP_WIDTH,
+  countCountriesInWindow,
+  countryCountLabel,
+  countryMapDots,
+  countryPagePath,
+  describeCountryTrend,
+  dotRadius,
+  newsCountries,
+  type DatedCountryItem,
+  type MapRange,
+  type NewsCountryCode,
+} from '@lib/news-country';
 import { WORLD_LAND_PATH } from '@lib/world-land-path';
 
 interface Props {
-  dots: CountryMapDot[];
+  items: DatedCountryItem[];
+  now: Date;
 }
 
-const { dots } = Astro.props;
+const { items, now } = Astro.props;
+const defaultRange: MapRange = 90;
+const allDots = countryMapDots(items, now, 'all');
+const windowCounts = new Map(
+  countCountriesInWindow(items, now, defaultRange).map((entry) => [entry.code, entry.count])
+);
+const windowMax = [...windowCounts.values()].reduce((max, count) => Math.max(max, count), 0);
+const trend = describeCountryTrend(items, now, defaultRange);
+const mapItems = items.flatMap((item) => {
+  const countries = newsCountries(item.country);
+  if (countries.length === 0) return [];
+  return [{ countries, time: item.date.getTime() }];
+});
+const mapData = JSON.stringify({ builtAt: now.toISOString(), items: mapItems }).replace(
+  /</g,
+  '\\u003c'
+);
 
-function countLabel(dot: CountryMapDot): string {
-  const stories = dot.count === 1 ? 'story' : 'stories';
-  return `${dot.name}, ${dot.count} ${stories} in the last 90 days`;
+function shown(code: NewsCountryCode): { count: number; radius: number; label: string } {
+  const count = windowCounts.get(code) ?? 0;
+  return {
+    count,
+    radius: dotRadius(count, windowMax || 1),
+    label: countryCountLabel(code, count, defaultRange),
+  };
 }
 ---
 
-{dots.length > 0 && (
+{allDots.length > 0 && (
   <section class="news-map" aria-labelledby="news-map-heading">
     <h2 id="news-map-heading">Where news is coming from</h2>
-    <p class="map-note">Last 90 days. Choose a country to filter the list below.</p>
+    <p class="map-note" id="news-map-note">
+      Last 90 days. Choose a country to filter the list below.
+    </p>
+    <div class="map-range" role="group" aria-label="Map time range">
+      <button type="button" data-map-range="30" aria-pressed="false">
+        30 days
+      </button>
+      <button type="button" class="active" data-map-range="90" aria-pressed="true">
+        90 days
+      </button>
+      <button type="button" data-map-range="all" aria-pressed="false">
+        All time
+      </button>
+    </div>
     <div class="map-canvas">
       <svg
         viewBox={`0 0 ${WORLD_MAP_WIDTH} ${WORLD_MAP_HEIGHT}`}
@@ -27,21 +74,30 @@ function countLabel(dot: CountryMapDot): string {
         <path d={WORLD_LAND_PATH} />
       </svg>
       <div class="map-dots">
-        {dots.map((dot) => (
-          <button
-            type="button"
-            class="map-dot"
-            data-country-filter={dot.code}
-            aria-pressed="false"
-            aria-label={countLabel(dot)}
-            title={countLabel(dot)}
-            style={`left:${(dot.x / WORLD_MAP_WIDTH) * 100}%;top:${(dot.y / WORLD_MAP_HEIGHT) * 100}%;--r:${((dot.radius * 2) / WORLD_MAP_WIDTH) * 100}`}
-          >
-            <span aria-hidden="true">{dot.count}</span>
-          </button>
-        ))}
+        {allDots.map((dot) => {
+          const view = shown(dot.code);
+          return (
+            <button
+              type="button"
+              class="map-dot"
+              data-country-filter={dot.code}
+              aria-pressed="false"
+              aria-label={view.label}
+              title={view.label}
+              hidden={view.count === 0}
+              style={`left:${(dot.x / WORLD_MAP_WIDTH) * 100}%;top:${(dot.y / WORLD_MAP_HEIGHT) * 100}%;--r:${((view.radius * 2) / WORLD_MAP_WIDTH) * 100}`}
+            >
+              <span class="dot-count" aria-hidden="true">
+                {view.count}
+              </span>
+            </button>
+          );
+        })}
       </div>
     </div>
+    <p class="map-trend" id="news-map-trend">
+      {trend}
+    </p>
     <ul class="country-legend">
       <li>
         <button
@@ -53,23 +109,30 @@ function countLabel(dot: CountryMapDot): string {
           All countries
         </button>
       </li>
-      {dots.map((dot) => (
-        <li>
-          <button
-            type="button"
-            class="legend-btn"
-            data-country-filter={dot.code}
-            aria-pressed="false"
-            aria-label={countLabel(dot)}
-          >
-            {dot.name}
-            <span class="legend-count" aria-hidden="true">
-              {dot.count}
-            </span>
-          </button>
-        </li>
-      ))}
+      {allDots.map((dot) => {
+        const view = shown(dot.code);
+        return (
+          <li class="legend-country" data-country-code={dot.code} hidden={view.count === 0}>
+            <button
+              type="button"
+              class="legend-btn"
+              data-country-filter={dot.code}
+              aria-pressed="false"
+              aria-label={view.label}
+            >
+              {dot.name}
+              <span class="legend-count" aria-hidden="true">
+                {view.count}
+              </span>
+            </button>
+            <a class="legend-page" href={countryPagePath(dot.code)}>
+              All stories
+            </a>
+          </li>
+        );
+      })}
     </ul>
+    <script id="news-map-data" type="application/json" set:html={mapData} />
   </section>
 )}
 
@@ -85,10 +148,47 @@ function countLabel(dot: CountryMapDot): string {
     margin-bottom: var(--space-2);
   }
 
-  .map-note {
+  .map-note,
+  .map-trend {
     margin-bottom: var(--space-4);
     color: var(--color-text-secondary);
     font-size: 0.875rem;
+  }
+
+  .map-trend {
+    margin-top: var(--space-3);
+    margin-bottom: var(--space-3);
+    color: var(--color-text);
+  }
+
+  .map-range {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+
+  .map-range button {
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    background: transparent;
+    color: var(--color-text-secondary);
+    font-family: inherit;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .map-range button[aria-pressed='true'] {
+    background: var(--color-primary-fill);
+    border-color: var(--color-primary-fill);
+    color: white;
+  }
+
+  .map-range button:focus-visible {
+    outline: 2px solid var(--color-brand-ink);
+    outline-offset: 2px;
   }
 
   .map-canvas {
@@ -177,9 +277,22 @@ function countLabel(dot: CountryMapDot): string {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2);
-    margin: var(--space-3) 0 0;
+    align-items: center;
+    margin: 0;
     padding: 0;
     list-style: none;
+  }
+
+  .legend-country {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .legend-page {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-brand-ink);
   }
 
   .legend-btn {
@@ -224,4 +337,87 @@ function countLabel(dot: CountryMapDot): string {
   :global([data-theme='dark']) .legend-btn[aria-pressed='true'] {
     color: white;
   }
+
+  :global([data-theme='dark']) .map-range button[aria-pressed='true'] {
+    color: white;
+  }
 </style>
+
+<script>
+  import {
+    countCountriesInWindow,
+    countryCountLabel,
+    describeCountryTrend,
+    dotRadius,
+    isNewsCountryCode,
+    WORLD_MAP_WIDTH,
+    type MapRange,
+  } from '@lib/news-country';
+
+  const dataElement = document.getElementById('news-map-data');
+  const trendElement = document.getElementById('news-map-trend');
+  const noteElement = document.getElementById('news-map-note');
+
+  if (dataElement?.textContent && trendElement) {
+    const payload = JSON.parse(dataElement.textContent) as {
+      builtAt: string;
+      items: { countries: string[]; time: number }[];
+    };
+    const dated = payload.items.map((item) => ({
+      country: item.countries,
+      date: new Date(item.time),
+    }));
+    const builtAt = new Date(payload.builtAt);
+
+    const applyRange = (range: MapRange) => {
+      const counts = countCountriesInWindow(dated, builtAt, range);
+      const max = counts.reduce((highest, entry) => Math.max(highest, entry.count), 0);
+      const byCode = new Map<string, number>();
+      for (const entry of counts) byCode.set(entry.code, entry.count);
+
+      document.querySelectorAll<HTMLElement>('.map-dot[data-country-filter]').forEach((dot) => {
+        const code = dot.dataset.countryFilter || '';
+        const count = byCode.get(code) ?? 0;
+        dot.hidden = count === 0;
+        if (!isNewsCountryCode(code)) return;
+        const radius = dotRadius(count, max || 1);
+        dot.style.setProperty('--r', String(((radius * 2) / WORLD_MAP_WIDTH) * 100));
+        const label = countryCountLabel(code, count, range);
+        dot.setAttribute('aria-label', label);
+        dot.setAttribute('title', label);
+        const countNode = dot.querySelector('.dot-count');
+        if (countNode) countNode.textContent = String(count);
+      });
+
+      document.querySelectorAll<HTMLElement>('.legend-country').forEach((item) => {
+        const code = item.dataset.countryCode || '';
+        const count = byCode.get(code) ?? 0;
+        item.hidden = count === 0;
+        if (!isNewsCountryCode(code)) return;
+        const button = item.querySelector('button');
+        button?.setAttribute('aria-label', countryCountLabel(code, count, range));
+        const countNode = item.querySelector('.legend-count');
+        if (countNode) countNode.textContent = String(count);
+      });
+
+      trendElement.textContent = describeCountryTrend(dated, builtAt, range);
+      if (noteElement) {
+        const when = range === 'all' ? 'All tagged stories.' : `Last ${range} days.`;
+        noteElement.textContent = `${when} Choose a country to filter the list below.`;
+      }
+    };
+
+    document.querySelectorAll<HTMLButtonElement>('[data-map-range]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const value = button.dataset.mapRange;
+        const range: MapRange = value === '30' ? 30 : value === 'all' ? 'all' : 90;
+        document.querySelectorAll<HTMLButtonElement>('[data-map-range]').forEach((other) => {
+          const selected = other === button;
+          other.setAttribute('aria-pressed', selected ? 'true' : 'false');
+          other.classList.toggle('active', selected);
+        });
+        applyRange(range);
+      });
+    });
+  }
+</script>
