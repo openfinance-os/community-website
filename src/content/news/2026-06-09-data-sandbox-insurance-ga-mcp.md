@@ -3,6 +3,7 @@ title: "Data Sandbox grows up: 38 personas, Insurance Data Sharing GA, an ATM di
 date: 2026-06-09
 type: community
 region: uae
+country: "AE"
 author: Community
 description: "Since its April launch the Open Finance Data Sandbox has grown from 10 to 38 synthetic personas, taken Insurance Data Sharing to GA across all 7 lines, added the ATM Locator directory, multi-bank and multi-insurer personas, an MCP server for AI agents, and pinnable fixture packages on npm and PyPI."
 featured: true

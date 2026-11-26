@@ -3,6 +3,7 @@ title: "18.4% API Errors: What UAE Open Finance Data Tells Builders"
 date: 2026-11-03
 type: opinion
 region: uae
+country: "AE"
 author: OpenFinance-OS
 description: "UAE Open Finance API calls hit an 18.4% error rate over 11 months, yet 95.3% of payments were accepted. What the gap means for LFIs and TPPs on Al Tareq."
 image: /news/api-error-rate/hero.svg

@@ -1,0 +1,312 @@
+---
+import type { CountryCount, MapDot } from '@lib/news-country';
+import { WORLD_LAND_PATH } from '@lib/world-land-path';
+
+interface Props {
+  counts: CountryCount[];
+  dots: MapDot[];
+}
+
+const { counts, dots } = Astro.props;
+const caption = 'Where the news came from, last 90 days';
+---
+
+{counts.length > 0 && (
+  <figure class="news-origin-map">
+    <div class="map-frame">
+      <svg viewBox="0 0 960 480" aria-hidden="true" focusable="false">
+        <path class="land" d={WORLD_LAND_PATH} />
+      </svg>
+      <div class="dots">
+        {dots.map((dot) => (
+          <a
+            class:list={['dot', `tip-${dot.placement}`, `align-${dot.align}`]}
+            href={`?country=${dot.code}`}
+            data-country={dot.code}
+            data-z={dot.count}
+            style={`left:${dot.left}%;top:${dot.top}%;z-index:${dot.count};`}
+            aria-label={dot.label}
+          >
+            <span class="mark" style={`width:${dot.radius}px;height:${dot.radius}px;`} />
+            {dot.showName && <span class="pin-label">European Union</span>}
+            <span class="tip" aria-hidden="true">
+              {dot.name} · {dot.count}
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+    <figcaption>{caption}</figcaption>
+    <ul class="news-origin-counts" aria-label="Story counts by country, last 90 days">
+      {counts.map((item) => (
+        <li>
+          <a href={`?country=${item.code}`} data-country={item.code}>
+            {item.name}
+            <span class="count">{item.count}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <button type="button" id="news-country-reset">
+      Show all countries
+    </button>
+  </figure>
+)}
+
+<script>
+  import { cardMatchesCountry, isCountryCode, readCountryParam } from '@lib/news-country';
+
+  const map = document.querySelector('.news-origin-map');
+  if (map) bindNewsOriginMap(map);
+
+  function bindNewsOriginMap(figure: Element): void {
+    const resetButton = document.getElementById('news-country-reset');
+
+    function currentCountry(): string | null {
+      return readCountryParam(window.location.search);
+    }
+
+    function sync(code: string | null, writeUrl: boolean): void {
+      const root = document.documentElement;
+      if (code) root.dataset.newsCountry = code;
+      else delete root.dataset.newsCountry;
+
+      figure.querySelectorAll<HTMLElement>('[data-country]').forEach((node) => {
+        const selected = node.getAttribute('data-country') === code;
+        node.classList.toggle('is-selected', selected);
+        if (selected) node.setAttribute('aria-current', 'true');
+        else node.removeAttribute('aria-current');
+        const resting = node.dataset.z;
+        if (resting) node.style.zIndex = selected ? '50' : resting;
+      });
+
+      const featured = document.querySelector('.featured-section');
+      const featuredCard = document.querySelector('.featured-card');
+      if (featured && featuredCard) {
+        const countries = featuredCard.getAttribute('data-country');
+        featured.toggleAttribute('hidden', !cardMatchesCountry(countries, code));
+      }
+
+      if (writeUrl) {
+        const url = new URL(window.location.href);
+        if (code) url.searchParams.set('country', code);
+        else url.searchParams.delete('country');
+        const next = `${url.pathname}${url.search}${url.hash}`;
+        const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+        if (next !== current) history.pushState(null, '', next);
+      }
+
+      document.dispatchEvent(new CustomEvent('news-country-change'));
+    }
+
+    figure.addEventListener('click', (event) => {
+      if (!(event instanceof MouseEvent)) return;
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const link = target.closest('a[data-country]');
+      if (!link || !figure.contains(link)) return;
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) {
+        return;
+      }
+      event.preventDefault();
+      const code = link.getAttribute('data-country');
+      if (!code || !isCountryCode(code)) return;
+      sync(currentCountry() === code ? null : code, true);
+    });
+
+    resetButton?.addEventListener('click', () => sync(null, true));
+    window.addEventListener('popstate', () => sync(currentCountry(), false));
+    sync(currentCountry(), false);
+  }
+</script>
+
+<style>
+  .news-origin-map {
+    min-width: 0;
+    margin: 0 0 var(--space-8);
+    padding: var(--space-4);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+  }
+
+  .map-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2 / 1;
+    background: var(--color-primary-50);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .map-frame svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .land {
+    fill: var(--color-primary-200);
+    stroke: var(--color-primary-400);
+    stroke-width: 1;
+    stroke-linejoin: round;
+  }
+
+  .dots {
+    position: absolute;
+    inset: 0;
+  }
+
+  .dot {
+    position: absolute;
+    width: 1.75rem;
+    height: 1.75rem;
+    display: grid;
+    place-items: center;
+    transform: translate(-50%, -50%);
+    border-radius: var(--radius-full);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .dot:focus-visible {
+    outline: 2px solid var(--color-primary-fill);
+    outline-offset: 2px;
+  }
+
+  .mark {
+    border-radius: var(--radius-full);
+    background: var(--color-accent-500);
+    box-shadow: 0 0 0 2px var(--color-card);
+  }
+
+  .dot.is-selected .mark {
+    background: var(--color-primary-fill);
+    box-shadow: 0 0 0 2px var(--color-accent-500);
+  }
+
+  .pin-label {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% - 0.15rem);
+    transform: translateX(-78%);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+    pointer-events: none;
+    text-shadow: 0 0 4px var(--color-primary-50);
+  }
+
+  .tip {
+    display: none;
+    position: absolute;
+    z-index: 2;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-md);
+    background: var(--color-code-surface);
+    color: var(--color-code-text);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.3;
+    white-space: nowrap;
+    pointer-events: none;
+    box-shadow: var(--shadow-md);
+  }
+
+  .dot:hover .tip,
+  .dot:focus-visible .tip {
+    display: block;
+  }
+
+  .tip-above .tip {
+    bottom: calc(100% + 0.2rem);
+  }
+
+  .tip-below .tip {
+    top: calc(100% + 0.2rem);
+  }
+
+  .align-center .tip {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .align-start .tip {
+    left: 0;
+  }
+
+  .align-end .tip {
+    right: 0;
+  }
+
+  figcaption {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+  }
+
+  .news-origin-counts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: var(--space-3) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .news-origin-counts a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    line-height: 1.4;
+    text-decoration: none;
+  }
+
+  .news-origin-counts a:hover,
+  .news-origin-counts a:focus-visible {
+    border-color: var(--color-primary-300);
+    text-decoration: none;
+  }
+
+  .news-origin-counts a.is-selected {
+    background: var(--color-primary-50);
+    border-color: var(--color-primary-300);
+    color: var(--color-brand-ink);
+  }
+
+  .count {
+    color: var(--color-text-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  #news-country-reset {
+    margin-top: var(--space-3);
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    background: var(--color-card);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  #news-country-reset:hover,
+  #news-country-reset:focus-visible {
+    border-color: var(--color-primary-300);
+    color: var(--color-brand-ink);
+  }
+</style>

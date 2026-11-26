@@ -13,6 +13,7 @@ interface Props {
   external?: boolean;
   headingLevel?: 2 | 3;
   origin?: 'external' | 'digest' | 'analysis';
+  countries?: string[];
 }
 
 const {
@@ -27,6 +28,7 @@ const {
   external,
   headingLevel = 3,
   origin,
+  countries,
 } = Astro.props;
 const Heading = headingLevel === 2 ? 'h2' : 'h3';
 
@@ -105,6 +107,7 @@ const formatDate = (d: Date) => {
   data-external={isExternal ? 'true' : 'false'}
   data-origin={origin || ''}
   data-source={source || ''}
+  data-country={countries && countries.length > 0 ? countries.join(' ') : undefined}
   target={isExternal ? '_blank' : undefined}
   rel={isExternal ? 'noopener noreferrer' : undefined}
 >

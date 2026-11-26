@@ -7,6 +7,8 @@ import NewsletterSignup from '@components/common/NewsletterSignup.astro';
 import { getCollection } from 'astro:content';
 import { NEWSLETTER_PITCH, NEWSLETTER_SOURCES } from '@lib/newsletter';
 import { newsOrigin } from '@lib/news-origin';
+import NewsOriginMap from '@components/news/NewsOriginMap.astro';
+import { countryCodes, mapDots, newsCountryCounts } from '@lib/news-country';
 
 // One list, newest first. The hero is the latest item of either origin.
 const allNews = await getCollection('news');
@@ -14,7 +16,15 @@ const sortedNews = allNews.sort((a, b) => b.data.date.valueOf() - a.data.date.va
 
 const featuredArticle = sortedNews[0];
 const featuredOrigin = featuredArticle ? newsOrigin(featuredArticle) : undefined;
+const featuredCountries = featuredArticle
+  ? countryCodes(featuredArticle.data.country).join(' ')
+  : '';
 const remainingNews = sortedNews.slice(1);
+const countryCounts = newsCountryCounts(
+  sortedNews.map((article) => ({ date: article.data.date, country: article.data.country })),
+  new Date()
+);
+const countryDots = mapDots(countryCounts);
 
 // Filter types
 const types = ['all', 'official', 'milestone', 'community', 'global', 'opinion'];
@@ -135,6 +145,7 @@ const getSourceName = (url: string, author?: string): string => {
           <a
             href={getFeaturedHref()}
             class="featured-card"
+            data-country={featuredCountries || undefined}
             target={featuredArticle.data.external ? '_blank' : undefined}
             rel={featuredArticle.data.external ? 'noopener noreferrer' : undefined}
           >
@@ -196,6 +207,8 @@ const getSourceName = (url: string, author?: string): string => {
 
     <section class="news-section">
       <div class="container">
+        <NewsOriginMap counts={countryCounts} dots={countryDots} />
+
         {remainingNews.length > 0 && (
           <div class="section-header">
             <h2 class="section-title">More news</h2>
@@ -227,6 +240,7 @@ const getSourceName = (url: string, author?: string): string => {
               source={article.data.source}
               external={article.data.external}
               origin={newsOrigin(article)}
+              countries={countryCodes(article.data.country)}
             />
           ))}
         </div>
@@ -320,6 +334,7 @@ const getSourceName = (url: string, author?: string): string => {
   // Reset filters button
   const resetBtn = document.getElementById('reset-filters');
   resetBtn?.addEventListener('click', () => {
+    document.getElementById('news-country-reset')?.click();
     // Click all "All" filter buttons
     const allTypeBtn = document.querySelector('[data-filter-type="all"]');
     const allRegionBtn = document.querySelector('[data-filter-region="all"]');

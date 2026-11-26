@@ -3,6 +3,7 @@ title: "Lean Technologies and Ziina Deliver the UAE's First Live Customer-Initia
 date: 2026-01-15
 type: milestone
 region: uae
+country: "AE"
 author: Fintech News Middle East
 source: https://fintechnews.media/2026/01/15/lean-technologies-and-ziina-deliver-the-uaes-first-live-customer-initiated-open-finance-payment/
 description: "Lean Technologies and Ziina have launched the UAE's first live customer-initiated Open Finance payment, marking the transition from technical readiness to real-world application under the CBUAE's Open Finance framework."

@@ -3,6 +3,7 @@ title: "Saudi Open Banking vs UAE Open Finance: Licences First, Hub First"
 date: 2026-11-12
 type: opinion
 region: mena
+country: ["AE", "SA"]
 author: OpenFinance-OS
 description: "Saudi open banking vs UAE Open Finance in 2026: SAMA licenses providers on a shared standard, while the UAE routes every call through one hub. What differs for builders."
 image: /news/saudi-vs-uae-open-finance/hero.svg

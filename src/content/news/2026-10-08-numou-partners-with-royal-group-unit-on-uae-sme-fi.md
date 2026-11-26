@@ -3,6 +3,7 @@ title: "Numou Partners With Royal Group Unit on UAE SME Financing"
 date: 2026-10-08
 type: milestone
 region: uae
+country: "AE"
 author: Fintech News Middle East
 source: https://fintechnews.ae/34014/lending/numou-comera-sme-financing-uae/
 description: "Numou and Comera Financial Holding have agreed to expand financing, business-account and digital-payment options available to UAE SMEs through Numou."

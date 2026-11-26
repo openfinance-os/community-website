@@ -3,6 +3,7 @@ title: "Bhutan’s DK Bank Receives ADGM In-Principle Approval for Abu Dhabi Exp
 date: 2026-10-08
 type: official
 region: uae
+country: ["AE", "BT"]
 author: Fintech News Middle East
 source: https://fintechnews.ae/34042/digital-banking/dk-bank-adgm-in-principle-approval-abu-dhabi/
 description: "DK Bank has received in-principle approval for a planned ADGM subsidiary. Operations remain conditional on meeting approval requirements and obtaining final Financial Services Permission."

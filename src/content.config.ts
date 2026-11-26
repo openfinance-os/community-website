@@ -1,5 +1,6 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { isCountryCode } from './lib/news-country';
 
 const newsTypes = ['official', 'milestone', 'community', 'global', 'opinion'] as const;
 const newsRegions = ['uae', 'mena', 'global'] as const;
@@ -57,6 +58,19 @@ const aiAccelerates = [
   'documentation',
 ] as const;
 
+const countryCode = z
+  .string()
+  .regex(/^[A-Z]{2}$/)
+  .refine(isCountryCode, 'Expected an ISO 3166-1 alpha-2 code or EU');
+
+const countryValue = z.union([
+  countryCode,
+  z
+    .array(countryCode)
+    .min(1)
+    .refine((codes) => new Set(codes).size === codes.length, 'Country codes must be unique'),
+]);
+
 const newsCollection = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/news' }),
   schema: z.object({
@@ -64,6 +78,8 @@ const newsCollection = defineCollection({
     date: z.coerce.date(),
     type: z.enum(newsTypes),
     region: z.enum(newsRegions),
+    /** ISO 3166-1 alpha-2, or EU. One code, or a list when the story names several countries. */
+    country: countryValue.optional(),
     author: z.string().default('Community'),
     source: z.string().url().optional(),
     /**

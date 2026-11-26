@@ -3,6 +3,7 @@ title: "Experian Unveils New Consumer Reporting Agency for Cashflow Underwriting
 date: 2026-10-06
 type: global
 region: global
+country: "US"
 author: Finovate
 source: https://finovate.com/experian-unveils-new-consumer-reporting-agency-for-cashflow-underwriting/
 description: "Experian has announced a US consumer reporting agency using consumer-permissioned bank-account information to support cash-flow underwriting under the Fair Credit Reporting Act."

@@ -3,6 +3,7 @@ title: "UAE Open Finance V2.2: Due by Year-End, Still Not Final"
 date: 2026-11-02
 type: opinion
 region: uae
+country: "AE"
 author: OpenFinance-OS
 description: "Tier-1 UAE banks and insurers must release V2.2 by 31 December 2026, but it's still a release candidate. No production API declares v2.2. What to do now."
 image: /news/v2-2-deadline/hero.svg

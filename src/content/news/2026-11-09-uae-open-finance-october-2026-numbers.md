@@ -3,6 +3,7 @@ title: "842,969 Calls: UAE Open Finance Doubled in October"
 date: 2026-11-09
 type: opinion
 region: uae
+country: "AE"
 author: OpenFinance-OS
 description: "UAE Open Finance API calls more than doubled in October 2026 to 842,969, and accepted payments reached AED 124.8m. What grew, who drove it and what to watch."
 image: /news/october-2026/hero.svg

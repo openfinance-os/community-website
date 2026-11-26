@@ -95,6 +95,8 @@ const { types, typeLabels, regions, regionLabels } = Astro.props;
 </div>
 
 <script>
+  import { cardMatchesCountry, readCountryParam } from '@lib/news-country';
+
   // PostHog tracking helper
   function trackFilterEvent(event: string, properties?: Record<string, unknown>): void {
     if (typeof window !== 'undefined' && (window as any).posthog) {
@@ -129,9 +131,11 @@ const { types, typeLabels, regions, regionLabels } = Astro.props;
       const matchesType = activeType === 'all' || cardType === activeType;
       const matchesRegion = activeRegion === 'all' || cardRegion === activeRegion;
       const matchesSearch = !query || cardTitle.includes(query) || cardDescription.includes(query);
+      const activeCountry = document.documentElement.dataset.newsCountry || null;
+      const matchesCountry = cardMatchesCountry(card.getAttribute('data-country'), activeCountry);
 
       const element = card as HTMLElement;
-      if (matchesType && matchesRegion && matchesSearch) {
+      if (matchesType && matchesRegion && matchesSearch && matchesCountry) {
         element.style.display = 'flex';
         element.style.opacity = '1';
         element.style.transform = 'translateY(0)';
@@ -268,6 +272,20 @@ const { types, typeLabels, regions, regionLabels } = Astro.props;
 
   setupButtonGroup(typeButtons, activateTypeTab);
   setupButtonGroup(regionButtons, activateRegionTab);
+
+  if (!document.documentElement.dataset.newsCountry) {
+    const fromUrl = readCountryParam(window.location.search);
+    if (fromUrl) document.documentElement.dataset.newsCountry = fromUrl;
+  }
+
+  document.addEventListener('news-country-change', () => filterCards());
+  window.addEventListener('popstate', () => {
+    const fromUrl = readCountryParam(window.location.search);
+    if (fromUrl) document.documentElement.dataset.newsCountry = fromUrl;
+    else delete document.documentElement.dataset.newsCountry;
+    filterCards();
+  });
+  filterCards();
 
   // Add transition styles to cards
   newsCards?.forEach((card) => {

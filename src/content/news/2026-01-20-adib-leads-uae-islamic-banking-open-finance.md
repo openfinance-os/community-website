@@ -3,6 +3,7 @@ title: "ADIB Leads UAE Islamic Banking Push Into Open Finance Era"
 date: 2026-01-20
 type: milestone
 region: uae
+country: "AE"
 author: Arabian Business
 source: https://www.arabianbusiness.com/industries/banking-finance/adib-leads-uae-islamic-banking-push-into-open-finance-era
 description: "Abu Dhabi Islamic Bank (ADIB) is positioning itself at the forefront of the UAE's open finance transformation, leveraging its partnership with Lean Technologies and its API developer portal to drive Islamic banking innovation."
