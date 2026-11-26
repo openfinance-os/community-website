@@ -82,4 +82,22 @@ test.describe('news country map', () => {
     const digest = page.locator('#news-grid .news-card[data-slug$="weekly-digest"]').first();
     await expect(digest).not.toHaveAttribute('data-country');
   });
+
+  test('public updates index shows the map and filters by country', async ({ page }) => {
+    await page.goto('/updates/');
+    await expect(page.getByText('Where the news came from, last 90 days')).toBeVisible();
+    const uae = page.locator('.news-origin-map .dot[data-country="AE"]');
+    await uae.evaluate((element) => element.scrollIntoView({ block: 'center', inline: 'center' }));
+    await uae.click();
+    await expect(page).toHaveURL(/[?&]country=AE$/);
+    const visible = await page
+      .locator('#news-grid > [data-news-type]')
+      .evaluateAll((elements) =>
+        elements
+          .filter((element) => (element as HTMLElement).style.display !== 'none')
+          .map((element) => element.querySelector('.news-card')?.getAttribute('data-country') || '')
+      );
+    expect(visible.length).toBeGreaterThan(0);
+    expect(visible.every((value) => value.split(/\s+/).includes('AE'))).toBe(true);
+  });
 });

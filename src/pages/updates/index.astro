@@ -5,10 +5,17 @@ import NewsletterSignup from '@components/common/NewsletterSignup.astro';
 import { getCollection } from 'astro:content';
 import { NEWSLETTER_PITCH, NEWSLETTER_SOURCES } from '@lib/newsletter';
 import { newsOrigin } from '@lib/news-origin';
+import NewsOriginMap from '@components/news/NewsOriginMap.astro';
+import { countryCodes, mapDots, newsCountryCounts } from '@lib/news-country';
 
 // One list, newest first. Origin stays on each card; do not split own posts out.
 const allNews = await getCollection('news');
 const sortedNews = allNews.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const countryCounts = newsCountryCounts(
+  sortedNews.map((article) => ({ date: article.data.date, country: article.data.country })),
+  new Date()
+);
+const countryDots = mapDots(countryCounts);
 
 // Filter types for news
 const newsTypes = ['all', 'official', 'milestone', 'community', 'global', 'opinion'];
@@ -47,6 +54,8 @@ const newsRegionLabels: Record<string, string> = {
     </header>
 
     <div class="container">
+      <NewsOriginMap counts={countryCounts} dots={countryDots} />
+
       <div class="filter-section">
         <div class="filter-row">
           <div class="news-filter" role="group" aria-label="Filter news by type">
@@ -84,6 +93,7 @@ const newsRegionLabels: Record<string, string> = {
               source={article.data.source}
               external={article.data.external}
               origin={newsOrigin(article)}
+              countries={countryCodes(article.data.country)}
             />
           </div>
         ))}
@@ -427,6 +437,8 @@ const newsRegionLabels: Record<string, string> = {
 </style>
 
 <script>
+  import { cardMatchesCountry, readCountryParam } from '@lib/news-country';
+
   document.addEventListener('DOMContentLoaded', () => {
     // News filtering (combined type + region)
     const newsCards = document.querySelectorAll('#news-grid > [data-news-type]');
@@ -434,12 +446,16 @@ const newsRegionLabels: Record<string, string> = {
     let activeRegion = 'all';
 
     function filterNewsCards() {
+      const activeCountry = document.documentElement.dataset.newsCountry || null;
       newsCards.forEach((card) => {
         const cardType = card.getAttribute('data-news-type');
         const cardRegion = card.getAttribute('data-news-region');
         const typeMatch = activeType === 'all' || cardType === activeType;
         const regionMatch = activeRegion === 'all' || cardRegion === activeRegion;
-        (card as HTMLElement).style.display = typeMatch && regionMatch ? '' : 'none';
+        const countries = card.querySelector('.news-card')?.getAttribute('data-country') ?? null;
+        const countryMatch = cardMatchesCountry(countries, activeCountry);
+        (card as HTMLElement).style.display =
+          typeMatch && regionMatch && countryMatch ? '' : 'none';
       });
     }
 
@@ -466,5 +482,12 @@ const newsRegionLabels: Record<string, string> = {
         filterNewsCards();
       });
     });
+
+    if (!document.documentElement.dataset.newsCountry) {
+      const fromUrl = readCountryParam(window.location.search);
+      if (fromUrl) document.documentElement.dataset.newsCountry = fromUrl;
+    }
+    document.addEventListener('news-country-change', () => filterNewsCards());
+    filterNewsCards();
   });
 </script>
