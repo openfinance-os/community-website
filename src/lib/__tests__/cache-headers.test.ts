@@ -87,6 +87,7 @@ describe('Cloudflare Pages cache headers', () => {
       '/rss.xml',
       '/robots.txt',
       '/llms.txt',
+      '/search-index.json',
       '/_astro/PageLayout.abc123.css',
       '/fonts/dm-sans-regular.ttf',
       '/og-image.png',
