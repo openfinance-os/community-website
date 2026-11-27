@@ -1,10 +1,12 @@
 ---
 import DirectorySnapshot from './DirectorySnapshot.astro';
 import HeroFilm from './HeroFilm.astro';
+import type { HeroDirectoryStats } from '@lib/hero-stats';
 interface DirectoryObservation {
   registered: number;
   apiFamilies: string[];
   observedAt: string;
+  stats: HeroDirectoryStats;
 }
 interface Props {
   production: DirectoryObservation;

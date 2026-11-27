@@ -1,8 +1,11 @@
 ---
+import { signed, sparklinePoints, type HeroDirectoryStats } from '@lib/hero-stats';
+import { registryDefinitions } from '@lib/registry-definitions';
 interface DirectoryObservation {
   registered: number;
   apiFamilies: string[];
   observedAt: string;
+  stats: HeroDirectoryStats;
 }
 interface Props {
   production: DirectoryObservation;
@@ -13,6 +16,8 @@ const environments = [
   { id: 'production', label: 'Production', data: production },
   ...(sandbox ? [{ id: 'sandbox', label: 'Sandbox', data: sandbox }] : []),
 ];
+const monthYear = (value: string) =>
+  new Date(value).toLocaleDateString('en-GB', { month: 'short', year: 'numeric', timeZone: 'UTC' });
 const date = (value: string) =>
   new Date(value).toLocaleDateString('en-GB', {
     day: '2-digit',
@@ -91,20 +96,61 @@ const date = (value: string) =>
             </>
           </div>
         </div>
+        <dl class="stat-row">
+          <div class="stat-cell growth">
+            <dt>Growth</dt>
+            <dd>
+              <strong>{signed(data.stats.sinceFirst)}</strong>
+              <span>
+                since first observation ({data.stats.firstCount}, {monthYear(data.stats.firstDate)})
+              </span>
+              <svg
+                class="sparkline"
+                viewBox="0 0 96 22"
+                preserveAspectRatio="none"
+                role="img"
+                aria-label={`${label} registrations from ${data.stats.firstCount} to ${data.registered}`}
+              >
+                <polyline points={sparklinePoints(data.stats.series, 96, 22)} />
+              </svg>
+            </dd>
+          </div>
+          {data.stats.recentChange !== null && (
+            <div class="stat-cell">
+              <dt>Last {data.stats.windowDays} days</dt>
+              <dd>
+                <strong>{signed(data.stats.recentChange)}</strong>
+                <span>new registrations, net</span>
+              </dd>
+            </div>
+          )}
+          <div class="stat-cell" title={registryDefinitions.hasAuthServer}>
+            <dt>With issuer</dt>
+            <dd>
+              <strong>
+                {data.stats.withIssuer}
+                <small>/ {data.registered}</small>
+              </strong>
+              <span>registrations list an authorization server</span>
+            </dd>
+          </div>
+        </dl>
         <div class="family-section">
-          <>
-            <div class="family-heading">
-              <>
-                <strong>Published API families</strong>
-                <span>{data.apiFamilies.length} families</span>
-              </>
-            </div>
-            <div class="families">
-              {data.apiFamilies.map((family) => (
-                <span>{family}</span>
-              ))}
-            </div>
-          </>
+          <div class="family-heading">
+            <strong>Published API families</strong>
+            <span>registrations per family</span>
+          </div>
+          <ul class="families">
+            {data.stats.familyCoverage.map(({ family, count }) => (
+              <li>
+                <span class="family-name">{family}</span>
+                <b>
+                  {count}
+                  <span class="sr-only"> registrations</span>
+                </b>
+              </li>
+            ))}
+          </ul>
         </div>
         <p class="panel-foot">
           Directory registration does not establish operational status.
@@ -226,7 +272,7 @@ const date = (value: string) =>
   }
   .directory-art {
     background: #0c3d3e;
-    height: 246px;
+    height: 236px;
     position: relative;
     overflow: hidden;
     color: #edf5ef;
@@ -323,8 +369,68 @@ const date = (value: string) =>
     font-size: 0.625rem;
     color: #c6d9cf;
   }
+  .stat-row {
+    display: grid;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-auto-flow: column;
+    margin: 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .stat-cell {
+    padding: 15px 23px 14px;
+    min-width: 0;
+  }
+  .stat-cell + .stat-cell {
+    border-left: 1px solid var(--color-border);
+  }
+  .stat-cell dt {
+    white-space: nowrap;
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-secondary);
+    margin-bottom: 6px;
+  }
+  .stat-cell dd {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .stat-cell strong {
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--color-text);
+  }
+  .stat-cell strong small {
+    font-size: 0.75rem;
+    letter-spacing: 0;
+    color: var(--color-text-secondary);
+    margin-left: 2px;
+  }
+  .stat-cell span {
+    font-size: 0.6875rem;
+    line-height: 1.4;
+    color: var(--color-text-secondary);
+  }
+  .sparkline {
+    width: 100%;
+    max-width: 96px;
+    height: 22px;
+    margin-top: 6px;
+    overflow: visible;
+  }
+  .sparkline polyline {
+    fill: none;
+    stroke: var(--color-brand-ink);
+    stroke-width: 1.5;
+    vector-effect: non-scaling-stroke;
+    stroke-linejoin: round;
+  }
   .family-section {
-    padding: 19px 23px 20px;
+    padding: 17px 23px 18px;
   }
   .family-heading {
     display: flex;
@@ -342,13 +448,27 @@ const date = (value: string) =>
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
-  .families span {
+  .families li {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     border: 1px solid var(--color-border);
-    padding: 5px 8px;
+    padding: 5px 6px 5px 8px;
     border-radius: 5px;
     font-size: 0.6875rem;
     color: var(--color-text-secondary);
+  }
+  .families b {
+    font-weight: 600;
+    color: var(--color-text);
+    background: var(--color-soft);
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-variant-numeric: tabular-nums;
   }
   .panel-foot {
     padding: 13px 23px;
@@ -379,7 +499,8 @@ const date = (value: string) =>
       padding: 15px;
     }
     .family-section,
-    .panel-foot {
+    .panel-foot,
+    .stat-cell {
       padding-inline: 15px;
     }
     .panel-label {
