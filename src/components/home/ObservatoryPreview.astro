@@ -559,7 +559,8 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
     align-items: center;
     gap: var(--space-2);
     padding: var(--space-2) var(--space-4);
-    background: var(--color-surface);
+    /* The card is dark teal in both themes, so the button stays light. */
+    background: #ffffff;
     color: #0a3d3d;
     font-size: 0.875rem;
     font-weight: 500;
@@ -571,7 +572,7 @@ const productionPercent = totalRegistered > 0 ? (liveInProduction / totalRegiste
   }
 
   .cta-button:hover {
-    background: var(--color-gray-100);
+    background: #e6efec;
     gap: var(--space-3);
     text-decoration: none;
   }

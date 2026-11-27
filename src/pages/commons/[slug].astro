@@ -478,6 +478,14 @@ const acceleratesLabels: Record<string, string> = {
   </article>
 </PageLayout>
 
+<script>
+  // Wide tables scroll sideways on small screens; make each one reachable by
+  // keyboard so its hidden columns can be scrolled into view (WCAG 2.1.1).
+  for (const table of document.querySelectorAll<HTMLTableElement>('.prose table')) {
+    table.tabIndex = 0;
+  }
+</script>
+
 <style>
   .contribution-page {
     padding: var(--space-8) var(--space-4) var(--space-16);

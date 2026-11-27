@@ -88,7 +88,7 @@ a{color:var(--ac);text-decoration:underline;text-underline-offset:.15em}a:hover{
 .rb{flex:1;min-width:120px;background:var(--panel2);border:1px solid var(--bd);border-radius:10px;padding:8px 11px}
 .rb .l{font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:.03em}
 .rb .v{font-size:14px;font-weight:600;margin-top:2px}
-.rb.live{border-left:3px solid var(--green)}.rb.moving{border-left:3px solid var(--amber)}.rb.upcoming{border-left:3px solid var(--ac);opacity:.92}
+.rb.live{border-left:3px solid var(--green)}.rb.moving{border-left:3px solid var(--amber)}.rb.upcoming{border-left:3px solid var(--ac)}
 .board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 @media(max-width:780px){.board{grid-template-columns:1fr}}
 .rel{background:var(--panel);border:1px solid var(--bd);border-radius:11px;padding:11px 12px;position:relative;overflow:hidden}
@@ -354,7 +354,7 @@ o+='<section id="standards"><div class="seg"><div class="n">1</div><h2>Standards
 if(D.ribbon){o+='<div class="ribbon" style="margin-bottom:12px">';D.ribbon.forEach(function(r){o+='<div class="rb '+esc(r.state)+'"><div class="l">'+esc(r.label)+'</div><div class="v">'+esc(r.val)+'</div></div>';});o+='</div>';}
 /* OpenAPI spec changes — the core "what changed" table */
 o+='<div class="card"><h3>OpenAPI spec changes'+inf('What changed in the machine-readable API definitions — new/renamed endpoints, fields and versions — and what integrators must change as a result.')+'</h3><div style="font-size:13px;margin:-2px 0 8px">'+esc(D.impact.headline)+'</div>';
-o+='<div class="hm"><table class="cards"><thead><tr><th>Surface</th><th>Version</th><th>What changed</th><th>Ecosystem impact</th><th></th></tr></thead><tbody>';
+o+='<div class="hm" tabindex="0"><table class="cards"><thead><tr><th>Surface</th><th>Version</th><th>What changed</th><th>Ecosystem impact</th><th>Source</th></tr></thead><tbody>';
 D.impact.rows.forEach(function(r){o+='<tr>'+td('Surface','<b>'+esc(r[0])+'</b>')+td('Version',esc(r[1]))+td('What changed',esc(r[2]))+td('Ecosystem impact',esc(r[3]))+td('',lk(r[4],'spec'),' class="src"')+'</tr>';});
 o+='</tbody></table></div><div class="note"><b>Cross-layer:</b> '+esc(D.impact.crossLayer)+' &nbsp;'+lk(D.impact.compareUrl,'full diff')+'</div></div>';
 /* breaking changes — counts up front, full register one click away */
@@ -364,7 +364,7 @@ if(D.breaking){var BK=D.breaking;
  function bkCounts(rows){var c={},order=[];(rows||[]).forEach(function(r){if(!(r[4] in c)){c[r[4]]=0;order.push(r[4]);}c[r[4]]++;});return order.map(function(k2){return bkPill(k2)+' <b>'+c[k2]+'</b>';}).join(' &nbsp; ');}
  function bkRows(rows){var s='';(rows||[]).forEach(function(r){s+='<tr>'+td('Spec / endpoints','<b>'+esc(r[0])+'</b>')+td('Version',esc(r[1]))+td('What breaks',esc(r[2]))+td('Required action',esc(r[3]))+td('Status',bkPill(r[4]))+td('',lk(r[5],'register'),' class="src"')+'</tr>';});return s;}
  function bkGroup(cls,title,rows,hdr){if(!rows||!rows.length)return;o+='<div class="bkgrouphd '+cls+'">'+title+' · '+rows.length+'</div><div class="bkcounts">'+bkCounts(rows)+'</div>';
-  o+='<details class="more"><summary>Show all '+rows.length+'</summary><div class="hm"><table class="cards"><thead><tr>'+hdr.map(function(h2){return '<th>'+h2+'</th>';}).join('')+'<th></th></tr></thead><tbody>'+bkRows(rows)+'</tbody></table></div></details>';}
+  o+='<details class="more"><summary>Show all '+rows.length+'</summary><div class="hm" tabindex="0"><table class="cards"><thead><tr>'+hdr.map(function(h2){return '<th>'+h2+'</th>';}).join('')+'<th>Source</th></tr></thead><tbody>'+bkRows(rows)+'</tbody></table></div></details>';}
  var bkLive=((BK.tpp||[]).concat(BK.lfi||[])).filter(function(r){return r[4]==='live'||r[4]==='behaviour';}).length;
  o+='<div class="card bkcard" style="margin-top:12px"><h3>⚠ Breaking changes — who must act'+inf('Accepted breaking changes parsed from the api-specs supporting/breaking-changes registers (each oasdiff-signed-off by Nebras), plus API Hub release-note behaviour changes. Split by which side of the integration must change: TPP-facing = the contract third parties build to (standards specs); LFI / API Hub = Ozone Connect + the Hub control plane (api-hub specs). Status: Enforced now = merged to main under the current errata; Live behaviour = a deployed API Hub release-note change; Doc-align = the spec now matches live behaviour; Pending = not yet on main.')+' — <span class="bkn">'+bkLive+' enforced/live</span></h3>';
  bkGroup('tpp','TPP-facing — the contract third parties build to',BK.tpp,['Spec / endpoints','Version','What breaks','Required action','Status']);
@@ -435,7 +435,7 @@ o+='<div class="note"><b>'+esc(D.tiers.t1)+'</b><br>'+esc(D.tiers.t2)+'<br>'+esc
 /* ===== ADOPTION HEATMAP ===== */
 o+='<section id="adoption"><div class="seg"><div class="n">3</div><h2>Adoption Heatmap'+inf('Successful public-log calls by LFI and capability over the last two full months. The logs omit environment labels. The second grid matches those observations to Active capabilities in the production directory; matching does not identify the environment of the calls.')+'</h2><div class="d">Successful public-log traffic and production-directory registrations, shown separately</div></div>';
 var LGD='<div class="lgd"><span><span class="sw" style="background:var(--green)"></span>Successful traffic — 2xx, last 2 full months</span><span><span class="sw" style="background:#1f6feb"></span>Exposed, no traffic — production directory</span><span><span class="sw" style="background:var(--amber)"></span>Seen earlier, quiet now — public-log history</span><span><span class="sw" style="background:var(--grey)"></span>No evidence</span><span><span class="sw" style="background:repeating-linear-gradient(45deg,#21262d,#21262d 3px,#161b22 3px,#161b22 6px)"></span>Not observed / not exposed</span></div>';
-o+='<div class="card"><div class="hm"><table><thead><tr><th>LFI</th>';
+o+='<div class="card"><div class="hm" tabindex="0"><table><thead><tr><th>LFI</th>';
 D.tierMatrix.cols.forEach(function(c){o+='<th class="col">'+esc(c)+'</th>';});o+='</tr></thead><tbody>';
 function rowsBlock(title,rows){o+='<tr class="wvhdr"><td colspan="'+(D.tierMatrix.cols.length+1)+'">'+title+'</td></tr>';rows.forEach(function(r){o+='<tr><td style="white-space:nowrap"><b>'+esc(r[0])+'</b></td>';r[2].forEach(function(v){var cls=v===2?'cv2':(v===1?'cv1':'cv0');o+='<td class="c"><span class="cellv '+cls+'"></span></td>';});o+='</tr>';});}
 function rowsBlock2(rows){rows.forEach(function(r){o+='<tr><td style="white-space:nowrap"><b>'+esc(r[0])+'</b> <span style="color:var(--mut);font-size:10px">'+esc(r[1]||'')+'</span></td>';r[2].forEach(function(v){var cls=v===2?'cv2':(v===1?'cv1':'cv0');o+='<td class="c"><span class="cellv '+cls+'"></span></td>';});o+='</tr>';});}
@@ -458,7 +458,7 @@ if(D.tierMatrix.prodGrid){var PG=D.tierMatrix.prodGrid;
  function prodRow(name,tag,cells){var o2='<tr><td style="white-space:nowrap"><b>'+esc(name)+'</b>'+(tag?' <span style="color:var(--mut);font-size:10px">'+esc(tag)+'</span>':'')+'</td>';cells.forEach(function(s){o2+='<td class="c"><span class="cellv '+prodCls(s)+'"></span></td>';});return o2+'</tr>';}
  o+='<div class="card" style="margin-top:12px"><h3>Production registration — matched traffic vs exposure'+inf('Green matches an Active production-directory capability to successful calls in the public logs. Blue has registration without observed successful calls in the window. Logs omit environment labels, so the match does not prove production traffic. Payments use initiation rather than status polling.')+'</h3>';
  o+='<div class="prodhd"><span class="prodbig">'+PG.counts.t1+' / '+(D.tierMatrix.t1count||PG.counts.t1)+'</span> Tier-1 banks live in the production directory · '+PG.counts.prodOrgs+' production participants total ('+PG.counts.banks+' banks) · <b style="color:var(--positive)">'+PG.counts.green+'</b> live + <b style="color:var(--info)">'+PG.counts.blue+'</b> exposed-only capabilities</div>';
- o+='<div class="hm"><table><thead><tr><th>LFI</th>';
+ o+='<div class="hm" tabindex="0"><table><thead><tr><th>LFI</th>';
  PG.cols.forEach(function(c){o+='<th class="col">'+esc(c)+'</th>';});o+='</tr></thead><tbody>';
  o+='<tr class="wvhdr"><td colspan="'+(PG.cols.length+1)+'">Tier 1 — Banks (production directory)</td></tr>';
  PG.t1.forEach(function(r){o+=prodRow(r[0],'',r[1]);});
