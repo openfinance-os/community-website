@@ -11,22 +11,27 @@ import WatchBriefing from '@components/home/WatchBriefing.astro';
   description="The latest saved UAE Open Finance Watch summary, with its observation date, operational cutoff and links to the full evidence."
 >
   <ObservatoryNav current="briefing" />
-  <header class="briefing-header">
-    <ObservatoryBand
-      art="field"
-      eyebrow="Latest saved Watch run"
-      title="Ecosystem briefing"
-      lede="Standards, operations and adoption in one dated view. The full Watch provides the underlying sources and reporting windows."
-      focus="60% 70%"
-    />
-  </header>
-  <WatchBriefing />
-  <EcosystemPulse heading="The figures behind this week's briefing" />
+  <div class="briefing-page">
+    <header class="briefing-header">
+      <ObservatoryBand
+        art="field"
+        eyebrow="Latest saved Watch run"
+        title="Ecosystem briefing"
+        lede="Standards, operations and adoption in one dated view. The full Watch provides the underlying sources and reporting windows."
+        focus="60% 70%"
+      />
+    </header>
+    <WatchBriefing />
+    <EcosystemPulse heading="The figures behind this week's briefing" />
+  </div>
 </PageLayout>
 <style>
   .briefing-header {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px 16px;
+    padding: 0 16px var(--space-6);
+  }
+  .briefing-page :global(.briefing-inner) {
+    max-width: 1168px;
   }
 </style>

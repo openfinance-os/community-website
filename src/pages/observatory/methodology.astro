@@ -12,10 +12,7 @@ import { roleLabels, taxonomySource } from '@lib/taxonomy';
   <ObservatoryNav current="methodology" />
   <div class="methodology-page">
     <div class="container">
-      <header class="page-intro page-header">
-        <a href="/observatory" class="back-link">
-          ← Observatory
-        </a>
+      <header class="page-header">
         <ObservatoryBand
           art="archive"
           eyebrow="Definitions and limitations"
@@ -402,19 +399,18 @@ import { roleLabels, taxonomySource } from '@lib/taxonomy';
 
 <style>
   .methodology-page {
-    padding: var(--space-8) var(--space-4) var(--space-16);
+    padding: 0 var(--space-4) var(--space-16);
   }
 
   .container {
-    max-width: 700px;
+    max-width: 1168px;
     margin: 0 auto;
+    padding: 0;
   }
 
-  .back-link {
-    display: inline-block;
-    font-size: 0.875rem;
-    color: var(--color-brand-ink);
-    margin-bottom: var(--space-4);
+  /* The header spans the page column; prose keeps a readable measure. */
+  .container > :not(.page-header) {
+    max-width: 800px;
   }
 
   .page-header {

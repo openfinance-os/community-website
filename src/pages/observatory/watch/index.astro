@@ -75,8 +75,14 @@ const readouts = [
   </div>
 </PageLayout>
 <style>
-  .watch-shell {
-    padding-top: var(--space-6);
+  .watch-shell :global(.watch-page .wrap) {
+    box-sizing: border-box;
+    max-width: 1200px;
+    padding-inline: var(--space-4);
+  }
+  .watch-shell :global(.watch-page .nav) {
+    margin-inline: calc(-1 * var(--space-4));
+    padding-inline: var(--space-4);
   }
   .watch-band {
     max-width: 1200px;
@@ -140,9 +146,9 @@ const readouts = [
     }
   }
   :global(.watch-fallback) {
-    max-width: 1180px;
+    max-width: 1200px;
     margin: auto;
-    padding: var(--space-6);
+    padding: var(--space-6) var(--space-4);
   }
   :global(.watch-fallback article) {
     margin-top: var(--space-6);
