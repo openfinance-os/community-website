@@ -1,0 +1,382 @@
+---
+import { samplePersonas } from '@lib/sandbox-samples';
+---
+
+<div class="sbx" data-sandbox-explorer>
+  <div class="sbx-personas" role="tablist" aria-label="Synthetic persona">
+    {samplePersonas.map((persona, index) => (
+      <button
+        type="button"
+        role="tab"
+        id={`sbx-tab-${persona.id}`}
+        aria-controls={`sbx-panel-${persona.id}`}
+        aria-selected={index === 0 ? 'true' : 'false'}
+        tabindex={index === 0 ? 0 : -1}
+      >
+        <strong>{persona.shortName}</strong>
+        <span>
+          {persona.segment} · {persona.domain}
+        </span>
+      </button>
+    ))}
+  </div>
+
+  {samplePersonas.map((persona, index) => (
+    <div
+      class="sbx-panel"
+      role="tabpanel"
+      id={`sbx-panel-${persona.id}`}
+      aria-labelledby={`sbx-tab-${persona.id}`}
+      hidden={index !== 0}
+    >
+      <div class="sbx-summary">
+        <div>
+          <p class="sbx-role">{persona.role}</p>
+          <p class="sbx-blurb">{persona.blurb}</p>
+        </div>
+        <dl class="sbx-scenario">
+          <div>
+            <dt>Profile</dt>
+            <dd>{persona.profile}</dd>
+          </div>
+          <div>
+            <dt>Seed</dt>
+            <dd>{persona.seed}</dd>
+          </div>
+          <div>
+            <dt>Data</dt>
+            <dd>Synthetic</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="sbx-views" role="tablist" aria-label={`Payloads for ${persona.shortName}`}>
+        {persona.views.map((view, viewIndex) => (
+          <button
+            type="button"
+            role="tab"
+            id={`sbx-tab-${persona.id}-${view.key}`}
+            aria-controls={`sbx-view-${persona.id}-${view.key}`}
+            aria-selected={viewIndex === 0 ? 'true' : 'false'}
+            tabindex={viewIndex === 0 ? 0 : -1}
+          >
+            {view.label}
+          </button>
+        ))}
+      </div>
+
+      {persona.views.map((view, viewIndex) => (
+        <div
+          class="sbx-view"
+          role="tabpanel"
+          id={`sbx-view-${persona.id}-${view.key}`}
+          aria-labelledby={`sbx-tab-${persona.id}-${view.key}`}
+          hidden={viewIndex !== 0}
+        >
+          <p class="sbx-path">
+            <span>GET</span> {view.path}
+          </p>
+
+          {view.rows && view.columns && (
+            <div class="sbx-scroll" tabindex="0" role="region" aria-label={`${view.label} table`}>
+              <table>
+                <thead>
+                  <tr>
+                    {view.columns.map((column) => (
+                      <th scope="col">{column}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {view.rows.map((row) => (
+                    <tr class:list={[row.tone]}>
+                      {row.cells.map((cell) => (
+                        <td>{cell}</td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {view.facts && (
+            <dl class="sbx-facts">
+              {view.facts.map((fact) => (
+                <div>
+                  <dt>{fact.label}</dt>
+                  <dd>{fact.value}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
+
+          {view.excerpt && <p class="sbx-excerpt">{view.excerpt}</p>}
+
+          <details class="sbx-raw">
+            <summary>Show the JSON a service would receive</summary>
+            <pre tabindex="0"><code>{view.json}</code></pre>
+          </details>
+
+          <p class="sbx-watermark">{view.watermark}</p>
+        </div>
+      ))}
+
+      <a class="sbx-open" href={persona.explorerUrl} rel="noopener">
+        Open {persona.shortName} in the full sandbox <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  ))}
+</div>
+
+<script>
+  import { initTabs } from '../../scripts/tabs';
+  initTabs();
+</script>
+
+<style>
+  .sbx {
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--color-card);
+    overflow: hidden;
+  }
+  .sbx-personas {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-soft);
+  }
+  .sbx-personas button {
+    appearance: none;
+    border: 0;
+    border-right: 1px solid var(--color-border);
+    background: transparent;
+    color: var(--color-text-secondary);
+    padding: 16px 20px;
+    text-align: left;
+    font: inherit;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+  .sbx-personas button:last-child {
+    border-right: 0;
+  }
+  .sbx-personas strong {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+  .sbx-personas span {
+    font-size: 0.75rem;
+  }
+  .sbx-personas button[aria-selected='true'] {
+    background: var(--color-card);
+    box-shadow: inset 0 -2px 0 var(--color-brand-ink);
+  }
+  .sbx-personas button:focus-visible,
+  .sbx-views button:focus-visible {
+    outline: 2px solid var(--color-brand-ink);
+    outline-offset: -2px;
+  }
+  .sbx-panel {
+    padding: 24px;
+  }
+  .sbx-summary {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
+  .sbx-role {
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+  .sbx-blurb {
+    color: var(--color-text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    max-width: 560px;
+  }
+  .sbx-scenario {
+    display: flex;
+    gap: 20px;
+    margin: 0;
+    flex-shrink: 0;
+  }
+  .sbx-scenario dt,
+  .sbx-facts dt {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-secondary);
+  }
+  .sbx-scenario dd {
+    margin: 4px 0 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+  .sbx-views {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .sbx-views button {
+    appearance: none;
+    font: inherit;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--color-border);
+    background: transparent;
+    color: var(--color-text);
+    cursor: pointer;
+  }
+  .sbx-views button[aria-selected='true'] {
+    background: var(--color-primary-fill);
+    border-color: var(--color-primary-fill);
+    color: #fff;
+  }
+  .sbx-path {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 12px;
+    overflow-wrap: anywhere;
+  }
+  .sbx-path span {
+    color: var(--color-success-text);
+    font-weight: 600;
+  }
+  .sbx-scroll {
+    overflow-x: auto;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+  th,
+  td {
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--color-border);
+    white-space: nowrap;
+  }
+  th {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-secondary);
+    font-weight: 600;
+    background: var(--color-soft);
+  }
+  tbody tr:last-child td {
+    border-bottom: 0;
+  }
+  td:last-child,
+  th:last-child {
+    text-align: right;
+  }
+  tr.credit td:last-child {
+    color: var(--color-success-text);
+    font-weight: 600;
+  }
+  tr.credit td:nth-child(2),
+  tr.debit td:nth-child(2) {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+  }
+  .sbx-facts {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    margin: 0;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--color-border);
+  }
+  .sbx-facts > div {
+    background: var(--color-card);
+    padding: 14px;
+  }
+  .sbx-facts dd {
+    margin: 6px 0 0;
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+  .sbx-excerpt {
+    margin-top: 10px;
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+  }
+  .sbx-raw {
+    margin-top: 16px;
+  }
+  .sbx-raw summary {
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-brand-ink);
+  }
+  .sbx-raw pre {
+    margin-top: 12px;
+    max-height: 360px;
+    overflow: auto;
+    background: var(--color-code-surface);
+    color: var(--color-code-text);
+    border-radius: 8px;
+    padding: 16px;
+    font-size: 0.75rem;
+    line-height: 1.6;
+  }
+  .sbx-watermark {
+    margin-top: 16px;
+    padding: 10px 12px;
+    border: 1px dashed var(--color-border);
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    overflow-wrap: anywhere;
+  }
+  .sbx-open {
+    display: inline-flex;
+    gap: 10px;
+    margin-top: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-brand-ink);
+  }
+  @media (max-width: 760px) {
+    .sbx-panel {
+      padding: 16px;
+    }
+    .sbx-personas button {
+      padding: 12px;
+    }
+    .sbx-personas span {
+      display: none;
+    }
+    .sbx-summary {
+      flex-direction: column;
+      gap: 14px;
+    }
+    .sbx-facts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

@@ -5,6 +5,8 @@ import OpenCircuit from '@components/home/OpenCircuit.astro';
 import StartingPoints from '@components/home/StartingPoints.astro';
 import DeadlineCallout from '@components/learn/DeadlineCallout.astro';
 import WorkedExample from '@components/home/WorkedExample.astro';
+import SandboxTeaser from '@components/home/SandboxTeaser.astro';
+import BackOfficeTeaser from '@components/home/BackOfficeTeaser.astro';
 import ObservatoryPreview from '@components/home/ObservatoryPreview.astro';
 import EcosystemRecord from '@components/home/EcosystemRecord.astro';
 import LatestNews from '@components/home/LatestNews.astro';
@@ -117,8 +119,10 @@ const icons: Record<string, string> = {
   <StartingPoints />
   <LatestNews limit={4} />
   <DeadlineCallout placement="home" />
+  <SandboxTeaser />
   <OpenCircuit />
   <WorkedExample />
+  <BackOfficeTeaser />
 
   <ObservatoryPreview stats={ecosystemStats} />
 

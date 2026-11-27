@@ -1,0 +1,331 @@
+---
+import { samplePersonas } from '@lib/sandbox-samples';
+
+const helps = [
+  'Learn the payload shapes before formal onboarding',
+  'See how an idea copes when optional fields are missing',
+  'Reuse the same fixture in a demo or a test',
+];
+
+/** Three lines per persona: latest transactions, or the headline policy facts. */
+const cards = samplePersonas.map((persona) => {
+  const transactions = persona.views.find((view) => view.key === 'transactions');
+  const policy = persona.views.find((view) => view.key === 'policy');
+  const lines = transactions?.rows
+    ? transactions.rows.slice(0, 3).map((row) => ({
+        left: row.cells[1],
+        right: row.cells[3],
+        tone: row.tone,
+        mono: true,
+      }))
+    : (policy?.facts ?? [])
+        .filter((fact) => ['Cover type', 'Vehicle', 'Policy excess'].includes(fact.label))
+        .map((fact) => ({ left: fact.label, right: fact.value, tone: undefined, mono: false }));
+  return {
+    persona,
+    lines,
+    heading: transactions ? 'Latest transactions' : 'Policy',
+    watermark: persona.views[0].watermark,
+  };
+});
+---
+
+<section class="sandbox-teaser" aria-labelledby="sandbox-teaser-title">
+  <div class="teaser-inner">
+    <div class="teaser-copy">
+      <p class="eyebrow">Data Sandbox / Synthetic data</p>
+      <h2 id="sandbox-teaser-title">
+        See the data
+        <br />
+        before you build on it.
+      </h2>
+      <p>
+        Pick a fictional customer and read the accounts, transactions and insurance policies a
+        licensed service would receive with their permission. No credentials, nothing to install.
+      </p>
+      <ul>
+        {helps.map((help) => (
+          <li>{help}</li>
+        ))}
+      </ul>
+      <div class="teaser-actions">
+        <a href="/data-sandbox" class="teaser-primary">
+          Explore sample data <span aria-hidden="true">→</span>
+        </a>
+        <a href="https://data-sandbox.openfinance-os.org/" class="teaser-secondary" rel="noopener">
+          Open the full sandbox <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="teaser-card">
+      <div class="teaser-tabs" role="tablist" aria-label="Synthetic persona">
+        {cards.map(({ persona }, index) => (
+          <button
+            type="button"
+            role="tab"
+            id={`teaser-tab-${persona.id}`}
+            aria-controls={`teaser-panel-${persona.id}`}
+            aria-selected={index === 0 ? 'true' : 'false'}
+            tabindex={index === 0 ? 0 : -1}
+          >
+            {persona.shortName}
+          </button>
+        ))}
+      </div>
+      {cards.map(({ persona, lines, heading, watermark }, index) => (
+        <div
+          class="teaser-panel"
+          role="tabpanel"
+          id={`teaser-panel-${persona.id}`}
+          aria-labelledby={`teaser-tab-${persona.id}`}
+          hidden={index !== 0}
+        >
+          <div class="teaser-head">
+            <strong>{persona.role}</strong>
+            <span>
+              {persona.segment} · {persona.domain}
+            </span>
+          </div>
+          <div class="teaser-figure">
+            <span>{persona.highlight.label}</span>
+            <strong>{persona.highlight.value}</strong>
+            <small>{persona.highlight.note}</small>
+          </div>
+          <p class="teaser-list-title">{heading}</p>
+          <ul class="teaser-lines">
+            {lines.map((line) => (
+              <li>
+                <span class:list={{ mono: line.mono }}>{line.left}</span>
+                <span class:list={['amount', line.tone]}>{line.right}</span>
+              </li>
+            ))}
+          </ul>
+          <p class="teaser-watermark">{watermark}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initTabs } from '../../scripts/tabs';
+  initTabs();
+</script>
+
+<style>
+  .sandbox-teaser {
+    padding: 56px 24px;
+  }
+  .teaser-inner {
+    max-width: 1224px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 64px;
+    align-items: center;
+  }
+  .eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-secondary);
+    margin-bottom: 16px;
+  }
+  h2 {
+    font-size: clamp(2rem, 3vw, 2.75rem);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
+  .teaser-copy > p:not(.eyebrow) {
+    color: var(--color-text-secondary);
+    line-height: 1.75;
+    max-width: 480px;
+    margin-bottom: 18px;
+  }
+  .teaser-copy ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 26px;
+    display: grid;
+    gap: 8px;
+    font-size: 0.9375rem;
+  }
+  .teaser-copy li {
+    padding-left: 22px;
+    position: relative;
+  }
+  .teaser-copy li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 10px;
+    height: 2px;
+    background: var(--color-brand-ink);
+  }
+  .teaser-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+  .teaser-primary,
+  .teaser-secondary {
+    display: inline-flex;
+    gap: 14px;
+    align-items: center;
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  .teaser-primary {
+    background: var(--color-primary-fill);
+    color: #fff;
+  }
+  .teaser-primary:hover {
+    background: var(--color-primary-fill-strong);
+    color: #fff;
+    text-decoration: none;
+  }
+  .teaser-secondary {
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+  }
+  .teaser-secondary:hover {
+    background: var(--color-soft);
+    text-decoration: none;
+  }
+  .teaser-card {
+    background: var(--color-soft);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 20px;
+    min-width: 0;
+  }
+  .teaser-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .teaser-tabs button {
+    appearance: none;
+    font: inherit;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--color-border);
+    background: var(--color-card);
+    color: var(--color-text);
+    cursor: pointer;
+  }
+  .teaser-tabs button[aria-selected='true'] {
+    background: var(--color-primary-fill);
+    border-color: var(--color-primary-fill);
+    color: #fff;
+  }
+  .teaser-tabs button:focus-visible {
+    outline: 2px solid var(--color-brand-ink);
+    outline-offset: 2px;
+  }
+  .teaser-panel {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .teaser-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-size: 0.8125rem;
+    margin-bottom: 18px;
+  }
+  .teaser-head span {
+    font-size: 0.6875rem;
+    color: var(--color-text-secondary);
+  }
+  .teaser-figure {
+    display: grid;
+    gap: 4px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .teaser-figure span,
+  .teaser-list-title {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-secondary);
+  }
+  .teaser-figure strong {
+    font-size: 1.75rem;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+  }
+  .teaser-figure small {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+  }
+  .teaser-list-title {
+    margin: 16px 0 8px;
+  }
+  .teaser-lines {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.8125rem;
+  }
+  .teaser-lines li {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .teaser-lines li:last-child {
+    border-bottom: 0;
+  }
+  .teaser-lines .mono {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    overflow-wrap: anywhere;
+    min-width: 0;
+  }
+  .amount {
+    white-space: nowrap;
+    font-weight: 600;
+  }
+  .amount.credit {
+    color: var(--color-success-text);
+  }
+  .teaser-watermark {
+    margin-top: 14px;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    overflow-wrap: anywhere;
+  }
+  @media (max-width: 760px) {
+    .sandbox-teaser {
+      padding: 36px 20px;
+    }
+    .teaser-inner {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .teaser-card {
+      padding: 14px;
+    }
+    .teaser-panel {
+      padding: 16px;
+    }
+  }
+</style>
