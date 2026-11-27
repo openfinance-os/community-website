@@ -88,73 +88,60 @@ const date = (value: string) =>
       >
         <div class="directory-art">
           <div class="network-grid" aria-hidden="true" />
-          <span class="network-corner">Directory / {label}</span>
-          <div class="orbit" aria-hidden="true" />
+          <div class="orbit" aria-hidden="true">
+            <i class="orbit-node n1" />
+            <i class="orbit-node n2" />
+          </div>
           <div class="hero-stat">
-            <>
-              <strong>{data.registered}</strong>
-              <span>{id} directory registrations</span>
-            </>
+            <strong>{data.registered}</strong>
+            <span>{id} directory registrations</span>
+            <small>
+              Observed <time datetime={data.observedAt}>{date(data.observedAt)} UTC</time>
+            </small>
           </div>
-          <>
-            <i class="orbit-node n1" aria-hidden="true" />
-            <i class="orbit-node n2" aria-hidden="true" />
-            <i class="orbit-node n3" aria-hidden="true" />
-          </>
-          <div class="network-bottom">
-            <>
-              <span>
-                Observed <time datetime={data.observedAt}>{date(data.observedAt)} UTC</time>
-              </span>
-              <span>UAE Trust Framework</span>
-            </>
-          </div>
-        </div>
-        <dl class="stat-row">
-          <div class="stat-cell growth">
-            <dt>Growth</dt>
-            <dd>
-              <strong>{signed(data.stats.sinceFirst)}</strong>
-              <span>
-                since first observation ({data.stats.firstCount}, {monthYear(data.stats.firstDate)})
-              </span>
-              <svg
-                class="sparkline"
-                viewBox="0 0 96 22"
-                preserveAspectRatio="none"
-                role="img"
-                aria-label={`${label} registrations from ${data.stats.firstCount} to ${data.registered}`}
-              >
-                <polyline points={sparklinePoints(data.stats.series, 96, 22)} />
-              </svg>
-            </dd>
-          </div>
-          {data.stats.recentChange !== null && (
-            <div class="stat-cell">
-              <dt>Last {data.stats.windowDays} days</dt>
+          <dl class="stat-list">
+            <div class="stat-cell growth">
+              <dt>Growth</dt>
               <dd>
-                <strong>{signed(data.stats.recentChange)}</strong>
-                <span>new registrations, net</span>
+                <strong>{signed(data.stats.sinceFirst)}</strong>
+                <span>
+                  since {monthYear(data.stats.firstDate)} ({data.stats.firstCount})
+                </span>
+                <svg
+                  class="sparkline"
+                  viewBox="0 0 96 18"
+                  preserveAspectRatio="none"
+                  role="img"
+                  aria-label={`${label} registrations from ${data.stats.firstCount} to ${data.registered}`}
+                >
+                  <polyline points={sparklinePoints(data.stats.series, 96, 18)} />
+                </svg>
               </dd>
             </div>
-          )}
-          <div class="stat-cell" title={registryDefinitions.hasAuthServer}>
-            <dt>With issuer</dt>
-            <dd>
-              <strong>
-                {data.stats.withIssuer}
-                <small>/ {data.registered}</small>
-              </strong>
-              <span>registrations list an authorization server</span>
-            </dd>
-          </div>
-        </dl>
+            {data.stats.recentChange !== null && (
+              <div class="stat-cell">
+                <dt>Last {data.stats.windowDays} days</dt>
+                <dd>
+                  <strong>{signed(data.stats.recentChange)}</strong>
+                  <span>net new</span>
+                </dd>
+              </div>
+            )}
+            <div class="stat-cell" title={registryDefinitions.hasAuthServer}>
+              <dt>With issuer</dt>
+              <dd>
+                <strong>
+                  {data.stats.withIssuer}
+                  <small>/ {data.registered}</small>
+                </strong>
+                <span>list an authorization server</span>
+              </dd>
+            </div>
+          </dl>
+        </div>
         <div class="family-section">
-          <div class="family-heading">
-            <strong>Published API families</strong>
-            <span>registrations per family</span>
-          </div>
-          <ul class="families">
+          <strong class="family-heading">API families</strong>
+          <ul class="families" aria-label="Registrations per published API family">
             {data.stats.familyCoverage.map(({ family, count }) => (
               <li>
                 <span class="family-name">{family}</span>
@@ -167,11 +154,8 @@ const date = (value: string) =>
           </ul>
         </div>
         <p class="panel-foot">
-          Directory registration does not establish operational status.
-          <>
-            <br />
-            <a href="/observatory/coverage">Explore the source and evidence →</a>
-          </>
+          Directory registration does not establish operational status.{' '}
+          <a href="/observatory/coverage">Source and evidence →</a>
         </p>
       </div>
     ))}
@@ -188,7 +172,7 @@ const date = (value: string) =>
               <strong>{activity.calls.month.toLocaleString('en-GB')}</strong>
               <span>
                 <em>{pct(activity.calls.momPct)}</em> on the month ·{' '}
-                {compactAmount(activity.calls.twelveMonths)} over 12 months
+                {compactAmount(activity.calls.twelveMonths)} in 12 months
               </span>
             </dd>
           </div>
@@ -201,14 +185,14 @@ const date = (value: string) =>
               </strong>
               <span>
                 <em>{pct(activity.payments.momPct)}</em> on the month · {activity.payments.currency}{' '}
-                {compactAmount(activity.payments.twelveMonths)} over 12 months
+                {compactAmount(activity.payments.twelveMonths)} in 12 months
               </span>
             </dd>
           </div>
         </dl>
         <p class="activity-foot">
           Observed in public operational logs, not official statistics.{' '}
-          <a href="/observatory/watch/">See the Ecosystem Watch →</a>
+          <a href="/observatory/watch/">Ecosystem Watch →</a>
         </p>
       </section>
     )}
@@ -264,7 +248,7 @@ const date = (value: string) =>
     gap: 12px;
     color: var(--color-text-secondary);
     font-size: 0.6875rem;
-    margin-bottom: 13px;
+    margin-bottom: 10px;
   }
   .panel-label > :first-child {
     text-transform: uppercase;
@@ -278,7 +262,7 @@ const date = (value: string) =>
     box-shadow: 0 22px 65px rgb(24 61 42 / 0.04);
   }
   .panel-top {
-    padding: 19px 23px;
+    padding: 11px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -311,7 +295,7 @@ const date = (value: string) =>
     border: 0;
     background: transparent;
     color: var(--color-text-secondary);
-    padding: 8px 10px;
+    padding: 6px 10px;
     font-size: 0.6875rem;
     border-radius: 4px;
     cursor: pointer;
@@ -323,10 +307,12 @@ const date = (value: string) =>
   }
   .directory-art {
     background: #0c3d3e;
-    height: 236px;
     position: relative;
     overflow: hidden;
     color: #edf5ef;
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    align-items: center;
   }
   .network-grid {
     position: absolute;
@@ -335,48 +321,23 @@ const date = (value: string) =>
       linear-gradient(#bfd7cd09 1px, transparent 1px),
       linear-gradient(90deg, #bfd7cd09 1px, transparent 1px);
     background-size: 32px 32px;
-    mask-image: linear-gradient(90deg, transparent, #000 20%, #000 80%, transparent);
   }
   .orbit {
     position: absolute;
-    width: 215px;
-    height: 215px;
-    border: 1px solid #9abbac40;
+    width: 230px;
+    height: 230px;
+    border: 1px solid #9abbac33;
     border-radius: 50%;
-    top: 15px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 50%;
+    left: 22.5%;
+    transform: translate(-50%, -50%);
   }
-  .orbit::before,
-  .orbit::after {
+  .orbit::before {
     content: '';
     position: absolute;
-    border: 1px solid #bfd9cc55;
+    border: 1px solid #bfd9cc44;
     border-radius: 50%;
-    inset: 23px;
-  }
-  .orbit::after {
-    inset: 46px;
-    border-color: #bfd9cc77;
-  }
-  .hero-stat {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 3px;
-  }
-  .hero-stat strong {
-    font-size: 4.3125rem;
-    font-weight: 500;
-    line-height: 1.1;
-    letter-spacing: -0.06em;
-  }
-  .hero-stat span {
-    font-size: 0.6875rem;
-    color: #c6d9cf;
+    inset: 30px;
   }
   .orbit-node {
     position: absolute;
@@ -386,113 +347,164 @@ const date = (value: string) =>
     background: #cce4d8;
   }
   .n1 {
-    top: 15px;
-    left: 50%;
+    top: 29px;
+    left: 29px;
     background: #e8a85c;
     width: 9px;
     height: 9px;
   }
   .n2 {
-    top: 119px;
-    left: calc(50% - 110px);
+    bottom: 40px;
+    right: 22px;
   }
-  .n3 {
-    top: 182px;
-    left: calc(50% + 79px);
-  }
-  .network-corner {
-    position: absolute;
-    top: 17px;
-    left: 19px;
-    font-size: 0.625rem;
-    color: #c6d9cf;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-  .network-bottom {
-    position: absolute;
-    bottom: 15px;
-    left: 20px;
-    right: 20px;
+  .hero-stat {
+    position: relative;
     display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    font-size: 0.625rem;
-    color: #c6d9cf;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    gap: 2px;
+    padding: 20px 12px;
   }
-  .stat-row {
-    display: grid;
-    grid-auto-columns: minmax(0, 1fr);
-    grid-auto-flow: column;
+  .hero-stat strong {
+    font-size: 3.75rem;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.06em;
+  }
+  .hero-stat span {
+    font-size: 0.6875rem;
+    color: #c6d9cf;
+    max-width: 14ch;
+    line-height: 1.35;
+  }
+  .hero-stat small {
+    margin-top: 6px;
+    font-size: 0.5625rem;
+    color: #a9c3b7;
+    white-space: nowrap;
+  }
+  .stat-list {
+    position: relative;
     margin: 0;
-    border-bottom: 1px solid var(--color-border);
+    padding: 6px 20px 6px 0;
   }
   .stat-cell {
-    padding: 15px 23px 14px;
-    min-width: 0;
+    display: grid;
+    grid-template-columns: 84px minmax(0, 1fr);
+    align-items: baseline;
+    gap: 10px;
+    padding: 9px 0;
   }
   .stat-cell + .stat-cell {
-    border-left: 1px solid var(--color-border);
+    border-top: 1px solid #bfd9cc22;
   }
   .stat-cell dt {
-    white-space: nowrap;
-    font-size: 0.625rem;
+    font-size: 0.5625rem;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-text-secondary);
-    margin-bottom: 6px;
+    letter-spacing: 0.07em;
+    color: #a9c3b7;
+    white-space: nowrap;
   }
   .stat-cell dd {
     margin: 0;
     display: flex;
-    flex-direction: column;
-    gap: 2px;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 8px;
   }
   .stat-cell strong {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 500;
     line-height: 1.1;
     letter-spacing: -0.03em;
-    color: var(--color-text);
   }
   .stat-cell strong small {
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     letter-spacing: 0;
-    color: var(--color-text-secondary);
+    color: #c6d9cf;
     margin-left: 2px;
   }
   .stat-cell span {
     font-size: 0.6875rem;
-    line-height: 1.4;
-    color: var(--color-text-secondary);
+    line-height: 1.35;
+    color: #c6d9cf;
   }
   .sparkline {
-    width: 100%;
-    max-width: 96px;
-    height: 22px;
-    margin-top: 6px;
+    flex-basis: 100%;
+    max-width: 120px;
+    height: 16px;
+    margin-top: 4px;
     overflow: visible;
   }
   .sparkline polyline {
     fill: none;
-    stroke: var(--color-brand-ink);
+    stroke: #e8a85c;
     stroke-width: 1.5;
     vector-effect: non-scaling-stroke;
     stroke-linejoin: round;
   }
   .family-section {
-    padding: 17px 23px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 20px;
+  }
+  .family-heading {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: var(--color-text);
+    white-space: nowrap;
+  }
+  .families {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .families li {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid var(--color-border);
+    padding: 3px 4px 3px 7px;
+    border-radius: 5px;
+    font-size: 0.6875rem;
+    color: var(--color-text-secondary);
+  }
+  .families b {
+    font-weight: 600;
+    color: var(--color-text);
+    background: var(--color-soft);
+    border-radius: 3px;
+    padding: 0 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  .panel-foot {
+    padding: 0 20px 11px;
+    font-size: 0.6875rem;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+  }
+  .panel-foot a,
+  .activity-foot a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    white-space: nowrap;
   }
   .activity {
     border-top: 1px solid var(--color-border);
-    padding: 17px 23px 15px;
+    padding: 12px 20px 12px;
   }
   .activity-heading {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     gap: 12px;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
   }
   .activity-heading h3 {
     font-size: 0.75rem;
@@ -511,21 +523,21 @@ const date = (value: string) =>
     margin: 0;
   }
   .activity-row dt {
-    font-size: 0.625rem;
+    font-size: 0.5625rem;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.07em;
     color: var(--color-text-secondary);
-    margin-bottom: 4px;
+    margin-bottom: 2px;
     white-space: nowrap;
   }
   .activity-row dd {
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 2px;
   }
   .activity-row strong {
-    font-size: 1.75rem;
+    font-size: 1.625rem;
     font-weight: 500;
     line-height: 1.1;
     letter-spacing: -0.03em;
@@ -549,70 +561,15 @@ const date = (value: string) =>
     color: var(--color-brand-ink);
   }
   .activity-foot {
-    margin-top: 12px;
+    margin-top: 8px;
     font-size: 0.6875rem;
     color: var(--color-text-secondary);
-  }
-  .activity-foot a {
-    color: inherit;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-  .family-heading {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    font-size: 0.75rem;
-    color: var(--color-text-secondary);
-    margin-bottom: 11px;
-  }
-  .family-heading strong {
-    color: var(--color-text);
-    font-weight: 500;
-  }
-  .families {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-  .families li {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    border: 1px solid var(--color-border);
-    padding: 5px 6px 5px 8px;
-    border-radius: 5px;
-    font-size: 0.6875rem;
-    color: var(--color-text-secondary);
-  }
-  .families b {
-    font-weight: 600;
-    color: var(--color-text);
-    background: var(--color-soft);
-    border-radius: 3px;
-    padding: 1px 5px;
-    font-variant-numeric: tabular-nums;
-  }
-  .panel-foot {
-    padding: 13px 23px;
-    border-top: 1px solid var(--color-border);
-    font-size: 0.75rem;
-    line-height: 1.6;
-    color: var(--color-text-secondary);
-  }
-  .panel-foot a {
-    color: inherit;
-    text-decoration: underline;
-    text-underline-offset: 3px;
   }
   .snapshot-caption {
     display: flex;
     justify-content: space-between;
     gap: 16px;
-    margin-top: 12px;
+    margin-top: 8px;
     font-size: 0.6875rem;
     color: var(--color-text-secondary);
   }
@@ -621,17 +578,24 @@ const date = (value: string) =>
     white-space: nowrap;
   }
   @media (max-width: 900px) {
-    .panel-top {
-      padding: 15px;
-    }
+    .panel-top,
     .family-section,
-    .panel-foot,
-    .activity,
-    .stat-cell {
+    .activity {
       padding-inline: 15px;
+    }
+    .panel-foot {
+      padding-inline: 15px;
+    }
+    .stat-list {
+      padding-right: 15px;
     }
     .panel-label {
       font-size: 0.625rem;
+    }
+    .family-section {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 7px;
     }
   }
   @media (max-width: 400px) {
@@ -639,14 +603,15 @@ const date = (value: string) =>
       font-size: 0.75rem;
     }
     .directory-tabs button {
-      padding: 8px;
+      padding: 6px 8px;
       font-size: 0.625rem;
     }
-    .panel-top {
-      gap: 8px;
+    .stat-cell {
+      grid-template-columns: 1fr;
+      gap: 2px;
     }
-    .network-bottom {
-      font-size: 0.5625rem;
+    .hero-stat strong {
+      font-size: 3.25rem;
     }
   }
 </style>
