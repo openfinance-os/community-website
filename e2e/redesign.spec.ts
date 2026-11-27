@@ -102,8 +102,8 @@ for (const theme of ['light', 'dark'] as const) {
     const fontGate = new Promise<void>((resolve) => {
       releaseFonts = resolve;
     });
-    await page.route('**/fonts/dm-sans-*.ttf', async (route) => {
-      if (/(semibold|bold)\.ttf$/.test(route.request().url())) {
+    await page.route('**/fonts/dm-sans-*.woff2', async (route) => {
+      if (/(semibold|bold)\.woff2$/.test(route.request().url())) {
         heldFonts++;
         await fontGate;
       }
