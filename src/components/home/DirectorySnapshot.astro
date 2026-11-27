@@ -39,9 +39,18 @@ const date = (value: string) =>
     year: 'numeric',
     timeZone: 'UTC',
   });
+// One mark per registration; the last `added` marks (net growth since the first
+// saved observation) are highlighted.
+const marks = (total: number, added: number) =>
+  Array.from({ length: total }, (_, i) => {
+    const angle = (i / total) * Math.PI * 2 - Math.PI / 2;
+    const point = (r: number) =>
+      `${(62 + Math.cos(angle) * r).toFixed(2)} ${(62 + Math.sin(angle) * r).toFixed(2)}`;
+    return { d: `M${point(51)}L${point(59)}`, added: i >= total - Math.max(0, added) };
+  });
 ---
 
-<div class="directory-snapshot" data-directory-snapshot>
+<div class="directory-snapshot" data-directory-snapshot data-motif="dial">
   <div class="panel-label">
     <span>The ecosystem, at a glance</span>
     <span>UAE / Directory snapshot</span>
@@ -79,86 +88,106 @@ const date = (value: string) =>
         ))}
       </div>
     </div>
-    {environments.map(({ id, label, data }, index) => (
-      <div
-        id={`directory-panel-${id}`}
-        role="tabpanel"
-        aria-labelledby={`directory-tab-${id}`}
-        hidden={index !== 0}
-      >
-        <div class="directory-art">
-          <div class="network-grid" aria-hidden="true" />
-          <div class="orbit" aria-hidden="true">
-            <i class="orbit-node n1" />
-            <i class="orbit-node n2" />
-          </div>
-          <div class="hero-stat">
-            <strong>{data.registered}</strong>
-            <span>{id} directory registrations</span>
-            <small>
-              Observed <time datetime={data.observedAt}>{date(data.observedAt)} UTC</time>
-            </small>
-          </div>
-          <dl class="stat-list">
-            <div class="stat-cell growth">
-              <dt>Growth</dt>
-              <dd>
-                <strong>{signed(data.stats.sinceFirst)}</strong>
-                <span>
-                  since {monthYear(data.stats.firstDate)} ({data.stats.firstCount})
-                </span>
-                <svg
-                  class="sparkline"
-                  viewBox="0 0 96 18"
-                  preserveAspectRatio="none"
-                  role="img"
-                  aria-label={`${label} registrations from ${data.stats.firstCount} to ${data.registered}`}
-                >
-                  <polyline points={sparklinePoints(data.stats.series, 96, 18)} />
-                </svg>
-              </dd>
+    <div class="panels">
+      {environments.map(({ id, label, data }, index) => (
+        <div
+          id={`directory-panel-${id}`}
+          role="tabpanel"
+          aria-labelledby={`directory-tab-${id}`}
+          hidden={index !== 0}
+        >
+          <div class="directory-art">
+            <div class="network-grid" aria-hidden="true" />
+            <svg
+              class="radar"
+              viewBox="0 0 600 340"
+              preserveAspectRatio="xMinYMax slice"
+              aria-hidden="true"
+            >
+              {[70, 130, 190, 250, 310, 370, 430].map((r, i) => (
+                <circle cx="0" cy="340" r={r} style={`opacity:${(0.5 - i * 0.06).toFixed(2)}`} />
+              ))}
+              <circle class="node amber" cx="175.6" cy="267.3" r="4.5" />
+              <circle class="node" cx="249" cy="318.2" r="3.5" />
+            </svg>
+            <div class="hero-stat">
+              <svg class="dial" viewBox="0 0 124 124" aria-hidden="true">
+                {marks(data.registered, data.stats.sinceFirst).map((m) => (
+                  <path d={m.d} class={m.added ? 'added' : undefined} />
+                ))}
+              </svg>
+              <div class="dots" aria-hidden="true">
+                {marks(data.registered, data.stats.sinceFirst).map((m) => (
+                  <i class={m.added ? 'added' : undefined} />
+                ))}
+              </div>
+              <strong>{data.registered}</strong>
+              <span>{id} directory registrations</span>
+              <small>
+                Observed <time datetime={data.observedAt}>{date(data.observedAt)} UTC</time>
+              </small>
             </div>
-            {data.stats.recentChange !== null && (
-              <div class="stat-cell">
-                <dt>Last {data.stats.windowDays} days</dt>
+            <dl class="stat-list">
+              <div class="stat-cell growth">
+                <dt>Growth</dt>
                 <dd>
-                  <strong>{signed(data.stats.recentChange)}</strong>
-                  <span>net new</span>
+                  <strong>{signed(data.stats.sinceFirst)}</strong>
+                  <span>
+                    since {monthYear(data.stats.firstDate)} ({data.stats.firstCount})
+                  </span>
+                  <svg
+                    class="sparkline"
+                    viewBox="0 0 96 18"
+                    preserveAspectRatio="none"
+                    role="img"
+                    aria-label={`${label} registrations from ${data.stats.firstCount} to ${data.registered}`}
+                  >
+                    <polyline points={sparklinePoints(data.stats.series, 96, 18)} />
+                  </svg>
                 </dd>
               </div>
-            )}
-            <div class="stat-cell" title={registryDefinitions.hasAuthServer}>
-              <dt>With issuer</dt>
-              <dd>
-                <strong>
-                  {data.stats.withIssuer}
-                  <small>/ {data.registered}</small>
-                </strong>
-                <span>list an authorization server</span>
-              </dd>
-            </div>
-          </dl>
+              {data.stats.recentChange !== null && (
+                <div class="stat-cell">
+                  <dt>Last {data.stats.windowDays} days</dt>
+                  <dd>
+                    <strong>{signed(data.stats.recentChange)}</strong>
+                    <span>net new</span>
+                  </dd>
+                </div>
+              )}
+              <div class="stat-cell" title={registryDefinitions.hasAuthServer}>
+                <dt>With issuer</dt>
+                <dd>
+                  <strong>
+                    {data.stats.withIssuer}
+                    <small>/ {data.registered}</small>
+                  </strong>
+                  <span>list an authorization server</span>
+                </dd>
+              </div>
+            </dl>
+          </div>
+          <div class="family-section">
+            <strong class="family-heading">API families</strong>
+            <ul class="families" aria-label="Registrations per published API family">
+              {data.stats.familyCoverage.map(({ family, count }) => (
+                <li>
+                  <span class="family-name">{family}</span>
+                  <b>
+                    {count}
+                    <span class="sr-only"> registrations</span>
+                  </b>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <p class="panel-foot">
+            Directory registration does not establish operational status.{' '}
+            <a href="/observatory/coverage">Source and evidence →</a>
+          </p>
         </div>
-        <div class="family-section">
-          <strong class="family-heading">API families</strong>
-          <ul class="families" aria-label="Registrations per published API family">
-            {data.stats.familyCoverage.map(({ family, count }) => (
-              <li>
-                <span class="family-name">{family}</span>
-                <b>
-                  {count}
-                  <span class="sr-only"> registrations</span>
-                </b>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <p class="panel-foot">
-          Directory registration does not establish operational status.{' '}
-          <a href="/observatory/coverage">Source and evidence →</a>
-        </p>
-      </div>
-    ))}
+      ))}
+    </div>
     {activity && (
       <section class="activity" aria-labelledby="hero-activity-title">
         <div class="activity-heading">
@@ -208,6 +237,9 @@ const date = (value: string) =>
 <script>
   const snapshot = document.querySelector<HTMLElement>('[data-directory-snapshot]');
   if (snapshot) {
+    // Mock-up only: ?motif=dial|dots|radar previews the alternatives. Removed once one is chosen.
+    const motif = new URLSearchParams(location.search).get('motif');
+    if (motif && ['dial', 'dots', 'radar'].includes(motif)) snapshot.dataset.motif = motif;
     const tabs = Array.from(snapshot.querySelectorAll<HTMLButtonElement>('[data-environment]'));
     const panels = Array.from(snapshot.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
     const select = (tab: HTMLButtonElement) => {
@@ -287,9 +319,22 @@ const date = (value: string) =>
     background: var(--color-soft);
     border-radius: var(--radius-md);
   }
-  .directory-tabs[hidden],
-  [role='tabpanel'][hidden] {
+  .directory-tabs[hidden] {
     display: none;
+  }
+  /* Both environments share one grid cell, so the card keeps the height of the
+     taller one and does not jump when the tab changes. */
+  .panels {
+    display: grid;
+  }
+  [role='tabpanel'] {
+    grid-area: 1 / 1;
+    min-width: 0;
+    display: grid;
+    grid-template-rows: 1fr auto auto;
+  }
+  [role='tabpanel'][hidden] {
+    visibility: hidden;
   }
   .directory-tabs button {
     border: 0;
@@ -321,41 +366,6 @@ const date = (value: string) =>
       linear-gradient(#bfd7cd09 1px, transparent 1px),
       linear-gradient(90deg, #bfd7cd09 1px, transparent 1px);
     background-size: 32px 32px;
-  }
-  .orbit {
-    position: absolute;
-    width: 230px;
-    height: 230px;
-    border: 1px solid #9abbac33;
-    border-radius: 50%;
-    top: 50%;
-    left: 22.5%;
-    transform: translate(-50%, -50%);
-  }
-  .orbit::before {
-    content: '';
-    position: absolute;
-    border: 1px solid #bfd9cc44;
-    border-radius: 50%;
-    inset: 30px;
-  }
-  .orbit-node {
-    position: absolute;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #cce4d8;
-  }
-  .n1 {
-    top: 29px;
-    left: 29px;
-    background: #e8a85c;
-    width: 9px;
-    height: 9px;
-  }
-  .n2 {
-    bottom: 40px;
-    right: 22px;
   }
   .hero-stat {
     position: relative;
@@ -577,6 +587,126 @@ const date = (value: string) =>
     color: inherit;
     white-space: nowrap;
   }
+  /* --- motif mock-ups --- */
+  .radar,
+  .dial,
+  .dots {
+    display: none;
+  }
+  .dial path,
+  .radar circle {
+    fill: none;
+    stroke: #bfd9cc;
+  }
+  .dial path {
+    stroke-width: 2;
+    stroke-linecap: round;
+    opacity: 0.42;
+  }
+  .dial path.added {
+    stroke: #e8a85c;
+    opacity: 1;
+  }
+  /* A: contained dial */
+  [data-motif='dial'] .hero-stat {
+    display: grid;
+    grid-template-columns: 124px minmax(0, 1fr);
+    grid-template-rows: 1fr auto auto 1fr;
+    column-gap: 14px;
+    text-align: left;
+    justify-items: start;
+    padding: 16px 12px 16px 20px;
+  }
+  [data-motif='dial'] .dial {
+    display: block;
+    width: 124px;
+    height: 124px;
+    grid-area: 1 / 1 / -1 / 2;
+  }
+  [data-motif='dial'] .hero-stat strong {
+    grid-area: 1 / 1 / -1 / 2;
+    place-self: center;
+    font-size: 3rem;
+  }
+  [data-motif='dial'] .hero-stat > span {
+    grid-area: 2 / 2;
+    font-size: 0.75rem;
+  }
+  [data-motif='dial'] .hero-stat > small {
+    grid-area: 3 / 2;
+    white-space: normal;
+  }
+  /* B: one dot per registration */
+  [data-motif='dots'] .hero-stat {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 12px;
+    align-items: center;
+    text-align: left;
+    justify-items: start;
+    padding: 16px 16px 16px 20px;
+  }
+  [data-motif='dots'] .hero-stat strong {
+    grid-area: 1 / 1 / 3 / 2;
+  }
+  [data-motif='dots'] .hero-stat > span {
+    grid-area: 1 / 2;
+    align-self: end;
+    font-size: 0.75rem;
+  }
+  [data-motif='dots'] .hero-stat > small {
+    grid-area: 2 / 2;
+    align-self: start;
+    margin-top: 2px;
+  }
+  [data-motif='dots'] .dots {
+    grid-area: 3 / 1 / 4 / 3;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 12px;
+    max-width: 216px;
+  }
+  .dots i {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #bfd9cc;
+    opacity: 0.45;
+  }
+  .dots i.added {
+    background: #e8a85c;
+    opacity: 1;
+  }
+  /* C: horizon arcs, cropped on purpose */
+  [data-motif='radar'] .radar {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    mask-image: linear-gradient(90deg, #000 38%, transparent 82%);
+  }
+  .radar circle {
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+  .radar .node {
+    fill: #cce4d8;
+    stroke: none;
+    opacity: 1 !important;
+  }
+  .radar .node.amber {
+    fill: #e8a85c;
+  }
+  [data-motif='radar'] .hero-stat {
+    align-items: flex-start;
+    text-align: left;
+    padding: 18px 12px 18px 24px;
+  }
+  [data-motif='radar'] .network-grid {
+    display: none;
+  }
   @media (max-width: 900px) {
     .panel-top,
     .family-section,
@@ -596,6 +726,64 @@ const date = (value: string) =>
       flex-direction: column;
       align-items: flex-start;
       gap: 7px;
+    }
+  }
+  @media (max-width: 520px) {
+    [data-motif='dial'] .hero-stat {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: auto auto auto;
+      justify-items: center;
+      text-align: center;
+      row-gap: 4px;
+      padding: 16px 8px 16px 12px;
+    }
+    [data-motif='dial'] .dial {
+      width: 108px;
+      height: 108px;
+      grid-area: 1 / 1;
+    }
+    [data-motif='dial'] .hero-stat strong {
+      grid-area: 1 / 1;
+      font-size: 2.5rem;
+    }
+    [data-motif='dial'] .hero-stat > span {
+      grid-area: 2 / 1;
+      font-size: 0.6875rem;
+    }
+    [data-motif='dial'] .hero-stat > small {
+      grid-area: 3 / 1;
+      margin-top: 0;
+    }
+    [data-motif='dots'] .hero-stat {
+      grid-template-columns: minmax(0, 1fr);
+      padding: 16px 10px 16px 15px;
+    }
+    [data-motif='dots'] .hero-stat strong,
+    [data-motif='dots'] .hero-stat > span,
+    [data-motif='dots'] .hero-stat > small,
+    [data-motif='dots'] .dots {
+      grid-area: auto;
+    }
+    [data-motif='dots'] .hero-stat > span {
+      font-size: 0.6875rem;
+      margin-top: 4px;
+    }
+    [data-motif='dots'] .hero-stat > small {
+      white-space: normal;
+    }
+    [data-motif='dots'] .dots {
+      gap: 3px;
+      margin-top: 10px;
+    }
+    .dots i {
+      width: 5px;
+      height: 5px;
+    }
+    [data-motif='radar'] .hero-stat {
+      padding-left: 15px;
+    }
+    [data-motif='radar'] .hero-stat small {
+      white-space: normal;
     }
   }
   @media (max-width: 400px) {
