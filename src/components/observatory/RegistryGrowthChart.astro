@@ -26,9 +26,11 @@ interface Milestone {
 interface Props {
   history: ObservationPoint[];
   milestones?: Milestone[];
+  environment?: 'production' | 'sandbox';
 }
 
-const { history, milestones = [] } = Astro.props;
+const { history, milestones = [], environment = 'production' } = Astro.props;
+const envLabel = environment === 'sandbox' ? 'Sandbox' : 'Production';
 
 const series = growthSeries(history);
 const first = series[0];
@@ -54,7 +56,7 @@ const delta = (value: number) => (value > 0 ? `+${value}` : value < 0 ? `−${-v
     <div>
       <h2 id="growth-title">Registrations over time</h2>
       <p>
-        Production directory, {longDate(first.date)} to {longDate(last.date)}. Each step is a change
+        {envLabel} directory, {longDate(first.date)} to {longDate(last.date)}. Each step is a change
         seen between daily observations.
       </p>
     </div>
@@ -147,7 +149,9 @@ const delta = (value: number) => (value > 0 ? `+${value}` : value < 0 ? `−${-v
             <li>
               <time datetime={m.date}>{longDate(m.date)}</time>
               {m.participantId ? (
-                <a href={participantUrl({ id: m.participantId })}>{m.participantName}</a>
+                <a href={participantUrl({ id: m.participantId }, environment)}>
+                  {m.participantName}
+                </a>
               ) : (
                 <span>{m.participantName}</span>
               )}

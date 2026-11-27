@@ -1,6 +1,7 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
 import ObservatoryNav from '@components/observatory/ObservatoryNav.astro';
+import ObservatoryBand from '@components/observatory/ObservatoryBand.astro';
 import { roleLabels, taxonomySource } from '@lib/taxonomy';
 ---
 
@@ -15,8 +16,13 @@ import { roleLabels, taxonomySource } from '@lib/taxonomy';
         <a href="/observatory" class="back-link">
           ← Observatory
         </a>
-        <h1>Methodology</h1>
-        <p>How we calculate Observatory metrics and derive ecosystem status</p>
+        <ObservatoryBand
+          art="archive"
+          eyebrow="Definitions and limitations"
+          title="Methodology"
+          lede="How we calculate Observatory metrics and derive ecosystem status"
+          focus="40% 55%"
+        />
       </header>
 
       <section class="content-section">

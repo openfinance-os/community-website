@@ -20,17 +20,18 @@ interface Props {
   groups: Group[];
   total: number;
   withIssuer: number;
+  environment?: 'production' | 'sandbox';
 }
 
-const { groups, total, withIssuer } = Astro.props;
+const { groups, total, withIssuer, environment = 'production' } = Astro.props;
 ---
 
 <section class="field-card" aria-labelledby="field-title">
   <header>
     <h2 id="field-title">Every registration, by category</h2>
     <p>
-      One mark per production directory ID. Categories come from our participant profiles, not from
-      the directory.
+      One mark per {environment} directory ID. Categories come from our participant profiles, not
+      from the directory.
     </p>
   </header>
 

@@ -1,0 +1,1140 @@
+---
+/**
+ * Standards, traffic and reliability beside the directory counts. Figures
+ * come from the saved weekly Watch run: public API logs, the api-specs
+ * repository and its breaking-changes registers. Public logs carry no
+ * environment label, so nothing here establishes production availability.
+ */
+import { compact, watchPulse } from '@lib/watch-pulse';
+import { longDate, shortMonth, stepPath, timeScale } from '@lib/observatory-visuals';
+
+interface Props {
+  /** The landing page introduces the section; the briefing already has a title. */
+  heading?: string;
+}
+
+const {
+  heading = 'Participants are one signal. Standards, traffic and reliability are the others.',
+} = Astro.props;
+
+const pulse = watchPulse();
+const { standards, traffic, reliability } = pulse;
+const n = (value: number) => value.toLocaleString('en-US');
+const aed = (value: number) => `AED ${(value / 1_000_000).toFixed(1)}M`;
+
+// Traffic bars share one scale; the partial month is drawn but never ranked.
+const peak = Math.max(...traffic.months.map((m) => m.calls));
+const monthLabel = (month: string) => shortMonth(`${month}-01`);
+const monthYear = (month: string) => shortMonth(`${month}-01`, true);
+const partialThrough = longDate(pulse.asOfData);
+const lastFull = traffic.lastFull;
+const familyTotal = traffic.families.reduce((sum, [, calls]) => sum + calls, 0);
+const familyNames: Record<string, string> = {
+  payment: 'Payments',
+  'account-information': 'Account information',
+  'confirmation-of-payee': 'Confirmation of payee',
+};
+const mainFamilies = traffic.families.filter(([key]) => familyNames[key]);
+const otherFamilies = familyTotal - mainFamilies.reduce((sum, [, calls]) => sum + calls, 0);
+
+// Error share as published at each Watch run.
+const W = 600;
+const H = 180;
+const series = reliability.errSeries;
+const first = series[0];
+const last = series[series.length - 1];
+const yMax = Math.max(50, Math.ceil(Math.max(...series.map((p) => p.value)) / 10) * 10);
+const scale = timeScale(first.date, last.date, yMax, W, H);
+const yTicks = [0, yMax / 2, yMax];
+const line = stepPath(series, scale);
+const area = stepPath(series, scale, 0);
+
+const meters = [
+  {
+    label: 'Payments accepted',
+    value: reliability.paymentAcceptedPct,
+    detail: `${n(reliability.paymentAccepted)} of ${n(reliability.paymentRecords)} logged payment statuses`,
+  },
+  {
+    label: 'Consents authorised',
+    value: reliability.consent.convPct,
+    detail: `${n(reliability.consent.consents)} of ${n(reliability.consent.requests)} bank consent requests`,
+  },
+  {
+    label: 'Authorisation calls returning 2xx',
+    value: reliability.authPct,
+    detail: 'Authorisation-server log. Abandoned journeys count against it.',
+  },
+];
+
+const statusLabel: Record<string, string> = {
+  new: 'New',
+  changed: 'Changed',
+  standing: 'Standing',
+};
+const changes = standards.changes.slice(0, 3);
+---
+
+<section class="pulse" aria-labelledby="pulse-title">
+  <header class="pulse-head">
+    <div>
+      <span class="eyebrow">Ecosystem Watch · weekly</span>
+      <h2 id="pulse-title">{heading}</h2>
+    </div>
+    <p class="pulse-meta">
+      Watch run <time datetime={pulse.runDate}>{longDate(pulse.runDate)}</time>. Public API logs
+      through <time datetime={pulse.asOfData}>{partialThrough}</time>.{' '}
+      <a href="/observatory/watch/">Open the full Watch</a>
+    </p>
+  </header>
+
+  <div class="pulse-grid">
+    <article class="card standards" aria-labelledby="pulse-standards">
+      <header>
+        <span class="kicker">Standards</span>
+        <h3 id="pulse-standards">What is in force, and what is moving</h3>
+      </header>
+
+      <ol class="track" aria-label="Standards versions">
+        <li class="live">
+          <b>{standards.version}</b>
+          <span>Standards in force</span>
+        </li>
+        <li class="live">
+          <b>{standards.errata.replace(/^v[\d.]+-/, '')}</b>
+          <span>Current errata</span>
+        </li>
+        <li class="draft">
+          <b>{standards.draftBranch.replace(/-nebras$/, '')}</b>
+          <span>Draft on the website branch</span>
+        </li>
+        <li class="absent">
+          <b>V2.2 Final</b>
+          <span>Not published</span>
+        </li>
+      </ol>
+
+      <dl class="counts">
+        <div>
+          <dt>TPP-facing</dt>
+          <dd>{standards.enforcedTpp}</dd>
+          <dd class="sub">breaking changes in force</dd>
+        </div>
+        <div>
+          <dt>LFI and API Hub</dt>
+          <dd>{standards.enforcedLfi}</dd>
+          <dd class="sub">breaking changes in force</dd>
+        </div>
+        <div class="pending">
+          <dt>Draft only</dt>
+          <dd>{standards.pending}</dd>
+          <dd class="sub">pending, not yet on main</dd>
+        </div>
+      </dl>
+
+      <ul class="changes">
+        {changes.map((c) => (
+          <li>
+            <span class:list={['tag', c.status]}>{statusLabel[c.status] ?? c.status}</span>
+            <a href={c.url} target="_blank" rel="noopener noreferrer">
+              {c.title}
+            </a>
+            <time datetime={c.since}>{longDate(c.since)}</time>
+          </li>
+        ))}
+      </ul>
+
+      {standards.deadline && <p class="deadline">{standards.deadline}</p>}
+      <p class="note">
+        Counts are entries in the api-specs breaking-changes registers and API Hub release notes,
+        with API Hub {standards.apiHub} current.{' '}
+        <a href="/observatory/watch/#standards">Every change and its impact</a>
+      </p>
+    </article>
+
+    <article class="card traffic" aria-labelledby="pulse-traffic">
+      <header>
+        <span class="kicker">Traffic</span>
+        <h3 id="pulse-traffic">API calls in the public logs</h3>
+      </header>
+
+      <div class="figure-row">
+        <p class="figure">
+          <strong>{n(lastFull.calls)}</strong>
+          <span>
+            calls in {monthYear(lastFull.month)}, the last full month
+            <em>{`${traffic.momPct > 0 ? '+' : ''}${traffic.momPct}% on the month before`}</em>
+          </span>
+        </p>
+        <p class="figure small">
+          <strong>{aed(traffic.paymentValueLastFull)}</strong>
+          <span>
+            payment value logged in {monthLabel(lastFull.month)}
+            <em>{`${traffic.paymentValueMomPct > 0 ? '+' : ''}${traffic.paymentValueMomPct}% on the month before`}</em>
+          </span>
+        </p>
+      </div>
+
+      <ol class="bars" data-pulse-bars aria-label="Logged API calls by month">
+        {traffic.months.map((m) => (
+          <li
+            class:list={{ partial: m.partial, latest: m.month === lastFull.month }}
+            tabindex="0"
+            data-label={`${monthYear(m.month)}${m.partial ? ` (to ${partialThrough}, partial)` : ''}: ${n(m.calls)} calls`}
+            aria-label={`${monthYear(m.month)}${m.partial ? ', partial month' : ''}: ${n(m.calls)} calls`}
+          >
+            <span class="bar-value">
+              {(m.partial || m.month === lastFull.month) && compact(m.calls)}
+            </span>
+            <i style={`height:${Math.max(1.5, (m.calls / peak) * 100).toFixed(2)}%`} />
+            <span class="bar-label">
+              <span class="full">{monthLabel(m.month)}</span>
+              <span class="short">{monthLabel(m.month).slice(0, 1)}</span>
+            </span>
+          </li>
+        ))}
+      </ol>
+      <p class="readout" data-pulse-readout aria-live="polite">
+        {monthYear(traffic.months[0].month)} to {monthYear(lastFull.month)}: {n(traffic.fullTotal)}{' '}
+        calls across full months.
+      </p>
+      <p class="legend">
+        <span class="swatch solid" /> Full month
+        <span class="swatch hatched" /> {monthLabel(traffic.partial.month)}, to {partialThrough}{' '}
+        only
+      </p>
+
+      <div class="split" aria-label="Calls by API family, full months">
+        <div class="split-bar" aria-hidden="true">
+          {mainFamilies.map(([key, calls], i) => (
+            <i
+              class={`f${i}`}
+              style={`flex-grow:${calls}`}
+              title={`${familyNames[key]}: ${n(calls)}`}
+            />
+          ))}
+        </div>
+        <ul>
+          {mainFamilies.map(([key, calls], i) => (
+            <li>
+              <span class={`dot f${i}`} />
+              {familyNames[key]}
+              <b>{Math.round((calls / familyTotal) * 100)}%</b>
+            </li>
+          ))}
+          <li class="other">Insurance, product and ATM together: {n(otherFamilies)} calls</li>
+        </ul>
+      </div>
+
+      <details>
+        <summary>Monthly figures</summary>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Month</th>
+              <th scope="col">Logged calls</th>
+            </tr>
+          </thead>
+          <tbody>
+            {traffic.months.map((m) => (
+              <tr>
+                <th scope="row">
+                  {monthYear(m.month)}
+                  {m.partial && ' (partial)'}
+                </th>
+                <td>{n(m.calls)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </details>
+      <p class="note">
+        Demand-side calls recorded in the Nebras public API logs. The logs carry no environment
+        label, so volume is not proof of production use.{' '}
+        <a href="/observatory/watch/#operations">Traffic by institution and family</a>
+      </p>
+    </article>
+
+    <article class="card reliability" aria-labelledby="pulse-reliability">
+      <header>
+        <span class="kicker">Stability and reliability</span>
+        <h3 id="pulse-reliability">How often logged calls succeed</h3>
+      </header>
+
+      <div class="reliability-grid">
+        <div class="err">
+          <p class="figure">
+            <strong>{reliability.errPct}%</strong>
+            <span>
+              of calls across full months returned a 4xx or 5xx
+              <em>{`down from ${first.value}% at the ${longDate(first.date)} run; ${traffic.partial.errPct}% so far in ${monthLabel(traffic.partial.month)}`}</em>
+            </span>
+          </p>
+          <div class="plot">
+            <svg
+              viewBox={`0 0 ${W} ${H}`}
+              preserveAspectRatio="none"
+              role="img"
+              aria-label={`Error share of logged calls fell from ${first.value}% to ${last.value}% between ${longDate(first.date)} and ${longDate(last.date)}.`}
+            >
+              {yTicks.map((t) => (
+                <line class="grid" x1="0" x2={W} y1={scale.y(t)} y2={scale.y(t)} />
+              ))}
+              <path class="area" d={area} />
+              <path class="line" d={line} />
+            </svg>
+            {yTicks.map((t) => (
+              <span class="y-tick" style={`bottom:${(t / yMax) * 100}%`}>
+                {t}%
+              </span>
+            ))}
+            <span class="end start" style={`bottom:${(first.value / yMax) * 100}%`}>
+              {first.value}%
+            </span>
+            <span class="end finish" style={`bottom:${(last.value / yMax) * 100}%`}>
+              {last.value}%
+            </span>
+            <span class="x-tick left">{longDate(first.date)}</span>
+            <span class="x-tick right">{longDate(last.date)}</span>
+          </div>
+          <p class="note">
+            Cumulative share over all full months logged, as published at each Watch run. It falls
+            as newer, cleaner months outweigh the early ones.
+          </p>
+        </div>
+
+        <div class="outcomes">
+          <div class="mix">
+            <h4>Response mix, full months</h4>
+            <div class="mix-bar" aria-hidden="true">
+              <i class="ok" style={`flex-grow:${reliability.mix.ok}`} />
+              <i class="c4" style={`flex-grow:${reliability.mix.c4xx}`} />
+              <i class="c5" style={`flex-grow:${reliability.mix.c5xx}`} />
+            </div>
+            <ul>
+              <li>
+                <span class="dot ok" />
+                Succeeded <b>{reliability.mix.ok}%</b>
+              </li>
+              <li>
+                <span class="dot c4" />
+                4xx, client or consent <b>about {reliability.mix.c4xx}%</b>
+              </li>
+              <li>
+                <span class="dot c5" />
+                5xx, server side <b>about {reliability.mix.c5xx}%</b>
+              </li>
+            </ul>
+            <p class="note">
+              The 4xx and 5xx split is approximate, weighted from rounded per-institution shares.{' '}
+              {reliability.logKeysUnder15} of {reliability.logKeys} institution log keys sit at or
+              below a 15% error share, so the total is driven by a few.
+            </p>
+          </div>
+
+          <ul class="meters">
+            {meters.map((m) => (
+              <li>
+                <div>
+                  <span>{m.label}</span>
+                  <b>{m.value}%</b>
+                </div>
+                <span class="meter" aria-hidden="true">
+                  <i style={`width:${m.value}%`} />
+                </span>
+                <small>{m.detail}</small>
+              </li>
+            ))}
+          </ul>
+
+          <p class="absent-note">
+            <b>Not published:</b> availability, uptime, latency and incident records. No public
+            source carries them, so none is shown or inferred here.
+          </p>
+        </div>
+      </div>
+      <p class="note">
+        A logged error does not identify its cause, its environment or who owns it.{' '}
+        <a href="/observatory/watch/#operations">Response mix by institution</a>
+      </p>
+    </article>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-pulse-bars]').forEach((bars) => {
+    const readout = bars.parentElement?.querySelector<HTMLElement>('[data-pulse-readout]');
+    if (!readout) return;
+    const initial = readout.textContent ?? '';
+    const show = (event: Event) => {
+      const item = (event.target as HTMLElement).closest<HTMLElement>('li[data-label]');
+      if (item) readout.textContent = item.dataset.label ?? initial;
+    };
+    const reset = () => {
+      readout.textContent = initial;
+    };
+    bars.addEventListener('pointerover', show);
+    bars.addEventListener('focusin', show);
+    bars.addEventListener('pointerleave', reset);
+    bars.addEventListener('focusout', reset);
+  });
+</script>
+
+<style>
+  .pulse {
+    --viz-a: #008f8a;
+    --viz-b: #c9811f;
+    max-width: 1200px;
+    margin: var(--space-10) auto 0;
+    padding: 0 var(--space-4);
+  }
+
+  :global([data-theme='dark']) .pulse {
+    --viz-a: #25b3aa;
+    --viz-b: #e39a3c;
+  }
+
+  .pulse-head {
+    display: grid;
+    gap: var(--space-3) var(--space-8);
+    margin-bottom: var(--space-6);
+    align-items: end;
+  }
+
+  @media (min-width: 900px) {
+    .pulse-head {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+    }
+  }
+
+  .eyebrow,
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-secondary);
+  }
+
+  .eyebrow::before,
+  .kicker::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--viz-b);
+  }
+
+  h2 {
+    margin-top: var(--space-3);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 500;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+    max-width: 20em;
+  }
+
+  .pulse-meta {
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+  }
+
+  a {
+    color: var(--color-brand-ink);
+    text-underline-offset: 3px;
+  }
+
+  .pulse-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 960px) {
+    .pulse-grid {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    }
+
+    .reliability {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .card {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-6);
+  }
+
+  h3 {
+    margin: var(--space-2) 0 var(--space-5);
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  h4 {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-text);
+    margin-bottom: var(--space-3);
+  }
+
+  .note {
+    margin-top: var(--space-4);
+    font-size: 0.75rem;
+    line-height: 1.55;
+    color: var(--color-text-secondary);
+  }
+
+  .card > .note:last-child {
+    margin-top: auto;
+    padding-top: var(--space-5);
+  }
+
+  /* Standards */
+  .track {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .track li {
+    position: relative;
+    padding-top: var(--space-5);
+    padding-right: var(--space-2);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .track li::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 0;
+    right: 0;
+    border-top: 2px solid var(--viz-a);
+  }
+
+  .track li::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--viz-a);
+    box-shadow: 0 0 0 2px var(--color-card);
+  }
+
+  .track .draft::before,
+  .track .absent::before {
+    border-top-style: dashed;
+    border-top-color: var(--color-border);
+  }
+
+  .track li:last-child::before {
+    border-top-color: transparent;
+  }
+
+  .track .draft::after {
+    background: var(--color-card);
+    box-shadow:
+      0 0 0 2px var(--color-card),
+      inset 0 0 0 2px var(--viz-b);
+  }
+
+  .track .absent::after {
+    background: var(--color-card);
+    box-shadow:
+      0 0 0 2px var(--color-card),
+      inset 0 0 0 2px var(--color-gray-400);
+  }
+
+  .track b {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-text);
+    overflow-wrap: anywhere;
+  }
+
+  .track span {
+    font-size: 0.6875rem;
+    line-height: 1.35;
+    color: var(--color-text-secondary);
+  }
+
+  .counts {
+    margin: var(--space-6) 0 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+  }
+
+  .counts > div {
+    padding: var(--space-4);
+    min-width: 0;
+  }
+
+  .counts > div + div {
+    border-left: 1px solid var(--color-border);
+  }
+
+  .counts dt {
+    font-size: 0.625rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--color-text-secondary);
+  }
+
+  .counts dd {
+    margin: var(--space-1) 0 0;
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text);
+  }
+
+  .counts dd.sub {
+    font-size: 0.6875rem;
+    font-weight: 400;
+    line-height: 1.35;
+    letter-spacing: 0;
+    color: var(--color-text-secondary);
+  }
+
+  .changes {
+    list-style: none;
+    margin: var(--space-5) 0 0;
+    padding: 0;
+    display: grid;
+  }
+
+  .changes li {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 2px var(--space-3);
+    align-items: baseline;
+    padding: var(--space-3) 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .changes a {
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+
+  .changes time {
+    grid-column: 2;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-text-secondary);
+  }
+
+  .tag {
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+  }
+
+  .tag.new,
+  .tag.changed {
+    border-color: var(--viz-b);
+    color: var(--color-text);
+  }
+
+  .deadline {
+    margin-top: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    border-left: 3px solid var(--viz-b);
+    background: var(--color-soft);
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--color-text);
+  }
+
+  /* Figures */
+  .figure-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4) var(--space-10);
+  }
+
+  .figure {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    min-width: 0;
+  }
+
+  .figure strong {
+    font-size: clamp(2.25rem, 5vw, 3.25rem);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text);
+  }
+
+  .figure.small strong {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    padding-top: clamp(0.5rem, 1.6vw, 1.1rem);
+  }
+
+  .figure span {
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: var(--color-text);
+  }
+
+  .figure em {
+    display: block;
+    font-style: normal;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+  }
+
+  /* Monthly bars */
+  .bars {
+    list-style: none;
+    margin: var(--space-6) 0 0;
+    padding: 0;
+    height: 220px;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: 2px;
+    align-items: end;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .bars li {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: stretch;
+    padding: 0 12%;
+    cursor: default;
+    outline: none;
+  }
+
+  .bars i {
+    display: block;
+    border-radius: 4px 4px 0 0;
+    background: var(--viz-a);
+  }
+
+  .bars .partial i {
+    background: repeating-linear-gradient(
+      135deg,
+      var(--viz-a) 0 3px,
+      color-mix(in srgb, var(--viz-a) 28%, transparent) 3px 7px
+    );
+  }
+
+  .bars li:hover i,
+  .bars li:focus-visible i {
+    filter: brightness(1.15);
+    outline: 2px solid var(--color-text);
+    outline-offset: 1px;
+  }
+
+  .bar-value {
+    text-align: center;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text);
+    margin-bottom: 4px;
+    white-space: nowrap;
+  }
+
+  .bar-label {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 0.6875rem;
+    color: var(--color-text-secondary);
+  }
+
+  .bar-label .short {
+    display: none;
+  }
+
+  .readout {
+    margin-top: var(--space-8);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text);
+    min-height: 1.5em;
+  }
+
+  .legend {
+    margin-top: var(--space-2);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+  }
+
+  .swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    background: var(--viz-a);
+  }
+
+  .swatch.hatched {
+    margin-left: var(--space-3);
+    background: repeating-linear-gradient(
+      135deg,
+      var(--viz-a) 0 3px,
+      color-mix(in srgb, var(--viz-a) 28%, transparent) 3px 7px
+    );
+  }
+
+  /* Family split and response mix */
+  .split,
+  .mix {
+    margin-top: var(--space-6);
+  }
+
+  .mix {
+    margin-top: 0;
+  }
+
+  .split-bar,
+  .mix-bar {
+    display: flex;
+    gap: 2px;
+    height: 12px;
+  }
+
+  .split-bar i,
+  .mix-bar i {
+    min-width: 3px;
+    border-radius: 3px;
+  }
+
+  .f0,
+  .ok {
+    background: var(--viz-a);
+  }
+
+  .f1 {
+    background: var(--viz-b);
+  }
+
+  .f2 {
+    background: var(--color-gray-400);
+  }
+
+  .c4 {
+    background: var(--viz-b);
+  }
+
+  .c5 {
+    background: repeating-linear-gradient(
+      135deg,
+      var(--viz-b) 0 3px,
+      color-mix(in srgb, var(--viz-b) 30%, transparent) 3px 6px
+    );
+  }
+
+  .split ul,
+  .mix ul {
+    list-style: none;
+    margin: var(--space-3) 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
+    font-size: 0.8125rem;
+    color: var(--color-text);
+  }
+
+  .split li,
+  .mix li {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .split li.other {
+    flex-basis: 100%;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    flex: none;
+  }
+
+  li b {
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+
+  details {
+    margin-top: var(--space-5);
+    font-size: 0.8125rem;
+  }
+
+  summary {
+    cursor: pointer;
+    color: var(--color-brand-ink);
+  }
+
+  table {
+    margin-top: var(--space-3);
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 320px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  th,
+  td {
+    padding: 6px 0;
+    border-bottom: 1px solid var(--color-border);
+    text-align: left;
+    font-weight: 400;
+    color: var(--color-text);
+  }
+
+  td,
+  thead th:last-child {
+    text-align: right;
+  }
+
+  thead th {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-secondary);
+  }
+
+  /* Reliability */
+  .reliability-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-8);
+  }
+
+  @media (min-width: 900px) {
+    .reliability-grid {
+      grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+      gap: var(--space-12);
+    }
+  }
+
+  .plot {
+    position: relative;
+    height: 180px;
+    margin: var(--space-6) var(--space-10) var(--space-8) var(--space-10);
+  }
+
+  .plot svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .grid {
+    stroke: var(--color-border);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .area {
+    fill: var(--viz-b);
+    opacity: 0.14;
+  }
+
+  .line {
+    fill: none;
+    stroke: var(--viz-b);
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .y-tick,
+  .x-tick,
+  .end {
+    position: absolute;
+    font-size: 0.6875rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+  }
+
+  .y-tick {
+    right: calc(100% + 8px);
+    transform: translateY(50%);
+  }
+
+  .x-tick {
+    top: calc(100% + 8px);
+  }
+
+  .x-tick.left {
+    left: 0;
+  }
+
+  .x-tick.right {
+    right: 0;
+  }
+
+  .end {
+    font-weight: 500;
+    color: var(--color-text);
+    transform: translateY(50%);
+  }
+
+  .end.start {
+    left: 6px;
+    transform: translateY(-4px);
+  }
+
+  .end.finish {
+    left: calc(100% + 6px);
+  }
+
+  .meters {
+    list-style: none;
+    margin: var(--space-6) 0 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .meters li > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-3);
+    font-size: 0.875rem;
+    color: var(--color-text);
+  }
+
+  .meters b {
+    font-size: 1.125rem;
+  }
+
+  .meter {
+    display: block;
+    height: 8px;
+    margin: 6px 0;
+    border-radius: 3px;
+    background: var(--color-soft);
+    overflow: hidden;
+  }
+
+  .meter i {
+    display: block;
+    height: 100%;
+    border-radius: 0 4px 4px 0;
+    background: var(--viz-a);
+  }
+
+  .meters small {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+  }
+
+  .absent-note {
+    margin-top: var(--space-6);
+    padding: var(--space-3) var(--space-4);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-lg);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+  }
+
+  .absent-note b {
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  @media (max-width: 560px) {
+    .card {
+      padding: var(--space-5) var(--space-4);
+    }
+
+    .track {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      row-gap: var(--space-4);
+    }
+
+    .counts {
+      grid-template-columns: 1fr;
+    }
+
+    .counts > div + div {
+      border-left: 0;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .bars {
+      height: 170px;
+    }
+
+    .bars li {
+      padding: 0 6%;
+    }
+
+    .bar-label .full {
+      display: none;
+    }
+
+    .bar-label .short {
+      display: inline;
+    }
+
+    .bar-value {
+      font-size: 0.625rem;
+    }
+
+    .bars .partial .bar-value {
+      visibility: hidden;
+    }
+
+    .plot {
+      margin-left: var(--space-8);
+    }
+  }
+</style>

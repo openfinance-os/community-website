@@ -1,6 +1,7 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
 import ObservatoryNav from '@components/observatory/ObservatoryNav.astro';
+import ObservatoryBand from '@components/observatory/ObservatoryBand.astro';
 import ParticipantTimeline from '@components/observatory/ParticipantTimeline.astro';
 import { getObservatorySnapshot } from '@lib/observatory-data';
 import Breadcrumb from '@components/common/Breadcrumb.astro';
@@ -170,6 +171,17 @@ const structuredData = {
             { label: participant.name },
           ]}
         />
+
+        <div class="participant-strip">
+          <ObservatoryBand
+            art="workbench"
+            eyebrow="Sandbox directory registration"
+            title={`One directory record, as observed on ${snapshot.timestamp.slice(0, 10)} UTC.`}
+            heading="p"
+            compact
+            focus="80% 45%"
+          />
+        </div>
 
         <div class="sandbox-banner">
           <svg
@@ -501,6 +513,10 @@ const structuredData = {
     .page-grid {
       grid-template-columns: 1fr 300px;
     }
+  }
+
+  .participant-strip {
+    margin-bottom: var(--space-8);
   }
 
   /* Header */
