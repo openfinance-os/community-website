@@ -13,8 +13,8 @@ const { participants, timestamp } = getObservatorySnapshot('sandbox');
 ---
 
 <PageLayout
-  title="Observatory - Sandbox"
-  description="Sandbox environment visibility for UAE Open Finance ecosystem. Track test participants and API coverage in the sandbox environment."
+  title="Observatory - Sandbox directory"
+  description="Registrations in the UAE Open Finance sandbox directory, where participants test before production. Not the community Data Sandbox of synthetic payloads."
   lastUpdated={timestamp}
 >
   <ObservatoryNav current="sandbox" />
@@ -25,7 +25,7 @@ const { participants, timestamp } = getObservatorySnapshot('sandbox');
       <header class="section-header">
         <div class="section-header-top">
           <div>
-            <h2>Sandbox Participants</h2>
+            <h2>Sandbox directory participants</h2>
             <p>
               <span id="filtered-count">{participants.length}</span> of {participants.length}{' '}
               registered test institutions

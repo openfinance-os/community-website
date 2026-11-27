@@ -223,7 +223,7 @@ export const glossaryData = [
         term: 'Sandbox',
         full: null,
         definition:
-          'A testing environment that allows TPPs to develop and test their applications without affecting real customer data.',
+          'The API Hub test environment, with its own directory, where participants develop and test before production without real customer data. The Observatory tracks it as the sandbox directory. Not the same as the Data Sandbox on this site, a community tool that serves synthetic sample payloads.',
       },
       {
         term: 'SCA',

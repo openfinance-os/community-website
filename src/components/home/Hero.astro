@@ -41,6 +41,10 @@ const { production, sandbox, activity } = Astro.props;
           Find your starting point <span aria-hidden="true">↓</span>
         </a>
       </div>
+      <p class="hero-build">
+        Building something? Read synthetic payloads in the <a href="/data-sandbox">Data Sandbox</a>,
+        or connect an AI assistant through its <a href="/data-sandbox#mcp">MCP server</a>.
+      </p>
       <p class="hero-note">Open source. Community led. Independent by design.</p>
     </div>
     <DirectorySnapshot production={production} sandbox={sandbox} activity={activity} />
@@ -178,8 +182,21 @@ const { production, sandbox, activity } = Astro.props;
     font-size: 0.8125rem;
     font-weight: 500;
   }
-  .hero-note {
+  .hero-build {
     margin-top: 20px;
+    max-width: 520px;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+  }
+  .hero-build a {
+    color: var(--color-text);
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+  .hero-note {
+    margin-top: 12px;
     font-size: 0.75rem;
     color: var(--color-text-secondary);
   }

@@ -28,7 +28,7 @@ const monthLabel = (ym: string) =>
 const pct = (n: number) => `${n > 0 ? '+' : n < 0 ? '−' : ''}${Math.abs(n).toFixed(0)}%`;
 const environments = [
   { id: 'production', label: 'Production', data: production },
-  ...(sandbox ? [{ id: 'sandbox', label: 'Sandbox', data: sandbox }] : []),
+  ...(sandbox ? [{ id: 'sandbox', label: 'Sandbox directory', data: sandbox }] : []),
 ];
 const monthYear = (value: string) =>
   new Date(value).toLocaleDateString('en-GB', { month: 'short', year: 'numeric', timeZone: 'UTC' });

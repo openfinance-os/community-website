@@ -249,7 +249,7 @@ test.describe('Homepage background film', () => {
         expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
           width
         );
-        await page.getByRole('tab', { name: 'Sandbox', exact: true }).click();
+        await page.getByRole('tab', { name: 'Sandbox directory', exact: true }).click();
         await expect(page.locator('#directory-panel-sandbox')).toBeVisible();
         await page.getByRole('tab', { name: 'Production', exact: true }).click();
         await expect(page.locator('#directory-panel-production')).toBeVisible();

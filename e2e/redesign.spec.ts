@@ -13,7 +13,7 @@ test('directory preview switches environment without conflating saved observatio
   const sandbox = page.locator('#directory-panel-sandbox');
   await expect(production).toContainText(`${snapshot.production.summary.totalParticipants}`);
   await expect(production).toContainText('production directory registrations');
-  await page.getByRole('tab', { name: 'Sandbox', exact: true }).click();
+  await page.getByRole('tab', { name: 'Sandbox directory', exact: true }).click();
   await expect(production).toBeHidden();
   await expect(sandbox).toContainText(`${snapshot.sandbox.summary.totalParticipants}`);
   await expect(sandbox).toContainText('sandbox directory registrations');
@@ -24,7 +24,7 @@ test('directory preview switches environment without conflating saved observatio
     'Directory registration does not establish operational status'
   );
   await expect(sandbox.locator('time')).toHaveAttribute('datetime', snapshot.sandbox.timestamp);
-  await page.getByRole('tab', { name: 'Sandbox', exact: true }).press('Home');
+  await page.getByRole('tab', { name: 'Sandbox directory', exact: true }).press('Home');
   await expect(page.getByRole('tab', { name: 'Production', exact: true })).toBeFocused();
   await expect(production).toBeVisible();
 });
