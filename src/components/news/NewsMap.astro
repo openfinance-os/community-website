@@ -73,13 +73,18 @@ function shown(code: NewsCountryCode): { count: number; radius: number; label: s
       >
         <path d={WORLD_LAND_PATH} />
       </svg>
-      <div class="map-dots">
+      {/* Pointer shortcuts only. Each dot repeats a country button in the legend
+          below, which is the keyboard and screen-reader control and the
+          equivalent 24px target under WCAG 2.5.8 (Gulf and European dots sit too
+          close together to enlarge). */}
+      <div class="map-dots" aria-hidden="true">
         {allDots.map((dot) => {
           const view = shown(dot.code);
           return (
             <button
               type="button"
               class="map-dot"
+              tabindex="-1"
               data-country-filter={dot.code}
               aria-pressed="false"
               aria-label={view.label}

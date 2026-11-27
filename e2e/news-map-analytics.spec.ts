@@ -46,10 +46,7 @@ test('map, legend, range, and country pages capture PostHog events', async ({ pa
       ],
     ]);
 
-  await page
-    .locator('.map-dots')
-    .getByRole('button', { name: /European Union/ })
-    .click();
+  await page.locator('.map-dots [data-country-filter="EU"]').click();
   await expect
     .poll(() => events(page, 'news_country_filter_cleared'))
     .toEqual([
@@ -63,10 +60,7 @@ test('map, legend, range, and country pages capture PostHog events', async ({ pa
       ],
     ]);
 
-  await page
-    .locator('.map-dots')
-    .getByRole('button', { name: /Kuwait/ })
-    .click();
+  await page.locator('.map-dots [data-country-filter="KW"]').click();
   await expect
     .poll(() => events(page, 'news_country_selected'))
     .toEqual([
@@ -179,10 +173,7 @@ test('map and country pages still work when PostHog is not loaded', async ({ pag
   page.on('pageerror', (error) => errors.push(error.message));
 
   await page.goto('/updates/');
-  await page
-    .locator('.map-dots')
-    .getByRole('button', { name: /Kuwait/ })
-    .click();
+  await page.locator('.map-dots [data-country-filter="KW"]').click();
   await expect(page).toHaveURL(/[?&]country=KW$/);
   await page.locator('.country-legend').getByRole('button', { name: 'All countries' }).click();
   await expect(page).not.toHaveURL(/country=/);

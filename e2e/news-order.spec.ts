@@ -81,11 +81,18 @@ test.describe('combined news order', () => {
 
     const map = page.locator('.news-map');
     await expect(map).toBeVisible();
+    // The legend button is the accessible control; the map dot repeats it for
+    // pointer users and is hidden from assistive technology.
     const euButtons = map.getByRole('button', {
       name: /European Union, \d+ stor(?:y|ies) in the last 90 days/,
     });
-    await expect(euButtons).toHaveCount(2);
+    await expect(euButtons).toHaveCount(1);
     await expect(euButtons.first()).toHaveAttribute('aria-label', /European Union/);
+    await expect(map.locator('.map-dots [data-country-filter="EU"]')).toHaveAttribute(
+      'aria-label',
+      /European Union/
+    );
+    await expect(map.locator('.map-dots')).toHaveAttribute('aria-hidden', 'true');
 
     await map
       .locator('.country-legend')
@@ -129,10 +136,7 @@ test.describe('combined news order', () => {
     await page.locator('.region-filter [data-news-region="all"]').click();
     await page.locator('.news-filter [data-news-type="all"]').click();
 
-    await map
-      .locator('.map-dots')
-      .getByRole('button', { name: /Kuwait/ })
-      .click();
+    await map.locator('.map-dots [data-country-filter="KW"]').click();
     const kuwait = await cards.evaluateAll((elements) =>
       elements
         .filter((element) => (element as HTMLElement).style.display !== 'none')
@@ -142,10 +146,7 @@ test.describe('combined news order', () => {
     expect(kuwait.every((country) => (country || '').split(/\s+/).includes('KW'))).toBe(true);
     await expect(page).toHaveURL(/[?&]country=KW$/);
 
-    await map
-      .locator('.map-dots')
-      .getByRole('button', { name: /Kuwait/ })
-      .click();
+    await map.locator('.map-dots [data-country-filter="KW"]').click();
     await expect(page).not.toHaveURL(/country=/);
     const reset = await cards.evaluateAll(
       (elements) =>

@@ -220,9 +220,9 @@ const milestones = (historyData.milestones || []).filter((m: any) =>
   </div>
 </section>
 
-<section class="visual-section" aria-label="Registrations over time">
+<div class="visual-section">
   <RegistryGrowthChart history={history} milestones={milestones} environment={environment} />
-</section>
+</div>
 
 <section class="visual-section visual-grid" aria-label="Registrations by category and role">
   <RegistrationField
