@@ -104,13 +104,17 @@ describe('standalone Watcher analytics', () => {
     });
   });
 
-  it('preserves the existing main-site configuration and avoids Watcher handlers there', () => {
+  it('uses the privacy-notice configuration on the main site and avoids Watcher handlers there', () => {
     const b = browser('openfinance-os.org', '/learn/');
     b.run();
     expect(b.globals.posthog._i[0][1]).toEqual({
       api_host: 'https://us.i.posthog.com',
       defaults: '2025-11-30',
       person_profiles: 'identified_only',
+      persistence: 'sessionStorage',
+      disable_session_recording: true,
+      disable_surveys: true,
+      respect_dnt: true,
     });
     b.click('https://example.org/');
     expect(b.globals.posthog).toHaveLength(0);

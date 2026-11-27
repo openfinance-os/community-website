@@ -73,6 +73,12 @@ const emailId = `newsletter-email-${fieldKey}`;
           Subscribe
         </button>
       </form>
+      {variant === 'page' && (
+        <p class="newsletter-privacy">
+          Your address goes to Buttondown, which sends the briefing.
+          <a href="/privacy">Privacy notice</a>
+        </p>
+      )}
     </div>
 
     {(variant === 'page' || variant === 'band') && (
@@ -199,6 +205,17 @@ const emailId = `newsletter-email-${fieldKey}`;
 
   .newsletter-thanks {
     display: none;
+  }
+
+  .newsletter-privacy {
+    margin: var(--space-3) 0 0;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+
+  .newsletter-privacy a {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
   }
 
   .newsletter-thanks-title {

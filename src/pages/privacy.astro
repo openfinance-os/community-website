@@ -1,0 +1,196 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+
+const lastUpdated = '2026-11-27';
+const lastUpdatedLabel = '27 November 2026';
+---
+
+<PageLayout
+  title="Privacy"
+  description="What openfinance-os.org collects when you visit, where it goes, and how to opt out."
+>
+  <div class="privacy-page">
+    <article class="privacy-container">
+      <header class="page-intro privacy-intro">
+        <p class="eyebrow">Privacy notice</p>
+        <h1>What this site collects</h1>
+        <p class="lead">
+          Open Finance OS is a community site. We count visits to learn which pages help people, and
+          we hold your email address only if you subscribe to the newsletter. We do not sell data,
+          run advertising or build profiles of individual visitors.
+        </p>
+        <p class="updated">
+          Last updated <time datetime={lastUpdated}>{lastUpdatedLabel}</time>
+        </p>
+      </header>
+
+      <section class="privacy-section" aria-labelledby="analytics-title">
+        <h2 id="analytics-title">Usage analytics</h2>
+        <p>
+          We use{' '}
+          <a href="https://posthog.com/" rel="noopener noreferrer">
+            PostHog
+          </a>
+          , hosted in the United States, to measure how the site is used. While you browse, it
+          records:
+        </p>
+        <ul>
+          <li>the pages you view and when you leave them</li>
+          <li>clicks on links and buttons, how far you scroll and how long a page stays open</li>
+          <li>the words you type into site search, once you have typed three characters</li>
+          <li>the site or campaign link that brought you here</li>
+          <li>page loading times, and script errors that help us find broken pages</li>
+          <li>
+            your browser, device type and approximate location, which PostHog derives from your IP
+            address
+          </li>
+        </ul>
+        <p>
+          PostHog keeps a random identifier in your browser's session storage so that the pages of
+          one visit can be counted together. It is deleted when you close the tab. The site sets no
+          analytics cookies, does not record your session on screen, and shows no surveys. Apart
+          from search, text you type into forms is not recorded.
+        </p>
+        <p>
+          The <a href="/learn/readiness">readiness worksheet</a> loads no analytics at all. The
+          <a href="/observatory/watch">Watch</a> page records only page views and which section or
+          source you open.
+        </p>
+      </section>
+
+      <section class="privacy-section" aria-labelledby="opt-out-title">
+        <h2 id="opt-out-title">How to opt out</h2>
+        <p>
+          Turn on Do Not Track in your browser and the site stops sending analytics. Content
+          blockers that block PostHog work too. The site works the same either way.
+        </p>
+      </section>
+
+      <section class="privacy-section" aria-labelledby="newsletter-title">
+        <h2 id="newsletter-title">Newsletter</h2>
+        <p>
+          When you subscribe, your email address goes to
+          <a href="https://buttondown.com/" rel="noopener noreferrer">
+            Buttondown
+          </a>
+          , which sends the weekly briefing for us. We use it only for that briefing. Every email
+          has an unsubscribe link, and unsubscribing removes you from the list. Our analytics
+          records that a signup form was submitted, never the address.
+        </p>
+      </section>
+
+      <section class="privacy-section" aria-labelledby="browser-title">
+        <h2 id="browser-title">What stays in your browser</h2>
+        <ul>
+          <li>Your light or dark theme choice, kept in local storage until you clear it.</li>
+          <li>
+            The campaign link and referring site for the current visit, kept in session storage and
+            deleted when you close the tab.
+          </li>
+        </ul>
+        <p>
+          Earlier versions of the site kept a visitor ID and visit count in local storage, and
+          PostHog kept its identifier in a cookie. The site now deletes both when you next visit.
+        </p>
+      </section>
+
+      <section class="privacy-section" aria-labelledby="providers-title">
+        <h2 id="providers-title">Other services that see your request</h2>
+        <ul>
+          <li>
+            Cloudflare hosts the site and processes each request, including your IP address, to
+            deliver pages.
+          </li>
+          <li>Google Fonts serves the monospace font, so Google receives your IP address.</li>
+          <li>
+            Links to GitHub, Slack and official sources take you to sites with their own privacy
+            terms.
+          </li>
+        </ul>
+      </section>
+
+      <section class="privacy-section" aria-labelledby="contact-title">
+        <h2 id="contact-title">Questions</h2>
+        <p>
+          Ask in
+          <a
+            href="https://github.com/openfinance-os/community-website/discussions"
+            rel="noopener noreferrer"
+          >
+            GitHub Discussions
+          </a>
+          . The code that does all of this is public in the
+          <a href="https://github.com/openfinance-os/community-website" rel="noopener noreferrer">
+            site's repository
+          </a>
+          , so you can check this notice against it.
+        </p>
+      </section>
+    </article>
+  </div>
+</PageLayout>
+
+<style>
+  .privacy-page {
+    padding: var(--space-8) var(--space-5) var(--space-16);
+    background: var(--color-surface);
+  }
+  .privacy-container {
+    max-width: 44rem;
+    margin: 0 auto;
+  }
+  .privacy-intro {
+    padding: var(--space-4) 0 var(--space-8);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-4);
+  }
+  .privacy-intro h1 {
+    color: var(--color-brand-ink);
+    font-size: clamp(2.15rem, 4.4vw, 3rem);
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    margin-bottom: var(--space-6);
+  }
+  .lead {
+    font-size: 1.125rem;
+    line-height: 1.75;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+  .updated {
+    margin: var(--space-4) 0 0;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+  .privacy-section {
+    padding: var(--space-8) 0 0;
+  }
+  .privacy-section h2 {
+    font-size: 1.375rem;
+    color: var(--color-brand-ink);
+    margin-bottom: var(--space-3);
+  }
+  .privacy-section p,
+  .privacy-section li {
+    color: var(--color-text-secondary);
+    line-height: 1.75;
+  }
+  .privacy-section p {
+    margin: 0 0 var(--space-4);
+  }
+  .privacy-section ul {
+    margin: 0 0 var(--space-4);
+    padding-left: var(--space-5);
+  }
+  .privacy-section a {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+</style>
