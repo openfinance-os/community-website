@@ -1,0 +1,160 @@
+---
+/**
+ * Latest headlines inside the homepage hero, so news is visible on the
+ * first screen. Same ordering as LatestNews (newest first, own posts and
+ * external coverage together); the full cards follow further down the page.
+ */
+import { getCollection } from 'astro:content';
+
+interface Props {
+  limit?: number;
+}
+const { limit = 3 } = Astro.props;
+
+const items = (await getCollection('news'))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, limit)
+  .map((article) => {
+    const external = Boolean(article.data.external && article.data.source);
+    return {
+      title: article.data.title,
+      date: article.data.date,
+      type: article.data.type,
+      href: external ? article.data.source! : `/news/${article.id}`,
+      external,
+    };
+  });
+
+const typeLabels: Record<string, string> = {
+  official: 'Regulatory',
+  milestone: 'Ecosystem',
+  community: 'Community',
+  global: 'International',
+  opinion: 'Opinion',
+};
+const day = (value: Date) =>
+  value.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+---
+
+<nav class="hero-news" aria-label="Latest headlines">
+  <p class="hero-news-label">
+    <span>Latest</span>
+    <a href="/updates">
+      All updates <span aria-hidden="true">→</span>
+    </a>
+  </p>
+  <ol>
+    {items.map((item) => (
+      <li>
+        <a
+          href={item.href}
+          target={item.external ? '_blank' : undefined}
+          rel={item.external ? 'noopener noreferrer' : undefined}
+        >
+          <span class="hero-news-meta">
+            <time datetime={item.date.toISOString()}>{day(item.date)}</time> ·{' '}
+            {typeLabels[item.type] || item.type}
+            {item.external && <span aria-hidden="true"> ↗</span>}
+            {item.external && <span class="sr-only"> (opens external source)</span>}
+          </span>
+          <span class="hero-news-title">{item.title}</span>
+        </a>
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .hero-news {
+    position: relative;
+    z-index: 1;
+    max-width: 1224px;
+    margin: 26px auto 0;
+    display: grid;
+    grid-template-columns: 132px minmax(0, 1fr);
+    align-items: stretch;
+    background: color-mix(in srgb, var(--color-card) 92%, transparent);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    backdrop-filter: blur(6px);
+    overflow: hidden;
+  }
+  .hero-news-label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    padding: 12px 18px;
+    border-right: 1px solid var(--color-border);
+    font-size: 0.6875rem;
+  }
+  .hero-news-label > span {
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text);
+  }
+  .hero-news-label a {
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+  }
+  ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  li + li {
+    border-left: 1px solid var(--color-border);
+  }
+  li a {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    height: 100%;
+    padding: 12px 18px;
+    color: var(--color-text);
+  }
+  li a:hover {
+    text-decoration: none;
+    background: var(--color-soft);
+  }
+  li a:hover .hero-news-title {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .hero-news-meta {
+    font-size: 0.6875rem;
+    color: var(--color-text-secondary);
+  }
+  .hero-news-title {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  @media (max-width: 900px) {
+    .hero-news {
+      grid-template-columns: 1fr;
+    }
+    .hero-news-label {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      border-right: 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    ol {
+      grid-template-columns: 1fr;
+    }
+    li + li {
+      border-left: 0;
+      border-top: 1px solid var(--color-border);
+    }
+  }
+</style>
