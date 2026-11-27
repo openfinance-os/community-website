@@ -15,6 +15,9 @@ import { NEWSLETTER_PITCH, NEWSLETTER_SOURCES, SLACK_JOIN_PLACEMENTS } from '@li
 import type { ObservatorySnapshot } from '@lib/types';
 // Import observatory data
 import snapshot from '../../data/observatory/snapshots/latest.json';
+import history from '../../data/observatory/history.json';
+import { heroActivity, heroDirectoryStats } from '@lib/hero-stats';
+import watchPayload from '../../data/watch/payload.json';
 
 // Handle both old flat format and new dual-environment format
 const isDualFormat = 'production' in snapshot;
@@ -58,6 +61,19 @@ const ecosystemStats = {
   apiFamilyCoverage,
 };
 
+const heroObservation = (data: ObservatorySnapshot, points: typeof history.productionHistory) => ({
+  registered: data.summary.totalParticipants,
+  apiFamilies: data.summary.apiFamilies || [],
+  observedAt: data.timestamp,
+  stats: heroDirectoryStats(points, {
+    registered: data.summary.totalParticipants,
+    withIssuer: data.summary.liveInProduction || 0,
+    observedAt: data.timestamp,
+    apiFamilies: data.summary.apiFamilies || [],
+    participants: data.participants,
+  }),
+});
+
 const quickLinks = [
   {
     title: 'New to Open Finance?',
@@ -94,20 +110,9 @@ const icons: Record<string, string> = {
   lastUpdated={timestamp}
 >
   <Hero
-    production={{
-      registered: totalParticipants,
-      apiFamilies: apiFamilies || [],
-      observedAt: timestamp,
-    }}
-    sandbox={
-      sandboxData
-        ? {
-            registered: sandboxData.summary.totalParticipants,
-            apiFamilies: sandboxData.summary.apiFamilies || [],
-            observedAt: sandboxData.timestamp,
-          }
-        : null
-    }
+    production={heroObservation(productionData, history.productionHistory)}
+    sandbox={sandboxData ? heroObservation(sandboxData, history.sandboxHistory) : null}
+    activity={heroActivity(watchPayload)}
   />
   <StartingPoints />
   <DeadlineCallout placement="home" />

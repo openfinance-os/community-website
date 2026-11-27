@@ -17,7 +17,9 @@ test('directory preview switches environment without conflating saved observatio
   await expect(production).toBeHidden();
   await expect(sandbox).toContainText(`${snapshot.sandbox.summary.totalParticipants}`);
   await expect(sandbox).toContainText('sandbox directory registrations');
-  await expect(sandbox.locator('.families span')).toHaveText(snapshot.sandbox.summary.apiFamilies);
+  await expect(sandbox.locator('.families .family-name')).toHaveText(
+    snapshot.sandbox.summary.apiFamilies
+  );
   await expect(sandbox).toContainText(
     'Directory registration does not establish operational status'
   );
