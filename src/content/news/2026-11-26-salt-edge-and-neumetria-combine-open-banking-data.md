@@ -1,5 +1,5 @@
 ---
-title: "Salt Edge and Neumetria combine open banking data with behavioural insight for lenders and AI agents"
+title: "Salt Edge and Neumetria Add Behavioural Insight to Open Banking Data"
 date: 2026-11-26
 type: global
 region: global

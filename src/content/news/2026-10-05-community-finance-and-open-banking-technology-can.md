@@ -1,5 +1,5 @@
 ---
-title: "Community finance and open banking technology can support ‘credit invisibles’ – Salad Finance"
+title: "Salad Finance: Open Banking Can Support ‘Credit Invisibles’"
 date: 2026-10-05
 type: global
 region: global

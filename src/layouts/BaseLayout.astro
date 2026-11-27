@@ -1,4 +1,7 @@
 ---
+import { documentTitle as titleFor, metaDescription } from '@lib/seo';
+import { existingCard, ogCardPath } from '@lib/og-cards';
+
 interface Props {
   title: string;
   description?: string;
@@ -19,7 +22,7 @@ interface Props {
 const {
   title,
   description = 'The community home for UAE Open Finance and Open Banking. Ecosystem visibility, resources, and community collaboration for the UAE financial services industry.',
-  ogImage = '/og-image.png',
+  ogImage: ogImageProp,
   ogImageAlt,
   ogImageWidth = 1200,
   ogImageHeight = 630,
@@ -39,13 +42,20 @@ const canonicalPath =
       ? Astro.url.pathname
       : `${Astro.url.pathname}/`;
 const canonicalURL = new URL(canonicalPath, Astro.site);
+// A page without its own image gets its generated section card, if there is one.
+const sectionCard = ogImageProp ? undefined : existingCard(ogCardPath(canonicalPath));
+const ogImage = ogImageProp ?? sectionCard ?? '/og-image.png';
 const ogImageURL = new URL(ogImage, Astro.site);
+const cardAlt = sectionCard ? `${title} — Open Finance OS` : undefined;
 const ogAlt =
-  ogImageAlt || 'Open Finance OS - The community home for UAE Open Finance and Open Banking';
+  ogImageAlt ||
+  cardAlt ||
+  'Open Finance OS - The community home for UAE Open Finance and Open Banking';
 const twitterAlt =
-  ogImageAlt || 'Open Finance OS - UAE Open Finance and Open Banking community platform';
+  ogImageAlt || cardAlt || 'Open Finance OS - UAE Open Finance and Open Banking community platform';
 const isHome = canonicalPath === '/';
-const documentTitle = `${title} | Open Finance OS`;
+const documentTitle = titleFor(title);
+const summary = metaDescription(description);
 const ogImageType = ogImageURL.pathname.endsWith('.png')
   ? 'image/png'
   : ogImageURL.pathname.endsWith('.webp')
@@ -198,7 +208,7 @@ const breadcrumbSchema =
 
     <!-- SEO -->
     <title>{documentTitle}</title>
-    <meta name="description" content={description} />
+    <meta name="description" content={summary} />
     <meta name="keywords" content={allKeywords.join(', ')} />
     <link rel="canonical" href={canonicalURL} />
 
@@ -211,7 +221,7 @@ const breadcrumbSchema =
 
     <!-- Open Graph -->
     <meta property="og:title" content={documentTitle} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={summary} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:site_name" content="Open Finance OS" />
     <meta property="og:type" content={type} />
@@ -230,7 +240,7 @@ const breadcrumbSchema =
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={documentTitle} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:description" content={summary} />
     <meta name="twitter:image" content={ogImageURL} />
     <meta name="twitter:image:alt" content={twitterAlt} />
 

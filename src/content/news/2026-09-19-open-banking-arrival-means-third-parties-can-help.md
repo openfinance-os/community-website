@@ -1,5 +1,5 @@
 ---
-title: "Open banking arrival means third parties can help with budgeting, loans and power bills - Diana Clement"
+title: "Open Banking Lets Third Parties Help with Budgets, Loans and Bills"
 date: 2026-09-19
 type: opinion
 region: global

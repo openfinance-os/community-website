@@ -1,5 +1,5 @@
 ---
-title: "Global Open Banking Market Worth USD 59.81Bn by 2031 Fueled by the Rapid Adoption of Payment Initiation Services says a 2026 Mordor Intelligence Report"
+title: "Mordor Intelligence Puts the Global Open Banking Market at USD 59.81bn by 2031"
 date: 2026-01-30
 type: global
 region: global
