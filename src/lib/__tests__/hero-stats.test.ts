@@ -1,7 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import history from '../../../data/observatory/history.json';
 import snapshot from '../../../data/observatory/snapshots/latest.json';
-import { heroDirectoryStats, signed, sparklinePoints } from '../hero-stats';
+import watch from '../../../data/watch/payload.json';
+import {
+  compactAmount,
+  heroActivity,
+  heroDirectoryStats,
+  signed,
+  sparklinePoints,
+} from '../hero-stats';
 
 const h = (date: string, totalParticipants: number, liveInProduction = 0) => ({
   date,
@@ -85,5 +92,23 @@ describe('signed', () => {
     expect(signed(5)).toBe('+5');
     expect(signed(0)).toBe('0');
     expect(signed(-2)).toBe('−2');
+  });
+});
+
+describe('heroActivity', () => {
+  it('reads the latest full month from the Watch payload', () => {
+    const a = heroActivity(watch);
+    expect(a.month).toBe(watch.activity.monthsFull.at(-1));
+    expect(a.calls.month).toBe(watch.activity.lastFullVal);
+    expect(a.payments.month).toBe(watch.payActivity.lastFullVal);
+    expect(a.payments.currency).toBe('AED');
+    // The partial month never leaks into the headline.
+    expect(a.month).not.toBe(watch.curPartial);
+  });
+
+  it('formats amounts compactly', () => {
+    expect(compactAmount(124778111.99)).toBe('124.8m');
+    expect(compactAmount(414862947.98)).toBe('414.9m');
+    expect(compactAmount(1.25e9)).toBe('1.3bn');
   });
 });

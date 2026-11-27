@@ -16,7 +16,8 @@ import type { ObservatorySnapshot } from '@lib/types';
 // Import observatory data
 import snapshot from '../../data/observatory/snapshots/latest.json';
 import history from '../../data/observatory/history.json';
-import { heroDirectoryStats } from '@lib/hero-stats';
+import { heroActivity, heroDirectoryStats } from '@lib/hero-stats';
+import watchPayload from '../../data/watch/payload.json';
 
 // Handle both old flat format and new dual-environment format
 const isDualFormat = 'production' in snapshot;
@@ -111,6 +112,7 @@ const icons: Record<string, string> = {
   <Hero
     production={heroObservation(productionData, history.productionHistory)}
     sandbox={sandboxData ? heroObservation(sandboxData, history.sandboxHistory) : null}
+    activity={heroActivity(watchPayload)}
   />
   <StartingPoints />
   <DeadlineCallout placement="home" />

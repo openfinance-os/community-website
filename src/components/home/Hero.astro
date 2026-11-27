@@ -1,7 +1,7 @@
 ---
 import DirectorySnapshot from './DirectorySnapshot.astro';
 import HeroFilm from './HeroFilm.astro';
-import type { HeroDirectoryStats } from '@lib/hero-stats';
+import type { HeroActivity, HeroDirectoryStats } from '@lib/hero-stats';
 interface DirectoryObservation {
   registered: number;
   apiFamilies: string[];
@@ -11,8 +11,9 @@ interface DirectoryObservation {
 interface Props {
   production: DirectoryObservation;
   sandbox: DirectoryObservation | null;
+  activity?: HeroActivity | null;
 }
-const { production, sandbox } = Astro.props;
+const { production, sandbox, activity } = Astro.props;
 ---
 
 <section class="hero" aria-labelledby="hero-title">
@@ -41,7 +42,7 @@ const { production, sandbox } = Astro.props;
       </div>
       <p class="hero-note">Open source. Community led. Independent by design.</p>
     </div>
-    <DirectorySnapshot production={production} sandbox={sandbox} />
+    <DirectorySnapshot production={production} sandbox={sandbox} activity={activity} />
   </div>
 </section>
 <div class="principles">

@@ -115,3 +115,53 @@ export function sparklinePoints(
 export function signed(n: number): string {
   return n > 0 ? `+${n}` : n < 0 ? `−${Math.abs(n)}` : '0';
 }
+
+export interface WatchActivityPayload {
+  asOfData: string;
+  activity: { monthsFull: string[]; lastFullVal: number; momPct: number; fullTotal: number };
+  payActivity: {
+    lastFullVal: number;
+    momPct: number;
+    fullTotal: number;
+    ccy: string;
+  };
+}
+
+export interface HeroActivity {
+  /** YYYY-MM of the latest complete month. */
+  month: string;
+  asOfData: string;
+  calls: { month: number; momPct: number; twelveMonths: number };
+  payments: { month: number; momPct: number; twelveMonths: number; currency: string };
+}
+
+/**
+ * Latest full-month operational figures from the Ecosystem Watch payload
+ * (public API Hub logs). Partial months are excluded, as in the Watch.
+ */
+export function heroActivity(payload: WatchActivityPayload): HeroActivity {
+  const { activity, payActivity } = payload;
+  return {
+    month: activity.monthsFull[activity.monthsFull.length - 1],
+    asOfData: payload.asOfData,
+    calls: {
+      month: activity.lastFullVal,
+      momPct: activity.momPct,
+      twelveMonths: activity.fullTotal,
+    },
+    payments: {
+      month: payActivity.lastFullVal,
+      momPct: payActivity.momPct,
+      twelveMonths: payActivity.fullTotal,
+      currency: payActivity.ccy,
+    },
+  };
+}
+
+/** 124778111.99 → "124.8m"; 414862947.98 → "414.9m"; 1.2e9 → "1.2bn". */
+export function compactAmount(value: number): string {
+  if (value >= 1e9) return `${(value / 1e9).toFixed(1)}bn`;
+  if (value >= 1e6) return `${(value / 1e6).toFixed(1)}m`;
+  if (value >= 1e3) return `${(value / 1e3).toFixed(1)}k`;
+  return value.toFixed(0);
+}
