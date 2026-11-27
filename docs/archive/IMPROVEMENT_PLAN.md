@@ -1,5 +1,7 @@
 # Website Improvement Plan
 
+> **Archived 27 November 2026.** Most of this backlog has shipped (search, RSS, Open Graph, structured data, analytics, chart labels, accessibility). Kept for history only; plan new work from the current code and `docs/reviews/`.
+
 Based on a comprehensive review of the Open Finance OS community website, here are recommended improvements organized by priority and category.
 
 ---
