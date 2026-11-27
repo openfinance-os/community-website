@@ -70,12 +70,17 @@
     api_host: 'https://us.i.posthog.com',
     defaults: '2025-11-30',
     person_profiles: 'identified_only',
+    // Privacy notice (/privacy): no cookie and no ID that outlives the tab,
+    // no session recording, no surveys, and Do Not Track is honoured.
+    persistence: 'sessionStorage',
+    disable_session_recording: true,
+    disable_surveys: true,
+    respect_dnt: true,
     ...(isWatcher
       ? {
           capture_pageview: true,
           capture_pageleave: true,
           autocapture: false,
-          disable_session_recording: true,
         }
       : {}),
   });

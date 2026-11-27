@@ -6,7 +6,6 @@
  * - Scroll depth tracking
  * - Engagement time tracking
  * - Outbound link tracking
- * - Return visitor identification
  * - Page performance metrics (Core Web Vitals)
  */
 
@@ -20,6 +19,7 @@ import { outboundAttempt } from '../lib/engagement-events';
  */
 export function initEnhancedAnalytics(): void {
   if (typeof window === 'undefined') return;
+  clearRetiredIdentifiers();
   // Watch uses explicit navigation events; the editable worksheet excludes analytics.
   if (/^\/(?:observatory\/watch|learn\/readiness)\/?$/.test(window.location.pathname)) return;
   if (window.__enhancedAnalyticsInitialized) return;
@@ -30,7 +30,6 @@ export function initEnhancedAnalytics(): void {
     if (window.posthog) {
       captureUTMParameters();
       captureReferrer();
-      identifyReturningVisitor();
       initScrollDepthTracking();
       initEngagementTracking();
       initOutboundLinkTracking();
@@ -124,74 +123,55 @@ function captureReferrer(): void {
 }
 
 // ============================================
-// Return Visitor Identification
+// Retired visitor identifiers
 // ============================================
 
-function identifyReturningVisitor(): void {
-  const visitorKey = 'ofos_visitor_id';
-  const visitCountKey = 'ofos_visit_count';
-  const firstVisitKey = 'ofos_first_visit';
-  const lastVisitKey = 'ofos_last_visit';
+// Earlier versions stored a persistent visitor ID and visit counts in
+// localStorage. The privacy notice (/privacy) promises no identifier that
+// outlives the tab, so clear those keys for returning browsers.
+const RETIRED_VISITOR_KEYS = [
+  'ofos_visitor_id',
+  'ofos_visit_count',
+  'ofos_first_visit',
+  'ofos_last_visit',
+];
 
-  let visitorId = localStorage.getItem(visitorKey);
-  let visitCount = parseInt(localStorage.getItem(visitCountKey) || '0', 10);
-  const firstVisit = localStorage.getItem(firstVisitKey);
-  const lastVisit = localStorage.getItem(lastVisitKey);
-  const now = new Date().toISOString();
+// PostHog used to persist its ID in a `ph_*_posthog` cookie and localStorage
+// entry. It now keeps it in sessionStorage, so remove the old copies too.
+const RETIRED_POSTHOG_PATTERN = /^ph_.+_posthog$/;
 
-  // Check if this is a new session (more than 30 min since last visit)
-  const isNewSession = !lastVisit || Date.now() - new Date(lastVisit).getTime() > 30 * 60 * 1000;
-
-  if (!visitorId) {
-    // New visitor
-    visitorId = generateVisitorId();
-    localStorage.setItem(visitorKey, visitorId);
-    localStorage.setItem(firstVisitKey, now);
-    localStorage.setItem(visitCountKey, '1');
-    localStorage.setItem(lastVisitKey, now);
-
-    window.posthog?.capture('new_visitor', {
-      visitor_id: visitorId,
-    });
-
-    window.posthog?.register({
-      visitor_type: 'new',
-      visit_count: 1,
-    });
-  } else if (isNewSession) {
-    // Returning visitor, new session
-    visitCount += 1;
-    localStorage.setItem(visitCountKey, visitCount.toString());
-    localStorage.setItem(lastVisitKey, now);
-
-    const daysSinceFirstVisit = firstVisit
-      ? Math.floor((Date.now() - new Date(firstVisit).getTime()) / (1000 * 60 * 60 * 24))
-      : 0;
-
-    window.posthog?.capture('returning_visitor', {
-      visitor_id: visitorId,
-      visit_count: visitCount,
-      days_since_first_visit: daysSinceFirstVisit,
-    });
-
-    window.posthog?.register({
-      visitor_type: 'returning',
-      visit_count: visitCount,
-      days_since_first_visit: daysSinceFirstVisit,
-    });
-  } else {
-    // Same session, just update last visit
-    localStorage.setItem(lastVisitKey, now);
-
-    window.posthog?.register({
-      visitor_type: visitCount === 1 ? 'new' : 'returning',
-      visit_count: visitCount,
-    });
-  }
+export function retiredStorageKeys(keys: string[]): string[] {
+  return keys.filter(
+    (key) => RETIRED_VISITOR_KEYS.includes(key) || RETIRED_POSTHOG_PATTERN.test(key)
+  );
 }
 
-function generateVisitorId(): string {
-  return 'v_' + Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
+export function retiredCookieNames(cookieHeader: string): string[] {
+  return cookieHeader
+    .split(';')
+    .map((part) => part.split('=')[0].trim())
+    .filter((name) => RETIRED_POSTHOG_PATTERN.test(name));
+}
+
+function clearRetiredIdentifiers(): void {
+  try {
+    const storage = window.localStorage;
+    const keys = Array.from({ length: storage.length }, (_, i) => storage.key(i) ?? '');
+    for (const key of retiredStorageKeys(keys)) storage.removeItem(key);
+  } catch {
+    // Storage can be unavailable (private mode, blocked site data).
+  }
+  try {
+    const host = window.location.hostname;
+    const parentDomain = host.replace(/^www\./, '');
+    for (const name of retiredCookieNames(document.cookie)) {
+      for (const domain of ['', `; domain=${host}`, `; domain=.${parentDomain}`]) {
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/${domain}`;
+      }
+    }
+  } catch {
+    // Cookie access can throw in sandboxed frames.
+  }
 }
 
 // ============================================
