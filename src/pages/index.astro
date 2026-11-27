@@ -114,6 +114,7 @@ const icons: Record<string, string> = {
     sandbox={sandboxData ? heroObservation(sandboxData, history.sandboxHistory) : null}
     activity={heroActivity(watchPayload)}
   />
+  <LatestNews limit={4} />
   <StartingPoints />
   <DeadlineCallout placement="home" />
   <OpenCircuit />
@@ -124,8 +125,6 @@ const icons: Record<string, string> = {
   <WatchBriefing />
 
   <EcosystemRecord />
-
-  <LatestNews limit={4} />
 
   <section class="stay-loop" aria-labelledby="stay-loop-title">
     <div class="stay-loop-inner">
