@@ -1,0 +1,629 @@
+{
+  "source": {
+    "repository": "https://github.com/openfinance-os/data-sandbox",
+    "commit": "31869335adf01df8a5ea48700dca22c7056285b3",
+    "corpusVersion": "0.1.0",
+    "referenceDate": "2026-05-01T00:00:00.000Z",
+    "spec": {
+      "banking": {
+        "version": "v2.1-errata2",
+        "commit": "a3c8b8bf22e080046a8e0fbd9933f57431604155"
+      },
+      "insurance": {
+        "version": "v2.1-errata3",
+        "commit": "a3c8b8bf22e080046a8e0fbd9933f57431604155"
+      }
+    }
+  },
+  "personas": [
+    {
+      "id": "salaried_expat_mid",
+      "name": "Sara — Salaried Expat (Mid Tier)",
+      "segment": "Retail",
+      "domains": ["banking"],
+      "lfi": "median",
+      "seed": 4729,
+      "views": {
+        "accounts": {
+          "path": "/accounts",
+          "envelope": {
+            "Data": {
+              "Account": [
+                {
+                  "AccountId": "salaried-expat-mid-acct-01",
+                  "Status": "Active",
+                  "StatusUpdateDateTime": "2024-05-08T00:00:00Z",
+                  "Currency": "AED",
+                  "AccountType": "Retail",
+                  "AccountSubType": "CurrentAccount",
+                  "Nickname": "Current",
+                  "AccountHolderName": "Sara Bhat",
+                  "AccountIdentifiers": [
+                    {
+                      "SchemeName": "IBAN",
+                      "Identification": "AE044309083245252911036",
+                      "Name": "Sara Bhat"
+                    }
+                  ],
+                  "Servicer": {
+                    "SchemeName": "BICFI",
+                    "Identification": "SYNAEAA"
+                  }
+                },
+                {
+                  "AccountId": "salaried-expat-mid-acct-02",
+                  "Status": "Active",
+                  "StatusUpdateDateTime": "2024-11-04T00:00:00Z",
+                  "Currency": "AED",
+                  "AccountType": "Retail",
+                  "AccountSubType": "CreditCard",
+                  "Nickname": "Credit Card",
+                  "AccountHolderName": "Sara Bhat",
+                  "AccountIdentifiers": [
+                    {
+                      "SchemeName": "IBAN",
+                      "Identification": "AE024702981627016285964",
+                      "Name": "Sara Bhat"
+                    }
+                  ],
+                  "Servicer": {
+                    "SchemeName": "BICFI",
+                    "Identification": "SYNAEAA"
+                  }
+                }
+              ]
+            },
+            "Links": {
+              "Self": "https://example.test/open-finance/account-information/v2.1/accounts"
+            },
+            "Meta": { "TotalPages": 1 },
+            "_watermark": "SYNTHETIC — Open Finance Data Sandbox · OpenFinance-OS Commons · persona:salaried_expat_mid lfi:median seed:4729 reference:2026-05-01T00:00:00.000Z"
+          },
+          "excerpt": null
+        },
+        "balances": {
+          "path": "/accounts/{AccountId}/balances",
+          "envelope": {
+            "Data": {
+              "AccountId": "salaried-expat-mid-acct-01",
+              "Balance": [
+                {
+                  "Amount": { "Amount": "183706.53", "Currency": "AED" },
+                  "CreditDebitIndicator": "Credit",
+                  "Type": "InterimBooked",
+                  "DateTime": "2026-05-01T00:00:00Z"
+                }
+              ]
+            },
+            "Links": {
+              "Self": "https://example.test/open-finance/account-information/v2.1/accounts/salaried-expat-mid-acct-01/balances"
+            },
+            "Meta": { "TotalPages": 1 },
+            "_watermark": "SYNTHETIC — Open Finance Data Sandbox · OpenFinance-OS Commons · persona:salaried_expat_mid lfi:median seed:4729 reference:2026-05-01T00:00:00.000Z"
+          },
+          "excerpt": null
+        },
+        "transactions": {
+          "path": "/accounts/{AccountId}/transactions",
+          "envelope": {
+            "Data": {
+              "AccountId": "salaried-expat-mid-acct-01",
+              "Transaction": [
+                {
+                  "TransactionId": "salaried-expat-mid-acct-01-tx-2026-04-27-01092",
+                  "TransactionReference": "AUTH114607",
+                  "CreditDebitIndicator": "Debit",
+                  "Status": "Booked",
+                  "BookingDateTime": "2026-04-27T23:50:00Z",
+                  "TransactionDateTime": "2026-04-27T23:50:00Z",
+                  "ValueDateTime": "2026-04-27T23:50:00Z",
+                  "TransactionInformation": "POS/RIDGEPOINT/000562/UAQ",
+                  "Amount": { "Amount": "205.06", "Currency": "AED" },
+                  "TransactionType": "POS",
+                  "SubTransactionType": "Purchase",
+                  "BankTransactionCode": {
+                    "Domain": "Payments",
+                    "DomainCode": "PMNT",
+                    "Family": "Customer Card Transactions",
+                    "FamilyCode": "CCRD",
+                    "SubFamily": "POS (Payment) Debit",
+                    "SubFamilyCode": "POSD"
+                  },
+                  "ProprietaryBankTransactionCode": {
+                    "Code": "POS-DR",
+                    "Issuer": "CBUAE"
+                  }
+                },
+                {
+                  "TransactionId": "salaried-expat-mid-acct-01-tx-2026-04-27-01078",
+                  "TransactionReference": "IPP8531999669",
+                  "CreditDebitIndicator": "Debit",
+                  "Status": "Booked",
+                  "BookingDateTime": "2026-04-27T13:45:00Z",
+                  "TransactionDateTime": "2026-04-27T13:45:00Z",
+                  "ValueDateTime": "2026-04-28T13:45:00Z",
+                  "TransactionInformation": "SO/RENT/9276",
+                  "Amount": { "Amount": "8000.00", "Currency": "AED" },
+                  "TransactionType": "LocalBankTransfer",
+                  "SubTransactionType": "Repayments",
+                  "BankTransactionCode": {
+                    "Domain": "Payments",
+                    "DomainCode": "PMNT",
+                    "Family": "Issued Credit Transfers",
+                    "FamilyCode": "ICDT",
+                    "SubFamily": "Standing Order",
+                    "SubFamilyCode": "STDO"
+                  },
+                  "ProprietaryBankTransactionCode": {
+                    "Code": "SO-DR",
+                    "Issuer": "CBUAE"
+                  }
+                },
+                {
+                  "TransactionId": "salaried-expat-mid-acct-01-tx-2026-04-27-01112",
+                  "TransactionReference": "584880309",
+                  "CreditDebitIndicator": "Debit",
+                  "Status": "Booked",
+                  "BookingDateTime": "2026-04-27T13:45:00Z",
+                  "TransactionDateTime": "2026-04-27T13:45:00Z",
+                  "ValueDateTime": "2026-04-27T13:45:00Z",
+                  "TransactionInformation": "ECM/MIRAGECART/DXB",
+                  "Amount": { "Amount": "412.75", "Currency": "AED" },
+                  "TransactionType": "ECommerce",
+                  "SubTransactionType": "Purchase",
+                  "BankTransactionCode": {
+                    "Domain": "Payments",
+                    "DomainCode": "PMNT",
+                    "Family": "Customer Card Transactions",
+                    "FamilyCode": "CCRD",
+                    "SubFamily": "POS (Payment) Debit",
+                    "SubFamilyCode": "POSD"
+                  },
+                  "ProprietaryBankTransactionCode": {
+                    "Code": "ECM-DR",
+                    "Issuer": "CBUAE"
+                  }
+                },
+                {
+                  "TransactionId": "salaried-expat-mid-acct-01-tx-2026-04-27-01098",
+                  "TransactionReference": "AUTH9902328",
+                  "CreditDebitIndicator": "Debit",
+                  "Status": "Booked",
+                  "BookingDateTime": "2026-04-27T11:00:00Z",
+                  "TransactionDateTime": "2026-04-27T11:00:00Z",
+                  "ValueDateTime": "2026-04-27T11:00:00Z",
+                  "TransactionInformation": "POS/ASC/NOON*CEDAR PLATE/33643/SHJ",
+                  "Amount": { "Amount": "125.25", "Currency": "AED" },
+                  "TransactionType": "POS",
+                  "SubTransactionType": "Purchase",
+                  "BankTransactionCode": {
+                    "Domain": "Payments",
+                    "DomainCode": "PMNT",
+                    "Family": "Customer Card Transactions",
+                    "FamilyCode": "CCRD",
+                    "SubFamily": "POS (Payment) Debit",
+                    "SubFamilyCode": "POSD"
+                  },
+                  "ProprietaryBankTransactionCode": {
+                    "Code": "POS-DR",
+                    "Issuer": "CBUAE"
+                  }
+                },
+                {
+                  "TransactionId": "salaried-expat-mid-acct-01-tx-2026-04-27-01077",
+                  "TransactionReference": "IPP2302825194",
+                  "CreditDebitIndicator": "Credit",
+                  "Status": "Booked",
+                  "BookingDateTime": "2026-04-27T04:30:00Z",
+                  "TransactionDateTime": "2026-04-27T04:30:00Z",
+                  "ValueDateTime": "2026-04-27T04:30:00Z",
+                  "TransactionInformation": "SAL/PAYROLL/BAYANSOFTW",
+                  "DebtorAgent": {
+                    "SchemeName": "BICFI",
+                    "Identification": "SYNAEAA",
+                    "Name": "Bayan Software DMCC"
+                  },
+                  "DebtorAccount": {
+                    "SchemeName": "IBAN",
+                    "Identification": "AE599997845579556778006",
+                    "Name": "Bayan Software DMCC"
+                  },
+                  "Amount": { "Amount": "25000.00", "Currency": "AED" },
+                  "TransactionType": "LocalBankTransfer",
+                  "SubTransactionType": "Deposit",
+                  "BankTransactionCode": {
+                    "Domain": "Payments",
+                    "DomainCode": "PMNT",
+                    "Family": "Received Credit Transfers",
+                    "FamilyCode": "RCDT",
+                    "SubFamily": "Salary Payment",
+                    "SubFamilyCode": "SALA"
+                  },
+                  "ProprietaryBankTransactionCode": {
+                    "Code": "WPS-CR",
+                    "Issuer": "CBUAE"
+                  }
+                },
+                {
+                  "TransactionId": "salaried-expat-mid-acct-01-tx-2026-04-27-01086",
+                  "TransactionReference": "697320",
+                  "CreditDebitIndicator": "Debit",
+                  "Status": "Booked",
+                  "BookingDateTime": "2026-04-27T00:30:00Z",
+                  "TransactionDateTime": "2026-04-27T00:30:00Z",
+                  "ValueDateTime": "2026-04-27T00:30:00Z",
+                  "TransactionInformation": "POS/CEDAR VALLEY SUPERMART/FUJ",
+                  "Amount": { "Amount": "245.25", "Currency": "AED" },
+                  "TransactionType": "POS",
+                  "SubTransactionType": "Purchase",
+                  "BankTransactionCode": {
+                    "Domain": "Payments",
+                    "DomainCode": "PMNT",
+                    "Family": "Customer Card Transactions",
+                    "FamilyCode": "CCRD",
+                    "SubFamily": "POS (Payment) Debit",
+                    "SubFamilyCode": "POSD"
+                  },
+                  "ProprietaryBankTransactionCode": {
+                    "Code": "POS-DR",
+                    "Issuer": "CBUAE"
+                  }
+                }
+              ]
+            },
+            "Links": {
+              "Self": "https://example.test/open-finance/account-information/v2.1/accounts/salaried-expat-mid-acct-01/transactions"
+            },
+            "Meta": { "TotalPages": 1 },
+            "_watermark": "SYNTHETIC — Open Finance Data Sandbox · OpenFinance-OS Commons · persona:salaried_expat_mid lfi:median seed:4729 reference:2026-05-01T00:00:00.000Z"
+          },
+          "excerpt": "Latest 6 of 1122 transactions in the fixture."
+        }
+      }
+    },
+    {
+      "id": "sme_cash_heavy",
+      "name": "Karim — SME Owner (Cash-Heavy Retail)",
+      "segment": "SME",
+      "domains": ["banking"],
+      "lfi": "median",
+      "seed": 6308,
+      "views": {
+        "accounts": {
+          "path": "/accounts",
+          "envelope": {
+            "Data": {
+              "Account": [
+                {
+                  "AccountId": "sme-cash-heavy-acct-01",
+                  "Status": "Active",
+                  "StatusUpdateDateTime": "2021-05-09T00:00:00Z",
+                  "Currency": "AED",
+                  "AccountType": "SME",
+                  "AccountSubType": "CurrentAccount",
+                  "AccountHolderName": "Aurora Trading LLC",
+                  "AccountIdentifiers": [
+                    {
+                      "SchemeName": "IBAN",
+                      "Identification": "AE326301379560332692924",
+                      "Name": "Aurora Trading LLC"
+                    }
+                  ],
+                  "Servicer": {
+                    "SchemeName": "BICFI",
+                    "Identification": "SYNAEAA"
+                  }
+                }
+              ]
+            },
+            "Links": {
+              "Self": "https://example.test/open-finance/account-information/v2.1/accounts"
+            },
+            "Meta": { "TotalPages": 1 },
+            "_watermark": "SYNTHETIC — Open Finance Data Sandbox · OpenFinance-OS Commons · persona:sme_cash_heavy lfi:median seed:6308 reference:2026-05-01T00:00:00.000Z"
+          },
+          "excerpt": null
+        },
+        "balances": {
+          "path": "/accounts/{AccountId}/balances",
+          "envelope": {
+            "Data": {
+              "AccountId": "sme-cash-heavy-acct-01",
+              "Balance": [
+                {
+                  "Amount": { "Amount": "419614.33", "Currency": "AED" },
+                  "CreditDebitIndicator": "Credit",
+                  "Type": "InterimBooked",
+                  "DateTime": "2026-05-01T00:00:00Z"
+                }
+              ]
+            },
+            "Links": {
+              "Self": "https://example.test/open-finance/account-information/v2.1/accounts/sme-cash-heavy-acct-01/balances"
+            },
+            "Meta": { "TotalPages": 1 },
+            "_watermark": "SYNTHETIC — Open Finance Data Sandbox · OpenFinance-OS Commons · persona:sme_cash_heavy lfi:median seed:6308 reference:2026-05-01T00:00:00.000Z"
+          },
+          "excerpt": null
+        },
+        "transactions": {
+          "path": "/accounts/{AccountId}/transactions",
+          "envelope": {
+            "Data": {
+              "AccountId": "sme-cash-heavy-acct-01",
+              "Transaction": [
+                {
+                  "TransactionId": "sme-cash-heavy-acct-01-tx-2026-04-27-00833",
+                  "TransactionReference": "440980",
+                  "CreditDebitIndicator": "Debit",
+                  "Status": "Booked",
+                  "BookingDateTime": "2026-04-27T23:50:00Z",
+                  "TransactionDateTime": "2026-04-27T23:50:00Z",
+                  "ValueDateTime": "2026-04-27T23:50:00Z",
+                  "TransactionInformation": "POS/RIDGEPOINT FUEL/9374/SHJ",
+                  "Amount": { "Amount": "186.25", "Currency": "AED" },
+                  "TransactionType": "POS",
+                  "SubTransactionType": "Purchase",
+                  "BankTransactionCode": {
+                    "Domain": "Payments",
+                    "DomainCode": "PMNT",
+                    "Family": "Customer Card Transactions",
+                    "FamilyCode": "CCRD",
+                    "SubFamily": "POS (Payment) Debit",
+                    "SubFamilyCode": "POSD"
+                  },
+                  "ProprietaryBankTransactionCode": {
+                    "Code": "POS-DR",
+                    "Issuer": "CBUAE"
+                  }
+                },
+                {
+                  "TransactionId": "sme-cash-heavy-acct-01-tx-2026-04-27-00858",
+                  "TransactionReference": "BRN741202604278276",
+                  "CreditDebitIndicator": "Credit",
+                  "Status": "Booked",
+                  "BookingDateTime": "2026-04-27T23:50:00Z",
+                  "TransactionDateTime": "2026-04-27T23:50:00Z",
+                  "ValueDateTime": "2026-04-27T23:50:00Z",
+                  "TransactionInformation": "CSH/DEP/BR261",
+                  "Amount": { "Amount": "5843.00", "Currency": "AED" },
+                  "TransactionType": "Teller",
+                  "SubTransactionType": "Deposit",
+                  "BankTransactionCode": {
+                    "Domain": "Payments",
+                    "DomainCode": "PMNT",
+                    "Family": "Received Credit Transfers",
+                    "FamilyCode": "RCDT",
+                    "SubFamily": "Cash Deposit",
+                    "SubFamilyCode": "CDPT"
+                  },
+                  "ProprietaryBankTransactionCode": {
+                    "Code": "CSH-DEP",
+                    "Issuer": "CBUAE"
+                  }
+                },
+                {
+                  "TransactionId": "sme-cash-heavy-acct-01-tx-2026-04-27-00842",
+                  "TransactionReference": "AUTH8117571",
+                  "CreditDebitIndicator": "Debit",
+                  "Status": "Booked",
+                  "BookingDateTime": "2026-04-27T18:00:00Z",
+                  "TransactionDateTime": "2026-04-27T18:00:00Z",
+                  "ValueDateTime": "2026-04-27T18:00:00Z",
+                  "TransactionInformation": "POS/METROPASS TOP UP/4018630/DXB",
+                  "Amount": { "Amount": "90.22", "Currency": "AED" },
+                  "TransactionType": "POS",
+                  "SubTransactionType": "Purchase",
+                  "BankTransactionCode": {
+                    "Domain": "Payments",
+                    "DomainCode": "PMNT",
+                    "Family": "Customer Card Transactions",
+                    "FamilyCode": "CCRD",
+                    "SubFamily": "POS (Payment) Debit",
+                    "SubFamilyCode": "POSD"
+                  },
+                  "ProprietaryBankTransactionCode": {
+                    "Code": "POS-DR",
+                    "Issuer": "CBUAE"
+                  }
+                },
+                {
+                  "TransactionId": "sme-cash-heavy-acct-01-tx-2026-04-27-00828",
+                  "TransactionReference": "IPP6189642553",
+                  "CreditDebitIndicator": "Debit",
+                  "Status": "Booked",
+                  "BookingDateTime": "2026-04-27T13:45:00Z",
+                  "TransactionDateTime": "2026-04-27T13:45:00Z",
+                  "ValueDateTime": "2026-04-27T13:45:00Z",
+                  "TransactionInformation": "SO/SHOP/1384",
+                  "Amount": { "Amount": "12000.00", "Currency": "AED" },
+                  "TransactionType": "LocalBankTransfer",
+                  "SubTransactionType": "Repayments",
+                  "BankTransactionCode": {
+                    "Domain": "Payments",
+                    "DomainCode": "PMNT",
+                    "Family": "Issued Credit Transfers",
+                    "FamilyCode": "ICDT",
+                    "SubFamily": "Standing Order",
+                    "SubFamilyCode": "STDO"
+                  },
+                  "ProprietaryBankTransactionCode": {
+                    "Code": "SO-DR",
+                    "Issuer": "CBUAE"
+                  }
+                },
+                {
+                  "TransactionId": "sme-cash-heavy-acct-01-tx-2026-04-27-00848",
+                  "TransactionReference": "BRN171202604277902",
+                  "CreditDebitIndicator": "Credit",
+                  "Status": "Booked",
+                  "BookingDateTime": "2026-04-27T00:30:00Z",
+                  "TransactionDateTime": "2026-04-27T00:30:00Z",
+                  "ValueDateTime": "2026-04-27T00:30:00Z",
+                  "TransactionInformation": "CSH/DEP/BR178",
+                  "Amount": { "Amount": "2541.00", "Currency": "AED" },
+                  "TransactionType": "Teller",
+                  "SubTransactionType": "Deposit",
+                  "BankTransactionCode": {
+                    "Domain": "Payments",
+                    "DomainCode": "PMNT",
+                    "Family": "Received Credit Transfers",
+                    "FamilyCode": "RCDT",
+                    "SubFamily": "Cash Deposit",
+                    "SubFamilyCode": "CDPT"
+                  },
+                  "ProprietaryBankTransactionCode": {
+                    "Code": "CSH-DEP",
+                    "Issuer": "CBUAE"
+                  }
+                },
+                {
+                  "TransactionId": "sme-cash-heavy-acct-01-tx-2026-04-21-00852",
+                  "TransactionReference": "BRN542202604219779",
+                  "CreditDebitIndicator": "Credit",
+                  "Status": "Booked",
+                  "BookingDateTime": "2026-04-21T11:00:00Z",
+                  "TransactionDateTime": "2026-04-21T11:00:00Z",
+                  "ValueDateTime": "2026-04-21T11:00:00Z",
+                  "TransactionInformation": "CSH/DEP/BR281",
+                  "Amount": { "Amount": "7858.00", "Currency": "AED" },
+                  "TransactionType": "Teller",
+                  "SubTransactionType": "Deposit",
+                  "BankTransactionCode": {
+                    "Domain": "Payments",
+                    "DomainCode": "PMNT",
+                    "Family": "Received Credit Transfers",
+                    "FamilyCode": "RCDT",
+                    "SubFamily": "Cash Deposit",
+                    "SubFamilyCode": "CDPT"
+                  },
+                  "ProprietaryBankTransactionCode": {
+                    "Code": "CSH-DEP",
+                    "Issuer": "CBUAE"
+                  }
+                }
+              ]
+            },
+            "Links": {
+              "Self": "https://example.test/open-finance/account-information/v2.1/accounts/sme-cash-heavy-acct-01/transactions"
+            },
+            "Meta": { "TotalPages": 1 },
+            "_watermark": "SYNTHETIC — Open Finance Data Sandbox · OpenFinance-OS Commons · persona:sme_cash_heavy lfi:median seed:6308 reference:2026-05-01T00:00:00.000Z"
+          },
+          "excerpt": "Latest 6 of 859 transactions in the fixture."
+        }
+      }
+    },
+    {
+      "id": "motor_comprehensive_mid",
+      "name": "Omar — Motor Comprehensive (Mid Tier)",
+      "segment": "Retail",
+      "domains": ["insurance"],
+      "lfi": "median",
+      "seed": 4729,
+      "views": {
+        "policies": {
+          "path": "/motor-insurance-policies",
+          "envelope": {
+            "Data": {
+              "Policies": [
+                {
+                  "InsurancePolicyId": "7a8c6871-cd00-49e5-9b96-9f41e00a56a1",
+                  "PolicyNumber": "MTR-340171390",
+                  "PolicyStatus": "New",
+                  "PolicyStartDate": "2026-01-31",
+                  "PolicyEndDate": "2027-01-31"
+                }
+              ]
+            },
+            "Links": {
+              "Self": "https://example.test/open-finance/insurance/v2.1/motor-insurance-policies"
+            },
+            "Meta": { "TotalPages": 1 },
+            "_watermark": "SYNTHETIC — Open Finance Data Sandbox · OpenFinance-OS Commons · persona:motor_comprehensive_mid lfi:median seed:4729 reference:2026-05-01T00:00:00.000Z"
+          },
+          "excerpt": null
+        },
+        "policy": {
+          "path": "/motor-insurance-policies/{InsurancePolicyId}",
+          "envelope": {
+            "Data": {
+              "InsurancePolicyId": "7a8c6871-cd00-49e5-9b96-9f41e00a56a1",
+              "Product": {
+                "Policy": {
+                  "TypeOfPolicy": "Comprehensive",
+                  "PolicyStartDate": "2026-01-31",
+                  "CarUsage": "Private",
+                  "CarValuation": { "Currency": "AED", "Amount": "75000.00" },
+                  "PolicyNumber": "MTR-340171390",
+                  "PurchaseDate": "2026-01-23",
+                  "Takaful": false,
+                  "ProductName": "Motor Comprehensive Plus",
+                  "PolicyExcess": { "Currency": "AED", "Amount": "1500.00" },
+                  "PolicyCoverAndBenefits": [
+                    {
+                      "CoverType": "OwnDamage",
+                      "Description": "Own damage cover for the insured vehicle",
+                      "Required": true,
+                      "CoverLimit": { "Currency": "AED", "Amount": "75000.00" },
+                      "CoverInclusionsAndExclusions": [
+                        {
+                          "InclusionAndExclusionDescription": "Includes accidental damage to the insured vehicle within the UAE."
+                        }
+                      ],
+                      "CoverExcess": { "Currency": "AED", "Amount": "1500.00" }
+                    }
+                  ],
+                  "PolicyPurchaseChannelType": "Broker"
+                },
+                "VehicleDetails": {
+                  "ModelYear": "2023",
+                  "Make": "Toyota",
+                  "Model": "Corolla",
+                  "Trim": "Standard",
+                  "BodyType": "Saloon",
+                  "NoOfPassengersIncDriver": 5
+                },
+                "CarRegistration": { "EmirateOfRegistration": "Dubai" },
+                "DrivingLicenseHistory": { "DrivingLicenseNumber": "9384507" },
+                "AdditionalDrivers": [{ "FullName": "Hessa Al Zaabi" }]
+              },
+              "Claims": {
+                "Summary": [
+                  {
+                    "NumberOfMonthsInPeriod": 12,
+                    "Claims": 0,
+                    "ApprovedClaims": 0,
+                    "TotalGrossApprovedClaimAmount": {
+                      "Currency": "AED",
+                      "Amount": "0.00"
+                    },
+                    "TotalGrossPaidAmount": {
+                      "Currency": "AED",
+                      "Amount": "0.00"
+                    }
+                  }
+                ],
+                "NoClaimsDiscountAvailable": true
+              },
+              "Premium": {
+                "TotalPremiumAmount": {
+                  "Currency": "AED",
+                  "Amount": "3544.00"
+                },
+                "PaymentFrequency": "Annually",
+                "PaymentMode": "DirectDebit"
+              }
+            },
+            "Links": {
+              "Self": "https://example.test/open-finance/insurance/v2.1/motor-insurance-policies/7a8c6871-cd00-49e5-9b96-9f41e00a56a1"
+            },
+            "Meta": {},
+            "_watermark": "SYNTHETIC — Open Finance Data Sandbox · OpenFinance-OS Commons · persona:motor_comprehensive_mid lfi:median seed:4729 reference:2026-05-01T00:00:00.000Z"
+          },
+          "excerpt": "PolicyHolder and Identity blocks are left out of this excerpt."
+        }
+      }
+    }
+  ]
+}

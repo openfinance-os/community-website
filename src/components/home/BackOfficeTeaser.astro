@@ -1,0 +1,160 @@
+---
+import { areas } from '@lib/back-office';
+
+const shown = areas.slice(0, 4);
+---
+
+<section class="bo-teaser" aria-labelledby="bo-teaser-title">
+  <div class="bo-inner">
+    <div class="bo-copy">
+      <p class="eyebrow">Operating Open Finance / Banks and TPPs</p>
+      <h2 id="bo-teaser-title">
+        Going live is the start.
+        <br />
+        Then you have to run it.
+      </h2>
+      <p>
+        A customer asks about a consent. An invoice does not match. The regulator wants a record.
+        See what the back office has to handle, from the bank side and the TPP side.
+      </p>
+      <a href="/learn/back-office" class="bo-link">
+        See the back-office requirements <span aria-hidden="true">→</span>
+      </a>
+    </div>
+    <ol class="bo-list">
+      {shown.map((area, index) => (
+        <li>
+          <a href={`/learn/back-office#${area.id}`}>
+            <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+            <strong>{area.title}</strong>
+            <small>{area.teaser}</small>
+          </a>
+        </li>
+      ))}
+      <li class="bo-more">
+        <a href="/learn/back-office">
+          Plus {areas.length - shown.length} more, each from the LFI and TPP side
+          <span aria-hidden="true">→</span>
+        </a>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<style>
+  .bo-teaser {
+    padding: 56px 24px;
+  }
+  .bo-inner {
+    max-width: 1224px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 64px;
+    align-items: center;
+    padding: 44px;
+    border-radius: 12px;
+    background: var(--color-soft);
+    border: 1px solid var(--color-border);
+  }
+  .eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-secondary);
+    margin-bottom: 16px;
+  }
+  h2 {
+    font-size: clamp(2rem, 3vw, 2.75rem);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
+  .bo-copy > p:not(.eyebrow) {
+    color: var(--color-text-secondary);
+    line-height: 1.75;
+    max-width: 470px;
+    margin-bottom: 24px;
+  }
+  .bo-link {
+    display: inline-flex;
+    gap: 28px;
+    align-items: center;
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    background: var(--color-card);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  .bo-link:hover {
+    border-color: var(--color-text-secondary);
+    text-decoration: none;
+  }
+  .bo-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 8px;
+    min-width: 0;
+  }
+  .bo-list a {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr);
+    column-gap: 12px;
+    row-gap: 2px;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    color: var(--color-text);
+  }
+  .bo-list a:hover {
+    border-color: var(--color-text-secondary);
+    text-decoration: none;
+  }
+  .bo-list span {
+    grid-row: span 2;
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    color: var(--color-text-secondary);
+    padding-top: 4px;
+  }
+  .bo-list strong {
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+  .bo-list small {
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+  .bo-more a {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    background: transparent;
+    border-style: dashed;
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+  .bo-more span {
+    padding: 0;
+    font-size: 0.875rem;
+    color: inherit;
+  }
+  @media (max-width: 760px) {
+    .bo-teaser {
+      padding: 36px 20px;
+    }
+    .bo-inner {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      padding: 22px;
+    }
+  }
+</style>

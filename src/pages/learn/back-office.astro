@@ -1,0 +1,514 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import Breadcrumb from '@components/common/Breadcrumb.astro';
+import { areas, controls, sources, thread, SOURCES_CHECKED } from '@lib/back-office';
+
+const sourceList = Object.values(sources);
+---
+
+<PageLayout
+  title="Running an Open Finance Back Office"
+  description="What a bank or TPP has to handle after go-live in UAE Open Finance: consent operations, disputes, reconciliation, compliance reporting, risk and service levels, from the LFI and TPP side."
+>
+  <div class="bo-page" data-back-office data-view="both">
+    <div class="container">
+      <Breadcrumb items={[{ label: 'Learn', href: '/learn' }, { label: 'Back office' }]} />
+
+      <header class="page-intro bo-intro">
+        <p class="eyebrow">Operating Open Finance · For banks and TPPs</p>
+        <h1>Going live is the start. Then you have to run it.</h1>
+        <p class="lede">
+          Certification shows that your service works. It does not answer the customer who calls
+          about a consent, check the invoice, or reply to the regulator. That work lands in the back
+          office. Here is what it has to handle, seen from both sides.
+        </p>
+        <dl class="roles">
+          <div>
+            <dt>LFI</dt>
+            <dd>
+              A Licensed Financial Institution holds the customer’s accounts or policies and answers
+              requests the customer has permitted.
+            </dd>
+          </div>
+          <div>
+            <dt>TPP</dt>
+            <dd>
+              A Third-Party Provider uses that permission to read data or start a payment for the
+              customer. A bank can be both at once.
+            </dd>
+          </div>
+        </dl>
+      </header>
+
+      <section aria-labelledby="areas-title">
+        <div class="section-head">
+          <h2 id="areas-title">Seven jobs the back office has to do</h2>
+          <div class="view-switch" role="group" aria-label="Show requirements for">
+            <button type="button" data-view-button="both" aria-pressed="true">
+              Both
+            </button>
+            <button type="button" data-view-button="lfi" aria-pressed="false">
+              LFI
+            </button>
+            <button type="button" data-view-button="tpp" aria-pressed="false">
+              TPP
+            </button>
+          </div>
+        </div>
+
+        <ol class="areas">
+          {areas.map((area, index) => (
+            <li class="area" id={area.id}>
+              <div class="area-head">
+                <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                <div>
+                  <h3>{area.title}</h3>
+                  <p class="question">{area.question}</p>
+                </div>
+              </div>
+              <p class="anchor">
+                {area.anchor.text}{' '}
+                <a href={sources[area.anchor.source].href} rel="noopener noreferrer">
+                  {sources[area.anchor.source].label}
+                </a>
+              </p>
+              <div class="sides">
+                <div class="side" data-side="lfi">
+                  <h4>As an LFI</h4>
+                  <ul>
+                    {area.lfi.map((point) => (
+                      <li>{point}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div class="side" data-side="tpp">
+                  <h4>As a TPP</h4>
+                  <ul>
+                    {area.tpp.map((point) => (
+                      <li>{point}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="thread" aria-labelledby="thread-title">
+        <div>
+          <h2 id="thread-title">One event, five desks</h2>
+          <p>
+            These jobs are not separate. A single unauthorised payment shows up in five places at
+            once. Running Open Finance well means each desk sees the same event as one linked,
+            recorded thread.
+          </p>
+        </div>
+        <ol>
+          {thread.map((step) => (
+            <li>
+              <strong>{step.desk}</strong>
+              <span>{step.sees}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section aria-labelledby="controls-title">
+        <div class="section-head">
+          <h2 id="controls-title">Four controls under all of it</h2>
+        </div>
+        <ul class="controls">
+          {controls.map((control) => (
+            <li>
+              <h3>{control.title}</h3>
+              <p>{control.body}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="about" aria-labelledby="about-title">
+        <h2 id="about-title">Where this comes from</h2>
+        <p>
+          The operating jobs come from the Open Finance Back Office, a bank-neutral requirements
+          baseline and working demo being built in the Open Finance OS workshop, for an institution
+          acting as both LFI and TPP. It runs on synthetic data only. It is not open source, so this
+          page shares the requirements and not the code.
+        </p>
+        <p>
+          The scheme facts beside each job are summaries of the published sources below, last read{' '}
+          {SOURCES_CHECKED}. They are orientation, not legal or compliance advice. Check the current
+          source before you rely on a figure or a deadline.
+        </p>
+        <ul class="sources">
+          {sourceList.map((source) => (
+            <li>
+              <a href={source.href} rel="noopener noreferrer">
+                {source.label} <span aria-hidden="true">↗</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+        <div class="actions">
+          <a class="primary" href="/community">
+            Compare notes with the community
+          </a>
+          <a href="/learn/bank-guide">Read the bank guide</a>
+          <a href="/learn/tpp-guide">Read the TPP guide</a>
+        </div>
+        <p class="editorial-note">
+          AI-assisted drafting and source review by Claude,{' '}
+          <time datetime="2026-11-27">27 November 2026</time>. Editorial contact:{' '}
+          <a href="https://github.com/michartmann" rel="noopener noreferrer">
+            @michartmann
+          </a>
+          .
+        </p>
+      </section>
+    </div>
+  </div>
+</PageLayout>
+
+<script>
+  const page = document.querySelector<HTMLElement>('[data-back-office]');
+  const buttons = page?.querySelectorAll<HTMLButtonElement>('[data-view-button]') ?? [];
+  for (const button of buttons) {
+    button.addEventListener('click', () => {
+      if (!page) return;
+      page.dataset.view = button.dataset.viewButton;
+      for (const other of buttons) {
+        other.setAttribute('aria-pressed', String(other === button));
+      }
+    });
+  }
+</script>
+
+<style>
+  .bo-page {
+    padding: var(--space-8) 0 var(--space-20);
+  }
+  .bo-intro {
+    padding: var(--space-8) 0 var(--space-10);
+    margin-bottom: var(--space-10);
+  }
+  .eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-secondary);
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+    line-height: 1.08;
+    max-width: 860px;
+    margin-bottom: 20px;
+  }
+  .lede {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    max-width: 700px;
+  }
+  .roles {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin: 28px 0 0;
+    max-width: 860px;
+  }
+  .roles > div {
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    background: var(--color-card);
+    padding: 18px;
+  }
+  .roles dt {
+    font-weight: 600;
+    font-size: 0.8125rem;
+    letter-spacing: 0.06em;
+    color: var(--color-brand-ink);
+  }
+  .roles dd {
+    margin: 6px 0 0;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+  }
+  section {
+    margin-bottom: var(--space-16);
+  }
+  .section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  h2 {
+    font-size: 1.75rem;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+  }
+  .view-switch {
+    display: inline-flex;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    padding: 3px;
+    background: var(--color-card);
+  }
+  .view-switch button {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text);
+    padding: 7px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .view-switch button[aria-pressed='true'] {
+    background: var(--color-primary-fill);
+    color: #fff;
+  }
+  .view-switch button:focus-visible {
+    outline: 2px solid var(--color-brand-ink);
+    outline-offset: 2px;
+  }
+  .areas {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 18px;
+  }
+  .area {
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--color-card);
+    padding: 26px;
+    scroll-margin-top: 96px;
+  }
+  .area-head {
+    display: flex;
+    gap: 18px;
+    align-items: baseline;
+  }
+  .area-head > span {
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    color: var(--color-text-secondary);
+  }
+  h3 {
+    font-size: 1.375rem;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+  }
+  .question {
+    margin-top: 6px;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+  .anchor {
+    margin: 18px 0;
+    padding: 14px 16px;
+    border-left: 3px solid var(--color-accent-600);
+    background: var(--color-soft);
+    border-radius: 0 8px 8px 0;
+    font-size: 0.9375rem;
+    line-height: 1.65;
+  }
+  .anchor a,
+  .about a:not(.actions a) {
+    color: var(--color-brand-ink);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+    white-space: nowrap;
+  }
+  .sides {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+  }
+  h4 {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-secondary);
+    margin-bottom: 10px;
+  }
+  .side ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 10px;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+  .side li {
+    padding-left: 20px;
+    position: relative;
+  }
+  .side li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.7em;
+    width: 10px;
+    height: 2px;
+    background: var(--color-brand-ink);
+  }
+  [data-view='lfi'] [data-side='tpp'],
+  [data-view='tpp'] [data-side='lfi'] {
+    display: none;
+  }
+  [data-view='lfi'] .sides,
+  [data-view='tpp'] .sides {
+    grid-template-columns: 1fr;
+  }
+  .thread {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    gap: 48px;
+    align-items: center;
+    padding: 36px;
+    border-radius: 12px;
+    background: var(--color-soft);
+    border: 1px solid var(--color-border);
+  }
+  .thread p {
+    margin-top: 14px;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+  }
+  .thread ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 8px;
+  }
+  .thread li {
+    display: grid;
+    grid-template-columns: 130px minmax(0, 1fr);
+    gap: 16px;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 0.9375rem;
+  }
+  .thread li span {
+    color: var(--color-text-secondary);
+  }
+  .controls {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+  }
+  .controls li {
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    background: var(--color-card);
+    padding: 22px;
+  }
+  .controls h3 {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    margin-bottom: 8px;
+  }
+  .controls p {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--color-text-secondary);
+  }
+  .about {
+    max-width: 820px;
+  }
+  .about > p {
+    margin-top: 14px;
+    line-height: 1.75;
+    color: var(--color-text-secondary);
+  }
+  .sources {
+    list-style: none;
+    padding: 0;
+    margin: 18px 0 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+    font-size: 0.9375rem;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .actions a {
+    display: inline-flex;
+    gap: 12px;
+    align-items: center;
+    border-radius: 8px;
+    padding: 13px 18px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    background: var(--color-card);
+    text-decoration: none;
+  }
+  .actions a:hover {
+    border-color: var(--color-text-secondary);
+    text-decoration: none;
+  }
+  .actions a.primary {
+    background: var(--color-primary-fill);
+    border-color: var(--color-primary-fill);
+    color: #fff;
+  }
+  .actions a.primary:hover {
+    background: var(--color-primary-fill-strong);
+  }
+  .about .editorial-note {
+    margin-top: var(--space-8);
+    font-size: 0.8125rem;
+  }
+  @media (max-width: 960px) {
+    .controls {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .thread {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      padding: 24px;
+    }
+  }
+  @media (max-width: 640px) {
+    .roles,
+    .sides,
+    .controls {
+      grid-template-columns: 1fr;
+    }
+    .area {
+      padding: 20px;
+    }
+    .thread li {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+    .anchor a,
+    .about a:not(.actions a) {
+      white-space: normal;
+    }
+  }
+</style>
