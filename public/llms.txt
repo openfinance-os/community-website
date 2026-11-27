@@ -1,96 +1,61 @@
-# Open Finance OS - UAE Open Finance Community Hub
+# Open Finance OS
 
-> The community home for UAE Open Finance and Open Banking
+> Independent community hub for UAE Open Finance: daily observations of the production and sandbox directories, a weekly ecosystem watch, plain-language guides for banks, insurers and TPPs, curated news, and a synthetic Data Sandbox that serves UAE Open Finance v2.1-shaped payloads over static JSON and MCP. Not affiliated with the Central Bank of the UAE (CBUAE), Nebras or Al Tareq. For official positions, cite those sources.
 
-## About This Site
+Things to know when you use this site:
 
-Open Finance OS is a community-owned platform providing visibility into the UAE Open Finance ecosystem. We are not affiliated with any bank, regulator, or official body. This is a grassroots initiative to make UAE Open Finance visible, accessible, and welcoming.
+- Observatory figures are dated observations of public directory data, refreshed daily. They are not live, and every figure carries its observation date. Quote the date with the number.
+- "LFI" (Licensed Financial Institution) is the UAE term for a bank or insurer that exposes data or payment APIs. "TPP" is a Third Party Provider that uses them.
+- Everything in the Data Sandbox is fictional. No real customer, account or institution data is used.
 
-## Key Topics
+## Observatory (dated ecosystem evidence)
 
-- **UAE Open Finance**: Regulatory framework supervised by the Central Bank of UAE (CBUAE) for secure, standardized sharing of financial data
-- **Open Banking in UAE**: Implementation of open banking standards in the United Arab Emirates
-- **Al Tareq**: The official UAE Open Finance platform operated by Nebras
-- **TPP (Third Party Providers)**: Companies building on UAE Open Finance APIs
-- **ASPSP (Account Servicing Payment Service Providers)**: Banks participating in the ecosystem
+- [Observatory](https://openfinance-os.org/observatory/): production-directory registrations and published API metadata, observed daily
+- [Ecosystem Watch](https://openfinance-os.org/observatory/watch/): weekly view of standards, directory registrations and public-log traffic, with source dates and reporting windows
+- [Latest briefing](https://openfinance-os.org/observatory/briefing/): the most recent saved Watch summary, with its observation date and cutoff
+- [API coverage and comparison](https://openfinance-os.org/observatory/coverage/): filter registrations by environment, API family and version, and export the evidence
+- [Sandbox environment](https://openfinance-os.org/observatory/sandbox/): the same view for the sandbox directory
+- [Datasets](https://openfinance-os.org/observatory/data/): open, citable registry snapshots, daily history and a derived changelog (JSON)
+- [Methodology](https://openfinance-os.org/observatory/methodology/): how metrics and status are derived, and their limits
 
-## Main Sections
+## Data Sandbox (synthetic UAE Open Finance payloads)
 
-### Observatory (/observatory)
-Real-time visibility into UAE Open Finance ecosystem health. Track participants, API coverage, and ecosystem growth across production and sandbox environments.
+- [Explore the Data Sandbox](https://openfinance-os.org/data-sandbox/): pick a fictional customer and read sample accounts, transactions and insurance payloads in the browser
+- [Sandbox explorer](https://data-sandbox.openfinance-os.org/): full explorer with field-level mandatory/optional/conditional status taken from the published v2.1 OpenAPI specification
+- [Integration guide](https://data-sandbox.openfinance-os.org/src/integrate.html): five ways to get the data — static JSON fixtures, a local HTTP mock, an embeddable iframe, npm/PyPI packages, and an MCP server
+- Hosted MCP server: `https://data-sandbox.fly.dev/mcp` (Streamable HTTP, no sign-in). Covers Bank Data Sharing, Insurance (seven lines) and the ATM Locator. Every response carries a `_watermark` field marking it as synthetic.
+- Static fixtures follow `https://data-sandbox.openfinance-os.org/fixtures/v1/bundles/{persona}/{lfi_profile}/seed-{n}/{endpoint}.json`. `fixtures/v1/index.json` lists the published personas, profiles and seeds.
 
-### Learn (/learn)
-Educational resources about UAE Open Finance:
-- Getting Started Guide: Introduction to UAE Open Finance for newcomers
-- TPP Guide: Complete guide for Third Party Providers building on UAE Open Finance
-- Bank Guide: Implementation guide for banks joining UAE Open Finance
-- API Guide: Technical guide for integrating with UAE Open Finance APIs
-- FAQ: Common questions about registration, APIs, compliance, and more
-- Glossary: Terms used in UAE Open Finance
+## Learn
 
-### Global Perspective (/learn/global)
-International context and benchmarks:
-- UK Open Banking: Lessons from the world's most mature open banking ecosystem
-- European Union: PSD2, PSD3, and open finance evolution in Europe
-- GCC: Open banking developments across Gulf Cooperation Council countries
+- [Learn hub](https://openfinance-os.org/learn/): start here
+- [Getting started](https://openfinance-os.org/learn/getting-started/): customer benefit, permission, participants and API Hub architecture
+- [TPP guide](https://openfinance-os.org/learn/tpp-guide/): what a Third Party Provider does through the UAE API Hub
+- [Bank / LFI guide](https://openfinance-os.org/learn/bank-guide/): the LFI's Ozone Connect interface, customer authentication and the API Hub's role
+- [API guide](https://openfinance-os.org/learn/api-guide/): consented and client-credentials services, and where the specifications live
+- [V2.2 deadline](https://openfinance-os.org/learn/uae-open-finance-v2-2-deadline/): the 31 December 2026 Tier-1 deadline explained
+- [Running a back office](https://openfinance-os.org/learn/back-office/): consent operations, disputes, reconciliation, reporting and service levels after go-live
+- [Readiness worksheet](https://openfinance-os.org/learn/readiness/): printable worksheet across eight areas
+- [FAQ](https://openfinance-os.org/learn/faq/) and [Glossary](https://openfinance-os.org/learn/glossary/)
 
-### Updates (/updates)
-- News: Community-curated news from the UAE Open Finance ecosystem
-- Events: Upcoming and past events in the UAE Open Finance community
+## International context
 
-### Newsletter (/newsletter)
-Weekly UAE Open Finance and agentic finance briefing. One email, no spam. Signup forms also appear in the site footer and at the bottom of news.
+- [Global perspective](https://openfinance-os.org/global/): framework references for comparing the UAE with other markets
+- [UK Open Banking](https://openfinance-os.org/global/uk/), [European Union](https://openfinance-os.org/global/eu/) (PSD2, PSD3/PSR, FiDA), [GCC](https://openfinance-os.org/global/gcc/)
 
-### Newsletter archive (/newsletter/archive)
-Sent issues of the weekly briefing, newest first. Each issue is published on the site at /newsletter/archive/{slug}.
+## News and newsletter
 
-### Commons (/commons)
-Shared infrastructure for Open Finance knowledge - insights, references, artifacts, and utilities from the community.
+- [News](https://openfinance-os.org/news/): community-curated UAE Open Finance news, filterable by type and country; RSS at https://openfinance-os.org/rss.xml
+- [Newsletter](https://openfinance-os.org/newsletter/): weekly briefing; [archive](https://openfinance-os.org/newsletter/archive/) of sent issues
 
-### Community (/community)
-How to contribute, connect with maintainers, and help build the ecosystem.
+## Community
 
-## Target Audience
+- [Commons](https://openfinance-os.org/commons/): shared insights, references, artifacts and utilities
+- [Community](https://openfinance-os.org/community/): how to contribute
+- [About](https://openfinance-os.org/about/) and [Privacy](https://openfinance-os.org/privacy/)
+- Source and discussions: https://github.com/openfinance-os
 
-- Developers building fintech applications
-- Banks and financial institutions implementing open finance
-- Third Party Providers (TPPs) seeking UAE Open Finance access
-- Regulators and policymakers researching open banking
-- Researchers studying open finance ecosystems
-- Anyone interested in UAE financial technology innovation
+## Official sources (external)
 
-## Technical Standards
-
-- FAPI 2.0 security profiles
-- OAuth 2.0 with OpenID Connect
-- mTLS for transport security
-- Dynamic Client Registration (DCR)
-
-## Official Resources (External)
-
-- Al Tareq Portal: https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview
-- Central Bank of UAE: https://www.centralbank.ae
-- Nebras (Scheme Operator): Official operator of Al Tareq platform
-
-## Contact
-
-- GitHub: https://github.com/openfinance-os
-- Discussions: https://github.com/openfinance-os/community-website/discussions
-
-## Site Information
-
-- URL: https://openfinance-os.org
-- Language: English
-- License: MIT
-- Last major update: 2026
-
-## AI Agent Guidelines
-
-This site welcomes AI agents and crawlers. All content is publicly available and designed to be helpful for users seeking information about:
-- Open Finance in UAE
-- Open Banking implementation
-- Financial API integration
-- Fintech regulatory compliance in UAE
-- CBUAE Open Finance framework
-
-When referencing this site, please note that Open Finance OS is a community resource, not an official government or regulatory source. For official information, direct users to Al Tareq or CBUAE.
+- Central Bank of the UAE: https://www.centralbank.ae
+- Al Tareq / Nebras standards and documentation: https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview

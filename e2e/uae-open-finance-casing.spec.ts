@@ -25,10 +25,9 @@ function visibleCopy(value: unknown, out: string[] = []): string[] {
 test('rendered titles, descriptions, and the search index use UAE Open Finance', async ({
   page,
 }) => {
-  await page.goto('/');
-  const raw = await page.locator('#search-index-data').textContent();
-  expect(raw).toBeTruthy();
-  const index = JSON.parse(raw!) as unknown;
+  const response = await page.request.get('/search-index.json');
+  expect(response.ok()).toBe(true);
+  const index = (await response.json()) as unknown;
   const hits = visibleCopy(index).filter((text) => text.includes(phrase));
   expect(hits).toEqual([]);
 
