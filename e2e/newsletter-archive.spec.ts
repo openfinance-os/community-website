@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 import { assertIssues, sortIssuesNewestFirst } from '../src/lib/newsletter-archive';
+import { documentTitle } from '../src/lib/seo';
 
 const sentIssues = sortIssuesNewestFirst(
   assertIssues(
@@ -72,7 +73,7 @@ test('newest sent issue renders on its own canonical page', async ({ page }) => 
   const latest = sentIssues[0];
   const latestPath = `/newsletter/archive/${latest.slug}/`;
   await page.goto(latestPath);
-  await expect(page).toHaveTitle(`${latest.subject} | Open Finance OS`);
+  await expect(page).toHaveTitle(documentTitle(latest.subject));
   await expect(page.getByRole('heading', { level: 1, name: latest.subject })).toBeVisible();
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     'href',
@@ -94,14 +95,14 @@ test('issue page renders the briefing on the site with subscribe and Slack calls
 }) => {
   await page.goto(`${issuePath}/`);
 
-  await expect(page).toHaveTitle(`${subject} | Open Finance OS`);
+  await expect(page).toHaveTitle(documentTitle(subject));
   await expect(page.locator('meta[name="description"]')).toHaveAttribute(
     'content',
     /welcome to the first issue/i
   );
   await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
     'content',
-    `${subject} | Open Finance OS`
+    documentTitle(subject)
   );
   await expect(page.locator('meta[property="og:description"]')).toHaveAttribute(
     'content',

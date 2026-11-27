@@ -1,5 +1,5 @@
 ---
-title: "Lean Technologies and Ziina Deliver the UAE's First Live Customer-Initiated Open Finance Payment"
+title: "Lean and Ziina Complete the UAE's First Live Open Finance Payment"
 date: 2026-01-15
 type: milestone
 region: uae

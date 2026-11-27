@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { documentTitle } from '../src/lib/seo';
 
 const phrase = 'UAE open finance';
 const articlePath = '/news/2026-09-30-uae-open-finance-ai-agents-and-the-price-of-being/';
@@ -32,7 +33,7 @@ test('rendered titles, descriptions, and the search index use UAE Open Finance',
   expect(hits).toEqual([]);
 
   await page.goto(articlePath);
-  await expect(page).toHaveTitle(`${articleTitle} | Open Finance OS`);
+  await expect(page).toHaveTitle(documentTitle(articleTitle));
   const description = await page.locator('meta[name="description"]').getAttribute('content');
   expect(description).toContain(articleTitle);
   expect(description).not.toContain(phrase);

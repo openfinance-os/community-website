@@ -1,5 +1,5 @@
 ---
-title: "Data Sandbox grows up: 38 personas, Insurance Data Sharing GA, an ATM directory, and an MCP server"
+title: "Data Sandbox Adds Insurance, an ATM Directory and an MCP Server"
 date: 2026-06-09
 type: community
 region: uae

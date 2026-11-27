@@ -1,4 +1,6 @@
 ---
+import { MAX_DESCRIPTION_LENGTH } from '@lib/seo';
+import { existingCard, newsCardPath } from '@lib/og-cards';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import PageLayout from '@layouts/PageLayout.astro';
@@ -36,7 +38,9 @@ function publicFile(urlPath: string) {
 }
 
 const pngSibling = imagePath?.endsWith('.svg') ? imagePath.replace(/\.svg$/, '.png') : undefined;
-const ogImage = pngSibling && existsSync(publicFile(pngSibling)) ? pngSibling : imagePath;
+const ogImage =
+  (pngSibling && existsSync(publicFile(pngSibling)) ? pngSibling : imagePath) ??
+  existingCard(newsCardPath(entry.id));
 const coverSvg = imagePath?.endsWith('.svg') ? inlinePublicSvg(imagePath, imageAlt) : '';
 
 const typeLabels: Record<string, string> = {
@@ -62,7 +66,10 @@ const publishedLabel = entry.data.date.toLocaleDateString('en-GB', {
   timeZone: 'UTC',
 });
 const articleSummary = entry.data.description || `${entry.data.title} — Open Finance OS news.`;
-const articleDescription = `${articleSummary} Published ${publishedLabel}.`;
+const datedSummary = `${articleSummary} Published ${publishedLabel}.`;
+// Keep the publication date only when it fits in a search snippet.
+const articleDescription =
+  datedSummary.length <= MAX_DESCRIPTION_LENGTH ? datedSummary : articleSummary;
 const articleUrl = new URL(`/news/${entry.id}/`, Astro.site).toString();
 const authorName = entry.data.author || 'Open Finance OS Community';
 const authorIsOrganization =
@@ -107,7 +114,7 @@ const articleSchema = {
   title={entry.data.title}
   description={articleDescription}
   ogImage={ogImage}
-  ogImageAlt={imageAlt || undefined}
+  ogImageAlt={imageAlt || (ogImage ? `${entry.data.title} — Open Finance OS news` : undefined)}
   type="article"
   publishedTime={entry.data.date.toISOString()}
   articleSchema={articleSchema}
