@@ -1,0 +1,685 @@
+---
+/**
+ * Production registrations since the first saved observation, with the
+ * subset that publishes an authorization-server issuer. Stepped: a count
+ * holds until the daily observation that changes it.
+ */
+import {
+  growthSeries,
+  longDate,
+  monthTicks,
+  niceAxis,
+  shortMonth,
+  stepPath,
+  timeScale,
+  type ObservationPoint,
+} from '@lib/observatory-visuals';
+import { participantUrl } from '@lib/participant-identity';
+
+interface Milestone {
+  date: string;
+  event: string;
+  participantId?: string;
+  participantName?: string;
+}
+
+interface Props {
+  history: ObservationPoint[];
+  milestones?: Milestone[];
+}
+
+const { history, milestones = [] } = Astro.props;
+
+const series = growthSeries(history);
+const first = series[0];
+const last = series[series.length - 1];
+const W = 1000;
+const H = 300;
+const axis = niceAxis(Math.max(...series.map((p) => p.registrations)));
+const scale = timeScale(first.date, last.date, axis.max, W, H);
+const registrations = series.map((p) => ({ date: p.date, value: p.registrations }));
+const withIssuer = series.map((p) => ({ date: p.date, value: p.withIssuer }));
+const ticks = monthTicks(first.date, last.date, 2);
+const pctX = (date: string) => `${((scale.x(date) / W) * 100).toFixed(2)}%`;
+const pctY = (value: number) => `${((scale.y(value) / H) * 100).toFixed(2)}%`;
+const recent = [...milestones]
+  .filter((m) => m.participantName)
+  .sort((a, b) => b.date.localeCompare(a.date))
+  .slice(0, 6);
+const delta = (value: number) => (value > 0 ? `+${value}` : value < 0 ? `−${-value}` : '0');
+---
+
+<section class="growth-card" aria-labelledby="growth-title">
+  <header class="growth-head">
+    <div>
+      <h2 id="growth-title">Registrations over time</h2>
+      <p>
+        Production directory, {longDate(first.date)} to {longDate(last.date)}. Each step is a change
+        seen between daily observations.
+      </p>
+    </div>
+    <ul class="legend" aria-label="Series">
+      <li>
+        <i class="swatch a"></i>Registrations
+      </li>
+      <li>
+        <i class="swatch b"></i>With an issuer
+      </li>
+    </ul>
+  </header>
+
+  <div class="growth-body">
+    <div class="plot-wrap">
+      <div
+        class="plot"
+        data-growth-plot
+        data-series={JSON.stringify(series)}
+        data-axis-max={axis.max}
+        tabindex="0"
+        role="img"
+        aria-label={`Stepped line chart. Registrations rose from ${first.registrations} to ${last.registrations}; registrations with an issuer rose from ${first.withIssuer} to ${last.withIssuer}. Use the left and right arrow keys to read each change.`}
+      >
+        <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="growth-area" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" class="area-top"></stop>
+              <stop offset="1" class="area-bottom"></stop>
+            </linearGradient>
+          </defs>
+          {axis.ticks.map((t) => (
+            <line
+              class:list={['grid', { base: t === 0 }]}
+              x1="0"
+              x2={W}
+              y1={scale.y(t)}
+              y2={scale.y(t)}
+            />
+          ))}
+          <path class="area" d={stepPath(registrations, scale, 0)} fill="url(#growth-area)"></path>
+          <path class="line a" d={stepPath(registrations, scale)}></path>
+          <path class="line b" d={stepPath(withIssuer, scale)}></path>
+        </svg>
+        {axis.ticks.map((t) => (
+          <span class="y-tick" style={`top:${pctY(t)}`} aria-hidden="true">
+            {t}
+          </span>
+        ))}
+        {ticks.map((t) => (
+          <span class="x-tick" style={`left:${pctX(t)}`} aria-hidden="true">
+            {shortMonth(t)}
+            {(t.slice(5, 7) === '01' || t === ticks[0]) && <b>{t.slice(0, 4)}</b>}
+          </span>
+        ))}
+        <i class="end-dot a" style={`top:${pctY(last.registrations)}`} aria-hidden="true"></i>
+        <i class="end-dot b" style={`top:${pctY(last.withIssuer)}`} aria-hidden="true"></i>
+        <span class="end-label" style={`top:${pctY(last.registrations)}`} aria-hidden="true">
+          <b>{last.registrations}</b> registrations
+        </span>
+        <span class="end-label" style={`top:${pctY(last.withIssuer)}`} aria-hidden="true">
+          <b>{last.withIssuer}</b> with an issuer
+        </span>
+        <div class="crosshair" data-crosshair hidden>
+          <i class="hover-dot a" data-dot-a></i>
+          <i class="hover-dot b" data-dot-b></i>
+        </div>
+        <div class="tooltip" data-tooltip role="status" hidden>
+          <span class="tip-date" data-tip-date></span>
+          <span class="tip-row">
+            <i class="swatch a"></i>
+            <b data-tip-a></b> registrations
+          </span>
+          <span class="tip-row">
+            <i class="swatch b"></i>
+            <b data-tip-b></b> with an issuer
+          </span>
+        </div>
+      </div>
+      <p class="plot-note">
+        An issuer is published metadata. It is not evidence of traffic or verified availability.
+      </p>
+    </div>
+
+    {recent.length > 0 && (
+      <aside class="arrivals" aria-labelledby="arrivals-title">
+        <h3 id="arrivals-title">Latest first observations</h3>
+        <ol>
+          {recent.map((m) => (
+            <li>
+              <time datetime={m.date}>{longDate(m.date)}</time>
+              {m.participantId ? (
+                <a href={participantUrl({ id: m.participantId })}>{m.participantName}</a>
+              ) : (
+                <span>{m.participantName}</span>
+              )}
+            </li>
+          ))}
+        </ol>
+        <a class="arrivals-more" href="#changelog">
+          Full registry changelog →
+        </a>
+      </aside>
+    )}
+  </div>
+
+  <details class="data-table">
+    <summary>View as a table</summary>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Observed</th>
+            <th scope="col">Registrations</th>
+            <th scope="col">With an issuer</th>
+          </tr>
+        </thead>
+        <tbody>
+          {series.map((p, i) => (
+            <tr>
+              <th scope="row">{longDate(p.date)}</th>
+              <td>
+                {p.registrations}
+                {i > 0 && p.registrations !== series[i - 1].registrations && (
+                  <small>{delta(p.registrations - series[i - 1].registrations)}</small>
+                )}
+              </td>
+              <td>
+                {p.withIssuer}
+                {i > 0 && p.withIssuer !== series[i - 1].withIssuer && (
+                  <small>{delta(p.withIssuer - series[i - 1].withIssuer)}</small>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </details>
+</section>
+
+<script>
+  interface Point {
+    date: string;
+    registrations: number;
+    withIssuer: number;
+  }
+
+  for (const plot of document.querySelectorAll<HTMLElement>('[data-growth-plot]')) {
+    const series: Point[] = JSON.parse(plot.dataset.series || '[]');
+    const crosshair = plot.querySelector<HTMLElement>('[data-crosshair]');
+    const tooltip = plot.querySelector<HTMLElement>('[data-tooltip]');
+    if (series.length < 2 || !crosshair || !tooltip) continue;
+
+    const svg = plot.querySelector('svg')!;
+    const axisMax = Number(plot.dataset.axisMax) || 1;
+    const time = (d: string) => Date.parse(`${d}T00:00:00Z`);
+    const t0 = time(series[0].date);
+    const t1 = time(series[series.length - 1].date);
+    const dotA = plot.querySelector<HTMLElement>('[data-dot-a]')!;
+    const dotB = plot.querySelector<HTMLElement>('[data-dot-b]')!;
+    const format = (ms: number) =>
+      new Date(ms).toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+        timeZone: 'UTC',
+      });
+    let keyIndex = series.length - 1;
+
+    const show = (ms: number) => {
+      const clamped = Math.min(Math.max(ms, t0), t1);
+      // Stepped series: the value in force is the last change on or before the date.
+      let point = series[0];
+      for (const p of series) {
+        if (time(p.date) <= clamped) point = p;
+        else break;
+      }
+      const fraction = (clamped - t0) / (t1 - t0);
+      crosshair.hidden = false;
+      tooltip.hidden = false;
+      crosshair.style.left = `${fraction * 100}%`;
+      dotA.style.top = `${(1 - point.registrations / axisMax) * 100}%`;
+      dotB.style.top = `${(1 - point.withIssuer / axisMax) * 100}%`;
+      tooltip.querySelector('[data-tip-date]')!.textContent = format(clamped);
+      tooltip.querySelector('[data-tip-a]')!.textContent = String(point.registrations);
+      tooltip.querySelector('[data-tip-b]')!.textContent = String(point.withIssuer);
+      const flip = fraction > 0.6;
+      tooltip.style.left = flip ? 'auto' : `calc(${fraction * 100}% + 12px)`;
+      tooltip.style.right = flip ? `calc(${(1 - fraction) * 100}% + 12px)` : 'auto';
+    };
+    const hide = () => {
+      crosshair.hidden = true;
+      tooltip.hidden = true;
+    };
+
+    plot.addEventListener('pointermove', (event) => {
+      const box = svg.getBoundingClientRect();
+      const fraction = (event.clientX - box.left) / box.width;
+      // Snap to whole days, as observations are daily.
+      const ms = t0 + Math.round((fraction * (t1 - t0)) / 86_400_000) * 86_400_000;
+      show(ms);
+    });
+    plot.addEventListener('pointerleave', hide);
+    plot.addEventListener('blur', hide);
+    plot.addEventListener('focus', () => show(time(series[keyIndex].date)));
+    plot.addEventListener('keydown', (event) => {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      event.preventDefault();
+      keyIndex = Math.min(
+        Math.max(keyIndex + (event.key === 'ArrowRight' ? 1 : -1), 0),
+        series.length - 1
+      );
+      show(time(series[keyIndex].date));
+    });
+  }
+</script>
+
+<style>
+  .growth-card {
+    --viz-a: #008f8a;
+    --viz-b: #c9811f;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-6);
+    min-width: 0;
+  }
+
+  :global([data-theme='dark']) .growth-card {
+    --viz-a: #25b3aa;
+    --viz-b: #e39a3c;
+  }
+
+  .growth-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: var(--space-3) var(--space-6);
+    margin-bottom: var(--space-6);
+  }
+
+  .growth-head h2 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--color-text);
+    margin-bottom: var(--space-1);
+  }
+
+  .growth-head p {
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+    max-width: 620px;
+  }
+
+  .legend {
+    display: flex;
+    gap: var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+  }
+
+  .legend li,
+  .tip-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .swatch {
+    width: 14px;
+    height: 3px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .swatch.a,
+  .end-dot.a,
+  .hover-dot.a {
+    background: var(--viz-a);
+  }
+
+  .swatch.b,
+  .end-dot.b,
+  .hover-dot.b {
+    background: var(--viz-b);
+  }
+
+  .growth-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-8);
+  }
+
+  @media (min-width: 1024px) {
+    .growth-body {
+      grid-template-columns: minmax(0, 1fr) 250px;
+    }
+  }
+
+  .plot-wrap {
+    min-width: 0;
+  }
+
+  .plot {
+    position: relative;
+    height: clamp(220px, 30vw, 320px);
+    margin: var(--space-2) 148px var(--space-12) 30px;
+    cursor: crosshair;
+    border-radius: 2px;
+    touch-action: pan-y;
+  }
+
+  .plot:focus-visible {
+    outline: 2px solid var(--color-brand-ink);
+    outline-offset: 8px;
+  }
+
+  .plot svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .grid {
+    stroke: var(--color-border);
+    stroke-width: 1;
+    stroke-dasharray: 2 4;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .grid.base {
+    stroke-dasharray: none;
+  }
+
+  .area-top {
+    stop-color: var(--viz-a);
+    stop-opacity: 0.22;
+  }
+
+  .area-bottom {
+    stop-color: var(--viz-a);
+    stop-opacity: 0.02;
+  }
+
+  .line {
+    fill: none;
+    stroke-width: 2;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .line.a {
+    stroke: var(--viz-a);
+  }
+
+  .line.b {
+    stroke: var(--viz-b);
+  }
+
+  .y-tick,
+  .x-tick {
+    position: absolute;
+    font-size: 0.6875rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text-secondary);
+    pointer-events: none;
+  }
+
+  .y-tick {
+    right: calc(100% + 8px);
+    transform: translateY(-50%);
+  }
+
+  .x-tick {
+    top: calc(100% + 8px);
+    transform: translateX(-50%);
+    text-align: center;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+
+  .x-tick b {
+    display: block;
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  .end-dot,
+  .hover-dot {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px var(--color-card);
+    pointer-events: none;
+  }
+
+  .end-dot {
+    left: 100%;
+    transform: translate(-50%, -50%);
+  }
+
+  .end-label {
+    position: absolute;
+    left: calc(100% + 14px);
+    transform: translateY(-50%);
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .end-label b {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-text);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .crosshair {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--color-text-secondary);
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  .hover-dot {
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .tooltip {
+    position: absolute;
+    top: 8px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: var(--space-3);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .tooltip[hidden],
+  .crosshair[hidden] {
+    display: none;
+  }
+
+  .tip-date {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-text-secondary);
+  }
+
+  .tip-row b {
+    font-weight: 600;
+    color: var(--color-text);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .plot-note {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    margin-left: 30px;
+  }
+
+  .arrivals {
+    min-width: 0;
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-5);
+  }
+
+  @media (min-width: 1024px) {
+    .arrivals {
+      border-top: 0;
+      border-left: 1px solid var(--color-border);
+      padding: 0 0 0 var(--space-6);
+    }
+  }
+
+  .arrivals h3 {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-4);
+  }
+
+  .arrivals ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 560px) and (max-width: 1023px) {
+    .arrivals ol {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .arrivals li {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding-left: var(--space-4);
+    position: relative;
+    min-width: 0;
+  }
+
+  .arrivals li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--viz-a);
+  }
+
+  .arrivals time {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-text-secondary);
+  }
+
+  .arrivals li a,
+  .arrivals li span {
+    font-size: 0.875rem;
+    color: var(--color-text);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+
+  .arrivals li a:hover {
+    text-decoration: underline;
+  }
+
+  .arrivals-more {
+    display: inline-block;
+    margin-top: var(--space-5);
+    font-size: 0.8125rem;
+    color: var(--color-brand-ink);
+  }
+
+  .data-table {
+    margin-top: var(--space-5);
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-4);
+    font-size: 0.8125rem;
+  }
+
+  .data-table summary {
+    cursor: pointer;
+    color: var(--color-brand-ink);
+    width: fit-content;
+  }
+
+  .table-scroll {
+    overflow-x: auto;
+    margin-top: var(--space-3);
+  }
+
+  .data-table table {
+    border-collapse: collapse;
+    min-width: 340px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .data-table th,
+  .data-table td {
+    text-align: left;
+    padding: 6px var(--space-6) 6px 0;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 400;
+  }
+
+  .data-table thead th {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-secondary);
+  }
+
+  .data-table small {
+    margin-left: 6px;
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 640px) {
+    .growth-card {
+      padding: var(--space-5) var(--space-4);
+    }
+
+    .plot {
+      margin-right: 8px;
+      margin-left: 26px;
+    }
+
+    .end-label {
+      display: none;
+    }
+
+    .plot-note {
+      margin-left: 0;
+    }
+  }
+</style>
