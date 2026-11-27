@@ -5,6 +5,7 @@
 # while loading fine in a browser). Keep only non-participant special cases here.
 
 # Non-participant reference sites that reject the CI checker (HTTP/2 protocol
-# errors, connection resets) but load fine in a browser. Reviewed 2026-07-12.
+# errors, connection resets) but load fine in a browser. Reviewed 2026-07-12; businesswire added 2026-11-27.
 ://www\.cdr\.gov\.au
 ://www\.openbankingeurope\.eu
+://www\.businesswire\.com

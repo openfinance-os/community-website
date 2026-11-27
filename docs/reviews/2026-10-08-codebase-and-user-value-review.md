@@ -71,7 +71,7 @@ Important strengths to preserve:
 - The main site already has global search, participant filtering with URL persistence, RSS, sitemap generation, structured data, themes, chart labels, and a table alternative in the homepage record.
 - Operator-pointer pages reduce the burden of maintaining duplicate integration documentation.
 
-The old `IMPROVEMENT_PLAN.md` is partly obsolete. Search, RSS, Open Graph metadata, structured data, shared city utilities, analytics, and chart labels are present. Future planning should begin from the current implementation rather than repeat that backlog.
+The old `IMPROVEMENT_PLAN.md` (now `docs/archive/`) is partly obsolete. Search, RSS, Open Graph metadata, structured data, shared city utilities, analytics, and chart labels are present. Future planning should begin from the current implementation rather than repeat that backlog.
 
 ## Confirmed findings and their user impact
 
