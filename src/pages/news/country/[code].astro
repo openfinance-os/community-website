@@ -30,7 +30,7 @@ const description = `${articles.length} ${articles.length === 1 ? 'story' : 'sto
 ---
 
 <PageLayout title={`${name} news`} description={description} breadcrumbCurrent={name}>
-  <div class="country-page">
+  <div class="country-page" data-country-code={code}>
     <header class="page-intro">
       <p class="back-link">
         <a href="/updates/">All updates</a>
@@ -101,3 +101,25 @@ const description = `${articles.length} ${articles.length === 1 ? 'story' : 'sto
     }
   }
 </style>
+
+<script>
+  import {
+    trackNewsCountryPageViewed,
+    trackNewsFilteredStoryClicked,
+  } from '@lib/news-map-analytics';
+
+  const page = document.querySelector('.country-page');
+  const countryCode = page?.getAttribute('data-country-code') || '';
+  trackNewsCountryPageViewed(countryCode);
+
+  document.querySelectorAll('#country-news .news-card').forEach((card) => {
+    card.addEventListener('click', () => {
+      trackNewsFilteredStoryClicked({
+        countryCode,
+        timeRange: 'all',
+        source: 'url',
+        slug: card.getAttribute('data-slug') || '',
+      });
+    });
+  });
+</script>
