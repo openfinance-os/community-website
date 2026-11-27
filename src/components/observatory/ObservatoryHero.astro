@@ -1,0 +1,490 @@
+---
+/**
+ * Observatory introduction: the dated production count over the instrument
+ * illustration. The illustration is decorative. It does not represent
+ * traffic, adoption or the status of any registration.
+ */
+import { Image } from 'astro:assets';
+import instrument from '../../../public/media/observatory-instrument.webp';
+import workbench from '../../../public/media/observatory-workbench.webp';
+import EnvironmentToggle from './EnvironmentToggle.astro';
+import { longDate, shortMonth } from '@lib/observatory-visuals';
+
+interface Props {
+  registrations: number;
+  withIssuer: number;
+  families: number;
+  firstCount: number;
+  firstDate: string;
+  timestamp: string;
+  productionCount: number;
+  sandboxCount: number;
+  environment?: 'production' | 'sandbox';
+}
+
+const {
+  registrations,
+  withIssuer,
+  families,
+  firstCount,
+  firstDate,
+  timestamp,
+  productionCount,
+  sandboxCount,
+  environment = 'production',
+} = Astro.props;
+const sandbox = environment === 'sandbox';
+
+const sinceFirst = registrations - firstCount;
+const signed = sinceFirst > 0 ? `+${sinceFirst}` : sinceFirst < 0 ? `−${-sinceFirst}` : '0';
+const issuerShare = registrations > 0 ? (withIssuer / registrations) * 100 : 0;
+const updated = new Date(timestamp).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit',
+  timeZone: 'UTC',
+});
+---
+
+<header class="page-intro page-header observatory-hero" data-theme="dark">
+  <div class="hero-art" aria-hidden="true">
+    <Image
+      src={sandbox ? workbench : instrument}
+      widths={[640, 960, 1280, 1600, 1920]}
+      sizes="(max-width: 1600px) 100vw, 1600px"
+      format="webp"
+      quality={76}
+      alt=""
+      loading="eager"
+      decoding="async"
+    />
+    <div class="hero-protection"></div>
+  </div>
+
+  <div class="hero-inner">
+    <div class="header-content">
+      <div class="header-badge">
+        <span class="live-indicator"></span>
+        <span>{sandbox ? 'Sandbox Environment' : 'Directory Snapshot'}</span>
+      </div>
+      <h1>{sandbox ? 'Sandbox Observatory' : 'Observatory'}</h1>
+      <p class="header-description">
+        {sandbox
+          ? 'Sandbox directory registrations and published API metadata. Test records, not production participation.'
+          : 'Directory registrations and published API metadata'}
+      </p>
+    </div>
+
+    <div class="hero-readout">
+      <div class="readout-main">
+        <strong>{registrations}</strong>
+        <span>
+          {environment} directory registrations
+          <small>Observed {longDate(timestamp)} UTC</small>
+        </span>
+      </div>
+      <dl class="readout-facts">
+        <div>
+          <dt>With issuer</dt>
+          <dd>
+            <b>
+              {withIssuer}
+              <small>/ {registrations}</small>
+            </b>
+            <span class="meter" aria-hidden="true">
+              <i style={`width:${issuerShare.toFixed(1)}%`}></i>
+            </span>
+            <span>list an authorization server</span>
+          </dd>
+        </div>
+        <div>
+          <dt>Since first observation</dt>
+          <dd>
+            <b>{signed}</b>
+            <span>
+              from {firstCount} in {shortMonth(firstDate, true)}
+            </span>
+          </dd>
+        </div>
+        <div>
+          <dt>API families</dt>
+          <dd>
+            <b>{families}</b>
+            <span>published resource families</span>
+          </dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="header-meta">
+      <div class="header-controls">
+        <EnvironmentToggle
+          currentEnvironment={environment}
+          productionCount={productionCount}
+          sandboxCount={sandboxCount}
+        />
+      </div>
+      <div class="header-info">
+        <p class="last-updated">
+          Last updated: <time datetime={timestamp}>{updated}</time> UTC
+        </p>
+        <div class="header-links">
+          <a href="/observatory/watch/" class="header-link">
+            Standards, traffic and reliability
+          </a>
+          <a href="/observatory/data" class="header-link">
+            Data &amp; datasets
+          </a>
+          <a href="/observatory/methodology" class="header-link">
+            How we calculate this
+          </a>
+          <a
+            href="https://github.com/openfinance-os/community-website/issues"
+            class="header-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            See an error?
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  /* The band is dark in both themes, like the homepage directory card. */
+  .observatory-hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: #0b2c30;
+    color: var(--color-text);
+    width: min(1168px, calc(100% - 2 * var(--space-4)));
+    margin: 0 auto;
+    padding: var(--space-10);
+    border: 1px solid #2f4944;
+    border-radius: var(--radius-2xl);
+  }
+
+  .hero-art {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .hero-art :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 82% 50%;
+  }
+
+  .hero-protection {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, #0b2c30 0%, #0b2c30e6 26%, #0b2c3080 52%, transparent 74%),
+      linear-gradient(0deg, #0b2c30cc 0%, transparent 34%);
+  }
+
+  .hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    min-width: 0;
+  }
+
+  .header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+    background: #ffffff12;
+    border: 1px solid #ffffff26;
+    border-radius: var(--radius-full);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-4);
+  }
+
+  .live-indicator {
+    width: 8px;
+    height: 8px;
+    background: var(--color-success);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .live-indicator {
+      animation: none;
+    }
+  }
+
+  .observatory-hero h1 {
+    font-size: clamp(2rem, 4.4vw, 3rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
+  }
+
+  .header-description {
+    font-size: 1.125rem;
+    color: var(--color-text-secondary);
+    max-width: 500px;
+  }
+
+  /* Glass readout */
+  .hero-readout {
+    margin-top: var(--space-8);
+    max-width: 760px;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    background: #0f34377a;
+    border: 1px solid #cfe6dc2e;
+    border-radius: var(--radius-2xl);
+    box-shadow:
+      0 1px 0 #ffffff14 inset,
+      0 24px 48px -24px #00000080;
+    backdrop-filter: blur(18px) saturate(1.2);
+    -webkit-backdrop-filter: blur(18px) saturate(1.2);
+    overflow: hidden;
+  }
+
+  .readout-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-6) var(--space-8);
+    border-right: 1px solid #cfe6dc24;
+    max-width: 240px;
+  }
+
+  .readout-main strong {
+    font-size: clamp(3.5rem, 7vw, 5.25rem);
+    font-weight: 500;
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+    font-variant-numeric: tabular-nums;
+    color: #f1f7f1;
+  }
+
+  .readout-main span {
+    font-size: 0.875rem;
+    line-height: 1.35;
+    color: var(--color-text);
+  }
+
+  .readout-main small {
+    display: block;
+    margin-top: var(--space-1);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-text-secondary);
+  }
+
+  .readout-facts {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .readout-facts > div {
+    padding: var(--space-6) var(--space-5);
+    min-width: 0;
+  }
+
+  .readout-facts > div + div {
+    border-left: 1px solid #cfe6dc24;
+  }
+
+  .readout-facts dt {
+    font-size: 0.625rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-2);
+  }
+
+  .readout-facts dd {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .readout-facts b {
+    font-size: 1.75rem;
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text);
+  }
+
+  .readout-facts b small {
+    font-size: 0.8125rem;
+    letter-spacing: 0;
+    color: var(--color-text-secondary);
+    margin-left: 2px;
+  }
+
+  .readout-facts dd > span:not(.meter) {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: var(--color-text-secondary);
+  }
+
+  .meter {
+    display: block;
+    height: 4px;
+    border-radius: var(--radius-full);
+    background: #ffffff1f;
+    overflow: hidden;
+  }
+
+  .meter i {
+    display: block;
+    height: 100%;
+    border-radius: var(--radius-full);
+    background: #e39a3c;
+  }
+
+  .header-meta {
+    margin-top: var(--space-8);
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .header-controls {
+    min-width: 0;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .header-info {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .last-updated {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+  }
+
+  .header-links {
+    min-width: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+  }
+
+  .header-link {
+    font-size: 0.875rem;
+    color: var(--color-brand-ink);
+    text-decoration: none;
+  }
+
+  .header-link:hover {
+    text-decoration: underline;
+  }
+
+  @media (min-width: 900px) {
+    .header-info {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  @media (max-width: 899px) {
+    .hero-art :global(img) {
+      object-position: 78% 30%;
+      height: 300px;
+    }
+
+    .hero-protection {
+      background:
+        linear-gradient(180deg, #0b2c3033 0%, #0b2c30 300px),
+        linear-gradient(90deg, #0b2c30cc 0%, transparent 70%);
+    }
+  }
+
+  @media (max-width: 700px) {
+    .observatory-hero {
+      padding: 168px var(--space-5) var(--space-8);
+    }
+
+    .hero-art :global(img) {
+      object-position: 84% 42%;
+      height: 250px;
+    }
+
+    .hero-protection {
+      background: linear-gradient(180deg, transparent 0%, #0b2c3066 120px, #0b2c30 250px);
+    }
+
+    .hero-readout {
+      grid-template-columns: 1fr;
+    }
+
+    .readout-main {
+      max-width: none;
+      flex-direction: row;
+      align-items: flex-end;
+      gap: var(--space-4);
+      padding: var(--space-5);
+      border-right: 0;
+      border-bottom: 1px solid #cfe6dc24;
+    }
+
+    .readout-facts {
+      grid-template-columns: 1fr;
+    }
+
+    .readout-facts > div {
+      padding: var(--space-4) var(--space-5);
+    }
+
+    .readout-facts > div + div {
+      border-left: 0;
+      border-top: 1px solid #cfe6dc24;
+    }
+
+    .readout-facts dd {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: var(--space-2);
+    }
+
+    .meter {
+      order: 3;
+      flex-basis: 100%;
+    }
+  }
+</style>

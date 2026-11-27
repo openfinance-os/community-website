@@ -1,0 +1,267 @@
+---
+/**
+ * One mark per production registration, grouped by institution category.
+ * Filled marks publish an authorization-server issuer; open marks are
+ * registered without one. Neither says anything about traffic or uptime.
+ */
+interface Mark {
+  id: string;
+  name: string;
+  href: string;
+  hasIssuer: boolean;
+}
+
+interface Group {
+  label: string;
+  marks: Mark[];
+}
+
+interface Props {
+  groups: Group[];
+  total: number;
+  withIssuer: number;
+  environment?: 'production' | 'sandbox';
+}
+
+const { groups, total, withIssuer, environment = 'production' } = Astro.props;
+---
+
+<section class="field-card" aria-labelledby="field-title">
+  <header>
+    <h2 id="field-title">Every registration, by category</h2>
+    <p>
+      One mark per {environment} directory ID. Categories come from our participant profiles, not
+      from the directory.
+    </p>
+  </header>
+
+  <ul class="legend" aria-label="Mark meaning">
+    <li>
+      <i class="mark issuer"></i>
+      <b>{withIssuer}</b> publish an issuer
+    </li>
+    <li>
+      <i class="mark"></i>
+      <b>{total - withIssuer}</b> registered, no issuer published
+    </li>
+  </ul>
+
+  <div class="groups" data-field>
+    {groups.map((group) => (
+      <div class="group">
+        <div class="group-label">
+          <span>{group.label}</span>
+          <b>{group.marks.length}</b>
+        </div>
+        <ul class="marks">
+          {group.marks.map((mark) => (
+            <li>
+              <a
+                href={mark.href}
+                class:list={['mark', { issuer: mark.hasIssuer }]}
+                data-name={mark.name}
+                data-detail={`${group.label} · ${mark.hasIssuer ? 'issuer published' : 'no issuer published'}`}
+                aria-label={`${mark.name}, ${group.label}, ${mark.hasIssuer ? 'issuer published' : 'no issuer published'}`}
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+
+  <p class="readout" data-field-readout aria-live="polite">
+    <span class="readout-hint">Point at a mark to name the registration. Select it to open.</span>
+  </p>
+</section>
+
+<script>
+  for (const field of document.querySelectorAll<HTMLElement>('[data-field]')) {
+    const readout = field.parentElement?.querySelector<HTMLElement>('[data-field-readout]');
+    if (!readout) continue;
+    const hint = readout.innerHTML;
+    const show = (mark: HTMLElement) => {
+      readout.textContent = '';
+      const name = document.createElement('b');
+      name.textContent = mark.dataset.name || '';
+      const detail = document.createElement('span');
+      detail.textContent = mark.dataset.detail || '';
+      readout.append(name, detail);
+    };
+    for (const mark of field.querySelectorAll<HTMLElement>('a.mark')) {
+      mark.addEventListener('pointerenter', () => show(mark));
+      mark.addEventListener('focus', () => show(mark));
+    }
+    field.addEventListener('pointerleave', () => {
+      if (!field.contains(document.activeElement)) readout.innerHTML = hint;
+    });
+    field.addEventListener('focusout', (event) => {
+      if (!field.contains(event.relatedTarget as Node | null)) readout.innerHTML = hint;
+    });
+  }
+</script>
+
+<style>
+  .field-card {
+    --viz-a: #008f8a;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-6);
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  :global([data-theme='dark']) .field-card {
+    --viz-a: #25b3aa;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--color-text);
+    margin-bottom: var(--space-1);
+  }
+
+  header p {
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+    max-width: 520px;
+  }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-6);
+    margin: var(--space-5) 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+  }
+
+  .legend li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .legend b {
+    font-weight: 600;
+    color: var(--color-text);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .legend .mark {
+    width: 14px;
+    height: 14px;
+  }
+
+  .groups {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .group {
+    display: grid;
+    grid-template-columns: 168px minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-4);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .group-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-2);
+    font-size: 0.8125rem;
+    color: var(--color-text);
+  }
+
+  .group-label b {
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .marks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .marks li {
+    display: flex;
+  }
+
+  .mark {
+    display: block;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 2px solid var(--viz-a);
+    background: transparent;
+    flex-shrink: 0;
+    transition:
+      transform var(--transition-fast),
+      box-shadow var(--transition-fast);
+  }
+
+  .mark.issuer {
+    background: var(--viz-a);
+  }
+
+  a.mark:hover,
+  a.mark:focus-visible {
+    transform: scale(1.18);
+    box-shadow:
+      0 0 0 2px var(--color-card),
+      0 0 0 4px var(--color-text);
+    outline: none;
+  }
+
+  .readout {
+    margin-top: auto;
+    padding-top: var(--space-5);
+    min-height: calc(1.4em + var(--space-5));
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 2px var(--space-3);
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: var(--color-text-secondary);
+  }
+
+  .readout :global(b) {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  @media (max-width: 560px) {
+    .field-card {
+      padding: var(--space-5) var(--space-4);
+    }
+
+    .group {
+      grid-template-columns: 1fr;
+      gap: var(--space-2);
+    }
+
+    .group-label {
+      justify-content: flex-start;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mark {
+      transition: none;
+    }
+  }
+</style>

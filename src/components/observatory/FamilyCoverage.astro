@@ -1,0 +1,257 @@
+---
+/**
+ * Registrations publishing each API family now, with the count at every
+ * saved observation since the first. Sparklines share one scale.
+ */
+import {
+  familyFirstObserved,
+  familySeries,
+  longDate,
+  shortMonth,
+  stepPath,
+  timeScale,
+  type ObservationPoint,
+} from '@lib/observatory-visuals';
+import { apiFamilyDefinitions, apiFamilyLabel } from '@lib/taxonomy';
+
+interface Props {
+  families: { key: string; count: number }[];
+  total: number;
+  history: ObservationPoint[];
+}
+
+const { families, total, history } = Astro.props;
+const points = [...history].sort((a, b) => a.date.localeCompare(b.date));
+const start = points[0].date;
+const end = points[points.length - 1].date;
+const W = 120;
+const H = 28;
+const max = Math.max(1, ...families.map((f) => f.count));
+const scale = timeScale(start, end, max, W, H - 2);
+const rows = [...families]
+  .sort((a, b) => b.count - a.count || a.key.localeCompare(b.key))
+  .map((family) => {
+    const series = familySeries(points, family.key);
+    const firstObserved = familyFirstObserved(points, family.key);
+    return {
+      ...family,
+      label: apiFamilyLabel(family.key),
+      description: apiFamilyDefinitions[family.key]?.description,
+      share: total > 0 ? (family.count / total) * 100 : 0,
+      line: stepPath(series, scale),
+      startValue: series[0].value,
+      // Only call out families that appear after tracking began.
+      firstObserved: firstObserved && firstObserved > start ? firstObserved : null,
+    };
+  });
+---
+
+<section class="family-card" aria-labelledby="family-title">
+  <header>
+    <h2 id="family-title">Published API families</h2>
+    <p>
+      Registrations publishing at least one active resource in each family, out of {total}. The
+      trend runs from {shortMonth(start, true)} to {shortMonth(end, true)}.
+    </p>
+  </header>
+
+  <ul class="rows">
+    {rows.map((row) => (
+      <li title={`${row.label}: ${row.count} of ${total} registrations`}>
+        <div class="name">
+          <b>{row.label}</b>
+          {row.description && <span>{row.description}</span>}
+        </div>
+        <div class="bar" aria-hidden="true">
+          <i style={`width:${row.share.toFixed(1)}%`} />
+        </div>
+        <div class="count">
+          <b>{row.count}</b>
+          <span>of {total}</span>
+        </div>
+        <div class="trend">
+          <svg
+            viewBox={`0 0 ${W} ${H}`}
+            preserveAspectRatio="none"
+            role="img"
+            aria-label={`${row.label}: from ${row.startValue} to ${row.count} registrations`}
+          >
+            <path d={row.line} transform="translate(0 1)" />
+          </svg>
+          <span>
+            {row.firstObserved
+              ? `first seen ${longDate(row.firstObserved)}`
+              : `${row.startValue} → ${row.count}`}
+          </span>
+        </div>
+      </li>
+    ))}
+  </ul>
+
+  <p class="note">
+    A published family is a directory declaration. The 8 October 2026 collector update widened
+    family coverage, so later additions can reflect a measurement correction and not a new
+    deployment. <a href="/observatory/coverage/">Compare coverage by registration →</a>
+  </p>
+</section>
+
+<style>
+  .family-card {
+    --viz-a: #008f8a;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-6);
+    min-width: 0;
+  }
+
+  :global([data-theme='dark']) .family-card {
+    --viz-a: #25b3aa;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--color-text);
+    margin-bottom: var(--space-1);
+  }
+
+  header p {
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+    max-width: 560px;
+    margin-bottom: var(--space-5);
+  }
+
+  .rows {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .rows li {
+    display: grid;
+    grid-template-columns: minmax(120px, 190px) minmax(60px, 1fr) 62px 150px;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-3) 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .name {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .name b {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  .name span {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+  }
+
+  .bar {
+    height: 10px;
+    border-radius: 3px;
+    background: var(--color-soft);
+    overflow: hidden;
+  }
+
+  .bar i {
+    display: block;
+    height: 100%;
+    min-width: 3px;
+    border-radius: 0 4px 4px 0;
+    background: var(--viz-a);
+  }
+
+  .count {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .count b {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  .count span,
+  .trend span {
+    font-size: 0.6875rem;
+    color: var(--color-text-secondary);
+  }
+
+  .trend {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .trend svg {
+    width: 100%;
+    max-width: 120px;
+    height: 28px;
+    overflow: visible;
+  }
+
+  .trend path {
+    fill: none;
+    stroke: var(--viz-a);
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .note {
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
+    font-size: 0.75rem;
+    line-height: 1.55;
+    color: var(--color-text-secondary);
+  }
+
+  .note a {
+    color: var(--color-brand-ink);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 720px) {
+    .family-card {
+      padding: var(--space-5) var(--space-4);
+    }
+
+    .rows li {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: var(--space-2) var(--space-4);
+    }
+
+    .bar {
+      grid-column: 1 / -1;
+      order: 3;
+    }
+
+    .trend {
+      grid-column: 1 / -1;
+      order: 4;
+      flex-direction: row;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .trend svg {
+      max-width: 96px;
+      height: 20px;
+    }
+  }
+</style>

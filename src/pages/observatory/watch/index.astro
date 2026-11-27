@@ -1,8 +1,39 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
 import ObservatoryNav from '@components/observatory/ObservatoryNav.astro';
+import ObservatoryBand from '@components/observatory/ObservatoryBand.astro';
 import { renderWatchContent } from '@lib/watch-document';
+import { compact, watchPulse } from '@lib/watch-pulse';
+import { longDate, shortMonth } from '@lib/observatory-visuals';
 const { styles, body } = renderWatchContent();
+const pulse = watchPulse();
+const lastFull = pulse.traffic.lastFull;
+const readouts = [
+  {
+    href: '#standards',
+    label: 'Standards',
+    value: String(pulse.standards.enforcedTpp + pulse.standards.enforcedLfi),
+    detail: `breaking changes in force, ${pulse.standards.pending} more in drafts`,
+  },
+  {
+    href: '#operations',
+    label: 'Traffic',
+    value: compact(lastFull.calls),
+    detail: `logged calls in ${shortMonth(`${lastFull.month}-01`, true)}, the last full month`,
+  },
+  {
+    href: '#operations',
+    label: 'Reliability',
+    value: `${pulse.reliability.errPct}%`,
+    detail: 'of calls across full months returned a 4xx or 5xx',
+  },
+  {
+    href: '#operations',
+    label: 'Payments',
+    value: `${pulse.reliability.paymentAcceptedPct}%`,
+    detail: 'of logged payment statuses were accepted',
+  },
+];
 ---
 
 <PageLayout
@@ -11,6 +42,32 @@ const { styles, body } = renderWatchContent();
 >
   <div class="watch-shell">
     <ObservatoryNav current="watch" />
+    <div class="watch-band">
+      <ObservatoryBand
+        art="instrument"
+        eyebrow="Ecosystem Watch · weekly"
+        title="Standards, traffic and reliability, read from public sources."
+        heading="p"
+        focus="82% 50%"
+      >
+        <p class="band-lede">
+          Run <time datetime={pulse.runDate}>{longDate(pulse.runDate)}</time>. Public API logs
+          through <time datetime={pulse.asOfData}>{longDate(pulse.asOfData)}</time>. Logs carry no
+          environment label, and no public source reports uptime or latency.
+        </p>
+        <ul class="watch-readouts">
+          {readouts.map((r) => (
+            <li>
+              <a href={r.href}>
+                <span>{r.label}</span>
+                <b>{r.value}</b>
+                <small>{r.detail}</small>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </ObservatoryBand>
+    </div>
     <style is:inline set:html={styles}></style>
     <div class="watch-page">
       <Fragment set:html={body} />
@@ -18,13 +75,80 @@ const { styles, body } = renderWatchContent();
   </div>
 </PageLayout>
 <style>
-  .watch-shell {
-    padding-top: var(--space-6);
+  .watch-shell :global(.watch-page .wrap) {
+    box-sizing: border-box;
+    max-width: 1200px;
+    padding-inline: var(--space-4);
+  }
+  .watch-shell :global(.watch-page .nav) {
+    margin-inline: calc(-1 * var(--space-4));
+    padding-inline: var(--space-4);
+  }
+  .watch-band {
+    max-width: 1200px;
+    margin: 0 auto var(--space-6);
+    padding: 0 var(--space-4);
+  }
+  .watch-readouts {
+    list-style: none;
+    margin: var(--space-8) 0 0;
+    padding: 0;
+    max-width: 860px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    background: #0f34377a;
+    border: 1px solid #cfe6dc2e;
+    border-radius: var(--radius-xl);
+    backdrop-filter: blur(18px) saturate(1.2);
+    -webkit-backdrop-filter: blur(18px) saturate(1.2);
+    overflow: hidden;
+  }
+  .watch-readouts li {
+    min-width: 0;
+    border-top: 1px solid #cfe6dc24;
+    border-left: 1px solid #cfe6dc24;
+    margin: -1px 0 0 -1px;
+  }
+  .watch-readouts a {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: var(--space-4) var(--space-5);
+    text-decoration: none;
+  }
+  .watch-readouts a:hover {
+    background: #ffffff0f;
+  }
+  .watch-readouts span {
+    font-size: 0.625rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--color-text-secondary);
+  }
+  .watch-readouts b {
+    font-size: 1.75rem;
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text);
+  }
+  .watch-readouts small {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: var(--color-text-secondary);
+  }
+  @media (min-width: 900px) {
+    .watch-readouts {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
   }
   :global(.watch-fallback) {
-    max-width: 1180px;
+    max-width: 1200px;
     margin: auto;
-    padding: var(--space-6);
+    padding: var(--space-6) var(--space-4);
   }
   :global(.watch-fallback article) {
     margin-top: var(--space-6);

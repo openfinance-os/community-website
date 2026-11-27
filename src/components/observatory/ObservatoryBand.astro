@@ -1,0 +1,172 @@
+---
+/**
+ * Illustrated introduction band shared by the Observatory sub pages. Always
+ * dark, like the Observatory hero. The illustrations are decorative: their
+ * objects and glows do not map to registrations, traffic or status.
+ */
+import { Image } from 'astro:assets';
+import instrument from '../../../public/media/observatory-instrument.webp';
+import field from '../../../public/media/observatory-field.webp';
+import workbench from '../../../public/media/observatory-workbench.webp';
+import archive from '../../../public/media/observatory-archive.webp';
+import lattice from '../../../public/media/observatory-lattice.webp';
+
+interface Props {
+  art: 'instrument' | 'field' | 'workbench' | 'archive' | 'lattice';
+  eyebrow: string;
+  title?: string;
+  /** Pages that already carry their own h1 pass "p" so the band adds none. */
+  heading?: 'h1' | 'p';
+  lede?: string;
+  /** A short strip for detail pages. */
+  compact?: boolean;
+  focus?: string;
+}
+
+const {
+  art,
+  eyebrow,
+  title,
+  heading = 'h1',
+  lede,
+  compact = false,
+  focus = '75% 50%',
+} = Astro.props;
+const images = { instrument, field, workbench, archive, lattice };
+const Heading = heading;
+---
+
+<div class:list={['band', { compact }]} data-theme="dark">
+  <div class="band-art" aria-hidden="true">
+    <Image
+      src={images[art]}
+      widths={[640, 960, 1280, 1600]}
+      sizes="(max-width: 1200px) 100vw, 1200px"
+      format="webp"
+      quality={74}
+      alt=""
+      loading="eager"
+      decoding="async"
+      style={`object-position:${focus}`}
+    />
+  </div>
+  <div class="band-inner">
+    <span class="eyebrow">{eyebrow}</span>
+    {title && <Heading class="band-title">{title}</Heading>}
+    {lede && <p class="band-lede">{lede}</p>}
+    <slot />
+  </div>
+</div>
+
+<style>
+  .band {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border-radius: var(--radius-2xl);
+    border: 1px solid #2f4944;
+    background: #0b2c30;
+    color: var(--color-text);
+  }
+
+  .band-art {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .band-art :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .band-art::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, #0b2c30 0%, #0b2c30e6 30%, #0b2c3080 58%, #0b2c3026 100%),
+      linear-gradient(0deg, #0b2c3099 0%, transparent 40%);
+  }
+
+  .band-inner {
+    min-width: 0;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: var(--space-10);
+  }
+
+  .compact .band-inner {
+    min-height: 0;
+    padding: var(--space-5) var(--space-10);
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-secondary);
+  }
+
+  .eyebrow::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #e39a3c;
+  }
+
+  .band-title {
+    margin: var(--space-3) 0 0;
+    max-width: 16em;
+    font-family: var(--font-sans);
+    font-size: clamp(2rem, 4.4vw, 3rem);
+    font-weight: 500;
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+    color: var(--color-text);
+  }
+
+  .compact .band-title {
+    font-size: 1.125rem;
+    letter-spacing: -0.01em;
+    margin-top: var(--space-1);
+  }
+
+  .band :global(.band-lede) {
+    margin: var(--space-4) 0 0;
+    max-width: 38em;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+  }
+
+  .band :global(a) {
+    color: var(--color-text);
+    text-underline-offset: 4px;
+  }
+
+  @media (max-width: 700px) {
+    .band-inner {
+      min-height: 220px;
+      padding: var(--space-8) var(--space-5);
+    }
+
+    .band-art::after {
+      background: linear-gradient(90deg, #0b2c30f2 0%, #0b2c30cc 60%, #0b2c3099 100%);
+    }
+
+    .compact .band-inner {
+      min-height: 0;
+      padding: var(--space-4) var(--space-5);
+    }
+  }
+</style>

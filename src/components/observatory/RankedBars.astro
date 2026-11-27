@@ -1,0 +1,184 @@
+---
+/**
+ * Ranked horizontal bars for one measure. One hue: the bars compare
+ * magnitude, so colour does not also encode the category.
+ */
+interface Item {
+  label: string;
+  detail?: string;
+  value: number;
+  /** Unknown / unclassified rows are drawn in a neutral tone. */
+  muted?: boolean;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  items: Item[];
+  /** Denominator for the share shown beside each count. */
+  total: number;
+  note?: string;
+  /** Counts can exceed the total when one registration holds several values. */
+  overlapping?: boolean;
+}
+
+const { title, description, items, total, note, overlapping = false } = Astro.props;
+const max = Math.max(1, ...items.map((i) => i.value));
+const id = `bars-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+---
+
+<section class="bars-card" aria-labelledby={id}>
+  <header>
+    <h2 id={id}>{title}</h2>
+    <p>{description}</p>
+  </header>
+  <ul>
+    {items.map((item) => (
+      <li
+        class:list={{ muted: item.muted }}
+        title={`${item.label}: ${item.value} of ${total} registrations`}
+      >
+        <div class="label">
+          <b>{item.label}</b>
+          {item.detail && <span>{item.detail}</span>}
+        </div>
+        <div class="value">
+          <b>{item.value}</b>
+          <span>{total > 0 ? Math.round((item.value / total) * 100) : 0}%</span>
+        </div>
+        <div class="bar" aria-hidden="true">
+          <i style={`width:${((item.value / max) * 100).toFixed(1)}%`} />
+        </div>
+      </li>
+    ))}
+  </ul>
+  {(note || overlapping) && (
+    <p class="note">
+      {overlapping && 'Shares are of all registrations and add to more than 100%. '}
+      {note}
+    </p>
+  )}
+</section>
+
+<style>
+  .bars-card {
+    --viz-a: #008f8a;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-6);
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  :global([data-theme='dark']) .bars-card {
+    --viz-a: #25b3aa;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--color-text);
+    margin-bottom: var(--space-1);
+  }
+
+  header p {
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-5);
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  li {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 6px var(--space-3);
+    align-items: baseline;
+  }
+
+  .label {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 var(--space-2);
+    min-width: 0;
+  }
+
+  .label b {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text);
+    overflow-wrap: anywhere;
+  }
+
+  .label span {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+  }
+
+  .value {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .value b {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  .value span {
+    min-width: 2.4em;
+    text-align: right;
+    font-size: 0.6875rem;
+    color: var(--color-text-secondary);
+  }
+
+  .bar {
+    grid-column: 1 / -1;
+    height: 8px;
+    border-radius: 3px;
+    background: var(--color-soft);
+    overflow: hidden;
+  }
+
+  .bar i {
+    display: block;
+    height: 100%;
+    min-width: 3px;
+    border-radius: 0 4px 4px 0;
+    background: var(--viz-a);
+  }
+
+  .muted .bar i {
+    background: var(--color-gray-400);
+  }
+
+  .muted .label b {
+    color: var(--color-text-secondary);
+  }
+
+  .note {
+    margin-top: auto;
+    padding-top: var(--space-5);
+    font-size: 0.75rem;
+    line-height: 1.55;
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 560px) {
+    .bars-card {
+      padding: var(--space-5) var(--space-4);
+    }
+  }
+</style>

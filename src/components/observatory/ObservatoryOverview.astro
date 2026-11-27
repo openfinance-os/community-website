@@ -1,0 +1,357 @@
+---
+/**
+ * The illustrated overview shared by the production and sandbox Observatory
+ * pages: introduction, headline counts and the charts. Each environment is a
+ * separate directory observation and is never combined with the other.
+ */
+import { roleLabels } from '@lib/taxonomy';
+import StatCard from './StatCard.astro';
+import AuthCapabilitiesChart from './AuthCapabilitiesChart.astro';
+import ObservatoryHero from './ObservatoryHero.astro';
+import RegistryGrowthChart from './RegistryGrowthChart.astro';
+import RegistrationField from './RegistrationField.astro';
+import FamilyCoverage from './FamilyCoverage.astro';
+import RankedBars from './RankedBars.astro';
+import EvidenceBand from './EvidenceBand.astro';
+import EcosystemPulse from './EcosystemPulse.astro';
+import { participantUrl } from '@lib/participant-identity';
+import { calculateCityDistribution, findProfile } from '@lib/city-utils';
+import type { ProfilesMap } from '@lib/types';
+
+// Import dual environment snapshot
+import { getObservatorySnapshot } from '@lib/observatory-data';
+
+// Import historical data
+import historyDataRaw from '../../../data/observatory/history.json';
+
+// Import participant profiles
+import participantProfiles from '../../../data/participants/profiles.json';
+interface DataPoint {
+  date: string;
+  totalParticipants: number;
+  liveInProduction: number;
+  byRole: Record<string, number>;
+  byCity: Record<string, number>;
+  apiFamilyCoverage: Record<string, number>;
+  tppCount: number;
+  shariahCompliantCount: number;
+}
+
+interface HistoryData {
+  dataPoints: DataPoint[];
+  milestones: Array<{ date: string; event: string; participantName?: string }>;
+  productionHistory?: DataPoint[];
+  sandboxHistory?: DataPoint[];
+}
+
+const historyData = (historyDataRaw || {
+  dataPoints: [],
+  milestones: [],
+}) as unknown as HistoryData;
+
+interface Props {
+  environment: 'production' | 'sandbox';
+}
+
+const { environment } = Astro.props;
+const productionSnapshot = getObservatorySnapshot('production');
+const sandboxSnapshot = getObservatorySnapshot('sandbox');
+const snapshot = environment === 'sandbox' ? sandboxSnapshot : productionSnapshot;
+
+const { summary, participants, timestamp } = snapshot;
+
+// Handle both old and new summary format
+const totalParticipants = summary.totalParticipants || 0;
+const byRole = summary.byRole || {};
+const apiFamilies = summary.apiFamilies || [];
+
+// Calculate byCity using shared utility with profile fallbacks
+const profiles = participantProfiles as ProfilesMap;
+const byCity = calculateCityDistribution(participants, profiles);
+
+// New enhanced metrics (with fallbacks for old format)
+const liveInProduction =
+  summary.liveInProduction ?? participants.filter((p: any) => p.hasAuthServer).length;
+const shariahCompliantCount =
+  summary.shariahCompliantCount ?? participants.filter((p: any) => p.isShariahCompliant).length;
+const multiRoleCount =
+  summary.multiRoleCount ?? participants.filter((p: any) => p.roles?.length > 1).length;
+const byAuthCapabilities = summary.byAuthCapabilities || { ciba: 0, dcr: 0, redirect: 0 };
+
+// Aggregate by Company Type using profile data
+const byType: Record<string, number> = {};
+const byOwnership: Record<string, number> = {};
+
+for (const participant of participants) {
+  const profile = findProfile(participant, profiles);
+
+  // Aggregate by type
+  const type = profile?.type || 'unknown';
+  byType[type] = (byType[type] || 0) + 1;
+
+  // Aggregate by ownership
+  const ownership = profile?.ownership || 'Unknown';
+  byOwnership[ownership] = (byOwnership[ownership] || 0) + 1;
+}
+
+// Roles are claims, and one registration can hold several: rank them, never slice a whole.
+const byCount = (a: [string, number], b: [string, number]) =>
+  b[1] - a[1] || a[0].localeCompare(b[0]);
+const unknownLast = (a: { muted?: boolean }, b: { muted?: boolean }) =>
+  Number(!!a.muted) - Number(!!b.muted);
+
+const roleItems = (Object.entries(byRole) as [string, number][])
+  .sort(byCount)
+  .map(([label, value]) => ({ label, detail: roleLabels[label], value }));
+
+const cityItems = (Object.entries(byCity) as [string, number][])
+  .sort(byCount)
+  .map(([label, value]) => ({ label, value, muted: label === 'Unknown' }))
+  .sort(unknownLast);
+
+const ownershipItems = Object.entries(byOwnership)
+  .sort(byCount)
+  .map(([label, value]) => ({
+    label: label === 'Unknown' ? 'Not profiled' : label,
+    value,
+    muted: label === 'Unknown',
+  }))
+  .sort(unknownLast);
+
+const typeLabels: Record<string, string> = {
+  'commercial-bank': 'Commercial banks',
+  'islamic-bank': 'Islamic banks',
+  'digital-bank': 'Digital banks',
+  'international-bank': 'International banks',
+  fintech: 'Fintechs',
+  payments: 'Payment services',
+  insurance: 'Insurance',
+  exchange: 'Exchange houses',
+  infrastructure: 'Infrastructure',
+  unknown: 'Not profiled',
+};
+
+// One mark per registration, grouped by profile category.
+const fieldGroups = Object.entries(byType)
+  .sort((a, b) => Number(a[0] === 'unknown') - Number(b[0] === 'unknown') || byCount(a, b))
+  .map(([type]) => ({
+    label: typeLabels[type] || type,
+    marks: participants
+      .filter((p: any) => (findProfile(p, profiles)?.type || 'unknown') === type)
+      .map((p: any) => ({
+        id: p.id,
+        name: p.name,
+        href: participantUrl(p, environment),
+        hasIssuer: !!p.hasAuthServer,
+      }))
+      .sort(
+        (a: any, b: any) =>
+          Number(b.hasIssuer) - Number(a.hasIssuer) || a.name.localeCompare(b.name)
+      ),
+  }));
+
+const familyCounts = apiFamilies.map((key: string) => ({
+  key,
+  count: participants.filter((p: any) => p.apiFamilies?.includes(key)).length,
+}));
+
+const history =
+  (environment === 'sandbox' ? historyData.sandboxHistory : historyData.productionHistory) || [];
+const firstObservation = [...history].sort((a, b) => a.date.localeCompare(b.date))[0];
+const milestones = (historyData.milestones || []).filter((m: any) =>
+  m.event?.endsWith(` ${environment}`)
+);
+---
+
+<ObservatoryHero
+  registrations={totalParticipants}
+  withIssuer={liveInProduction}
+  families={apiFamilies.length}
+  firstCount={firstObservation?.totalParticipants ?? totalParticipants}
+  firstDate={firstObservation?.date ?? timestamp}
+  timestamp={timestamp}
+  environment={environment}
+  productionCount={productionSnapshot?.summary?.totalParticipants || 0}
+  sandboxCount={sandboxSnapshot?.summary?.totalParticipants || 0}
+/>
+
+{environment === 'production' && (
+  <>
+    <EcosystemPulse />
+    <div class="directory-head">
+      <span class="eyebrow">Production directory</span>
+      <h2>Who is registered, and what they publish</h2>
+    </div>
+  </>
+)}
+
+<section class="stats-section">
+  <p class="measurement-note">
+    Each registration is a directory ID, not a deduplicated legal entity. An active authorization
+    server with an issuer is published metadata, not evidence of traffic or verified availability.
+    Capability and Shariah indicators reflect source declarations.{' '}
+    <a href="/observatory/methodology">Definitions and limitations</a>.
+  </p>
+  <div class="stats-grid">
+    <StatCard
+      value={liveInProduction}
+      label="Registrations With Issuer"
+      sublabel="Registrations with an active issuer"
+      icon="active"
+    />
+    <StatCard
+      value={multiRoleCount}
+      label="Multi-Role"
+      sublabel="Registrations with 2+ roles"
+      icon="participants"
+    />
+    <StatCard
+      value={shariahCompliantCount}
+      label="Directory Shariah Flag"
+      sublabel="Flag declared true in source"
+      icon="shariah"
+    />
+    <StatCard
+      value="N/A"
+      label="TPP Population"
+      sublabel="Role claims do not classify licences"
+      icon="tpp"
+    />
+  </div>
+</section>
+
+<section class="visual-section" aria-label="Registrations over time">
+  <RegistryGrowthChart history={history} milestones={milestones} environment={environment} />
+</section>
+
+<section class="visual-section visual-grid" aria-label="Registrations by category and role">
+  <RegistrationField
+    groups={fieldGroups}
+    total={totalParticipants}
+    withIssuer={liveInProduction}
+    environment={environment}
+  />
+  <RankedBars
+    title="Role claims"
+    description="Registrations holding each directory role."
+    items={roleItems}
+    total={totalParticipants}
+    overlapping
+    note={`${multiRoleCount} of ${totalParticipants} registrations hold two or more roles. Role claims describe permissions and do not classify licences, so no TPP population is derived.`}
+  />
+</section>
+
+<section class="visual-section" aria-label="How to read this page">
+  <EvidenceBand />
+</section>
+
+<section class="visual-section visual-grid" aria-label="API families and location">
+  <FamilyCoverage families={familyCounts} total={totalParticipants} history={history} />
+  <RankedBars
+    title="Headquarters"
+    description="City recorded in the directory, or in our profile where the directory gives none."
+    items={cityItems}
+    total={totalParticipants}
+  />
+</section>
+
+<section class="visual-section visual-grid even" aria-label="Ownership and declared capabilities">
+  <RankedBars
+    title="Ownership"
+    description="Ownership recorded in our participant profiles, not in the directory."
+    items={ownershipItems}
+    total={totalParticipants}
+  />
+  <AuthCapabilitiesChart
+    cibaCount={byAuthCapabilities.ciba}
+    dcrCount={byAuthCapabilities.dcr}
+    redirectCount={byAuthCapabilities.redirect}
+    totalParticipants={totalParticipants}
+  />
+</section>
+
+<style>
+  .measurement-note {
+    max-width: 1000px;
+    margin: var(--space-6) 0 var(--space-6);
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+  }
+  .stats-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-4);
+    position: relative;
+    z-index: 10;
+  }
+
+  .stats-grid {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 768px) {
+    .stats-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .visual-section {
+    max-width: 1200px;
+    margin: var(--space-8) auto 0;
+    padding: 0 var(--space-4);
+  }
+
+  .directory-head {
+    max-width: 1200px;
+    margin: var(--space-10) auto 0;
+    padding: 0 var(--space-4);
+  }
+
+  .directory-head .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-secondary);
+  }
+
+  .directory-head .eyebrow::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #c9811f;
+  }
+
+  .directory-head h2 {
+    margin-top: var(--space-3);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 500;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+  }
+
+  .visual-grid {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 960px) {
+    .visual-grid {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+    }
+
+    .visual-grid.even {
+      grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    }
+  }
+</style>

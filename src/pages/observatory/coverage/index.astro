@@ -1,6 +1,7 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
 import ObservatoryNav from '@components/observatory/ObservatoryNav.astro';
+import ObservatoryBand from '@components/observatory/ObservatoryBand.astro';
 import { getDirectoryRecords } from '@lib/observatory-data';
 import { apiFamilyLabel } from '@lib/taxonomy';
 import { coverageFamilies, coverageVersions, resourceDescription } from '@lib/coverage';
@@ -25,12 +26,12 @@ const data = JSON.stringify(records).replace(/</g, '\\u003c');
   <ObservatoryNav current="coverage" />
   <div class="coverage-page">
     <header>
-      <p class="eyebrow">Published directory evidence</p>
-      <h1>API coverage &amp; comparison</h1>
-      <p class="lede">
-        Find published API families and versions, then compare up to three registrations. Each
-        environment is a separate observation.
-      </p>
+      <ObservatoryBand
+        art="lattice"
+        eyebrow="Published directory evidence"
+        title="API coverage & comparison"
+        lede="Find published API families and versions, then compare up to three registrations. Each environment is a separate observation."
+      />
       <p class="evidence-note">
         An issuer or resource declaration does not prove a working integration. Certification and
         completeness below are source declarations. Go-live approval and operational activity are{' '}
@@ -501,7 +502,7 @@ const data = JSON.stringify(records).replace(/</g, '\\u003c');
   .coverage-page {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px 16px 64px;
+    padding: 0 16px 64px;
   }
   h1 {
     font-family: var(--font-display);
