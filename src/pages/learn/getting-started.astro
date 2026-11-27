@@ -1,4 +1,5 @@
 ---
+import PageUpdated from '@components/learn/PageUpdated.astro';
 import PageLayout from '@layouts/PageLayout.astro';
 import Breadcrumb from '@components/common/Breadcrumb.astro';
 import OperatorPointer from '@components/learn/OperatorPointer.astro';
@@ -75,6 +76,7 @@ const nextSteps = [
           <br />
           Through permission.
         </h1>
+        <PageUpdated date="2026-11-09" />
         <p class="lead">
           Open Finance lets a customer choose to share financial information or authorise a service
           through an eligible provider. Start with what that could make possible, then check the
@@ -402,10 +404,10 @@ const nextSteps = [
         <div class="role-links">
           <p>Already know your role?</p>
           <a class="text-link" href="/learn/bank-guide">
-            Bank & financial institution guide <span aria-hidden="true">→</span>
+            Bank & financial institution overview <span aria-hidden="true">→</span>
           </a>
           <a class="text-link" href="/learn/tpp-guide">
-            TPP guide <span aria-hidden="true">→</span>
+            TPP overview <span aria-hidden="true">→</span>
           </a>
         </div>
         <p class="review-note">

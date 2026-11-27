@@ -1,0 +1,29 @@
+---
+// "Last updated" line for Learn and Global pages. The date is the last time the
+// page's content materially changed. Update it in the same commit as the change;
+// src/lib/__tests__/page-updated.test.ts checks every Learn and Global page has one.
+interface Props {
+  /** ISO date, YYYY-MM-DD */
+  date: string;
+}
+
+const { date } = Astro.props;
+const label = new Date(`${date}T00:00:00Z`).toLocaleDateString('en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+---
+
+<p class="page-updated">
+  Last updated <time datetime={date}>{label}</time>
+</p>
+
+<style>
+  .page-updated {
+    margin: var(--space-2) 0 var(--space-3);
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+</style>

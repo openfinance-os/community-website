@@ -1,4 +1,5 @@
 ---
+import PageUpdated from '@components/learn/PageUpdated.astro';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import PageLayout from '@layouts/PageLayout.astro';
@@ -38,6 +39,7 @@ const structuredData = v22StructuredData({
       <header class="page-intro guide-intro">
         <p class="eyebrow">{V22_DEADLINE.kicker}</p>
         <h1>{V22_DEADLINE.title}</h1>
+        <PageUpdated date="2026-11-19" />
         <p class="lead">{V22_DEADLINE.lead}</p>
         <nav class="guide-jumps" aria-label="On this page">
           <a href="#story">The story</a>

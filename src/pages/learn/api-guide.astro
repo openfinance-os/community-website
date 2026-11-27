@@ -1,4 +1,5 @@
 ---
+import PageUpdated from '@components/learn/PageUpdated.astro';
 import PageLayout from '@layouts/PageLayout.astro';
 import OperatorPointer from '@components/learn/OperatorPointer.astro';
 import { apiFamilyLabel } from '@lib/taxonomy';
@@ -10,7 +11,7 @@ const observedDate = latest.timestamp.slice(0, 10);
 ---
 
 <PageLayout
-  title="API Guide"
+  title="API overview"
   description="Understand the UAE API Hub, consented and client-credentials services, and where to find specifications."
 >
   <div class="guide-page">
@@ -18,11 +19,12 @@ const observedDate = latest.timestamp.slice(0, 10);
       <nav class="breadcrumb">
         <a href="/learn">Learn</a>
         <span>/</span>
-        <span>API Guide</span>
+        <span>API overview</span>
       </nav>
 
       <header class="page-intro page-header">
         <h1>The UAE Open Finance APIs</h1>
+        <PageUpdated date="2026-11-09" />
         <p class="subtitle">
           What the APIs cover, how the Hub mediates access, and where to find specifications.
         </p>

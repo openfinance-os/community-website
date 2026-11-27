@@ -1,4 +1,5 @@
 ---
+import PageUpdated from '@components/learn/PageUpdated.astro';
 import PageLayout from '@layouts/PageLayout.astro';
 import { roleLabels } from '@lib/taxonomy';
 import OperatorPointer from '@components/learn/OperatorPointer.astro';
@@ -110,6 +111,7 @@ const faqSchema = generateFAQSchema(faqCategories);
 
       <header class="page-intro page-header">
         <h1>Frequently Asked Questions</h1>
+        <PageUpdated date="2026-11-09" />
         <p class="subtitle">
           The newcomer's questions about the UAE Open Finance ecosystem — what it is, who takes
           part, and how it works. For building and certifying, we link official documentation and

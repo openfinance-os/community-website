@@ -30,9 +30,9 @@ Things to know when you use this site:
 
 - [Learn hub](https://openfinance-os.org/learn/): start here
 - [Getting started](https://openfinance-os.org/learn/getting-started/): customer benefit, permission, participants and API Hub architecture
-- [TPP guide](https://openfinance-os.org/learn/tpp-guide/): what a Third Party Provider does through the UAE API Hub
-- [Bank / LFI guide](https://openfinance-os.org/learn/bank-guide/): the LFI's Ozone Connect interface, customer authentication and the API Hub's role
-- [API guide](https://openfinance-os.org/learn/api-guide/): consented and client-credentials services, and where the specifications live
+- [TPP overview](https://openfinance-os.org/learn/tpp-guide/): what a Third Party Provider does through the UAE API Hub
+- [Bank / LFI overview](https://openfinance-os.org/learn/bank-guide/): the LFI's Ozone Connect interface, customer authentication and the API Hub's role
+- [API overview](https://openfinance-os.org/learn/api-guide/): consented and client-credentials services, and where the specifications live
 - [V2.2 deadline](https://openfinance-os.org/learn/uae-open-finance-v2-2-deadline/): the 31 December 2026 Tier-1 deadline explained
 - [Running a back office](https://openfinance-os.org/learn/back-office/): consent operations, disputes, reconciliation, reporting and service levels after go-live
 - [Readiness worksheet](https://openfinance-os.org/learn/readiness/): printable worksheet across eight areas

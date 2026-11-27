@@ -87,7 +87,7 @@ The official sandbox has its own synthetic users. This page is a no-credentials 
 | Conformance | Does not establish conformance or certification. | The guide describes the sandbox as an environment for conformance testing. A community export is not that test. |
 | Best used for | Payload shape, missing fields, and fixtures for a prototype or test. | Supported integration journeys after the official technical setup. |
 
-A real request is mediated by the API Hub. The [API guide](/learn/api-guide) is the short map, and the [api-specs repository](https://github.com/Nebras-Open-Finance/api-specs) is where you check the release, tag, and errata you intend to implement.
+A real request is mediated by the API Hub. The [API overview](/learn/api-guide) is the short map, and the [api-specs repository](https://github.com/Nebras-Open-Finance/api-specs) is where you check the release, tag, and errata you intend to implement.
 
 ## What the synthetic dataset covers
 
