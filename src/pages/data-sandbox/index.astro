@@ -5,6 +5,8 @@ import SandboxExplorer from '@components/sandbox/SandboxExplorer.astro';
 import { formatDay, sampleSource } from '@lib/sandbox-samples';
 
 const SANDBOX_URL = 'https://data-sandbox.openfinance-os.org/';
+const MCP_URL = 'https://data-sandbox.fly.dev/mcp';
+const INTEGRATE_URL = 'https://data-sandbox.openfinance-os.org/src/integrate.html';
 
 const uses = [
   {
@@ -115,6 +117,28 @@ const shortCommit = sampleSource.commit.slice(0, 7);
             </div>
           ))}
         </dl>
+      </section>
+
+      <section class="mcp" id="mcp" aria-labelledby="mcp-title">
+        <div>
+          <h2 id="mcp-title">Use it from an AI assistant</h2>
+          <p>
+            The Data Sandbox also runs as a hosted MCP server, so Claude, ChatGPT or any other MCP
+            client can pick a fictional customer and read the same payloads. It needs no sign-in,
+            and every response is marked as synthetic.
+          </p>
+          <div class="actions">
+            <a href={INTEGRATE_URL} rel="noopener">
+              See all five ways to get the data <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </div>
+        <div class="mcp-connect">
+          <p class="mcp-label">Server address (Streamable HTTP)</p>
+          <code>{MCP_URL}</code>
+          <p class="mcp-label">Claude Code</p>
+          <code>claude mcp add --transport http of-data-sandbox {MCP_URL}</code>
+        </div>
       </section>
 
       <aside class="boundary" aria-labelledby="boundary-title">
@@ -305,6 +329,44 @@ const shortCommit = sampleSource.commit.slice(0, 7);
     color: var(--color-text-secondary);
     margin-top: 2px;
   }
+  .mcp {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 48px;
+    align-items: center;
+    scroll-margin-top: 96px;
+  }
+  .mcp > div > p {
+    margin: 14px 0 22px;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+  }
+  .mcp-connect {
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    background: var(--color-card);
+    padding: 20px;
+    min-width: 0;
+  }
+  .mcp-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    margin: 0 0 6px;
+  }
+  .mcp-connect code {
+    display: block;
+    overflow-wrap: anywhere;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    padding: 10px 12px;
+    border-radius: 6px;
+    background: var(--color-soft);
+    margin-bottom: 16px;
+  }
+  .mcp-connect code:last-child {
+    margin-bottom: 0;
+  }
   .boundary {
     border-left: 3px solid var(--color-accent-600);
     padding: 4px 0 4px 20px;
@@ -333,6 +395,10 @@ const shortCommit = sampleSource.commit.slice(0, 7);
       grid-template-columns: 1fr;
       gap: 28px;
       padding: 24px;
+    }
+    .mcp {
+      grid-template-columns: 1fr;
+      gap: 24px;
     }
   }
   @media (max-width: 560px) {
