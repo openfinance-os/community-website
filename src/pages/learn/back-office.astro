@@ -1,4 +1,5 @@
 ---
+import PageUpdated from '@components/learn/PageUpdated.astro';
 import PageLayout from '@layouts/PageLayout.astro';
 import Breadcrumb from '@components/common/Breadcrumb.astro';
 import { areas, controls, sources, thread, SOURCES_CHECKED } from '@lib/back-office';
@@ -17,6 +18,7 @@ const sourceList = Object.values(sources);
       <header class="page-intro bo-intro">
         <p class="eyebrow">Operating Open Finance · For banks and TPPs</p>
         <h1>Going live is the start. Then you have to run it.</h1>
+        <PageUpdated date="2026-11-27" />
         <p class="lede">
           Certification shows that your service works. It does not answer the customer who calls
           about a consent, check the invoice, or reply to the regulator. That work lands in the back
@@ -154,8 +156,8 @@ const sourceList = Object.values(sources);
           <a class="primary" href="/community">
             Compare notes with the community
           </a>
-          <a href="/learn/bank-guide">Read the bank guide</a>
-          <a href="/learn/tpp-guide">Read the TPP guide</a>
+          <a href="/learn/bank-guide">Read the bank overview</a>
+          <a href="/learn/tpp-guide">Read the TPP overview</a>
         </div>
         <p class="editorial-note">
           AI-assisted drafting and source review by Claude,{' '}

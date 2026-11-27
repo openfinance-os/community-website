@@ -1,4 +1,5 @@
 ---
+import PageUpdated from '@components/learn/PageUpdated.astro';
 import PageLayout from '@layouts/PageLayout.astro';
 import Breadcrumb from '@components/common/Breadcrumb.astro';
 import EditorialNote from '@components/learn/EditorialNote.astro';
@@ -39,19 +40,19 @@ const roleGuides = [
     title: 'For banks & financial institutions',
     description: 'Participation context, integration boundaries, and questions for your programme.',
     href: '/learn/bank-guide',
-    action: 'Read the bank guide',
+    action: 'Read the bank overview',
   },
   {
     title: 'For third party providers',
     description: 'Understand the participation path, data access, and official requirements.',
     href: '/learn/tpp-guide',
-    action: 'Read the TPP guide',
+    action: 'Read the TPP overview',
   },
   {
     title: 'For builders',
     description: 'Explore API architecture, synthetic data, and the integration references.',
     href: '/learn/api-guide',
-    action: 'Open the API guide',
+    action: 'Open the API overview',
   },
 ];
 
@@ -122,6 +123,7 @@ const sources = [
             <br />
             Find your next step.
           </h1>
+          <PageUpdated date="2026-11-19" />
           <p class="lead">
             Start with the customer benefit. See a worked example. Then explore the evidence and
             questions behind a real proposition.

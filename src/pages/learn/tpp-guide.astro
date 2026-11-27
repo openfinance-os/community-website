@@ -1,11 +1,12 @@
 ---
+import PageUpdated from '@components/learn/PageUpdated.astro';
 import PageLayout from '@layouts/PageLayout.astro';
 import { roleLabels } from '@lib/taxonomy';
 import OperatorPointer from '@components/learn/OperatorPointer.astro';
 ---
 
 <PageLayout
-  title="TPP Guide"
+  title="TPP overview"
   description="What a Third Party Provider does through the UAE API Hub, and where to find participation and integration guidance."
 >
   <div class="guide-page">
@@ -13,11 +14,12 @@ import OperatorPointer from '@components/learn/OperatorPointer.astro';
       <nav class="breadcrumb">
         <a href="/learn">Learn</a>
         <span>/</span>
-        <span>TPP Guide</span>
+        <span>TPP overview</span>
       </nav>
 
       <header class="page-intro page-header">
         <h1>What is a Third Party Provider?</h1>
+        <PageUpdated date="2026-11-09" />
         <p class="subtitle">
           The plain-language version, with official documentation and community technical
           references.
