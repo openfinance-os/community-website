@@ -1,6 +1,7 @@
 /**
- * News country tags. ISO 3166-1 alpha-2, plus `EU` for EU-level institutions
- * (Commission, Council, Parliament, EBA). `EU` is not an ISO country code.
+ * News country tags. ISO 3166-1 alpha-2, plus two exceptions that are not
+ * official ISO codes: `EU` for EU-level institutions (Commission, Council,
+ * Parliament, EBA), and `XK` for Kosovo.
  */
 
 export const ISO_3166_1_ALPHA_2 = [
@@ -255,7 +256,7 @@ export const ISO_3166_1_ALPHA_2 = [
   'ZW',
 ] as const;
 
-export const NEWS_COUNTRY_CODES = [...ISO_3166_1_ALPHA_2, 'EU'] as const;
+export const NEWS_COUNTRY_CODES = [...ISO_3166_1_ALPHA_2, 'EU', 'XK'] as const;
 
 export type NewsCountryCode = (typeof NEWS_COUNTRY_CODES)[number];
 
@@ -292,6 +293,7 @@ const COUNTRY_CENTROIDS: Partial<Record<NewsCountryCode, { lon: number; lat: num
   FR: { lon: 2.2137, lat: 46.2276 },
   GB: { lon: -2.5, lat: 54.0 },
   HK: { lon: 114.1694, lat: 22.3193 },
+  IN: { lon: 78.9629, lat: 20.5937 },
   IT: { lon: 12.5674, lat: 41.8719 },
   JO: { lon: 36.2384, lat: 31.24 },
   KW: { lon: 47.4818, lat: 29.3117 },
@@ -304,6 +306,7 @@ const COUNTRY_CENTROIDS: Partial<Record<NewsCountryCode, { lon: number; lat: num
   SE: { lon: 15.0, lat: 62.0 },
   US: { lon: -98.5795, lat: 39.8283 },
   UZ: { lon: 64.5853, lat: 41.3775 },
+  XK: { lon: 21.0, lat: 42.6 },
 };
 
 export interface DatedCountryItem {
@@ -426,6 +429,7 @@ function rangeWindowMs(range: MapRange): number | null {
 export function countryName(code: string): string {
   if (code === 'EU') return 'European Union';
   if (code === 'HK') return 'Hong Kong';
+  if (code === 'XK') return 'Kosovo';
   const name = new Intl.DisplayNames(['en'], { type: 'region' }).of(code);
   return name && name !== code ? name : code;
 }

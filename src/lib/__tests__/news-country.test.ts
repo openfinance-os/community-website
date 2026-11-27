@@ -25,15 +25,18 @@ const DAY = 24 * 60 * 60 * 1000;
 const now = new Date('2026-11-26T12:00:00.000Z');
 
 describe('news country codes', () => {
-  it('accepts ISO alpha-2 codes and the EU institution value', () => {
-    expect(NEWS_COUNTRY_CODES).toHaveLength(250);
+  it('accepts ISO alpha-2 codes, the EU institution value, and Kosovo', () => {
+    expect(NEWS_COUNTRY_CODES).toHaveLength(251);
     expect(isNewsCountryCode('AE')).toBe(true);
     expect(isNewsCountryCode('EU')).toBe(true);
     expect(isNewsCountryCode('GB')).toBe(true);
+    expect(isNewsCountryCode('XK')).toBe(true);
     expect(countryName('AE')).toBe('United Arab Emirates');
     expect(countryName('EU')).toBe('European Union');
     expect(countryName('HK')).toBe('Hong Kong');
+    expect(countryName('XK')).toBe('Kosovo');
     expect(countryName('XX')).toBe('XX');
+    expect(countryCentroid('XK')).toEqual({ lon: 21.0, lat: 42.6 });
   });
 
   it('rejects lowercase, unknown, and longer codes', () => {
