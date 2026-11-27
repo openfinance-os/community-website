@@ -90,6 +90,7 @@ describe('Cloudflare Pages cache headers', () => {
       '/search-index.json',
       '/_astro/PageLayout.abc123.css',
       '/fonts/dm-sans-regular.ttf',
+      '/fonts/dm-sans-regular.woff2',
       '/og-image.png',
       '/observatory/data/registry-latest.json',
     ]) {
@@ -107,5 +108,13 @@ describe('Cloudflare Pages cache headers', () => {
     expect(resolvedHeaders(headers, '/_astro/app.css')['cache-control']).toBe(
       'public, max-age=31536000, immutable'
     );
+  });
+
+  it('sends HSTS on every response and loads fonts only from this origin', () => {
+    const resolved = resolvedHeaders(headers, '/');
+    expect(resolved['strict-transport-security']).toBe('max-age=31536000');
+    expect(resolved['x-xss-protection']).toBeUndefined();
+    expect(resolved['content-security-policy']).toContain("font-src 'self';");
+    expect(headers).not.toMatch(/fonts\.(googleapis|gstatic)\.com/);
   });
 });

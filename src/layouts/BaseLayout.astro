@@ -246,14 +246,21 @@ const breadcrumbSchema =
       <script is:inline type="application/ld+json" set:html={jsonLd(articleSchema)} />
     )}
 
-    <!-- DM Sans is served locally; monospace is reserved for technical content. -->
-    <link rel="preload" href="/fonts/dm-sans-regular.ttf" as="font" type="font/ttf" crossorigin />
-    <link rel="preload" href="/fonts/dm-sans-medium.ttf" as="font" type="font/ttf" crossorigin />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- All fonts are self-hosted WOFF2 (no third-party font requests). JetBrains
+         Mono is only used for technical content, so it is not preloaded. -->
     <link
-      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      href="/fonts/dm-sans-regular.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/dm-sans-medium.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
 
     <!-- Shared analytics also covers the standalone Watcher endpoint. -->
