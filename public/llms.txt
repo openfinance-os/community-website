@@ -37,6 +37,7 @@ Things to know when you use this site:
 - [Running a back office](https://openfinance-os.org/learn/back-office/): consent operations, disputes, reconciliation, reporting and service levels after go-live
 - [Readiness worksheet](https://openfinance-os.org/learn/readiness/): printable worksheet across eight areas
 - [FAQ](https://openfinance-os.org/learn/faq/) and [Glossary](https://openfinance-os.org/learn/glossary/)
+- Arabic editions (community translations; English is authoritative): [home](https://openfinance-os.org/ar/), [Learn](https://openfinance-os.org/ar/learn/), and the TPP, LFI and API overviews and glossary under /ar/learn/
 
 ## International context
 

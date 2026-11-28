@@ -1,0 +1,132 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import ArabicHub from '@components/learn/ArabicHub.astro';
+import PageUpdated from '@components/learn/PageUpdated.astro';
+
+const arabic = [
+  {
+    title: 'مزوّد خدمة الطرف الثالث',
+    text: 'شرح مبسّط لدور مزوّد الطرف الثالث، مع الوثائق الرسمية والمراجع التقنية.',
+    href: '/ar/learn/tpp-guide/',
+  },
+  {
+    title: 'المؤسسة المالية المرخّصة',
+    text: 'واجهة Ozone Connect، ومصادقة العميل، ومسؤوليات مركز واجهات برمجة التطبيقات.',
+    href: '/ar/learn/bank-guide/',
+  },
+  {
+    title: 'واجهات برمجة التطبيقات',
+    text: 'الخدمات التي تتطلب موافقة العميل والتي لا تتطلبها، وأين تجد المواصفات.',
+    href: '/ar/learn/api-guide/',
+  },
+  {
+    title: 'المسرد',
+    text: 'المصطلحات والاختصارات بأسمائها العربية وتعريفاتها.',
+    href: '/ar/learn/glossary/',
+  },
+];
+
+const english = [
+  {
+    title: 'البداية',
+    text: 'مسارات حسب دورك: مصرف، أو مزوّد طرف ثالث، أو مطوّر، أو باحث.',
+    href: '/learn/getting-started',
+    english: true,
+  },
+  {
+    title: 'الأسئلة الشائعة',
+    text: 'إجابات قصيرة عن الأسئلة الأكثر تكراراً.',
+    href: '/learn/faq',
+    english: true,
+  },
+  {
+    title: 'الموعد النهائي للإصدار 2.2',
+    text: 'ما يتغيّر في الإصدار 2.2 من المعايير ومتى.',
+    href: '/learn/uae-open-finance-v2-2-deadline',
+    english: true,
+  },
+  {
+    title: 'العمليات الخلفية',
+    text: 'ما يجب على المصرف ومزوّد الطرف الثالث إدارته بعد الإطلاق.',
+    href: '/learn/back-office',
+    english: true,
+  },
+  {
+    title: 'قائمة الجاهزية',
+    text: 'ورقة عمل لتقييم جاهزيتك للتمويل المفتوح.',
+    href: '/learn/readiness',
+    english: true,
+  },
+];
+---
+
+<PageLayout
+  title="تعلّم التمويل المفتوح"
+  description="شروح مبسّطة بالعربية للتمويل المفتوح في الإمارات: مزوّدو خدمات الطرف الثالث، والمؤسسات المالية المرخّصة، وواجهات برمجة التطبيقات، ومسرد المصطلحات."
+>
+  <div class="ar-learn">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="مسار التنقل">
+        <a href="/ar/">الرئيسية</a>
+        <span>/</span>
+        <span>تعلّم</span>
+      </nav>
+      <header class="page-intro">
+        <h1>تعلّم التمويل المفتوح</h1>
+        <PageUpdated date="2026-11-28" lang="ar" />
+        <p class="lede">
+          شروح مبسّطة لأدوار المنظومة وطريقة عملها، مع روابط إلى المصادر الرسمية. هذه الأدلة للتعلّم،
+          ولا تحلّ محل المتطلبات الرسمية الصادرة عن المصرف المركزي ومنصة الطارق.
+        </p>
+      </header>
+
+      <ArabicHub heading="متاح بالعربية" items={arabic} />
+      <ArabicHub heading="متاح بالإنجليزية حالياً" items={english} />
+
+      <p class="translation-note">
+        هذه ترجمة مجتمعية، والنص الإنجليزي هو المرجع عند أي اختلاف.
+        <a href="https://github.com/openfinance-os/community-website/issues" rel="noopener">
+          اقترح تحسيناً للترجمة
+        </a>
+        .
+      </p>
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .ar-learn {
+    padding: var(--space-8) var(--space-4) var(--space-16);
+  }
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .breadcrumb {
+    display: flex;
+    gap: var(--space-2);
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-4);
+  }
+  .breadcrumb a {
+    color: var(--color-text-secondary);
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    font-weight: 600;
+    margin: 0 0 var(--space-2);
+  }
+  .lede {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+    max-width: 62ch;
+  }
+  .translation-note {
+    margin-top: var(--space-10);
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+  }
+</style>

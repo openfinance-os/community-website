@@ -1,0 +1,55 @@
+---
+/**
+ * A link to the other language edition, shown only on pages that have one.
+ * The Arabic label opts out of the Arabic web font so English pages never
+ * download it.
+ */
+import { editionsFor, pageLang } from '@lib/i18n';
+
+const lang = pageLang(Astro.url.pathname);
+const editions = editionsFor(Astro.url.pathname);
+// The English homepage keeps its first screen; its Arabic link is in the footer.
+const other =
+  Astro.url.pathname === '/' ? undefined : editions.find((edition) => edition.lang !== lang);
+---
+
+{other && (
+  <div class="language-switch">
+    {other.lang === 'ar' ? (
+      <a href={other.href} hreflang="ar" lang="ar" dir="rtl" class="system-arabic">
+        اقرأ هذه الصفحة بالعربية
+      </a>
+    ) : (
+      <a href={other.href} hreflang="en" lang="en" dir="ltr">
+        Read this page in English
+      </a>
+    )}
+  </div>
+)}
+
+<style>
+  .language-switch {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-3) var(--space-4) 0;
+    display: flex;
+    justify-content: flex-end;
+    font-size: 0.875rem;
+  }
+  .language-switch a {
+    color: var(--color-text-secondary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .language-switch a:hover {
+    color: var(--color-text);
+  }
+  .system-arabic {
+    font-family:
+      system-ui,
+      -apple-system,
+      'Segoe UI',
+      Tahoma,
+      sans-serif;
+  }
+</style>

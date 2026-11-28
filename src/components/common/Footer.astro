@@ -24,6 +24,7 @@ const quickLinks = [
   { label: 'Newsletter', href: '/newsletter' },
   { label: 'Newsletter archive', href: '/newsletter/archive' },
   { label: 'Privacy', href: '/privacy' },
+  { label: 'العربية', href: '/ar/', lang: 'ar' },
 ];
 
 const resources = [
@@ -83,7 +84,12 @@ const formatDate = (dateStr: string) => {
       <ul class="footer-list">
         {quickLinks.map((link) => (
           <li>
-            <a href={link.href} class="footer-link">
+            <a
+              href={link.href}
+              class:list={['footer-link', { 'system-arabic': link.lang === 'ar' }]}
+              lang={link.lang}
+              hreflang={link.lang}
+            >
               {link.label}
             </a>
           </li>
@@ -224,6 +230,16 @@ const formatDate = (dateStr: string) => {
 </footer>
 
 <style>
+  /* The Arabic label uses a system font so English pages never load the Arabic web font. */
+  .system-arabic {
+    font-family:
+      system-ui,
+      -apple-system,
+      'Segoe UI',
+      Tahoma,
+      sans-serif;
+  }
+
   .footer {
     background: #0c3d3e;
     color: #cce4d8;
