@@ -2,22 +2,28 @@
 // "Last updated" line for Learn and Global pages. The date is the last time the
 // page's content materially changed. Update it in the same commit as the change;
 // src/lib/__tests__/page-updated.test.ts checks every Learn and Global page has one.
+import { arabicDate } from '@lib/i18n';
+
 interface Props {
   /** ISO date, YYYY-MM-DD */
   date: string;
+  lang?: 'en' | 'ar';
 }
 
-const { date } = Astro.props;
-const label = new Date(`${date}T00:00:00Z`).toLocaleDateString('en-GB', {
-  day: 'numeric',
-  month: 'long',
-  year: 'numeric',
-  timeZone: 'UTC',
-});
+const { date, lang = 'en' } = Astro.props;
+const label =
+  lang === 'ar'
+    ? arabicDate(date)
+    : new Date(`${date}T00:00:00Z`).toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        timeZone: 'UTC',
+      });
 ---
 
 <p class="page-updated">
-  Last updated <time datetime={date}>{label}</time>
+  {lang === 'ar' ? 'آخر تحديث' : 'Last updated'} <time datetime={date}>{label}</time>
 </p>
 
 <style>

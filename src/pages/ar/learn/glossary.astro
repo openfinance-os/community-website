@@ -1,0 +1,317 @@
+---
+import PageUpdated from '@components/learn/PageUpdated.astro';
+import PageLayout from '@layouts/PageLayout.astro';
+import { glossaryData, glossaryAnchor } from '@lib/glossary';
+import { arabicGlossary } from '@lib/glossary-ar';
+---
+
+<PageLayout
+  title="مسرد مصطلحات التمويل المفتوح"
+  description="المصطلحات والاختصارات المستخدمة في التمويل المفتوح بالإمارات، بأسمائها العربية وتعريفاتها."
+>
+  <div class="glossary-page">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="مسار التنقل">
+        <a href="/ar/learn/">تعلّم</a>
+        <span>/</span>
+        <span>المسرد</span>
+      </nav>
+
+      <header class="page-intro page-header">
+        <h1>مسرد مصطلحات التمويل المفتوح</h1>
+        <PageUpdated date="2026-11-28" lang="ar" />
+        <p class="subtitle">
+          المصطلحات والاختصارات المستخدمة في منظومة التمويل المفتوح بالإمارات. نُبقي المصطلح
+          الإنجليزي لأنه يظهر كذلك في المعايير والمواصفات، ونرتّب المسرد وفق حروفه.
+        </p>
+      </header>
+
+      <nav class="letter-nav" aria-label="الحروف" dir="ltr">
+        {glossaryData.map((section) => (
+          <a href={`#letter-${section.letter}`}>{section.letter}</a>
+        ))}
+      </nav>
+
+      <div class="glossary-content">
+        {glossaryData.map((section) => (
+          <section id={`letter-${section.letter}`} class="letter-section">
+            <h2 dir="ltr">{section.letter}</h2>
+            <dl class="terms-list">
+              {section.terms.map((item) => {
+                const ar = arabicGlossary[item.term];
+                return (
+                  <div class="term-item" id={glossaryAnchor(item.term)}>
+                    <dt>
+                      <span class="term" lang="en" dir="ltr">
+                        {item.term}
+                      </span>
+                      <span class="full-name">
+                        {ar.name}
+                        {item.full && (
+                          <>
+                            {' · '}
+                            <span lang="en" dir="ltr">
+                              {item.full}
+                            </span>
+                          </>
+                        )}
+                      </span>
+                    </dt>
+                    <dd>{ar.definition}</dd>
+                  </div>
+                );
+              })}
+            </dl>
+          </section>
+        ))}
+      </div>
+
+      <footer class="glossary-footer">
+        <p>
+          هل ينقص المسرد مصطلح أو تحسين في الترجمة؟{' '}
+          <a
+            href="https://github.com/openfinance-os/community-website/issues"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            اقترحه على GitHub
+          </a>
+        </p>
+      </footer>
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .glossary-page {
+    padding: var(--space-8) var(--space-4) var(--space-16);
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .breadcrumb {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-6);
+  }
+
+  .breadcrumb a {
+    color: var(--color-brand-ink);
+  }
+
+  .page-header {
+    margin-bottom: var(--space-8);
+  }
+
+  .page-header h1 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    margin-bottom: var(--space-3);
+  }
+
+  .subtitle {
+    font-size: 1.125rem;
+    color: var(--color-text-secondary);
+  }
+
+  /* Letter Navigation */
+  .letter-nav {
+    min-width: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-8);
+    position: sticky;
+    top: 64px;
+    z-index: 10;
+  }
+
+  .letter-nav a {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    background: var(--color-card);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition:
+      background-color var(--transition-fast),
+      color var(--transition-fast);
+  }
+
+  .letter-nav a:hover {
+    background: var(--color-primary-100);
+    color: var(--color-brand-ink);
+    text-decoration: none;
+  }
+
+  /* Letter Sections */
+  .letter-section {
+    margin-bottom: var(--space-10);
+    scroll-margin-top: 120px;
+  }
+
+  .letter-section h2 {
+    font-family: var(--font-sans);
+    font-size: 2rem;
+    color: var(--color-brand-ink);
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-2);
+    border-bottom: 2px solid var(--color-primary-100);
+  }
+
+  .terms-list {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .term-item {
+    padding: var(--space-4);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast);
+  }
+
+  .term-item:hover {
+    border-color: var(--color-primary-200);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .term-item dt {
+    min-width: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+  }
+
+  .term {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-brand-ink);
+  }
+
+  .full-name {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+
+  .full-name::before {
+    content: '— ';
+  }
+
+  .term-item dd {
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Footer */
+  .glossary-footer {
+    margin-top: var(--space-12);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+    text-align: center;
+  }
+
+  .glossary-footer p {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+
+  .glossary-footer a {
+    color: var(--color-brand-ink);
+  }
+
+  /* Dark mode */
+  :global([data-theme='dark']) .glossary-page {
+    background: var(--color-surface);
+  }
+
+  :global([data-theme='dark']) .page-header h1 {
+    color: var(--color-text);
+  }
+
+  :global([data-theme='dark']) .subtitle {
+    color: var(--color-text-secondary);
+  }
+
+  :global([data-theme='dark']) .breadcrumb {
+    color: var(--color-text-secondary);
+  }
+
+  :global([data-theme='dark']) .letter-nav {
+    background: var(--color-soft);
+  }
+
+  :global([data-theme='dark']) .letter-nav a {
+    background: var(--color-soft);
+    color: var(--color-text-secondary);
+  }
+
+  :global([data-theme='dark']) .letter-nav a:hover {
+    background: var(--color-soft);
+    color: var(--color-brand-ink);
+  }
+
+  :global([data-theme='dark']) .letter-section h2 {
+    color: var(--color-brand-ink);
+    border-bottom-color: var(--color-border);
+  }
+
+  :global([data-theme='dark']) .term-item {
+    background: var(--color-soft);
+    border-color: var(--color-border);
+  }
+
+  :global([data-theme='dark']) .term-item:hover {
+    border-color: var(--color-primary-700);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  :global([data-theme='dark']) .term {
+    color: var(--color-brand-ink);
+  }
+
+  :global([data-theme='dark']) .full-name {
+    color: var(--color-text-secondary);
+  }
+
+  :global([data-theme='dark']) .term-item dd {
+    color: var(--color-text-secondary);
+  }
+
+  :global([data-theme='dark']) .glossary-footer {
+    border-top-color: var(--color-border);
+  }
+
+  :global([data-theme='dark']) .glossary-footer p {
+    color: var(--color-text-secondary);
+  }
+
+  :global([data-theme='dark']) .glossary-footer a {
+    color: var(--color-brand-ink);
+  }
+</style>

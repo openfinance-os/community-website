@@ -1,0 +1,81 @@
+---
+/**
+ * Card grid for the Arabic home and Learn hub. Links marked `english` go to a
+ * page that exists only in English, and say so.
+ */
+interface Item {
+  title: string;
+  text: string;
+  href: string;
+  english?: boolean;
+}
+interface Props {
+  heading: string;
+  items: Item[];
+}
+const { heading, items } = Astro.props;
+---
+
+<section class="ar-hub">
+  <h2>{heading}</h2>
+  <ul>
+    {items.map((item) => (
+      <li>
+        <a href={item.href} hreflang={item.english ? 'en' : undefined}>
+          <strong>{item.title}</strong>
+          <span>{item.text}</span>
+          {item.english && <small>بالإنجليزية</small>}
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .ar-hub {
+    margin: var(--space-10) 0 0;
+  }
+  .ar-hub h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 var(--space-4);
+    color: var(--color-text);
+  }
+  .ar-hub ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: var(--space-3);
+  }
+  .ar-hub a {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    height: 100%;
+    padding: var(--space-5);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-card);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+  .ar-hub a:hover {
+    border-color: var(--color-text-secondary);
+  }
+  .ar-hub strong {
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+  .ar-hub span {
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    font-size: 0.95rem;
+  }
+  .ar-hub small {
+    margin-top: auto;
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+  }
+</style>

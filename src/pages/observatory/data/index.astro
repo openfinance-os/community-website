@@ -48,7 +48,49 @@ const datasets = [
     fields: 'dataset, trackingSince, count, events[]',
     updated: 'daily',
   },
+  {
+    name: 'Changes — RSS feed',
+    path: '/observatory/changes.xml',
+    what: 'Production and sandbox changes grouped by observation date, for a feed reader. Subscribe once and new changes arrive without visiting the site.',
+    fields: 'item per environment and date: title, date, list of changes',
+    updated: 'daily',
+  },
 ];
+
+const site = 'https://openfinance-os.org';
+const datasetSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Dataset',
+  name: 'UAE Open Finance Registry (Open Finance OS observations)',
+  description:
+    'Daily observations of the public UAE Open Finance trust-framework directory: registry snapshots, a daily time series and a dated changelog of registrations, roles, API families and resource declarations. Registrations and published metadata, not traffic or operational status. Independent and not official.',
+  url: `${site}/observatory/data/`,
+  identifier: `${site}/observatory/data/`,
+  keywords: [
+    'UAE Open Finance',
+    'Open Banking',
+    'trust framework directory',
+    'Al Tareq',
+    'licensed financial institutions',
+    'third party providers',
+  ],
+  license: 'https://creativecommons.org/licenses/by/4.0/',
+  isAccessibleForFree: true,
+  creator: { '@type': 'Organization', name: 'Open Finance OS', url: site },
+  publisher: { '@type': 'Organization', name: 'Open Finance OS', url: site },
+  isBasedOn: 'https://data.directory.openfinance.ae',
+  spatialCoverage: { '@type': 'Place', name: 'United Arab Emirates' },
+  temporalCoverage: `${trackingSince}/..`,
+  dateModified: latest.timestamp,
+  distribution: datasets
+    .filter((d) => d.path.endsWith('.json'))
+    .map((d) => ({
+      '@type': 'DataDownload',
+      name: d.name,
+      encodingFormat: 'application/json',
+      contentUrl: `${site}${d.path}`,
+    })),
+};
 
 const citation = `Open Finance OS, "UAE Open Finance Registry" (dataset), openfinance-os.org/observatory/data, accessed ${latest.timestamp.slice(0, 10)}.`;
 ---
@@ -57,6 +99,7 @@ const citation = `Open Finance OS, "UAE Open Finance Registry" (dataset), openfi
   title="Data & datasets"
   description="Open, citable datasets tracking the UAE Open Finance ecosystem — registry snapshots, daily history, and a derived changelog."
   lastUpdated={latest.timestamp}
+  articleSchema={datasetSchema}
 >
   <ObservatoryNav current="data" />
   <div class="data-page">
@@ -88,7 +131,9 @@ const citation = `Open Finance OS, "UAE Open Finance Registry" (dataset), openfi
               <a class="download" href={d.path}>
                 {d.path === '/observatory/coverage/'
                   ? 'Open coverage & CSV export'
-                  : 'Download JSON'}
+                  : d.path.endsWith('.xml')
+                    ? 'Subscribe (RSS)'
+                    : 'Download JSON'}
                 <svg
                   width="14"
                   height="14"

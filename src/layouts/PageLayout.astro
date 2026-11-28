@@ -2,6 +2,8 @@
 import BaseLayout from './BaseLayout.astro';
 import Header from '@components/common/Header.astro';
 import Footer from '@components/common/Footer.astro';
+import LanguageSwitch from '@components/common/LanguageSwitch.astro';
+import { pageLang } from '@lib/i18n';
 
 interface Props {
   title: string;
@@ -34,6 +36,9 @@ const {
   robots,
   breadcrumbCurrent,
 } = Astro.props;
+// Site chrome stays English. Arabic editions set the language and direction on
+// the main content only, so the header and footer keep their layout.
+const lang = pageLang(Astro.url.pathname);
 ---
 
 <BaseLayout
@@ -55,7 +60,13 @@ const {
   </a>
   <div class="page-wrapper">
     <Header />
-    <main id="main-content" class="main-content">
+    <main
+      id="main-content"
+      class="main-content"
+      lang={lang === 'ar' ? 'ar' : undefined}
+      dir={lang === 'ar' ? 'rtl' : undefined}
+    >
+      <LanguageSwitch />
       <slot />
     </main>
     <Footer lastUpdated={lastUpdated} />

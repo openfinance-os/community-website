@@ -12,8 +12,14 @@ Sitemap: https://openfinance-os.org/sitemap-index.xml
 # AI Agents and LLMs - Welcome!
 # See /llms.txt for structured information about this site
 
-# Specific bot permissions
+# Specific bot permissions. `User-agent: *` above already allows everyone;
+# these entries name current AI crawlers explicitly so a later rule cannot
+# block them by accident. A robots.txt allow does not override a CDN bot
+# block: Cloudflare's AI-crawler and bot settings must allow them too.
 User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
 Allow: /
 
 User-agent: ChatGPT-User
@@ -22,13 +28,22 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
-User-agent: Anthropic-AI
+User-agent: ClaudeBot
 Allow: /
 
-User-agent: Claude-Web
+User-agent: Claude-SearchBot
 Allow: /
 
-User-agent: Perplexity-AI
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Applebot-Extended
 Allow: /
 
 User-agent: CCBot

@@ -12,9 +12,16 @@ interface Props {
   heading?: string;
   intro: string;
   links: Link[];
+  /** Closing caution. Defaults to the English wording. */
+  note?: string;
 }
 
-const { heading = 'Building or integrating?', intro, links } = Astro.props;
+const {
+  heading = 'Building or integrating?',
+  intro,
+  links,
+  note = "Check each source's version, publication date and errata before implementation. Community references do not replace official requirements.",
+} = Astro.props;
 ---
 
 <aside class="operator-pointer">
@@ -42,10 +49,7 @@ const { heading = 'Building or integrating?', intro, links } = Astro.props;
       </li>
     ))}
   </ul>
-  <p class="op-note">
-    Check each source's version, publication date and errata before implementation. Community
-    references do not replace official requirements.
-  </p>
+  <p class="op-note">{note}</p>
 </aside>
 
 <style>

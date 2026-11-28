@@ -1,4 +1,19 @@
 import { apiFamilyLabel } from './taxonomy';
+import type { ChangelogEvent } from './registry-changelog';
+
+/** Plain labels for changelog events. Observation wording: dates are when a snapshot saw it. */
+export const registryEventLabels: Record<ChangelogEvent['type'], { label: string; tone: string }> =
+  {
+    went_live: { label: 'Auth server published', tone: 'live' },
+    joined: { label: 'Registration first observed', tone: 'join' },
+    role_added: { label: 'Role first observed', tone: 'neutral' },
+    api_family_added: { label: 'Family first observed', tone: 'neutral' },
+    went_offline: { label: 'Auth server removed', tone: 'neutral' },
+    left: { label: 'Registration no longer observed', tone: 'neutral' },
+    role_removed: { label: 'Role no longer observed', tone: 'neutral' },
+    api_family_removed: { label: 'Family no longer observed', tone: 'neutral' },
+    resource_changed: { label: 'Resource declarations changed', tone: 'neutral' },
+  };
 
 /** Presentation only: keep the changelog dataset and its raw declarations unchanged. */
 export function resourceChangePresentation(detail: string) {

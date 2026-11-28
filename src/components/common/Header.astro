@@ -13,6 +13,7 @@ const navItems: {
   { label: 'Global', href: '/global' },
   { label: 'Updates', href: '/updates' },
   { label: 'Learn', href: '/learn' },
+  { label: 'Data Sandbox', href: '/data-sandbox' },
   { label: 'Commons', href: '/commons' },
   { label: 'Community', href: '/community' },
   { label: 'About', href: '/about' },
@@ -21,6 +22,11 @@ const navItems: {
 ];
 
 const currentPath = Astro.url.pathname;
+// The most specific matching item is active, so one link is highlighted when
+// several prefixes match.
+const activeHref = navItems
+  .filter((item) => !item.external && currentPath.startsWith(item.href))
+  .sort((a, b) => b.href.length - a.href.length)[0]?.href;
 ---
 
 <header class="header">
@@ -39,10 +45,7 @@ const currentPath = Astro.url.pathname;
           <li>
             <a
               href={item.href}
-              class:list={[
-                'nav-link',
-                { active: !item.external && currentPath.startsWith(item.href) },
-              ]}
+              class:list={['nav-link', { active: item.href === activeHref }]}
               target={item.external ? '_blank' : undefined}
               rel={item.external ? 'noopener noreferrer' : undefined}
               data-slack-join={item.slack}
@@ -121,10 +124,7 @@ const currentPath = Astro.url.pathname;
         <li>
           <a
             href={item.href}
-            class:list={[
-              'nav-link-mobile',
-              { active: !item.external && currentPath.startsWith(item.href) },
-            ]}
+            class:list={['nav-link-mobile', { active: item.href === activeHref }]}
             target={item.external ? '_blank' : undefined}
             rel={item.external ? 'noopener noreferrer' : undefined}
             data-slack-join={item.slack}
@@ -394,6 +394,7 @@ const currentPath = Astro.url.pathname;
 
   .logo-icon {
     display: block;
+    flex-shrink: 0;
     border-radius: var(--radius-lg);
   }
 
@@ -424,7 +425,7 @@ const currentPath = Astro.url.pathname;
     display: none;
   }
 
-  @media (min-width: 1200px) {
+  @media (min-width: 1280px) {
     .nav-desktop {
       display: block;
     }
@@ -451,6 +452,25 @@ const currentPath = Astro.url.pathname;
     transition:
       color var(--transition-fast),
       background-color var(--transition-fast);
+    white-space: nowrap;
+  }
+
+  /* Ten items: the header container stops growing at about 1272px, so keep the
+     desktop links compact at every desktop width, and drop the Beta label where
+     the logo would otherwise be squeezed. */
+  @media (min-width: 1280px) {
+    .nav-desktop .nav-list {
+      gap: 0;
+    }
+    .nav-desktop .nav-link {
+      padding: var(--space-2) var(--space-2);
+      font-size: 0.8125rem;
+    }
+  }
+  @media (min-width: 1280px) and (max-width: 1439px) {
+    .beta-label {
+      display: none;
+    }
   }
 
   .nav-link:hover {
@@ -495,14 +515,14 @@ const currentPath = Astro.url.pathname;
     gap: var(--space-1);
   }
 
-  @media (min-width: 1200px) {
+  @media (min-width: 1280px) {
     .header-actions {
       min-width: 0;
       display: flex;
     }
   }
 
-  @media (max-width: 1199px) {
+  @media (max-width: 1279px) {
     .header-actions .theme-toggle,
     .header-actions .github-link {
       display: none;
@@ -607,7 +627,7 @@ const currentPath = Astro.url.pathname;
     transition: background-color var(--transition-fast);
   }
 
-  @media (min-width: 1200px) {
+  @media (min-width: 1280px) {
     .mobile-menu-btn {
       display: none;
     }
@@ -674,7 +694,7 @@ const currentPath = Astro.url.pathname;
     }
   }
 
-  @media (min-width: 1200px) {
+  @media (min-width: 1280px) {
     .nav-mobile {
       display: none !important;
     }

@@ -1,0 +1,186 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import ArabicHub from '@components/learn/ArabicHub.astro';
+import { arabicDate } from '@lib/i18n';
+import latest from '../../../data/observatory/snapshots/production/latest.json';
+import sandboxLatest from '../../../data/observatory/snapshots/sandbox/latest.json';
+
+const total = latest.summary.totalParticipants;
+const withIssuer = latest.summary.liveInProduction;
+const sandboxTotal = sandboxLatest.summary.totalParticipants;
+const observedDate = latest.timestamp.slice(0, 10);
+
+const learn = [
+  {
+    title: 'مزوّد خدمة الطرف الثالث',
+    text: 'ما يفعله مزوّد الطرف الثالث عبر مركز واجهات برمجة التطبيقات، وأين تبدأ.',
+    href: '/ar/learn/tpp-guide/',
+  },
+  {
+    title: 'المؤسسة المالية المرخّصة',
+    text: 'مسؤوليات المصرف أو شركة التأمين، ومسؤوليات المركز.',
+    href: '/ar/learn/bank-guide/',
+  },
+  {
+    title: 'واجهات برمجة التطبيقات',
+    text: 'ما تغطيه الواجهات وكيف يتوسّط المركز الوصول إليها.',
+    href: '/ar/learn/api-guide/',
+  },
+  {
+    title: 'المسرد',
+    text: 'المصطلحات والاختصارات بأسمائها العربية وتعريفاتها.',
+    href: '/ar/learn/glossary/',
+  },
+];
+
+const explore = [
+  {
+    title: 'المرصد',
+    text: 'لقطات يومية لدليل إطار الثقة العام: التسجيلات والأدوار والموارد المنشورة.',
+    href: '/observatory',
+    english: true,
+  },
+  {
+    title: 'صندوق البيانات',
+    text: 'بيانات نموذجية اصطناعية لحسابات ومعاملات ووثائق تأمين، دون بيانات اعتماد.',
+    href: '/data-sandbox',
+    english: true,
+  },
+  {
+    title: 'المستجدات',
+    text: 'أخبار وتحليلات التمويل المفتوح في الإمارات والعالم.',
+    href: '/updates',
+    english: true,
+  },
+  {
+    title: 'النشرة الأسبوعية',
+    text: 'رسالة واحدة كل أسبوع عن التمويل المفتوح في الإمارات.',
+    href: '/newsletter',
+    english: true,
+  },
+];
+---
+
+<PageLayout
+  title="التمويل المفتوح في الإمارات"
+  description="الرؤية المستقلة للتمويل المفتوح في الإمارات: شروح مبسّطة، ومسرد مصطلحات، وبيانات مرصودة من الدليل العام. مبادرة مجتمعية غير رسمية."
+>
+  <div class="ar-home">
+    <div class="container">
+      <header class="page-intro">
+        <p class="eyebrow">الرؤية المستقلة للتمويل المفتوح في الإمارات</p>
+        <h1>التمويل المفتوح، بوضوح تام.</h1>
+        <p class="lede">
+          تعرّف على ما يمكن أن تتيحه البيانات والخدمات المالية التي تُشارَك بإذن العميل. افهم ما يتغيّر،
+          واطّلع على الأدلة، وابدأ خطوتك التالية. Open Finance OS مبادرة مجتمعية مفتوحة المصدر، ولا
+          تتبع المصرف المركزي أو منصة الطارق أو نبراس.
+        </p>
+      </header>
+
+      <section class="snapshot" aria-labelledby="snapshot-title">
+        <h2 id="snapshot-title">المنظومة في لمحة</h2>
+        <dl>
+          <div>
+            <dt>تسجيلات في دليل بيئة الإنتاج</dt>
+            <dd>{total}</dd>
+          </div>
+          <div>
+            <dt>منها تنشر خادم تفويض</dt>
+            <dd>{withIssuer}</dd>
+          </div>
+          <div>
+            <dt>تسجيلات في الدليل التجريبي</dt>
+            <dd>{sandboxTotal}</dd>
+          </div>
+        </dl>
+        <p class="note">
+          مرصودة بتاريخ <time datetime={observedDate}>{arabicDate(observedDate)}</time> من الدليل
+          العام. التسجيل في الدليل لا يثبت أن الخدمة تعمل فعلياً.
+          <a href="/observatory/methodology" hreflang="en">
+            المنهجية
+          </a>{' '}
+          (بالإنجليزية).
+        </p>
+      </section>
+
+      <ArabicHub heading="ابدأ بالعربية" items={learn} />
+      <ArabicHub heading="المزيد من الموقع" items={explore} />
+
+      <p class="translation-note">
+        هذه ترجمة مجتمعية لأجزاء مختارة من الموقع، والنص الإنجليزي هو المرجع عند أي اختلاف.
+        <a href="https://github.com/openfinance-os/community-website/issues" rel="noopener">
+          اقترح تحسيناً للترجمة
+        </a>
+        .
+      </p>
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .ar-home {
+    padding: var(--space-8) var(--space-4) var(--space-16);
+  }
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .eyebrow {
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+    margin: 0 0 var(--space-3);
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
+    font-weight: 600;
+    line-height: 1.25;
+    margin: 0 0 var(--space-4);
+    color: var(--color-text);
+  }
+  .lede {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+    max-width: 62ch;
+    margin: 0;
+  }
+  .snapshot {
+    margin-top: var(--space-10);
+    padding: var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    background: var(--color-surface);
+  }
+  .snapshot h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 var(--space-4);
+  }
+  .snapshot dl {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--space-4);
+    margin: 0;
+  }
+  .snapshot dt {
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+  }
+  .snapshot dd {
+    margin: var(--space-1) 0 0;
+    font-size: 2.25rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+  .note,
+  .translation-note {
+    margin: var(--space-4) 0 0;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+  .translation-note {
+    margin-top: var(--space-10);
+  }
+</style>

@@ -39,7 +39,7 @@ featured: true
 
 The Open Finance OS Data Sandbox is an independent, browser-based explorer of synthetic UAE Open Finance payloads. Developers, TPP product teams, and LFIs can inspect banking and insurance examples, compare illustrative data-completeness profiles, and export a fixture before formal integration testing. It asks for no bank credentials and does not connect to live customer accounts or an institution's sandbox.
 
-Last reviewed 6 November 2026 against the [public explorer](https://data-sandbox.openfinance-os.org/) and its fixture manifest.
+Last reviewed 6 November 2026 against the [public explorer](https://data-sandbox.openfinance-os.org/) and its fixture manifest. For sample payloads you can read on this site, see the [Data Sandbox page](/data-sandbox).
 
 <div class="case-next-actions">
   <a class="btn btn-primary" href="https://data-sandbox.openfinance-os.org/">Open synthetic explorer</a>
@@ -125,11 +125,11 @@ Export writes the active bundle as JSON, CSV, or a tarball. This accounts file r
 
 `/fixtures/v1/` is the current public alias and can be replaced when the site is republished. For a repeatable test, record corpus `0.1.0`, manifest revision `ca8646db7c61cf45b53d084fc954077774cbbfd8`, the specification commit for the domain you called, and the persona, profile, and seed.
 
-Candidate packages `@openfinance-os/sandbox-fixtures` and `openfinance-os-sandbox-fixtures` are in the repository at 0.1.0. On 6 November 2026 neither name was on the public npm registry or on PyPI, so confirm a release before installing from a registry. Until then, export from the explorer or build from the [pinned source](https://github.com/openfinance-os/data-sandbox/tree/ca8646db7c61cf45b53d084fc954077774cbbfd8). The community [integration notes](https://data-sandbox.openfinance-os.org/src/integrate.html) describe an iframe and raw fixture URLs. Their package-manager steps were not backed by a public release on the review date.
+Candidate packages `@openfinance-os/sandbox-fixtures` and `openfinance-os-sandbox-fixtures` are in the repository at 0.1.0. On 6 November 2026, and again on 28 November 2026, neither name was on the public npm registry or on PyPI, so confirm a release before installing from a registry. Until then, export from the explorer or build from the [pinned source](https://github.com/openfinance-os/data-sandbox/tree/ca8646db7c61cf45b53d084fc954077774cbbfd8). The community [integration notes](https://data-sandbox.openfinance-os.org/src/integrate.html) describe an iframe and raw fixture URLs. Their package-manager steps were not backed by a public release on the review date.
 
 ### Optional MCP access for AI-assisted demos
 
-`@openfinance-os/sandbox-mcp` answers questions from these fixtures. `https://data-sandbox.fly.dev/mcp` responded on 6 November 2026, as a separate deployment, and the npm package was not on the public registry. Read the notes at the revision you pin. The server does not obtain consent, authenticate a customer, or reach a bank.
+`@openfinance-os/sandbox-mcp` answers questions from these fixtures. `https://data-sandbox.fly.dev/mcp` responded on 6 November 2026, as a separate deployment, and the npm package was not on the public registry. It was still absent on 28 November 2026, so `npx` cannot fetch it. Read the notes at the revision you pin. The server does not obtain consent, authenticate a customer, or reach a bank.
 
 ## Limits, licensing and next steps
 
