@@ -35,3 +35,7 @@ https://www.openfinance-os.org/* https://openfinance-os.org/:splat 301
 
 # News item re-dated to the actual CBUAE announcement date (was mis-dated 2024-09-15)
 /news/2024-09-15-cbuae-open-finance-framework/* /news/2024-06-27-cbuae-open-finance-regulation/ 301
+
+# Hackathon docs entry removed (the hosted hackathon sites are retired).
+/commons/demo-tpp-starter-kit /commons 301
+/commons/demo-tpp-starter-kit/ /commons 301
