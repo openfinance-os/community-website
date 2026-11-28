@@ -1,11 +1,13 @@
 /**
  * Render the newsletter page images in the Clear signal identity.
  * Regenerate with `npx tsx scripts/generate-newsletter-images.ts` (Chromium required).
+ * Pass `--missing-issue-cards` to render only the issue share cards that do not exist
+ * yet (used by the newsletter archive sync workflow, so other images stay byte-identical).
  * Uses DM Sans from public/fonts and the supplied logo SVGs from brand/.
  */
 import { chromium } from '@playwright/test';
 import sharp from 'sharp';
-import { mkdirSync, readFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
@@ -245,8 +247,10 @@ const outputs: { file: string; html: string; width: number; height: number; scal
 const browser = await chromium.launch(
   process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}
 );
+const missingIssueCardsOnly = process.argv.includes('--missing-issue-cards');
+
 try {
-  for (const { file, html, width, height, scale } of outputs) {
+  for (const { file, html, width, height, scale } of missingIssueCardsOnly ? [] : outputs) {
     const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: scale });
     await page.setContent(html);
     await page.evaluate(async () => {
@@ -310,18 +314,20 @@ try {
     console.log(`Generated public/${relative} (1200×630).`);
   };
 
-  await renderOgCard(
-    NEWSLETTER_OG_PATH,
-    'Weekly briefing',
-    'The 5-minute weekly on UAE Open Finance, for the people building it',
-    'Free · Weekly · openfinance-os.org/newsletter'
-  );
-  await renderOgCard(
-    ARCHIVE_OG_PATH,
-    'Newsletter archive',
-    'Past issues of the weekly UAE Open Finance briefing',
-    'openfinance-os.org/newsletter/archive'
-  );
+  if (!missingIssueCardsOnly) {
+    await renderOgCard(
+      NEWSLETTER_OG_PATH,
+      'Weekly briefing',
+      'The 5-minute weekly on UAE Open Finance, for the people building it',
+      'Free · Weekly · openfinance-os.org/newsletter'
+    );
+    await renderOgCard(
+      ARCHIVE_OG_PATH,
+      'Newsletter archive',
+      'Past issues of the weekly UAE Open Finance briefing',
+      'openfinance-os.org/newsletter/archive'
+    );
+  }
 
   const issues = JSON.parse(readFileSync(join(root, 'data/newsletter/issues.json'), 'utf8')) as {
     slug: string;
@@ -329,6 +335,8 @@ try {
     publish_date: string;
   }[];
   for (const issue of issues) {
+    if (missingIssueCardsOnly && existsSync(join(root, 'public', issueOgPath(issue.slug))))
+      continue;
     const published = new Date(issue.publish_date).toLocaleDateString('en-GB', {
       day: 'numeric',
       month: 'long',
