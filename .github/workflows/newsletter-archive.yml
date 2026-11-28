@@ -12,13 +12,12 @@ concurrency:
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
   sync:
     name: Refresh sent issues
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
 
     steps:
       - name: Checkout repository
@@ -32,38 +31,44 @@ jobs:
           BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
         run: node scripts/sync-newsletter-archive.mjs
 
-      - name: Open a pull request when issues change
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Check for archive changes
+        id: changes
         run: |
-          set -euo pipefail
           if git diff --quiet -- data/newsletter/issues.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "Newsletter archive is already up to date." >> "$GITHUB_STEP_SUMMARY"
-            exit 0
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
+      # Every archived issue needs a 1200x630 share card (newsletter-images.test.ts).
+      - name: Install Chromium for share cards
+        if: steps.changes.outputs.changed == 'true'
+        run: npx playwright install --with-deps chromium
+
+      - name: Render missing issue share cards
+        if: steps.changes.outputs.changed == 'true'
+        run: npx tsx scripts/generate-newsletter-images.ts --missing-issue-cards
+
+      # A pull request opened with GITHUB_TOKEN does not trigger CI, so the
+      # bot PRs used to sit unmerged. Run the same gates here instead, and
+      # publish only if they pass.
+      - name: Validate (type check, format, unit tests, build)
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          npm run check
+          npx prettier --check data/newsletter/issues.json
+          npm test
+          npm run build
+
+      - name: Commit and push to main
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          branch="newsletter/archive-sync-${GITHUB_RUN_ID}"
-          git checkout -b "$branch"
-          git add data/newsletter/issues.json
+          git add data/newsletter/issues.json public/newsletter/og/
           git commit -m "Update newsletter archive from Buttondown"
-          git push -u origin "$branch"
-
-          gh pr create \
-            --base main \
-            --head "$branch" \
-            --title "Update newsletter archive" \
-            --body "$(cat <<'EOF'
-          ## Summary
-
-          Refreshes sent Buttondown issues in `data/newsletter/issues.json`.
-
-          The `BUTTONDOWN_API_KEY` secret must be added in the repository settings (Settings → Secrets and variables → Actions) before this workflow can call the Buttondown API.
-
-          ## Test plan
-
-          - [ ] Confirm the diff only updates sent-issue archive data
-          - [ ] Preview `/newsletter/archive` and the changed issue pages
-          EOF
-          )"
+          git pull --rebase origin main
+          git push origin HEAD:main
+          echo "Published the updated newsletter archive to main." >> "$GITHUB_STEP_SUMMARY"
