@@ -141,7 +141,7 @@ Licences, checked on 6 November 2026:
 - Synthetic personas, generated payloads, and exported fixtures are [CC0](https://github.com/openfinance-os/data-sandbox/blob/ca8646db7c61cf45b53d084fc954077774cbbfd8/LICENSE-DATA). You may use that data in a commercial prototype. The dedication does not make the examples official, and it does not license the specification text.
 - Pinned OpenAPI files keep the upstream licence. The `LICENSE` file in [api-specs](https://github.com/Nebras-Open-Finance/api-specs) at the commits above is MIT. Keep that notice with any copy of the specification.
 
-Requirements are in the [CBUAE Open Finance regulation](https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation-0) and the [AlTareq standards](https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview). Neither source approves this tool. The [hackathon starter documentation](/commons/demo-tpp-starter-kit) is a separate community resource for that event. To correct a fixture or this page, use [Contribute](/commons/contribute).
+Requirements are in the [CBUAE Open Finance regulation](https://rulebook.centralbank.ae/en/rulebook/open-finance-regulation-0) and the [AlTareq standards](https://openfinanceuae.atlassian.net/wiki/spaces/OF/overview). Neither source approves this tool. To correct a fixture or this page, use [Contribute](/commons/contribute).
 
 ## Questions
 
