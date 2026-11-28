@@ -23,7 +23,7 @@ Things to know when you use this site:
 - [Explore the Data Sandbox](https://openfinance-os.org/data-sandbox/): pick a fictional customer and read sample accounts, transactions and insurance payloads in the browser
 - [Sandbox explorer](https://data-sandbox.openfinance-os.org/): full explorer with field-level mandatory/optional/conditional status taken from the published v2.1 OpenAPI specification
 - [Integration guide](https://data-sandbox.openfinance-os.org/src/integrate.html): five ways to get the data — static JSON fixtures, a local HTTP mock, an embeddable iframe, npm/PyPI packages, and an MCP server
-- Hosted MCP server: `https://data-sandbox.fly.dev/mcp` (Streamable HTTP, no sign-in). Covers Bank Data Sharing, Insurance (seven lines) and the ATM Locator. Every response carries a `_watermark` field marking it as synthetic.
+- Hosted MCP server: `https://mcp.openfinance-os.org/mcp` (Streamable HTTP, no sign-in; `https://data-sandbox.fly.dev/mcp` is the same server). Covers Bank Data Sharing, Insurance (seven lines) and the ATM Locator. Every response carries a `_watermark` field marking it as synthetic.
 - Static fixtures follow `https://data-sandbox.openfinance-os.org/fixtures/v1/bundles/{persona}/{lfi_profile}/seed-{n}/{endpoint}.json`. `fixtures/v1/index.json` lists the published personas, profiles and seeds.
 
 ## Learn
