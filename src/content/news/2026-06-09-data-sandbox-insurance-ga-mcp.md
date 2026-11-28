@@ -5,9 +5,11 @@ type: community
 region: uae
 country: AE
 author: Community
-description: "Since its April launch the Open Finance Data Sandbox has grown from 10 to 38 synthetic personas, taken Insurance Data Sharing to GA across all 7 lines, added the ATM Locator directory, multi-bank and multi-insurer personas, an MCP server for AI agents, and pinnable fixture packages on npm and PyPI."
+description: "Since its April launch the Open Finance Data Sandbox has grown from 10 to 38 synthetic personas, taken Insurance Data Sharing to GA across all 7 lines, added the ATM Locator directory, multi-bank and multi-insurer personas, an MCP server for AI agents, and fixture packages you can build from source."
 featured: true
 ---
+
+> **Correction, 28 November 2026.** This post first said the fixture packages and the MCP server were published on npm and PyPI. They were not. On 28 November 2026 none of `@openfinance-os/sandbox-fixtures`, `@openfinance-os/sandbox-mcp` or `openfinance-os-sandbox-fixtures` was on the public registries. The sections below now say how to use them from source.
 
 When the [Open Finance Data Sandbox launched in April](/news/2026-04-29-data-sandbox-launch), it covered Bank Data Sharing with 10 synthetic personas. Six weeks later, it has become a much bigger thing — covering all three UAE Open Finance data domains with nearly four times the persona library.
 
@@ -27,15 +29,15 @@ The flagship retail multi-banker's realistic footprint spans **four banks** (sal
 
 ### An MCP server for AI agents
 
-[`@openfinance-os/sandbox-mcp`](https://github.com/openfinance-os/data-sandbox/tree/main/packages/sandbox-mcp) exposes the whole corpus as MCP tools, resources, and prompts, so an AI agent can act as a personal-finance assistant over a synthetic customer — answering balance, spend, obligation, and coverage questions from deterministic v2.1 JSON. Use the hosted endpoint (`https://data-sandbox.fly.dev/mcp` as a custom connector in Claude.ai — anonymous, no API key) or run it locally with `npx -y @openfinance-os/sandbox-mcp`. A custom persona builder lets you compose your own profiles beyond the curated set.
+[`@openfinance-os/sandbox-mcp`](https://github.com/openfinance-os/data-sandbox/tree/main/packages/sandbox-mcp) exposes the whole corpus as MCP tools, resources, and prompts, so an AI agent can act as a personal-finance assistant over a synthetic customer — answering balance, spend, obligation, and coverage questions from deterministic v2.1 JSON. Use the hosted endpoint (`https://data-sandbox.fly.dev/mcp` as a custom connector in Claude.ai — anonymous, no API key) or run it locally from a clone of the [repository](https://github.com/openfinance-os/data-sandbox). The package is not on the npm registry, so `npx` cannot fetch it yet. A custom persona builder lets you compose your own profiles beyond the curated set.
 
-### Pinnable fixture packages
+### Fixture packages, built from source
 
-The synthetic dataset ships as versioned packages your CI can pin: [`@openfinance-os/sandbox-fixtures`](https://www.npmjs.com/package/@openfinance-os/sandbox-fixtures) on npm and `openfinance-os-sandbox-fixtures` on PyPI — v2.1-shaped JSON envelopes across the persona × LFI × endpoint matrix, with the same determinism guarantees as the browser explorer.
+The repository contains two fixture packages, `@openfinance-os/sandbox-fixtures` for Node and `openfinance-os-sandbox-fixtures` for Python. They hold v2.1-shaped JSON envelopes across the persona × LFI × endpoint matrix, with the same determinism guarantees as the browser explorer. Neither is published to npm or PyPI, so build them from a pinned commit of the [repository](https://github.com/openfinance-os/data-sandbox), or export fixtures from the explorer.
 
 ### TPP integration guide
 
-A worked [integration guide](https://data-sandbox.openfinance-os.org/src/integrate.html) covers four plug points for wiring sandbox personas into a TPP demo journey: iframe embed, npm `loadJourney()`, PyPI `load_journey()`, and raw HTTPS fixtures.
+A worked [integration guide](https://data-sandbox.openfinance-os.org/src/integrate.html) covers four plug points for wiring sandbox personas into a TPP demo journey: iframe embed, the Node `loadJourney()` and Python `load_journey()` loaders built from source, and raw HTTPS fixtures.
 
 ## Unchanged — and still the point
 

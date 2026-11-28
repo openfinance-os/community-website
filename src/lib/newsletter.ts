@@ -16,6 +16,7 @@ export const SLACK_JOIN_PLACEMENTS = {
   nav: 'nav',
   archive: 'newsletter_archive',
   welcome: 'newsletter_welcome',
+  community: 'community',
 } as const;
 
 /** Public registry snapshot offered after a subscriber confirms. */

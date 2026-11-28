@@ -1,5 +1,6 @@
 ---
 import MiddleLeapLogo from './MiddleLeapLogo.astro';
+import MiddleLeapHelp from './MiddleLeapHelp.astro';
 import NewsletterSignup from './NewsletterSignup.astro';
 import { NEWSLETTER_SOURCES, SLACK_JOIN_PLACEMENTS, SLACK_JOIN_URL } from '../../lib/newsletter';
 
@@ -8,11 +9,16 @@ interface Props {
 }
 
 const { lastUpdated } = Astro.props;
+// Keep the MiddleLeap help line off Observatory evidence and data pages, and off
+// the homepage, where the two teasers already carry it.
+const showHelpLine = Astro.url.pathname !== '/' && !Astro.url.pathname.startsWith('/observatory');
 
 const quickLinks = [
   { label: 'Observatory', href: '/observatory' },
   { label: 'Updates', href: '/updates' },
   { label: 'Learn', href: '/learn' },
+  { label: 'Data Sandbox', href: '/data-sandbox' },
+  { label: 'Back Office', href: '/learn/back-office' },
   { label: 'Community', href: '/community' },
   { label: 'About', href: '/about' },
   { label: 'Newsletter', href: '/newsletter' },
@@ -34,6 +40,7 @@ const resources = [
   { label: 'CBUAE', href: 'https://www.centralbank.ae', external: true },
   { label: 'GitHub', href: 'https://github.com/openfinance-os', external: true },
   { label: 'News RSS', href: '/rss.xml', external: false },
+  { label: 'Observatory changes RSS', href: '/observatory/changes.xml', external: false },
 ];
 
 const formatDate = (dateStr: string) => {
@@ -47,23 +54,8 @@ const formatDate = (dateStr: string) => {
   });
 };
 
-const getRelativeTime = (dateStr: string) => {
-  const now = new Date();
-  const date = new Date(dateStr);
-  const diffMs = now.getTime() - date.getTime();
-  const diffMins = Math.floor(diffMs / 60000);
-  const diffHours = Math.floor(diffMs / 3600000);
-  const diffDays = Math.floor(diffMs / 86400000);
-
-  if (diffMins < 1) return 'just now';
-  if (diffMins < 60) return `${diffMins} minute${diffMins === 1 ? '' : 's'} ago`;
-  if (diffHours < 24) return `${diffHours} hour${diffHours === 1 ? '' : 's'} ago`;
-  if (diffDays === 1) return 'yesterday';
-  if (diffDays < 7) return `${diffDays} days ago`;
-  return null; // Fall back to absolute date for older timestamps
-};
-
-const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
+// The relative age ("3 hours ago") is filled in by the browser on load. Writing
+// it at build time froze it in cached HTML until the next deploy.
 ---
 
 <footer class="footer">
@@ -216,13 +208,12 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
               ·
             </span>
             <span class="meta-timestamp" data-timestamp={lastUpdated}>
-              Data updated: {relativeTime && <span class="relative-time">{relativeTime}</span>}
-              {relativeTime && <span class="time-separator"> · </span>}
-              <time datetime={lastUpdated}>{formatDate(lastUpdated)} UTC</time>
+              Data updated: <time datetime={lastUpdated}>{formatDate(lastUpdated)} UTC</time>
             </span>
           </>
         )}
       </p>
+      {showHelpLine && <MiddleLeapHelp tone="footer" />}
       <p class="footer-disclaimer">
         Open Finance OS is a community initiative and is not affiliated with, endorsed by, or
         officially connected to the CBUAE, Al Tareq Platform, or any financial institution. Always
@@ -483,6 +474,7 @@ const relativeTime = lastUpdated ? getRelativeTime(lastUpdated) : null;
     }
   }
 
-  // Update every minute
+  // Fill in on load, then keep it current.
+  updateRelativeTime();
   setInterval(updateRelativeTime, 60000);
 </script>

@@ -1,0 +1,48 @@
+---
+/**
+ * A single, plainly labelled line pointing to MiddleLeap for paid help.
+ * Used only on the homepage teasers and in the footer. Keep it off
+ * Observatory and data pages so evidence never sits next to a sales link.
+ */
+interface Props {
+  tone?: 'page' | 'footer';
+  /** What the reader would want help with, e.g. "testing with synthetic data". */
+  topic?: string;
+}
+
+const { tone = 'page', topic = 'UAE Open Finance' } = Astro.props;
+---
+
+<p class:list={['ml-help', `ml-help--${tone}`]}>
+  Want help with {topic}? MiddleLeap, which founded Open Finance OS, offers paid support to banks
+  and TPPs.
+  <a href="https://www.middleleap.com/" target="_blank" rel="noopener">
+    Talk to MiddleLeap<span class="sr-only"> (opens in a new tab)</span>
+    <span aria-hidden="true">↗</span>
+  </a>
+</p>
+
+<style>
+  .ml-help {
+    margin: 16px 0 0;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    max-width: 52ch;
+  }
+  .ml-help--page {
+    color: var(--color-text-secondary);
+  }
+  .ml-help--page a {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+  .ml-help--footer {
+    color: #cce4d8;
+    max-width: none;
+    margin: 0 0 var(--space-3);
+  }
+  .ml-help--footer a {
+    color: #ffffff;
+    font-weight: 600;
+  }
+</style>

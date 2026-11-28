@@ -1,4 +1,5 @@
 ---
+import MiddleLeapHelp from '../common/MiddleLeapHelp.astro';
 import { samplePersonas } from '@lib/sandbox-samples';
 
 const helps = [
@@ -56,6 +57,7 @@ const cards = samplePersonas.map((persona) => {
           Open the full sandbox <span aria-hidden="true">↗</span>
         </a>
       </div>
+      <MiddleLeapHelp topic="testing with synthetic data" />
     </div>
 
     <div class="teaser-card">

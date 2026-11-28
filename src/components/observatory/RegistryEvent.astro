@@ -1,23 +1,13 @@
 ---
 import type { ChangelogEvent } from '@lib/registry-changelog';
-import { resourceChangePresentation } from '@lib/registry-event-presentation';
+import { registryEventLabels, resourceChangePresentation } from '@lib/registry-event-presentation';
 
 interface Props {
   event: ChangelogEvent;
   id: string;
 }
 const { event, id } = Astro.props;
-const labels: Record<ChangelogEvent['type'], { label: string; tone: string }> = {
-  went_live: { label: 'Auth server published', tone: 'live' },
-  joined: { label: 'Registration first observed', tone: 'join' },
-  role_added: { label: 'Role first observed', tone: 'neutral' },
-  api_family_added: { label: 'Family first observed', tone: 'neutral' },
-  went_offline: { label: 'Auth server removed', tone: 'neutral' },
-  left: { label: 'Registration no longer observed', tone: 'neutral' },
-  role_removed: { label: 'Role no longer observed', tone: 'neutral' },
-  api_family_removed: { label: 'Family no longer observed', tone: 'neutral' },
-  resource_changed: { label: 'Resource declarations changed', tone: 'neutral' },
-};
+const labels = registryEventLabels;
 const date = new Date(`${event.date}T00:00:00Z`);
 const shortDate = date.toLocaleDateString('en-GB', {
   day: '2-digit',

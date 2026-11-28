@@ -1,5 +1,6 @@
 ---
 import PageLayout from '@layouts/PageLayout.astro';
+import { SLACK_JOIN_PLACEMENTS, SLACK_JOIN_URL } from '../../lib/newsletter';
 ---
 
 <PageLayout
@@ -17,10 +18,11 @@ import PageLayout from '@layouts/PageLayout.astro';
         </p>
         <div class="hero-cta">
           <a
-            href="https://github.com/openfinance-os/community-website/discussions"
+            href={SLACK_JOIN_URL}
             class="btn btn-primary"
             target="_blank"
             rel="noopener noreferrer"
+            data-slack-join={SLACK_JOIN_PLACEMENTS.community}
           >
             <svg
               width="20"
@@ -33,7 +35,8 @@ import PageLayout from '@layouts/PageLayout.astro';
             >
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
             </svg>
-            Join Discussions
+            Join the Slack
+            <span class="sr-only"> (opens in a new tab)</span>
           </a>
           <a
             href="https://github.com/openfinance-os"
@@ -153,17 +156,18 @@ import PageLayout from '@layouts/PageLayout.astro';
               Finance.
             </p>
             <ul class="card-list">
-              <li>Answer questions in discussions</li>
+              <li>Answer questions in Slack</li>
               <li>Report issues and suggest features</li>
               <li>Share with your network</li>
             </ul>
             <a
-              href="https://github.com/openfinance-os/community-website/discussions"
+              href={SLACK_JOIN_URL}
               class="card-link"
               target="_blank"
               rel="noopener noreferrer"
+              data-slack-join={SLACK_JOIN_PLACEMENTS.community}
             >
-              Join discussions →
+              Join the Slack →
             </a>
           </div>
         </div>

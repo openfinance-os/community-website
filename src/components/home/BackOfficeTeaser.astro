@@ -1,4 +1,5 @@
 ---
+import MiddleLeapHelp from '../common/MiddleLeapHelp.astro';
 import { areas } from '@lib/back-office';
 
 const shown = areas.slice(0, 4);
@@ -20,6 +21,7 @@ const shown = areas.slice(0, 4);
       <a href="/learn/back-office" class="bo-link">
         See the back-office requirements <span aria-hidden="true">→</span>
       </a>
+      <MiddleLeapHelp topic="running the back office" />
     </div>
     <ol class="bo-list">
       {shown.map((area, index) => (
