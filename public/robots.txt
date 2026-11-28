@@ -3,6 +3,9 @@
 
 # Allow all crawlers full access
 User-agent: *
+# Content Signals (https://contentsignals.org): the content may be used for
+# search indexing, as live input to AI answers, and for AI model training.
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 # Complete sitemap index. Child sitemaps list every HTML page, including news posts.
